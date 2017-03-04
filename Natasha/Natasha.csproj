@@ -61,6 +61,7 @@
     <Compile Include="Main\EMethod.cs" />
     <Compile Include="Main\EModel.cs" />
     <Compile Include="Main\EPacket.cs" />
+    <Compile Include="Main\EStack.cs" />
     <Compile Include="Main\EVar.cs" />
     <Compile Include="Model\ClassStruction.cs" />
     <Compile Include="Model\EDBNull.cs" />

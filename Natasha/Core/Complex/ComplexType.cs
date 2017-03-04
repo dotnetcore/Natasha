@@ -161,7 +161,7 @@ namespace Natasha.Core
             {
                 SField(memberName, value);
             }
-            else
+            else if (Struction.Properties.ContainsKey(memberName))
             {
                 SProperty(memberName, value);
             }
@@ -171,11 +171,11 @@ namespace Natasha.Core
             {
                 return LFieldStructr(memberName);
             }
-            else
+            else if (Struction.Properties.ContainsKey(memberName))
             {
                 return LProperty(memberName);
             }
-        
+            return ELink.GetLink(null);
         }
 
         public EModel Load(string memberName)
@@ -184,10 +184,11 @@ namespace Natasha.Core
             {
                 return LField(memberName);
             }
-            else
+            else if(Struction.Properties.ContainsKey(memberName))
             {
                 return LProperty(memberName);
             }
+            return ELink.GetLink(null);
         }
         #endregion
 
@@ -363,7 +364,7 @@ namespace Natasha.Core
             {
                 ThreadCache.SetJudgeCode(OpCodes.Brfalse_S);
             }
-            return ELink.GetLink(this, methodInfo.ReturnType);
+            return ELink.GetLink(methodInfo.ReturnType);
         }
         #endregion
 
@@ -436,7 +437,7 @@ namespace Natasha.Core
             {
                 ThreadCache.SetJudgeCode(OpCodes.Brfalse_S);
             }
-            return ELink.GetLink(this, type);
+            return ELink.GetLink(type);
         }
         public EModel LProperty(string propertyName)
         {
@@ -495,7 +496,7 @@ namespace Natasha.Core
             {
                 ThreadCache.SetJudgeCode(OpCodes.Brfalse_S);
             }
-            return ELink.GetLink(this, type);
+            return ELink.GetLink(type);
         }
         public EModel LField(string fieldName)
         {
@@ -548,7 +549,7 @@ namespace Natasha.Core
             {
                 ThreadCache.SetJudgeCode(OpCodes.Brfalse_S);
             }
-            return ELink.GetLink(this, type);
+            return ELink.GetLink(type);
         }
 
         #endregion
