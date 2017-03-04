@@ -437,7 +437,11 @@ namespace Natasha.Core.Base
         }
         public new void LoadAddress()
         {
-            if (Builder != null)
+            if (LoadAction != null)
+            {
+                LoadAction();
+
+            }else if (Builder != null)
             {
                 ilHandler.Emit(OpCodes.Ldloc, Builder);
             }
