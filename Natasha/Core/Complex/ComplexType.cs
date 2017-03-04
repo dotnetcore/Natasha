@@ -155,6 +155,17 @@ namespace Natasha.Core
         #endregion
 
         #region Field、Property操作
+        public void Set(string memberName, Action action)
+        {
+            if (Struction.Fields.ContainsKey(memberName))
+            {
+                SField(memberName, action);
+            }
+            else if (Struction.Properties.ContainsKey(memberName))
+            {
+                SProperty(memberName, action);
+            }
+        }
         public void Set(string memberName, object value)
         {
             if (Struction.Fields.ContainsKey(memberName))
