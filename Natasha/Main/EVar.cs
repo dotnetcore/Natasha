@@ -19,7 +19,7 @@ namespace Natasha
         {
 
         }
-        private EVar(int parameterIndex, Type type)
+        private EVar(int parameterIndex, Type type=null)
             : base(parameterIndex, type)
         {
 
@@ -37,7 +37,7 @@ namespace Natasha
         {
             return CreateVarFromParameter(parametersIndex, typeof(T));
         }
-        public static EVar CreateVarFromParameter(int parametersIndex, Type type)
+        public static EVar CreateVarFromParameter(int parametersIndex, Type type=null)
         {
             EVar model = new EVar(parametersIndex, type);
             return model;
@@ -69,7 +69,7 @@ namespace Natasha
         {
             return CreateVarFromAction(action, typeof(T));
         }
-        public static EVar CreateVarFromAction(Action action, Type type)
+        public static EVar CreateVarFromAction(Action action, Type type=null)
         {
             EVar model = new EVar(type, action);
             return model;

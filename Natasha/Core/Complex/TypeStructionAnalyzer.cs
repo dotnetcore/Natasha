@@ -22,6 +22,10 @@ namespace Natasha.Core
         public EMethod MethodHandler;
         public TypeStructionAnalyzer(Type parameter_Handler) : base()
         {
+            if (parameter_Handler==null)
+            {
+                return;
+            }
             TypeHandler = parameter_Handler;
             MethodHandler = parameter_Handler;
             //判断是否为结构体
