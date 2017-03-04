@@ -160,7 +160,14 @@ namespace Natasha.Utils
                 int result;
                 if (int.TryParse(value.ToString(), out result))
                 {
-                    il.Emit(OpCodes.Ldc_I4, result);
+                    if (result < 255)
+                    {
+                        il.Emit(OpCodes.Ldc_I4_S, result);
+                    }
+                    else
+                    {
+                        il.Emit(OpCodes.Ldc_I4, result);
+                    }
                 }
             } 
             else if (EType == typeof(string))
