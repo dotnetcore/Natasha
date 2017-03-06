@@ -283,7 +283,7 @@ namespace Natasha
         }
 
         //编译成委托
-        public Delegate Compile(Type type)
+        public Delegate Compile(Type type=null)
         {
             il.Emit(OpCodes.Ret);
             int ThreadId = Thread.CurrentThread.ManagedThreadId;

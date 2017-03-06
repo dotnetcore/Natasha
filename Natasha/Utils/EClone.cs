@@ -70,7 +70,7 @@ namespace Natasha.Utils
                 EReflector.Create(type);
             }
 
-            Dictionary<string, Func<object, object>> GetDict = EReflector.GetMethodDict[type];
+            Dictionary<string, GetterDelegate> GetDict = EReflector.GetMethodDict[type];
             ClassStruction struction = ClassCache.ClassInfoDict[type.Name];
             EModel model = EModel.CreateModel(type).UseDefaultConstructor();
             foreach (var item in struction.Properties)
