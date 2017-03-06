@@ -283,7 +283,7 @@ namespace Natasha
         }
 
         //编译成委托
-        public Delegate Compile()
+        public Delegate Compile(Type type)
         {
             il.Emit(OpCodes.Ret);
             int ThreadId = Thread.CurrentThread.ManagedThreadId;
@@ -296,8 +296,15 @@ namespace Natasha
             {
                 ThreadCache.ILDict.Remove(ThreadId);
             }
+            if (type==null)
+            {
+                return newMethod.CreateDelegate(MethodType);
+            }
+            else
+            {
+                return newMethod.CreateDelegate(type);
+            }
             
-            return newMethod.CreateDelegate(MethodType);
         }
     }
 }
