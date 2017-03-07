@@ -9,15 +9,15 @@ namespace ComplexTest
     {
         static void Main(string[] args)
         {
-            TestClass();              //---类的测试
-            TestClassOperator();      //---类的加减乘除各种运算
-            TestClassAndStruct();     //---类和结构体的测试
-            StaticClass();            //---静态变量测试
-            TestNesting();            //---类嵌套结构体和类的测试
-            TestStructIsDefault();    //---结构体是否是不是空的测试
-            TestEReflector();         //---EReflector测试
-            TestClassClone();         //---类深度拷贝测试
-            TestStructClone();        //---结构体深度拷贝测试
+            //TestClass();              //---类的测试
+            //TestClassOperator();      //---类的加减乘除各种运算
+            //TestClassAndStruct();     //---类和结构体的测试
+            //StaticClass();            //---静态变量测试
+            //TestNesting();            //---类嵌套结构体和类的测试
+            //TestStructIsDefault();    //---结构体是否是不是空的测试
+            //TestEReflector();         //---EReflector测试
+            //TestClassClone();         //---类深度拷贝测试
+            //TestStructClone();        //---结构体深度拷贝测试
             TestComplexClone();       //---复杂结构深度拷贝测试
             TestListClone();          //---List结构深度复制
             //TestDictionaryClone();//---Dictionary结构深度复制   (X) 测试不通过，因为内部私有类以及比较器的构造函数需要另外提供
@@ -260,7 +260,10 @@ namespace ComplexTest
 
             Delegate ShowDelegate = EHandler.CreateMethod<TestClass>((il) =>
             {
+                EMethod method = typeof(Console);
                 EModel classModel = EModel.CreateModelFromObject(testModel);
+                classModel.ALoad("PrivatePName").GetAttribute("Attribute1").Load("Name");
+                method.ExecuteMethod<string>("WriteLine");
                 classModel.Load();
             }).Compile();
             TestClass Result = ((Func<TestClass>)ShowDelegate)();

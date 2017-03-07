@@ -20,6 +20,8 @@ namespace Natasha.Core
         public object Instance;
 
         public EMethod MethodHandler;
+
+       
         public TypeStructionAnalyzer(Type parameter_Handler) : base()
         {
             if (parameter_Handler==null)
@@ -77,7 +79,39 @@ namespace Natasha.Core
                     MethodInfo[] methods = tempType.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
                     for (int j = 0; j < methods.Length; j += 1)
                     {
+                        string methodName = methods[j].Name;
+                        if (methodName.Length>4)
+                        {
+                            if (methodName[0] == 103 || methodName[0] == 115)
+                            {
+                                if (methodName[1] == 101)
+                                {
+                                    if (methodName[2] == 116)
+                                    {
+                                        if (methodName[3] == 95)
+                                        {
+                                            continue;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                       
                         Struction.Methods[methods[j].Name] = methods[j];
+                        //处理方法标签
+                        object[] attributes = methods[j].GetCustomAttributes(true);
+                        if (attributes != null && attributes.Length > 0)
+                        {
+                            Struction.AttributeTree[methods[j].Name] = new Dictionary<string, EModel>();
+                            for (int n = 0; n < attributes.Length; n += 1)
+                            {
+                                Type attributeType = attributes[n].GetType();
+                                if (CheckHaveDefautlConstructor(attributeType))
+                                {
+                                    Struction.AttributeTree[methods[j].Name][attributeType.Name] = EModel.CreateModelFromObject(attributes[n], attributeType);
+                                }
+                            }
+                        }
                     }
 
                     //获取属性结构
@@ -97,8 +131,21 @@ namespace Natasha.Core
                         {
                             continue;
                         }
+                        //处理属性标签
+                        object[] attributes = properties[j].GetCustomAttributes(true);
+                        if (attributes != null && attributes.Length > 0)
+                        {
+                            Struction.AttributeTree[properties[j].Name] = new Dictionary<string, EModel>();
+                            for (int n = 0; n < attributes.Length; n += 1)
+                            {
+                                Type attributeType = attributes[n].GetType();
+                                if (CheckHaveDefautlConstructor(attributeType))
+                                {
+                                    Struction.AttributeTree[properties[j].Name][attributeType.Name] = EModel.CreateModelFromObject(attributes[n], attributeType);
+                                }
+                            }
+                        }
                         Struction.Properties[properties[j].Name] = properties[j];
-                        
                     }
 
                     //获取字段结构
@@ -115,13 +162,44 @@ namespace Natasha.Core
                         }
 
                         //readonly const 内部私有类 不做操作
-                        if (fields[j].IsInitOnly ||( fields[j].IsLiteral && fields[j].IsStatic) || fields[j].FieldType.GetTypeInfo().IsNestedPrivate)
+                        if (fields[j].IsInitOnly || (fields[j].IsLiteral && fields[j].IsStatic) || fields[j].FieldType.GetTypeInfo().IsNestedPrivate)
                         {
                             continue;
+                        }
+                        //处理字段标签
+                        object[] attributes = fields[j].GetCustomAttributes(true);
+                        if (attributes != null && attributes.Length > 0)
+                        {
+                            Struction.AttributeTree[fields[j].Name] = new Dictionary<string, EModel>();
+                            for (int n = 0; n < attributes.Length; n += 1)
+                            {
+                                Type attributeType = attributes[n].GetType();
+                                if (CheckHaveDefautlConstructor(attributeType))
+                                {
+                                    Struction.AttributeTree[fields[j].Name][attributeType.Name] = EModel.CreateModelFromObject(attributes[n], attributeType);
+                                }
+                            }
                         }
                         Struction.Fields[fields[j].Name] = fields[j];
                     }
                 }
+            }
+        }
+
+        public static bool CheckHaveDefautlConstructor(Type type)
+        {
+            if (ClassCache.NoCloneTypes.Contains(type.Name) ||type.IsNestedPrivate || type.IsNotPublic)
+            {
+                return false;
+            }
+            ConstructorInfo ctor = type.GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, new Type[0], null);
+            if (ctor==null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
     }

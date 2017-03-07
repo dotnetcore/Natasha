@@ -3,6 +3,7 @@ using Natasha.Core;
 using Natasha.Core.Base;
 using Natasha.Utils;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 
@@ -30,6 +31,7 @@ namespace Natasha
             }
 
         }
+
         #region 初始化
         private EModel(Type type)
             : base(type)
@@ -254,7 +256,6 @@ namespace Natasha
             return instance;
         }
         #endregion
-
 
         #region 运算
 
@@ -560,5 +561,6 @@ namespace Natasha
         }
 
         #endregion
+
     }
 }

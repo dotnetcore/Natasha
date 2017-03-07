@@ -566,6 +566,35 @@ namespace Natasha.Core
         #endregion
 
 
+        #region 调用属性
+        private string MemberName;
 
+        public ComplexType ALoad(string memberName)
+        {
+            MemberName = memberName;
+            return this;
+        }
+        public EModel GetAttribute(string attributeName)
+        {
+            attributeName += "Attribute";
+            if (Struction.AttributeTree.ContainsKey(MemberName))
+            {
+                if (Struction.AttributeTree[MemberName].ContainsKey(attributeName))
+                {
+                    return Struction.AttributeTree[MemberName][attributeName];
+                } 
+            }
+            return null;
+        }
+
+        public IEnumerable<EModel> GetAttributes(string memberName)
+        {
+            if (Struction.AttributeTree.ContainsKey(memberName))
+            {
+               return Struction.AttributeTree[MemberName].Values;
+            }
+            return null;
+        }
+        #endregion
     }
 }

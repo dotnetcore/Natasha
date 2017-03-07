@@ -13,6 +13,8 @@ namespace Natasha.Cache
         public static Dictionary<Type, Func<object, bool>> CheckStructDict;
         public static Dictionary<Type, Action<ILGenerator>> ConstructorDict;
 
+        public static HashSet<string> NoCloneTypes;
+
         public static MethodInfo StringCompare;
         public static MethodInfo ClassCompare;
         public static MethodInfo ClassHandle;
@@ -34,11 +36,25 @@ namespace Natasha.Cache
             PropertyInfoGetter = typeof(Type).GetMethod("GetProperty", new Type[] { typeof(string), typeof(BindingFlags) });
             ProeprtyValueGetter = typeof(PropertyInfo).GetMethod("GetValue", new Type[] { typeof(object) });
             PropertyValueSetter = typeof(PropertyInfo).GetMethod("SetValue", new Type[] { typeof(object), typeof(object) });
+            NoCloneTypes = new HashSet<string>();
             ClassInfoDict = new Dictionary<string, ClassStruction>();
             DynamicClassDict = new Dictionary<string, Type>();
             CheckStructDict = new Dictionary<Type, Func<object, bool>>();
             ConstructorDict = new Dictionary<Type, Action<ILGenerator>>();
+
+            FillNoCloneCollection();
         }
+
+
+        public static void FillNoCloneCollection()
+        {
+            NoCloneTypes.Add("__DynamicallyInvokableAttribute");
+            NoCloneTypes.Add("SecuritySafeCriticalAttribute");
+            NoCloneTypes.Add("ReliabilityContractAttribute");
+            NoCloneTypes.Add("NonVersionableAttribute");
+            NoCloneTypes.Add("SecurityCriticalAttribute");
+        }
+        
 
         public static void SetConstructor(Type type,Action<ILGenerator> action)
         {

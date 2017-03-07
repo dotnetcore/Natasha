@@ -51,6 +51,7 @@ namespace ComplexTest
     {
         public const int A = 10;
         public TestStruct[] TestArray;
+        [Attribute1(Name="attributeName")]
         private string PrivatePName { get; set; }
         private int PrivatePAge { get; set; }
 
@@ -58,6 +59,8 @@ namespace ComplexTest
         private int PrivateFAge;
         public string Name { get; set; }
         public string Name1 { private get { return PrivateFName; } set { PrivateFName = null; } }
+
+        [Attribute2(Length = 123)]
         public int Age;
 
         public readonly string Ref_NormalField;
@@ -144,5 +147,23 @@ namespace ComplexTest
         Age,
         Description,
         Address
+    }
+
+    public class Attribute1Attribute : Attribute {
+
+        public string Name;
+        public Attribute1Attribute()
+        {
+
+        }
+    }
+    public class Attribute2Attribute : Attribute
+    {
+        public string Name;
+        public int Length;
+        public Attribute2Attribute()
+        {
+
+        }
     }
 }

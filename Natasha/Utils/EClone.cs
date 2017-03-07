@@ -73,6 +73,7 @@ namespace Natasha.Utils
             Dictionary<string, GetterDelegate> GetDict = EReflector.GetMethodDict[type];
             ClassStruction struction = ClassCache.ClassInfoDict[type.Name];
             EModel model = EModel.CreateModel(type).UseDefaultConstructor();
+
             foreach (var item in struction.Properties)
             {
                 MethodInfo info = item.Value.GetSetMethod(true);
@@ -86,10 +87,9 @@ namespace Natasha.Utils
                 {
                     continue;
                 }
-
                 model.SProperty(item.Key, result);
-
             }
+
             foreach (var item in struction.Fields)
             {
                 object result = GetDict[item.Key](value);
@@ -97,8 +97,8 @@ namespace Natasha.Utils
                 {
                     continue;
                 }
+                
                 model.SField(item.Key, result);
-
             }
             return model.Builder;
         }
