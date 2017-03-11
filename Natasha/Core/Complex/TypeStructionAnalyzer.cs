@@ -17,7 +17,7 @@ namespace Natasha.Core
 
         public bool IsStuct;
 
-        public object Instance;
+        public object Value;
 
         public EMethod MethodHandler;
 
@@ -102,13 +102,13 @@ namespace Natasha.Core
                         object[] attributes = methods[j].GetCustomAttributes(true);
                         if (attributes != null && attributes.Length > 0)
                         {
-                            Struction.AttributeTree[methods[j].Name] = new Dictionary<string, EModel>();
+                            Struction.AttributeTree[methods[j].Name] = new Dictionary<string, object>();
                             for (int n = 0; n < attributes.Length; n += 1)
                             {
                                 Type attributeType = attributes[n].GetType();
                                 if (CheckHaveDefautlConstructor(attributeType))
                                 {
-                                    Struction.AttributeTree[methods[j].Name][attributeType.Name] = EModel.CreateModelFromObject(attributes[n], attributeType);
+                                    Struction.AttributeTree[methods[j].Name][attributeType.Name] = attributes[n];
                                 }
                             }
                         }
@@ -135,13 +135,13 @@ namespace Natasha.Core
                         object[] attributes = properties[j].GetCustomAttributes(true);
                         if (attributes != null && attributes.Length > 0)
                         {
-                            Struction.AttributeTree[properties[j].Name] = new Dictionary<string, EModel>();
+                            Struction.AttributeTree[properties[j].Name] = new Dictionary<string, object>();
                             for (int n = 0; n < attributes.Length; n += 1)
                             {
                                 Type attributeType = attributes[n].GetType();
                                 if (CheckHaveDefautlConstructor(attributeType))
                                 {
-                                    Struction.AttributeTree[properties[j].Name][attributeType.Name] = EModel.CreateModelFromObject(attributes[n], attributeType);
+                                    Struction.AttributeTree[properties[j].Name][attributeType.Name] = attributes[n];
                                 }
                             }
                         }
@@ -170,13 +170,13 @@ namespace Natasha.Core
                         object[] attributes = fields[j].GetCustomAttributes(true);
                         if (attributes != null && attributes.Length > 0)
                         {
-                            Struction.AttributeTree[fields[j].Name] = new Dictionary<string, EModel>();
+                            Struction.AttributeTree[fields[j].Name] = new Dictionary<string, object>();
                             for (int n = 0; n < attributes.Length; n += 1)
                             {
                                 Type attributeType = attributes[n].GetType();
                                 if (CheckHaveDefautlConstructor(attributeType))
                                 {
-                                    Struction.AttributeTree[fields[j].Name][attributeType.Name] = EModel.CreateModelFromObject(attributes[n], attributeType);
+                                    Struction.AttributeTree[fields[j].Name][attributeType.Name] =attributes[n];
                                 }
                             }
                         }

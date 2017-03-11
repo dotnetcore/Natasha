@@ -31,7 +31,7 @@ namespace ClassBuilderTest
             Delegate ShowDelegate = EHandler.CreateMethod<ENull>((il) =>
             {
                 EModel Model = EModel.CreateDynamicClass("Hello").UseDefaultConstructor();
-                Model.EMethod("Show");
+                EMethod.Load(Model).ExecuteMethod("Show");
                 Model.LField("Age");
                 Model.ilHandler.Emit(OpCodes.Call, typeof(Console).GetMethod("WriteLine", new Type[] { typeof(string) }));
             }).Compile();

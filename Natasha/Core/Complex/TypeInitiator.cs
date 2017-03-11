@@ -5,6 +5,7 @@ using Natasha.Cache;
 using Natasha.Core.Base;
 using System.Collections.Generic;
 using Natasha.Utils;
+using Natasha.Debug;
 
 namespace Natasha.Core
 {
@@ -29,14 +30,15 @@ namespace Natasha.Core
 
             Builder = ilHandler.DeclareLocal(TypeHandler);
 
-            if (IsStuct)  
+            if (IsStuct)
             {
                 ilHandler.Emit(OpCodes.Ldloca_S, Builder);
-                ilHandler.Emit(OpCodes.Initobj, TypeHandler);
+                DebugHelper.WriteLine("Ldloca_S " + Builder.LocalIndex);
+                EmitHelper.InitObject(TypeHandler);
             }
 
         }
-        public TypeInitiator(Action action,Type parameter_Type) : base(parameter_Type)
+        public TypeInitiator(Action action, Type parameter_Type) : base(parameter_Type)
         {
             ParameterIndex = -1;
             Builder = null;
@@ -57,42 +59,65 @@ namespace Natasha.Core
         #region 加载
         public void Load()
         {
-            //加载委托
-            //加载本地变量 
-            //加载函数参数
             if (LoadAction != null)
             {
                 LoadAction();
+            }
+            else if (TypeHandler.IsEnum)
+            {
+                int value = (int)Value;
+                if (value < 255)
+                {
+                    ilHandler.Emit(OpCodes.Ldc_I4_S, value);
+                    DebugHelper.WriteLine("Ldc_I4_S" + value);
+                }
+                else
+                {
+                    ilHandler.Emit(OpCodes.Ldc_I4, value);
+                    DebugHelper.WriteLine("Ldc_I4 " + value);
+                }
             }
             else if (ParameterIndex == -1)
             {
                 if (Builder != null)
                 {
-                    ilHandler.Emit(OpCodes.Ldloc, Builder);
+                    ilHandler.Emit(OpCodes.Ldloc_S, Builder.LocalIndex);
+                    DebugHelper.WriteLine("Ldloc_S " + Builder.LocalIndex);
+
+                }
+                else if (TypeHandler.IsPrimitive || TypeHandler == typeof(string))
+                {
+                    EData.LoadObject(Value);
                 }
             }
             else if (ParameterIndex == 0)
             {
                 ilHandler.Emit(OpCodes.Ldarg_0);
+                DebugHelper.WriteLine("Ldarg_0");
             }
             else if (ParameterIndex == 1)
             {
                 ilHandler.Emit(OpCodes.Ldarg_1);
+                DebugHelper.WriteLine("Ldarg_1");
             }
             else if (ParameterIndex == 2)
             {
                 ilHandler.Emit(OpCodes.Ldarg_2);
+                DebugHelper.WriteLine("Ldarg_2");
             }
             else if (ParameterIndex == 3)
             {
                 ilHandler.Emit(OpCodes.Ldarg_3);
+                DebugHelper.WriteLine("Ldarg_3");
             }
             else
             {
                 ilHandler.Emit(OpCodes.Ldarg_S, ParameterIndex);
+                DebugHelper.WriteLine("Ldarg_S " + ParameterIndex);
             }
         }
-        public void LoadAddress()
+
+        public void This()
         {
             if (LoadAction != null)
             {
@@ -100,36 +125,59 @@ namespace Natasha.Core
             }
             else
             {
-                if (IsStuct)
+                if (TypeHandler.IsPrimitive || TypeHandler == typeof(string))
                 {
-                    if (ParameterIndex == -1)
+                    EData.LoadObject(Value);
+                }
+                else
+                {
+                    if (TypeHandler.IsEnum)
+                    {
+                        int value = (int)Value;
+                        if (value < 255)
+                        {
+                            ilHandler.Emit(OpCodes.Ldc_I4_S, value);
+                            DebugHelper.WriteLine("Ldc_I4_S " + value);
+                        }
+                        else
+                        {
+                            ilHandler.Emit(OpCodes.Ldc_I4, value);
+                            DebugHelper.WriteLine("Ldc_I4 " + value);
+                        }
+                    }
+                    else if (ParameterIndex == -1)
                     {
                         if (Builder != null)
                         {
-                            //加载结构体本地变量
-                            ilHandler.Emit(OpCodes.Ldloca_S, Builder);
+                            ilHandler.Emit(EmitHelper.GetLoadCode(TypeHandler), Builder);
+                            DebugHelper.WriteLine(Builder.LocalIndex.ToString());
                         }
                     }
                     else
                     {
-                        ilHandler.Emit(OpCodes.Ldarga_S, ParameterIndex);
+                        if (ParameterIndex > 3)
+                        {
+                            ilHandler.Emit(EmitHelper.GetArgsCode(TypeHandler), ParameterIndex);
+                            DebugHelper.WriteLine(ParameterIndex.ToString());
+                        }
+                        else
+                        {
+                            ilHandler.Emit(EmitHelper.GetArgsCode(TypeHandler));
+                            DebugHelper.WriteLine(EmitHelper.GetArgsCode(TypeHandler).Name);
+                        }
                     }
-                }
-                else
-                {
-                    Load();
                 }
             }
         }
         #endregion
 
-        
 
 
-     
 
 
-       
+
+
+
     }
 }
 

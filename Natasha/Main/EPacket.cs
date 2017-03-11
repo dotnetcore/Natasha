@@ -1,5 +1,6 @@
 ﻿using Natasha.Cache;
 using Natasha.Core;
+using Natasha.Debug;
 using Natasha.Utils;
 using System;
 using System.Reflection.Emit;
@@ -18,7 +19,7 @@ namespace Natasha
         //对普通变量进行装箱
         public static void Packet(EVar varHandler)
         {
-            Packet(varHandler.TypeHandler, ()=> { varHandler.LoadAddress(); });
+            Packet(varHandler.TypeHandler, ()=> { varHandler.This(); });
         }
         //指定类型，对指定操作类的变量进行装箱
         public static void Packet(Type type,  object value)
@@ -35,6 +36,7 @@ namespace Natasha
             if (type.IsValueType)
             {
                 ilHandler.Emit(OpCodes.Box, type);
+                DebugHelper.WriteLine("Box "+type.Name);
             }
         }
         #endregion
@@ -59,10 +61,12 @@ namespace Natasha
             if (type.IsClass && type!=typeof(string) && type != typeof(object))
             {
                 ilHandler.Emit(OpCodes.Castclass, type);
+                DebugHelper.WriteLine("Castclass " + type.Name);
             }
             else
             {
                 ilHandler.Emit(OpCodes.Unbox_Any, type);
+                DebugHelper.WriteLine("Unbox_Any " + type.Name);
             }
         }
         #endregion

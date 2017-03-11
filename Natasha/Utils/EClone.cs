@@ -30,7 +30,7 @@ namespace Natasha.Utils
                 LocalBuilder builder = il.DeclareLocal(type);
                 if (type.IsEnum)
                 {
-                    EData.Load((int)value);
+                    EData.LoadObject((int)value);
                     il.Emit(OpCodes.Stloc_S, builder);
                     return builder;
                 }

@@ -209,7 +209,7 @@ namespace Natasha
         {
             EModel model = CreateModelFromAction(null, type);
             model.Builder = EClone.GetCloneBuilder(value, type);
-            model.Instance = value;
+            model.Value = value;
             return model;
         }
 

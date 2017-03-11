@@ -1,223 +1,305 @@
 ﻿using Natasha.Cache;
-using Natasha.Core;
 using Natasha.Utils;
 using System;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
 
 namespace Natasha
 {
     //函数操作类
     public class EMethod
     {
-        public Type TypeHandler;
+        private Type _typeHandler;
+        private Type[] _genericTypes;
+        private Type[] _methodTypes;
+        private GenericTypes typeHandler;
+        private EMethod()
+        {
+            typeHandler = new GenericTypes();
+        }
 
         public static implicit operator EMethod(Type value)
         {
             EMethod instance = new EMethod();
-            instance.TypeHandler = value;
+            if (value != null)
+            {
+                instance._typeHandler = value;
+            }
             return instance;
         }
-        public MethodInfo GetMethodInfo(string methodName)
+        public EMethod Use<T>()
         {
-            return TypeHandler.GetMethod(methodName, new Type[0]);
+            return Use(typeof(T));
         }
-        public MethodInfo GetMethodInfo<T1>(string methodName)
+        public EMethod Use(Type type)
         {
-            Type[] arrayType = new Type[1];
-            arrayType[0] = typeof(T1);
-            return TypeHandler.GetMethod(methodName, arrayType);
+            _typeHandler = type;
+            return this;
         }
-        public MethodInfo GetMethodInfo<T1,T2>(string methodName)
+        public static EMethod Load<T>(Type type)
         {
-            Type[] arrayType = new Type[2];
-            arrayType[0] = typeof(T1);
-            arrayType[1] = typeof(T2);
-            return TypeHandler.GetMethod(methodName, arrayType);
+            return Load(typeof(T));
         }
-        public MethodInfo GetMethodInfo<T1, T2, T3>(string methodName)
+        public static EMethod Load(Type type)
         {
-            Type[] arrayType = new Type[3];
-            arrayType[0] = typeof(T1);
-            arrayType[1] = typeof(T2);
-            arrayType[2] = typeof(T3);
-            return TypeHandler.GetMethod(methodName, arrayType);
+            EMethod isntance = type;
+            return isntance;
         }
-        public MethodInfo GetMethodInfo<T1, T2, T3, T4>(string methodName)
+        public static EMethod Load(EModel instance)
         {
-            Type[] arrayType = new Type[4];
-            arrayType[0] = typeof(T1);
-            arrayType[1] = typeof(T2);
-            arrayType[2] = typeof(T3);
-            arrayType[3] = typeof(T4);
-            return TypeHandler.GetMethod(methodName, arrayType);
+            EMethod isntance = instance.TypeHandler;
+            instance.This();
+            return isntance;
         }
-        public MethodInfo GetMethodInfo<T1, T2, T3, T4, T5>(string methodName)
+        public static EMethod Load(EVar value)
         {
-            Type[] arrayType = new Type[5];
-            arrayType[0] = typeof(T1);
-            arrayType[1] = typeof(T2);
-            arrayType[2] = typeof(T3);
-            arrayType[3] = typeof(T4);
-            arrayType[4] = typeof(T5);
-            return TypeHandler.GetMethod(methodName, arrayType);
-        }
-        public MethodInfo GetMethodInfo<T1, T2, T3, T4, T5, T6>(string methodName)
-        {
-            Type[] arrayType = new Type[6];
-            arrayType[0] = typeof(T1);
-            arrayType[1] = typeof(T2);
-            arrayType[2] = typeof(T3);
-            arrayType[3] = typeof(T4);
-            arrayType[4] = typeof(T5);
-            arrayType[5] = typeof(T6);
-            return TypeHandler.GetMethod(methodName, arrayType);
-        }
-        public MethodInfo GetMethodInfo<T1, T2, T3, T4, T5, T6, T7>(string methodName)
-        {
-            Type[] arrayType = new Type[7];
-            arrayType[0] = typeof(T1);
-            arrayType[1] = typeof(T2);
-            arrayType[2] = typeof(T3);
-            arrayType[3] = typeof(T4);
-            arrayType[4] = typeof(T5);
-            arrayType[5] = typeof(T6);
-            arrayType[6] = typeof(T7);
-            return TypeHandler.GetMethod(methodName, arrayType);
-        }
-        public MethodInfo GetMethodInfo<T1, T2, T3, T4, T5, T6, T7, T8>(string methodName)
-        {
-            Type[] arrayType = new Type[8];
-            arrayType[0] = typeof(T1);
-            arrayType[1] = typeof(T2);
-            arrayType[2] = typeof(T3);
-            arrayType[3] = typeof(T4);
-            arrayType[4] = typeof(T5);
-            arrayType[5] = typeof(T6);
-            arrayType[6] = typeof(T7);
-            arrayType[7] = typeof(T8);
-            return TypeHandler.GetMethod(methodName, arrayType);
-        }
-        public MethodInfo GetMethodInfo(string methodName, params Type[] types)
-        {
-            return TypeHandler.GetMethod(methodName, types);
+            EMethod isntance = value.TypeHandler;
+            value.This();
+            return isntance;
         }
 
-        public void ExecuteMethod(string methodName, Action action = null)
+        public EMethod AddGenricType(params Type[] types)
         {
-            ExecuteMethod(GetMethodInfo(methodName), action);
+            _genericTypes = types;
+            return this;
         }
-        public void ExecuteMethod<T1>(string methodName,Action action=null) {
+        public EMethod AddGenricType<T1>()
+        {
+            _genericTypes = typeHandler.GetGenericTypes<T1>();
+            return this;
+        }
+        public EMethod AddGenricType<T1, T2>()
+        {
+            _genericTypes = typeHandler.GetGenericTypes<T1, T2>();
+            return this;
+        }
+        public EMethod AddGenricType<T1, T2, T3>()
+        {
+            _genericTypes = typeHandler.GetGenericTypes<T1, T2, T3>();
+            return this;
+        }
+        public EMethod AddGenricType<T1, T2, T3, T4>()
+        {
+            _genericTypes = typeHandler.GetGenericTypes<T1, T2, T3, T4>();
+            return this;
+        }
+        public EMethod AddGenricType<T1, T2, T3, T4, T5>()
+        {
+            _genericTypes = typeHandler.GetGenericTypes<T1, T2, T3, T4, T5>();
+            return this;
+        }
+        public EMethod AddGenricType<T1, T2, T3, T4, T5, T6>()
+        {
+            _genericTypes = typeHandler.GetGenericTypes<T1, T2, T3, T4, T5, T6>();
+            return this;
+        }
+        public EMethod AddGenricType<T1, T2, T3, T4, T5, T6, T7>()
+        {
+            _genericTypes = typeHandler.GetGenericTypes<T1, T2, T3, T4, T5, T6, T7>();
+            return this;
+        }
+        public EMethod AddGenricType<T1, T2, T3, T4, T5, T6, T7, T8>()
+        {
+            _genericTypes = typeHandler.GetGenericTypes<T1, T2, T3, T4, T5, T6, T7, T8>();
+            return this;
+        }
 
-            ExecuteMethod(GetMethodInfo<T1>(methodName), action);
-        }
-        public void ExecuteMethod<T1, T2>(string methodName, Action action = null)
+        public EMethod ExecuteMethod(string methodName, Action action = null)
         {
-            ExecuteMethod(GetMethodInfo<T1, T2>(methodName), action);
+            _methodTypes= typeHandler.GetGenericTypes();
+            return Execute(GetCommonMethodInfo(methodName), action);
         }
-        public void ExecuteMethod<T1, T2, T3>(string methodName, Action action = null)
+        public EMethod ExecuteMethod<T1>(string methodName, Action action = null)
         {
-            ExecuteMethod(GetMethodInfo<T1, T2, T3>(methodName), action);
+            _methodTypes = typeHandler.GetGenericTypes<T1>();
+            return Execute(GetCommonMethodInfo(methodName), action);
         }
-        public void ExecuteMethod<T1, T2, T3, T4>(string methodName, Action action = null)
+        public EMethod ExecuteMethod<T1, T2>(string methodName, Action action = null)
         {
-            ExecuteMethod(GetMethodInfo<T1, T2, T3, T4>(methodName), action);
+            _methodTypes = typeHandler.GetGenericTypes<T1, T2>();
+            return Execute(GetCommonMethodInfo(methodName), action);
         }
-        public void ExecuteMethod<T1, T2, T3, T4, T5>(string methodName, Action action = null)
+        public EMethod ExecuteMethod<T1, T2, T3>(string methodName, Action action = null)
         {
-            ExecuteMethod(GetMethodInfo<T1, T2, T3, T4, T5>(methodName), action);
+            _methodTypes = typeHandler.GetGenericTypes<T1, T2, T3>();
+            return Execute(GetCommonMethodInfo(methodName), action);
         }
-        public void ExecuteMethod<T1, T2, T3, T4, T5, T6>(string methodName, Action action = null)
+        public EMethod ExecuteMethod<T1, T2, T3, T4>(string methodName, Action action = null)
         {
-            ExecuteMethod(GetMethodInfo<T1, T2, T3, T4, T5, T6>(methodName), action);
+            _methodTypes = typeHandler.GetGenericTypes<T1, T2, T3, T4>();
+            return Execute(GetCommonMethodInfo(methodName), action);
         }
-        public void ExecuteMethod<T1, T2, T3, T4, T5, T6, T7>(string methodName, Action action = null)
+        public EMethod ExecuteMethod<T1, T2, T3, T4, T5>(string methodName, Action action = null)
         {
-            ExecuteMethod(GetMethodInfo<T1, T2, T3, T4, T5, T6, T7>(methodName), action);
+            _methodTypes = typeHandler.GetGenericTypes<T1, T2, T3, T4, T5>();
+            return Execute(GetCommonMethodInfo(methodName), action);
         }
-        public void ExecuteMethod<T1, T2, T3, T4, T5, T6, T7, T8>(string methodName, Action action = null)
+        public EMethod ExecuteMethod<T1, T2, T3, T4, T5, T6>(string methodName, Action action = null)
         {
-            ExecuteMethod(GetMethodInfo<T1, T2, T3, T4, T5, T6, T7, T8>(methodName), action);
+            _methodTypes = typeHandler.GetGenericTypes<T1, T2, T3, T4, T5, T6>();
+            return Execute(GetCommonMethodInfo(methodName), action);
         }
-        public void ExecuteMethod(string methodName, params object[] parameters)
+        public EMethod ExecuteMethod<T1, T2, T3, T4, T5, T6, T7>(string methodName, Action action = null)
         {
-            ExecuteMethod(GetMethodInfo(methodName),new object[0]);
+            _methodTypes = typeHandler.GetGenericTypes<T1, T2, T3, T4, T5, T6, T7>();
+            return Execute(GetCommonMethodInfo(methodName), action);
         }
-        public void ExecuteMethod<T1>(string methodName, params object[] parameters)
+        public EMethod ExecuteMethod<T1, T2, T3, T4, T5, T6, T7, T8>(string methodName, Action action = null)
         {
-            ExecuteMethod(GetMethodInfo<T1>(methodName), parameters);
+            _methodTypes = typeHandler.GetGenericTypes<T1, T2, T3, T4, T5, T6, T7, T8>();
+            return Execute(GetCommonMethodInfo(methodName), action);
         }
-        public void ExecuteMethod<T1, T2>(string methodName, params object[] parameters)
+        public EMethod ExecuteMethod(string methodName, params object[] parameters)
         {
-            ExecuteMethod(GetMethodInfo<T1, T2>(methodName), parameters);
+            _methodTypes = typeHandler.GetGenericTypes();
+            return Execute(GetCommonMethodInfo(methodName), new object[0]);
         }
-        public void ExecuteMethod<T1, T2, T3>(string methodName, params object[] parameters)
+        public EMethod ExecuteMethod<T1>(string methodName, params object[] parameters)
         {
-            ExecuteMethod(GetMethodInfo<T1, T2, T3>(methodName), parameters);
+            _methodTypes = typeHandler.GetGenericTypes<T1>();
+            return Execute(GetCommonMethodInfo(methodName), parameters);
         }
-        public void ExecuteMethod<T1, T2, T3, T4>(string methodName, params object[] parameters)
+        public EMethod ExecuteMethod<T1, T2>(string methodName, params object[] parameters)
         {
-            ExecuteMethod(GetMethodInfo<T1, T2, T3, T4>(methodName), parameters);
+            _methodTypes = typeHandler.GetGenericTypes<T1, T2>();
+            return Execute(GetCommonMethodInfo(methodName), parameters);
         }
-        public void ExecuteMethod<T1, T2, T3, T4, T5>(string methodName, params object[] parameters)
+        public EMethod ExecuteMethod<T1, T2, T3>(string methodName, params object[] parameters)
         {
-            ExecuteMethod(GetMethodInfo<T1, T2, T3, T4, T5>(methodName), parameters);
+            _methodTypes = typeHandler.GetGenericTypes<T1, T2, T3>();
+            return Execute(GetCommonMethodInfo(methodName), parameters);
         }
-        public void ExecuteMethod<T1, T2, T3, T4, T5, T6>(string methodName, params object[] parameters)
+        public EMethod ExecuteMethod<T1, T2, T3, T4>(string methodName, params object[] parameters)
         {
-            ExecuteMethod(GetMethodInfo<T1, T2, T3, T4, T5, T6>(methodName), parameters);
+            _methodTypes = typeHandler.GetGenericTypes<T1, T2, T3, T4>();
+            return Execute(GetCommonMethodInfo(methodName), parameters);
         }
-        public void ExecuteMethod<T1, T2, T3, T4, T5, T6, T7>(string methodName, params object[] parameters)
+        public EMethod ExecuteMethod<T1, T2, T3, T4, T5>(string methodName, params object[] parameters)
         {
-            ExecuteMethod(GetMethodInfo<T1, T2, T3, T4, T5, T6, T7>(methodName), parameters);
+            _methodTypes = typeHandler.GetGenericTypes<T1, T2, T3, T4, T5>();
+            return Execute(GetCommonMethodInfo(methodName), parameters);
         }
-        public void ExecuteMethod<T1, T2, T3, T4, T5, T6, T7, T8>(string methodName, params object[] parameters)
+        public EMethod ExecuteMethod<T1, T2, T3, T4, T5, T6>(string methodName, params object[] parameters)
         {
-            ExecuteMethod(GetMethodInfo<T1, T2, T3, T4, T5, T6, T7, T8>(methodName), parameters);
+            _methodTypes = typeHandler.GetGenericTypes<T1, T2, T3, T4, T5, T6>();
+            return Execute(GetCommonMethodInfo(methodName), parameters);
         }
-        public void ExecuteMethod(string methodName, params Type[] types)
+        public EMethod ExecuteMethod<T1, T2, T3, T4, T5, T6, T7>(string methodName, params object[] parameters)
         {
-            MethodInfo info = GetMethodInfo(methodName, types);
-            ExecuteMethod(info);
+            _methodTypes = typeHandler.GetGenericTypes<T1, T2, T3, T4, T5, T6, T7>();
+            return Execute(GetCommonMethodInfo(methodName), parameters);
         }
-        public void ExecuteMethod(MethodInfo info,Action action=null)
+        public EMethod ExecuteMethod<T1, T2, T3, T4, T5, T6, T7, T8>(string methodName, params object[] parameters)
+        {
+            _methodTypes = typeHandler.GetGenericTypes<T1, T2, T3, T4, T5, T6, T7, T8>();
+            return Execute(GetCommonMethodInfo(methodName), parameters);
+        }
+        public EMethod Execute(string methodName, params Type[] types)
+        {
+            _methodTypes = types;
+            return Execute(GetCommonMethodInfo(methodName));
+        }
+
+        public EMethod Execute(MethodInfo info, Action action = null)
         {
             ILGenerator il = ThreadCache.GetIL();
-            if (action!=null)
+            if (action != null)
             {
                 action();
             }
-            if (info.IsStatic)
+            EmitHelper.CallMethod(_typeHandler, info);
+            if (info.ReturnType != null)
             {
-                il.Emit(OpCodes.Call, info);
+                EMethod newMethod = info.ReturnType;
+                return newMethod;
             }
             else
             {
-                il.Emit(OpCodes.Callvirt, info);
+                return null;
             }
         }
-        public void ExecuteMethod(MethodInfo info, object[] instances)
+        public EMethod Execute(MethodInfo info, object[] instances)
         {
             ILGenerator il = ThreadCache.GetIL();
-            if (instances!=null)
+            if (instances != null)
             {
                 for (int i = 0; i < instances.Length; i++)
                 {
-                    if (instances[i]!=null)
+                    if (instances[i] != null)
                     {
                         EData.NoErrorLoad(instances[i], il);
                     }
                 }
             }
-            
-            if (info.IsStatic)
+            EmitHelper.CallMethod(_typeHandler, info);
+            if (info.ReturnType != null)
             {
-                il.Emit(OpCodes.Call, info);
+                EMethod newMethod = info.ReturnType;
+                return newMethod;
             }
             else
             {
-                il.Emit(OpCodes.Callvirt, info);
+                return null;
             }
+        }
+
+
+        public MethodInfo GetCommonMethodInfo(string methodName)
+        {
+
+            MethodInfo methodInfo = _typeHandler.GetMethod(methodName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static, null, _methodTypes, null);
+            if (methodInfo != null && !methodInfo.IsGenericMethod)
+            {
+                return methodInfo;
+            }
+            MethodInfo[] methods = _typeHandler.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static);
+            for (int i = 0; i < methods.Length; i += 1)
+            {
+                if (methods[i].Name == methodName)
+                {
+                    if (!methods[i].IsGenericMethod)
+                    {
+                        methodInfo = methods[i];
+                    }
+                    else
+                    {
+                        methodInfo = methods[i].MakeGenericMethod(_genericTypes);
+                    }
+                    ParameterInfo[] parameters = methodInfo.GetParameters();
+                    int Length = parameters.Length;
+                    int methodTypeLength = _methodTypes.Length;
+                    int increase = 0;
+                    if (methodInfo.IsDefined(typeof(ExtensionAttribute), false))
+                    {
+                        Length -= 1;
+                        increase = 1;
+                    }
+                    if (methodTypeLength == 0)
+                    {
+                        if (Length == 0)
+                        {
+                            break;
+                        }
+                    }
+                    else if (methodTypeLength == Length)
+                    {
+                        bool shut = true;
+                        for (int j = 0; j < methodTypeLength; j += 1)
+                        {
+                            if (_methodTypes[j] != parameters[j + increase].ParameterType)
+                            {
+                                shut = false;
+                            }
+                        }
+                        if (shut)
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+            return methodInfo;
         }
     }
 }

@@ -6,11 +6,12 @@ using System.Reflection.Emit;
 namespace Natasha.Cache
 {
     //主要是针对类操作的一些缓存
+    public delegate bool CheckStructDelegate(object value);
     public static class ClassCache
     {
         public static Dictionary<string, ClassStruction> ClassInfoDict;
         public static Dictionary<string, Type> DynamicClassDict;
-        public static Dictionary<Type, Func<object, bool>> CheckStructDict;
+        public static Dictionary<Type, CheckStructDelegate> CheckStructDict;
         public static Dictionary<Type, Action<ILGenerator>> ConstructorDict;
 
         public static HashSet<string> NoCloneTypes;
@@ -22,7 +23,7 @@ namespace Natasha.Cache
         public static MethodInfo FieldValueGetter;
         public static MethodInfo FieldValueSetter;
         public static MethodInfo PropertyInfoGetter;
-        public static MethodInfo ProeprtyValueGetter;
+        public static MethodInfo PropertyValueGetter;
         public static MethodInfo PropertyValueSetter;
 
         static ClassCache()
@@ -34,12 +35,12 @@ namespace Natasha.Cache
             FieldValueGetter = typeof(FieldInfo).GetMethod("GetValue", new Type[] { typeof(object) });
             FieldValueSetter = typeof(FieldInfo).GetMethod("SetValue", new Type[] { typeof(object), typeof(object) });
             PropertyInfoGetter = typeof(Type).GetMethod("GetProperty", new Type[] { typeof(string), typeof(BindingFlags) });
-            ProeprtyValueGetter = typeof(PropertyInfo).GetMethod("GetValue", new Type[] { typeof(object) });
+            PropertyValueGetter = typeof(PropertyInfo).GetMethod("GetValue", new Type[] { typeof(object) });
             PropertyValueSetter = typeof(PropertyInfo).GetMethod("SetValue", new Type[] { typeof(object), typeof(object) });
             NoCloneTypes = new HashSet<string>();
             ClassInfoDict = new Dictionary<string, ClassStruction>();
             DynamicClassDict = new Dictionary<string, Type>();
-            CheckStructDict = new Dictionary<Type, Func<object, bool>>();
+            CheckStructDict = new Dictionary<Type, CheckStructDelegate>();
             ConstructorDict = new Dictionary<Type, Action<ILGenerator>>();
 
             FillNoCloneCollection();
@@ -53,6 +54,8 @@ namespace Natasha.Cache
             NoCloneTypes.Add("ReliabilityContractAttribute");
             NoCloneTypes.Add("NonVersionableAttribute");
             NoCloneTypes.Add("SecurityCriticalAttribute");
+            NoCloneTypes.Add("ObsoleteAttribute");
+            NoCloneTypes.Add("CompilerGeneratedAttribute");
         }
         
 

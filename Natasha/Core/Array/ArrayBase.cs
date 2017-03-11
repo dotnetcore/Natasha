@@ -1,4 +1,5 @@
-﻿using Natasha.Utils;
+﻿using Natasha.Debug;
+using Natasha.Utils;
 using System;
 using System.Collections.Generic;
 using System.Reflection.Emit;
@@ -10,7 +11,6 @@ namespace Natasha.Core
     {
         public static Dictionary<Type, OpCode> LoadDict;
         public static Dictionary<Type, OpCode> StoreDict;
-        public static Dictionary<Type, Type> ArrayTypeDict;
 
         public OpCode LoadArrayCode;
         public OpCode StoreArrayCode;
@@ -48,64 +48,51 @@ namespace Natasha.Core
         {
             LoadDict = new Dictionary<Type, OpCode>();
             StoreDict = new Dictionary<Type, OpCode>();
-            ArrayTypeDict = new Dictionary<Type, Type>();
 
-            ArrayTypeDict[typeof(byte[])] = typeof(byte);
             LoadDict[typeof(byte)] = OpCodes.Ldc_I4;
             LoadDict[typeof(byte[])] = OpCodes.Ldelem_I1;
             StoreDict[typeof(byte[])] = OpCodes.Stelem_I1;
 
-            ArrayTypeDict[typeof(short[])] = typeof(short);
             LoadDict[typeof(short)] = OpCodes.Ldc_I4;
             LoadDict[typeof(short[])] = OpCodes.Ldelem_I2;
             StoreDict[typeof(short[])] = OpCodes.Stelem_I2;
 
-            ArrayTypeDict[typeof(ushort[])] = typeof(ushort);
             LoadDict[typeof(ushort)] = OpCodes.Ldc_I4;
             LoadDict[typeof(ushort[])] = OpCodes.Ldelem_I2;
             StoreDict[typeof(ushort[])] = OpCodes.Stelem_I2;
 
-            ArrayTypeDict[typeof(int[])] = typeof(int);
             LoadDict[typeof(int)] = OpCodes.Ldc_I4;
             LoadDict[typeof(int[])] = OpCodes.Ldelem_I4;
             StoreDict[typeof(int[])] = OpCodes.Stelem_I4;
 
-            ArrayTypeDict[typeof(uint[])] = typeof(uint);
             LoadDict[typeof(uint)] = OpCodes.Ldc_I4;
             LoadDict[typeof(uint[])] = OpCodes.Ldelem_I4;
             StoreDict[typeof(uint[])] = OpCodes.Stelem_I4;
 
-            ArrayTypeDict[typeof(long[])] = typeof(long);
             LoadDict[typeof(long)] = OpCodes.Ldc_I8;
             LoadDict[typeof(long[])] = OpCodes.Ldelem_I8;
             StoreDict[typeof(long[])] = OpCodes.Stelem_I8;
 
-            ArrayTypeDict[typeof(ulong[])] = typeof(ulong);
             LoadDict[typeof(ulong)] = OpCodes.Ldc_I8;
             LoadDict[typeof(ulong[])] = OpCodes.Ldelem_I8;
             StoreDict[typeof(ulong[])] = OpCodes.Stelem_I8;
 
-            ArrayTypeDict[typeof(float[])] = typeof(float);
             LoadDict[typeof(float)] = OpCodes.Ldc_R4;
             LoadDict[typeof(float[])] = OpCodes.Ldelem_R4;
             StoreDict[typeof(float[])] = OpCodes.Stelem_R4;
 
-            ArrayTypeDict[typeof(double[])] = typeof(double);
             LoadDict[typeof(double)] = OpCodes.Ldc_R8;
             LoadDict[typeof(double[])] = OpCodes.Ldelem_R8;
             StoreDict[typeof(double[])] = OpCodes.Stelem_R8;
 
-            ArrayTypeDict[typeof(string[])] = typeof(string);
             LoadDict[typeof(string)] = OpCodes.Ldstr;
             LoadDict[typeof(string[])] = OpCodes.Ldelem_Ref;
             StoreDict[typeof(string[])] = OpCodes.Stelem_Ref;
 
-            ArrayTypeDict[typeof(object[])] = typeof(object);
             LoadDict[typeof(object)] = OpCodes.Ldobj;
             LoadDict[typeof(object[])] = OpCodes.Ldelem_Ref;
             StoreDict[typeof(object[])] = OpCodes.Stelem_Ref;
 
-            ArrayTypeDict[typeof(bool[])] = typeof(bool);
             LoadDict[typeof(bool)] = OpCodes.Ldc_I4;
             LoadDict[typeof(bool[])] = OpCodes.Ldelem_I1;
             StoreDict[typeof(bool[])] = OpCodes.Stelem_I1;
@@ -148,10 +135,12 @@ namespace Natasha.Core
             {
                
                 ilHandler.Emit(StoreArrayCode, _baseType);
+                DebugHelper.WriteLine(StoreArrayCode.Name+" " + _baseType.Name);
             }
             else
             {
                 ilHandler.Emit(StoreArrayCode);
+                DebugHelper.WriteLine(StoreArrayCode.Name);
             }
         }
         public void StoreArray(Action actionIndex, object value)
@@ -188,20 +177,24 @@ namespace Natasha.Core
         //加载元素
         public void LoadArray(int index)
         {
-            LoadAddress();
-            ilHandler.Emit(OpCodes.Ldc_I4, index);
-            if (ArrayIsStruct)
+            This();
+            LoadArray(() =>
             {
-                ilHandler.Emit(LoadArrayCode, _baseType);
-            }
-            else
-            {
-                ilHandler.Emit(LoadArrayCode);
-            }
+                if (index < 255)
+                {
+                    ilHandler.Emit(OpCodes.Ldc_I4_S, index);
+                    DebugHelper.WriteLine("Ldc_I4_S " + index);
+                }
+                else
+                {
+                    ilHandler.Emit(OpCodes.Ldc_I4, index);
+                    DebugHelper.WriteLine("Ldc_I4 " + index);
+                }
+            });     
         }
         public void LoadArray(Action action)
         {
-            LoadAddress();
+            This();
             if (action!=null)
             {
                 action();
@@ -209,24 +202,21 @@ namespace Natasha.Core
             if (ArrayIsStruct)
             {
                 ilHandler.Emit(LoadArrayCode, _baseType);
+                DebugHelper.WriteLine(StoreArrayCode.Name + " " + _baseType.Name);
             }
             else
             {
                 ilHandler.Emit(LoadArrayCode);
+                DebugHelper.WriteLine(LoadArrayCode.Name);
             }
         }
-        public void LoadArray(ILoadInstance instance)
+        public void LoadArray(object instance)
         {
-            LoadAddress();
-            instance.Load();
-            if (ArrayIsStruct)
+            This();
+            LoadArray(() =>
             {
-                ilHandler.Emit(LoadArrayCode, _baseType);
-            }
-            else
-            {
-                ilHandler.Emit(LoadArrayCode);
-            }
+                EData.NoErrorLoad(instance,ilHandler);
+            });
         }
     }
 }

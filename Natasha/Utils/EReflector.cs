@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Natasha.Debug;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -64,7 +65,12 @@ namespace Natasha.Utils
                 LocalBuilder builder = til.DeclareLocal(model.TypeHandler);
                 til.Emit(OpCodes.Ldarg_0);
                 til.Emit(OpCodes.Unbox_Any, model.TypeHandler);
-                til.Emit(OpCodes.Stloc, builder);
+                til.Emit(OpCodes.Stloc_S, builder.LocalIndex);
+
+                DebugHelper.WriteLine("Ldarg_0");
+                DebugHelper.WriteLine("Unbox_Any "+ model.TypeHandler.Name);
+                DebugHelper.WriteLine("Stloc_S "+ builder.LocalIndex);
+
                 EModel localModel = EModel.CreateModelFromBuilder(builder, model.TypeHandler);
                 EPacket.Packet(info.PropertyType, () => { localModel.LProperty(info.Name); });
             }, "Getter").Compile(typeof(GetterDelegate)));
@@ -77,6 +83,11 @@ namespace Natasha.Utils
                 til.Emit(OpCodes.Ldarg_0);
                 til.Emit(OpCodes.Unbox_Any, model.TypeHandler);
                 til.Emit(OpCodes.Stloc, builder);
+
+                DebugHelper.WriteLine("Ldarg_0");
+                DebugHelper.WriteLine("Unbox_Any " + model.TypeHandler.Name);
+                DebugHelper.WriteLine("Stloc_S " + builder.LocalIndex);
+
                 EModel localModel = EModel.CreateModelFromBuilder(builder, model.TypeHandler);
                 EPacket.Packet(info.FieldType, () => { localModel.LField(info.Name); });
             }, "Getter").Compile(typeof(GetterDelegate)));
@@ -92,10 +103,16 @@ namespace Natasha.Utils
                 LocalBuilder builder = til.DeclareLocal(model.TypeHandler);
                 til.Emit(OpCodes.Ldarg_0);
                 til.Emit(OpCodes.Unbox_Any, model.TypeHandler);
-                til.Emit(OpCodes.Stloc, builder);
+                til.Emit(OpCodes.Stloc_S, builder.LocalIndex);
+
+                DebugHelper.WriteLine("Ldarg_0");
+                DebugHelper.WriteLine("Unbox_Any " + model.TypeHandler.Name);
+                DebugHelper.WriteLine("Stloc_S " + builder.LocalIndex);
+
                 EModel localModel = EModel.CreateModelFromBuilder(builder, model.TypeHandler);
                 localModel.SProperty(info.Name, () => {
                     localModel.ilHandler.Emit(OpCodes.Ldarg_1);
+                    DebugHelper.WriteLine("Ldarg_1");
                     EPacket.UnPacket(info.PropertyType);
                 });
             }, "Setter").Compile(typeof(SetterDelegate)));
@@ -107,11 +124,17 @@ namespace Natasha.Utils
                 LocalBuilder builder = til.DeclareLocal(model.TypeHandler);
                 til.Emit(OpCodes.Ldarg_0);
                 til.Emit(OpCodes.Unbox_Any, model.TypeHandler);
-                til.Emit(OpCodes.Stloc, builder);
+                til.Emit(OpCodes.Stloc_S, builder.LocalIndex);
+
+                DebugHelper.WriteLine("Ldarg_0");
+                DebugHelper.WriteLine("Unbox_Any " + model.TypeHandler.Name);
+                DebugHelper.WriteLine("Stloc_S " + builder.LocalIndex);
+
                 EModel localModel = EModel.CreateModelFromBuilder(builder, model.TypeHandler);
                 localModel.SField(info.Name, () => {
                         localModel.ilHandler.Emit(OpCodes.Ldarg_1);
-                        EPacket.UnPacket(info.FieldType);
+                        DebugHelper.WriteLine("Ldarg_1");
+                    EPacket.UnPacket(info.FieldType);
                 });
             }, "Setter").Compile(typeof(SetterDelegate)));
         }

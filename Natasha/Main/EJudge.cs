@@ -1,6 +1,7 @@
 ﻿using Natasha.Cache;
 using Natasha.Core;
 using Natasha.Core.Base;
+using Natasha.Debug;
 using Natasha.Utils;
 using System;
 using System.Reflection.Emit;
@@ -13,10 +14,12 @@ namespace Natasha
         private Func<Action, EJudge> TrueFunc;
         private Label CurrentLabel;
         private Label EndLabel;
+        private int LabelIndex;
         static EJudge() { }
         private void Jump(Label label)
         {
             ilHandler.Emit(OpCodes.Br_S, label);
+            
         }
         private EJudge() : base()
         {
@@ -27,7 +30,9 @@ namespace Natasha
                     action();
                 }
                 Jump(EndLabel);
+                DebugHelper.WriteLine("JumpTp End");
                 ilHandler.MarkLabel(CurrentLabel);
+                DebugHelper.WriteLine("SetLabel " + LabelIndex);
                 return this;
             };
         }
@@ -36,33 +41,39 @@ namespace Natasha
         public static void TrueJump(Label label)
         {
             ThreadCache.GetIL().Emit(OpCodes.Brtrue_S, label);
+            DebugHelper.WriteLine("Brtrue_S " + label.ToString());
         }
         //错误则跳转
         public static void FalseJump(Label label)
         {
             ThreadCache.GetIL().Emit(OpCodes.Brfalse_S, label);
+            DebugHelper.WriteLine("Brfalse_S " + label.ToString());
         }
         //直接跳转
         public static void JumpTo(Label label)
         {
             ThreadCache.GetIL().Emit(OpCodes.Br_S, label);
+            DebugHelper.WriteLine("Br_S " + label.ToString());
         }
         //其他跳转方式 已经由重载运算符完成
         public static Func<Action, EJudge> If(object temp)
         {
-           
             EJudge newEJudge = new EJudge();
             EData.NoErrorLoad(temp, newEJudge.ilHandler);
             newEJudge.EndLabel = newEJudge.ilHandler.DefineLabel();
             newEJudge.CurrentLabel = newEJudge.ilHandler.DefineLabel();
+            newEJudge.LabelIndex += 1;
             newEJudge.ilHandler.Emit(ThreadCache.GetJudgeCode(), newEJudge.CurrentLabel);
+            DebugHelper.WriteLine(ThreadCache.GetJudgeCode().Name + " " + newEJudge.LabelIndex);
             return newEJudge.TrueFunc;
         }
         public Func<Action, EJudge> ElseIf(object temp)
         {
             EData.NoErrorLoad(temp,ilHandler);
             CurrentLabel = ilHandler.DefineLabel();
+            LabelIndex += 1;
             ilHandler.Emit(ThreadCache.GetJudgeCode(), CurrentLabel);
+            DebugHelper.WriteLine(ThreadCache.GetJudgeCode().Name + " " + LabelIndex);
             return TrueFunc;
         }
         public EJudge Else(Action action)
@@ -72,6 +83,7 @@ namespace Natasha
                 action();
             }
             ilHandler.MarkLabel(EndLabel);
+            DebugHelper.WriteLine("SetLabel End");
             return this;
         }
     }
@@ -80,33 +92,41 @@ namespace Natasha
     public partial class ENull
     {
         #region 字符串是否为空
-        public static object StringIsNull(object value)
+        public static Action StringIsNull(object value)
         {
             return StringIsNull(() => { EData.NoErrorLoad(value, ThreadCache.GetIL()); });
         }
-        public static object StringIsNull(Action action)
+        public static Action StringIsNull(Action action)
         {
-            ILGenerator il = ThreadCache.GetIL();
-            action();
-            il.Emit(OpCodes.Ldnull);
-            il.Emit(OpCodes.Call, ClassCache.StringCompare);
-            ThreadCache.SetJudgeCode(OpCodes.Brfalse_S);
-            return null;
+            return (()=> {
+                ILGenerator il = ThreadCache.GetIL();
+                action();
+                il.Emit(OpCodes.Ldnull);
+                il.Emit(OpCodes.Call, ClassCache.StringCompare);
+                ThreadCache.SetJudgeCode(OpCodes.Brfalse_S);
+
+                DebugHelper.WriteLine("Ldnull");
+                DebugHelper.WriteLine("Call " + ClassCache.StringCompare.Name);
+            });
         }
         #endregion
         #region 对象是否为空
-        public static object IsNull(object value)
+        public static Action IsNull(object value)
         {
             return IsNull(() => { EData.NoErrorLoad(value, ThreadCache.GetIL()); });
         }
-        public static object IsNull(Action action)
+        public static Action IsNull(Action action)
         {
-            ILGenerator il = ThreadCache.GetIL();
-            action();
-            il.Emit(OpCodes.Ldnull);
-            il.Emit(OpCodes.Call, ClassCache.ClassCompare);
-            ThreadCache.SetJudgeCode(OpCodes.Brfalse_S);
-            return null;
+            return ()=> {
+                ILGenerator il = ThreadCache.GetIL();
+                action();
+                il.Emit(OpCodes.Ldnull);
+                il.Emit(OpCodes.Call, ClassCache.ClassCompare);
+                ThreadCache.SetJudgeCode(OpCodes.Brfalse_S);
+
+                DebugHelper.WriteLine("Ldnull");
+                DebugHelper.WriteLine("Call " + ClassCache.ClassCompare.Name);
+            };
         }
         #endregion
 
@@ -115,40 +135,41 @@ namespace Natasha
     public partial class EDefault
     {
 
-        public static object IsDefault(Type type,object value)
+        public static Action IsDefault(Type type,object value)
         {
-            IsDefault(type,() => {
-                EData.NoErrorLoad(value,ThreadCache.GetIL());
-            });
-            return null;
+            return IsDefault(type, () => {
+                EData.NoErrorLoad(value, ThreadCache.GetIL());
+            }); ;
         }
-        public static object IsDefault(Type type,Action action)
+        public static Action IsDefault(Type type,Action action)
         {
             //加载对应类型的默认值
-            LoadDefault(type);
-            action();
-            ThreadCache.SetJudgeCode(OpCodes.Bne_Un_S);
-            return null;
+            return ()=> {
+                LoadDefault(type);
+                action();
+                ThreadCache.SetJudgeCode(OpCodes.Bne_Un_S);
+            };
         }
         
     }
     public partial class EDBNull
     {
-        public static object IsDBNull(object value)
+        public static Action IsDBNull(object value)
         {
-            IsDBNull(() => {
+            return IsDBNull(() => {
                 EData.NoErrorLoad(value, ThreadCache.GetIL());
             });
-            return null;
         }
 
-        public static object IsDBNull(Action action)
+        public static Action IsDBNull(Action action)
         {
-            ILGenerator il = ThreadCache.GetIL();
-            action();
-            il.Emit(OpCodes.Isinst, typeof(DBNull));
-            ThreadCache.SetJudgeCode(OpCodes.Brfalse_S);
-            return null;
+            return () => {
+                ILGenerator il = ThreadCache.GetIL();
+                action();
+                il.Emit(OpCodes.Isinst, typeof(DBNull));
+                DebugHelper.WriteLine("Isinst " + typeof(DBNull).Name);
+                ThreadCache.SetJudgeCode(OpCodes.Brfalse_S);
+            }; ;
         }
     }
 }

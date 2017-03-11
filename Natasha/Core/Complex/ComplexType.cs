@@ -57,7 +57,7 @@ namespace Natasha.Core
 
                     Action action = () =>
                     {
-                        ComplexType tempModel = (ComplexType)this;
+                        ComplexType tempModel = this;
                         for (int i = 0; i < DelayArray.Length - 1; i += 1)
                         {
                             tempModel = tempModel.LoadStruct(DelayArray[i]);
@@ -177,7 +177,8 @@ namespace Natasha.Core
                 SProperty(memberName, value);
             }
         }
-        public EModel LoadStruct(string memberName) {
+        public EModel LoadStruct(string memberName)
+        {
             if (Struction.Fields.ContainsKey(memberName))
             {
                 return LFieldStructr(memberName);
@@ -195,7 +196,7 @@ namespace Natasha.Core
             {
                 return LField(memberName);
             }
-            else if(Struction.Properties.ContainsKey(memberName))
+            else if (Struction.Properties.ContainsKey(memberName))
             {
                 return LProperty(memberName);
             }
@@ -210,43 +211,11 @@ namespace Natasha.Core
             FieldInfo info = Struction.Fields[fieldName];
             if (!info.IsPublic)
             {
-                //加载SetValue的第一个参数 即FieldInfo
-                ilHandler.Emit(OpCodes.Ldtoken, TypeHandler);
-                ilHandler.Emit(OpCodes.Call, ClassCache.ClassHandle);
-                ilHandler.Emit(OpCodes.Ldstr, info.Name);
-                ilHandler.Emit(OpCodes.Ldc_I4_S, 44);
-                ilHandler.Emit(OpCodes.Callvirt, ClassCache.FieldInfoGetter);
-
-                //加载SetValue的第二个参数
-
-                Load();
-                EPacket.Packet(TypeHandler);
-
-                //加载SetValue的第三个参数
-                EData.NoErrorLoad(value, ilHandler);
-                if (value != null)
-                {
-                    EPacket.Packet(value.GetType());
-                }
-                //调用SetValue
-                ilHandler.Emit(OpCodes.Callvirt, ClassCache.FieldValueSetter);
+                EmitHelper.SetPrivateField(Load, info, value);
             }
             else
             {
-
-                if (info.IsStatic)
-                {
-                    //填充静态字段
-                    EData.NoErrorLoad(value, ilHandler);
-                    ilHandler.Emit(OpCodes.Stsfld, info);
-                }
-                else
-                {
-                    //如果是结构体需要加载地址
-                    LoadAddress();
-                    EData.NoErrorLoad(value, ilHandler);
-                    ilHandler.Emit(OpCodes.Stfld, info);
-                }
+                EmitHelper.SetPublicField(This, info, value);
             }
         }
 
@@ -263,47 +232,11 @@ namespace Natasha.Core
             MethodInfo method = info.GetSetMethod(true);
             if (!method.IsPublic)
             {
-                //加载SetValue的第一个参数 即PropertyInfo
-                ilHandler.Emit(OpCodes.Ldtoken, TypeHandler);
-                ilHandler.Emit(OpCodes.Call, ClassCache.ClassHandle);
-                ilHandler.Emit(OpCodes.Ldstr, info.Name);
-                ilHandler.Emit(OpCodes.Ldc_I4_S, 44);
-                ilHandler.Emit(OpCodes.Call, ClassCache.PropertyInfoGetter);
-
-                //加载SetValue的第二个参数
-
-                Load();
-                EPacket.Packet(TypeHandler);
-
-
-                //加载SetValue的第三个参数
-                EData.NoErrorLoad(value, ilHandler);
-                if (value != null)
-                {
-                    EPacket.Packet(value.GetType());
-                }
-
-                //调用SetValue
-                ilHandler.Emit(OpCodes.Callvirt, ClassCache.PropertyValueSetter);
+                EmitHelper.SetPrivateProperty(Load, info, value);
             }
             else
             {
-                //静态属性
-                if (!method.IsStatic)
-                {
-                    LoadAddress();
-                }
-
-                EData.NoErrorLoad(value, ilHandler);
-
-                if (IsStuct || method.IsStatic)
-                {
-                    ilHandler.Emit(OpCodes.Call, method);
-                }
-                else
-                {
-                    ilHandler.Emit(OpCodes.Callvirt, method);
-                }
+                EmitHelper.SetPublicProperty(This,info,value);
             }
         }
         public void SProperty(string propertyName, Action action)
@@ -313,47 +246,12 @@ namespace Natasha.Core
         #endregion
 
         #region Method操作
-        public ComplexType EMethod(string methodName, params object[] parameters)
-        {
-            return EMethod(MethodHandler.GetMethodInfo(methodName), parameters);
-        }
-        public ComplexType EMethod<T1>(string methodName, params object[] parameters)
-        {
-            return EMethod(MethodHandler.GetMethodInfo<T1>(methodName), parameters);
-        }
-        public ComplexType EMethod<T1, T2>(string methodName, params object[] parameters)
-        {
-            return EMethod(MethodHandler.GetMethodInfo<T1, T2>(methodName), parameters);
-        }
-        public ComplexType EMethod<T1, T2, T3>(string methodName, params object[] parameters)
-        {
-            return EMethod(MethodHandler.GetMethodInfo<T1, T2, T3>(methodName), parameters);
-        }
-        public ComplexType EMethod<T1, T2, T3, T4>(string methodName, params object[] parameters)
-        {
-            return EMethod(MethodHandler.GetMethodInfo<T1, T2, T3, T4>(methodName), parameters);
-        }
-        public ComplexType EMethod<T1, T2, T3, T4, T5>(string methodName, params object[] parameters)
-        {
-            return EMethod(MethodHandler.GetMethodInfo<T1, T2, T3, T4, T5>(methodName), parameters);
-        }
-        public ComplexType EMethod<T1, T2, T3, T4, T5, T6>(string methodName, params object[] parameters)
-        {
-            return EMethod(MethodHandler.GetMethodInfo<T1, T2, T3, T4, T5, T6>(methodName), parameters);
-        }
-        public ComplexType EMethod<T1, T2, T3, T4, T5, T6, T7>(string methodName, params object[] parameters)
-        {
-            return EMethod(MethodHandler.GetMethodInfo<T1, T2, T3, T4, T5, T6, T7>(methodName), parameters);
-        }
-        public ComplexType EMethod<T1, T2, T3, T4, T5, T6, T7, T8>(string methodName, params object[] parameters)
-        {
-            return EMethod(MethodHandler.GetMethodInfo<T1, T2, T3, T4, T5, T6, T7, T8>(methodName), parameters);
-        }
+       
         public ComplexType EMethod(MethodInfo methodInfo, object[] parameters)
         {
             if (!methodInfo.IsStatic)
             {
-                LoadAddress();
+                This();
             }
             if (parameters != null)
             {
@@ -361,16 +259,10 @@ namespace Natasha.Core
                 {
                     EData.NoErrorLoad(parameters[i], ilHandler);
                 }
+            }
 
-            }
-            if (IsStuct || methodInfo.IsStatic)
-            {
-                ilHandler.Emit(OpCodes.Call, methodInfo);
-            }
-            else
-            {
-                ilHandler.Emit(OpCodes.Callvirt, methodInfo);
-            }
+            EmitHelper.CallMethod(TypeHandler, methodInfo);
+
             if (methodInfo.ReturnType == typeof(bool))
             {
                 ThreadCache.SetJudgeCode(OpCodes.Brfalse_S);
@@ -383,184 +275,70 @@ namespace Natasha.Core
         public EModel LFieldStructr(string fieldName)
         {
             FieldInfo info = Struction.Fields[fieldName];
-            Type type = info.FieldType;
-            CompareType = type;
+            CompareType = info.FieldType;
             //私有字段
             if (!info.IsPublic)
             {
-                //加载GetValue的第一个参数 即FieldInfo
-                ilHandler.Emit(OpCodes.Ldtoken, TypeHandler);
-                ilHandler.Emit(OpCodes.Call, ClassCache.ClassHandle);
-                ilHandler.Emit(OpCodes.Ldstr, fieldName);
-                ilHandler.Emit(OpCodes.Ldc_I4_S, 44);
-                ilHandler.Emit(OpCodes.Callvirt, ClassCache.FieldInfoGetter);
-
-                //加载GetValue的第二个参数
-                Load();
-                EPacket.Packet(TypeHandler);
-
-                //调用GetValue
-                ilHandler.Emit(OpCodes.Callvirt, ClassCache.FieldValueGetter);
-
-                //拆箱
-                if (type.IsClass && type != typeof(string) && type != typeof(object))
-                {
-                    ilHandler.Emit(OpCodes.Castclass, type);
-                }
-                else
-                {
-                    ilHandler.Emit(OpCodes.Unbox_Any, type);
-                }
+                EmitHelper.LoadPrivateField(Load, info);
             }
             //公有字段
             else
             {
-                //静态字段
-                if (info.IsStatic)
+                if (info.FieldType.IsValueType && !info.FieldType.IsPrimitive)
                 {
-                    //加载地址
-                    if (type.IsValueType && !type.IsPrimitive)
-                    {
-                        ilHandler.Emit(OpCodes.Ldsflda, info);
-                    }
-                    else
-                    {
-                        ilHandler.Emit(OpCodes.Ldsfld, info);
-                    }
+                    EmitHelper.LoadPublicStructField(This, info);
                 }
                 else
                 {
-                    //如果是结构体那么加载结构体地址
-                    LoadAddress();
-
-                    if (type.IsValueType && !type.IsPrimitive)
-                    {
-                        ilHandler.Emit(OpCodes.Ldflda, info);
-                    }
-                    else
-                    {
-                        ilHandler.Emit(OpCodes.Ldfld, info);
-                    }
+                    EmitHelper.LoadPublicField(This, info);
                 }
             }
             //如果单独加载了bool类型的值
-            if (type == typeof(bool))
+            if (CompareType == typeof(bool))
             {
                 ThreadCache.SetJudgeCode(OpCodes.Brfalse_S);
             }
-            return ELink.GetLink(type);
+            return ELink.GetLink(CompareType);
         }
         public EModel LProperty(string propertyName)
         {
             PropertyInfo info = Struction.Properties[propertyName];
-            Type type = info.PropertyType;
-            CompareType = type;
+            CompareType = info.PropertyType;
             MethodInfo method = info.GetGetMethod(true);
             if (!method.IsPublic)
             {
-                //加载GetValue的第一个参数 即PropertyInfo
-                ilHandler.Emit(OpCodes.Ldtoken, TypeHandler);
-                ilHandler.Emit(OpCodes.Call, ClassCache.ClassHandle);
-                ilHandler.Emit(OpCodes.Ldstr, propertyName);
-                ilHandler.Emit(OpCodes.Ldc_I4_S, 44);
-                ilHandler.Emit(OpCodes.Callvirt, ClassCache.PropertyInfoGetter);
-
-                //加载GetValue的第二个参数
-                Load();
-                EPacket.Packet(TypeHandler);
-
-                //调用GetValue
-                ilHandler.Emit(OpCodes.Callvirt, ClassCache.ProeprtyValueGetter);
-
-                //拆箱
-                if (type.IsClass && type != typeof(string) && type != typeof(object))
-                {
-                    ilHandler.Emit(OpCodes.Castclass, type);
-                }
-                else
-                {
-                    ilHandler.Emit(OpCodes.Unbox_Any, type);
-                }
+                EmitHelper.LoadPrivateProperty(Load, info);
             }
             else
             {
-                //静态属性
-                if (method.IsStatic)
-                {
-                    ilHandler.Emit(OpCodes.Call, method);
-                }
-                else
-                {
-                    LoadAddress();
-                    if (IsStuct)
-                    {
-                        ilHandler.Emit(OpCodes.Call, method);
-                    }
-                    else
-                    {
-                        ilHandler.Emit(OpCodes.Callvirt, method);
-                    }
-                }
+                EmitHelper.LoadPublicProperty(This, info);
             }
-
-            if (type == typeof(bool))
+            if (CompareType == typeof(bool))
             {
                 ThreadCache.SetJudgeCode(OpCodes.Brfalse_S);
             }
-            return ELink.GetLink(type);
+            return ELink.GetLink(CompareType);
         }
         public EModel LField(string fieldName)
         {
             FieldInfo info = Struction.Fields[fieldName];
-            Type type = info.FieldType;
-            CompareType = type;
+            CompareType = info.FieldType;
             //私有字段
             if (!info.IsPublic)
             {
-                //加载GetValue的第一个参数 即FieldInfo
-                ilHandler.Emit(OpCodes.Ldtoken, TypeHandler);
-                ilHandler.Emit(OpCodes.Call, ClassCache.ClassHandle);
-                ilHandler.Emit(OpCodes.Ldstr, fieldName);
-                ilHandler.Emit(OpCodes.Ldc_I4_S, 44);
-                ilHandler.Emit(OpCodes.Callvirt, ClassCache.FieldInfoGetter);
-
-                //加载GetValue的第二个参数
-                Load();
-                EPacket.Packet(TypeHandler);
-
-                //调用GetValue
-                ilHandler.Emit(OpCodes.Callvirt, ClassCache.FieldValueGetter);
-
-                //拆箱
-                if (type.IsClass && type != typeof(string) && type != typeof(object))
-                {
-                    ilHandler.Emit(OpCodes.Castclass, type);
-                }
-                else
-                {
-                    ilHandler.Emit(OpCodes.Unbox_Any, type);
-                }
+                EmitHelper.LoadPrivateField(Load, info);
             }
             //公有字段
             else
             {
-                //静态字段
-                if (info.IsStatic)
-                {
-                    ilHandler.Emit(OpCodes.Ldsfld, info);
-                }
-                else
-                {
-                    Load();
-                    ilHandler.Emit(OpCodes.Ldfld, info);
-                }
+                 EmitHelper.LoadPublicField(This, info);
             }
             //如果单独加载了bool类型的值
-            if (type == typeof(bool))
+            if (CompareType == typeof(bool))
             {
                 ThreadCache.SetJudgeCode(OpCodes.Brfalse_S);
             }
-            return ELink.GetLink(type);
+            return ELink.GetLink(CompareType);
         }
 
         #endregion
@@ -574,24 +352,36 @@ namespace Natasha.Core
             MemberName = memberName;
             return this;
         }
-        public EModel GetAttribute(string attributeName)
+        public T GetAttribute<T>(string attributeName) where T : Attribute
         {
             attributeName += "Attribute";
             if (Struction.AttributeTree.ContainsKey(MemberName))
             {
                 if (Struction.AttributeTree[MemberName].ContainsKey(attributeName))
                 {
-                    return Struction.AttributeTree[MemberName][attributeName];
-                } 
+                    return (T)Struction.AttributeTree[MemberName][attributeName];
+                }
             }
             return null;
         }
-
-        public IEnumerable<EModel> GetAttributes(string memberName)
+        public EModel GetAttributeModel(string attributeName)
+        {
+            attributeName += "Attribute";
+            if (Struction.AttributeTree.ContainsKey(MemberName))
+            {
+                if (Struction.AttributeTree[MemberName].ContainsKey(attributeName))
+                {
+                    object value = Struction.AttributeTree[MemberName][attributeName];
+                    return EModel.CreateModelFromObject(value, value.GetType());
+                }
+            }
+            return null;
+        }
+        public IEnumerable<object> GetAttributes(string memberName)
         {
             if (Struction.AttributeTree.ContainsKey(memberName))
             {
-               return Struction.AttributeTree[MemberName].Values;
+                return Struction.AttributeTree[MemberName].Values;
             }
             return null;
         }

@@ -3,6 +3,7 @@ using System.Reflection.Emit;
 using Natasha.Core.Base;
 using Natasha.Core;
 using Natasha.Cache;
+using Natasha.Debug;
 
 namespace Natasha
 {
@@ -23,6 +24,8 @@ namespace Natasha
                 }
                 ilHandler.Emit(OpCodes.Br_S, StartLabel);               //无条件跳转到起始标签
                 ilHandler.MarkLabel(EndLabel);                          //末尾标签
+                DebugHelper.WriteLine("JumpTo Start");
+                DebugHelper.WriteLine("SetLabel END");
                 return this;
             };
         }
@@ -43,6 +46,7 @@ namespace Natasha
             loopHandler.ilHandler.MarkLabel(loopHandler.StartLabel);                        //设置开始标签
             condition();                                                                    //条件判断
             loopHandler.ilHandler.Emit(ThreadCache.GetJudgeCode(), loopHandler.EndLabel);   //不成立就跳转到末尾
+            DebugHelper.WriteLine(ThreadCache.GetJudgeCode().Name + " END");
             return loopHandler.BodyFunc;
         }
         //对实现了迭代接口的操作类进行遍历

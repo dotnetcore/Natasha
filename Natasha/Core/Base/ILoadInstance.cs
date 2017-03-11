@@ -3,7 +3,7 @@
     //数据入栈接口
     public interface ILoadInstance
     {
+        void This();
         void Load();
-        void LoadAddress();
     }
 }

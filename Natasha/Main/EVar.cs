@@ -3,6 +3,7 @@ using System.Reflection.Emit;
 using Natasha.Utils;
 using Natasha.Core.Base;
 using Natasha.Cache;
+using Natasha.Debug;
 
 namespace Natasha
 {
@@ -94,7 +95,7 @@ namespace Natasha
             EVar model = CreateVar(type);
             EData.LoadObject(value);
             model.Store();
-            model.Instance = value;
+            model.Value = value;
             return model;
         }
         #endregion
@@ -173,6 +174,7 @@ namespace Natasha
                     EData.LoadObject(dest);
                 }
                 source.ilHandler.Emit(OpCodes.Add);
+                DebugHelper.WriteLine("Add");
             };
 
         }
@@ -191,6 +193,7 @@ namespace Natasha
                     EData.LoadObject(dest);
                 }
                 source.ilHandler.Emit(OpCodes.Sub);
+                DebugHelper.WriteLine("Sub");
             };
         }
 
@@ -208,6 +211,7 @@ namespace Natasha
                     EData.LoadObject(dest);
                 }
                 source.ilHandler.Emit(OpCodes.Mul);
+                DebugHelper.WriteLine("Mul");
             };
         }
 
@@ -225,6 +229,7 @@ namespace Natasha
                     EData.LoadObject(dest);
                 }
                 source.ilHandler.Emit(OpCodes.Div);
+                DebugHelper.WriteLine("Div");
             };
         }
 
@@ -242,6 +247,7 @@ namespace Natasha
                     EData.LoadObject(dest);
                 }
                 source.ilHandler.Emit(OpCodes.Rem);
+                DebugHelper.WriteLine("Rem");
             };
         }
 
@@ -250,10 +256,25 @@ namespace Natasha
             return () =>
             {
                 source.RunCompareAction();
-                source.ilHandler.Emit(OpCodes.Ldc_I4, dest);
+                if (dest<255)
+                {
+                    source.ilHandler.Emit(OpCodes.Ldc_I4_S, dest);
+                    DebugHelper.WriteLine("Ldc_I4_S " + dest);
+                }
+                else
+                {
+                    source.ilHandler.Emit(OpCodes.Ldc_I4, dest);
+                    DebugHelper.WriteLine("Ldc_I4 " + dest);
+                }
+                
                 source.ilHandler.Emit(OpCodes.Ldc_I4_S, 31);
                 source.ilHandler.Emit(OpCodes.And);
                 source.ilHandler.Emit(OpCodes.Shr);
+
+               
+                DebugHelper.WriteLine("Ldc_I4_S " + 31);
+                DebugHelper.WriteLine("And");
+                DebugHelper.WriteLine("Shr");
             };
         }
         public static Action operator <<(EVar source, int dest)
@@ -262,10 +283,23 @@ namespace Natasha
             {
                 ILGenerator il = ThreadCache.GetIL();
                 source.RunCompareAction();
-                source.ilHandler.Emit(OpCodes.Ldc_I4, dest);
+                if (dest < 255)
+                {
+                    source.ilHandler.Emit(OpCodes.Ldc_I4_S, dest);
+                    DebugHelper.WriteLine("Ldc_I4_S " + dest);
+                }
+                else
+                {
+                    source.ilHandler.Emit(OpCodes.Ldc_I4, dest);
+                    DebugHelper.WriteLine("Ldc_I4 " + dest);
+                }
                 source.ilHandler.Emit(OpCodes.Ldc_I4_S, 31);
                 source.ilHandler.Emit(OpCodes.And);
                 source.ilHandler.Emit(OpCodes.Shl);
+
+                DebugHelper.WriteLine("Ldc_I4_S " + 31);
+                DebugHelper.WriteLine("And");
+                DebugHelper.WriteLine("Shl");
             };
         }
         public static Action operator |(EVar source, object dest)
@@ -282,6 +316,7 @@ namespace Natasha
                     EData.LoadObject(dest);
                 }
                 source.ilHandler.Emit(OpCodes.Or);
+                DebugHelper.WriteLine("Or");
             };
         }
 
@@ -299,6 +334,7 @@ namespace Natasha
                     EData.LoadObject(dest);
                 }
                 source.ilHandler.Emit(OpCodes.And);
+                DebugHelper.WriteLine("And");
             };
         }
 
@@ -394,6 +430,7 @@ namespace Natasha
                 if (source.TypeHandler == typeof(string))
                 {
                     source.ilHandler.Emit(OpCodes.Call, ClassCache.StringCompare);
+                    DebugHelper.WriteLine("Call "+ ClassCache.StringCompare.Name);
                 }
             };
         }
@@ -422,6 +459,7 @@ namespace Natasha
                 if (source.TypeHandler == typeof(string))
                 {
                     source.ilHandler.Emit(OpCodes.Call, ClassCache.StringCompare);
+                    DebugHelper.WriteLine("Call " + ClassCache.StringCompare.Name);
                 }
             };
         }

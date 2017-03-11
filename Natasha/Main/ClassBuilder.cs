@@ -282,7 +282,7 @@ namespace Natasha
             else
             {
                 //如果是结构体需要加载地址
-                LoadAddress();
+                This();
                 EData.NoErrorLoad(value, ilHandler);
                 ilHandler.Emit(OpCodes.Stfld, info);
             }
@@ -302,19 +302,12 @@ namespace Natasha
             //静态属性
             if (!method.IsStatic)
             {
-                LoadAddress();
+                This();
             }
 
             EData.NoErrorLoad(value, ilHandler);
 
-            if (method.IsStatic)
-            {
-                ilHandler.Emit(OpCodes.Call, method);
-            }
-            else
-            {
-                ilHandler.Emit(OpCodes.Callvirt, method);
-            }
+            EmitHelper.CallMethod(info.PropertyType,method);
         }
         public void SProperty(string propertyName, Action action)
         {
@@ -333,7 +326,7 @@ namespace Natasha
             }
             else
             {
-                LoadAddress();
+                This();
                 actionLoadValue(ilHandler);
                 ilHandler.Emit(OpCodes.Callvirt, info);
             }
@@ -372,7 +365,7 @@ namespace Natasha
             else
             {
                 //加载地址
-                LoadAddress();
+                This();
                 if (type.IsValueType && !type.IsPrimitive)
                 {
                     ilHandler.Emit(OpCodes.Ldflda, info);
@@ -403,7 +396,7 @@ namespace Natasha
             }
             else
             {
-                LoadAddress();
+                This();
                 ilHandler.Emit(OpCodes.Callvirt, method);
             }
 
@@ -426,7 +419,7 @@ namespace Natasha
             }
             else
             {
-                LoadAddress();
+                This();
                 ilHandler.Emit(OpCodes.Ldfld, info);
             }
             //如果单独加载了bool类型的值
@@ -442,7 +435,7 @@ namespace Natasha
             ilHandler.Emit(OpCodes.Ldarg_0);
         }
 
-        public void LoadAddress()
+        public void This()
         {
             ilHandler.Emit(OpCodes.Ldarg_0);
         }

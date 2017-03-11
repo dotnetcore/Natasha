@@ -4,16 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B236D37F-45ED-43BD-A508-304343C64C7E}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{35FFAE84-7774-4E2C-8435-EFD9565AE67F}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Natasha</RootNamespace>
-    <AssemblyName>Natasha</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>MethodTest</RootNamespace>
+    <AssemblyName>MethodTest</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -41,42 +43,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cache\ClassCache.cs" />
-    <Compile Include="Cache\ThreadCache.cs" />
-    <Compile Include="Core\Array\ArrayBase.cs" />
-    <Compile Include="Core\Base\IIterator.cs" />
-    <Compile Include="Core\Base\ILGeneratorBase.cs" />
-    <Compile Include="Core\Base\ILoadInstance.cs" />
-    <Compile Include="Core\Base\IOperator.cs" />
-    <Compile Include="Core\Complex\ComplexType.cs" />
-    <Compile Include="Core\Complex\TypeInitiator.cs" />
-    <Compile Include="Core\Complex\TypeStructionAnalyzer.cs" />
-    <Compile Include="Core\Single\SingleType.cs" />
-    <Compile Include="Debug\DebugHelper.cs" />
-    <Compile Include="Main\ClassBuilder.cs" />
-    <Compile Include="Main\ClassHandler.cs" />
-    <Compile Include="Main\EArray.cs" />
-    <Compile Include="Main\EHandler.cs" />
-    <Compile Include="Main\EJudge.cs" />
-    <Compile Include="Main\ELoop.cs" />
-    <Compile Include="Main\EMethod.cs" />
-    <Compile Include="Main\EModel.cs" />
-    <Compile Include="Main\EPacket.cs" />
-    <Compile Include="Main\EStack.cs" />
-    <Compile Include="Main\EVar.cs" />
-    <Compile Include="Model\ClassStruction.cs" />
-    <Compile Include="Model\EDBNull.cs" />
-    <Compile Include="Model\EDefault.cs" />
-    <Compile Include="Model\EDelegate.cs" />
-    <Compile Include="Model\ENull.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utils\EClone.cs" />
-    <Compile Include="Differentiation\EmitHelper.cs" />
-    <Compile Include="Differentiation\EData.cs" />
-    <Compile Include="Utils\ELink.cs" />
-    <Compile Include="Utils\EReflector.cs" />
-    <Compile Include="Utils\EStruckCheck.cs" />
-    <Compile Include="Utils\GenericTypes.cs" />
+    <Compile Include="Student.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Natasha\Natasha.csproj">
+      <Project>{b236d37f-45ed-43bd-a508-304343c64c7e}</Project>
+      <Name>Natasha</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

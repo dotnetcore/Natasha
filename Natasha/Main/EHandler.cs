@@ -1,4 +1,5 @@
 ﻿using Natasha.Cache;
+using Natasha.Debug;
 using System;
 using System.Reflection.Emit;
 using System.Threading;
@@ -264,15 +265,19 @@ namespace Natasha
         {
             int ThreadId = Thread.CurrentThread.ManagedThreadId;
             newMethod = new DynamicMethod(methodName + Index, ReturnType, ParameterTypes);
+
             il = newMethod.GetILGenerator();
             if (ilKey!=null)
             {
+
+                DebugHelper.Start(ilKey);
                 key = ilKey;
                 ThreadCache.TKeyDict[ThreadId] = key;
                 ThreadCache.TILDict[ThreadId] = il;
             }
             else
             {
+                DebugHelper.Start(methodName + Index);
                 ThreadCache.ILDict[ThreadId] = il;
             }
             
@@ -285,16 +290,23 @@ namespace Natasha
         //编译成委托
         public Delegate Compile(Type type=null)
         {
+            
             il.Emit(OpCodes.Ret);
+           
             int ThreadId = Thread.CurrentThread.ManagedThreadId;
             if (key!=null)
             {
                 ThreadCache.TILDict.Remove(ThreadId);
                 ThreadCache.TKeyDict.Remove(ThreadId);
+                DebugHelper.WriteLine(key + "函数返回");
+                DebugHelper.End();
             }
             else
             {
+                
                 ThreadCache.ILDict.Remove(ThreadId);
+                DebugHelper.WriteLine("函数返回");
+                DebugHelper.End();
             }
             if (type==null)
             {
