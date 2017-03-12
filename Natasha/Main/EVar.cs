@@ -93,7 +93,7 @@ namespace Natasha
         public static EVar CreateVarFromObject(object value, Type type)
         {
             EVar model = CreateVar(type);
-            EData.LoadObject(value);
+            EmitHelper.LoadObject(value);
             model.Store();
             model.Value = value;
             return model;
@@ -171,7 +171,7 @@ namespace Natasha
                 }
                 else
                 {
-                    EData.LoadObject(dest);
+                    EmitHelper.LoadObject(dest);
                 }
                 source.ilHandler.Emit(OpCodes.Add);
                 DebugHelper.WriteLine("Add");
@@ -190,7 +190,7 @@ namespace Natasha
                 }
                 else
                 {
-                    EData.LoadObject(dest);
+                    EmitHelper.LoadObject(dest);
                 }
                 source.ilHandler.Emit(OpCodes.Sub);
                 DebugHelper.WriteLine("Sub");
@@ -208,7 +208,7 @@ namespace Natasha
                 }
                 else
                 {
-                    EData.LoadObject(dest);
+                    EmitHelper.LoadObject(dest);
                 }
                 source.ilHandler.Emit(OpCodes.Mul);
                 DebugHelper.WriteLine("Mul");
@@ -226,7 +226,7 @@ namespace Natasha
                 }
                 else
                 {
-                    EData.LoadObject(dest);
+                    EmitHelper.LoadObject(dest);
                 }
                 source.ilHandler.Emit(OpCodes.Div);
                 DebugHelper.WriteLine("Div");
@@ -244,7 +244,7 @@ namespace Natasha
                 }
                 else
                 {
-                    EData.LoadObject(dest);
+                    EmitHelper.LoadObject(dest);
                 }
                 source.ilHandler.Emit(OpCodes.Rem);
                 DebugHelper.WriteLine("Rem");
@@ -259,12 +259,12 @@ namespace Natasha
                 if (dest<255)
                 {
                     source.ilHandler.Emit(OpCodes.Ldc_I4_S, dest);
-                    DebugHelper.WriteLine("Ldc_I4_S " + dest);
+                    DebugHelper.WriteLine("Ldc_I4_S", dest);
                 }
                 else
                 {
                     source.ilHandler.Emit(OpCodes.Ldc_I4, dest);
-                    DebugHelper.WriteLine("Ldc_I4 " + dest);
+                    DebugHelper.WriteLine("Ldc_I4", dest);
                 }
                 
                 source.ilHandler.Emit(OpCodes.Ldc_I4_S, 31);
@@ -272,7 +272,7 @@ namespace Natasha
                 source.ilHandler.Emit(OpCodes.Shr);
 
                
-                DebugHelper.WriteLine("Ldc_I4_S " + 31);
+                DebugHelper.WriteLine("Ldc_I4_S", 31);
                 DebugHelper.WriteLine("And");
                 DebugHelper.WriteLine("Shr");
             };
@@ -286,18 +286,18 @@ namespace Natasha
                 if (dest < 255)
                 {
                     source.ilHandler.Emit(OpCodes.Ldc_I4_S, dest);
-                    DebugHelper.WriteLine("Ldc_I4_S " + dest);
+                    DebugHelper.WriteLine("Ldc_I4_S", dest);
                 }
                 else
                 {
                     source.ilHandler.Emit(OpCodes.Ldc_I4, dest);
-                    DebugHelper.WriteLine("Ldc_I4 " + dest);
+                    DebugHelper.WriteLine("Ldc_I4", dest);
                 }
                 source.ilHandler.Emit(OpCodes.Ldc_I4_S, 31);
                 source.ilHandler.Emit(OpCodes.And);
                 source.ilHandler.Emit(OpCodes.Shl);
 
-                DebugHelper.WriteLine("Ldc_I4_S " + 31);
+                DebugHelper.WriteLine("Ldc_I4_S", 31);
                 DebugHelper.WriteLine("And");
                 DebugHelper.WriteLine("Shl");
             };
@@ -313,7 +313,7 @@ namespace Natasha
                 }
                 else
                 {
-                    EData.LoadObject(dest);
+                    EmitHelper.LoadObject(dest);
                 }
                 source.ilHandler.Emit(OpCodes.Or);
                 DebugHelper.WriteLine("Or");
@@ -331,7 +331,7 @@ namespace Natasha
                 }
                 else
                 {
-                    EData.LoadObject(dest);
+                    EmitHelper.LoadObject(dest);
                 }
                 source.ilHandler.Emit(OpCodes.And);
                 DebugHelper.WriteLine("And");
@@ -350,7 +350,7 @@ namespace Natasha
                 }
                 else
                 {
-                    EData.LoadObject(dest);
+                    EmitHelper.LoadObject(dest);
                 }
             };
         }
@@ -366,7 +366,7 @@ namespace Natasha
                 }
                 else
                 {
-                    EData.LoadObject(dest);
+                    EmitHelper.LoadObject(dest);
                 }
             };
         }
@@ -383,7 +383,7 @@ namespace Natasha
                 }
                 else
                 {
-                    EData.LoadObject(dest);
+                    EmitHelper.LoadObject(dest);
                 }
             };
         }
@@ -399,7 +399,7 @@ namespace Natasha
                 }
                 else
                 {
-                    EData.LoadObject(dest);
+                    EmitHelper.LoadObject(dest);
                 }
             };
         }
@@ -424,7 +424,7 @@ namespace Natasha
                 }
                 else
                 {
-                    EData.LoadObject(dest);
+                    EmitHelper.LoadObject(dest);
                 }
 
                 if (source.TypeHandler == typeof(string))
@@ -453,13 +453,13 @@ namespace Natasha
                 }
                 else
                 {
-                    EData.LoadObject(dest);
+                    EmitHelper.LoadObject(dest);
                 }
 
                 if (source.TypeHandler == typeof(string))
                 {
                     source.ilHandler.Emit(OpCodes.Call, ClassCache.StringCompare);
-                    DebugHelper.WriteLine("Call " + ClassCache.StringCompare.Name);
+                    DebugHelper.WriteLine("Call", ClassCache.StringCompare.Name);
                 }
             };
         }

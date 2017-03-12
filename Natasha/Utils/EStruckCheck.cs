@@ -88,7 +88,7 @@ namespace Natasha.Utils
                     }
                 }
                 #endregion
-                EData.LoadObject(true);
+                EmitHelper.LoadObject(true);
             }, "Check").Compile(typeof(CheckStructDelegate));
             ClassCache.CheckStructDict[TypeHandler] = (CheckStructDelegate)func;
         }

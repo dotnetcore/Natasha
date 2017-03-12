@@ -1,9 +1,9 @@
 ﻿using Natasha.Cache;
 using Natasha.Core;
 using Natasha.Core.Base;
+using Natasha.Debug;
 using Natasha.Utils;
 using System;
-using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 
@@ -18,7 +18,7 @@ namespace Natasha
         }
 
         private EModel _model;
-        public EModel Model
+        public EModel Operator
         {
             get
             {
@@ -162,7 +162,7 @@ namespace Natasha
             }
             for (int i = 0; i < parameters.Length; i += 1)
             {
-                EData.NoErrorLoad(parameters[i], ilHandler);
+                EmitHelper.NoErrorLoad(parameters[i], ilHandler);
             }
             ilHandler.Emit(OpCodes.Newobj, ctor);
             ilHandler.Emit(OpCodes.Stloc, Builder);
@@ -270,9 +270,10 @@ namespace Natasha
                 }
                 else
                 {
-                    EData.LoadObject(dest);
+                    EmitHelper.LoadObject(dest);
                 }
                 source.ilHandler.Emit(OpCodes.Add);
+                DebugHelper.WriteLine("Add");
             };
 
         }
@@ -288,9 +289,10 @@ namespace Natasha
                 }
                 else
                 {
-                    EData.LoadObject(dest);
+                    EmitHelper.LoadObject(dest);
                 }
                 source.ilHandler.Emit(OpCodes.Sub);
+                DebugHelper.WriteLine("Sub");
             };
         }
 
@@ -305,9 +307,10 @@ namespace Natasha
                 }
                 else
                 {
-                    EData.LoadObject(dest);
+                    EmitHelper.LoadObject(dest);
                 }
                 source.ilHandler.Emit(OpCodes.Mul);
+                DebugHelper.WriteLine("Mul");
             };
         }
 
@@ -322,9 +325,10 @@ namespace Natasha
                 }
                 else
                 {
-                    EData.LoadObject(dest);
+                    EmitHelper.LoadObject(dest);
                 }
                 source.ilHandler.Emit(OpCodes.Div);
+                DebugHelper.WriteLine("Div");
             };
         }
 
@@ -339,9 +343,10 @@ namespace Natasha
                 }
                 else
                 {
-                    EData.LoadObject(dest);
+                    EmitHelper.LoadObject(dest);
                 }
                 source.ilHandler.Emit(OpCodes.Rem);
+                DebugHelper.WriteLine("Rem");
             };
         }
 
@@ -350,10 +355,24 @@ namespace Natasha
             return () =>
             {
                 source.RunCompareAction();
-                source.ilHandler.Emit(OpCodes.Ldc_I4, dest);
+                if (dest < 255)
+                {
+                    source.ilHandler.Emit(OpCodes.Ldc_I4_S, dest);
+                    DebugHelper.WriteLine("Ldc_I4_S", dest);
+                }
+                else
+                {
+                    source.ilHandler.Emit(OpCodes.Ldc_I4, dest);
+                    DebugHelper.WriteLine("Ldc_I4", dest);
+                }
+
                 source.ilHandler.Emit(OpCodes.Ldc_I4_S, 31);
                 source.ilHandler.Emit(OpCodes.And);
                 source.ilHandler.Emit(OpCodes.Shr);
+
+                DebugHelper.WriteLine("Ldc_I4_S", 31);
+                DebugHelper.WriteLine("And");
+                DebugHelper.WriteLine("Shr");
             };
         }
         public static Action operator <<(EModel source, int dest)
@@ -362,10 +381,23 @@ namespace Natasha
             {
                 ILGenerator il = ThreadCache.GetIL();
                 source.RunCompareAction();
-                source.ilHandler.Emit(OpCodes.Ldc_I4, dest);
+                if (dest < 255)
+                {
+                    source.ilHandler.Emit(OpCodes.Ldc_I4_S, dest);
+                    DebugHelper.WriteLine("Ldc_I4_S", dest);
+                }
+                else
+                {
+                    source.ilHandler.Emit(OpCodes.Ldc_I4, dest);
+                    DebugHelper.WriteLine("Ldc_I4", dest);
+                }
                 source.ilHandler.Emit(OpCodes.Ldc_I4_S, 31);
                 source.ilHandler.Emit(OpCodes.And);
                 source.ilHandler.Emit(OpCodes.Shl);
+
+                DebugHelper.WriteLine("Ldc_I4_S", 31);
+                DebugHelper.WriteLine("And");
+                DebugHelper.WriteLine("Shl");
             };
         }
         public static Action operator |(EModel source, object dest)
@@ -379,9 +411,10 @@ namespace Natasha
                 }
                 else
                 {
-                    EData.LoadObject(dest);
+                    EmitHelper.LoadObject(dest);
                 }
                 source.ilHandler.Emit(OpCodes.Or);
+                DebugHelper.WriteLine("Or");
             };
         }
 
@@ -396,9 +429,10 @@ namespace Natasha
                 }
                 else
                 {
-                    EData.LoadObject(dest);
+                    EmitHelper.LoadObject(dest);
                 }
                 source.ilHandler.Emit(OpCodes.And);
+                DebugHelper.WriteLine("And");
             };
         }
 
@@ -414,7 +448,7 @@ namespace Natasha
                 }
                 else
                 {
-                    EData.LoadObject(dest);
+                    EmitHelper.LoadObject(dest);
                 }
             };
         }
@@ -430,7 +464,7 @@ namespace Natasha
                 }
                 else
                 {
-                    EData.LoadObject(dest);
+                    EmitHelper.LoadObject(dest);
                 }
             };
         }
@@ -447,7 +481,7 @@ namespace Natasha
                 }
                 else
                 {
-                    EData.LoadObject(dest);
+                    EmitHelper.LoadObject(dest);
                 }
             };
         }
@@ -463,7 +497,7 @@ namespace Natasha
                 }
                 else
                 {
-                    EData.LoadObject(dest);
+                    EmitHelper.LoadObject(dest);
                 }
             };
         }
@@ -487,15 +521,17 @@ namespace Natasha
                 }
                 else
                 {
-                    EData.LoadObject(dest);
+                    EmitHelper.LoadObject(dest);
                 }
                 if (source.CompareType == typeof(string))
                 {
                     source.ilHandler.Emit(OpCodes.Call, ClassCache.StringCompare);
+                    DebugHelper.WriteLine("Call", ClassCache.StringCompare.Name);
                 }
                 else if (source.CompareType.IsClass || (source.CompareType.IsValueType && !source.CompareType.IsPrimitive))
                 {
                     source.ilHandler.Emit(OpCodes.Call, ClassCache.ClassCompare);
+                    DebugHelper.WriteLine("Call", ClassCache.ClassCompare.Name);
                 }
             };
         }
@@ -518,16 +554,18 @@ namespace Natasha
                 }
                 else
                 {
-                    EData.LoadObject(dest);
+                    EmitHelper.LoadObject(dest);
                 }
 
                 if (source.CompareType == typeof(string))
                 {
                     source.ilHandler.Emit(OpCodes.Call, ClassCache.StringCompare);
+                    DebugHelper.WriteLine("Call", ClassCache.StringCompare.Name);
                 }
                 else if (source.CompareType.IsClass || (source.CompareType.IsValueType && !source.CompareType.IsPrimitive))
                 {
                     source.ilHandler.Emit(OpCodes.Call, ClassCache.ClassCompare);
+                    DebugHelper.WriteLine("Call", ClassCache.ClassCompare.Name);
                 }
             };
         }
@@ -543,8 +581,6 @@ namespace Natasha
         #endregion
 
         #region 自加运算
-
-
         public static EModel operator ++(EModel source)
         {
             source.AddSelf();

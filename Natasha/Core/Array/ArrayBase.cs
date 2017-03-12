@@ -135,7 +135,7 @@ namespace Natasha.Core
             {
                
                 ilHandler.Emit(StoreArrayCode, _baseType);
-                DebugHelper.WriteLine(StoreArrayCode.Name+" " + _baseType.Name);
+                DebugHelper.WriteLine(StoreArrayCode.Name+"", _baseType.Name);
             }
             else
             {
@@ -145,13 +145,13 @@ namespace Natasha.Core
         }
         public void StoreArray(Action actionIndex, object value)
         {
-            StoreArray(actionIndex, () => { EData.NoErrorLoad(value,ilHandler); });
+            StoreArray(actionIndex, () => { EmitHelper.NoErrorLoad(value,ilHandler); });
         }
         public void StoreArray(object builderIndex, object value)
         {
             Load();
-            EData.NoErrorLoad(builderIndex,ilHandler);
-            EData.NoErrorLoad(value, ilHandler);
+            EmitHelper.NoErrorLoad(builderIndex,ilHandler);
+            EmitHelper.NoErrorLoad(value, ilHandler);
             //枚举以及结构体填充方式
             if (BaseType != null && ArrayIsStruct)
             {
@@ -183,12 +183,12 @@ namespace Natasha.Core
                 if (index < 255)
                 {
                     ilHandler.Emit(OpCodes.Ldc_I4_S, index);
-                    DebugHelper.WriteLine("Ldc_I4_S " + index);
+                    DebugHelper.WriteLine("Ldc_I4_S", index);
                 }
                 else
                 {
                     ilHandler.Emit(OpCodes.Ldc_I4, index);
-                    DebugHelper.WriteLine("Ldc_I4 " + index);
+                    DebugHelper.WriteLine("Ldc_I4", index);
                 }
             });     
         }
@@ -202,7 +202,7 @@ namespace Natasha.Core
             if (ArrayIsStruct)
             {
                 ilHandler.Emit(LoadArrayCode, _baseType);
-                DebugHelper.WriteLine(StoreArrayCode.Name + " " + _baseType.Name);
+                DebugHelper.WriteLine(StoreArrayCode.Name + "", _baseType.Name);
             }
             else
             {
@@ -215,7 +215,7 @@ namespace Natasha.Core
             This();
             LoadArray(() =>
             {
-                EData.NoErrorLoad(instance,ilHandler);
+                EmitHelper.NoErrorLoad(instance,ilHandler);
             });
         }
     }

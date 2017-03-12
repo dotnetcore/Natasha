@@ -1,5 +1,6 @@
 ﻿using Natasha.Cache;
 using Natasha.Debug;
+using Natasha.Utils;
 using System;
 using System.Reflection.Emit;
 using System.Threading;
@@ -40,7 +41,7 @@ namespace Natasha
         public static EHandler CreateMethod<R>(Action<ILGenerator> action,string ilKey=null)
         {
             EHandler handler = new EHandler();
-            handler.ParameterTypes = new Type[0];
+            handler.ParameterTypes = MethodHelper.GetGenericTypes();
             if (typeof(R) == typeof(ENull))
             {
                 handler.MethodType = typeof(Action);
@@ -57,9 +58,7 @@ namespace Natasha
         public static EHandler CreateMethod<T1, R>(Action<ILGenerator> action,string ilKey=null)
         {
             EHandler handler = new EHandler();
-            Type[] ParameterTypes = new Type[1];
-            ParameterTypes[0] = typeof(T1);
-            handler.ParameterTypes = ParameterTypes;
+            handler.ParameterTypes = MethodHelper.GetGenericTypes<T1>();
             if (typeof(R) == typeof(ENull))
             {
                 handler.MethodType = typeof(Action<T1>);
@@ -76,10 +75,7 @@ namespace Natasha
         public static EHandler CreateMethod<T1, T2, R>(Action<ILGenerator> action,string ilKey=null)
         {
             EHandler handler = new EHandler();
-            Type[]  ParameterTypes = new Type[2];
-            ParameterTypes[0] = typeof(T1);
-            ParameterTypes[1] = typeof(T2);
-            handler.ParameterTypes = ParameterTypes;
+            handler.ParameterTypes = MethodHelper.GetGenericTypes<T1, T2>();
             if (typeof(R) == typeof(ENull))
             {
                 handler.MethodType = typeof(Action<T1,T2>);
@@ -96,11 +92,7 @@ namespace Natasha
         public static EHandler CreateMethod<T1, T2, T3, R>(Action<ILGenerator> action,string ilKey=null)
         {
             EHandler handler = new EHandler();
-            Type[] ParameterTypes = new Type[3];
-            ParameterTypes[0] = typeof(T1);
-            ParameterTypes[1] = typeof(T2);
-            ParameterTypes[2] = typeof(T3);
-            handler.ParameterTypes = ParameterTypes;
+            handler.ParameterTypes = MethodHelper.GetGenericTypes<T1, T2, T3>();
             if (typeof(R) == typeof(ENull))
             {
                 handler.MethodType = typeof(Action<T1, T2,T3>);
@@ -117,12 +109,7 @@ namespace Natasha
         public static EHandler CreateMethod<T1, T2, T3, T4, R>(Action<ILGenerator> action,string ilKey=null)
         {
             EHandler handler = new EHandler();
-            Type[] ParameterTypes = new Type[4];
-            ParameterTypes[0] = typeof(T1);
-            ParameterTypes[1] = typeof(T2);
-            ParameterTypes[2] = typeof(T3);
-            ParameterTypes[3] = typeof(T4);
-            handler.ParameterTypes = ParameterTypes;
+            handler.ParameterTypes = MethodHelper.GetGenericTypes<T1, T2, T3, T4>();
             if (typeof(R) == typeof(ENull))
             {
                 handler.MethodType = typeof(Action<T1, T2, T3, T4>);
@@ -139,13 +126,7 @@ namespace Natasha
         public static EHandler CreateMethod<T1, T2, T3, T4, T5, R>(Action<ILGenerator> action,string ilKey=null)
         {
             EHandler handler = new EHandler();
-            Type[] ParameterTypes = new Type[5];
-            ParameterTypes[0] = typeof(T1);
-            ParameterTypes[1] = typeof(T2);
-            ParameterTypes[2] = typeof(T3);
-            ParameterTypes[3] = typeof(T4);
-            ParameterTypes[4] = typeof(T5);
-            handler.ParameterTypes = ParameterTypes;
+            handler.ParameterTypes = MethodHelper.GetGenericTypes<T1, T2, T3, T4, T5>();
             if (typeof(R) == typeof(ENull))
             {
                 handler.MethodType = typeof(Action<T1, T2, T3, T4, T5>);
@@ -162,14 +143,7 @@ namespace Natasha
         public static EHandler CreateMethod<T1, T2, T3, T4, T5, T6, R>(Action<ILGenerator> action,string ilKey=null)
         {
             EHandler handler = new EHandler();
-            Type[] ParameterTypes = new Type[6];
-            ParameterTypes[0] = typeof(T1);
-            ParameterTypes[1] = typeof(T2);
-            ParameterTypes[2] = typeof(T3);
-            ParameterTypes[3] = typeof(T4);
-            ParameterTypes[4] = typeof(T5);
-            ParameterTypes[5] = typeof(T6);
-            handler.ParameterTypes = ParameterTypes;
+            handler.ParameterTypes = MethodHelper.GetGenericTypes<T1, T2, T3, T4, T5, T6>();
             if (typeof(R) == typeof(ENull))
             {
                 handler.MethodType = typeof(Action<T1, T2, T3, T4, T5, T6>);
@@ -186,15 +160,7 @@ namespace Natasha
         public static EHandler CreateMethod<T1, T2, T3, T4, T5, T6, T7, R>(Action<ILGenerator> action,string ilKey=null)
         {
             EHandler handler = new EHandler();
-            Type[] ParameterTypes = new Type[7];
-            ParameterTypes[0] = typeof(T1);
-            ParameterTypes[1] = typeof(T2);
-            ParameterTypes[2] = typeof(T3);
-            ParameterTypes[3] = typeof(T4);
-            ParameterTypes[4] = typeof(T5);
-            ParameterTypes[5] = typeof(T6);
-            ParameterTypes[6] = typeof(T7);
-            handler.ParameterTypes = ParameterTypes;
+            handler.ParameterTypes = MethodHelper.GetGenericTypes<T1, T2, T3, T4, T5, T6 ,T7>();
             if (typeof(R) == typeof(ENull))
             {
                 handler.MethodType = typeof(Action<T1, T2, T3, T4, T5, T6, T7>);
@@ -211,16 +177,7 @@ namespace Natasha
         public static EHandler CreateMethod<T1, T2, T3, T4, T5, T6, T7, T8, R>(Action<ILGenerator> action,string ilKey=null)
         {
             EHandler handler = new EHandler();
-            Type[] ParameterTypes = new Type[8];
-            ParameterTypes[0] = typeof(T1);
-            ParameterTypes[1] = typeof(T2);
-            ParameterTypes[2] = typeof(T3);
-            ParameterTypes[3] = typeof(T4);
-            ParameterTypes[4] = typeof(T5);
-            ParameterTypes[5] = typeof(T6);
-            ParameterTypes[6] = typeof(T7);
-            ParameterTypes[7] = typeof(T8);
-            handler.ParameterTypes = ParameterTypes;
+            handler.ParameterTypes = MethodHelper.GetGenericTypes<T1, T2, T3, T4, T5, T6, T7,T8>();
             if (typeof(R) == typeof(ENull))
             {
                 handler.MethodType = typeof(Action<T1, T2, T3, T4, T5, T6, T7, T8>);
@@ -237,17 +194,7 @@ namespace Natasha
         public static EHandler CreateMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, R>(Action<ILGenerator> action,string ilKey=null)
         {
             EHandler handler = new EHandler();
-            Type[] ParameterTypes = new Type[9];
-            ParameterTypes[0] = typeof(T1);
-            ParameterTypes[1] = typeof(T2);
-            ParameterTypes[2] = typeof(T3);
-            ParameterTypes[3] = typeof(T4);
-            ParameterTypes[4] = typeof(T5);
-            ParameterTypes[5] = typeof(T6);
-            ParameterTypes[6] = typeof(T7);
-            ParameterTypes[7] = typeof(T8);
-            ParameterTypes[8] = typeof(T9);
-            handler.ParameterTypes = ParameterTypes;
+            handler.ParameterTypes = MethodHelper.GetGenericTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9>();
             if (typeof(R) == typeof(ENull))
             {
                 handler.MethodType = typeof(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9>);

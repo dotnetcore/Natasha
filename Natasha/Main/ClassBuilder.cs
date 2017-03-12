@@ -276,14 +276,14 @@ namespace Natasha
             if (info.IsStatic)
             {
                 //填充静态字段
-                EData.NoErrorLoad(value, ilHandler);
+                EmitHelper.NoErrorLoad(value, ilHandler);
                 ilHandler.Emit(OpCodes.Stsfld, info);
             }
             else
             {
                 //如果是结构体需要加载地址
                 This();
-                EData.NoErrorLoad(value, ilHandler);
+                EmitHelper.NoErrorLoad(value, ilHandler);
                 ilHandler.Emit(OpCodes.Stfld, info);
             }
         }
@@ -305,7 +305,7 @@ namespace Natasha
                 This();
             }
 
-            EData.NoErrorLoad(value, ilHandler);
+            EmitHelper.NoErrorLoad(value, ilHandler);
 
             EmitHelper.CallMethod(info.PropertyType,method);
         }

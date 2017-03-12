@@ -45,17 +45,15 @@ namespace OperatorTest
                 EModel model = EModel.CreateModelFromObject(t);
 
                 method.ExecuteMethod<int>("WriteLine", model.DLoad("Field").DelayAction);
-
-                method.ExecuteMethod<int>("WriteLine", (model.DLoad("Field").Model++).DelayAction);
-                method.ExecuteMethod<int>("WriteLine", model.DLoad("Field").Model+emit_A);
-                method.ExecuteMethod<int>("WriteLine", model.DLoad("Field").Model + 10);
-                method.ExecuteMethod<int>("WriteLine", (model.DLoad("Next").DLoad("Property").Model++).DelayAction);
-                method.ExecuteMethod<int>("WriteLine", (model.DLoad("Next").DLoad("Property").Model+ 10));
-                method.ExecuteMethod<int>("WriteLine", emit_B + model.DLoad("Property").Model);
-                //method.ExecuteMethod<int>("WriteLine", emit_B++);
+                method.ExecuteMethod<int>("WriteLine", (model.DLoad("Field").Operator++).DelayAction);
+                method.ExecuteMethod<int>("WriteLine", model.DLoad("Field") + emit_A);
+                method.ExecuteMethod<int>("WriteLine", model.DLoad("Field").Operator + 10);
+                method.ExecuteMethod<int>("WriteLine", (model.DLoadStruct("Next").DLoad("Property").Operator++).DelayAction);
+                method.ExecuteMethod<int>("WriteLine", (model.DLoadStruct("Next").DLoad("Property").Operator + 10));
+                method.ExecuteMethod<int>("WriteLine", emit_B + model.DLoad("Property").Operator);
+                method.ExecuteMethod<int>("WriteLine", emit_B++);
 
             }).Compile();
-
             ((Action)showResult)();
         }
 
@@ -77,17 +75,17 @@ namespace OperatorTest
 
                 TestClass t = new TestClass() { Field = 10 };
                 EModel model = EModel.CreateModelFromObject(t);
-                ELoop.While(model.DLoad("Field").Model < emit_B)(() =>
+                ELoop.While(model.DLoad("Field").Operator < emit_B)(() =>
                 {
                     //这里需要传递委托，不传递委托则返回的是model类型而不是int类型
                     method.ExecuteMethod<int>("WriteLine", model.DLoad("Field").DelayAction);
-                    model.DLoad("Field").Model++;
+                    model.DLoad("Field").Operator++;
                 });
 
-                ELoop.While(model.DLoad("Field").Model != 25)(() =>
+                ELoop.While(model.DLoad("Field").Operator != 25)(() =>
                 {
                     method.ExecuteMethod<int>("WriteLine", model.DLoad("Field").DelayAction);
-                    model.DLoad("Field").Model++;
+                    model.DLoad("Field").Operator++;
                 });
 
             }).Compile();
@@ -108,7 +106,7 @@ namespace OperatorTest
                 t.PropertyName = "3";
                 EModel model = EModel.CreateModelFromObject(t);
 
-                EJudge.If(emit_A == model.DLoad("Field").Model)(() =>
+                EJudge.If(emit_A == model.DLoad("Field").Operator)(() =>
                 {
                     method.ExecuteMethod<int>("WriteLine", 10);
 
@@ -131,7 +129,7 @@ namespace OperatorTest
                 {
                     method.ExecuteMethod<string>("WriteLine", string_A);
 
-                }).ElseIf(string_A == model.DLoad("PropertyName").Model)(() =>
+                }).ElseIf(string_A == model.DLoad("PropertyName").Operator)(() =>
                 {
                     method.ExecuteMethod<string>("WriteLine", string_A);
 

@@ -33,7 +33,7 @@ namespace Natasha.Core
             if (IsStuct)
             {
                 ilHandler.Emit(OpCodes.Ldloca_S, Builder);
-                DebugHelper.WriteLine("Ldloca_S " + Builder.LocalIndex);
+                DebugHelper.WriteLine("Ldloca_S", Builder.LocalIndex);
                 EmitHelper.InitObject(TypeHandler);
             }
 
@@ -63,7 +63,7 @@ namespace Natasha.Core
             {
                 LoadAction();
             }
-            else if (TypeHandler.IsEnum)
+            else if (TypeHandler !=null && TypeHandler.IsEnum)
             {
                 int value = (int)Value;
                 if (value < 255)
@@ -74,7 +74,7 @@ namespace Natasha.Core
                 else
                 {
                     ilHandler.Emit(OpCodes.Ldc_I4, value);
-                    DebugHelper.WriteLine("Ldc_I4 " + value);
+                    DebugHelper.WriteLine("Ldc_I4", value);
                 }
             }
             else if (ParameterIndex == -1)
@@ -82,12 +82,11 @@ namespace Natasha.Core
                 if (Builder != null)
                 {
                     ilHandler.Emit(OpCodes.Ldloc_S, Builder.LocalIndex);
-                    DebugHelper.WriteLine("Ldloc_S " + Builder.LocalIndex);
-
+                    DebugHelper.WriteLine("Ldloc_S", Builder.LocalIndex);
                 }
-                else if (TypeHandler.IsPrimitive || TypeHandler == typeof(string))
+                else if (TypeHandler !=null && (TypeHandler.IsPrimitive || TypeHandler == typeof(string)))
                 {
-                    EData.LoadObject(Value);
+                    EmitHelper.LoadObject(Value);
                 }
             }
             else if (ParameterIndex == 0)
@@ -113,7 +112,7 @@ namespace Natasha.Core
             else
             {
                 ilHandler.Emit(OpCodes.Ldarg_S, ParameterIndex);
-                DebugHelper.WriteLine("Ldarg_S " + ParameterIndex);
+                DebugHelper.WriteLine("Ldarg_S", ParameterIndex);
             }
         }
 
@@ -125,59 +124,50 @@ namespace Natasha.Core
             }
             else
             {
-                if (TypeHandler.IsPrimitive || TypeHandler == typeof(string))
+                if (ParameterIndex == -1)
                 {
-                    EData.LoadObject(Value);
-                }
-                else
-                {
-                    if (TypeHandler.IsEnum)
+                    if (Builder != null)
                     {
-                        int value = (int)Value;
-                        if (value < 255)
-                        {
-                            ilHandler.Emit(OpCodes.Ldc_I4_S, value);
-                            DebugHelper.WriteLine("Ldc_I4_S " + value);
-                        }
-                        else
-                        {
-                            ilHandler.Emit(OpCodes.Ldc_I4, value);
-                            DebugHelper.WriteLine("Ldc_I4 " + value);
-                        }
+                        ilHandler.Emit(EmitHelper.GetLoadCode(TypeHandler), Builder);
+                        DebugHelper.WriteLine(Builder.LocalIndex.ToString());
                     }
-                    else if (ParameterIndex == -1)
+                    else if (TypeHandler.IsPrimitive || TypeHandler == typeof(string))
                     {
-                        if (Builder != null)
-                        {
-                            ilHandler.Emit(EmitHelper.GetLoadCode(TypeHandler), Builder);
-                            DebugHelper.WriteLine(Builder.LocalIndex.ToString());
-                        }
+                        EmitHelper.LoadObject(Value);
                     }
                     else
                     {
-                        if (ParameterIndex > 3)
+                        if (TypeHandler.IsEnum)
                         {
-                            ilHandler.Emit(EmitHelper.GetArgsCode(TypeHandler), ParameterIndex);
-                            DebugHelper.WriteLine(ParameterIndex.ToString());
+                            int value = (int)Value;
+                            if (value < 255)
+                            {
+                                ilHandler.Emit(OpCodes.Ldc_I4_S, value);
+                                DebugHelper.WriteLine("Ldc_I4_S", value);
+                            }
+                            else
+                            {
+                                ilHandler.Emit(OpCodes.Ldc_I4, value);
+                                DebugHelper.WriteLine("Ldc_I4", value);
+                            }
                         }
-                        else
-                        {
-                            ilHandler.Emit(EmitHelper.GetArgsCode(TypeHandler));
-                            DebugHelper.WriteLine(EmitHelper.GetArgsCode(TypeHandler).Name);
-                        }
+                    }
+                }
+                else
+                {
+                    if (ParameterIndex > 3)
+                    {
+                        ilHandler.Emit(EmitHelper.GetArgsCode(TypeHandler), ParameterIndex);
+                        DebugHelper.Write(ParameterIndex.ToString());
+                    }
+                    else
+                    {
+                        ilHandler.Emit(EmitHelper.GetArgsCode(TypeHandler, ParameterIndex));
                     }
                 }
             }
         }
         #endregion
-
-
-
-
-
-
-
-
     }
 }
 

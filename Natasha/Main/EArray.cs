@@ -144,7 +144,7 @@ namespace Natasha
 
         #endregion
         #region 迭代器属性和方法(支持)
-        public void Initialize()
+        public new void Initialize()
         {
             
         }

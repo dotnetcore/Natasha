@@ -13,10 +13,8 @@ namespace Natasha
         private Type _typeHandler;
         private Type[] _genericTypes;
         private Type[] _methodTypes;
-        private GenericTypes typeHandler;
         private EMethod()
         {
-            typeHandler = new GenericTypes();
         }
 
         public static implicit operator EMethod(Type value)
@@ -66,133 +64,133 @@ namespace Natasha
         }
         public EMethod AddGenricType<T1>()
         {
-            _genericTypes = typeHandler.GetGenericTypes<T1>();
+            _genericTypes = MethodHelper.GetGenericTypes<T1>();
             return this;
         }
         public EMethod AddGenricType<T1, T2>()
         {
-            _genericTypes = typeHandler.GetGenericTypes<T1, T2>();
+            _genericTypes = MethodHelper.GetGenericTypes<T1, T2>();
             return this;
         }
         public EMethod AddGenricType<T1, T2, T3>()
         {
-            _genericTypes = typeHandler.GetGenericTypes<T1, T2, T3>();
+            _genericTypes = MethodHelper.GetGenericTypes<T1, T2, T3>();
             return this;
         }
         public EMethod AddGenricType<T1, T2, T3, T4>()
         {
-            _genericTypes = typeHandler.GetGenericTypes<T1, T2, T3, T4>();
+            _genericTypes = MethodHelper.GetGenericTypes<T1, T2, T3, T4>();
             return this;
         }
         public EMethod AddGenricType<T1, T2, T3, T4, T5>()
         {
-            _genericTypes = typeHandler.GetGenericTypes<T1, T2, T3, T4, T5>();
+            _genericTypes = MethodHelper.GetGenericTypes<T1, T2, T3, T4, T5>();
             return this;
         }
         public EMethod AddGenricType<T1, T2, T3, T4, T5, T6>()
         {
-            _genericTypes = typeHandler.GetGenericTypes<T1, T2, T3, T4, T5, T6>();
+            _genericTypes = MethodHelper.GetGenericTypes<T1, T2, T3, T4, T5, T6>();
             return this;
         }
         public EMethod AddGenricType<T1, T2, T3, T4, T5, T6, T7>()
         {
-            _genericTypes = typeHandler.GetGenericTypes<T1, T2, T3, T4, T5, T6, T7>();
+            _genericTypes = MethodHelper.GetGenericTypes<T1, T2, T3, T4, T5, T6, T7>();
             return this;
         }
         public EMethod AddGenricType<T1, T2, T3, T4, T5, T6, T7, T8>()
         {
-            _genericTypes = typeHandler.GetGenericTypes<T1, T2, T3, T4, T5, T6, T7, T8>();
+            _genericTypes = MethodHelper.GetGenericTypes<T1, T2, T3, T4, T5, T6, T7, T8>();
             return this;
         }
 
         public EMethod ExecuteMethod(string methodName, Action action = null)
         {
-            _methodTypes= typeHandler.GetGenericTypes();
+            _methodTypes= MethodHelper.GetGenericTypes();
             return Execute(GetCommonMethodInfo(methodName), action);
         }
         public EMethod ExecuteMethod<T1>(string methodName, Action action = null)
         {
-            _methodTypes = typeHandler.GetGenericTypes<T1>();
+            _methodTypes = MethodHelper.GetGenericTypes<T1>();
             return Execute(GetCommonMethodInfo(methodName), action);
         }
         public EMethod ExecuteMethod<T1, T2>(string methodName, Action action = null)
         {
-            _methodTypes = typeHandler.GetGenericTypes<T1, T2>();
+            _methodTypes = MethodHelper.GetGenericTypes<T1, T2>();
             return Execute(GetCommonMethodInfo(methodName), action);
         }
         public EMethod ExecuteMethod<T1, T2, T3>(string methodName, Action action = null)
         {
-            _methodTypes = typeHandler.GetGenericTypes<T1, T2, T3>();
+            _methodTypes = MethodHelper.GetGenericTypes<T1, T2, T3>();
             return Execute(GetCommonMethodInfo(methodName), action);
         }
         public EMethod ExecuteMethod<T1, T2, T3, T4>(string methodName, Action action = null)
         {
-            _methodTypes = typeHandler.GetGenericTypes<T1, T2, T3, T4>();
+            _methodTypes = MethodHelper.GetGenericTypes<T1, T2, T3, T4>();
             return Execute(GetCommonMethodInfo(methodName), action);
         }
         public EMethod ExecuteMethod<T1, T2, T3, T4, T5>(string methodName, Action action = null)
         {
-            _methodTypes = typeHandler.GetGenericTypes<T1, T2, T3, T4, T5>();
+            _methodTypes = MethodHelper.GetGenericTypes<T1, T2, T3, T4, T5>();
             return Execute(GetCommonMethodInfo(methodName), action);
         }
         public EMethod ExecuteMethod<T1, T2, T3, T4, T5, T6>(string methodName, Action action = null)
         {
-            _methodTypes = typeHandler.GetGenericTypes<T1, T2, T3, T4, T5, T6>();
+            _methodTypes = MethodHelper.GetGenericTypes<T1, T2, T3, T4, T5, T6>();
             return Execute(GetCommonMethodInfo(methodName), action);
         }
         public EMethod ExecuteMethod<T1, T2, T3, T4, T5, T6, T7>(string methodName, Action action = null)
         {
-            _methodTypes = typeHandler.GetGenericTypes<T1, T2, T3, T4, T5, T6, T7>();
+            _methodTypes = MethodHelper.GetGenericTypes<T1, T2, T3, T4, T5, T6, T7>();
             return Execute(GetCommonMethodInfo(methodName), action);
         }
         public EMethod ExecuteMethod<T1, T2, T3, T4, T5, T6, T7, T8>(string methodName, Action action = null)
         {
-            _methodTypes = typeHandler.GetGenericTypes<T1, T2, T3, T4, T5, T6, T7, T8>();
+            _methodTypes = MethodHelper.GetGenericTypes<T1, T2, T3, T4, T5, T6, T7, T8>();
             return Execute(GetCommonMethodInfo(methodName), action);
         }
         public EMethod ExecuteMethod(string methodName, params object[] parameters)
         {
-            _methodTypes = typeHandler.GetGenericTypes();
+            _methodTypes = MethodHelper.GetGenericTypes();
             return Execute(GetCommonMethodInfo(methodName), new object[0]);
         }
         public EMethod ExecuteMethod<T1>(string methodName, params object[] parameters)
         {
-            _methodTypes = typeHandler.GetGenericTypes<T1>();
+            _methodTypes = MethodHelper.GetGenericTypes<T1>();
             return Execute(GetCommonMethodInfo(methodName), parameters);
         }
         public EMethod ExecuteMethod<T1, T2>(string methodName, params object[] parameters)
         {
-            _methodTypes = typeHandler.GetGenericTypes<T1, T2>();
+            _methodTypes = MethodHelper.GetGenericTypes<T1, T2>();
             return Execute(GetCommonMethodInfo(methodName), parameters);
         }
         public EMethod ExecuteMethod<T1, T2, T3>(string methodName, params object[] parameters)
         {
-            _methodTypes = typeHandler.GetGenericTypes<T1, T2, T3>();
+            _methodTypes = MethodHelper.GetGenericTypes<T1, T2, T3>();
             return Execute(GetCommonMethodInfo(methodName), parameters);
         }
         public EMethod ExecuteMethod<T1, T2, T3, T4>(string methodName, params object[] parameters)
         {
-            _methodTypes = typeHandler.GetGenericTypes<T1, T2, T3, T4>();
+            _methodTypes = MethodHelper.GetGenericTypes<T1, T2, T3, T4>();
             return Execute(GetCommonMethodInfo(methodName), parameters);
         }
         public EMethod ExecuteMethod<T1, T2, T3, T4, T5>(string methodName, params object[] parameters)
         {
-            _methodTypes = typeHandler.GetGenericTypes<T1, T2, T3, T4, T5>();
+            _methodTypes = MethodHelper.GetGenericTypes<T1, T2, T3, T4, T5>();
             return Execute(GetCommonMethodInfo(methodName), parameters);
         }
         public EMethod ExecuteMethod<T1, T2, T3, T4, T5, T6>(string methodName, params object[] parameters)
         {
-            _methodTypes = typeHandler.GetGenericTypes<T1, T2, T3, T4, T5, T6>();
+            _methodTypes = MethodHelper.GetGenericTypes<T1, T2, T3, T4, T5, T6>();
             return Execute(GetCommonMethodInfo(methodName), parameters);
         }
         public EMethod ExecuteMethod<T1, T2, T3, T4, T5, T6, T7>(string methodName, params object[] parameters)
         {
-            _methodTypes = typeHandler.GetGenericTypes<T1, T2, T3, T4, T5, T6, T7>();
+            _methodTypes = MethodHelper.GetGenericTypes<T1, T2, T3, T4, T5, T6, T7>();
             return Execute(GetCommonMethodInfo(methodName), parameters);
         }
         public EMethod ExecuteMethod<T1, T2, T3, T4, T5, T6, T7, T8>(string methodName, params object[] parameters)
         {
-            _methodTypes = typeHandler.GetGenericTypes<T1, T2, T3, T4, T5, T6, T7, T8>();
+            _methodTypes = MethodHelper.GetGenericTypes<T1, T2, T3, T4, T5, T6, T7, T8>();
             return Execute(GetCommonMethodInfo(methodName), parameters);
         }
         public EMethod Execute(string methodName, params Type[] types)
@@ -228,7 +226,7 @@ namespace Natasha
                 {
                     if (instances[i] != null)
                     {
-                        EData.NoErrorLoad(instances[i], il);
+                        EmitHelper.NoErrorLoad(instances[i], il);
                     }
                 }
             }

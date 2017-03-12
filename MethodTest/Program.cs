@@ -12,7 +12,7 @@ namespace MethodTest
         static Func<string, bool> func;
         static void Main(string[] args)
         {
-            TestType();
+            //TestType();
             func = (str) =>
               {
                   if (str == "1")

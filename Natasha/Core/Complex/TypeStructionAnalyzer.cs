@@ -184,6 +184,10 @@ namespace Natasha.Core
                     }
                 }
             }
+            if (this is IDelayOperator)
+            {
+                ((IDelayOperator)this).Initialize();
+            }
         }
 
         public static bool CheckHaveDefautlConstructor(Type type)

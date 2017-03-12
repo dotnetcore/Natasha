@@ -1,5 +1,6 @@
 ﻿using Natasha.Cache;
 using Natasha.Core.Base;
+using Natasha.Debug;
 using Natasha.Utils;
 using System;
 using System.Collections.Generic;
@@ -9,8 +10,9 @@ using System.Reflection.Emit;
 namespace Natasha.Core
 {
     //对类和结构体的操作
-    public class ComplexType : TypeInitiator, IOperator
+    public class ComplexType : TypeInitiator, IOperator, IPacket, IDelayOperator
     {
+        private Dictionary<string, Func<EModel, string, object, EModel>> DelayDict;
         public ComplexType(Type parameter_Type)
             : base(parameter_Type)
         {
@@ -31,126 +33,9 @@ namespace Natasha.Core
 
 
         #region 运算接口
-        private List<string> DelayList;
 
-        private Action DDelayAction;
+       
 
-        private Action SDelayAction;
-
-        public Action<OpCode> CurrentDelayAction;
-
-        public Type CompareType;
-
-        private Action _delayAction;
-        public Action DelayAction
-        {
-            get
-            {
-                if (DelayList != null)
-                {
-                    string[] DelayArray = new string[DelayList.Count];
-                    int length = DelayList.Count;
-                    for (int i = 0; i < length; i += 1)
-                    {
-                        DelayArray[i] = DelayList[i];
-                    }
-
-                    Action action = () =>
-                    {
-                        ComplexType tempModel = this;
-                        for (int i = 0; i < DelayArray.Length - 1; i += 1)
-                        {
-                            tempModel = tempModel.LoadStruct(DelayArray[i]);
-                        }
-                        tempModel.Load(DelayArray[DelayArray.Length - 1]);
-                        _delayAction = null;
-                    };
-                    DelayList = null;
-                    _delayAction = action;
-                }
-                return _delayAction;
-            }
-            set { _delayAction = value; }
-        }
-        public void AddSelf()
-        {
-            CurrentDelayAction(OpCodes.Add);
-        }
-        public void SubSelf()
-        {
-            CurrentDelayAction(OpCodes.Sub);
-        }
-        public EModel LoadEnd()
-        {
-            string[] DelayArray = new string[DelayList.Count];
-            int length = DelayList.Count;
-            for (int i = 0; i < length; i += 1)
-            {
-                DelayArray[i] = DelayList[i];
-            }
-
-            Action action = () =>
-            {
-                ComplexType tempModel = this;
-                for (int i = 0; i < DelayArray.Length - 1; i += 1)
-                {
-                    tempModel = tempModel.LoadStruct(DelayArray[i]);
-                }
-                tempModel.Load(DelayArray[DelayArray.Length - 1]);
-            };
-            DelayAction = action;
-
-            CurrentDelayAction = (code) =>
-            {
-                Action setAction = () =>
-                {
-                    action();
-                    EData.LoadSelfObject(TypeHandler);
-                    ilHandler.Emit(code);
-                };
-                ComplexType tempModel = this;
-                for (int i = 0; i < DelayArray.Length - 1; i += 1)
-                {
-                    tempModel = tempModel.LoadStruct(DelayArray[i]);
-                }
-                tempModel.Set(DelayArray[DelayArray.Length - 1], setAction);
-            };
-            if (DDelayAction == null)
-            {
-                DDelayAction = action;
-            }
-            else
-            {
-                SDelayAction = action;
-            }
-            DelayList = null;
-            return (EModel)this;
-        }
-
-        public void RunCompareAction()
-        {
-            if (DDelayAction != null)
-            {
-                DDelayAction();
-                DDelayAction = null;
-                return;
-            }
-            if (SDelayAction != null)
-            {
-                SDelayAction();
-                SDelayAction = null;
-                return;
-            }
-        }
-        public EModel DLoad(string Name)
-        {
-            if (DelayList == null)
-            {
-                DelayList = new List<string>();
-            }
-            DelayList.Add(Name);
-            return (EModel)this;
-        }
 
         #endregion
 
@@ -187,7 +72,7 @@ namespace Natasha.Core
             {
                 return LProperty(memberName);
             }
-            return ELink.GetLink(null);
+            return EmitHelper.GetLink(null);
         }
 
         public EModel Load(string memberName)
@@ -200,7 +85,7 @@ namespace Natasha.Core
             {
                 return LProperty(memberName);
             }
-            return ELink.GetLink(null);
+            return EmitHelper.GetLink(null);
         }
         #endregion
 
@@ -236,7 +121,7 @@ namespace Natasha.Core
             }
             else
             {
-                EmitHelper.SetPublicProperty(This,info,value);
+                EmitHelper.SetPublicProperty(This, info, value);
             }
         }
         public void SProperty(string propertyName, Action action)
@@ -245,31 +130,6 @@ namespace Natasha.Core
         }
         #endregion
 
-        #region Method操作
-       
-        public ComplexType EMethod(MethodInfo methodInfo, object[] parameters)
-        {
-            if (!methodInfo.IsStatic)
-            {
-                This();
-            }
-            if (parameters != null)
-            {
-                for (int i = 0; i < parameters.Length; i += 1)
-                {
-                    EData.NoErrorLoad(parameters[i], ilHandler);
-                }
-            }
-
-            EmitHelper.CallMethod(TypeHandler, methodInfo);
-
-            if (methodInfo.ReturnType == typeof(bool))
-            {
-                ThreadCache.SetJudgeCode(OpCodes.Brfalse_S);
-            }
-            return ELink.GetLink(methodInfo.ReturnType);
-        }
-        #endregion
 
         #region 嵌套调用接口
         public EModel LFieldStructr(string fieldName)
@@ -298,7 +158,7 @@ namespace Natasha.Core
             {
                 ThreadCache.SetJudgeCode(OpCodes.Brfalse_S);
             }
-            return ELink.GetLink(CompareType);
+            return EmitHelper.GetLink(CompareType);
         }
         public EModel LProperty(string propertyName)
         {
@@ -317,7 +177,7 @@ namespace Natasha.Core
             {
                 ThreadCache.SetJudgeCode(OpCodes.Brfalse_S);
             }
-            return ELink.GetLink(CompareType);
+            return EmitHelper.GetLink(CompareType);
         }
         public EModel LField(string fieldName)
         {
@@ -331,14 +191,14 @@ namespace Natasha.Core
             //公有字段
             else
             {
-                 EmitHelper.LoadPublicField(This, info);
+                EmitHelper.LoadPublicField(This, info);
             }
             //如果单独加载了bool类型的值
             if (CompareType == typeof(bool))
             {
                 ThreadCache.SetJudgeCode(OpCodes.Brfalse_S);
             }
-            return ELink.GetLink(CompareType);
+            return EmitHelper.GetLink(CompareType);
         }
 
         #endregion
@@ -384,6 +244,193 @@ namespace Natasha.Core
                 return Struction.AttributeTree[MemberName].Values;
             }
             return null;
+        }
+        #endregion
+
+
+        #region 拆装箱
+
+       
+        public void Packet()
+        {
+            EmitHelper.Packet(CompareType);
+        }
+
+        public void UnPacket()
+        {
+            EmitHelper.UnPacket(CompareType);
+        }
+
+        public void InStackAndPacket()
+        {
+            Load();
+            EmitHelper.Packet(TypeHandler);
+        }
+
+        public void InStackAndUnPacket()
+        {
+            Load();
+            EmitHelper.UnPacket(TypeHandler);
+        }
+        #endregion
+        public void Initialize()
+        {
+            DelayDict = new Dictionary<string, Func<EModel, string, object, EModel>>();
+            DelayDict["LoadStruct"] = (model, key, value) => { return model.LoadStruct(key); };
+            DelayDict["Load"] = (model, key, value) => { return model.Load(key); };
+            DelayDict["Set"] = (model, key, value) => { model.Set(key, value); return model; };
+            DelayDict["Packet"] = (model, key, value) => { model.Packet(); return model; };
+            DelayDict["UnPacket"] = (model, key, value) => { model.UnPacket(); return model; };
+            DelayDict["InStackAndPacket"] = (model, key, value) => { model.InStackAndPacket(); return model; };
+            DelayDict["InStackAndUnPacket"] = (model, key, value) => { model.InStackAndUnPacket(); return model; };
+        }
+
+        #region 延迟加载
+
+        private List<Func<EModel, EModel>> tempDelayFunc;
+        private List<string> SelfAdd;
+        private EModel AddDelayFunc(string key, string Name, object value)
+        {
+            if (tempDelayFunc == null)
+            {
+                tempDelayFunc = new List<Func<EModel, EModel>>();
+            }
+            tempDelayFunc.Add((model) => { return DelayDict[key](model, Name, value); });
+            return (EModel)this;
+        }
+        public EModel DLoad(string Name)
+        {
+            if (SelfAdd == null)
+            {
+                SelfAdd = new List<string>();
+            }
+            SelfAdd.Add(Name);
+            return AddDelayFunc("Load", Name, null);
+        }
+        public EModel DLoadStruct(string Name)
+        {
+            return AddDelayFunc("LoadStruct", Name, null);
+        }
+        public EModel DPacket(string Name, object value)
+        {
+            return AddDelayFunc("Packet", Name, null);
+        }
+        public EModel DUnPacket(string Name, object value)
+        {
+            return AddDelayFunc("UnPacket", Name, null);
+        }
+        public EModel DInStackAndPacket(string Name, object value)
+        {
+            return AddDelayFunc("InStackAndPacket", Name, null);
+        }
+        public EModel DInStackAndUnPacket(string Name, object value)
+        {
+            return AddDelayFunc("InStackAndUnPacket", Name, null);
+        }
+        public EModel DSet(string Name, object value)
+        {
+            return AddDelayFunc("Set", Name, value);
+        }
+
+        public Action DelayAction
+        {
+            get
+            {
+                if (tempDelayFunc != null)
+                {
+                    _delayAction = GetDelayAction();
+                }
+                return _delayAction;
+            }
+            set { _delayAction = value; }
+        }
+
+        private Action GetDelayAction()
+        {
+            Func<EModel, EModel>[] funcArray = tempDelayFunc.ToArray();
+            Action action = () =>
+            {
+                EModel tempModel = (EModel)this;
+                for (int i = 0; i < funcArray.Length; i += 1)
+                {
+                    tempModel = funcArray[i](tempModel);
+                }
+                _delayAction = null;
+            };
+            string[] SelfOperatorArray = SelfAdd.ToArray();
+            CurrentDelayAction = (code) =>
+            {
+                Action setAction = () =>
+                {
+                    EModel loadModel = (EModel)this;
+                    for (int i = 0; i < funcArray.Length; i += 1)
+                    {
+                        loadModel = funcArray[i](loadModel);
+                    }
+                    EmitHelper.LoadSelfObject(TypeHandler);
+                    ilHandler.Emit(code);
+                    DebugHelper.WriteLine(code.Name);
+                };
+                ComplexType tempModel = this;
+
+                for (int i = 0; i < SelfOperatorArray.Length - 1; i += 1)
+                {
+                    tempModel = tempModel.LoadStruct(SelfOperatorArray[i]);
+                }
+                tempModel.Set(SelfOperatorArray[SelfOperatorArray.Length - 1], setAction);
+            };
+            SelfAdd = null;
+            tempDelayFunc = null;
+            return action;
+        }
+        public EModel LoadEnd()
+        {
+            Action action = GetDelayAction();
+            _delayAction = action;
+            if (DDelayAction == null)
+            {
+                DDelayAction = action;
+            }
+            else
+            {
+                SDelayAction = action;
+            }
+            return (EModel)this;
+        }
+
+        private Action DDelayAction;
+
+        private Action SDelayAction;
+
+        private Action<OpCode> CurrentDelayAction;
+
+        public Type CompareType;
+
+        private Action _delayAction;
+
+        public void AddSelf()
+        {
+            CurrentDelayAction(OpCodes.Add);
+        }
+        public void SubSelf()
+        {
+            CurrentDelayAction(OpCodes.Sub);
+        }
+
+        public void RunCompareAction()
+        {
+            if (DDelayAction != null)
+            {
+                DDelayAction();
+                DDelayAction = null;
+                return;
+            }
+            if (SDelayAction != null)
+            {
+                SDelayAction();
+                SDelayAction = null;
+                return;
+            }
         }
         #endregion
     }

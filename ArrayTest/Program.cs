@@ -27,11 +27,12 @@ namespace ArrayTest
                 EVar doubleHandler = 0.00;
                 EJudge.If(EDefault.IsDefault(doubleHandler.TypeHandler, () => { doubleHandler.Load(); }))(() =>
                 {
+                    EMethod.Load(typeof(Console)).ExecuteMethod<string>("WriteLine", "doubleHandler是默认值");
 
                 }).Else(() =>
                 {
-                    doubleHandler.LoadAddress();
-                    stringHandler.ilHandler.Emit(OpCodes.Call, methodInfoHelper.GetMethodInfo<double>("WriteLine"));
+                    doubleHandler.This();
+                    methodInfoHelper.ExecuteMethod<double>("WriteLine");
                 });
             }).Compile());
             action();
@@ -45,8 +46,8 @@ namespace ArrayTest
                 EVar Int_2 = 2;
 
                 EArray objectArray = EArray.CreateArraySpecifiedLength<object>(2);
-                objectArray.StoreArray(0, () => { EPacket.Packet(Int_1); });
-                objectArray.StoreArray(1, () => { EPacket.Packet(Int_2); });
+                objectArray.StoreArray(0, Int_1.InStackAndPacket);
+                objectArray.StoreArray(1, Int_2.InStackAndPacket);
 
                 EJudge.
                 If(Int_1 > 2)(() =>

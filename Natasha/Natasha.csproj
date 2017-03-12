@@ -44,10 +44,12 @@
     <Compile Include="Cache\ClassCache.cs" />
     <Compile Include="Cache\ThreadCache.cs" />
     <Compile Include="Core\Array\ArrayBase.cs" />
+    <Compile Include="Core\Base\IDelayOperator.cs" />
     <Compile Include="Core\Base\IIterator.cs" />
     <Compile Include="Core\Base\ILGeneratorBase.cs" />
     <Compile Include="Core\Base\ILoadInstance.cs" />
     <Compile Include="Core\Base\IOperator.cs" />
+    <Compile Include="Core\Base\IPacket.cs" />
     <Compile Include="Core\Complex\ComplexType.cs" />
     <Compile Include="Core\Complex\TypeInitiator.cs" />
     <Compile Include="Core\Complex\TypeStructionAnalyzer.cs" />
@@ -62,7 +64,6 @@
     <Compile Include="Main\EMethod.cs" />
     <Compile Include="Main\EModel.cs" />
     <Compile Include="Main\EPacket.cs" />
-    <Compile Include="Main\EStack.cs" />
     <Compile Include="Main\EVar.cs" />
     <Compile Include="Model\ClassStruction.cs" />
     <Compile Include="Model\EDBNull.cs" />
@@ -72,11 +73,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\EClone.cs" />
     <Compile Include="Differentiation\EmitHelper.cs" />
-    <Compile Include="Differentiation\EData.cs" />
-    <Compile Include="Utils\ELink.cs" />
     <Compile Include="Utils\EReflector.cs" />
     <Compile Include="Utils\EStruckCheck.cs" />
-    <Compile Include="Utils\GenericTypes.cs" />
+    <Compile Include="Differentiation\MethodHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

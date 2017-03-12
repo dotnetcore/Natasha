@@ -6,7 +6,7 @@ using System.Reflection.Emit;
 
 namespace Natasha.Core.Base
 {
-    public abstract class SingleType : TypeInitiator,IOperator
+    public abstract class SingleType : TypeInitiator,IOperator,IPacket
     {
 
         public SingleType(Type type)
@@ -35,12 +35,12 @@ namespace Natasha.Core.Base
             if (Builder != null)
             {
                 ilHandler.Emit(OpCodes.Stloc_S, Builder);
-                DebugHelper.WriteLine("Stloc_S " + Builder.LocalIndex);
+                DebugHelper.WriteLine("Stloc_S", Builder.LocalIndex);
             }
             else if (ParameterIndex != -1)
             {
                 ilHandler.Emit(OpCodes.Starg_S, ParameterIndex);
-                DebugHelper.WriteLine("Starg_S " + ParameterIndex);
+                DebugHelper.WriteLine("Starg_S", ParameterIndex);
             }
         }
         public void Store(Action action)
@@ -49,7 +49,7 @@ namespace Natasha.Core.Base
         }
         public void Store(object value)
         {
-            EData.NoErrorLoad(value, ilHandler);
+            EmitHelper.NoErrorLoad(value, ilHandler);
             Store();
         }
         public void StoreNull()
@@ -61,29 +61,24 @@ namespace Natasha.Core.Base
                 Store();
             }
         }
+
+        public void InStackAndPacket()
+        {
+            Load();
+            EmitHelper.Packet(TypeHandler);
+        }
+        public void InStackAndUnPacket()
+        {
+            Load();
+            EmitHelper.UnPacket(TypeHandler);
+        }
         public void Packet()
         {
-            if (TypeHandler.IsValueType)
-            {
-                Load();
-                ilHandler.Emit(OpCodes.Box, TypeHandler);
-                DebugHelper.WriteLine("Box "+ TypeHandler.Name);
-            }
+            EmitHelper.Packet(TypeHandler);
         }
         public void UnPacket()
         {
-            if (TypeHandler.IsClass)
-            {
-                Load();
-                ilHandler.Emit(OpCodes.Castclass, TypeHandler);
-                DebugHelper.WriteLine("Castclass " + TypeHandler.Name);
-            }
-            else
-            {
-                Load();
-                ilHandler.Emit(OpCodes.Unbox_Any, TypeHandler);
-                DebugHelper.WriteLine("Unbox_Any " + TypeHandler.Name);
-            }
+            EmitHelper.UnPacket(TypeHandler);
         }
         #endregion
 
@@ -98,14 +93,14 @@ namespace Natasha.Core.Base
         public void AddSelf()
         {
             this.Load();
-            EData.LoadSelfObject(this.TypeHandler);
+            EmitHelper.LoadSelfObject(this.TypeHandler);
             this.ilHandler.Emit(OpCodes.Add);
             DebugHelper.WriteLine("Add");
         }
         public void SubSelf()
         {
             this.Load();
-            EData.LoadSelfObject(this.TypeHandler);
+            EmitHelper.LoadSelfObject(this.TypeHandler);
             this.ilHandler.Emit(OpCodes.Sub);
             DebugHelper.WriteLine("Sub");
         }
