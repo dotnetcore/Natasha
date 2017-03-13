@@ -49,7 +49,7 @@ namespace Natasha.Core.Base
         }
         public void Store(object value)
         {
-            EmitHelper.NoErrorLoad(value, ilHandler);
+            DataHelper.NoErrorLoad(value, ilHandler);
             Store();
         }
         public void StoreNull()
@@ -65,25 +65,23 @@ namespace Natasha.Core.Base
         public void InStackAndPacket()
         {
             Load();
-            EmitHelper.Packet(TypeHandler);
+            OperatorHelper.Packet(TypeHandler);
         }
         public void InStackAndUnPacket()
         {
             Load();
-            EmitHelper.UnPacket(TypeHandler);
+            OperatorHelper.UnPacket(TypeHandler);
         }
         public void Packet()
         {
-            EmitHelper.Packet(TypeHandler);
+            OperatorHelper.Packet(TypeHandler);
         }
         public void UnPacket()
         {
-            EmitHelper.UnPacket(TypeHandler);
+            OperatorHelper.UnPacket(TypeHandler);
         }
         #endregion
 
-        #region 运算
-        #endregion
 
         #region 运算接口
         public void RunCompareAction()
@@ -93,16 +91,14 @@ namespace Natasha.Core.Base
         public void AddSelf()
         {
             this.Load();
-            EmitHelper.LoadSelfObject(this.TypeHandler);
-            this.ilHandler.Emit(OpCodes.Add);
-            DebugHelper.WriteLine("Add");
+            DataHelper.LoadSelfObject(this.TypeHandler);
+            OperatorHelper.Add();
         }
         public void SubSelf()
         {
             this.Load();
-            EmitHelper.LoadSelfObject(this.TypeHandler);
-            this.ilHandler.Emit(OpCodes.Sub);
-            DebugHelper.WriteLine("Sub");
+            DataHelper.LoadSelfObject(this.TypeHandler);
+            OperatorHelper.Sub();
         }
         #endregion
        

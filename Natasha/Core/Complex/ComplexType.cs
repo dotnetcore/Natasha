@@ -30,11 +30,9 @@ namespace Natasha.Core
         {
         }
 
-
-
         #region 运算接口
 
-       
+
 
 
         #endregion
@@ -96,11 +94,11 @@ namespace Natasha.Core
             FieldInfo info = Struction.Fields[fieldName];
             if (!info.IsPublic)
             {
-                EmitHelper.SetPrivateField(Load, info, value);
+                MemberHelper.SetPrivateField(Load, info, value);
             }
             else
             {
-                EmitHelper.SetPublicField(This, info, value);
+                MemberHelper.SetPublicField(This, info, value);
             }
         }
 
@@ -117,11 +115,11 @@ namespace Natasha.Core
             MethodInfo method = info.GetSetMethod(true);
             if (!method.IsPublic)
             {
-                EmitHelper.SetPrivateProperty(Load, info, value);
+                MemberHelper.SetPrivateProperty(Load, info, value);
             }
             else
             {
-                EmitHelper.SetPublicProperty(This, info, value);
+                MemberHelper.SetPublicProperty(This, info, value);
             }
         }
         public void SProperty(string propertyName, Action action)
@@ -129,7 +127,6 @@ namespace Natasha.Core
             SProperty(propertyName, (object)action);
         }
         #endregion
-
 
         #region 嵌套调用接口
         public EModel LFieldStructr(string fieldName)
@@ -139,18 +136,18 @@ namespace Natasha.Core
             //私有字段
             if (!info.IsPublic)
             {
-                EmitHelper.LoadPrivateField(Load, info);
+                MemberHelper.LoadPrivateField(Load, info);
             }
             //公有字段
             else
             {
                 if (info.FieldType.IsValueType && !info.FieldType.IsPrimitive)
                 {
-                    EmitHelper.LoadPublicStructField(This, info);
+                    MemberHelper.LoadPublicStructField(This, info);
                 }
                 else
                 {
-                    EmitHelper.LoadPublicField(This, info);
+                    MemberHelper.LoadPublicField(This, info);
                 }
             }
             //如果单独加载了bool类型的值
@@ -167,11 +164,11 @@ namespace Natasha.Core
             MethodInfo method = info.GetGetMethod(true);
             if (!method.IsPublic)
             {
-                EmitHelper.LoadPrivateProperty(Load, info);
+                MemberHelper.LoadPrivateProperty(Load, info);
             }
             else
             {
-                EmitHelper.LoadPublicProperty(This, info);
+                MemberHelper.LoadPublicProperty(This, info);
             }
             if (CompareType == typeof(bool))
             {
@@ -186,12 +183,12 @@ namespace Natasha.Core
             //私有字段
             if (!info.IsPublic)
             {
-                EmitHelper.LoadPrivateField(Load, info);
+                MemberHelper.LoadPrivateField(Load, info);
             }
             //公有字段
             else
             {
-                EmitHelper.LoadPublicField(This, info);
+                MemberHelper.LoadPublicField(This, info);
             }
             //如果单独加载了bool类型的值
             if (CompareType == typeof(bool))
@@ -202,7 +199,6 @@ namespace Natasha.Core
         }
 
         #endregion
-
 
         #region 调用属性
         private string MemberName;
@@ -247,32 +243,37 @@ namespace Natasha.Core
         }
         #endregion
 
-
         #region 拆装箱
 
-       
+
         public void Packet()
         {
-            EmitHelper.Packet(CompareType);
+            OperatorHelper.Packet(CompareType);
         }
 
         public void UnPacket()
         {
-            EmitHelper.UnPacket(CompareType);
+            OperatorHelper.UnPacket(CompareType);
         }
 
         public void InStackAndPacket()
         {
             Load();
-            EmitHelper.Packet(TypeHandler);
+            OperatorHelper.Packet(TypeHandler);
         }
 
         public void InStackAndUnPacket()
         {
             Load();
-            EmitHelper.UnPacket(TypeHandler);
+            OperatorHelper.UnPacket(TypeHandler);
         }
         #endregion
+
+        #region 延迟加载
+
+        private List<Func<EModel, EModel>> tempDelayFunc;
+        private List<string> SelfAdd;
+
         public void Initialize()
         {
             DelayDict = new Dictionary<string, Func<EModel, string, object, EModel>>();
@@ -284,11 +285,6 @@ namespace Natasha.Core
             DelayDict["InStackAndPacket"] = (model, key, value) => { model.InStackAndPacket(); return model; };
             DelayDict["InStackAndUnPacket"] = (model, key, value) => { model.InStackAndUnPacket(); return model; };
         }
-
-        #region 延迟加载
-
-        private List<Func<EModel, EModel>> tempDelayFunc;
-        private List<string> SelfAdd;
         private EModel AddDelayFunc(string key, string Name, object value)
         {
             if (tempDelayFunc == null)
@@ -367,7 +363,7 @@ namespace Natasha.Core
                     {
                         loadModel = funcArray[i](loadModel);
                     }
-                    EmitHelper.LoadSelfObject(TypeHandler);
+                    DataHelper.LoadSelfObject(TypeHandler);
                     ilHandler.Emit(code);
                     DebugHelper.WriteLine(code.Name);
                 };
@@ -416,7 +412,6 @@ namespace Natasha.Core
         {
             CurrentDelayAction(OpCodes.Sub);
         }
-
         public void RunCompareAction()
         {
             if (DDelayAction != null)
@@ -430,6 +425,53 @@ namespace Natasha.Core
                 SDelayAction();
                 SDelayAction = null;
                 return;
+            }
+        }
+        #endregion
+
+        #region 数据填充
+        public void Store(Action action)
+        {
+            if (action != null)
+            {
+                action();
+            }
+            Store();
+        }
+        public void Store()
+        {
+            if (Builder != null)
+            {
+                if (Builder.LocalIndex > 3)
+                {
+                    ilHandler.Emit(OpCodes.Stloc_S, Builder.LocalIndex);
+                    DebugHelper.WriteLine("Stloc_S", Builder.LocalIndex);
+                }
+                else if (Builder.LocalIndex == 0)
+                {
+                    ilHandler.Emit(OpCodes.Stloc_0);
+                    DebugHelper.WriteLine("Stloc_0");
+                }
+                else if (Builder.LocalIndex == 1)
+                {
+                    ilHandler.Emit(OpCodes.Stloc_1);
+                    DebugHelper.WriteLine("Stloc_1");
+                }
+                else if (Builder.LocalIndex == 2)
+                {
+                    ilHandler.Emit(OpCodes.Stloc_2);
+                    DebugHelper.WriteLine("Stloc_2");
+                }
+                else if (Builder.LocalIndex == 3)
+                {
+                    ilHandler.Emit(OpCodes.Stloc_3);
+                    DebugHelper.WriteLine("Stloc_3");
+                }
+            }
+            if (ParameterIndex != -1)
+            {
+                ilHandler.Emit(OpCodes.Starg_S, ParameterIndex);
+                DebugHelper.WriteLine("Starg_S", ParameterIndex);
             }
         }
         #endregion

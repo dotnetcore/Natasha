@@ -43,7 +43,7 @@ namespace Natasha.Utils
 
                         }).Else(() =>
                         {
-                            EmitHelper.ReturnValue(false);
+                            MethodHelper.ReturnValue(false);
                         });
 
                     }
@@ -54,7 +54,7 @@ namespace Natasha.Utils
 
                         }).Else(() =>
                         {
-                            EmitHelper.ReturnValue(false);
+                            MethodHelper.ReturnValue(false);
                         });
                     }
                 }
@@ -73,7 +73,7 @@ namespace Natasha.Utils
 
                        }).Else(() =>
                        {
-                           EmitHelper.ReturnValue(false);
+                           MethodHelper.ReturnValue(false);
                        });
                     }
                     else if (type.IsClass)
@@ -83,12 +83,12 @@ namespace Natasha.Utils
 
                         }).Else(() =>
                         {
-                            EmitHelper.ReturnValue(false);
+                            MethodHelper.ReturnValue(false);
                         });
                     }
                 }
                 #endregion
-                EmitHelper.LoadObject(true);
+                DataHelper.LoadObject(true);
             }, "Check").Compile(typeof(CheckStructDelegate));
             ClassCache.CheckStructDict[TypeHandler] = (CheckStructDelegate)func;
         }

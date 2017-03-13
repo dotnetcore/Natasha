@@ -1,4 +1,4 @@
-﻿namespace Natasha.Core.Base
+﻿namespace Natasha.Core
 {
     public interface IDelayOperator
     {

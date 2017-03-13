@@ -34,7 +34,7 @@ namespace Natasha.Core
             {
                 ilHandler.Emit(OpCodes.Ldloca_S, Builder);
                 DebugHelper.WriteLine("Ldloca_S", Builder.LocalIndex);
-                EmitHelper.InitObject(TypeHandler);
+                OperatorHelper.InitObject(TypeHandler);
             }
 
         }
@@ -86,7 +86,7 @@ namespace Natasha.Core
                 }
                 else if (TypeHandler !=null && (TypeHandler.IsPrimitive || TypeHandler == typeof(string)))
                 {
-                    EmitHelper.LoadObject(Value);
+                    DataHelper.LoadObject(Value);
                 }
             }
             else if (ParameterIndex == 0)
@@ -128,12 +128,19 @@ namespace Natasha.Core
                 {
                     if (Builder != null)
                     {
-                        ilHandler.Emit(EmitHelper.GetLoadCode(TypeHandler), Builder);
-                        DebugHelper.WriteLine(Builder.LocalIndex.ToString());
+                        if (Builder.LocalIndex>3)
+                        {
+                            ilHandler.Emit(EmitHelper.GetLoadCode(TypeHandler), Builder);
+                            DebugHelper.WriteLine(Builder.LocalIndex.ToString());
+                        }
+                        else
+                        {
+                            ilHandler.Emit(EmitHelper.GetLoadCode(TypeHandler));
+                        }
                     }
                     else if (TypeHandler.IsPrimitive || TypeHandler == typeof(string))
                     {
-                        EmitHelper.LoadObject(Value);
+                        DataHelper.LoadObject(Value);
                     }
                     else
                     {

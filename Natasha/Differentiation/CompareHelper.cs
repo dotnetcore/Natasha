@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Natasha.Core
+namespace Natasha.Differentiation
 {
-    public interface IOperator
+    public class CompareHelper
     {
-        void RunCompareAction();
-        void AddSelf();
-        void SubSelf();
+        public static void EQU()
+        {
+
+        }
     }
 }

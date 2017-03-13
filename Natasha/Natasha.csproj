@@ -55,6 +55,10 @@
     <Compile Include="Core\Complex\TypeStructionAnalyzer.cs" />
     <Compile Include="Core\Single\SingleType.cs" />
     <Compile Include="Debug\DebugHelper.cs" />
+    <Compile Include="Differentiation\CompareHelper.cs" />
+    <Compile Include="Differentiation\DataHelper.cs" />
+    <Compile Include="Differentiation\MemberHelper.cs" />
+    <Compile Include="Differentiation\OperatorHelper.cs" />
     <Compile Include="Main\ClassBuilder.cs" />
     <Compile Include="Main\ClassHandler.cs" />
     <Compile Include="Main\EArray.cs" />

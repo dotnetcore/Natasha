@@ -4,6 +4,7 @@ using Natasha.Utils;
 using Natasha.Core.Base;
 using Natasha.Cache;
 using Natasha.Debug;
+using Natasha.Core;
 
 namespace Natasha
 {
@@ -93,7 +94,7 @@ namespace Natasha
         public static EVar CreateVarFromObject(object value, Type type)
         {
             EVar model = CreateVar(type);
-            EmitHelper.LoadObject(value);
+            DataHelper.LoadObject(value);
             model.Store();
             model.Value = value;
             return model;
@@ -159,96 +160,29 @@ namespace Natasha
 
 
         #region 运算
-
         public static Action operator +(EVar source, object dest)
         {
-            return () =>
-            {
-                source.RunCompareAction();
-                if (dest is IOperator)
-                {
-                    ((IOperator)dest).RunCompareAction();
-                }
-                else
-                {
-                    EmitHelper.LoadObject(dest);
-                }
-                source.ilHandler.Emit(OpCodes.Add);
-                DebugHelper.WriteLine("Add");
-            };
-
+            return OperatorHelper.CreateOperatorAction(source, dest, OperatorHelper.Add);
         }
 
         public static Action operator -(EVar source, object dest)
         {
-            return () =>
-            {
-                source.RunCompareAction();
-                if (dest is IOperator)
-                {
-                    ((IOperator)dest).RunCompareAction();
-                }
-                else
-                {
-                    EmitHelper.LoadObject(dest);
-                }
-                source.ilHandler.Emit(OpCodes.Sub);
-                DebugHelper.WriteLine("Sub");
-            };
+            return OperatorHelper.CreateOperatorAction(source, dest, OperatorHelper.Sub);
         }
 
         public static Action operator *(EVar source, object dest)
         {
-            return () =>
-            {
-                source.RunCompareAction();
-                if (dest is IOperator)
-                {
-                    ((IOperator)dest).RunCompareAction();
-                }
-                else
-                {
-                    EmitHelper.LoadObject(dest);
-                }
-                source.ilHandler.Emit(OpCodes.Mul);
-                DebugHelper.WriteLine("Mul");
-            };
+            return OperatorHelper.CreateOperatorAction(source, dest, OperatorHelper.Mul);
         }
 
         public static Action operator /(EVar source, object dest)
         {
-            return () =>
-            {
-                source.RunCompareAction();
-                if (dest is IOperator)
-                {
-                    ((IOperator)dest).RunCompareAction();
-                }
-                else
-                {
-                    EmitHelper.LoadObject(dest);
-                }
-                source.ilHandler.Emit(OpCodes.Div);
-                DebugHelper.WriteLine("Div");
-            };
+            return OperatorHelper.CreateOperatorAction(source, dest, OperatorHelper.Div);
         }
 
         public static Action operator %(EVar source, object dest)
         {
-            return () =>
-            {
-                source.RunCompareAction();
-                if (dest is IOperator)
-                {
-                    ((IOperator)dest).RunCompareAction();
-                }
-                else
-                {
-                    EmitHelper.LoadObject(dest);
-                }
-                source.ilHandler.Emit(OpCodes.Rem);
-                DebugHelper.WriteLine("Rem");
-            };
+            return OperatorHelper.CreateOperatorAction(source, dest, OperatorHelper.Rem);
         }
 
         public static Action operator >>(EVar source, int dest)
@@ -256,175 +190,65 @@ namespace Natasha
             return () =>
             {
                 source.RunCompareAction();
-                if (dest<255)
-                {
-                    source.ilHandler.Emit(OpCodes.Ldc_I4_S, dest);
-                    DebugHelper.WriteLine("Ldc_I4_S", dest);
-                }
-                else
-                {
-                    source.ilHandler.Emit(OpCodes.Ldc_I4, dest);
-                    DebugHelper.WriteLine("Ldc_I4", dest);
-                }
-                
-                source.ilHandler.Emit(OpCodes.Ldc_I4_S, 31);
-                source.ilHandler.Emit(OpCodes.And);
-                source.ilHandler.Emit(OpCodes.Shr);
-
-               
-                DebugHelper.WriteLine("Ldc_I4_S", 31);
-                DebugHelper.WriteLine("And");
-                DebugHelper.WriteLine("Shr");
+                OperatorHelper.Shr(dest);
             };
         }
         public static Action operator <<(EVar source, int dest)
         {
             return () =>
             {
-                ILGenerator il = ThreadCache.GetIL();
                 source.RunCompareAction();
-                if (dest < 255)
-                {
-                    source.ilHandler.Emit(OpCodes.Ldc_I4_S, dest);
-                    DebugHelper.WriteLine("Ldc_I4_S", dest);
-                }
-                else
-                {
-                    source.ilHandler.Emit(OpCodes.Ldc_I4, dest);
-                    DebugHelper.WriteLine("Ldc_I4", dest);
-                }
-                source.ilHandler.Emit(OpCodes.Ldc_I4_S, 31);
-                source.ilHandler.Emit(OpCodes.And);
-                source.ilHandler.Emit(OpCodes.Shl);
-
-                DebugHelper.WriteLine("Ldc_I4_S", 31);
-                DebugHelper.WriteLine("And");
-                DebugHelper.WriteLine("Shl");
+                OperatorHelper.Shl(dest);
             };
         }
         public static Action operator |(EVar source, object dest)
         {
-            return () =>
-            {
-                source.RunCompareAction();
-                if (dest is IOperator)
-                {
-                    ((IOperator)dest).RunCompareAction();
-                }
-                else
-                {
-                    EmitHelper.LoadObject(dest);
-                }
-                source.ilHandler.Emit(OpCodes.Or);
-                DebugHelper.WriteLine("Or");
-            };
+            return OperatorHelper.CreateOperatorAction(source, dest, OperatorHelper.Or);
         }
 
         public static Action operator &(EVar source, object dest)
         {
-            return () =>
-            {
-                source.RunCompareAction();
-                if (dest is IOperator)
-                {
-                    ((IOperator)dest).RunCompareAction();
-                }
-                else
-                {
-                    EmitHelper.LoadObject(dest);
-                }
-                source.ilHandler.Emit(OpCodes.And);
-                DebugHelper.WriteLine("And");
-            };
+            return OperatorHelper.CreateOperatorAction(source, dest, OperatorHelper.And);
         }
 
         public static Action operator >(EVar source, object dest)
         {
-            ThreadCache.SetJudgeCode(OpCodes.Ble_S);
-            return () =>
-            {
-                source.RunCompareAction();
-                if (dest is IOperator)
-                {
-                    ((IOperator)dest).RunCompareAction();
-                }
-                else
-                {
-                    EmitHelper.LoadObject(dest);
-                }
-            };
+            return OperatorHelper.CreateCompareAction(source, dest, OpCodes.Ble_S);
         }
         public static Action operator <(EVar source, object dest)
         {
-            ThreadCache.SetJudgeCode(OpCodes.Bge_S);
-            return () =>
-            {
-                source.RunCompareAction();
-                if (dest is IOperator)
-                {
-                    ((IOperator)dest).RunCompareAction();
-                }
-                else
-                {
-                    EmitHelper.LoadObject(dest);
-                }
-            };
+            return OperatorHelper.CreateCompareAction(source, dest, OpCodes.Bge_S);
         }
 
         public static Action operator <=(EVar source, object dest)
         {
-            ThreadCache.SetJudgeCode(OpCodes.Bgt_S);
-            return () =>
-            {
-                source.RunCompareAction();
-                if (dest is IOperator)
-                {
-                    ((IOperator)dest).RunCompareAction();
-                }
-                else
-                {
-                    EmitHelper.LoadObject(dest);
-                }
-            };
+            return OperatorHelper.CreateCompareAction(source, dest, OpCodes.Bgt_S);
         }
         public static Action operator >=(EVar source, object dest)
         {
-            ThreadCache.SetJudgeCode(OpCodes.Blt_S);
-            return () =>
-            {
-                source.RunCompareAction();
-                if (dest is IOperator)
-                {
-                    ((IOperator)dest).RunCompareAction();
-                }
-                else
-                {
-                    EmitHelper.LoadObject(dest);
-                }
-            };
+            return OperatorHelper.CreateCompareAction(source, dest, OpCodes.Blt_S);
         }
 
         public static Action operator ==(EVar source, object dest)
         {
-            if (source.TypeHandler.IsValueType && source.TypeHandler.IsPrimitive)
-            {
-                ThreadCache.SetJudgeCode(OpCodes.Bne_Un_S);
-            }
-            else
-            {
-                ThreadCache.SetJudgeCode(OpCodes.Brfalse_S);
-            }
-
             return () =>
             {
                 source.RunCompareAction();
+                if (source.TypeHandler.IsValueType && source.TypeHandler.IsPrimitive)
+                {
+                    ThreadCache.SetJudgeCode(OpCodes.Bne_Un_S);
+                }
+                else
+                {
+                    ThreadCache.SetJudgeCode(OpCodes.Brfalse_S);
+                }
                 if (dest is IOperator)
                 {
                     ((IOperator)dest).RunCompareAction();
                 }
                 else
                 {
-                    EmitHelper.LoadObject(dest);
+                    DataHelper.LoadObject(dest);
                 }
 
                 if (source.TypeHandler == typeof(string))
@@ -436,24 +260,25 @@ namespace Natasha
         }
         public static Action operator !=(EVar source, object dest)
         {
-            if (source.TypeHandler.IsValueType && source.TypeHandler.IsPrimitive)
-            {
-                ThreadCache.SetJudgeCode(OpCodes.Beq_S);
-            }
-            else
-            {
-                ThreadCache.SetJudgeCode(OpCodes.Brtrue_S);
-            }
+            
             return () =>
             {
                 source.RunCompareAction();
+                if (source.TypeHandler.IsValueType && source.TypeHandler.IsPrimitive)
+                {
+                    ThreadCache.SetJudgeCode(OpCodes.Beq_S);
+                }
+                else
+                {
+                    ThreadCache.SetJudgeCode(OpCodes.Brtrue_S);
+                }
                 if (dest is IOperator)
                 {
                     ((IOperator)dest).RunCompareAction();
                 }
                 else
                 {
-                    EmitHelper.LoadObject(dest);
+                    DataHelper.LoadObject(dest);
                 }
 
                 if (source.TypeHandler == typeof(string))

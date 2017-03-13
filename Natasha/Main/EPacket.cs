@@ -24,7 +24,7 @@ namespace Natasha
         //指定类型，对指定操作类的变量进行装箱
         public static void Packet(Type type,  object value)
         {
-            Packet(type, () => { EmitHelper.NoErrorLoad(value, ThreadCache.GetIL()); });
+            Packet(type, () => { DataHelper.NoErrorLoad(value, ThreadCache.GetIL()); });
         }
         public static void Packet(Type type,Action loadAction)
         {
@@ -48,7 +48,7 @@ namespace Natasha
         }
         public static void UnPacket(Type type, object value)
         {
-            UnPacket(type, () => { EmitHelper.NoErrorLoad(value, ThreadCache.GetIL()); });
+            UnPacket(type, () => { DataHelper.NoErrorLoad(value, ThreadCache.GetIL()); });
         }
 
         public static void UnPacket(Type type,Action loadAction)

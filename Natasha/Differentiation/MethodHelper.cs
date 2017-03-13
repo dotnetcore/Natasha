@@ -1,9 +1,14 @@
-﻿using System;
+﻿using Natasha.Cache;
+using Natasha.Debug;
+using System;
+using System.Reflection;
+using System.Reflection.Emit;
 
 namespace Natasha.Utils
 {
-    public class MethodHelper
+    public static class MethodHelper
     {
+        
         public static Type[] GetGenericTypes()
         {
             return new Type[0];
@@ -97,6 +102,36 @@ namespace Natasha.Utils
             methodParameterTypes[7] = typeof(T8);
             methodParameterTypes[8] = typeof(T9);
             return methodParameterTypes;
+        }
+
+        public static void CallMethod(Type type, MethodInfo info)
+        {
+            ILGenerator il = ThreadCache.GetIL();
+            if (type.IsValueType || info.IsStatic)
+            {
+                DebugHelper.WriteLine("Call", info.Name);
+                il.Emit(OpCodes.Call, info);
+            }
+            else
+            {
+                DebugHelper.WriteLine("Callvirt", info.Name);
+                il.Emit(OpCodes.Callvirt, info);
+            }
+        }
+
+        //返回
+        public static void Return()
+        {
+            ILGenerator il = ThreadCache.GetIL();
+            il.Emit(OpCodes.Ret);
+            DebugHelper.WriteLine("Ret");
+        }
+
+        //压栈并返回
+        public static void ReturnValue(object value)
+        {
+            DataHelper.NoErrorLoad(value, ThreadCache.GetIL());
+            Return();
         }
     }
 }

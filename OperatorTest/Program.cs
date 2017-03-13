@@ -108,7 +108,7 @@ namespace OperatorTest
 
                 EJudge.If(emit_A == model.DLoad("Field").Operator)(() =>
                 {
-                    method.ExecuteMethod<int>("WriteLine", 10);
+                    method.ExecuteMethod<string>("WriteLine", "相等");
 
                 }).ElseIf(emit_A > emit_B)(() =>
                 {
@@ -122,7 +122,7 @@ namespace OperatorTest
 
 
 
-                EVar string_A = "3";
+                EVar string_A = "6";
                 EVar string_B = "2";
 
                 EJudge.If(string_A == "1")(() =>

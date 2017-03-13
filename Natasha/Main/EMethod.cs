@@ -206,7 +206,7 @@ namespace Natasha
             {
                 action();
             }
-            EmitHelper.CallMethod(_typeHandler, info);
+            MethodHelper.CallMethod(_typeHandler, info);
             if (info.ReturnType != null)
             {
                 EMethod newMethod = info.ReturnType;
@@ -226,11 +226,11 @@ namespace Natasha
                 {
                     if (instances[i] != null)
                     {
-                        EmitHelper.NoErrorLoad(instances[i], il);
+                        DataHelper.NoErrorLoad(instances[i], il);
                     }
                 }
             }
-            EmitHelper.CallMethod(_typeHandler, info);
+            MethodHelper.CallMethod(_typeHandler, info);
             if (info.ReturnType != null)
             {
                 EMethod newMethod = info.ReturnType;

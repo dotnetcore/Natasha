@@ -145,13 +145,13 @@ namespace Natasha.Core
         }
         public void StoreArray(Action actionIndex, object value)
         {
-            StoreArray(actionIndex, () => { EmitHelper.NoErrorLoad(value,ilHandler); });
+            StoreArray(actionIndex, () => { DataHelper.NoErrorLoad(value,ilHandler); });
         }
         public void StoreArray(object builderIndex, object value)
         {
             Load();
-            EmitHelper.NoErrorLoad(builderIndex,ilHandler);
-            EmitHelper.NoErrorLoad(value, ilHandler);
+            DataHelper.NoErrorLoad(builderIndex,ilHandler);
+            DataHelper.NoErrorLoad(value, ilHandler);
             //枚举以及结构体填充方式
             if (BaseType != null && ArrayIsStruct)
             {
@@ -215,7 +215,7 @@ namespace Natasha.Core
             This();
             LoadArray(() =>
             {
-                EmitHelper.NoErrorLoad(instance,ilHandler);
+                DataHelper.NoErrorLoad(instance,ilHandler);
             });
         }
     }
