@@ -5,10 +5,6 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Natasha", "Natasha\Natasha.csproj", "{B236D37F-45ED-43BD-A508-304343C64C7E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingleTest", "SingleTest\SingleTest.csproj", "{CDB0D4C8-49BE-4663-8C2E-44DA85DC345C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComplexTest", "ComplexTest\ComplexTest.csproj", "{6422F494-5BF6-4C71-801C-951DF5D5A342}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArrayTest", "ArrayTest\ArrayTest.csproj", "{04450206-2EF6-4100-9DC5-1016D74B2D11}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassBuilderTest", "ClassBuilderTest\ClassBuilderTest.csproj", "{114D3081-4866-472A-9161-28889B762077}"
@@ -29,14 +25,6 @@ Global
 		{B236D37F-45ED-43BD-A508-304343C64C7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B236D37F-45ED-43BD-A508-304343C64C7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B236D37F-45ED-43BD-A508-304343C64C7E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CDB0D4C8-49BE-4663-8C2E-44DA85DC345C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CDB0D4C8-49BE-4663-8C2E-44DA85DC345C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CDB0D4C8-49BE-4663-8C2E-44DA85DC345C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CDB0D4C8-49BE-4663-8C2E-44DA85DC345C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6422F494-5BF6-4C71-801C-951DF5D5A342}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6422F494-5BF6-4C71-801C-951DF5D5A342}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6422F494-5BF6-4C71-801C-951DF5D5A342}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6422F494-5BF6-4C71-801C-951DF5D5A342}.Release|Any CPU.Build.0 = Release|Any CPU
 		{04450206-2EF6-4100-9DC5-1016D74B2D11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{04450206-2EF6-4100-9DC5-1016D74B2D11}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04450206-2EF6-4100-9DC5-1016D74B2D11}.Release|Any CPU.ActiveCfg = Release|Any CPU
