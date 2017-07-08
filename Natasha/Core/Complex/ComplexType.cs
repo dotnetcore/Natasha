@@ -1,6 +1,6 @@
 ﻿using Natasha.Cache;
 using Natasha.Core.Base;
-using Natasha.Debug;
+using Natasha.Core.Complex;
 using Natasha.Utils;
 using System;
 using System.Collections.Generic;
@@ -12,6 +12,11 @@ namespace Natasha.Core
     //对类和结构体的操作
     public class ComplexType : TypeInitiator, IOperator, IPacket, IDelayOperator
     {
+        internal Type PreCallType;
+        internal LinkCallOption TempOption;
+
+        internal string _currentMemeberName;
+        internal Type _currentPrivateType;
         private Dictionary<string, Func<EModel, string, object, EModel>> DelayDict;
         public ComplexType(Type parameter_Type)
             : base(parameter_Type)
@@ -60,21 +65,9 @@ namespace Natasha.Core
                 SProperty(memberName, value);
             }
         }
-        public EModel LoadStruct(string memberName)
-        {
-            if (Struction.Fields.ContainsKey(memberName))
-            {
-                return LFieldStructr(memberName);
-            }
-            else if (Struction.Properties.ContainsKey(memberName))
-            {
-                return LProperty(memberName);
-            }
-            return EmitHelper.GetLink(null);
-        }
-
         public EModel Load(string memberName)
         {
+            _currentMemeberName = memberName;
             if (Struction.Fields.ContainsKey(memberName))
             {
                 return LField(memberName);
@@ -83,7 +76,21 @@ namespace Natasha.Core
             {
                 return LProperty(memberName);
             }
-            return EmitHelper.GetLink(null);
+            throw new NullReferenceException("找不到" + memberName + "成员！");
+        }
+
+        public EModel LoadValue(string memberName)
+        {
+            _currentMemeberName = memberName;
+            if (Struction.Fields.ContainsKey(memberName))
+            {
+                return LFieldValue(memberName);
+            }
+            else if (Struction.Properties.ContainsKey(memberName))
+            {
+                return LPropertyValue(memberName);
+            }
+            throw new NullReferenceException("找不到" + memberName + "成员！");
         }
         #endregion
 
@@ -94,11 +101,11 @@ namespace Natasha.Core
             FieldInfo info = Struction.Fields[fieldName];
             if (!info.IsPublic)
             {
-                MemberHelper.SetPrivateField(Load, info, value);
+                il.SetPrivateField(Load, info, value);
             }
             else
             {
-                MemberHelper.SetPublicField(This, info, value);
+                il.SetPublicField(This, info, value);
             }
         }
 
@@ -115,11 +122,11 @@ namespace Natasha.Core
             MethodInfo method = info.GetSetMethod(true);
             if (!method.IsPublic)
             {
-                MemberHelper.SetPrivateProperty(Load, info, value);
+                il.SetPrivateProperty(Load, info, value);
             }
             else
             {
-                MemberHelper.SetPublicProperty(This, info, value);
+                il.SetPublicProperty(This, info, value);
             }
         }
         public void SProperty(string propertyName, Action action)
@@ -129,78 +136,528 @@ namespace Natasha.Core
         #endregion
 
         #region 嵌套调用接口
-        public EModel LFieldStructr(string fieldName)
-        {
-            FieldInfo info = Struction.Fields[fieldName];
+        public EModel LField(string fieldName, bool isLoadValue = false)
+        { 
+            _currentMemeberName = fieldName;
+            FieldInfo info = Struction.Fields[_currentMemeberName];
             CompareType = info.FieldType;
-            //私有字段
-            if (!info.IsPublic)
+
+            CurrentCallOption = GetCurrentOption(_currentMemeberName);
+            switch (PrewCallOption)
             {
-                MemberHelper.LoadPrivateField(Load, info);
+                case LinkCallOption.Default:
+                    #region 第一次调用
+                    switch (CurrentCallOption)
+                    {
+                        case LinkCallOption.Public_Field_Value_Call:
+                            This();
+                            if (isLoadValue)
+                            {
+                                il.REmit(OpCodes.Ldfld, info);
+                            }
+                            else
+                            {
+                                il.REmit(OpCodes.Ldflda, info);
+                            }
+                            break;
+                        case LinkCallOption.Public_Static_Field_Value_Call:
+                            if (isLoadValue)
+                            {
+                                il.REmit(OpCodes.Ldsfld, info);
+                            }
+                            else
+                            {
+                                il.REmit(OpCodes.Ldsflda, info);
+                            }
+                            break;
+                        case LinkCallOption.Public_Field_Ref_Call:
+                            This();
+                            il.REmit(OpCodes.Ldfld, info);
+                            break;
+                        case LinkCallOption.Public_Static_Field_Ref_Call:
+                            il.REmit(OpCodes.Ldsfld, info);
+                            break;
+                        case LinkCallOption.Private_Field_Value_Call:
+                        case LinkCallOption.Private_Field_Ref_Call:
+                            il.REmit(OpCodes.Ldtoken, info.DeclaringType);
+                            il.REmit(OpCodes.Call, ClassCache.ClassHandle);
+                            il.REmit(OpCodes.Ldstr, info.Name);
+                            il.REmit(OpCodes.Ldc_I4_S, 44);
+                            il.REmit(OpCodes.Callvirt, ClassCache.FieldInfoGetter);
+                            Load();
+                            il.Packet(info.DeclaringType);
+                            il.REmit(OpCodes.Callvirt, ClassCache.FieldValueGetter);
+                            il.UnPacket(info.FieldType);
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                #endregion
+                case LinkCallOption.Public_Ref_Call:
+                case LinkCallOption.Private_Ref_Call:
+                case LinkCallOption.Public_Value_Call:
+                    #region 前一次非特殊类型的链式调用
+                    switch (CurrentCallOption)
+                    {
+                        case LinkCallOption.Public_Field_Value_Call:
+                            if (isLoadValue)
+                            {
+                                il.REmit(OpCodes.Ldfld, info);
+                            }
+                            else
+                            {
+                                il.REmit(OpCodes.Ldflda, info);
+                            }
+                            break;
+                        case LinkCallOption.Public_Static_Field_Value_Call:
+                            if (isLoadValue)
+                            {
+                                il.REmit(OpCodes.Ldsfld, info);
+                            }
+                            else
+                            {
+                                il.REmit(OpCodes.Ldsflda, info);
+                            }
+                            break;
+                        case LinkCallOption.Public_Field_Ref_Call:
+                            il.REmit(OpCodes.Ldfld, info);
+                            break;
+                        case LinkCallOption.Public_Static_Field_Ref_Call:
+                            il.REmit(OpCodes.Ldsfld, info);
+                            break;
+                        case LinkCallOption.Private_Field_Value_Call:
+                        case LinkCallOption.Private_Field_Ref_Call:
+                            LocalBuilder tempBuidler = il.DeclareLocal(PreCallType);
+                            il.EmitStoreBuilder(tempBuidler);
+                            il.REmit(OpCodes.Ldtoken, info.DeclaringType);
+                            il.REmit(OpCodes.Call, ClassCache.ClassHandle);
+                            il.REmit(OpCodes.Ldstr, info.Name);
+                            il.REmit(OpCodes.Ldc_I4_S, 44);
+                            il.REmit(OpCodes.Callvirt, ClassCache.FieldInfoGetter);
+                            il.LoadBuilder(tempBuidler, false);
+                            il.Packet(info.DeclaringType);
+                            il.REmit(OpCodes.Callvirt, ClassCache.FieldValueGetter);
+                            il.UnPacket(info.FieldType);
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                #endregion
+                case LinkCallOption.Private_Value_Call:
+                    #region 前一次为私有值类型的链式调用
+
+                    if (CurrentCallOption == LinkCallOption.Private_Field_Value_Call || CurrentCallOption == LinkCallOption.Private_Field_Ref_Call)
+                    {
+                        LocalBuilder tempBuidler = il.DeclareLocal(PreCallType);
+                        il.EmitStoreBuilder(tempBuidler);
+                        il.REmit(OpCodes.Ldtoken, info.DeclaringType);
+                        il.REmit(OpCodes.Call, ClassCache.ClassHandle);
+                        il.REmit(OpCodes.Ldstr, info.Name);
+                        il.REmit(OpCodes.Ldc_I4_S, 44);
+                        il.REmit(OpCodes.Callvirt, ClassCache.FieldInfoGetter);
+                        il.LoadBuilder(tempBuidler, false);
+                        il.Packet(info.DeclaringType);
+                        il.REmit(OpCodes.Callvirt, ClassCache.FieldValueGetter);
+                        il.UnPacket(info.FieldType);
+                    }
+                    else
+                    {
+                        LocalBuilder tempBuidler = il.DeclareLocal(PreCallType);
+                        il.EmitStoreBuilder(tempBuidler);
+                        il.LoadBuilder(tempBuidler);
+                        switch (CurrentCallOption)
+                        {
+                            case LinkCallOption.Public_Field_Value_Call:
+                                if (isLoadValue)
+                                {
+                                    il.REmit(OpCodes.Ldfld, info);
+                                }
+                                else
+                                {
+                                    il.REmit(OpCodes.Ldflda, info);
+                                }
+                                break;
+                            case LinkCallOption.Public_Static_Field_Value_Call:
+                                if (isLoadValue)
+                                {
+                                    il.REmit(OpCodes.Ldsfld, info);
+                                }
+                                else
+                                {
+                                    il.REmit(OpCodes.Ldsflda, info);
+                                }
+                                break;
+                            case LinkCallOption.Public_Field_Ref_Call:
+                                il.REmit(OpCodes.Ldfld, info);
+                                break;
+                            case LinkCallOption.Public_Static_Field_Ref_Call:
+                                il.REmit(OpCodes.Ldsfld, info);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                    break;
+                #endregion
+                default:
+                    break;
             }
-            //公有字段
+            PreCallType = CompareType;
+            if (info.FieldType == typeof(bool))
+            {
+                ThreadCache.SetJudgeCode(OpCodes.Brfalse_S);
+            }
+            if (Struction.DelegateMethods.ContainsKey(_currentMemeberName))
+            {
+                return il.GetLink((EModel)this, TypeHandler);
+            }
             else
             {
-                if (info.FieldType.IsValueType && !info.FieldType.IsPrimitive)
+                return il.GetLink((EModel)this, CompareType);
+            }
+        }
+
+        public EModel LProperty(string propertyName, bool isLoadValue = false)
+        {
+            _currentMemeberName = propertyName;
+            PropertyInfo pInfo = Struction.Properties[_currentMemeberName];
+            MethodInfo info = pInfo.GetGetMethod(true);
+            if (info == null)
+            {
+                throw new NullReferenceException("找不到" + propertyName + "属性的Get方法！");
+            }
+            CompareType = pInfo.PropertyType;
+            
+            CurrentCallOption = GetCurrentOption(_currentMemeberName);
+            switch (PrewCallOption)
+            {
+                case LinkCallOption.Default:
+                    #region 第一次调用
+                    switch (CurrentCallOption)
+                    {
+                        case LinkCallOption.Public_Property_Value_Call:
+                            This();
+                            il.REmit(OpCodes.Call, info);
+                            break;
+                        case LinkCallOption.Public_Static_Property_Value_Call:
+                            il.REmit(OpCodes.Call, info);
+                            break;
+                        case LinkCallOption.Public_Property_Ref_Call:
+                            This();
+                            il.REmit(OpCodes.Callvirt, info);
+                            break;
+                        case LinkCallOption.Public_Static_Property_Ref_Call:
+                            il.REmit(OpCodes.Call, info);
+                            break;
+                        case LinkCallOption.Private_Property_Value_Call:
+                        case LinkCallOption.Private_Property_Ref_Call:
+                            il.REmit(OpCodes.Ldtoken, pInfo.DeclaringType);
+                            il.REmit(OpCodes.Call, ClassCache.ClassHandle);
+                            il.REmit(OpCodes.Ldstr, info.Name);
+                            il.REmit(OpCodes.Ldc_I4_S, 44);
+                            il.REmit(OpCodes.Call, ClassCache.PropertyInfoGetter);
+                            Load();
+                            il.Packet(pInfo.DeclaringType);
+                            il.REmit(OpCodes.Callvirt, ClassCache.PropertyValueGetter);
+                            il.UnPacket(pInfo.PropertyType);
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                #endregion
+                case LinkCallOption.Private_Ref_Call:
+                case LinkCallOption.Public_Ref_Call:
+                    #region 前一次非特殊类型的链式调用
+                    if (CurrentCallOption == LinkCallOption.Private_Property_Value_Call || CurrentCallOption == LinkCallOption.Private_Property_Ref_Call)
+                    {
+                        LocalBuilder tempBuidler = il.DeclareLocal(PreCallType);
+                        il.EmitStoreBuilder(tempBuidler);
+                        il.REmit(OpCodes.Ldtoken, pInfo.DeclaringType);
+                        il.REmit(OpCodes.Call, ClassCache.ClassHandle);
+                        il.REmit(OpCodes.Ldstr, info.Name);
+                        il.REmit(OpCodes.Ldc_I4_S, 44);
+                        il.REmit(OpCodes.Call, ClassCache.PropertyInfoGetter);
+                        il.LoadBuilder(tempBuidler, false);
+                        il.Packet(pInfo.DeclaringType);
+                        il.REmit(OpCodes.Callvirt, ClassCache.PropertyValueGetter);
+                        il.UnPacket(pInfo.PropertyType);
+                    }
+                    else if (CurrentCallOption == LinkCallOption.Public_Property_Value_Call)
+                    {
+                        LocalBuilder tempBuidler = il.DeclareLocal(PreCallType);
+                        il.EmitStoreBuilder(tempBuidler);
+                        il.LoadBuilder(tempBuidler);
+                        il.REmit(OpCodes.Call, info);
+
+                    }else
+                    {
+                        il.REmit(OpCodes.Callvirt, info);
+                    }
+                    #endregion
+                    break;
+                case LinkCallOption.Public_Value_Call:
+                    #region 前一次非特殊类型的链式调用
+                    if (CurrentCallOption == LinkCallOption.Private_Property_Value_Call || CurrentCallOption == LinkCallOption.Private_Property_Ref_Call)
+                    {
+                        LocalBuilder tempBuidler = il.DeclareLocal(PreCallType);
+                        il.EmitStoreBuilder(tempBuidler);
+                        il.REmit(OpCodes.Ldtoken, pInfo.DeclaringType);
+                        il.REmit(OpCodes.Call, ClassCache.ClassHandle);
+                        il.REmit(OpCodes.Ldstr, info.Name);
+                        il.REmit(OpCodes.Ldc_I4_S, 44);
+                        il.REmit(OpCodes.Call, ClassCache.PropertyInfoGetter);
+                        il.LoadBuilder(tempBuidler, false);
+                        il.Packet(pInfo.DeclaringType);
+                        il.REmit(OpCodes.Callvirt, ClassCache.PropertyValueGetter);
+                        il.UnPacket(pInfo.PropertyType);
+                    }
+                    else
+                    {
+                        il.REmit(OpCodes.Call, info);
+                    }
+                    break;
+                #endregion
+                case LinkCallOption.Private_Value_Call:
+                    #region 前一次为私有值类型的链式调用
+
+                    if (CurrentCallOption == LinkCallOption.Private_Property_Value_Call || CurrentCallOption == LinkCallOption.Private_Property_Ref_Call)
+                    {
+                        LocalBuilder tempBuidler = il.DeclareLocal(PreCallType);
+                        il.EmitStoreBuilder(tempBuidler);
+                        il.REmit(OpCodes.Ldtoken, pInfo.DeclaringType);
+                        il.REmit(OpCodes.Call, ClassCache.ClassHandle);
+                        il.REmit(OpCodes.Ldstr, info.Name);
+                        il.REmit(OpCodes.Ldc_I4_S, 44);
+                        il.REmit(OpCodes.Call, ClassCache.PropertyInfoGetter);
+                        il.LoadBuilder(tempBuidler, false);
+                        il.Packet(pInfo.DeclaringType);
+                        il.REmit(OpCodes.Callvirt, ClassCache.PropertyValueGetter);
+                        il.UnPacket(pInfo.PropertyType);
+                    }
+                    else
+                    {
+                        LocalBuilder tempBuidler = il.DeclareLocal(PreCallType);
+                        il.EmitStoreBuilder(tempBuidler);
+                        il.LoadBuilder(tempBuidler);
+                        il.REmit(OpCodes.Call, info);
+                    }
+                    break;
+                #endregion
+                default:
+                    break;
+            }
+            PreCallType = CompareType;
+            if (pInfo.PropertyType==typeof(bool))
+            {
+                ThreadCache.SetJudgeCode(OpCodes.Brfalse_S);
+            }
+           
+            if (Struction.DelegateMethods.ContainsKey(_currentMemeberName))
+            {
+                return il.GetLink((EModel)this, TypeHandler);
+            }
+            else
+            {
+                return il.GetLink((EModel)this, CompareType);
+            }
+        }
+
+        private LinkCallOption GetCurrentOption(string memberName)
+        {
+            if (Struction.Fields.ContainsKey(memberName))
+            {
+                FieldInfo info = Struction.Fields[memberName];
+                if (info.IsPublic)
                 {
-                    MemberHelper.LoadPublicStructField(This, info);
+                    if (info.IsStatic)
+                    {
+                        if (info.FieldType.IsValueType)
+                        {
+                            TempOption = LinkCallOption.Public_Value_Call;
+                            return LinkCallOption.Public_Static_Field_Value_Call;
+                        }
+                        else
+                        {
+                            TempOption = LinkCallOption.Public_Ref_Call;
+                            return LinkCallOption.Public_Static_Field_Ref_Call;
+                        }
+                    }
+                    else
+                    {
+                        if (info.FieldType.IsValueType)
+                        {
+                            TempOption = LinkCallOption.Public_Value_Call;
+                            return LinkCallOption.Public_Field_Value_Call;
+                        }
+                        else
+                        {
+                            TempOption = LinkCallOption.Public_Ref_Call;
+                            return LinkCallOption.Public_Field_Ref_Call;
+                        }
+                    }
                 }
                 else
                 {
-                    MemberHelper.LoadPublicField(This, info);
+                    if (info.IsStatic)
+                    {
+                        if (info.FieldType.IsValueType)
+                        {
+                            TempOption = LinkCallOption.Private_Value_Call;
+                            return LinkCallOption.Private_Static_Field_Value_Call;
+                        }
+                        else
+                        {
+                            TempOption = LinkCallOption.Private_Ref_Call;
+                            return LinkCallOption.Private_Static_Field_Ref_Call;
+                        }
+                    }
+                    else
+                    {
+                        if (info.FieldType.IsValueType)
+                        {
+                            TempOption = LinkCallOption.Private_Value_Call;
+                            return LinkCallOption.Private_Field_Value_Call;
+                        }
+                        else
+                        {
+                            TempOption = LinkCallOption.Private_Ref_Call;
+                            return LinkCallOption.Private_Field_Ref_Call;
+                        }
+                    }
                 }
             }
-            //如果单独加载了bool类型的值
-            if (CompareType == typeof(bool))
+            else if (Struction.Properties.ContainsKey(memberName))
             {
-                ThreadCache.SetJudgeCode(OpCodes.Brfalse_S);
+                PropertyInfo pInfo = Struction.Properties[memberName];
+                MethodInfo info = pInfo.GetGetMethod(true);
+                if (info == null)
+                {
+                    info = pInfo.GetSetMethod(true);
+                }
+                if (info.IsPublic)
+                {
+                    if (info.IsStatic)
+                    {
+                        if (pInfo.DeclaringType.IsValueType)
+                        {
+                            TempOption = LinkCallOption.Private_Value_Call;
+                            return LinkCallOption.Public_Static_Property_Value_Call;
+                        }
+                        else
+                        {
+                            TempOption = LinkCallOption.Public_Ref_Call;
+                            return LinkCallOption.Public_Static_Property_Ref_Call;
+                        }
+                    }
+                    else
+                    {
+                        if (pInfo.DeclaringType.IsValueType)
+                        {
+                            TempOption = LinkCallOption.Private_Value_Call;
+                            return LinkCallOption.Public_Property_Value_Call;
+                        }
+                        else
+                        {
+                            TempOption = LinkCallOption.Public_Ref_Call;
+                            return LinkCallOption.Public_Property_Ref_Call;
+                        }
+                    }
+                }
+                else
+                {
+                    if (info.IsStatic)
+                    {
+                        if (pInfo.DeclaringType.IsValueType)
+                        {
+                            TempOption = LinkCallOption.Private_Value_Call;
+                            return LinkCallOption.Private_Static_Property_Value_Call;
+                        }
+                        else
+                        {
+                            TempOption = LinkCallOption.Private_Ref_Call;
+                            return LinkCallOption.Private_Static_Property_Ref_Call;
+                        }
+                    }
+                    else
+                    {
+                        if (pInfo.DeclaringType.IsValueType)
+                        {
+                            TempOption = LinkCallOption.Private_Value_Call;
+                            return LinkCallOption.Private_Property_Value_Call;
+                        }
+                        else
+                        {
+                            TempOption = LinkCallOption.Private_Ref_Call;
+                            return LinkCallOption.Private_Property_Ref_Call;
+                        }
+                    }
+                }
             }
-            return EmitHelper.GetLink(CompareType);
+            throw new Exception("找不到属性或者字段");
         }
-        public EModel LProperty(string propertyName)
+
+        //public EModel LProperty(string propertyName)
+        //{
+        //    if (_currentPrivateType != null && _currentPrivateType.IsValueType)
+        //    {
+        //        il.LoadStructLocalBuilder(_currentPrivateType);
+        //    }
+        //    _currentMemeberName = propertyName;
+        //    PropertyInfo info = Struction.Properties[propertyName];
+        //    CompareType = info.PropertyType;
+        //    MethodInfo method = info.GetGetMethod(true);
+        //    if (!method.IsPublic)
+        //    {
+        //        if (_currentPrivateType == null)
+        //        {
+        //            il.LoadPrivatePropertyValue(Load, info);
+        //        }
+        //        else
+        //        {
+        //            LocalBuilder tempBuilder = il.DeclareLocal(_currentPrivateType);
+        //            il.EmitStoreBuilder(tempBuilder);
+        //            il.LoadPrivatePropertyValue(() => { il.LoadBuilder(tempBuilder, false); }, info);
+        //        }
+        //        _currentPrivateType = CompareType;
+        //    }
+        //    else
+        //    {
+        //        //上一次调用为私有字段值类型变量
+        //        if (_currentPrivateType != null && _currentPrivateType.IsValueType)
+        //        {
+        //            il.LoadStructLocalBuilder(_currentPrivateType);
+        //        }
+        //        il.LoadPublicProperty(This, info);
+        //    }
+
+        //    if (Struction.DelegateMethods.ContainsKey(_currentMemeberName))
+        //    {
+        //        return il.GetLink((EModel)this, TypeHandler);
+        //    }
+        //    else
+        //    {
+        //        return il.GetLink((EModel)this, CompareType);
+        //    }
+        //}
+
+        public EModel LPropertyValue(string propertyName)
         {
-            PropertyInfo info = Struction.Properties[propertyName];
-            CompareType = info.PropertyType;
-            MethodInfo method = info.GetGetMethod(true);
-            if (!method.IsPublic)
-            {
-                MemberHelper.LoadPrivateProperty(Load, info);
-            }
-            else
-            {
-                MemberHelper.LoadPublicProperty(This, info);
-            }
-            if (CompareType == typeof(bool))
-            {
-                ThreadCache.SetJudgeCode(OpCodes.Brfalse_S);
-            }
-            return EmitHelper.GetLink(CompareType);
+            return LProperty(propertyName, true);
         }
-        public EModel LField(string fieldName)
+        public EModel LFieldValue(string fieldName)
         {
-            FieldInfo info = Struction.Fields[fieldName];
-            CompareType = info.FieldType;
-            //私有字段
-            if (!info.IsPublic)
-            {
-                MemberHelper.LoadPrivateField(Load, info);
-            }
-            //公有字段
-            else
-            {
-                MemberHelper.LoadPublicField(This, info);
-            }
-            //如果单独加载了bool类型的值
-            if (CompareType == typeof(bool))
-            {
-                ThreadCache.SetJudgeCode(OpCodes.Brfalse_S);
-            }
-            return EmitHelper.GetLink(CompareType);
+            return LField(fieldName, true);
         }
+
+
 
         #endregion
-
-        #region 调用属性
+    
+        #region 调用标签
         private string MemberName;
 
         public ComplexType ALoad(string memberName)
@@ -244,41 +701,40 @@ namespace Natasha.Core
         #endregion
 
         #region 拆装箱
-
-
         public void Packet()
         {
-            OperatorHelper.Packet(CompareType);
+            il.Packet(CompareType);
         }
 
         public void UnPacket()
         {
-            OperatorHelper.UnPacket(CompareType);
+            il.UnPacket(CompareType);
         }
 
         public void InStackAndPacket()
         {
             Load();
-            OperatorHelper.Packet(TypeHandler);
+            il.Packet(TypeHandler);
         }
 
         public void InStackAndUnPacket()
         {
             Load();
-            OperatorHelper.UnPacket(TypeHandler);
+            il.UnPacket(TypeHandler);
         }
         #endregion
 
         #region 延迟加载
 
-        private List<Func<EModel, EModel>> tempDelayFunc;
-        private List<string> SelfAdd;
+        private List<Func<EModel, EModel>> _tempDelayFunc;
+        private List<string> _selfAdd;
+        private Type _delayType;
 
         public void Initialize()
         {
             DelayDict = new Dictionary<string, Func<EModel, string, object, EModel>>();
-            DelayDict["LoadStruct"] = (model, key, value) => { return model.LoadStruct(key); };
             DelayDict["Load"] = (model, key, value) => { return model.Load(key); };
+            DelayDict["LoadValue"] = (model, key, value) => { return model.LoadValue(key); };
             DelayDict["Set"] = (model, key, value) => { model.Set(key, value); return model; };
             DelayDict["Packet"] = (model, key, value) => { model.Packet(); return model; };
             DelayDict["UnPacket"] = (model, key, value) => { model.UnPacket(); return model; };
@@ -287,41 +743,63 @@ namespace Natasha.Core
         }
         private EModel AddDelayFunc(string key, string Name, object value)
         {
-            if (tempDelayFunc == null)
+            if (_tempDelayFunc == null)
             {
-                tempDelayFunc = new List<Func<EModel, EModel>>();
+                _delayType = TypeHandler;
+                CompareType = TypeHandler;
+                _tempDelayFunc = new List<Func<EModel, EModel>>();
             }
-            tempDelayFunc.Add((model) => { return DelayDict[key](model, Name, value); });
+            if (Name!=null)
+            {
+                PropertyInfo propertyInfo = _delayType.GetProperty(Name, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static);
+                if (propertyInfo != null)
+                {
+                    _delayType = propertyInfo.PropertyType;
+                    CompareType = _delayType;
+                }
+                FieldInfo fieldInfo = _delayType.GetField(Name, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static);
+                if (fieldInfo != null)
+                {
+                    _delayType = fieldInfo.FieldType;
+                    CompareType = _delayType;
+                }
+            }
+            _tempDelayFunc.Add((model) => { return DelayDict[key](model, Name, value); });
             return (EModel)this;
+        }
+        public EModel DLoadValue(string Name)
+        {
+            if (_selfAdd == null)
+            {
+                _selfAdd = new List<string>();
+            }
+            _selfAdd.Add(Name);
+            return AddDelayFunc("LoadValue", Name, null);
         }
         public EModel DLoad(string Name)
         {
-            if (SelfAdd == null)
+            if (_selfAdd == null)
             {
-                SelfAdd = new List<string>();
+                _selfAdd = new List<string>();
             }
-            SelfAdd.Add(Name);
+            _selfAdd.Add(Name);
             return AddDelayFunc("Load", Name, null);
         }
-        public EModel DLoadStruct(string Name)
+        public EModel DPacket()
         {
-            return AddDelayFunc("LoadStruct", Name, null);
+            return AddDelayFunc("Packet", null, null);
         }
-        public EModel DPacket(string Name, object value)
+        public EModel DUnPacket()
         {
-            return AddDelayFunc("Packet", Name, null);
+            return AddDelayFunc("UnPacket", null, null);
         }
-        public EModel DUnPacket(string Name, object value)
+        public EModel DInStackAndPacket()
         {
-            return AddDelayFunc("UnPacket", Name, null);
+            return AddDelayFunc("InStackAndPacket", null, null);
         }
-        public EModel DInStackAndPacket(string Name, object value)
+        public EModel DInStackAndUnPacket()
         {
-            return AddDelayFunc("InStackAndPacket", Name, null);
-        }
-        public EModel DInStackAndUnPacket(string Name, object value)
-        {
-            return AddDelayFunc("InStackAndUnPacket", Name, null);
+            return AddDelayFunc("InStackAndUnPacket", null, null);
         }
         public EModel DSet(string Name, object value)
         {
@@ -332,7 +810,7 @@ namespace Natasha.Core
         {
             get
             {
-                if (tempDelayFunc != null)
+                if (_tempDelayFunc != null)
                 {
                     _delayAction = GetDelayAction();
                 }
@@ -343,7 +821,7 @@ namespace Natasha.Core
 
         private Action GetDelayAction()
         {
-            Func<EModel, EModel>[] funcArray = tempDelayFunc.ToArray();
+            Func<EModel, EModel>[] funcArray = _tempDelayFunc.ToArray();
             Action action = () =>
             {
                 EModel tempModel = (EModel)this;
@@ -352,31 +830,36 @@ namespace Natasha.Core
                     tempModel = funcArray[i](tempModel);
                 }
                 _delayAction = null;
+                DDelayAction = null;
             };
-            string[] SelfOperatorArray = SelfAdd.ToArray();
-            CurrentDelayAction = (code) =>
+            if (_selfAdd != null)
             {
-                Action setAction = () =>
+                string[] SelfOperatorArray = _selfAdd.ToArray();
+                CurrentDelayAction = (code) =>
                 {
-                    EModel loadModel = (EModel)this;
-                    for (int i = 0; i < funcArray.Length; i += 1)
+                    Action setAction = () =>
                     {
-                        loadModel = funcArray[i](loadModel);
-                    }
-                    DataHelper.LoadSelfObject(TypeHandler);
-                    ilHandler.Emit(code);
-                    DebugHelper.WriteLine(code.Name);
-                };
-                ComplexType tempModel = this;
+                        EModel loadModel = (EModel)this;
+                        for (int i = 0; i < funcArray.Length; i += 1)
+                        {
+                            loadModel = funcArray[i](loadModel);
+                        }
+                        il.LoadOne(_delayType);
+                        il.REmit(code);
+                    };
+                    ComplexType tempModel = this;
 
-                for (int i = 0; i < SelfOperatorArray.Length - 1; i += 1)
-                {
-                    tempModel = tempModel.LoadStruct(SelfOperatorArray[i]);
-                }
-                tempModel.Set(SelfOperatorArray[SelfOperatorArray.Length - 1], setAction);
-            };
-            SelfAdd = null;
-            tempDelayFunc = null;
+                    for (int i = 0; i < SelfOperatorArray.Length - 1; i += 1)
+                    {
+                        tempModel = tempModel.Load(SelfOperatorArray[i]);
+                    }
+                    tempModel.Set(SelfOperatorArray[SelfOperatorArray.Length - 1], setAction);
+                    DDelayAction = null;
+                };
+                _selfAdd = null;
+            }
+
+            _tempDelayFunc = null;
             return action;
         }
         public EModel LoadEnd()
@@ -444,36 +927,59 @@ namespace Natasha.Core
             {
                 if (Builder.LocalIndex > 3)
                 {
-                    ilHandler.Emit(OpCodes.Stloc_S, Builder.LocalIndex);
-                    DebugHelper.WriteLine("Stloc_S", Builder.LocalIndex);
+                    il.REmit(OpCodes.Stloc_S, Builder.LocalIndex);
                 }
                 else if (Builder.LocalIndex == 0)
                 {
-                    ilHandler.Emit(OpCodes.Stloc_0);
-                    DebugHelper.WriteLine("Stloc_0");
+                    il.REmit(OpCodes.Stloc_0);
                 }
                 else if (Builder.LocalIndex == 1)
                 {
-                    ilHandler.Emit(OpCodes.Stloc_1);
-                    DebugHelper.WriteLine("Stloc_1");
+                    il.REmit(OpCodes.Stloc_1);
                 }
                 else if (Builder.LocalIndex == 2)
                 {
-                    ilHandler.Emit(OpCodes.Stloc_2);
-                    DebugHelper.WriteLine("Stloc_2");
+                    il.REmit(OpCodes.Stloc_2);
                 }
                 else if (Builder.LocalIndex == 3)
                 {
-                    ilHandler.Emit(OpCodes.Stloc_3);
-                    DebugHelper.WriteLine("Stloc_3");
+                    il.REmit(OpCodes.Stloc_3);
                 }
             }
             if (ParameterIndex != -1)
             {
-                ilHandler.Emit(OpCodes.Starg_S, ParameterIndex);
-                DebugHelper.WriteLine("Starg_S", ParameterIndex);
+                il.REmit(OpCodes.Starg_S, ParameterIndex);
             }
         }
         #endregion
+
+        #region 委托类型执行
+        public EModel ExecuteDelegate(params object[] parameters)
+        {
+            if (!Struction.DelegateMethods.ContainsKey(_currentMemeberName))
+            {
+                throw new NullReferenceException(TypeHandler.Name + "委托字典中不存在以" + _currentMemeberName + "命名的委托");
+            }
+            MethodInfo info = Struction.DelegateMethods[_currentMemeberName];
+            if (parameters != null)
+            {
+                for (int i = 0; i < parameters.Length; i += 1)
+                {
+                    il.NoErrorLoad(parameters[i]);
+                }
+            }
+            il.REmit(OpCodes.Callvirt, info);
+            if (info.ReturnType != null)
+            {
+                return il.GetLink((EModel)this, info.ReturnType);
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+        #endregion
+
     }
 }

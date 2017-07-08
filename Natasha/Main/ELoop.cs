@@ -3,7 +3,7 @@ using System.Reflection.Emit;
 using Natasha.Core.Base;
 using Natasha.Core;
 using Natasha.Cache;
-using Natasha.Debug;
+
 
 namespace Natasha
 {
@@ -22,10 +22,8 @@ namespace Natasha
                 {
                     action();
                 }
-                ilHandler.Emit(OpCodes.Br_S, StartLabel);               //无条件跳转到起始标签
-                ilHandler.MarkLabel(EndLabel);                          //末尾标签
-                DebugHelper.WriteLine("JumpTo","START");
-                DebugHelper.WriteLine("SetLabel","END");
+                il.REmit(OpCodes.Br_S, StartLabel);               //无条件跳转到起始标签
+                il.MarkLabel(EndLabel);                          //末尾标签
                 return this;
             };
         }
@@ -41,13 +39,11 @@ namespace Natasha
         public static Func<Action, ELoop> While(Action condition)
         {
             ELoop loopHandler = new ELoop();
-            loopHandler.StartLabel = loopHandler.ilHandler.DefineLabel();
-            loopHandler.EndLabel = loopHandler.ilHandler.DefineLabel();
-            loopHandler.ilHandler.MarkLabel(loopHandler.StartLabel);                        //设置开始标签
-            DebugHelper.WriteLine("SetLabel","START");
+            loopHandler.StartLabel = loopHandler.il.DefineLabel();
+            loopHandler.EndLabel = loopHandler.il.DefineLabel();
+            loopHandler.il.MarkLabel(loopHandler.StartLabel);                        //设置开始标签
             condition();                                                                    //条件判断
-            loopHandler.ilHandler.Emit(ThreadCache.GetJudgeCode(), loopHandler.EndLabel);   //不成立就跳转到末尾
-            DebugHelper.WriteLine(ThreadCache.GetJudgeCode().Name,"END");
+            loopHandler.il.REmit(ThreadCache.GetJudgeCode(), loopHandler.EndLabel);   //不成立就跳转到末尾
             return loopHandler.BodyFunc;
         }
         //对实现了迭代接口的操作类进行遍历
@@ -59,7 +55,7 @@ namespace Natasha
         public static ELoop For(int start, int end, int increment,IIterator instance, Action<Action> action = null)
         {
             ELoop loopHandler = new ELoop();
-            ILGenerator CurrentIL = loopHandler.ilHandler;
+            ILGenerator CurrentIL = loopHandler.il;
             Label lb_while = CurrentIL.DefineLabel();
             loopHandler.CurrentFlag = CurrentIL.DeclareLocal(typeof(int));
                                                                     
@@ -93,7 +89,7 @@ namespace Natasha
             instance.Initialize();
 
             ELoop loopHandler = new ELoop();
-            ILGenerator CurrentIL = loopHandler.ilHandler;
+            ILGenerator CurrentIL = loopHandler.il;
 
             Label lb_while_end = CurrentIL.DefineLabel();
             Label lb_while_start = CurrentIL.DefineLabel();

@@ -31,12 +31,12 @@ namespace ComplexTest
                 EMethod methodInfoHelper = typeof(Console);
                 EModel model = EModel.CreateModel<TestClass>().UseDefaultConstructor();
                 model.Set("Name", "Name");
-                model.Load("Name");
+                model.LoadValue("Name");
                 methodInfoHelper.ExecuteMethod<string>("WriteLine");
 
                 model.Set("Age", 10);
-                methodInfoHelper.ExecuteMethod<int>("WriteLine", model.Load("Age"));
-                methodInfoHelper.ExecuteMethod<int>("WriteLine", model.LoadStruct("FieldNext").Load("Age"));
+                methodInfoHelper.ExecuteMethod<int>("WriteLine", model.LoadValue("Age"));
+                methodInfoHelper.ExecuteMethod<int>("WriteLine", model.Load("FieldNext").LoadValue("Age"));
             }).Compile();
             ((Action)ShowDelegate)();
         }
@@ -50,11 +50,11 @@ namespace ComplexTest
 
                 EModel model2 = EModel.CreateModel<TestClass>().UseDefaultConstructor();
                 model2.Set("Age", 11);
-                methodInfoHelper.ExecuteMethod<int>("WriteLine", model.Load("Age") + model2.Load("Age"));
-                methodInfoHelper.ExecuteMethod<int>("WriteLine", model.Load("Age") - model2.Load("Age"));
-                methodInfoHelper.ExecuteMethod<int>("WriteLine", model.Load("Age") * model2.Load("Age"));
-                methodInfoHelper.ExecuteMethod<int>("WriteLine", model.Load("Age") / model2.Load("Age"));
-                methodInfoHelper.ExecuteMethod<int>("WriteLine", model.Load("Age") + 1000);
+                methodInfoHelper.ExecuteMethod<int>("WriteLine", model.LoadValue("Age") + model2.LoadValue("Age"));
+                methodInfoHelper.ExecuteMethod<int>("WriteLine", model.LoadValue("Age") - model2.LoadValue("Age"));
+                methodInfoHelper.ExecuteMethod<int>("WriteLine", model.LoadValue("Age") * model2.LoadValue("Age"));
+                methodInfoHelper.ExecuteMethod<int>("WriteLine", model.LoadValue("Age") / model2.LoadValue("Age"));
+                methodInfoHelper.ExecuteMethod<int>("WriteLine", model.LoadValue("Age") + 1000);
             }).Compile();
 
             ((Action)showResult)();
@@ -80,10 +80,10 @@ namespace ComplexTest
                 model.Set("PrivateAge", 666);
 
                 EMethod method = typeof(Console);
-                method.ExecuteMethod<string>("WriteLine", model.DLoad("PrivateName").DelayAction);
-                method.ExecuteMethod<string>("WriteLine", model.Load("PublicName"));
-                method.ExecuteMethod<int>("WriteLine", model.Load("PublicAge"));
-                method.ExecuteMethod<int>("WriteLine", model.Load("PrivateAge"));
+                method.ExecuteMethod<string>("WriteLine", model.DLoadValue("PrivateName").DelayAction);
+                method.ExecuteMethod<string>("WriteLine", model.LoadValue("PublicName"));
+                method.ExecuteMethod<int>("WriteLine", model.LoadValue("PublicAge"));
+                method.ExecuteMethod<int>("WriteLine", model.LoadValue("PrivateAge"));
 
             }).Compile();
 
@@ -97,22 +97,22 @@ namespace ComplexTest
                 EModel test = EModel.CreateModel<TestClass>().UseDefaultConstructor();
 
                 test.SField("NormalField", 10);
-                methodInfoHelper.ExecuteMethod<int>("WriteLine", test.Load("NormalField"));
+                methodInfoHelper.ExecuteMethod<int>("WriteLine", test.LoadValue("NormalField"));
 
                 test.SField("StaticField", 10);
-                methodInfoHelper.ExecuteMethod<int>("WriteLine", test.Load("StaticField"));
+                methodInfoHelper.ExecuteMethod<int>("WriteLine", test.LoadValue("StaticField"));
                 test.SField("Ref_StaticField", "10");
-                methodInfoHelper.ExecuteMethod<string>("WriteLine", test.Load("Ref_StaticField"));
+                methodInfoHelper.ExecuteMethod<string>("WriteLine", test.LoadValue("Ref_StaticField"));
 
                 test.SProperty("NormalProperty", 10);
-                methodInfoHelper.ExecuteMethod<int>("WriteLine", test.Load("NormalProperty"));
+                methodInfoHelper.ExecuteMethod<int>("WriteLine", test.LoadValue("NormalProperty"));
                 test.SProperty("Ref_NormalProperty", "10");
-                methodInfoHelper.ExecuteMethod<string>("WriteLine", test.Load("Ref_NormalProperty"));
+                methodInfoHelper.ExecuteMethod<string>("WriteLine", test.LoadValue("Ref_NormalProperty"));
 
                 test.SProperty("StaticProperty", 10);
-                methodInfoHelper.ExecuteMethod<int>("WriteLine", test.Load("StaticProperty"));
+                methodInfoHelper.ExecuteMethod<int>("WriteLine", test.LoadValue("StaticProperty"));
                 test.SProperty("Ref_StaticProperty", "10");
-                methodInfoHelper.ExecuteMethod<string>("WriteLine", test.Load("Ref_StaticProperty"));
+                methodInfoHelper.ExecuteMethod<string>("WriteLine", test.LoadValue("Ref_StaticProperty"));
             }).Compile();
             ((Action)ShowDelegate)();
         }
@@ -137,16 +137,16 @@ namespace ComplexTest
                 classModel.SField("FieldNext", structModel);
                 classModel.SProperty("PropertyNext", nesting_classModel);
 
-                classModel.LFieldStructr("FieldNext").LField("Age");
+                classModel.LField("FieldNext").LFieldValue("Age");
                 methodInfoHelper.ExecuteMethod<int>("WriteLine");
 
-                classModel.LFieldStructr("FieldNext").LProperty("Name");
+                classModel.LField("FieldNext").LPropertyValue("Name");
                 methodInfoHelper.ExecuteMethod<string>("WriteLine");
 
-                classModel.LProperty("PropertyNext").LField("Age");
+                classModel.LPropertyValue("PropertyNext").LFieldValue("Age");
                 methodInfoHelper.ExecuteMethod<int>("WriteLine");
 
-                classModel.LProperty("PropertyNext").LProperty("Name");
+                classModel.LPropertyValue("PropertyNext").LPropertyValue("Name");
                 methodInfoHelper.ExecuteMethod<string>("WriteLine");
 
             }).Compile();
@@ -225,7 +225,7 @@ namespace ComplexTest
                 EMethod methodInfoHelper = typeof(Console);
                 EModel model = EModel.CreateModelFromObject(t);
                 model.SField("PrivateFAge", 10);
-                model.LField("PrivateFAge");
+                model.LFieldValue("PrivateFAge");
                 methodInfoHelper.ExecuteMethod<int>("WriteLine");
                 model.Load();
 
@@ -262,7 +262,7 @@ namespace ComplexTest
             {
                 EMethod method = typeof(Console);
                 EModel classModel = EModel.CreateModelFromObject(testModel);
-                classModel.ALoad("PrivatePName").GetAttributeModel("Attribute1").Load("Name");
+                classModel.ALoad("PrivatePName").GetAttributeModel("Attribute1").LoadValue("Name");
                 method.ExecuteMethod<string>("WriteLine");
                 classModel.Load();
             }).Compile();

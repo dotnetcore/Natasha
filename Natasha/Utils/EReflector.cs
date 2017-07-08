@@ -1,4 +1,4 @@
-﻿using Natasha.Debug;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -24,7 +24,7 @@ namespace Natasha.Utils
             Dictionary<string, GetterDelegate> GetDict = new Dictionary<string, GetterDelegate>();
             foreach (var item in model.Properties)
             {
-                GetDict[item.Key] = GetterFunc(model,item.Value);
+                GetDict[item.Key] = GetterFunc(model, item.Value);
             }
             foreach (var item in model.Fields)
             {
@@ -53,44 +53,43 @@ namespace Natasha.Utils
         }
 
 
-        public static GetterDelegate GetterFunc(ClassStruction model,PropertyInfo info)
+        public static GetterDelegate GetterFunc(ClassStruction model, PropertyInfo info)
         {
             MethodInfo getter = info.GetGetMethod(true);
-            if (getter == null || getter.IsPrivate || getter.GetParameters().Length>0)
+            if (getter == null || getter.IsPrivate || getter.GetParameters().Length > 0)
             {
                 return null;
             }
             return (GetterDelegate)(EHandler.CreateMethod<object, object>((til) =>
             {
-                LocalBuilder builder = til.DeclareLocal(model.TypeHandler);
-                til.Emit(OpCodes.Ldarg_0);
-                til.Emit(OpCodes.Unbox_Any, model.TypeHandler);
-                til.Emit(OpCodes.Stloc_S, builder.LocalIndex);
-
-                DebugHelper.WriteLine("Ldarg_0");
-                DebugHelper.WriteLine("Unbox_Any "+ model.TypeHandler.Name);
-                DebugHelper.WriteLine("Stloc_S "+ builder.LocalIndex);
-
+                LocalBuilder builder = null;
+                if (!getter.IsStatic)
+                {
+                    builder = til.DeclareLocal(model.TypeHandler);
+                    til.REmit(OpCodes.Ldarg_0);
+                    til.UnPacket(model.TypeHandler);
+                    til.REmit(OpCodes.Stloc_S, builder.LocalIndex);
+                }
                 EModel localModel = EModel.CreateModelFromBuilder(builder, model.TypeHandler);
-                EPacket.Packet(info.PropertyType, () => { localModel.LProperty(info.Name); });
-            }, "Getter").Compile(typeof(GetterDelegate)));
+                localModel.LPropertyValue(info.Name).Packet();
+            },"Getter " + info.DeclaringType.Name+ " " + info.Name).Compile(typeof(GetterDelegate)));
         }
         public static GetterDelegate GetterFunc(ClassStruction model, FieldInfo info)
         {
             return (GetterDelegate)(EHandler.CreateMethod<object, object>((til) =>
             {
-                LocalBuilder builder = til.DeclareLocal(model.TypeHandler);
-                til.Emit(OpCodes.Ldarg_0);
-                til.Emit(OpCodes.Unbox_Any, model.TypeHandler);
-                til.Emit(OpCodes.Stloc, builder);
-
-                DebugHelper.WriteLine("Ldarg_0");
-                DebugHelper.WriteLine("Unbox_Any", model.TypeHandler.Name);
-                DebugHelper.WriteLine("Stloc_S", builder.LocalIndex);
+                LocalBuilder builder = null;
+                if (!info.IsStatic)
+                {
+                    builder = til.DeclareLocal(model.TypeHandler);
+                    til.REmit(OpCodes.Ldarg_0);
+                    til.UnPacket(model.TypeHandler);
+                    til.REmit(OpCodes.Stloc_S, builder.LocalIndex);
+                }
 
                 EModel localModel = EModel.CreateModelFromBuilder(builder, model.TypeHandler);
-                EPacket.Packet(info.FieldType, () => { localModel.LField(info.Name); });
-            }, "Getter").Compile(typeof(GetterDelegate)));
+                localModel.LFieldValue(info.Name).Packet();
+            }, "Getter "+info.DeclaringType.Name + " " + info.Name).Compile(typeof(GetterDelegate)));
         }
         public static SetterDelegate SetterFunc(ClassStruction model, PropertyInfo info)
         {
@@ -100,43 +99,43 @@ namespace Natasha.Utils
             }
             return (SetterDelegate)(EHandler.CreateMethod<object, object, ENull>((til) =>
             {
-                LocalBuilder builder = til.DeclareLocal(model.TypeHandler);
-                til.Emit(OpCodes.Ldarg_0);
-                til.Emit(OpCodes.Unbox_Any, model.TypeHandler);
-                til.Emit(OpCodes.Stloc_S, builder.LocalIndex);
-
-                DebugHelper.WriteLine("Ldarg_0");
-                DebugHelper.WriteLine("Unbox_Any", model.TypeHandler.Name);
-                DebugHelper.WriteLine("Stloc_S", builder.LocalIndex);
+                LocalBuilder builder = null;
+                if (!info.GetSetMethod(true).IsStatic)
+                {
+                    builder = til.DeclareLocal(model.TypeHandler);
+                    til.REmit(OpCodes.Ldarg_0);
+                    til.UnPacket(model.TypeHandler);
+                    til.REmit(OpCodes.Stloc_S, builder.LocalIndex);
+                }
 
                 EModel localModel = EModel.CreateModelFromBuilder(builder, model.TypeHandler);
-                localModel.SProperty(info.Name, () => {
-                    localModel.ilHandler.Emit(OpCodes.Ldarg_1);
-                    DebugHelper.WriteLine("Ldarg_1");
-                    EPacket.UnPacket(info.PropertyType);
+                localModel.SProperty(info.Name, () =>
+                {
+                    til.REmit(OpCodes.Ldarg_1);
+                    til.UnPacket(info.PropertyType);
                 });
-            }, "Setter").Compile(typeof(SetterDelegate)));
+            }, "Setter " + info.DeclaringType.Name + " " + info.Name).Compile(typeof(SetterDelegate)));
         }
         public static SetterDelegate SetterFunc(ClassStruction model, FieldInfo info)
         {
             return (SetterDelegate)(EHandler.CreateMethod<object, object, ENull>((til) =>
             {
-                LocalBuilder builder = til.DeclareLocal(model.TypeHandler);
-                til.Emit(OpCodes.Ldarg_0);
-                til.Emit(OpCodes.Unbox_Any, model.TypeHandler);
-                til.Emit(OpCodes.Stloc_S, builder.LocalIndex);
-
-                DebugHelper.WriteLine("Ldarg_0");
-                DebugHelper.WriteLine("Unbox_Any", model.TypeHandler.Name);
-                DebugHelper.WriteLine("Stloc_S", builder.LocalIndex);
+                LocalBuilder builder = null;
+                if (!info.IsStatic)
+                {
+                    builder = til.DeclareLocal(model.TypeHandler);
+                    til.REmit(OpCodes.Ldarg_0);
+                    til.UnPacket(model.TypeHandler);
+                    til.REmit(OpCodes.Stloc_S, builder.LocalIndex);
+                }
 
                 EModel localModel = EModel.CreateModelFromBuilder(builder, model.TypeHandler);
-                localModel.SField(info.Name, () => {
-                        localModel.ilHandler.Emit(OpCodes.Ldarg_1);
-                        DebugHelper.WriteLine("Ldarg_1");
-                    EPacket.UnPacket(info.FieldType);
+                localModel.SField(info.Name, () =>
+                {
+                    til.REmit(OpCodes.Ldarg_1);
+                    til.UnPacket(info.FieldType);
                 });
-            }, "Setter").Compile(typeof(SetterDelegate)));
+            },"Setter " + info.DeclaringType.Name + " " + info.Name).Compile(typeof(SetterDelegate)));
         }
     }
 }

@@ -44,13 +44,13 @@ namespace OperatorTest
                 EVar emit_B = EVar.CreateVarFromObject(13);
                 EModel model = EModel.CreateModelFromObject(t);
 
-                method.ExecuteMethod<int>("WriteLine", model.DLoad("Field").DelayAction);
-                method.ExecuteMethod<int>("WriteLine", (model.DLoad("Field").Operator++).DelayAction);
-                method.ExecuteMethod<int>("WriteLine", model.DLoad("Field") + emit_A);
-                method.ExecuteMethod<int>("WriteLine", model.DLoad("Field").Operator + 10);
-                method.ExecuteMethod<int>("WriteLine", (model.DLoadStruct("Next").DLoad("Property").Operator++).DelayAction);
-                method.ExecuteMethod<int>("WriteLine", (model.DLoadStruct("Next").DLoad("Property").Operator + 10));
-                method.ExecuteMethod<int>("WriteLine", emit_B + model.DLoad("Property").Operator);
+                method.ExecuteMethod<int>("WriteLine", model.DLoadValue("Field").DelayAction);
+                method.ExecuteMethod<int>("WriteLine", (model.DLoadValue("Field").Operator++).DelayAction);
+                method.ExecuteMethod<int>("WriteLine", model.DLoadValue("Field") + emit_A);
+                method.ExecuteMethod<int>("WriteLine", model.DLoadValue("Field").Operator + 10);
+                method.ExecuteMethod<int>("WriteLine", (model.DLoad("Next").DLoadValue("Property").Operator++).DelayAction);
+                method.ExecuteMethod<int>("WriteLine", (model.DLoad("Next").DLoadValue("Property").Operator + 10));
+                method.ExecuteMethod<int>("WriteLine", emit_B + model.DLoadValue("Property").Operator);
                 method.ExecuteMethod<int>("WriteLine", emit_B++);
 
             }).Compile();
@@ -75,17 +75,17 @@ namespace OperatorTest
 
                 TestClass t = new TestClass() { Field = 10 };
                 EModel model = EModel.CreateModelFromObject(t);
-                ELoop.While(model.DLoad("Field").Operator < emit_B)(() =>
+                ELoop.While(model.DLoadValue("Field").Operator < emit_B)(() =>
                 {
                     //这里需要传递委托，不传递委托则返回的是model类型而不是int类型
-                    method.ExecuteMethod<int>("WriteLine", model.DLoad("Field").DelayAction);
-                    model.DLoad("Field").Operator++;
+                    method.ExecuteMethod<int>("WriteLine", model.DLoadValue("Field").DelayAction);
+                    model.DLoadValue("Field").Operator++;
                 });
 
-                ELoop.While(model.DLoad("Field").Operator != 25)(() =>
+                ELoop.While(model.DLoadValue("Field").Operator != 25)(() =>
                 {
-                    method.ExecuteMethod<int>("WriteLine", model.DLoad("Field").DelayAction);
-                    model.DLoad("Field").Operator++;
+                    method.ExecuteMethod<int>("WriteLine", model.DLoadValue("Field").DelayAction);
+                    model.DLoadValue("Field").Operator++;
                 });
 
             }).Compile();
@@ -106,7 +106,7 @@ namespace OperatorTest
                 t.PropertyName = "3";
                 EModel model = EModel.CreateModelFromObject(t);
 
-                EJudge.If(emit_A == model.DLoad("Field").Operator)(() =>
+                EJudge.If(emit_A == model.DLoadValue("Field").Operator)(() =>
                 {
                     method.ExecuteMethod<string>("WriteLine", "相等");
 
@@ -129,7 +129,7 @@ namespace OperatorTest
                 {
                     method.ExecuteMethod<string>("WriteLine", string_A);
 
-                }).ElseIf(string_A == model.DLoad("PropertyName").Operator)(() =>
+                }).ElseIf(string_A == model.DLoadValue("PropertyName").Operator)(() =>
                 {
                     method.ExecuteMethod<string>("WriteLine", string_A);
 

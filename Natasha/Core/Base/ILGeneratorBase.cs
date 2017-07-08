@@ -8,12 +8,12 @@ namespace Natasha.Core.Base
     //操作类都要继承它，因此每个操作类的实例都会得到当前EHandler环境下的IL
     public abstract class ILGeneratorBase
     {
-        public ILGenerator ilHandler;
+        public ILGenerator il;
         public int ThreadId;
         public ILGeneratorBase()
         {
             //从线程缓存中获取IL
-            ilHandler = ThreadCache.GetIL();
+            il = ThreadCache.GetIL();
             ThreadId = Thread.CurrentThread.ManagedThreadId;
         }
     }

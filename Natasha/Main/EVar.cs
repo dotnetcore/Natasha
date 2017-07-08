@@ -3,13 +3,13 @@ using System.Reflection.Emit;
 using Natasha.Utils;
 using Natasha.Core.Base;
 using Natasha.Cache;
-using Natasha.Debug;
+
 using Natasha.Core;
 
 namespace Natasha
 {
     //普通变量操作
-    public class EVar : SingleType
+    public class EVar : PrimitiveType
     {
         private EVar(Type type)
             : base(type)
@@ -94,7 +94,7 @@ namespace Natasha
         public static EVar CreateVarFromObject(object value, Type type)
         {
             EVar model = CreateVar(type);
-            DataHelper.LoadObject(value);
+            model.il.LoadObject(value,type);
             model.Store();
             model.Value = value;
             return model;
@@ -138,6 +138,10 @@ namespace Natasha
         {
             return CreateWithoutTempVar(value);
         }
+        public static implicit operator EVar(sbyte value)
+        {
+            return CreateWithoutTempVar(value);
+        }
         public static implicit operator EVar(byte value)
         {
             return CreateWithoutTempVar(value);
@@ -148,7 +152,7 @@ namespace Natasha
         }
         public static implicit operator EVar(char value)
         {
-            return CreateWithoutTempVar((int)value);
+            return CreateWithoutTempVar(value);
         }
         public static implicit operator EVar(bool value)
         {
@@ -162,77 +166,99 @@ namespace Natasha
         #region 运算
         public static Action operator +(EVar source, object dest)
         {
-            return OperatorHelper.CreateOperatorAction(source, dest, OperatorHelper.Add);
+            ILGenerator il = source.il;
+            if (source.TypeHandler==typeof(string))
+            {
+                return il.CreateOperatorAction(source, dest, il.StringAdd);
+            }
+            else
+            {
+                return il.CreateOperatorAction(source, dest, il.Add);
+            }
         }
 
         public static Action operator -(EVar source, object dest)
         {
-            return OperatorHelper.CreateOperatorAction(source, dest, OperatorHelper.Sub);
+            ILGenerator il = source.il;
+            return il.CreateOperatorAction(source, dest, il.Sub);
         }
 
         public static Action operator *(EVar source, object dest)
         {
-            return OperatorHelper.CreateOperatorAction(source, dest, OperatorHelper.Mul);
+            ILGenerator il = source.il;
+            return il.CreateOperatorAction(source, dest, il.Mul);
         }
 
         public static Action operator /(EVar source, object dest)
         {
-            return OperatorHelper.CreateOperatorAction(source, dest, OperatorHelper.Div);
+            ILGenerator il = source.il;
+            return il.CreateOperatorAction(source, dest, il.Div);
         }
 
         public static Action operator %(EVar source, object dest)
         {
-            return OperatorHelper.CreateOperatorAction(source, dest, OperatorHelper.Rem);
+            ILGenerator il = source.il;
+            return il.CreateOperatorAction(source, dest, il.Rem);
         }
 
         public static Action operator >>(EVar source, int dest)
         {
+            ILGenerator il = source.il;
             return () =>
             {
                 source.RunCompareAction();
-                OperatorHelper.Shr(dest);
+                il.Shr(dest);
             };
         }
         public static Action operator <<(EVar source, int dest)
         {
+            ILGenerator il = source.il;
             return () =>
             {
                 source.RunCompareAction();
-                OperatorHelper.Shl(dest);
+                il.Shl(dest);
             };
         }
         public static Action operator |(EVar source, object dest)
         {
-            return OperatorHelper.CreateOperatorAction(source, dest, OperatorHelper.Or);
+            ILGenerator il = source.il;
+            return il.CreateOperatorAction(source, dest, il.Or);
         }
 
         public static Action operator &(EVar source, object dest)
         {
-            return OperatorHelper.CreateOperatorAction(source, dest, OperatorHelper.And);
+            ILGenerator il = source.il;
+            return il.CreateOperatorAction(source, dest, il.And);
         }
 
         public static Action operator >(EVar source, object dest)
         {
-            return OperatorHelper.CreateCompareAction(source, dest, OpCodes.Ble_S);
+            ILGenerator il = source.il;
+            return il.CreateCompareAction(source, dest, OpCodes.Ble_S);
         }
         public static Action operator <(EVar source, object dest)
         {
-            return OperatorHelper.CreateCompareAction(source, dest, OpCodes.Bge_S);
+            ILGenerator il = source.il;
+            return il.CreateCompareAction(source, dest, OpCodes.Bge_S);
         }
 
         public static Action operator <=(EVar source, object dest)
         {
-            return OperatorHelper.CreateCompareAction(source, dest, OpCodes.Bgt_S);
+            ILGenerator il = source.il;
+            return il.CreateCompareAction(source, dest, OpCodes.Bgt_S);
         }
         public static Action operator >=(EVar source, object dest)
         {
-            return OperatorHelper.CreateCompareAction(source, dest, OpCodes.Blt_S);
+            ILGenerator il = source.il;
+            return il.CreateCompareAction(source, dest, OpCodes.Blt_S);
         }
 
         public static Action operator ==(EVar source, object dest)
         {
+           
             return () =>
             {
+                ILGenerator il = source.il;
                 source.RunCompareAction();
                 if (source.TypeHandler.IsValueType && source.TypeHandler.IsPrimitive)
                 {
@@ -248,13 +274,12 @@ namespace Natasha
                 }
                 else
                 {
-                    DataHelper.LoadObject(dest);
+                    il.NoErrorLoad(dest);
                 }
 
                 if (source.TypeHandler == typeof(string))
                 {
-                    source.ilHandler.Emit(OpCodes.Call, ClassCache.StringCompare);
-                    DebugHelper.WriteLine("Call "+ ClassCache.StringCompare.Name);
+                    source.il.REmit(OpCodes.Call, ClassCache.StringCompare);
                 }
             };
         }
@@ -263,6 +288,7 @@ namespace Natasha
             
             return () =>
             {
+                ILGenerator il = source.il;
                 source.RunCompareAction();
                 if (source.TypeHandler.IsValueType && source.TypeHandler.IsPrimitive)
                 {
@@ -278,13 +304,12 @@ namespace Natasha
                 }
                 else
                 {
-                    DataHelper.LoadObject(dest);
+                    il.NoErrorLoad(dest);
                 }
 
                 if (source.TypeHandler == typeof(string))
                 {
-                    source.ilHandler.Emit(OpCodes.Call, ClassCache.StringCompare);
-                    DebugHelper.WriteLine("Call", ClassCache.StringCompare.Name);
+                    source.il.REmit(OpCodes.Call, ClassCache.StringCompare);
                 }
             };
         }

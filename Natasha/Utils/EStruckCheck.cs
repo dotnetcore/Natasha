@@ -1,5 +1,5 @@
 ﻿using Natasha.Cache;
-using Natasha.Debug;
+
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -15,21 +15,15 @@ namespace Natasha.Utils
             Delegate func = EHandler.CreateMethod<object, bool>((il) =>
             {
                 LocalBuilder builder = il.DeclareLocal(TypeHandler);
-                il.Emit(OpCodes.Ldarg_0);
-                il.Emit(OpCodes.Unbox_Any, TypeHandler);
-                il.Emit(OpCodes.Stloc_S, builder);
-
-                
-                DebugHelper.WriteLine("Ldarg_0");
-                DebugHelper.WriteLine("Unbox_Any "+ TypeHandler.Name);
-                DebugHelper.WriteLine("Stloc_S "+ builder);
+                il.REmit(OpCodes.Ldarg_0);
+                il.REmit(OpCodes.Unbox_Any, TypeHandler);
+                il.REmit(OpCodes.Stloc_S, builder);
 
                 EVar returnTrueResult = true;
                 EVar returnFalseResult = false;
 
                
                 EModel model = EModel.CreateModelFromBuilder(builder, TypeHandler);
-                DebugHelper.WriteLine("检测属性是否为默认值");
                 #region Property 
                 Dictionary<string, PropertyInfo> properties = model.Struction.Properties;
                 foreach (var item in properties)
@@ -38,7 +32,7 @@ namespace Natasha.Utils
                     Type type = item.Value.PropertyType;
                     if (type.IsValueType && type.IsPrimitive)
                     {
-                        EJudge.If(EDefault.IsDefault(type, () => { model.LProperty(item.Key); }))(() =>
+                        EJudge.If(EDefault.IsDefault(type, () => { model.LPropertyValue(item.Key); }))(() =>
                         {
 
                         }).Else(() =>
@@ -49,7 +43,7 @@ namespace Natasha.Utils
                     }
                     else if (type.IsClass)
                     {
-                        EJudge.If(ENull.StringIsNull(() => { model.LProperty(item.Key); }))(() =>
+                        EJudge.If(ENull.IsNull(() => { model.LPropertyValue(item.Key); }))(() =>
                         {
 
                         }).Else(() =>
@@ -59,7 +53,6 @@ namespace Natasha.Utils
                     }
                 }
                 #endregion
-                DebugHelper.WriteLine("检测字段是否为默认值");
                 #region Fields
                 Dictionary<string, FieldInfo> fields = model.Struction.Fields;
                 foreach (var item in fields)
@@ -68,7 +61,7 @@ namespace Natasha.Utils
                     Type type = item.Value.FieldType;
                     if (type.IsValueType && type.IsPrimitive)
                     {
-                        EJudge.If(EDefault.IsDefault(type, model.DLoad(item.Key).DelayAction))(() =>
+                        EJudge.If(EDefault.IsDefault(type, model.DLoadValue(item.Key).DelayAction))(() =>
                        {
 
                        }).Else(() =>
@@ -78,7 +71,7 @@ namespace Natasha.Utils
                     }
                     else if (type.IsClass)
                     {
-                        EJudge.If(ENull.StringIsNull(model.DLoad(item.Key).DelayAction))(() =>
+                        EJudge.If(ENull.IsNull(model.DLoadValue(item.Key).DelayAction))(() =>
                         {
 
                         }).Else(() =>
@@ -88,7 +81,7 @@ namespace Natasha.Utils
                     }
                 }
                 #endregion
-                DataHelper.LoadObject(true);
+                il.EmitBoolean(true);
             }, "Check").Compile(typeof(CheckStructDelegate));
             ClassCache.CheckStructDict[TypeHandler] = (CheckStructDelegate)func;
         }

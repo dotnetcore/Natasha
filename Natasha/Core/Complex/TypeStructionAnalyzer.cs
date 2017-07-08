@@ -1,6 +1,7 @@
 ﻿
 using Natasha.Cache;
 using Natasha.Core.Base;
+using Natasha.Core.Complex;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -15,15 +16,20 @@ namespace Natasha.Core
 
         public Type TypeHandler;
 
-        public bool IsStuct;
+        public Type ElementType;
+
+        public bool IsStruct;
 
         public object Value;
 
         public EMethod MethodHandler;
 
-       
+        internal LinkCallOption PrewCallOption;
+        internal LinkCallOption CurrentCallOption;
         public TypeStructionAnalyzer(Type parameter_Handler) : base()
         {
+            PrewCallOption = LinkCallOption.Default;
+            CurrentCallOption = LinkCallOption.Default;
             if (parameter_Handler==null)
             {
                 return;
@@ -31,13 +37,30 @@ namespace Natasha.Core
             TypeHandler = parameter_Handler;
             MethodHandler = parameter_Handler;
             //判断是否为结构体
+           
             if (TypeHandler.IsValueType && !TypeHandler.IsPrimitive && !TypeHandler.IsEnum)
             {
-                IsStuct = true;
+                IsStruct = true;
             }
             else
             {
-                IsStuct = false;
+                IsStruct = false;
+            }
+            ElementType = TypeHandler.GetElementType();
+            if (ElementType != null)
+            {
+                if (ElementType.IsValueType && !ElementType.IsPrimitive && !ElementType.IsEnum)
+                {
+                    IsStruct = true;
+                }
+                else
+                {
+                    IsStruct = false;
+                }
+            }
+            if (ElementType==null)
+            {
+                ElementType = TypeHandler;
             }
             //填充类结构缓冲
             if (ClassCache.ClassInfoDict.ContainsKey(TypeHandler.Name))
@@ -50,7 +73,7 @@ namespace Natasha.Core
                 Struction = new ClassStruction();
                 Struction.Name = TypeHandler.Name;
                 Struction.TypeHandler = TypeHandler;
-                Struction.IsStruct = IsStuct;
+                Struction.IsStruct = IsStruct;
                 ClassCache.ClassInfoDict[TypeHandler.Name] = Struction;
 
                 Type[] types = TypeHandler.GetInterfaces();
@@ -113,23 +136,26 @@ namespace Natasha.Core
                             }
                         }
                     }
-
+                    Type currentType = null;
                     //获取属性结构
                     PropertyInfo[] properties = tempType.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
                     for (int j = 0; j < properties.Length; j += 1)
                     {
+                        currentType = properties[j].PropertyType;
                         //内部私有类的数组不做操作  
-                        if (properties[j].PropertyType.IsArray)
+                        if (currentType.IsArray)
                         {
-                            if (properties[j].PropertyType.GetElementType().GetTypeInfo().IsNestedPrivate)
+                            if (currentType.GetElementType().GetTypeInfo().IsNestedPrivate)
                             {
                                continue;
                             }
                         }
-                        //内部私有类 不做操作
-                        if (properties[j].PropertyType.GetTypeInfo().IsNestedPrivate)
+                        else 
                         {
-                            continue;
+                            if (currentType.GetTypeInfo().IsNestedPrivate)
+                            {
+                                continue;
+                            }
                         }
                         //处理属性标签
                         object[] attributes = properties[j].GetCustomAttributes(true);
@@ -146,25 +172,33 @@ namespace Natasha.Core
                             }
                         }
                         Struction.Properties[properties[j].Name] = properties[j];
+
+                        //if (currentType.IsClass && ((currentType.BaseType == typeof(MulticastDelegate) || currentType.BaseType == typeof(Delegate))))
+                        //{
+                        //    Struction.DelegateMethods[properties[j].Name] = currentType.GetMethod("Method");
+                        //}
                     }
 
                     //获取字段结构
                     FieldInfo[] fields = tempType.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
                     for (int j = 0; j < fields.Length; j += 1)
                     {
+                        currentType = fields[j].FieldType;
                         //内部私有类的数组不做操作  
-                        if (fields[j].FieldType.IsArray)
+                        if (currentType.IsArray)
                         {
-                            if (fields[j].FieldType.GetElementType().GetTypeInfo().IsNestedPrivate)
+                            if (currentType.GetElementType().GetTypeInfo().IsNestedPrivate)
                             {
                                 continue;
                             }
                         }
-
-                        //readonly const 内部私有类 不做操作
-                        if (fields[j].IsInitOnly || (fields[j].IsLiteral && fields[j].IsStatic) || fields[j].FieldType.GetTypeInfo().IsNestedPrivate)
+                        else
                         {
-                            continue;
+                            //readonly const 内部私有类 不做操作
+                            if (fields[j].IsInitOnly || (fields[j].IsLiteral && fields[j].IsStatic) || currentType.GetTypeInfo().IsNestedPrivate)
+                            {
+                                continue;
+                            }
                         }
                         //处理字段标签
                         object[] attributes = fields[j].GetCustomAttributes(true);
@@ -181,6 +215,13 @@ namespace Natasha.Core
                             }
                         }
                         Struction.Fields[fields[j].Name] = fields[j];
+
+                        //if (currentType.IsClass && (currentType.BaseType == typeof(MulticastDelegate) || currentType.BaseType == typeof(Delegate)))
+                        //{
+                        //    //PropertyInfo info = currentType.GetProperty("Method");
+                        //    //info.GetValue();
+                        //    //Struction.DelegateMethods[fields[j].Name] = 
+                        //}
                     }
                 }
             }

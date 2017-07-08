@@ -1,5 +1,6 @@
 ﻿using Natasha.Cache;
 using Natasha.Core;
+
 using Natasha.Utils;
 using System;
 using System.Reflection;
@@ -14,7 +15,7 @@ namespace Natasha
         private TypeBuilder classHandler;
         public ClassStruction Struction;
         public string Name;
-        public ILGenerator ilHandler;
+        public ILGenerator il;
 
         private ClassBuilder(string name, TypeAttributes option)
         {
@@ -43,7 +44,7 @@ namespace Natasha
         #region 默认构造函数
         public void CreateDefaultConstructor()
         {
-            CreateConstructor((til) => { til.Emit(OpCodes.Ret); });
+            CreateConstructor((til) => { til.REmit(OpCodes.Ret); });
         }
         public void CreateConstructor(Action<ILGenerator> action, params Type[] args)
         {
@@ -94,16 +95,16 @@ namespace Natasha
 
             MethodBuilder setMethod = classHandler.DefineMethod("setter_" + name, MethodAttributes.Public, null, new Type[] { type });
             ILGenerator set_il = setMethod.GetILGenerator();
-            set_il.Emit(OpCodes.Ldarg_0);
-            set_il.Emit(OpCodes.Ldarg_1);
-            set_il.Emit(OpCodes.Stfld, innerField);
-            set_il.Emit(OpCodes.Ret);
+            set_il.REmit(OpCodes.Ldarg_0);
+            set_il.REmit(OpCodes.Ldarg_1);
+            set_il.REmit(OpCodes.Stfld, innerField);
+            set_il.REmit(OpCodes.Ret);
 
             MethodBuilder getMethod = classHandler.DefineMethod("getter_" + name, MethodAttributes.Public, type, null);
             ILGenerator get_il = getMethod.GetILGenerator();
-            get_il.Emit(OpCodes.Ldarg_0);
-            get_il.Emit(OpCodes.Ldfld, innerField);
-            get_il.Emit(OpCodes.Ret);
+            get_il.REmit(OpCodes.Ldarg_0);
+            get_il.REmit(OpCodes.Ldfld, innerField);
+            get_il.REmit(OpCodes.Ret);
 
             propertyInfo.SetSetMethod(setMethod);
             propertyInfo.SetGetMethod(getMethod);
@@ -247,12 +248,12 @@ namespace Natasha
             }
 
             MethodBuilder methodInfo = classHandler.DefineMethod(name, option, returnType, parameterTypes);
-            ilHandler = methodInfo.GetILGenerator();
+            il = methodInfo.GetILGenerator();
 
 
             int ThreadId = Thread.CurrentThread.ManagedThreadId;
             ThreadCache.TKeyDict[ThreadId] = name;
-            ThreadCache.TILDict[ThreadId] = ilHandler;
+            ThreadCache.TILDict[ThreadId] = il;
 
 
             if (action != null)
@@ -261,8 +262,8 @@ namespace Natasha
                 Struction.Methods[name] = methodInfo;
             }
 
-            ThreadCache.TILDict.Remove(ThreadId);
-            ThreadCache.TKeyDict.Remove(ThreadId);
+            ThreadCache.TILDict.TryRemove(ThreadId,out il);
+            ThreadCache.TKeyDict.TryRemove(ThreadId,out name);
         }
         #endregion
 
@@ -276,15 +277,15 @@ namespace Natasha
             if (info.IsStatic)
             {
                 //填充静态字段
-                DataHelper.NoErrorLoad(value, ilHandler);
-                ilHandler.Emit(OpCodes.Stsfld, info);
+                il.NoErrorLoad(value);
+                il.REmit(OpCodes.Stsfld, info);
             }
             else
             {
                 //如果是结构体需要加载地址
                 This();
-                DataHelper.NoErrorLoad(value, ilHandler);
-                ilHandler.Emit(OpCodes.Stfld, info);
+                il.NoErrorLoad(value);
+                il.REmit(OpCodes.Stfld, info);
             }
         }
         public void SField(string fieldName, Action action)
@@ -305,9 +306,9 @@ namespace Natasha
                 This();
             }
 
-            DataHelper.NoErrorLoad(value, ilHandler);
+            il.NoErrorLoad(value);
 
-            MethodHelper.CallMethod(info.PropertyType,method);
+            MethodHelper.CallMethod(method);
         }
         public void SProperty(string propertyName, Action action)
         {
@@ -321,20 +322,16 @@ namespace Natasha
             MethodInfo info = Struction.Methods[methodName];
             if (info.IsStatic)
             {
-                actionLoadValue(ilHandler);
-                ilHandler.Emit(OpCodes.Call, info);
+                actionLoadValue(il);
+                il.REmit(OpCodes.Call, info);
             }
             else
             {
                 This();
-                actionLoadValue(ilHandler);
-                ilHandler.Emit(OpCodes.Callvirt, info);
+                actionLoadValue(il);
+                il.REmit(OpCodes.Callvirt, info);
             }
-
-            if (info.ReturnType == typeof(bool))
-            {
-                ThreadCache.SetJudgeCode(OpCodes.Brfalse_S);
-            }
+            il.BoolInStack(info.ReturnType);
             return EModel.CreateModelFromAction(null, Struction.TypeHandler);
         }
         public ComplexType EMethod(string methodName)
@@ -355,11 +352,11 @@ namespace Natasha
             {
                 if (type.IsValueType && !type.IsPrimitive)
                 {
-                    ilHandler.Emit(OpCodes.Ldsflda, info);
+                    il.REmit(OpCodes.Ldsflda, info);
                 }
                 else
                 {
-                    ilHandler.Emit(OpCodes.Ldsfld, info);
+                    il.REmit(OpCodes.Ldsfld, info);
                 }
             }
             else
@@ -368,18 +365,15 @@ namespace Natasha
                 This();
                 if (type.IsValueType && !type.IsPrimitive)
                 {
-                    ilHandler.Emit(OpCodes.Ldflda, info);
+                    il.REmit(OpCodes.Ldflda, info);
                 }
                 else
                 {
-                    ilHandler.Emit(OpCodes.Ldfld, info);
+                    il.REmit(OpCodes.Ldfld, info);
                 }
             }
             //如果单独加载了bool类型的值
-            if (type == typeof(bool))
-            {
-                ThreadCache.SetJudgeCode(OpCodes.Brfalse_S);
-            }
+            il.BoolInStack(type);
             return EModel.CreateModelFromAction(null, type);
         }
 
@@ -392,18 +386,14 @@ namespace Natasha
             //静态属性
             if (method.IsStatic)
             {
-                ilHandler.Emit(OpCodes.Call, method);
+                il.REmit(OpCodes.Call, method);
             }
             else
             {
                 This();
-                ilHandler.Emit(OpCodes.Callvirt, method);
+                il.REmit(OpCodes.Callvirt, method);
             }
-
-            if (type == typeof(bool))
-            {
-                ThreadCache.SetJudgeCode(OpCodes.Brfalse_S);
-            }
+            il.BoolInStack(type);
             return EModel.CreateModelFromAction(null, type);
         }
 
@@ -415,12 +405,12 @@ namespace Natasha
             //静态字段
             if (info.IsStatic)
             {
-                ilHandler.Emit(OpCodes.Ldsfld, info);
+                il.REmit(OpCodes.Ldsfld, info);
             }
             else
             {
                 This();
-                ilHandler.Emit(OpCodes.Ldfld, info);
+                il.REmit(OpCodes.Ldfld, info);
             }
             //如果单独加载了bool类型的值
             if (type == typeof(bool))
@@ -432,12 +422,12 @@ namespace Natasha
 
         public void Load()
         {
-            ilHandler.Emit(OpCodes.Ldarg_0);
+            il.REmit(OpCodes.Ldarg_0);
         }
 
         public void This()
         {
-            ilHandler.Emit(OpCodes.Ldarg_0);
+            il.REmit(OpCodes.Ldarg_0);
         }
 
         #endregion

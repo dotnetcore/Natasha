@@ -1,22 +1,28 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Runtime.InteropServices;
 
 namespace Natasha.Cache
 {
     //主要是针对类操作的一些缓存
     public delegate bool CheckStructDelegate(object value);
+
+
     public static class ClassCache
     {
-        public static Dictionary<string, ClassStruction> ClassInfoDict;
-        public static Dictionary<string, Type> DynamicClassDict;
-        public static Dictionary<Type, CheckStructDelegate> CheckStructDict;
-        public static Dictionary<Type, Action<ILGenerator>> ConstructorDict;
+        private static readonly object CacheLock = new object();
+        public static ConcurrentDictionary<string, ClassStruction> ClassInfoDict;
+        public static ConcurrentDictionary<string, Type> DynamicClassDict;
+        public static ConcurrentDictionary<Type, CheckStructDelegate> CheckStructDict;
+        public static ConcurrentDictionary<Type, Action<ILGenerator>> ConstructorDict;
 
         public static HashSet<string> NoCloneTypes;
 
         public static MethodInfo StringCompare;
+        public static MethodInfo StringJoin;
         public static MethodInfo ClassCompare;
         public static MethodInfo ClassHandle;
         public static MethodInfo FieldInfoGetter;
@@ -25,25 +31,36 @@ namespace Natasha.Cache
         public static MethodInfo PropertyInfoGetter;
         public static MethodInfo PropertyValueGetter;
         public static MethodInfo PropertyValueSetter;
+        public static MethodInfo DelegateMethod;
 
         static ClassCache()
         {
-            StringCompare = typeof(string).GetMethod("Equals", new Type[] { typeof(string), typeof(string) });
-            ClassCompare = typeof(object).GetMethod("Equals", new Type[] { typeof(object), typeof(object) });
-            ClassHandle = typeof(Type).GetMethod("GetTypeFromHandle", new Type[] { typeof(RuntimeTypeHandle) });
-            FieldInfoGetter = typeof(Type).GetMethod("GetField", new Type[] { typeof(string), typeof(BindingFlags) });
-            FieldValueGetter = typeof(FieldInfo).GetMethod("GetValue", new Type[] { typeof(object) });
-            FieldValueSetter = typeof(FieldInfo).GetMethod("SetValue", new Type[] { typeof(object), typeof(object) });
-            PropertyInfoGetter = typeof(Type).GetMethod("GetProperty", new Type[] { typeof(string), typeof(BindingFlags) });
-            PropertyValueGetter = typeof(PropertyInfo).GetMethod("GetValue", new Type[] { typeof(object) });
-            PropertyValueSetter = typeof(PropertyInfo).GetMethod("SetValue", new Type[] { typeof(object), typeof(object) });
-            NoCloneTypes = new HashSet<string>();
-            ClassInfoDict = new Dictionary<string, ClassStruction>();
-            DynamicClassDict = new Dictionary<string, Type>();
-            CheckStructDict = new Dictionary<Type, CheckStructDelegate>();
-            ConstructorDict = new Dictionary<Type, Action<ILGenerator>>();
+            if (ClassInfoDict==null)
+            {
+                lock (CacheLock)
+                {
+                    if (ClassInfoDict==null)
+                    {
+                        StringCompare = typeof(string).GetMethod("Equals", new Type[] { typeof(string), typeof(string) });
+                        ClassCompare = typeof(object).GetMethod("Equals", new Type[] { typeof(object), typeof(object) });
+                        ClassHandle = typeof(Type).GetMethod("GetTypeFromHandle", new Type[] { typeof(RuntimeTypeHandle) });
+                        FieldInfoGetter = typeof(_Type).GetMethod("GetField", new Type[] { typeof(string), typeof(BindingFlags) });
+                        FieldValueGetter = typeof(_FieldInfo).GetMethod("GetValue", new Type[] { typeof(object) });
+                        FieldValueSetter = typeof(FieldInfo).GetMethod("SetValue", new Type[] { typeof(object), typeof(object) });
+                        PropertyInfoGetter = typeof(_Type).GetMethod("GetProperty", new Type[] { typeof(string), typeof(BindingFlags) });
+                        PropertyValueGetter = typeof(PropertyInfo).GetMethod("GetValue", new Type[] { typeof(object) });
+                        PropertyValueSetter = typeof(PropertyInfo).GetMethod("SetValue", new Type[] { typeof(object), typeof(object) });
+                        StringJoin = typeof(string).GetMethod("Concat", new Type[] { typeof(string), typeof(string) });
+                        NoCloneTypes = new HashSet<string>();
+                        ClassInfoDict = new ConcurrentDictionary<string, ClassStruction>();
+                        DynamicClassDict = new ConcurrentDictionary<string, Type>();
+                        CheckStructDict = new ConcurrentDictionary<Type, CheckStructDelegate>();
+                        ConstructorDict = new ConcurrentDictionary<Type, Action<ILGenerator>>();
 
-            FillNoCloneCollection();
+                        FillNoCloneCollection();
+                    }
+                }
+            }
         }
 
 
@@ -62,6 +79,11 @@ namespace Natasha.Cache
         public static void SetConstructor(Type type,Action<ILGenerator> action)
         {
             ConstructorDict[type] = action;
+        }
+
+        public static void Initialize()
+        {
+
         }
     }
 }

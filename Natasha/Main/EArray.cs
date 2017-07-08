@@ -1,4 +1,5 @@
 ﻿using Natasha.Core;
+using Natasha.Utils;
 using System;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -57,9 +58,9 @@ namespace Natasha
             model.Length = length;
             if (length != -1)
             {
-                model.ilHandler.Emit(OpCodes.Ldc_I4, length);
-                model.ilHandler.Emit(OpCodes.Newarr, model.BaseType);
-                model.ilHandler.Emit(OpCodes.Stloc, model.Builder);
+                model.il.REmit(OpCodes.Ldc_I4, length);
+                model.il.REmit(OpCodes.Newarr, model.ElementType);
+                model.il.REmit(OpCodes.Stloc, model.Builder);
             }
             return model;
         }
@@ -88,6 +89,7 @@ namespace Natasha
         }
         #endregion
         #endregion
+
         #region 迭代器属性和方法(不支持)
         public MethodInfo MoveNext
         {
@@ -143,6 +145,7 @@ namespace Natasha
 
 
         #endregion
+
         #region 迭代器属性和方法(支持)
         public new void Initialize()
         {
@@ -155,19 +158,7 @@ namespace Natasha
         }
         public void LoadCurrentElement(LocalBuilder currentBuilder)
         {
-            Load();
-            if (currentBuilder!=null)
-            {
-                ilHandler.Emit(OpCodes.Ldloc, currentBuilder);
-            }
-            if (ArrayIsStruct)
-            {
-                ilHandler.Emit(LoadArrayCode,BaseType);
-            }
-            else
-            {
-                ilHandler.Emit(LoadArrayCode);
-            }
+            LoadArray(currentBuilder);
         }
         #endregion
        

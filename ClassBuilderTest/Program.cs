@@ -24,16 +24,16 @@ namespace ClassBuilderTest
                 classModel.SField("Age", "This is Age.");
                 classModel.SProperty("Name", "This is name.");
                 classModel.LPropertyValue("Name");
-                classModel.ilHandler.Emit(OpCodes.Call, typeof(Console).GetMethod("WriteLine", new Type[] { typeof(string) }));
-                classModel.ilHandler.Emit(OpCodes.Ret);
+                classModel.il.REmit(OpCodes.Call, typeof(Console).GetMethod("WriteLine", new Type[] { typeof(string) }));
+                classModel.il.REmit(OpCodes.Ret);
             });
             builder.EndBuilder();
             Delegate ShowDelegate = EHandler.CreateMethod<ENull>((il) =>
             {
                 EModel Model = EModel.CreateDynamicClass("Hello").UseDefaultConstructor();
                 EMethod.Load(Model).ExecuteMethod("Show");
-                Model.LField("Age");
-                Model.ilHandler.Emit(OpCodes.Call, typeof(Console).GetMethod("WriteLine", new Type[] { typeof(string) }));
+                Model.LFieldValue("Age");
+                Model.il.REmit(OpCodes.Call, typeof(Console).GetMethod("WriteLine", new Type[] { typeof(string) }));
             }).Compile();
             ((Action)ShowDelegate)();
         }

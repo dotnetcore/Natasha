@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 using System.Threading;
@@ -8,31 +9,31 @@ namespace Natasha.Cache
     //线程缓存，保证EHandle可以并发生成函数
     public static class ThreadCache
     {
-        public static Dictionary<int, ILGenerator> ILDict;
-        public static Dictionary<int, string> TKeyDict;
-        public static Dictionary<int, ILGenerator> TILDict;
-        public static Dictionary<int, OpCode> CodeDict;
-        public static Dictionary<int, OpCode> TCodeDict;
-        public static Dictionary<int, Action> CompareAction1;
-        public static Dictionary<int, Action> TCompareAction1;
+        public static ConcurrentDictionary<int, ILGenerator> ILDict;
+        public static ConcurrentDictionary<int, string> TKeyDict;
+        public static ConcurrentDictionary<int, ILGenerator> TILDict;
+        public static ConcurrentDictionary<int, OpCode> CodeDict;
+        public static ConcurrentDictionary<int, OpCode> TCodeDict;
+        public static ConcurrentDictionary<int, Action> CompareAction1;
+        public static ConcurrentDictionary<int, Action> TCompareAction1;
 
 
-        public static Dictionary<int, Action> CompareAction2;
-        public static Dictionary<int, Action> TCompareAction2;
+        public static ConcurrentDictionary<int, Action> CompareAction2;
+        public static ConcurrentDictionary<int, Action> TCompareAction2;
 
         static ThreadCache()
         {
-            ILDict = new Dictionary<int, ILGenerator>();
-            CodeDict = new Dictionary<int, OpCode>();
-            TILDict = new Dictionary<int, ILGenerator>();
-            TKeyDict = new Dictionary<int, string>();
-            TCodeDict = new Dictionary<int, OpCode>();
+            ILDict = new ConcurrentDictionary<int, ILGenerator>();
+            CodeDict = new ConcurrentDictionary<int, OpCode>();
+            TILDict = new ConcurrentDictionary<int, ILGenerator>();
+            TKeyDict = new ConcurrentDictionary<int, string>();
+            TCodeDict = new ConcurrentDictionary<int, OpCode>();
 
-            CompareAction1 = new Dictionary<int, Action>();
-            TCompareAction1 = new Dictionary<int, Action>();
+            CompareAction1 = new ConcurrentDictionary<int, Action>();
+            TCompareAction1 = new ConcurrentDictionary<int, Action>();
 
-            CompareAction2 = new Dictionary<int, Action>();
-            TCompareAction2 = new Dictionary<int, Action>();
+            CompareAction2 = new ConcurrentDictionary<int, Action>();
+            TCompareAction2 = new ConcurrentDictionary<int, Action>();
         }
         public static void SetCompareAction1(Action action)
         {
@@ -148,6 +149,11 @@ namespace Natasha.Cache
                 return ILDict[ThreadId];
             }
             return null;
+        }
+
+        public static void Initialize()
+        {
+
         }
     }
 }

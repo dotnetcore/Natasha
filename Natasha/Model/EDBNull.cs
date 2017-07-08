@@ -17,7 +17,7 @@ namespace Natasha
 
         public static void LoadValue()
         {
-            ThreadCache.GetIL().Emit(OpCodes.Ldsfld, Value);
+            ThreadCache.GetIL().REmit(OpCodes.Ldsfld, Value);
         }
     }
 }

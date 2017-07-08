@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)xunit.runner.visualstudio.dotnetcore.testadapter.dll">
+      <Link>xunit.runner.visualstudio.dotnetcore.testadapter.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Visible>False</Visible>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)xunit.runner.utility.netstandard15.dll">
+      <Link>xunit.runner.utility.netstandard15.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Visible>False</Visible>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)xunit.runner.reporters.netstandard15.dll">
+      <Link>xunit.runner.reporters.netstandard15.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Visible>False</Visible>
+    </Content>
+  </ItemGroup>
+</Project>

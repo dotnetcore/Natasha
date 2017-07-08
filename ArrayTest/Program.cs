@@ -80,7 +80,7 @@ namespace ArrayTest
                 ELoop.For(Model, (loadCurrentElement) =>
                 {
                     loadCurrentElement();
-                    Model.ilHandler.Emit(OpCodes.Call, typeof(Console).GetMethod("WriteLine", new Type[] { typeof(string) }));
+                    Model.il.REmit(OpCodes.Call, typeof(Console).GetMethod("WriteLine", new Type[] { typeof(string) }));
                 });
             }).Compile();
             ((Action)ShowDelegate)();
@@ -94,7 +94,7 @@ namespace ArrayTest
                 ELoop.For(Model, (loadCurrentElement) =>
                 {
                     loadCurrentElement();
-                    Model.ilHandler.Emit(OpCodes.Call, typeof(Console).GetMethod("WriteLine", new Type[] { typeof(int) }));
+                    Model.il.REmit(OpCodes.Call, typeof(Console).GetMethod("WriteLine", new Type[] { typeof(int) }));
                 });
             }).Compile();
             ((Action)ShowDelegate)();
@@ -115,8 +115,8 @@ namespace ArrayTest
                 ELoop.For(model, (loadCurrentElement) =>
                 {
                     EModel modelHandler = EModel.CreateModelFromAction<TestClass>(loadCurrentElement);
-                    modelHandler.LFieldStructr("FieldNext").LField("Age");
-                    modelHandler.ilHandler.Emit(OpCodes.Call, typeof(Console).GetMethod("WriteLine", new Type[] { typeof(int) }));
+                    modelHandler.LField("FieldNext").LFieldValue("Age");
+                    modelHandler.il.REmit(OpCodes.Call, typeof(Console).GetMethod("WriteLine", new Type[] { typeof(int) }));
                 });
                 model.Load();
             }).Compile();
@@ -191,14 +191,14 @@ namespace ArrayTest
                 ELoop.For(structArrayModel, (currentElement) =>
                 {
                     EModel model = EModel.CreateModelFromAction(currentElement, typeof(StructField));
-                    model.LField("PublicAge");
+                    model.LFieldValue("PublicAge");
                     method.ExecuteMethod<int>("WriteLine");
                 });
                 EArray classArrayModel = EArray.CreateArrayFromRuntimeArray(classArray);
                 ELoop.For(classArrayModel, (currentElement) =>
                 {
                     EModel model = EModel.CreateModelFromAction(currentElement, typeof(ClassField));
-                    model.LField("PublicAge");
+                    model.LFieldValue("PublicAge");
                     method.ExecuteMethod<int>("WriteLine");
                 });
                 EArray enumArrayModel = EArray.CreateArrayFromRuntimeArray(enumArray);

@@ -1,6 +1,4 @@
 ﻿using Natasha.Cache;
-using Natasha.Debug;
-using Natasha.Utils;
 using System;
 using System.Reflection.Emit;
 using System.Threading;
@@ -26,7 +24,7 @@ namespace Natasha
         private Type ReturnType;
         private string methodName;
         private string key;
-        public EHandler(string name = "EmitMethod")
+        private EHandler(string name = "EmitMethod")
         {
             methodName = name;
             _index = 0;
@@ -211,20 +209,21 @@ namespace Natasha
         private void MakeMethodBody(Action<ILGenerator> action, string ilKey)
         {
             int ThreadId = Thread.CurrentThread.ManagedThreadId;
-            newMethod = new DynamicMethod(methodName + Index, ReturnType, ParameterTypes);
+            string dynamicMethodName = methodName + EHandler.Index;
+            newMethod = new DynamicMethod(dynamicMethodName, ReturnType, ParameterTypes);
+            
 
-            il = newMethod.GetILGenerator();
+            il = newMethod.GetILGenerator(); 
             if (ilKey!=null)
             {
-
-                DebugHelper.Start(ilKey);
                 key = ilKey;
+                DebugHelper.Start(key);
                 ThreadCache.TKeyDict[ThreadId] = key;
                 ThreadCache.TILDict[ThreadId] = il;
             }
             else
             {
-                DebugHelper.Start(methodName + Index);
+                DebugHelper.Start(dynamicMethodName);
                 ThreadCache.ILDict[ThreadId] = il;
             }
             
@@ -238,21 +237,18 @@ namespace Natasha
         public Delegate Compile(Type type=null)
         {
             
-            il.Emit(OpCodes.Ret);
+            il.REmit(OpCodes.Ret);
            
             int ThreadId = Thread.CurrentThread.ManagedThreadId;
             if (key!=null)
             {
-                ThreadCache.TILDict.Remove(ThreadId);
-                ThreadCache.TKeyDict.Remove(ThreadId);
-                DebugHelper.WriteLine(key + "函数返回");
+                ThreadCache.TILDict.TryRemove(ThreadId, out il);
+                ThreadCache.TKeyDict.TryRemove(ThreadId,out key);
                 DebugHelper.End();
             }
             else
             {
-                
-                ThreadCache.ILDict.Remove(ThreadId);
-                DebugHelper.WriteLine("函数返回");
+                ThreadCache.ILDict.TryRemove(ThreadId,out il);
                 DebugHelper.End();
             }
             if (type==null)

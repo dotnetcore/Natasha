@@ -35,28 +35,48 @@ namespace Natasha
             _typeHandler = type;
             return this;
         }
-        public static EMethod Load<T>(Type type)
+        public static EMethod Load<T>()
         {
             return Load(typeof(T));
         }
         public static EMethod Load(Type type)
         {
-            EMethod isntance = type;
-            return isntance;
+            EMethod instance = type;
+            return instance;
         }
-        public static EMethod Load(EModel instance)
+        public static EMethod Load(EModel value)
         {
-            EMethod isntance = instance.TypeHandler;
-            instance.This();
-            return isntance;
+            EMethod instance;
+            if (value.DelayAction!=null)
+            {
+                instance = value.CompareType;
+                value.DelayAction();
+            }
+            else
+            {
+                instance = value.TypeHandler;
+                value.This();
+            }
+            
+            return instance;
         }
         public static EMethod Load(EVar value)
         {
-            EMethod isntance = value.TypeHandler;
+            EMethod instance = value.TypeHandler;
             value.This();
-            return isntance;
+            return instance;
         }
-
+        public EModel Dup()
+        {
+            ILGenerator il = ThreadCache.GetIL();
+            il.Dup();
+            return EModel.CreateModelFromAction(null,_typeHandler);
+        }
+        public void Pop()
+        {
+            ILGenerator il = ThreadCache.GetIL();
+            il.Pop();
+        }
         public EMethod AddGenricType(params Type[] types)
         {
             _genericTypes = types;
@@ -102,7 +122,7 @@ namespace Natasha
             _genericTypes = MethodHelper.GetGenericTypes<T1, T2, T3, T4, T5, T6, T7, T8>();
             return this;
         }
-
+       
         public EMethod ExecuteMethod(string methodName, Action action = null)
         {
             _methodTypes= MethodHelper.GetGenericTypes();
@@ -206,7 +226,7 @@ namespace Natasha
             {
                 action();
             }
-            MethodHelper.CallMethod(_typeHandler, info);
+            MethodHelper.CallMethod(info);
             if (info.ReturnType != null)
             {
                 EMethod newMethod = info.ReturnType;
@@ -226,11 +246,11 @@ namespace Natasha
                 {
                     if (instances[i] != null)
                     {
-                        DataHelper.NoErrorLoad(instances[i], il);
+                        il.NoErrorLoad(instances[i]);
                     }
                 }
             }
-            MethodHelper.CallMethod(_typeHandler, info);
+            MethodHelper.CallMethod(info);
             if (info.ReturnType != null)
             {
                 EMethod newMethod = info.ReturnType;

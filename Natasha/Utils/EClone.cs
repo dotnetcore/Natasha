@@ -18,11 +18,26 @@ namespace Natasha.Utils
         public static LocalBuilder GetCloneBuilder(object value, Type type)
         {
             ILGenerator il = ThreadCache.GetIL();
-            if (value == null)
+            if (il.IsNullable(type))
             {
                 LocalBuilder builder = il.DeclareLocal(type);
-                il.Emit(OpCodes.Ldnull);
-                il.Emit(OpCodes.Stloc_S, builder);
+                if (value == null)
+                {
+                    il.REmit(OpCodes.Ldloca_S, builder);
+                    il.InitObject(type);
+                }
+                else
+                {
+                    il.LoadObject(value, value.GetType());
+                    il.CallNullableCtor(type);
+                }
+                return builder;
+            }
+            else if (value == null)
+            {
+                LocalBuilder builder = il.DeclareLocal(type);
+                il.REmit(OpCodes.Ldnull);
+                il.REmit(OpCodes.Stloc_S, builder.LocalIndex);
                 return builder;
             }
             else if (type.IsValueType && !type.IsPrimitive)
@@ -30,16 +45,14 @@ namespace Natasha.Utils
                 LocalBuilder builder = il.DeclareLocal(type);
                 if (type.IsEnum)
                 {
-                    DataHelper.LoadObject((int)value);
-                    il.Emit(OpCodes.Stloc_S, builder);
+                    il.EmitInt((int)value);
+                    il.REmit(OpCodes.Stloc_S, builder);
                     return builder;
                 }
                 if (EStruckCheck.IsDefaultStruct(value, type))
                 {
                     EModel structModel = EModel.CreateModel(type).UseDefaultConstructor();
-                    structModel.Load();
-                    il.Emit(OpCodes.Stloc_S, builder);
-                    return builder;
+                    return structModel.Builder;
                 }
             }
             else if (type.IsArray)
@@ -53,7 +66,7 @@ namespace Natasha.Utils
 
                     if (result != null)
                     {
-                        if (array.ArrayIsStruct && !array.BaseType.IsEnum)
+                        if (array.IsStruct && !array.ElementType.IsEnum)
                         {
                             if (EStruckCheck.IsDefaultStruct(result, instanceType))
                             {
@@ -74,30 +87,33 @@ namespace Natasha.Utils
             ClassStruction struction = ClassCache.ClassInfoDict[type.Name];
             EModel model = EModel.CreateModel(type).UseDefaultConstructor();
 
-            foreach (var item in struction.Properties)
-            {
-                MethodInfo info = item.Value.GetSetMethod(true);
-                if (info == null || GetDict[item.Key] == null || info.IsPrivate)
-                {
-                    continue;
-                }
+            //foreach (var item in struction.Properties)
+            //{
+            //    MethodInfo info = item.Value.GetSetMethod(true);
+            //    if (info == null || GetDict[item.Key] == null || info.IsPrivate || info.IsStatic)
+            //    {
+            //        continue;
+            //    }
 
-                object result = GetDict[item.Key](value);
-                if (result==null)
-                {
-                    continue;
-                }
-                model.SProperty(item.Key, result);
-            }
+            //    object result = GetDict[item.Key](value);
+            //    if (result == null)
+            //    {
+            //        continue;
+            //    }
+            //    model.SProperty(item.Key, result);
+            //}
 
             foreach (var item in struction.Fields)
             {
+                if (item.Value.IsStatic)
+                {
+                    continue;
+                }
                 object result = GetDict[item.Key](value);
                 if (result == null)
                 {
                     continue;
                 }
-                
                 model.SField(item.Key, result);
             }
             return model.Builder;
