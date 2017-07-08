@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArrayTest", "ArrayTest\Arra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassBuilderTest", "ClassBuilderTest\ClassBuilderTest.csproj", "{114D3081-4866-472A-9161-28889B762077}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OperatorTest", "OperatorTest\OperatorTest.csproj", "{BEA6C3FC-D1AC-46A4-8926-E129F402E237}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MethodTest", "MethodTest\MethodTest.csproj", "{35FFAE84-7774-4E2C-8435-EFD9565AE67F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NatashaUT", "NatashaUT\NatashaUT.csproj", "{E6E384B4-993C-4483-A2A1-46875A0FED19}"
@@ -33,10 +31,6 @@ Global
 		{114D3081-4866-472A-9161-28889B762077}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{114D3081-4866-472A-9161-28889B762077}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{114D3081-4866-472A-9161-28889B762077}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BEA6C3FC-D1AC-46A4-8926-E129F402E237}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BEA6C3FC-D1AC-46A4-8926-E129F402E237}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BEA6C3FC-D1AC-46A4-8926-E129F402E237}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BEA6C3FC-D1AC-46A4-8926-E129F402E237}.Release|Any CPU.Build.0 = Release|Any CPU
 		{35FFAE84-7774-4E2C-8435-EFD9565AE67F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{35FFAE84-7774-4E2C-8435-EFD9565AE67F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35FFAE84-7774-4E2C-8435-EFD9565AE67F}.Release|Any CPU.ActiveCfg = Release|Any CPU
