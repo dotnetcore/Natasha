@@ -21,16 +21,18 @@ namespace System.Reflection.Emit
                 }
                 else
                 {
-                    Action action = (Action)value;
+                    Action action = value as Action;
                     if (action==null)
                     {
-                        il.NoErrorLoad(value);
+                        il.NoErrorLoad(value, type.GenericTypeArguments[0]);
                         ConstructorInfo ctor = type.GetConstructor(new Type[] { type.GenericTypeArguments[0] });
                         il.REmit(OpCodes.Newobj, ctor);
                     }
                     else
                     {
                         action();
+                        ConstructorInfo ctor = type.GetConstructor(new Type[] { type.GenericTypeArguments[0] });
+                        il.REmit(OpCodes.Newobj, ctor);
                     }
                 }
             }

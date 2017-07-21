@@ -44,10 +44,10 @@ namespace Natasha.Cache
                         StringCompare = typeof(string).GetMethod("Equals", new Type[] { typeof(string), typeof(string) });
                         ClassCompare = typeof(object).GetMethod("Equals", new Type[] { typeof(object), typeof(object) });
                         ClassHandle = typeof(Type).GetMethod("GetTypeFromHandle", new Type[] { typeof(RuntimeTypeHandle) });
-                        FieldInfoGetter = typeof(_Type).GetMethod("GetField", new Type[] { typeof(string), typeof(BindingFlags) });
-                        FieldValueGetter = typeof(_FieldInfo).GetMethod("GetValue", new Type[] { typeof(object) });
+                        FieldInfoGetter = typeof(Type).GetMethod("GetField", new Type[] { typeof(string), typeof(BindingFlags) });
+                        FieldValueGetter = typeof(FieldInfo).GetMethod("GetValue", new Type[] { typeof(object) });
                         FieldValueSetter = typeof(FieldInfo).GetMethod("SetValue", new Type[] { typeof(object), typeof(object) });
-                        PropertyInfoGetter = typeof(_Type).GetMethod("GetProperty", new Type[] { typeof(string), typeof(BindingFlags) });
+                        PropertyInfoGetter = typeof(Type).GetMethod("GetProperty", new Type[] { typeof(string), typeof(BindingFlags) });
                         PropertyValueGetter = typeof(PropertyInfo).GetMethod("GetValue", new Type[] { typeof(object) });
                         PropertyValueSetter = typeof(PropertyInfo).GetMethod("SetValue", new Type[] { typeof(object), typeof(object) });
                         StringJoin = typeof(string).GetMethod("Concat", new Type[] { typeof(string), typeof(string) });

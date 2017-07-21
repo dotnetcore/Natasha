@@ -356,7 +356,7 @@ namespace Natasha.Core
                         case LinkCallOption.Private_Property_Ref_Call:
                             il.REmit(OpCodes.Ldtoken, pInfo.DeclaringType);
                             il.REmit(OpCodes.Call, ClassCache.ClassHandle);
-                            il.REmit(OpCodes.Ldstr, info.Name);
+                            il.REmit(OpCodes.Ldstr, pInfo.Name);
                             il.REmit(OpCodes.Ldc_I4_S, 44);
                             il.REmit(OpCodes.Call, ClassCache.PropertyInfoGetter);
                             Load();
@@ -378,7 +378,7 @@ namespace Natasha.Core
                         il.EmitStoreBuilder(tempBuidler);
                         il.REmit(OpCodes.Ldtoken, pInfo.DeclaringType);
                         il.REmit(OpCodes.Call, ClassCache.ClassHandle);
-                        il.REmit(OpCodes.Ldstr, info.Name);
+                        il.REmit(OpCodes.Ldstr, pInfo.Name);
                         il.REmit(OpCodes.Ldc_I4_S, 44);
                         il.REmit(OpCodes.Call, ClassCache.PropertyInfoGetter);
                         il.LoadBuilder(tempBuidler, false);
@@ -407,7 +407,7 @@ namespace Natasha.Core
                         il.EmitStoreBuilder(tempBuidler);
                         il.REmit(OpCodes.Ldtoken, pInfo.DeclaringType);
                         il.REmit(OpCodes.Call, ClassCache.ClassHandle);
-                        il.REmit(OpCodes.Ldstr, info.Name);
+                        il.REmit(OpCodes.Ldstr, pInfo.Name);
                         il.REmit(OpCodes.Ldc_I4_S, 44);
                         il.REmit(OpCodes.Call, ClassCache.PropertyInfoGetter);
                         il.LoadBuilder(tempBuidler, false);
@@ -430,7 +430,7 @@ namespace Natasha.Core
                         il.EmitStoreBuilder(tempBuidler);
                         il.REmit(OpCodes.Ldtoken, pInfo.DeclaringType);
                         il.REmit(OpCodes.Call, ClassCache.ClassHandle);
-                        il.REmit(OpCodes.Ldstr, info.Name);
+                        il.REmit(OpCodes.Ldstr, pInfo.Name);
                         il.REmit(OpCodes.Ldc_I4_S, 44);
                         il.REmit(OpCodes.Call, ClassCache.PropertyInfoGetter);
                         il.LoadBuilder(tempBuidler, false);

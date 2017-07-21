@@ -51,14 +51,35 @@ namespace NatashaUT
 
 
             //T2();
-            T<ulong?>();
+            //T<ulong?>();
             //T<string>();
 
 
 
+            ClassWithNullableModel model = new ClassWithNullableModel();
+            model.ValueProperty = 11111;
+            model.ValueField = 100;
+            model.ValueProperty = null;
+            ClassWithNullableModel.StaticValueField = null;
+            ClassWithNullableModel.StaticValueProperty = 200;
+            Delegate test = EHandler.CreateMethod<ulong?>((il) =>
+            {
+                EModel modelHandler = EModel.CreateModel<ClassWithNullableModel>().UseDefaultConstructor();
 
-
-
+                modelHandler.Set("ValueProperty", (ulong)1);
+                modelHandler.Load("PrivateProperty");
+                //modelHandler.Set("ValueProperty", modelHandler.DLoad("PrivateProperty").DLoad("Value").Operator + modelHandler.DLoad("StaticValueProperty").DLoad("Value").Operator);
+                //EMethod.Load(typeof(Console)).ExecuteMethod<ulong?>("WriteLine", modelHandler.DLoad("PrivateProperty").DLoad("Value").DelayAction);
+                // modelHandler.Set("ValueProperty", modelHandler.DLoad("PrivateProperty").DLoad("Value").Operator + modelHandler.DLoad("StaticValueProperty").DLoad("Value").Operator);
+                //modelHandler.Set("StaticValueProperty", modelHandler.DLoad("ValueProperty").DLoad("Value").Operator + modelHandler.DLoad("StaticValueProperty").DLoad("Value").Operator);
+                // modelHandler.Set("ValueField", modelHandler.DLoad("StaticValueProperty").DLoad("Value").Operator + modelHandler.DLoad("ValueField").DLoad("Value").Operator);
+                //modelHandler.Load();
+            }).Compile();
+            Func<ulong?> action = (Func<ulong?>)test;
+            //ClassWithNullableModel result = action();
+            ulong? obj = action();
+            object obj1 = typeof(ClassWithNullableModel).GetProperty("PrivateProperty", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).GetValue(model);
+            //ulong? a = (ulong?)obj1;
 
 
 

@@ -32,9 +32,9 @@ namespace NatashaUT.Complex
             }).Compile();
             Func<ClassWithNullableModel> action = (Func<ClassWithNullableModel>)test;
             ClassWithNullableModel result = action();
-            Assert.Equal((ulong)200, result.ValueProperty);
-            Assert.Equal((ulong)400, ClassWithNullableModel.StaticValueProperty);
-            Assert.Equal((ulong)500, result.ValueField);
+            Assert.Equal((ulong)201, result.ValueProperty);
+            Assert.Equal((ulong)401, ClassWithNullableModel.StaticValueProperty);
+            Assert.Equal((ulong)501, result.ValueField);
         }
     }
 }

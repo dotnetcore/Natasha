@@ -12,6 +12,7 @@ namespace Natasha
     public class EJudge : ILGeneratorBase
     {
         private Func<Action, EJudge> TrueFunc;
+        private Func<Action, EJudge> OneFunc;
         private Label CurrentLabel;
         private Label EndLabel;
         private int LabelIndex;
@@ -32,6 +33,16 @@ namespace Natasha
                 Jump(EndLabel);
                 il.MarkLabel(CurrentLabel);
                 DebugHelper.WriteLine("Normal-MarkLabel");
+                return this;
+            };
+            OneFunc = (action) =>
+            {
+                if (action != null)
+                {
+                    action();
+                }
+                il.MarkLabel(EndLabel);
+                DebugHelper.WriteLine("End-MarkLabel");
                 return this;
             };
         }
@@ -74,6 +85,31 @@ namespace Natasha
             newEJudge.LabelIndex += 1;
             newEJudge.il.REmit(ThreadCache.GetJudgeCode(), newEJudge.CurrentLabel);
             return newEJudge.TrueFunc;
+        }
+        public static Func<Action, EJudge> IfFalse(Action action)
+        {
+            EJudge newEJudge = new EJudge();
+            if (action != null)
+            {
+                action();
+            }
+            newEJudge.EndLabel = newEJudge.il.DefineLabel();
+            newEJudge.LabelIndex += 1;
+            newEJudge.il.REmit(OpCodes.Brfalse_S, newEJudge.EndLabel);
+
+            return newEJudge.OneFunc;
+        }
+        public static Func<Action, EJudge> IfTrue(Action action)
+        {
+            EJudge newEJudge = new EJudge();
+            if (action != null)
+            {
+                action();
+            }
+            newEJudge.EndLabel = newEJudge.il.DefineLabel();
+            newEJudge.LabelIndex += 1;
+            newEJudge.il.REmit(OpCodes.Brtrue_S, newEJudge.EndLabel);
+            return newEJudge.OneFunc;
         }
         public Func<Action, EJudge> ElseIf(object temp)
         {
