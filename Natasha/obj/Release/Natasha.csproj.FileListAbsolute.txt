@@ -2,4 +2,3 @@ J:\VsGit\Natasha\Natasha\bin\Release\Natasha.dll
 J:\VsGit\Natasha\Natasha\bin\Release\Natasha.pdb
 J:\VsGit\Natasha\Natasha\obj\Release\Natasha.dll
 J:\VsGit\Natasha\Natasha\obj\Release\Natasha.pdb
-J:\VsGit\Natasha\Natasha\obj\Release\Natasha.csprojResolveAssemblyReference.cache

@@ -26,10 +26,7 @@ namespace Natasha
         {
             TrueFunc = (action) =>
             {
-                if (action != null)
-                {
-                    action();
-                }
+                action?.Invoke();
                 Jump(EndLabel);
                 il.MarkLabel(CurrentLabel);
                 DebugHelper.WriteLine("Normal-MarkLabel");
@@ -37,10 +34,7 @@ namespace Natasha
             };
             OneFunc = (action) =>
             {
-                if (action != null)
-                {
-                    action();
-                }
+                action?.Invoke();
                 il.MarkLabel(EndLabel);
                 DebugHelper.WriteLine("End-MarkLabel");
                 return this;
@@ -76,10 +70,7 @@ namespace Natasha
         public static Func<Action, EJudge> If(Action action)
         {
             EJudge newEJudge = new EJudge();
-            if (action!=null)
-            {
-                action();
-            }
+            action?.Invoke();
             newEJudge.EndLabel = newEJudge.il.DefineLabel();
             newEJudge.CurrentLabel = newEJudge.il.DefineLabel();
             newEJudge.LabelIndex += 1;
@@ -89,10 +80,7 @@ namespace Natasha
         public static Func<Action, EJudge> IfFalse(Action action)
         {
             EJudge newEJudge = new EJudge();
-            if (action != null)
-            {
-                action();
-            }
+            action?.Invoke();
             newEJudge.EndLabel = newEJudge.il.DefineLabel();
             newEJudge.LabelIndex += 1;
             newEJudge.il.REmit(OpCodes.Brfalse_S, newEJudge.EndLabel);
@@ -102,10 +90,7 @@ namespace Natasha
         public static Func<Action, EJudge> IfTrue(Action action)
         {
             EJudge newEJudge = new EJudge();
-            if (action != null)
-            {
-                action();
-            }
+            action?.Invoke();
             newEJudge.EndLabel = newEJudge.il.DefineLabel();
             newEJudge.LabelIndex += 1;
             newEJudge.il.REmit(OpCodes.Brtrue_S, newEJudge.EndLabel);
@@ -121,10 +106,7 @@ namespace Natasha
         }
         public EJudge Else(Action action)
         {
-            if (action != null)
-            {
-                action();
-            }
+            action?.Invoke();
             il.MarkLabel(EndLabel);
             DebugHelper.WriteLine("End-MarkLabel");
             return this;
