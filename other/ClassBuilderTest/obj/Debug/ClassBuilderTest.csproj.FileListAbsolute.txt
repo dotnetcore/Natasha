@@ -1,8 +1,0 @@
-J:\VsGit\Natasha\other\ClassBuilderTest\bin\Debug\ClassBuilderTest.exe.config
-J:\VsGit\Natasha\other\ClassBuilderTest\bin\Debug\ClassBuilderTest.exe
-J:\VsGit\Natasha\other\ClassBuilderTest\bin\Debug\ClassBuilderTest.pdb
-J:\VsGit\Natasha\other\ClassBuilderTest\bin\Debug\Natasha.dll
-J:\VsGit\Natasha\other\ClassBuilderTest\bin\Debug\Natasha.pdb
-J:\VsGit\Natasha\other\ClassBuilderTest\obj\Debug\ClassBuilderTest.csprojResolveAssemblyReference.cache
-J:\VsGit\Natasha\other\ClassBuilderTest\obj\Debug\ClassBuilderTest.exe
-J:\VsGit\Natasha\other\ClassBuilderTest\obj\Debug\ClassBuilderTest.pdb
