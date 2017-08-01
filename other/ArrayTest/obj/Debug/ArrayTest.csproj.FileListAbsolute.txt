@@ -1,0 +1,8 @@
+J:\VsGit\Natasha\other\ArrayTest\bin\Debug\ArrayTest.exe.config
+J:\VsGit\Natasha\other\ArrayTest\bin\Debug\ArrayTest.exe
+J:\VsGit\Natasha\other\ArrayTest\bin\Debug\ArrayTest.pdb
+J:\VsGit\Natasha\other\ArrayTest\bin\Debug\Natasha.dll
+J:\VsGit\Natasha\other\ArrayTest\bin\Debug\Natasha.pdb
+J:\VsGit\Natasha\other\ArrayTest\obj\Debug\ArrayTest.csprojResolveAssemblyReference.cache
+J:\VsGit\Natasha\other\ArrayTest\obj\Debug\ArrayTest.exe
+J:\VsGit\Natasha\other\ArrayTest\obj\Debug\ArrayTest.pdb

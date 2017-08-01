@@ -1,0 +1,8 @@
+J:\VsGit\Natasha\other\MethodTest\bin\Debug\MethodTest.exe.config
+J:\VsGit\Natasha\other\MethodTest\bin\Debug\MethodTest.exe
+J:\VsGit\Natasha\other\MethodTest\bin\Debug\MethodTest.pdb
+J:\VsGit\Natasha\other\MethodTest\bin\Debug\Natasha.dll
+J:\VsGit\Natasha\other\MethodTest\bin\Debug\Natasha.pdb
+J:\VsGit\Natasha\other\MethodTest\obj\Debug\MethodTest.csprojResolveAssemblyReference.cache
+J:\VsGit\Natasha\other\MethodTest\obj\Debug\MethodTest.exe
+J:\VsGit\Natasha\other\MethodTest\obj\Debug\MethodTest.pdb
