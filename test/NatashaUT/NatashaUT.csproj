@@ -82,7 +82,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\Natasha\Natasha.csproj">
+    <ProjectReference Include="..\..\src\Natasha\Natasha.csproj">
       <Project>{b236d37f-45ed-43bd-a508-304343c64c7e}</Project>
       <Name>Natasha</Name>
     </ProjectReference>

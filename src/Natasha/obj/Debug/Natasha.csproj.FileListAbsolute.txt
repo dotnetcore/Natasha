@@ -1,0 +1,5 @@
+J:\VsGit\Natasha\Natasha\bin\Debug\Natasha.dll
+J:\VsGit\Natasha\Natasha\bin\Debug\Natasha.pdb
+J:\VsGit\Natasha\Natasha\obj\Debug\Natasha.dll
+J:\VsGit\Natasha\Natasha\obj\Debug\Natasha.pdb
+J:\VsGit\Natasha\Natasha\obj\Debug\Natasha.csprojResolveAssemblyReference.cache

@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Natasha", "Natasha\Natasha.csproj", "{B236D37F-45ED-43BD-A508-304343C64C7E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Natasha", "src\Natasha\Natasha.csproj", "{B236D37F-45ED-43BD-A508-304343C64C7E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArrayTest", "ArrayTest\ArrayTest.csproj", "{04450206-2EF6-4100-9DC5-1016D74B2D11}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArrayTest", "other\ArrayTest\ArrayTest.csproj", "{04450206-2EF6-4100-9DC5-1016D74B2D11}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassBuilderTest", "ClassBuilderTest\ClassBuilderTest.csproj", "{114D3081-4866-472A-9161-28889B762077}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassBuilderTest", "other\ClassBuilderTest\ClassBuilderTest.csproj", "{114D3081-4866-472A-9161-28889B762077}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MethodTest", "MethodTest\MethodTest.csproj", "{35FFAE84-7774-4E2C-8435-EFD9565AE67F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MethodTest", "other\MethodTest\MethodTest.csproj", "{35FFAE84-7774-4E2C-8435-EFD9565AE67F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NatashaUT", "NatashaUT\NatashaUT.csproj", "{E6E384B4-993C-4483-A2A1-46875A0FED19}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NatashaUT", "test\NatashaUT\NatashaUT.csproj", "{E6E384B4-993C-4483-A2A1-46875A0FED19}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C49C6005-E8A3-4F6A-8963-506D8A6DF8CC}"
 EndProject
