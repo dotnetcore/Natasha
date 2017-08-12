@@ -17,17 +17,17 @@ IL编程在普通的程序员的代码里几乎不会出现，但从Json.net、D
 
 类库名称：Natasha (娜塔莎)（原型苏联红军第25步兵师的中尉柳德米拉·帕夫利琴科，一名出色的女狙击手）
 
-开源协议：MPL2.0
+开源协议：MIT
 
 版    本：2016
 
 作    者：LanX
 
-感    谢：Xue 和 Denni 在测试以及审查代码上的支持
+感    谢：Xue 和 Denni 在测试以及审查代码上的支持,Lemon在IL架构以及类型兼容性上的支持,感谢 Victor.X.Qu 在文档上的支持。
 
 地 址：[https://github.com/dotnetcore/Natasha](https://github.com/dotnetcore/Natasha)
 
-API 文档地址：[测试地址](https://fs7744.github.io/Natasha/)
+API 文档地址：[http://aspnet.docs.dotnet-china.org/Natasha/](http://aspnet.docs.dotnet-china.org/Natasha/)
 
 ## 类库功能：
 
