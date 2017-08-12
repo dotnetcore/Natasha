@@ -3,4 +3,4 @@
 
 详细介绍说明：http://blog.csdn.net/LanX_Fly/article/details/59617050
 
-完整文档地址：[测试地址](https://fs7744.github.io/Natasha/index.html)
+完整文档地址：[http://aspnet.docs.dotnet-china.org/Natasha/](http://aspnet.docs.dotnet-china.org/Natasha/)
