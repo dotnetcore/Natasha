@@ -151,7 +151,7 @@ namespace Natasha.Core
                     {
                         case LinkCallOption.Public_Field_Value_Call:
                             This();
-                            if (isLoadValue)
+                            if (isLoadValue || info.FieldType.IsPrimitive)
                             {
                                 il.REmit(OpCodes.Ldfld, info);
                             }
@@ -161,7 +161,7 @@ namespace Natasha.Core
                             }
                             break;
                         case LinkCallOption.Public_Static_Field_Value_Call:
-                            if (isLoadValue)
+                            if (isLoadValue || info.FieldType.IsPrimitive)
                             {
                                 il.REmit(OpCodes.Ldsfld, info);
                             }
