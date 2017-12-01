@@ -4,4 +4,4 @@
 详细介绍说明：http://blog.csdn.net/LanX_Fly/article/details/59617050
 
 Next:
-下一版Natasha将大整改，除了支持Core之外，并支持C#原生语法，并进一步优化Emit代码。
+下一版Natasha将大整改，除了支持Core之外，并支持C#原生语法，并进一步优化Emit代码，允许远程调用。
