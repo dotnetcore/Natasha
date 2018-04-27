@@ -3,3 +3,9 @@ J:\VsGit\Natasha\Natasha\bin\Debug\Natasha.pdb
 J:\VsGit\Natasha\Natasha\obj\Debug\Natasha.dll
 J:\VsGit\Natasha\Natasha\obj\Debug\Natasha.pdb
 J:\VsGit\Natasha\Natasha\obj\Debug\Natasha.csprojResolveAssemblyReference.cache
+J:\VsGit\Natasha\src\Natasha\bin\Debug\Natasha.dll
+J:\VsGit\Natasha\src\Natasha\bin\Debug\Natasha.pdb
+J:\VsGit\Natasha\src\Natasha\obj\Debug\Natasha.csprojResolveAssemblyReference.cache
+J:\VsGit\Natasha\src\Natasha\obj\Debug\Natasha.csproj.CoreCompileInputs.cache
+J:\VsGit\Natasha\src\Natasha\obj\Debug\Natasha.dll
+J:\VsGit\Natasha\src\Natasha\obj\Debug\Natasha.pdb

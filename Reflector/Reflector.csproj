@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Core\Method\" />
+    <Folder Include="Core\Field\" />
+    <Folder Include="Properties\" />
+    <Folder Include="Core\Attribute\" />
+    <Folder Include="Core\Property\" />
+  </ItemGroup>
+
+</Project>
