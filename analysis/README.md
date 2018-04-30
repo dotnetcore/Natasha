@@ -29,23 +29,23 @@
 
             - [x] ##### 公有成员
 
-              ##### ![Public](https://raw.githubusercontent.com/dotnetcore/Natasha/master/analysis/Image/Public/Public-Public-Class.png)
+              ![Public](https://github.com/dotnetcore/Natasha/blob/master/analysis/Image/Public/Public-Internal-Class.png)
 
             - [x] ##### 私有成员
 
-              ##### ![Private](https://raw.githubusercontent.com/dotnetcore/Natasha/master/analysis/Image/Public/Public-Private-Class.png)
+              ![Private](https://raw.githubusercontent.com/dotnetcore/Natasha/master/analysis/Image/Public/Public-Private-Class.png)
 
             - [x] ##### 保护成员
 
-              ##### ![Protected](https://raw.githubusercontent.com/dotnetcore/Natasha/master/analysis/Image/Public/Public-Protected-Class.png)
+              ![Protected](https://raw.githubusercontent.com/dotnetcore/Natasha/master/analysis/Image/Public/Public-Protected-Class.png)
 
             - [x] ##### 内部成员
 
-              ##### ![Internal](https://raw.githubusercontent.com/dotnetcore/Natasha/master/analysis/Image/Public/Public-Protected-Class.png)
+              ![Internal](https://raw.githubusercontent.com/dotnetcore/Natasha/master/analysis/Image/Public/Public-Protected-Class.png)
 
             - [x] ##### 内部保护成员
 
-              ##### ![Protected Internal](https://raw.githubusercontent.com/dotnetcore/Natasha/master/analysis/Image/Public/Public-Protected-Internal-Class.png)
+              ![Protected Internal](https://raw.githubusercontent.com/dotnetcore/Natasha/master/analysis/Image/Public/Public-Protected-Internal-Class.png)
 
               ​
 
