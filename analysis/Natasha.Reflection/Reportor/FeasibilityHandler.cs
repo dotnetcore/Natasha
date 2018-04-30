@@ -48,19 +48,23 @@ namespace Natasha.Reflection.Reportor
 
             Type tempType = type;
 
+            ResultRecoder.Append(tempType.IsNotPublic ? "Internal、" : "");
+
             ResultRecoder.Append(tempType.IsPublic ? "Public、" : "");
 
             ResultRecoder.Append(tempType.IsNotPublic ? "Private、" : "");
 
             ResultRecoder.Append(tempType.IsSealed ? "Sealed、" : "");
 
-            ResultRecoder.Append(tempType.IsNested ? "Public Nested、" : "");
+            ResultRecoder.Append(tempType.IsNested ? "Nested Public、" : "");
 
-            ResultRecoder.Append(tempType.IsNestedFamily ? "Protected Nested、" : "");
+            ResultRecoder.Append(tempType.IsNestedFamily ? "Nested Protected、" : "");
 
-            ResultRecoder.Append(tempType.IsNestedPrivate ? "Private Nested、" : "");
+            ResultRecoder.Append(tempType.IsNestedPrivate ? "Nested Private、" : "");
 
-            ResultRecoder.Append(tempType.IsNestedPrivate ? "NestedPrivate、" : "");
+            ResultRecoder.Append(tempType.IsNestedAssembly ? "Nested Internal、" : "");
+
+            ResultRecoder.Append(tempType.IsNestedFamANDAssem ? "Nested Protected Internal、" : "");
 
             ResultRecoder.Append(tempType.IsAbstract ? "Abstract、" : "");
 
@@ -91,6 +95,10 @@ namespace Natasha.Reflection.Reportor
             ResultRecoder.Append(info.IsPrivate ? "Private、" : "");
 
             ResultRecoder.Append(info.IsFamily ? "Protected、" : "");
+
+            ResultRecoder.Append(info.IsAssembly ? "Internal、" : "");
+
+            ResultRecoder.Append(info.IsFamilyOrAssembly ? "Protected Internal、" : "");
 
             if (i != ResultRecoder.Length) { ResultRecoder.RemoveLastest(1); }
         }
@@ -231,6 +239,10 @@ namespace Natasha.Reflection.Reportor
             ResultRecoder.Append(methodInfo.IsPrivate ? "Private、" : "");
 
             ResultRecoder.Append(methodInfo.IsFamily ? "Protected、" : "");
+
+            ResultRecoder.Append(methodInfo.IsAssembly ? "Internal、" : "");
+
+            ResultRecoder.Append(methodInfo.IsFamilyOrAssembly ? "Protected Internal、" : "");
 
             if (i != ResultRecoder.Length) { ResultRecoder.RemoveLastest(1); }
 
@@ -380,6 +392,10 @@ namespace Natasha.Reflection.Reportor
             ResultRecoder.Append(info.IsPrivate ? "Private、" : "");
 
             ResultRecoder.Append(info.IsFamily ? "Protected、" : "");
+
+            ResultRecoder.Append(info.IsAssembly ? "Internal、" : "");
+
+            ResultRecoder.Append(info.IsFamilyOrAssembly ? "Protected Internal、" : "");
 
             if (i != ResultRecoder.Length)
             {
