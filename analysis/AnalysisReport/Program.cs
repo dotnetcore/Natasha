@@ -6,10 +6,15 @@ namespace AnalysisReport
     {
         static void Main(string[] args)
         {
-            ReflectionReportor report = new ReflectionReportor(typeof(PrivateEntity));
+            Show<Public_PublicEntity>();
+            Console.ReadKey();
+        }
+
+        public static void Show<T>()
+        {
+            ReflectionReportor report = new ReflectionReportor(typeof(T));
             report.Analysis();
             report.Show();
-            Console.ReadKey();
         }
     }
 }

@@ -4,10 +4,10 @@ using System.Text;
 
 namespace AnalysisReport
 {
-    public class PrivateEntity
+    public class Public_PrivateEntity
     {
 
-        public PrivateEntity()
+        public Public_PrivateEntity()
         {
             Field = "1";
             Property = "1";
