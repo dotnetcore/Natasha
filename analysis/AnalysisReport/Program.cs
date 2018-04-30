@@ -6,7 +6,10 @@ namespace AnalysisReport
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            ReflectionReportor report = new ReflectionReportor(typeof(PrivateEntity));
+            report.Analysis();
+            report.Show();
+            Console.ReadKey();
         }
     }
 }
