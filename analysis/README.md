@@ -23,34 +23,31 @@
 
 #### 3、类  
 
-  1. ##### 公有类
+  1. ##### 公有类  
 
      - ##### 无嵌套  
 
-            - [x] ##### 公有成员  
+        - [x] ##### 公有成员  
 
-              ![Public](https://github.com/dotnetcore/Natasha/blob/master/analysis/Image/Public/Public-Internal-Class.png)
+          ![Public](https://github.com/dotnetcore/Natasha/blob/master/analysis/Image/Public/Public-Internal-Class.png)
 
-            - [x] ##### 私有成员  
+        - [x] ##### 私有成员  
 
-              ![Private](https://github.com/dotnetcore/Natasha/blob/master/analysis/Image/Public/Public-Private-Class.png)
+          ![Private](https://github.com/dotnetcore/Natasha/blob/master/analysis/Image/Public/Public-Private-Class.png)
 
-            - [x] ##### 保护成员  
+        - [x] ##### 保护成员  
 
-              ![Protected](https://github.com/dotnetcore/Natasha/blob/master/analysis/Image/Public/Public-Protected-Class.png)
+          ![Protected](https://github.com/dotnetcore/Natasha/blob/master/analysis/Image/Public/Public-Protected-Class.png)
 
-            - [x] ##### 内部成员  
+        - [x] ##### 内部成员  
 
-              ![Internal](https://github.com/dotnetcore/Natasha/blob/master/analysis/Image/Public/PPublic-Internal-Class.png)
+          ![Internal](https://github.com/dotnetcore/Natasha/blob/master/analysis/Image/Public/PPublic-Internal-Class.png)
 
+        - [x] ##### 内部保护成员  
 
-            - [x] ##### 内部保护成员  
+          ![Protected Internal](https://github.com/dotnetcore/Natasha/blob/master/analysis/Image/Public/Public-Protected-Internal-Class.png)  
 
-              ![Protected Internal](https://github.com/dotnetcore/Natasha/blob/master/analysis/Image/Public/Public-Protected-Internal-Class.png)  
-                
-                  
-                  
-
+        ​
 
      - ##### 嵌套_公有类
 
