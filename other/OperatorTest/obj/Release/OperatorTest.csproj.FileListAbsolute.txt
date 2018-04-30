@@ -1,8 +1,0 @@
-J:\VsGit\Natasha\OperatorTest\bin\Release\OperatorTest.exe.config
-J:\VsGit\Natasha\OperatorTest\bin\Release\OperatorTest.exe
-J:\VsGit\Natasha\OperatorTest\bin\Release\OperatorTest.pdb
-J:\VsGit\Natasha\OperatorTest\bin\Release\Natasha.dll
-J:\VsGit\Natasha\OperatorTest\bin\Release\Natasha.pdb
-J:\VsGit\Natasha\OperatorTest\obj\Release\OperatorTest.csprojResolveAssemblyReference.cache
-J:\VsGit\Natasha\OperatorTest\obj\Release\OperatorTest.exe
-J:\VsGit\Natasha\OperatorTest\obj\Release\OperatorTest.pdb

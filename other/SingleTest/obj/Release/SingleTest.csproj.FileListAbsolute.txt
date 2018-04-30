@@ -1,8 +1,0 @@
-J:\VsGit\Natasha\SingleTest\bin\Release\SingleTest.exe.config
-J:\VsGit\Natasha\SingleTest\bin\Release\SingleTest.exe
-J:\VsGit\Natasha\SingleTest\bin\Release\SingleTest.pdb
-J:\VsGit\Natasha\SingleTest\bin\Release\Natasha.dll
-J:\VsGit\Natasha\SingleTest\bin\Release\Natasha.pdb
-J:\VsGit\Natasha\SingleTest\obj\Release\SingleTest.csprojResolveAssemblyReference.cache
-J:\VsGit\Natasha\SingleTest\obj\Release\SingleTest.exe
-J:\VsGit\Natasha\SingleTest\obj\Release\SingleTest.pdb
