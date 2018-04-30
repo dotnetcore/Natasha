@@ -19,13 +19,15 @@
 
 &emsp;&emsp;项目位置： [https://github.com/dotnetcore/Natasha/tree/master/analysis](https://github.com/dotnetcore/Natasha/tree/master/analysis)：  
 
-​
+
 
 #### 3、类  
 
   1. ##### 公有类
 
-     - ##### 无嵌套
+     - ##### 无嵌套
+
+       ![Public](https://raw.githubusercontent.com/dotnetcore/Natasha/master/analysis/Image/Public-Public-Class.png)
 
      - ##### 嵌套_公有类
 
