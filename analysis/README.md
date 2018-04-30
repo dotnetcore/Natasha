@@ -33,11 +33,11 @@
 
             - [x] ##### 私有成员
 
-              ![Private](https://raw.githubusercontent.com/dotnetcore/Natasha/master/analysis/Image/Public/Public-Private-Class.png)
+              ![Private](https://github.com/dotnetcore/Natasha/blob/master/analysis/Image/Public/Public-Private-Class.png)
 
             - [x] ##### 保护成员
 
-              ![Protected](https://raw.githubusercontent.com/dotnetcore/Natasha/master/analysis/Image/Public/Public-Protected-Class.png)
+              ![Protected](https://github.com/dotnetcore/Natasha/blob/master/analysis/Image/Public/Public-Protected-Class.png)
 
             - [x] ##### 内部成员
 
@@ -52,8 +52,6 @@
        ​
 
      - ##### 嵌套_公有类
-
-       ![123](https://github.com/dotnetcore/Natasha/blob/master/analysis/Image/Public/Public-Internal-Class.png)
 
      - ##### 嵌套_公有静态类
 
