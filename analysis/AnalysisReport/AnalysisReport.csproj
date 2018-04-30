@@ -5,4 +5,12 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="PrivateMember\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Natasha.Reflection\Natasha.Reflection.csproj" />
+  </ItemGroup>
+
 </Project>
