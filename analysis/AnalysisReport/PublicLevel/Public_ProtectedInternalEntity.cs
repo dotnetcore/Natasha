@@ -4,9 +4,9 @@ using System.Text;
 
 namespace AnalysisReport
 {
-    public class Public_InternalProtectedEntity
+    public class Public_ProtectedInternalEntity
     {
-        public Public_InternalProtectedEntity()
+        public Public_ProtectedInternalEntity()
         {
             Field = "1";
             Property = "1";
