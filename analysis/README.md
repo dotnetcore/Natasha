@@ -25,7 +25,7 @@
 
   1. ##### 公有类
 
-     - ##### 无嵌套
+     - ##### 无嵌套  
 
             - [x] ##### 公有成员
 
@@ -41,11 +41,12 @@
 
             - [x] ##### 内部成员
 
-              ![Internal](https://raw.githubusercontent.com/dotnetcore/Natasha/master/analysis/Image/Public/Public-Protected-Class.png)
+              ![Internal](https://github.com/dotnetcore/Natasha/blob/master/analysis/Image/Public/PPublic-Internal-Class.png)
+
 
             - [x] ##### 内部保护成员
 
-              ![Protected Internal](https://raw.githubusercontent.com/dotnetcore/Natasha/master/analysis/Image/Public/Public-Protected-Internal-Class.png)
+              ![Protected Internal](https://github.com/dotnetcore/Natasha/blob/master/analysis/Image/Public/Public-Protected-Internal-Class.png)
 
               ​
 
