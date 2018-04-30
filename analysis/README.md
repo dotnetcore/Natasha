@@ -41,7 +41,7 @@
 
         - [x] 内部成员  
 
-          ![Internal](https://github.com/dotnetcore/Natasha/blob/master/analysis/Image/Public/PPublic-Internal-Class.png)
+          ![Internal](https://github.com/dotnetcore/Natasha/blob/master/analysis/Image/Public/Public-Internal-Class.png)
 
         - [x] 内部保护成员  
 
