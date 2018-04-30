@@ -53,6 +53,8 @@
 
      - ##### 嵌套_公有类
 
+       ![123](https://github.com/dotnetcore/Natasha/blob/master/analysis/Image/Public/Public-Internal-Class.png)
+
      - ##### 嵌套_公有静态类
 
      - ##### 嵌套_公有密封类
