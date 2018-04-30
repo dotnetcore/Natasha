@@ -9,7 +9,10 @@ namespace System
     
     public class Reflector<T>
     {
-       
+        public void a() {
+            var a = typeof(T);
+            a.GetRuntimeField();
+         }
     }
 
 

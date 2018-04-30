@@ -22,6 +22,7 @@ namespace NatashaUT
             model.RefField = "Test";
             FieldClass.StaticRefField = "Static";
             FieldClass.StaticValueField = 200;
+
             Delegate test = EHandler.CreateMethod<FieldClass>((il) =>
             {
                 EModel modelHandler = EModel.CreateModelFromObject(model);
