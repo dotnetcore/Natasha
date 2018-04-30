@@ -27,7 +27,17 @@
 
      - ##### 无嵌套
 
+            - [x] ##### 公有成员
+
+            - [x] ##### 私有成员
+
+            - [x] ##### 保护成员
+
+            - [ ] ##### 内部成员
+
        ![Public](https://raw.githubusercontent.com/dotnetcore/Natasha/master/analysis/Image/Public-Public-Class.png)
+
+       ​
 
      - ##### 嵌套_公有类
 

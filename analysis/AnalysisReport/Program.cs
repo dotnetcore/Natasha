@@ -6,7 +6,7 @@ namespace AnalysisReport
     {
         static void Main(string[] args)
         {
-            Show<Public_PublicEntity>();
+            Show<Public_PrivateEntity>();
             Console.ReadKey();
         }
 
