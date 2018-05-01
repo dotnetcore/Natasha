@@ -17,7 +17,7 @@
 
 &emsp;&emsp;项目名称：AnalysisReport  
 
-&emsp;&emsp;项目位置： [https://github.com/dotnetcore/Natasha/tree/master/analysis](https://github.com/dotnetcore/Natasha/tree/master/analysis)：  
+&emsp;&emsp;项目位置： [https://github.com/dotnetcore/Natasha/tree/master/analysis](https://github.com/dotnetcore/Natasha/tree/master/analysis)
 
 
 
@@ -25,29 +25,7 @@
 
   1. ##### 公有类  
 
-     - ##### 无嵌套  
-
-        - [x] 公有成员  
-
-          ![Public](https://github.com/dotnetcore/Natasha/blob/master/analysis/Image/Public/Public-Internal-Class.png)
-
-        - [x] 私有成员  
-
-          ![Private](https://github.com/dotnetcore/Natasha/blob/master/analysis/Image/Public/Public-Private-Class.png)
-
-        - [x] 保护成员  
-
-          ![Protected](https://github.com/dotnetcore/Natasha/blob/master/analysis/Image/Public/Public-Protected-Class.png)
-
-        - [x] 内部成员  
-
-          ![Internal](https://github.com/dotnetcore/Natasha/blob/master/analysis/Image/Public/Public-Internal-Class.png)
-
-        - [x] 内部保护成员  
-
-           ![Protected Internal](https://github.com/dotnetcore/Natasha/blob/master/analysis/Image/Public/Public-Protected-Internal-Class.png)  
-
-        ​
+     - ##### [无嵌套](https://github.com/dotnetcore/Natasha/blob/master/analysis/Report/Public/Public-Normal.md)  
 
      - ##### 嵌套_公有类
 
