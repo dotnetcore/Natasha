@@ -77,7 +77,7 @@
 
   2. ##### 内部类  
 
-     - ##### 无嵌套
+     - ##### [无嵌套](https://github.com/dotnetcore/Natasha/blob/master/analysis/Report/Internal/Internal-Normal.md)
 
      - ##### 嵌套_公有类
 
