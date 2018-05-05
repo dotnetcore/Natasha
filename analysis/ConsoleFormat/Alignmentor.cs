@@ -5,8 +5,15 @@ using System.Text;
 
 namespace ConsoleFormat
 {
-    public class AlignmentHelper
+    public class Alignmentor
     {
+
+        public static void RegisterAlignmentPage()
+        {
+            Console.OutputEncoding = Encoding.UTF8;
+            //Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+        }
+
         /// <summary>
         /// 对StringBuidler集合进行数据格式对齐
         /// </summary>
@@ -16,13 +23,14 @@ namespace ConsoleFormat
         {
             if (list != null && list.Count() > 0)
             {
-                int maxLength = list.Max(ele => { return GetRealLength(ele); });
+                int maxLength = list.Max(ele => { return ele.OutputLength(); });
 
                 foreach (var item in list)
                 {
-                    if (GetRealLength(item) < maxLength)
+                    int tempOutputLength = item.OutputLength();
+                    if (tempOutputLength < maxLength)
                     {
-                        int AlignmentSpace = maxLength - GetRealLength(item);
+                        int AlignmentSpace = maxLength - tempOutputLength;
                         int offsetControl = AlignmentSpace / 2;
                         StringBuilder LeftSpace = new StringBuilder();
                         for (int i = 0; i < AlignmentSpace; i += 1)
@@ -163,7 +171,7 @@ namespace ConsoleFormat
                 }
 
                 //重计算
-                int evenAlignmentLength = GetRealLength(instance);
+                int evenAlignmentLength = instance.OutputLength();
 
                 //奇偶对齐
                 switch (alignmentType)
@@ -187,7 +195,7 @@ namespace ConsoleFormat
                 }
             }
             //返回默认长度
-            return GetRealLength(instance);
+            return instance.OutputLength();
         }
 
         /// <summary>
@@ -205,7 +213,7 @@ namespace ConsoleFormat
             instance.Append(end);
 
             //记录插入后的长度
-            int evenAlignmentLength = GetRealLength(instance);
+            int evenAlignmentLength = instance.OutputLength();
 
             //奇偶对齐
             switch (alignmentType)
@@ -255,7 +263,7 @@ namespace ConsoleFormat
             }
             return instance.Length * 2 - length;
         }
-
+        
         /// <summary>
         /// 获取StringBuilder在输出缓冲区的真实长度
         /// </summary>
