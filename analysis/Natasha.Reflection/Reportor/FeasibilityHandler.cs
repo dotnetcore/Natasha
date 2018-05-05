@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConsoleFormat;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -8,6 +9,10 @@ namespace Natasha.Reflection.Reportor
 {
     public class FeasibilityHandler
     {
+        static FeasibilityHandler()
+        {
+            Alignmentor.RegisterAlignmentPage();
+        }
         public StringBuilder ResultRecoder;
         public FeasibilityHandler()
         {

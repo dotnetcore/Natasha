@@ -31,6 +31,9 @@ namespace System
             InfosCache = new List<StringBuilder>();
             TableHeader = new StringBuilder();
             DeclaringInfo = new StringBuilder();
+            _start = new StringBuilder();
+            _split = new StringBuilder();
+            _end = new StringBuilder();
             InfosCache.Add(TableHeader);
             InfosCache.Add(DeclaringInfo);
             InfosCache.Add(new StringBuilder());
@@ -289,7 +292,7 @@ namespace System
                 }
             }
 
-            AlignmentHelper.Alignment(InfosCache, Splite, Replace, AlignmentType.Center);
+            Alignmentor.Alignment(InfosCache, Splite, Replace, AlignmentType.Center);
         }
         #endregion
 
@@ -307,33 +310,44 @@ namespace System
             }
         }
 
+        public void AddSpliteNode()
+        {
+            _start.Append('┬');
+            _split.Append('┼');
+            _end.Append('┴');
+        }
+        private StringBuilder _start;
+        private StringBuilder _split;
+        private StringBuilder _end;
 
         public void Show()
         {
 
             InfosCache.ForEach(item => item.RemoveLastest(Splite.Length));
 
-            int RealLength = AlignmentHelper.Packet(InfosCache, "││", AlignmentType.Even);
-            StringBuilder start = new StringBuilder("┌");
-            StringBuilder split = new StringBuilder("├");
-            StringBuilder end = new StringBuilder("└");
-            for (int i = 2; i < RealLength - 2; i += 2)
+            int RealLength = Alignmentor.Packet(InfosCache, "││", AlignmentType.Even);
+
+            _start.Append('┌');
+            _split.Append('├');
+            _end.Append('└');
+
+            for (int i = 0; i < RealLength - 11; i +=1)
             {
-                split.Append("─");
-                start.Append("─");
-                end.Append("─");
+                _split.Append('─');
+                _start.Append('─');
+                _end.Append('─');
             }
-            start.Append("┐");
-            split.Append("┤");
-            end.Append("┘");
+            _start.Append('┐');
+            _split.Append('┤');
+            _end.Append('┘');
 
             StringBuilder result = new StringBuilder();
-            result.AppendLine(start.ToString());
+            result.AppendLine(_start.ToString());
             result.AppendLine(TableHeader.ToString());
-            result.AppendLine(split.ToString());
+            result.AppendLine(_split.ToString());
             InfosCache.RemoveAt(0);
             InfosCache.ForEach(item => result.AppendLine(item.ToString()));
-            result.AppendLine(end.ToString());
+            result.AppendLine(_end.ToString());
 
             for (int i = 0; i < result.Length; i += 1)
             {
@@ -360,11 +374,5 @@ namespace System
     }
 
 
-    public static class StringBuilderExtension
-    {
-        public static void RemoveLastest(this StringBuilder builder, int length)
-        {
-            builder.Remove(builder.Length - length, length);
-        }
-    }
+
 }
