@@ -349,7 +349,7 @@ namespace Natasha.Reflection.Reportor
                 info.SetValue(obj, "Test");
                 ResultRecoder.Append("√");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ResultRecoder.Append($"X ({ex.Message})");
             }
@@ -530,7 +530,7 @@ namespace Natasha.Reflection.Reportor
                         Func<string> action = (Func<string>)(method.CreateDelegate(typeof(Func<string>)));
 
                         string result = action();
-                       
+
                         if (result == "Emit")
                         {
                             ResultRecoder.Append("√");
@@ -614,7 +614,7 @@ namespace Natasha.Reflection.Reportor
         public void EmitAnalysis(PropertyInfo info)
         {
             MethodInfo getter = info.GetGetMethod(true);
-            MethodInfo setter = info.GetSetMethod(true);
+            MethodInfo setter = info.SetMethod;
             if (!info.DeclaringType.IsClass)
             {
 
@@ -622,7 +622,7 @@ namespace Natasha.Reflection.Reportor
                 {
                     try
                     {
-                        DynamicMethod method = new DynamicMethod("Field" + Guid.NewGuid().ToString(), typeof(string), new Type[] { });
+                        DynamicMethod method = new DynamicMethod("Property" + Guid.NewGuid().ToString(), typeof(string), new Type[] { });
                         ILGenerator il = method.GetILGenerator();
                         il.Emit(OpCodes.Ldstr, "Emit");
                         il.Emit(OpCodes.Call, setter);
@@ -649,7 +649,7 @@ namespace Natasha.Reflection.Reportor
                 {
                     try
                     {
-                        DynamicMethod method = new DynamicMethod("Field" + Guid.NewGuid().ToString(), typeof(string), new Type[] { });
+                        DynamicMethod method = new DynamicMethod("Property" + Guid.NewGuid().ToString(), typeof(string), new Type[] { });
                         ILGenerator il = method.GetILGenerator();
                         ConstructorInfo ctor = info.DeclaringType.GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, new Type[0], null);
                         il.Emit(OpCodes.Initobj, info.DeclaringType);
@@ -679,12 +679,11 @@ namespace Natasha.Reflection.Reportor
             }
             else
             {
-
                 if (setter.IsStatic)
                 {
                     try
                     {
-                        DynamicMethod method = new DynamicMethod("Field" + Guid.NewGuid().ToString(), typeof(string), new Type[] { });
+                        DynamicMethod method = new DynamicMethod("Property" + Guid.NewGuid().ToString(), typeof(string), new Type[] { });
                         ILGenerator il = method.GetILGenerator();
                         il.Emit(OpCodes.Ldstr, "Emit");
                         il.Emit(OpCodes.Call, setter);
@@ -711,10 +710,10 @@ namespace Natasha.Reflection.Reportor
                 {
                     try
                     {
-                        DynamicMethod method = new DynamicMethod("Field" + Guid.NewGuid().ToString(), typeof(string), new Type[] { });
+                        DynamicMethod method = new DynamicMethod("Property" + Guid.NewGuid().ToString(), typeof(string), new Type[] { });
                         ILGenerator il = method.GetILGenerator();
                         ConstructorInfo ctor = info.DeclaringType.GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, new Type[0], null);
-                        il.Emit(OpCodes.Initobj, info.DeclaringType);
+                        il.Emit(OpCodes.Newobj, ctor);
                         il.Emit(OpCodes.Dup);
                         il.Emit(OpCodes.Ldstr, "Emit");
                         il.Emit(OpCodes.Callvirt, setter);
