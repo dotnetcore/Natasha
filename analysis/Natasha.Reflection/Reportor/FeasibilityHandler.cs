@@ -57,8 +57,6 @@ namespace Natasha.Reflection.Reportor
 
             ResultRecoder.Append(tempType.IsPublic ? "Public、" : "");
 
-            ResultRecoder.Append(tempType.IsNotPublic ? "Private、" : "");
-
             ResultRecoder.Append(tempType.IsSealed ? "Sealed、" : "");
 
             ResultRecoder.Append(tempType.IsNested ? "Nested Public、" : "");
