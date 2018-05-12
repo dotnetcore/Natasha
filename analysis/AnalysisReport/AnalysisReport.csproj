@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Natasha.Reflection\Natasha.Reflection.csproj" />
+    <ProjectReference Include="..\Natasha.Reflector\Natasha.Reflector.csproj" />
   </ItemGroup>
 
 </Project>

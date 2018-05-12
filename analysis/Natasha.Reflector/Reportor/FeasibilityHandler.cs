@@ -50,8 +50,11 @@ namespace Natasha.Reflection.Reportor
         public void DeclaringAnalysis(Type type)
         {
             int i = ResultRecoder.Length;
-
+#if NETSTANDARD1_3
+            TypeInfo tempType = type.GetTypeInfo();
+#else
             Type tempType = type;
+#endif
 
             ResultRecoder.Append(tempType.IsNotPublic ? "Internal、" : "");
 
@@ -113,7 +116,11 @@ namespace Natasha.Reflection.Reportor
         {
             int i = ResultRecoder.Length;
 
+#if NETSTANDARD1_3
+            TypeInfo type = info.FieldType.GetTypeInfo();
+#else
             Type type = info.FieldType;
+#endif
 
             ResultRecoder.Append(type.IsGenericType ? "Generic、" : "");
 
@@ -147,8 +154,11 @@ namespace Natasha.Reflection.Reportor
         {
             int i = ResultRecoder.Length;
 
+#if NETSTANDARD1_3
+            TypeInfo type = info.FieldType.GetTypeInfo();
+#else
             Type type = info.FieldType;
-
+#endif
             ResultRecoder.Append(type.IsClass ? "Class、" : "");
 
             ResultRecoder.Append(type.IsAnsiClass ? "AnsiClass、" : "");
@@ -170,6 +180,7 @@ namespace Natasha.Reflection.Reportor
         /// <param name="info">FieldInfo实例</param>
         public void SecurityAnalysis(FieldInfo info)
         {
+#if !NETSTANDARD1_3
             int i = ResultRecoder.Length;
 
             ResultRecoder.Append(info.IsSecurityCritical ? "SecurityCritical、" : "");
@@ -179,6 +190,8 @@ namespace Natasha.Reflection.Reportor
             ResultRecoder.Append(info.IsSecurityTransparent ? "SecurityTransparent、" : "");
 
             if (i != ResultRecoder.Length) { ResultRecoder.RemoveLastest(1); }
+#endif
+
 
         }
 
@@ -258,8 +271,11 @@ namespace Natasha.Reflection.Reportor
         public void ParticularityAnalysis(PropertyInfo info, bool IsSetter = false)
         {
             int i = ResultRecoder.Length;
-
+#if NETSTANDARD1_3
+            TypeInfo type = info.PropertyType.GetTypeInfo();
+#else
             Type type = info.PropertyType;
+#endif
 
             MethodInfo methodInfo;
             if (IsSetter)
@@ -298,7 +314,11 @@ namespace Natasha.Reflection.Reportor
         {
             int i = ResultRecoder.Length;
 
+#if NETSTANDARD1_3
+            TypeInfo type = info.PropertyType.GetTypeInfo();
+#else
             Type type = info.PropertyType;
+#endif
 
             ResultRecoder.Append(type.IsClass ? "Class、" : "");
 
@@ -412,8 +432,11 @@ namespace Natasha.Reflection.Reportor
         public void ParticularityAnalysis(MethodInfo info)
         {
             int i = ResultRecoder.Length;
-
+#if NETSTANDARD1_3
+            TypeInfo type = info.ReturnType.GetTypeInfo();
+#else
             Type type = info.ReturnType;
+#endif
 
             ResultRecoder.Append(type.IsGenericType ? "Generic、" : "");
 
@@ -444,7 +467,11 @@ namespace Natasha.Reflection.Reportor
         {
             int i = ResultRecoder.Length;
 
+#if NETSTANDARD1_3
+            TypeInfo type = info.ReturnType.GetTypeInfo();
+#else
             Type type = info.ReturnType;
+#endif
 
             ResultRecoder.Append(type.IsClass ? "Class、" : "");
 
@@ -467,6 +494,7 @@ namespace Natasha.Reflection.Reportor
         /// <param name="info">MethodInfo实例</param>
         public void SecurityAnalysis(MethodInfo info)
         {
+#if !NETSTANDARD1_3
             int i = ResultRecoder.Length;
 
             ResultRecoder.Append(info.IsSecurityCritical ? "SecurityCritical、" : "");
@@ -476,7 +504,8 @@ namespace Natasha.Reflection.Reportor
             ResultRecoder.Append(info.IsSecurityTransparent ? "SecurityTransparent、" : "");
 
             if (i != ResultRecoder.Length) { ResultRecoder.RemoveLastest(1); }
-
+#endif
+            
         }
         #endregion
 
@@ -484,7 +513,12 @@ namespace Natasha.Reflection.Reportor
         #region Emit可行性测试
         public void EmitAnalysis(FieldInfo info)
         {
-            if (!info.DeclaringType.IsClass)
+#if NETSTANDARD1_3
+            TypeInfo info_type = info.DeclaringType.GetTypeInfo();
+#else
+            Type info_type = info.DeclaringType;
+#endif
+            if (!info_type.IsClass)
             {
 
                 if (info.IsStatic)
@@ -520,7 +554,12 @@ namespace Natasha.Reflection.Reportor
                     {
                         DynamicMethod method = new DynamicMethod("Field" + Guid.NewGuid().ToString(), typeof(string), new Type[] { });
                         ILGenerator il = method.GetILGenerator();
-                        ConstructorInfo ctor = info.DeclaringType.GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, new Type[0], null);
+#if NETSTANDARD1_3
+                        ConstructorInfo ctor = info.DeclaringType.GetConstructor(null);
+#else
+             ConstructorInfo ctor = info.DeclaringType.GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, new Type[0], null);
+#endif
+
                         il.Emit(OpCodes.Initobj, info.DeclaringType);
                         il.Emit(OpCodes.Dup);
                         il.Emit(OpCodes.Ldstr, "Emit");
@@ -584,7 +623,11 @@ namespace Natasha.Reflection.Reportor
                     {
                         DynamicMethod method = new DynamicMethod("Field" + Guid.NewGuid().ToString(), typeof(string), new Type[] { });
                         ILGenerator il = method.GetILGenerator();
+#if NETSTANDARD1_3
+                        ConstructorInfo ctor = info.DeclaringType.GetConstructor(null);
+#else
                         ConstructorInfo ctor = info.DeclaringType.GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, new Type[0], null);
+#endif
                         il.Emit(OpCodes.Newobj, ctor);
                         il.Emit(OpCodes.Dup);
                         il.Emit(OpCodes.Ldstr, "Emit");
@@ -615,7 +658,12 @@ namespace Natasha.Reflection.Reportor
         {
             MethodInfo getter = info.GetGetMethod(true);
             MethodInfo setter = info.SetMethod;
-            if (!info.DeclaringType.IsClass)
+#if NETSTANDARD1_3
+            TypeInfo info_type = info.DeclaringType.GetTypeInfo();
+#else
+            Type info_type = info.DeclaringType;
+#endif
+            if (!info_type.IsClass)
             {
 
                 if (setter.IsStatic)
@@ -651,7 +699,12 @@ namespace Natasha.Reflection.Reportor
                     {
                         DynamicMethod method = new DynamicMethod("Property" + Guid.NewGuid().ToString(), typeof(string), new Type[] { });
                         ILGenerator il = method.GetILGenerator();
-                        ConstructorInfo ctor = info.DeclaringType.GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, new Type[0], null);
+#if NETSTANDARD1_3
+                        ConstructorInfo ctor = info.DeclaringType.GetConstructor(null);
+#else
+             ConstructorInfo ctor = info.DeclaringType.GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, new Type[0], null);
+#endif
+                        //ConstructorInfo ctor = info.DeclaringType.GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, new Type[0], null);
                         il.Emit(OpCodes.Initobj, info.DeclaringType);
                         il.Emit(OpCodes.Dup);
                         il.Emit(OpCodes.Ldstr, "Emit");
@@ -712,7 +765,12 @@ namespace Natasha.Reflection.Reportor
                     {
                         DynamicMethod method = new DynamicMethod("Property" + Guid.NewGuid().ToString(), typeof(string), new Type[] { });
                         ILGenerator il = method.GetILGenerator();
-                        ConstructorInfo ctor = info.DeclaringType.GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, new Type[0], null);
+#if NETSTANDARD1_3
+                        ConstructorInfo ctor = info.DeclaringType.GetConstructor(null);
+#else
+             ConstructorInfo ctor = info.DeclaringType.GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, new Type[0], null);
+#endif
+                        //onstructorInfo ctor = info.DeclaringType.GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, new Type[0], null);
                         il.Emit(OpCodes.Newobj, ctor);
                         il.Emit(OpCodes.Dup);
                         il.Emit(OpCodes.Ldstr, "Emit");
