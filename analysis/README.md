@@ -4,8 +4,18 @@
 
 #### 1、环境  
 
+&emsp;&emsp;分析环境：
 
-&emsp;&emsp;分析环境：.NET Core 2.0+  
+- ​		.NET 4.5
+- ​		.NET 4.6
+- ​		.NET Core 1.1
+- ​		.NET Core 2.0
+
+​	分析工具兼容SDK：
+
+- [x] ​		.net 4.5
+- [x] ​		Standard1.3
+- [x] ​		Standard2.0
 
 &emsp;&emsp;成员类型：string    
 
@@ -21,11 +31,11 @@
 
 
 
-#### 3、类  
+#### 3、内容  
 
   1. ##### 公有类  
 
-     - ##### [无嵌套](https://github.com/dotnetcore/Natasha/blob/master/analysis/Report/Public/Public-Normal.md)  
+     - ##### 无嵌套 [.net4.5|.net4.6|.net core1.1|[.net core2.0](https://github.com/dotnetcore/Natasha/blob/master/analysis/Report/Public/Public-Normal.md)]  
 
      - ##### 嵌套_公有类
 
