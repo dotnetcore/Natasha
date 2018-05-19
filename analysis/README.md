@@ -31,9 +31,20 @@
 
 &emsp;&emsp;项目名称：AnalysisReport  
 
-&emsp;&emsp;项目位置： [https://github.com/dotnetcore/Natasha/tree/master/analysis](https://github.com/dotnetcore/Natasha/tree/master/analysis)
+&emsp;&emsp;项目位置： [https://github.com/dotnetcore/Natasha/tree/master/analysis](https://github.com/dotnetcore/Natasha/tree/master/analysis)  
 
 
+
+#### 3、原理
+
+flow
+st=>start: Start
+op=>operation: Your Operation
+cond=>condition: Yes or No?
+e=>end
+st->op->cond
+cond(yes)->e
+cond(no)->op
 
 #### 3、内容  
 

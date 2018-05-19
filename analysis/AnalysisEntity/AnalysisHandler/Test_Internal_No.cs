@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AnalysisEntity
+﻿namespace AnalysisEntity
 {
     public class Test_Internal_No : TestBase
     {
