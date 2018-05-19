@@ -4,20 +4,24 @@
 
 #### 1、环境  
 
-&emsp;&emsp;分析环境：
+##### 分析环境：
 
-- ​		.NET 4.5
-- ​		.NET 4.6
-- ​		.NET Core 1.1
-- ​		.NET Core 2.0
+- .NET 4.5
+- .NET 4.6
+- .NET Core 1.1
+- .NET Core 2.0
 
-​	分析工具兼容SDK：
+##### 分析工具兼容SDK：
 
-- [x] ​		.net 4.5
-- [x] ​		Standard1.3
-- [x] ​		Standard2.0
+- [x] .net 4.5
+- [x] Standard1.3
+- [x] Standard2.0
 
-&emsp;&emsp;成员类型：string    
+##### 成员类型：
+
+​	string    
+
+
 
   
 
