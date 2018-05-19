@@ -349,18 +349,40 @@ namespace System
             InfosCache.ForEach(item => result.AppendLine(item.ToString()));
             result.AppendLine(_end.ToString());
 
+            int fatherClassColor = 0;
             for (int i = 0; i < result.Length; i += 1)
             {
-                if (result[i] == 'X')
+                if (fatherClassColor != 0)
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
+                    if (fatherClassColor == i)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                    }
+                    else if (fatherClassColor<i && result[i] == '│')
+                    {
+                        Console.ResetColor();
+                        fatherClassColor = 0;
+                    }
+                    Console.Write(result[i]);
                 }
-                else if (result[i] == '√')
+                else
                 {
-                    Console.ForegroundColor = ConsoleColor.Green;
+                    if (result[i] == '父')
+                    {
+                        fatherClassColor = i + 5;
+                    }
+
+                    if (result[i] == 'X')
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                    }
+                    else if (result[i] == '√')
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                    }
+                    Console.Write(result[i]);
+                    Console.ResetColor();
                 }
-                Console.Write(result[i]);
-                Console.ResetColor();
             }
         }
     }

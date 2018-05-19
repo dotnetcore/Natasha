@@ -140,7 +140,7 @@ namespace Natasha.Reflection.Reportor
 
             ResultRecoder.Append(type.IsNestedPrivate ? "Private Nested、" : "");
 
-            ResultRecoder.Append(type.IsSealed ? "Sealed、" : "");
+            //ResultRecoder.Append(type.IsSealed ? "Sealed、" : "");
 
             if (i != ResultRecoder.Length) { ResultRecoder.RemoveLastest(1); }
 
@@ -301,7 +301,7 @@ namespace Natasha.Reflection.Reportor
 
             ResultRecoder.Append(type.IsNestedPrivate ? "Private Nested、" : "");
 
-            ResultRecoder.Append(type.IsSealed ? "Sealed、" : "");
+            //ResultRecoder.Append(type.IsSealed ? "Sealed、" : "");
 
             if (i != ResultRecoder.Length) { ResultRecoder.RemoveLastest(1); }
         }

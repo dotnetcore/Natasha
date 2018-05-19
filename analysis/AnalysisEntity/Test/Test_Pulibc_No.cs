@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AnalysisReport
+namespace AnalysisEntity
 {
-    class Test_Pulibc_No: TestBase
+    public class Test_Pulibc_No: TestBase
     {
         public static void Test()
         {

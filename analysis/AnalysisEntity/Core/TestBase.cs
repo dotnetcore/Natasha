@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AnalysisReport
+namespace AnalysisEntity
 {
-    class TestBase
+    public class TestBase
     {
-        public static void Show<T>()
+        internal static void Show<T>()
         {
             ReflectionReportor report = new ReflectionReportor(typeof(T));
             report.Analysis();

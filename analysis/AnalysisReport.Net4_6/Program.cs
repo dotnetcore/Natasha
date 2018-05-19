@@ -1,7 +1,11 @@
 ﻿using AnalysisEntity;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace AnalysisReport.Core2_0
+namespace AnalysisReport.Net4_6
 {
     class Program
     {
@@ -9,7 +13,5 @@ namespace AnalysisReport.Core2_0
         {
             AnalysisTool.Test();
         }
-
-        
     }
 }

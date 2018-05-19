@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AnalysisReport.PrivateMember
+namespace AnalysisEntity.PrivateMember
 {
     internal class InternalTest {
         public class Inner_PublicTest { }

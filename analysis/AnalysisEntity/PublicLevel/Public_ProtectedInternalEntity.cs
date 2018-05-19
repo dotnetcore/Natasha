@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AnalysisReport
+namespace AnalysisEntity
 {
-    internal class Internal_ProtectedInternalEntity
+    public class Public_ProtectedInternalEntity
     {
-        public Internal_ProtectedInternalEntity()
+        public Public_ProtectedInternalEntity()
         {
             Field = "1";
             Property = "1";
