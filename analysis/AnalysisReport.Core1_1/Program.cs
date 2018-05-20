@@ -1,6 +1,6 @@
 ﻿using AnalysisUtils;
 
-namespace AnalysisReport.Core1_0
+namespace AnalysisReport.Core1_1
 {
     class Program
     {

@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace AnalysisUtils
 {
     public class AnalysisTool

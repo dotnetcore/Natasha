@@ -9,13 +9,20 @@ namespace System
 {
     public class ReflectionReportor
     {
+        public static BindingFlags Flag;
+        static ReflectionReportor()
+        {
+            Flag = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static;
+        }
+
+
         public Dictionary<MemberInfo, FeasibilityHandler> Handlers;
 
         private Type _type;
 
-        private FieldInfo[] Fields;
-        private PropertyInfo[] Properties;
-        private MethodInfo[] Methods;
+        private readonly FieldInfo[] Fields;
+        private readonly PropertyInfo[] Properties;
+        private readonly MethodInfo[] Methods;
 
         private List<StringBuilder> InfosCache;
 
@@ -24,6 +31,8 @@ namespace System
 
         private string Splite;
         private string Replace;
+
+
         public ReflectionReportor()
         {
             Splite = "@|@";
@@ -42,8 +51,8 @@ namespace System
         {
             _type = type;
 
-            Fields = _type.GetFields(Reflector.Flag);
-            Properties = _type.GetProperties(Reflector.Flag);
+            Fields = _type.GetFields(Flag);
+            Properties = _type.GetProperties(Flag);
 
             InitAnalysisCache(Fields);
             InitAnalysisCache(Properties);

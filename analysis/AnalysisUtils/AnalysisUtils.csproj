@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Natasha.Reflector\Natasha.Reflector.csproj" />
+    <Folder Include="Entity\PublicLevel\Public_Public\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Entity\PublicLevel\Public_Public\" />
+    <ProjectReference Include="..\Natasha.Reportor\Natasha.Reportor.csproj" />
   </ItemGroup>
 
 </Project>
