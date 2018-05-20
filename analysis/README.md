@@ -8,7 +8,6 @@
 
 - .NET 4.5
 - .NET 4.6
-- .NET Core 1.1
 - .NET Core 2.0
 
 ##### 分析工具兼容SDK：
@@ -41,7 +40,7 @@
 
   1. ##### 公有类  
 
-     - ##### [无嵌套]() [.net4.5|.net4.6|.net core1.1|[.net core2.0](https://github.com/dotnetcore/Natasha/blob/master/analysis/Report/core2.0/Public/Public-Normal.md)]  
+     - ##### [无嵌套]() [.net4.5|.net4.6|[.net core2.0](https://github.com/dotnetcore/Natasha/blob/master/analysis/Report/core2.0/Public/Public-Normal.md)]  
 
      - ##### 嵌套_公有类
 
