@@ -40,7 +40,7 @@
 
   1. ##### 公有类  
 
-     - ##### [无嵌套]() [.net4.5|.net4.6|[.net core2.0](https://github.com/dotnetcore/Natasha/blob/master/analysis/Report/core2.0/Public/Public-Normal.md)]  
+     - ##### [无嵌套](https://github.com/dotnetcore/Natasha/blob/master/analysis/AnalysisUtils/AnalysisHandler/Test_Pulibc_No.cs) [.net4.5|.net4.6|[.net core2.0](https://github.com/dotnetcore/Natasha/blob/master/analysis/Report/core2.0/Public/Public-Normal.md)]  
 
      - ##### 嵌套_公有类
 
