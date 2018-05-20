@@ -1,4 +1,4 @@
-﻿using AnalysisEntity;
+﻿using AnalysisUtils;
 using System;
 
 namespace AnalysisReport.Core2_0

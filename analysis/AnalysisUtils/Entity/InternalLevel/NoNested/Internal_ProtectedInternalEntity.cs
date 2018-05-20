@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AnalysisEntity
+namespace AnalysisUtils
 {
     internal class Internal_ProtectedInternalEntity
     {

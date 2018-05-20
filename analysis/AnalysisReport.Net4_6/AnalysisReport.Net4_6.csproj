@@ -49,9 +49,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AnalysisEntity\AnalysisEntity.csproj">
-      <Project>{44b24af0-63c8-4c32-b0fe-9dc94b06b183}</Project>
-      <Name>AnalysisEntity</Name>
+    <ProjectReference Include="..\AnalysisUtils\AnalysisUtils.csproj">
+      <Project>{54cf3030-0aab-4024-bb37-b43be5ccc461}</Project>
+      <Name>AnalysisUtils</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,4 +1,4 @@
-﻿namespace AnalysisEntity
+﻿namespace AnalysisUtils
 {
     internal class Internal_Public_InternalEntity
     {
