@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2043
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnalysisReport.Core2_0", "AnalysisReport\AnalysisReport.Core2_0.csproj", "{B7894F6A-DCA7-418D-AA4B-3C63A6460EAB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnalysisReport.Core2_0", "AnalysisReport.Core2_0\AnalysisReport.Core2_0.csproj", "{B7894F6A-DCA7-418D-AA4B-3C63A6460EAB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natasha.Reflector", "Natasha.Reflector\Natasha.Reflector.csproj", "{65345BC6-AC7A-49E4-B031-898DBE4E18B4}"
 EndProject

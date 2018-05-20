@@ -12,6 +12,7 @@ namespace AnalysisEntity
         {
             Test_Internal_No.Test();
             Test_Pulibc_No.Test();
+
             Console.ReadKey();
         }
     }

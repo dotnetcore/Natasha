@@ -8,4 +8,8 @@
     <ProjectReference Include="..\Natasha.Reflector\Natasha.Reflector.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Entity\PublicLevel\Public_Public\" />
+  </ItemGroup>
+
 </Project>
