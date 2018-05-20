@@ -2,41 +2,56 @@
 
 ------
 
-#### 1、环境  
+#### 1、环境    
 
-##### 分析环境：
+
+
+##### 分析环境：    
 
 - .NET 4.5
 - .NET 4.6
-- .NET Core 2.0
+- .NET Core 2.0  
 
-##### 分析工具兼容SDK：
+
+
+##### 分析工具兼容SDK：    
 
 - [x] .net 4.5
 - [x] Standard1.3
 - [x] Standard2.0
 
-##### 成员类型：
+##### 成员类型：    
 
-​	string    
+string    
 
 
 
   
 
-#### 2、项目  
+#### 2、项目    
+
+
 
 &emsp;&emsp;项目愿景：针对运行时进行动态分析，方便后续重构规避异常操作。  
 
 &emsp;&emsp;项目名称：AnalysisReport  
 
-&emsp;&emsp;项目位置： [https://github.com/dotnetcore/Natasha/tree/master/analysis](https://github.com/dotnetcore/Natasha/tree/master/analysis)  
+&emsp;&emsp;项目位置： [https://github.com/dotnetcore/Natasha/tree/master/analysis](https://github.com/dotnetcore/Natasha/tree/master/analysis)    
+
+
+
+#### 3、工程结构    
+
+
+
+![architecture](https://github.com/dotnetcore/Natasha/blob/master/analysis/Image/architecture/structure.png)  
 
 
 
 
+#### 4、内容  
 
-#### 3、内容  
+
 
   1. ##### 公有类  
 
