@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Text;
 
-namespace ConsoleFormat
+namespace ConsoleFormator
 {
     public static class StringBuilderExtension
     {
