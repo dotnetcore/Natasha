@@ -1,4 +1,4 @@
-﻿namespace ConsoleFormator
+﻿namespace Console.Formator
 {
     public enum AlignmentType
     {

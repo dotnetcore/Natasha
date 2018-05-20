@@ -17,6 +17,6 @@
     <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ConsoleFormator\ConsoleFormator.csproj" />
+    <ProjectReference Include="..\Console.Formator\Console.Formator.csproj" />
   </ItemGroup>
 </Project>

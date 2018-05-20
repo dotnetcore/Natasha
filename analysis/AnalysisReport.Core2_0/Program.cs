@@ -1,5 +1,4 @@
 ﻿using AnalysisUtils;
-using System;
 
 namespace AnalysisReport.Core2_0
 {
@@ -9,7 +8,5 @@ namespace AnalysisReport.Core2_0
         {
             AnalysisTool.Test();
         }
-
-        
     }
 }

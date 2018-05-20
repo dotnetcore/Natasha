@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ConsoleFormator
+namespace Console.Formator
 {
     public class Alignmentor
     {
 
         public static void RegisterAlignmentPage()
         {
-            Console.OutputEncoding = Encoding.UTF8;
+            //Console.OutputEncoding = Encoding.UTF8;
             //Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
         }
 

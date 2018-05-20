@@ -9,7 +9,7 @@ namespace AnalysisUtils
             Test_Internal_No.Test();
             Test_Pulibc_No.Test();
 
-            Console.ReadKey();
+            System.Console.ReadKey();
         }
     }
 }

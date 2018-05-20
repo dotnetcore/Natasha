@@ -1,6 +1,4 @@
-﻿
-
-using AnalysisUtils;
+﻿using AnalysisUtils;
 
 namespace AnalysisReport.Net4_6
 {

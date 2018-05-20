@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace ConsoleFormator
+namespace Console.Formator
 {
     public static class StringBuilderExtension
     {

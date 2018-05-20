@@ -1,4 +1,4 @@
-﻿using ConsoleFormator;
+﻿using Console.Formator;
 using Natasha.Reflection;
 using Natasha.Reflection.Reportor;
 using System.Collections.Generic;
