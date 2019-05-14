@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net45;netstandard1.3;netstandard2.0</TargetFrameworks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Entity\PublicLevel\Public_Public\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Natasha.Reportor\Natasha.Reportor.csproj" />
+  </ItemGroup>
+
+</Project>

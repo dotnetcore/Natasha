@@ -1,0 +1,1654 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class EArray
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class EArray
+   ">
+    <meta name="generator" content="docfx 2.22.1.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Natasha.EArray">
+  
+  
+  <h1 id="Natasha_EArray" data-uid="Natasha.EArray" class="text-break">Class EArray
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><a class="xref" href="Natasha.Core.Base.ILGeneratorBase.html">ILGeneratorBase</a></div>
+    <div class="level2"><a class="xref" href="Natasha.Core.TypeStructionAnalyzer.html">TypeStructionAnalyzer</a></div>
+    <div class="level3"><a class="xref" href="Natasha.Core.TypeInitiator.html">TypeInitiator</a></div>
+    <div class="level4"><a class="xref" href="Natasha.Core.ComplexType.html">ComplexType</a></div>
+    <div class="level5"><a class="xref" href="Natasha.Core.ArrayBase.html">ArrayBase</a></div>
+    <div class="level6"><span class="xref">EArray</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="Natasha.Core.ArrayBase.html#Natasha_Core_ArrayBase_StoreArray_System_Action_System_Action_">ArrayBase.StoreArray(Action, Action)</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ArrayBase.html#Natasha_Core_ArrayBase_StoreArray_System_Action_System_Object_">ArrayBase.StoreArray(Action, Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ArrayBase.html#Natasha_Core_ArrayBase_StoreArray_System_Object_System_Object_">ArrayBase.StoreArray(Object, Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ArrayBase.html#Natasha_Core_ArrayBase_StoreArray_System_Object_System_Action_">ArrayBase.StoreArray(Object, Action)</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ArrayBase.html#Natasha_Core_ArrayBase_LoadArray_System_Int32_">ArrayBase.LoadArray(Int32)</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ArrayBase.html#Natasha_Core_ArrayBase_LoadArray_System_Action_">ArrayBase.LoadArray(Action)</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ArrayBase.html#Natasha_Core_ArrayBase_LoadArray_System_Object_">ArrayBase.LoadArray(Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ComplexType.html#Natasha_Core_ComplexType_Set_System_String_System_Action_">ComplexType.Set(String, Action)</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ComplexType.html#Natasha_Core_ComplexType_Set_System_String_System_Object_">ComplexType.Set(String, Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ComplexType.html#Natasha_Core_ComplexType_Load_System_String_">ComplexType.Load(String)</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ComplexType.html#Natasha_Core_ComplexType_LoadValue_System_String_">ComplexType.LoadValue(String)</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ComplexType.html#Natasha_Core_ComplexType_SField_System_String_System_Object_">ComplexType.SField(String, Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ComplexType.html#Natasha_Core_ComplexType_SField_System_String_System_Action_">ComplexType.SField(String, Action)</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ComplexType.html#Natasha_Core_ComplexType_SProperty_System_String_System_Object_">ComplexType.SProperty(String, Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ComplexType.html#Natasha_Core_ComplexType_SProperty_System_String_System_Action_">ComplexType.SProperty(String, Action)</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ComplexType.html#Natasha_Core_ComplexType_LField_System_String_System_Boolean_">ComplexType.LField(String, Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ComplexType.html#Natasha_Core_ComplexType_LProperty_System_String_System_Boolean_">ComplexType.LProperty(String, Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ComplexType.html#Natasha_Core_ComplexType_LPropertyValue_System_String_">ComplexType.LPropertyValue(String)</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ComplexType.html#Natasha_Core_ComplexType_LFieldValue_System_String_">ComplexType.LFieldValue(String)</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ComplexType.html#Natasha_Core_ComplexType_ALoad_System_String_">ComplexType.ALoad(String)</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ComplexType.html#Natasha_Core_ComplexType_GetAttribute__1_System_String_">ComplexType.GetAttribute&lt;T&gt;(String)</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ComplexType.html#Natasha_Core_ComplexType_GetAttributeModel_System_String_">ComplexType.GetAttributeModel(String)</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ComplexType.html#Natasha_Core_ComplexType_GetAttributes_System_String_">ComplexType.GetAttributes(String)</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ComplexType.html#Natasha_Core_ComplexType_Packet">ComplexType.Packet()</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ComplexType.html#Natasha_Core_ComplexType_UnPacket">ComplexType.UnPacket()</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ComplexType.html#Natasha_Core_ComplexType_InStackAndPacket">ComplexType.InStackAndPacket()</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ComplexType.html#Natasha_Core_ComplexType_InStackAndUnPacket">ComplexType.InStackAndUnPacket()</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ComplexType.html#Natasha_Core_ComplexType_DLoadValue_System_String_">ComplexType.DLoadValue(String)</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ComplexType.html#Natasha_Core_ComplexType_DLoad_System_String_">ComplexType.DLoad(String)</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ComplexType.html#Natasha_Core_ComplexType_DPacket">ComplexType.DPacket()</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ComplexType.html#Natasha_Core_ComplexType_DUnPacket">ComplexType.DUnPacket()</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ComplexType.html#Natasha_Core_ComplexType_DInStackAndPacket">ComplexType.DInStackAndPacket()</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ComplexType.html#Natasha_Core_ComplexType_DInStackAndUnPacket">ComplexType.DInStackAndUnPacket()</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ComplexType.html#Natasha_Core_ComplexType_DSet_System_String_System_Object_">ComplexType.DSet(String, Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ComplexType.html#Natasha_Core_ComplexType_DelayAction">ComplexType.DelayAction</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ComplexType.html#Natasha_Core_ComplexType_LoadEnd">ComplexType.LoadEnd()</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ComplexType.html#Natasha_Core_ComplexType_CompareType">ComplexType.CompareType</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ComplexType.html#Natasha_Core_ComplexType_AddSelf">ComplexType.AddSelf()</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ComplexType.html#Natasha_Core_ComplexType_SubSelf">ComplexType.SubSelf()</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ComplexType.html#Natasha_Core_ComplexType_RunCompareAction">ComplexType.RunCompareAction()</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ComplexType.html#Natasha_Core_ComplexType_Store_System_Action_">ComplexType.Store(Action)</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ComplexType.html#Natasha_Core_ComplexType_Store">ComplexType.Store()</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.ComplexType.html#Natasha_Core_ComplexType_ExecuteDelegate_System_Object___">ComplexType.ExecuteDelegate(Object[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.TypeInitiator.html#Natasha_Core_TypeInitiator_Builder">TypeInitiator.Builder</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.TypeInitiator.html#Natasha_Core_TypeInitiator_ParameterIndex">TypeInitiator.ParameterIndex</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.TypeInitiator.html#Natasha_Core_TypeInitiator_LoadAction">TypeInitiator.LoadAction</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.TypeInitiator.html#Natasha_Core_TypeInitiator_IsRef">TypeInitiator.IsRef</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.TypeInitiator.html#Natasha_Core_TypeInitiator_UseRef">TypeInitiator.UseRef()</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.TypeInitiator.html#Natasha_Core_TypeInitiator_Load">TypeInitiator.Load()</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.TypeInitiator.html#Natasha_Core_TypeInitiator_This">TypeInitiator.This()</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.TypeStructionAnalyzer.html#Natasha_Core_TypeStructionAnalyzer_Struction">TypeStructionAnalyzer.Struction</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.TypeStructionAnalyzer.html#Natasha_Core_TypeStructionAnalyzer_TypeHandler">TypeStructionAnalyzer.TypeHandler</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.TypeStructionAnalyzer.html#Natasha_Core_TypeStructionAnalyzer_ElementType">TypeStructionAnalyzer.ElementType</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.TypeStructionAnalyzer.html#Natasha_Core_TypeStructionAnalyzer_IsStruct">TypeStructionAnalyzer.IsStruct</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.TypeStructionAnalyzer.html#Natasha_Core_TypeStructionAnalyzer_Value">TypeStructionAnalyzer.Value</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.TypeStructionAnalyzer.html#Natasha_Core_TypeStructionAnalyzer_MethodHandler">TypeStructionAnalyzer.MethodHandler</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.TypeStructionAnalyzer.html#Natasha_Core_TypeStructionAnalyzer_CheckHaveDefautlConstructor_System_Type_">TypeStructionAnalyzer.CheckHaveDefautlConstructor(Type)</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.Base.ILGeneratorBase.html#Natasha_Core_Base_ILGeneratorBase_il">ILGeneratorBase.il</a>
+    </div>
+    <div>
+      <a class="xref" href="Natasha.Core.Base.ILGeneratorBase.html#Natasha_Core_Base_ILGeneratorBase_ThreadId">ILGeneratorBase.ThreadId</a>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Natasha.html">Natasha</a></h6>
+  <h6><strong>Assembly</strong>: Natasha.dll</h6>
+  <h5 id="Natasha_EArray_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class EArray : ArrayBase, ILoadInstance, IOperator, IPacket, IDelayOperator, IIterator</code></pre>
+  </div>
+  <h3 id="properties">Properties
+  </h3>
+  
+  
+  <a id="Natasha_EArray_Current_" data-uid="Natasha.EArray.Current*"></a>
+  <h4 id="Natasha_EArray_Current" data-uid="Natasha.EArray.Current">Current</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MethodInfo Current { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Reflection.MethodInfo</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Natasha.Core.IIterator.html#Natasha_Core_IIterator_Current">IIterator.Current</a></div>
+  
+  
+  <a id="Natasha_EArray_Dispose_" data-uid="Natasha.EArray.Dispose*"></a>
+  <h4 id="Natasha_EArray_Dispose" data-uid="Natasha.EArray.Dispose">Dispose</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MethodInfo Dispose { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Reflection.MethodInfo</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Natasha.Core.IIterator.html#Natasha_Core_IIterator_Dispose">IIterator.Dispose</a></div>
+  
+  
+  <a id="Natasha_EArray_Length_" data-uid="Natasha.EArray.Length*"></a>
+  <h4 id="Natasha_EArray_Length" data-uid="Natasha.EArray.Length">Length</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Length { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Natasha.Core.IIterator.html#Natasha_Core_IIterator_Length">IIterator.Length</a></div>
+  
+  
+  <a id="Natasha_EArray_MoveNext_" data-uid="Natasha.EArray.MoveNext*"></a>
+  <h4 id="Natasha_EArray_MoveNext" data-uid="Natasha.EArray.MoveNext">MoveNext</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MethodInfo MoveNext { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Reflection.MethodInfo</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Natasha.Core.IIterator.html#Natasha_Core_IIterator_MoveNext">IIterator.MoveNext</a></div>
+  
+  
+  <a id="Natasha_EArray_TempEnumerator_" data-uid="Natasha.EArray.TempEnumerator*"></a>
+  <h4 id="Natasha_EArray_TempEnumerator" data-uid="Natasha.EArray.TempEnumerator">TempEnumerator</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public LocalBuilder TempEnumerator { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Reflection.Emit.LocalBuilder</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Natasha.Core.IIterator.html#Natasha_Core_IIterator_TempEnumerator">IIterator.TempEnumerator</a></div>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="Natasha_EArray_CreateArray_" data-uid="Natasha.EArray.CreateArray*"></a>
+  <h4 id="Natasha_EArray_CreateArray_System_Type_" data-uid="Natasha.EArray.CreateArray(System.Type)">CreateArray(Type)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static EArray CreateArray(Type type)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Type</span></td>
+        <td><span class="parametername">type</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Natasha.EArray.html">EArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Natasha_EArray_CreateArray_" data-uid="Natasha.EArray.CreateArray*"></a>
+  <h4 id="Natasha_EArray_CreateArray__1" data-uid="Natasha.EArray.CreateArray``1">CreateArray&lt;T&gt;()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static EArray CreateArray&lt;T&gt;()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Natasha.EArray.html">EArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Natasha_EArray_CreateArrayFromAction_" data-uid="Natasha.EArray.CreateArrayFromAction*"></a>
+  <h4 id="Natasha_EArray_CreateArrayFromAction_System_Action_System_Type_" data-uid="Natasha.EArray.CreateArrayFromAction(System.Action,System.Type)">CreateArrayFromAction(Action, Type)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static EArray CreateArrayFromAction(Action loadAction, Type type)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Action</span></td>
+        <td><span class="parametername">loadAction</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Type</span></td>
+        <td><span class="parametername">type</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Natasha.EArray.html">EArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Natasha_EArray_CreateArrayFromAction_" data-uid="Natasha.EArray.CreateArrayFromAction*"></a>
+  <h4 id="Natasha_EArray_CreateArrayFromAction__1_System_Action_" data-uid="Natasha.EArray.CreateArrayFromAction``1(System.Action)">CreateArrayFromAction&lt;T&gt;(Action)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static EArray CreateArrayFromAction&lt;T&gt;(Action loadAction)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Action</span></td>
+        <td><span class="parametername">loadAction</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Natasha.EArray.html">EArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Natasha_EArray_CreateArrayFromBuilder_" data-uid="Natasha.EArray.CreateArrayFromBuilder*"></a>
+  <h4 id="Natasha_EArray_CreateArrayFromBuilder_System_Reflection_Emit_LocalBuilder_System_Type_" data-uid="Natasha.EArray.CreateArrayFromBuilder(System.Reflection.Emit.LocalBuilder,System.Type)">CreateArrayFromBuilder(LocalBuilder, Type)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static EArray CreateArrayFromBuilder(LocalBuilder builder, Type type)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Reflection.Emit.LocalBuilder</span></td>
+        <td><span class="parametername">builder</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Type</span></td>
+        <td><span class="parametername">type</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Natasha.EArray.html">EArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Natasha_EArray_CreateArrayFromBuilder_" data-uid="Natasha.EArray.CreateArrayFromBuilder*"></a>
+  <h4 id="Natasha_EArray_CreateArrayFromBuilder__1_System_Reflection_Emit_LocalBuilder_" data-uid="Natasha.EArray.CreateArrayFromBuilder``1(System.Reflection.Emit.LocalBuilder)">CreateArrayFromBuilder&lt;T&gt;(LocalBuilder)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static EArray CreateArrayFromBuilder&lt;T&gt;(LocalBuilder builder)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Reflection.Emit.LocalBuilder</span></td>
+        <td><span class="parametername">builder</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Natasha.EArray.html">EArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Natasha_EArray_CreateArrayFromParameter_" data-uid="Natasha.EArray.CreateArrayFromParameter*"></a>
+  <h4 id="Natasha_EArray_CreateArrayFromParameter_System_Int32_System_Type_" data-uid="Natasha.EArray.CreateArrayFromParameter(System.Int32,System.Type)">CreateArrayFromParameter(Int32, Type)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static EArray CreateArrayFromParameter(int parameterIndex, Type type)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">parameterIndex</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Type</span></td>
+        <td><span class="parametername">type</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Natasha.EArray.html">EArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Natasha_EArray_CreateArrayFromParameter_" data-uid="Natasha.EArray.CreateArrayFromParameter*"></a>
+  <h4 id="Natasha_EArray_CreateArrayFromParameter__1_System_Int32_" data-uid="Natasha.EArray.CreateArrayFromParameter``1(System.Int32)">CreateArrayFromParameter&lt;T&gt;(Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static EArray CreateArrayFromParameter&lt;T&gt;(int parameterIndex)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">parameterIndex</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Natasha.EArray.html">EArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Natasha_EArray_CreateArrayFromRuntimeArray_" data-uid="Natasha.EArray.CreateArrayFromRuntimeArray*"></a>
+  <h4 id="Natasha_EArray_CreateArrayFromRuntimeArray__1___0___" data-uid="Natasha.EArray.CreateArrayFromRuntimeArray``1(``0[])">CreateArrayFromRuntimeArray&lt;T&gt;(T[])</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static EArray CreateArrayFromRuntimeArray&lt;T&gt;(params T[] loadElements)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>T[]</td>
+        <td><span class="parametername">loadElements</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Natasha.EArray.html">EArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Natasha_EArray_CreateArraySpecifiedLength_" data-uid="Natasha.EArray.CreateArraySpecifiedLength*"></a>
+  <h4 id="Natasha_EArray_CreateArraySpecifiedLength_System_Type_System_Int32_" data-uid="Natasha.EArray.CreateArraySpecifiedLength(System.Type,System.Int32)">CreateArraySpecifiedLength(Type, Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static EArray CreateArraySpecifiedLength(Type aType, int length)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Type</span></td>
+        <td><span class="parametername">aType</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">length</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Natasha.EArray.html">EArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Natasha_EArray_CreateArraySpecifiedLength_" data-uid="Natasha.EArray.CreateArraySpecifiedLength*"></a>
+  <h4 id="Natasha_EArray_CreateArraySpecifiedLength__1_System_Int32_" data-uid="Natasha.EArray.CreateArraySpecifiedLength``1(System.Int32)">CreateArraySpecifiedLength&lt;T&gt;(Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static EArray CreateArraySpecifiedLength&lt;T&gt;(int length)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">length</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Natasha.EArray.html">EArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Natasha_EArray_Initialize_" data-uid="Natasha.EArray.Initialize*"></a>
+  <h4 id="Natasha_EArray_Initialize" data-uid="Natasha.EArray.Initialize">Initialize()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Initialize()</code></pre>
+  </div>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Natasha.Core.IIterator.html#Natasha_Core_IIterator_Initialize">IIterator.Initialize()</a></div>
+  
+  
+  <a id="Natasha_EArray_LoadCurrentElement_" data-uid="Natasha.EArray.LoadCurrentElement*"></a>
+  <h4 id="Natasha_EArray_LoadCurrentElement_System_Reflection_Emit_LocalBuilder_" data-uid="Natasha.EArray.LoadCurrentElement(System.Reflection.Emit.LocalBuilder)">LoadCurrentElement(LocalBuilder)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void LoadCurrentElement(LocalBuilder currentBuilder)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Reflection.Emit.LocalBuilder</span></td>
+        <td><span class="parametername">currentBuilder</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Natasha.Core.IIterator.html#Natasha_Core_IIterator_LoadCurrentElement_System_Reflection_Emit_LocalBuilder_">IIterator.LoadCurrentElement(LocalBuilder)</a></div>
+  <h3 id="operators">Operators
+  </h3>
+  
+  
+  <a id="Natasha_EArray_op_Implicit_" data-uid="Natasha.EArray.op_Implicit*"></a>
+  <h4 id="Natasha_EArray_op_Implicit_System_Boolean____Natasha_EArray" data-uid="Natasha.EArray.op_Implicit(System.Boolean[])~Natasha.EArray">Implicit(Boolean[] to EArray)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static implicit operator EArray(bool[] value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span>[]</td>
+        <td><span class="parametername">value</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Natasha.EArray.html">EArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Natasha_EArray_op_Implicit_" data-uid="Natasha.EArray.op_Implicit*"></a>
+  <h4 id="Natasha_EArray_op_Implicit_System_Byte____Natasha_EArray" data-uid="Natasha.EArray.op_Implicit(System.Byte[])~Natasha.EArray">Implicit(Byte[] to EArray)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static implicit operator EArray(byte[] value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Byte</span>[]</td>
+        <td><span class="parametername">value</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Natasha.EArray.html">EArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Natasha_EArray_op_Implicit_" data-uid="Natasha.EArray.op_Implicit*"></a>
+  <h4 id="Natasha_EArray_op_Implicit_System_Char____Natasha_EArray" data-uid="Natasha.EArray.op_Implicit(System.Char[])~Natasha.EArray">Implicit(Char[] to EArray)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static implicit operator EArray(char[] value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Char</span>[]</td>
+        <td><span class="parametername">value</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Natasha.EArray.html">EArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Natasha_EArray_op_Implicit_" data-uid="Natasha.EArray.op_Implicit*"></a>
+  <h4 id="Natasha_EArray_op_Implicit_System_Decimal____Natasha_EArray" data-uid="Natasha.EArray.op_Implicit(System.Decimal[])~Natasha.EArray">Implicit(Decimal[] to EArray)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static implicit operator EArray(decimal[] value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Decimal</span>[]</td>
+        <td><span class="parametername">value</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Natasha.EArray.html">EArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Natasha_EArray_op_Implicit_" data-uid="Natasha.EArray.op_Implicit*"></a>
+  <h4 id="Natasha_EArray_op_Implicit_System_Double____Natasha_EArray" data-uid="Natasha.EArray.op_Implicit(System.Double[])~Natasha.EArray">Implicit(Double[] to EArray)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static implicit operator EArray(double[] value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Double</span>[]</td>
+        <td><span class="parametername">value</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Natasha.EArray.html">EArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Natasha_EArray_op_Implicit_" data-uid="Natasha.EArray.op_Implicit*"></a>
+  <h4 id="Natasha_EArray_op_Implicit_System_Int16____Natasha_EArray" data-uid="Natasha.EArray.op_Implicit(System.Int16[])~Natasha.EArray">Implicit(Int16[] to EArray)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static implicit operator EArray(short[] value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int16</span>[]</td>
+        <td><span class="parametername">value</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Natasha.EArray.html">EArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Natasha_EArray_op_Implicit_" data-uid="Natasha.EArray.op_Implicit*"></a>
+  <h4 id="Natasha_EArray_op_Implicit_System_Int32____Natasha_EArray" data-uid="Natasha.EArray.op_Implicit(System.Int32[])~Natasha.EArray">Implicit(Int32[] to EArray)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static implicit operator EArray(int[] value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">value</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Natasha.EArray.html">EArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Natasha_EArray_op_Implicit_" data-uid="Natasha.EArray.op_Implicit*"></a>
+  <h4 id="Natasha_EArray_op_Implicit_System_Int64____Natasha_EArray" data-uid="Natasha.EArray.op_Implicit(System.Int64[])~Natasha.EArray">Implicit(Int64[] to EArray)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static implicit operator EArray(long[] value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int64</span>[]</td>
+        <td><span class="parametername">value</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Natasha.EArray.html">EArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Natasha_EArray_op_Implicit_" data-uid="Natasha.EArray.op_Implicit*"></a>
+  <h4 id="Natasha_EArray_op_Implicit_System_Object____Natasha_EArray" data-uid="Natasha.EArray.op_Implicit(System.Object[])~Natasha.EArray">Implicit(Object[] to EArray)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static implicit operator EArray(object[] value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span>[]</td>
+        <td><span class="parametername">value</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Natasha.EArray.html">EArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Natasha_EArray_op_Implicit_" data-uid="Natasha.EArray.op_Implicit*"></a>
+  <h4 id="Natasha_EArray_op_Implicit_System_Single____Natasha_EArray" data-uid="Natasha.EArray.op_Implicit(System.Single[])~Natasha.EArray">Implicit(Single[] to EArray)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static implicit operator EArray(float[] value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span>[]</td>
+        <td><span class="parametername">value</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Natasha.EArray.html">EArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Natasha_EArray_op_Implicit_" data-uid="Natasha.EArray.op_Implicit*"></a>
+  <h4 id="Natasha_EArray_op_Implicit_System_String____Natasha_EArray" data-uid="Natasha.EArray.op_Implicit(System.String[])~Natasha.EArray">Implicit(String[] to EArray)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static implicit operator EArray(string[] value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">value</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Natasha.EArray.html">EArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Natasha_EArray_op_Implicit_" data-uid="Natasha.EArray.op_Implicit*"></a>
+  <h4 id="Natasha_EArray_op_Implicit_System_UInt16____Natasha_EArray" data-uid="Natasha.EArray.op_Implicit(System.UInt16[])~Natasha.EArray">Implicit(UInt16[] to EArray)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static implicit operator EArray(ushort[] value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.UInt16</span>[]</td>
+        <td><span class="parametername">value</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Natasha.EArray.html">EArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Natasha_EArray_op_Implicit_" data-uid="Natasha.EArray.op_Implicit*"></a>
+  <h4 id="Natasha_EArray_op_Implicit_System_UInt32____Natasha_EArray" data-uid="Natasha.EArray.op_Implicit(System.UInt32[])~Natasha.EArray">Implicit(UInt32[] to EArray)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static implicit operator EArray(uint[] value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.UInt32</span>[]</td>
+        <td><span class="parametername">value</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Natasha.EArray.html">EArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Natasha_EArray_op_Implicit_" data-uid="Natasha.EArray.op_Implicit*"></a>
+  <h4 id="Natasha_EArray_op_Implicit_System_UInt64____Natasha_EArray" data-uid="Natasha.EArray.op_Implicit(System.UInt64[])~Natasha.EArray">Implicit(UInt64[] to EArray)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static implicit operator EArray(ulong[] value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.UInt64</span>[]</td>
+        <td><span class="parametername">value</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Natasha.EArray.html">EArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
