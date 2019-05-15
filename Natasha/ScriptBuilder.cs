@@ -95,14 +95,14 @@ namespace Natasha
         public Delegate Create()
         {
             //生成完整动态代码
-            string body = GetBody();
+            string body = GetScriptString();
             //返回运行时委托
             return GetRuntimeMethodDelegate(_class_name, body, _delegate_type);
         }
         public T Create<T>() where T : Delegate
         {
             //生成完整动态代码
-            string body = GetBody();
+            string body = GetScriptString();
             //返回运行时委托
             return (T)GetRuntimeMethodDelegate(_class_name, body, typeof(T));
         }
@@ -181,7 +181,7 @@ namespace Natasha
             return this;
         }
 
-        private string GetBody()
+        private string GetScriptString()
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(_namespace);
