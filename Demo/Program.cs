@@ -24,9 +24,24 @@ namespace Demo
                     string result = str1 +"" ""+ str2;
                     Console.WriteLine(result);
                                                ")
-                .Return();
+                .Return()
+                .Create();
 
             ((Action<string, string>)delegateAction)("Hello", "World!");
+
+            ScriptBuilder maker2 = new ScriptBuilder();
+            var delegateAction2 = maker2
+                .Namespace(typeof(Console))
+                .Param<string>("str1")
+                .Param<string>("str2")
+                .Body(@"
+                    string result = str1 +"" ""+ str2;
+                    Console.WriteLine(result);
+                                               ")
+                .Return()
+                .Create<Action<string, string>>();
+
+           delegateAction2("Hello", "World!");
 
 
             Console.ReadKey();

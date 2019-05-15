@@ -17,6 +17,7 @@ namespace Natasha
         private List<Type> _parameters_types;
         private Type _return_type;
         private string _text;
+        private Type _delegate_type;
         public static Action<string> SingleError;
         public ScriptBuilder()
         {
@@ -70,7 +71,7 @@ namespace Natasha
         /// </summary>
         /// <typeparam name="T">返回类型</typeparam>
         /// <returns></returns>
-        public Delegate Return<T>()
+        public ScriptBuilder Return<T>()
         {
             return Return(typeof(T));
         }
@@ -79,21 +80,33 @@ namespace Natasha
         /// </summary>
         /// <param name="type">返回类型</param>
         /// <returns></returns>
-        public Delegate Return(Type type=null)
+        public ScriptBuilder Return(Type type=null)
         {
-
             _return_type = type;
+            //根据参数，生成动态委托类型
+            _delegate_type = DelegateBuilder.GetDelegate(_parameters_types.ToArray(), type);
+            return this;
+        }
 
+        /// <summary>
+        /// 返回动态委托
+        /// </summary>
+        /// <returns></returns>
+        public Delegate Create()
+        {
             //生成完整动态代码
             string body = GetBody();
-
-            //根据参数，生成动态委托类型
-            Type delegateType = DelegateBuilder.GetDelegate(_parameters_types.ToArray(), type);
-
-
-            //获取运行时委托
-            return GetRuntimeMethodDelegate(_class_name,body,delegateType);
+            //返回运行时委托
+            return GetRuntimeMethodDelegate(_class_name, body, _delegate_type);
         }
+        public T Create<T>() where T : Delegate
+        {
+            //生成完整动态代码
+            string body = GetBody();
+            //返回运行时委托
+            return (T)GetRuntimeMethodDelegate(_class_name, body, typeof(T));
+        }
+
 
         public static Delegate GetRuntimeMethodDelegate(string className,string body,Type delegateType)
         {
