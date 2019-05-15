@@ -41,9 +41,26 @@ namespace Demo
                 .Return()
                 .Create<Action<string, string>>();
 
-           delegateAction2("Hello", "World!");
+            delegateAction2("Hello", "World!");
 
-
+            ClassBuilder classBuilder = new ClassBuilder();
+            string text = @"using System;
+using System.Collections;
+using System.Linq;
+using System.Text;
+ 
+namespace HelloWorld
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine(""Hello, World!"");
+        }
+    }
+}";
+            Type type = classBuilder.GetType(text);
+            Console.WriteLine(type.Name);
             Console.ReadKey();
         }
     }

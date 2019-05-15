@@ -16,9 +16,12 @@ namespace Natasha
         private List<KeyValuePair<Type, string>> _parameters;
         private List<Type> _parameters_types;
         private Type _return_type;
-        private string _text;
         private Type _delegate_type;
+        private StringBuilder _namespace;
+
         public static Action<string> SingleError;
+        private string _class_name;
+        private string _text;
         public ScriptBuilder()
         {
             _class_name = "N"+Guid.NewGuid().ToString("N");
@@ -97,66 +100,35 @@ namespace Natasha
             //生成完整动态代码
             string body = GetScriptString();
             //返回运行时委托
-            return GetRuntimeMethodDelegate(_class_name, body, _delegate_type);
+            return GetRuntimeMethodDelegate(_delegate_type);
         }
         public T Create<T>() where T : Delegate
         {
             //生成完整动态代码
-            string body = GetScriptString();
+           
             //返回运行时委托
-            return (T)GetRuntimeMethodDelegate(_class_name, body, typeof(T));
+            return (T)GetRuntimeMethodDelegate(typeof(T));
         }
 
 
-        public static Delegate GetRuntimeMethodDelegate(string className,string body,Type delegateType)
+        public Delegate GetRuntimeMethodDelegate(Type delegateType)
         {
-            //写入分析树
-            SyntaxTree tree = SyntaxFactory.ParseSyntaxTree(body);
+            string body = GetScriptString();
+            Assembly assembly = ScriptComplier.Complier(body, _class_name, SingleError);
 
-            //添加程序及引用
-            var _ref = DependencyContext.Default.CompileLibraries
-                                    .SelectMany(cl => cl.ResolveReferencePaths())
-                                    .Select(asm => MetadataReference.CreateFromFile(asm));
-
-
-            //创建dll
-            string fileName = $"{className}.dll";
-
-            //创建语言编译
-            CSharpCompilation compilation = CSharpCompilation.Create(
-                fileName,
-                options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary),
-                syntaxTrees: new[] { tree },
-                references: _ref);
-
-
-            Assembly compiledAssembly;
-            using (MemoryStream stream = new MemoryStream())
+            if (assembly==null)
             {
-                EmitResult compileResult = compilation.Emit(stream);
-
-                if (compileResult.Success)
-                {
-                    //从内存中加载程序集
-                    compiledAssembly = Assembly.Load(stream.GetBuffer());
-                    Type targetType = compiledAssembly.GetType(className);
-                    return targetType.GetMethod("DynimacMethod").CreateDelegate(delegateType);
-                }
-                else
-                {
-                    foreach (var item in compileResult.Diagnostics)
-                    {
-                        SingleError?.Invoke(item.GetMessage());
-                    }
-                    return null;
-                    //throw new Exception("你的.csproj文件里，需要有：<PreserveCompilationContext>true</PreserveCompilationContext>")
-                }
+                return null;
             }
+
+            return AssemblyOperator
+                .Loader(assembly)[_class_name]
+                .GetMethod("DynimacMethod")
+                .CreateDelegate(delegateType);
         }
 
 
-        private StringBuilder _namespace;
-        private string _class_name;
+
         /// <summary>
         /// 设置命名空间
         /// </summary>
