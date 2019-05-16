@@ -90,7 +90,14 @@ namespace Natasha
                         .Create<Action<DynamicInstance, T>>();
                     GetDynamicCache[type][info.Name] = delegateGetAction;
 
-
+                    if (typeof(T) == typeof(object))
+                    {
+                        body = $@"(({type.Name})instance).{info.Name}=proxy.{TypeMemberMapping[info.FieldType]};";
+                    }
+                    else
+                    {
+                        body = $@"instance.{info.Name}=proxy.{TypeMemberMapping[info.FieldType]};";
+                    }
                     ScriptBuilder setBuilder = new ScriptBuilder();
                     var delegateSetAction = setBuilder
                         .Namespace(type)
@@ -128,7 +135,14 @@ namespace Natasha
                         .Create<Action<DynamicInstance, T>>();
                     GetDynamicCache[type][info.Name] = delegateGetAction;
 
-
+                    if (typeof(T) == typeof(object))
+                    {
+                        body = $@"(({type.Name})instance).{info.Name}=proxy.{TypeMemberMapping[info.PropertyType]};";
+                    }
+                    else
+                    {
+                        body = $@"instance.{info.Name}=proxy.{TypeMemberMapping[info.PropertyType]};";
+                    }
                     ScriptBuilder setBuilder = new ScriptBuilder();
                     var delegateSetAction = setBuilder
                         .Namespace(type)
@@ -136,7 +150,7 @@ namespace Natasha
                         .Namespace<DynamicInstance>()
                         .Param<DynamicInstance>("proxy")
                         .Param<T>("instance")
-                        .Body($@"(({type.Name})instance).{info.Name}=proxy.{TypeMemberMapping[info.PropertyType]};")
+                        .Body(body)
                         .Return()
                         .Create<Action<DynamicInstance, T>>();
                     SetDynamicCache[type][info.Name] = delegateSetAction;
