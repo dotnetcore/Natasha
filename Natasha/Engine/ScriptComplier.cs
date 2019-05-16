@@ -4,15 +4,49 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Emit;
 using Microsoft.Extensions.DependencyModel;
 using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 
 namespace Natasha
 {
 
     public class ScriptComplier
     {
+        public static string LibPath;
+        public static ConcurrentBag<string> DynamicDlls;
+        public static ConcurrentBag<PortableExecutableReference> References;
+        static ScriptComplier()
+        {
+            LibPath = AppDomain.CurrentDomain.BaseDirectory + "lib\\";
+            var _ref = DependencyContext.Default.CompileLibraries
+                                .SelectMany(cl => cl.ResolveReferencePaths())
+                                .Select(asm => MetadataReference.CreateFromFile(asm));
+
+
+            DynamicDlls = new ConcurrentBag<string>();
+            References = new ConcurrentBag<PortableExecutableReference>(_ref);
+
+            if (Directory.Exists(LibPath))
+            {
+                Directory.Delete(LibPath, true);
+            }
+            Directory.CreateDirectory(LibPath);
+        }
+
+
+        public static void Init()
+        {
+            if (Directory.Exists(LibPath))
+            {
+                Directory.Delete(LibPath, true);
+            }
+            Directory.CreateDirectory(LibPath);
+        }
+
         /// <summary>
         /// 通过语法解析获取脚本内容中的第一个类
         /// </summary>
@@ -36,19 +70,16 @@ namespace Natasha
         /// <param name="className">指定类名</param>
         /// <param name="errorAction">发生错误执行委托</param>
         /// <returns></returns>
-        public static Assembly Complier(string content,string className = null,Action<string> errorAction=null)
+        public static Assembly Complier(string content, string className = null, Action<string> errorAction = null)
         {
             //写入分析树
             SyntaxTree tree = SyntaxFactory.ParseSyntaxTree(content);
 
             //添加程序及引用
-            var _ref = DependencyContext.Default.CompileLibraries
-                                    .SelectMany(cl => cl.ResolveReferencePaths())
-                                    .Select(asm => MetadataReference.CreateFromFile(asm));
-
+          
 
             //创建dll
-            if (className==null)
+            if (className == null)
             {
                 className = GetClassName(content);
             }
@@ -59,30 +90,30 @@ namespace Natasha
                 className,
                 options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary),
                 syntaxTrees: new[] { tree },
-                references: _ref);
+                references: References);
 
-
-            Assembly compiledAssembly=null;
-            using (MemoryStream stream = new MemoryStream())
+            string path = $"{LibPath}{className}.dll";
+            var fileResult = compilation.Emit(path);
+            
+            if (fileResult.Success)
             {
-                EmitResult compileResult = compilation.Emit(stream);
 
-                if (compileResult.Success)
-                {
-                    //从内存中加载程序集
-                    compiledAssembly = Assembly.Load(stream.GetBuffer());
+                DynamicDlls.Add(path);
+                References.Add(MetadataReference.CreateFromFile(path));
 
-                }
-                else
+                //为了实现动态中的动态，使用文件加载模式常驻内存
+                return Assembly.LoadFrom(path);
+            }
+            else
+            {
+                foreach (var item in fileResult.Diagnostics)
                 {
-                    foreach (var item in compileResult.Diagnostics)
-                    {
-                        errorAction?.Invoke(item.GetMessage());
-                    }
-                    //throw new Exception("你的.csproj文件里，需要有：<PreserveCompilationContext>true</PreserveCompilationContext>")
+                    errorAction?.Invoke(item.GetMessage());
                 }
             }
-            return compiledAssembly;
+
+            return null;
+            
         }
     }
 }

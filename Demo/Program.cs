@@ -14,7 +14,7 @@ namespace Demo
              *   
              *      <PreserveCompilationContext>true</PreserveCompilationContext>
              */
-            ScriptBuilder maker = new ScriptBuilder();
+            /*ScriptBuilder maker = new ScriptBuilder();
 
             var delegateAction = maker
                 .Namespace(typeof(Console))
@@ -42,7 +42,8 @@ namespace Demo
                 .Create<Action<string, string>>();
 
             delegateAction2("Hello", "World!");
-
+            */
+            ScriptComplier.Init();
             ClassBuilder classBuilder = new ClassBuilder();
             string text = @"using System;
 using System.Collections;
@@ -51,17 +52,33 @@ using System.Text;
  
 namespace HelloWorld
 {
-    class Program
+    public class Test
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine(""Hello, World!"");
+        public Test(){
+            Name=""111"";
         }
+
+        public string Name;
+        public int Age{get;set;}
     }
 }";
+            //根据脚本创建动态类
             Type type = classBuilder.GetType(text);
+            //创建动态类实例代理
+            DynamicInstance instance = new DynamicInstance(type);
+
+            if (instance.Get("Name").StringValue=="111")
+            {
+                //设置值
+                instance.StringValue = "222";
+                //调用动态委托赋值
+                instance.Set("Name");
+            }
+            //调用动态类
+            Console.WriteLine(instance.Get("Name").StringValue);
             Console.WriteLine(type.Name);
             Console.ReadKey();
         }
+
     }
 }
