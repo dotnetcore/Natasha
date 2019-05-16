@@ -65,7 +65,7 @@ namespace HelloWorld
             //根据脚本创建动态类
             Type type = classBuilder.GetType(text);
             //创建动态类实例代理
-            DynamicInstance instance = new DynamicInstance(type);
+            DynamicInstance<object> instance = new DynamicInstance<object>(type);
 
             if (instance.Get("Name").StringValue=="111")
             {
@@ -76,9 +76,32 @@ namespace HelloWorld
             }
             //调用动态类
             Console.WriteLine(instance.Get("Name").StringValue);
-            Console.WriteLine(type.Name);
+            
+            //创建动态类实例代理
+            DynamicInstance<TestB> instance2 = new DynamicInstance<TestB>();
+
+            if (instance2.Get("Name").StringValue == "111")
+            {
+                //设置值
+                instance2.StringValue = "222";
+                //调用动态委托赋值
+                instance2.Set("Name");
+            }
+            //调用动态类
+            Console.WriteLine(instance2.Get("Name").StringValue);
+
+
             Console.ReadKey();
         }
+    }
 
+    public class TestB
+    {
+        public TestB()
+        {
+            Name = "111";
+        }
+        public string Name { get; set; }
+        public int Age;
     }
 }
