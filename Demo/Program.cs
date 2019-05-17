@@ -14,7 +14,7 @@ namespace Demo
              *   
              *      <PreserveCompilationContext>true</PreserveCompilationContext>
              */
-            /*ScriptBuilder maker = new ScriptBuilder();
+            ScriptBuilder maker = new ScriptBuilder();
 
             var delegateAction = maker
                 .Namespace(typeof(Console))
@@ -42,9 +42,8 @@ namespace Demo
                 .Create<Action<string, string>>();
 
             delegateAction2("Hello", "World!");
-            */
+            
             ScriptComplier.Init();
-            ClassBuilder classBuilder = new ClassBuilder();
             string text = @"using System;
 using System.Collections;
 using System.Linq;
@@ -63,7 +62,7 @@ namespace HelloWorld
     }
 }";
             //根据脚本创建动态类
-            Type type = classBuilder.GetType(text);
+            Type type = ClassBuilder.GetType(text);
             //创建动态类实例代理
             DynamicInstance<object> instance = new DynamicInstance<object>(type);
 
@@ -76,6 +75,9 @@ namespace HelloWorld
             }
             //调用动态类
             Console.WriteLine(instance.Get("Name").StringValue);
+
+
+
             
             //创建动态类实例代理
             DynamicInstance<TestB> instance2 = new DynamicInstance<TestB>();

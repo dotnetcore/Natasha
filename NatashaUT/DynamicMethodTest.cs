@@ -1,11 +1,15 @@
 ﻿using Natasha;
 using System;
+using System.Collections.Generic;
+using System.Text;
+using Xunit;
 
-namespace Core20
+namespace NatashaUT
 {
-    class Program
+    public class DynamicMethodTest
     {
-        static void Main(string[] args)
+        [Fact(DisplayName = "手动强转委托")]
+        public static void RunDelegate1()
         {
             ScriptBuilder maker = new ScriptBuilder();
 
@@ -16,11 +20,17 @@ namespace Core20
                 .Body(@"
                     string result = str1 +"" ""+ str2;
                     Console.WriteLine(result);
+                    return result;
                                                ")
-                .Return()
+                .Return<string>()
                 .Create();
 
-            ((Action<string, string>)delegateAction)("Hello", "World!");
+           string result = ((Func<string, string,string>)delegateAction)("Hello", "World1!");
+           Assert.Equal("Hello World1!", result);
+        }
+        [Fact(DisplayName = "手动强转委托")]
+        public static void RunDelegate2()
+        {
 
             ScriptBuilder maker2 = new ScriptBuilder();
             var delegateAction2 = maker2
@@ -30,30 +40,14 @@ namespace Core20
                 .Body(@"
                     string result = str1 +"" ""+ str2;
                     Console.WriteLine(result);
+                    return result;
                                                ")
-                .Return()
-                .Create<Action<string, string>>();
+                .Return<string>()
+                .Create<Func<string, string, string>>();
 
-            delegateAction2("Hello", "World!");
+           string result = delegateAction2("Hello", "World2!");
+           Assert.Equal("Hello World2!",result);
+        }
 
-            string text = @"using System;
-using System.Collections;
-using System.Linq;
-using System.Text;
- 
-namespace HelloWorld
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            Console.WriteLine(""Hello, World!"");
-        }
-    }
-}";
-            Type type = ClassBuilder.GetType(text);
-            Console.WriteLine(type.Name);
-            Console.ReadKey();
-        }
     }
 }

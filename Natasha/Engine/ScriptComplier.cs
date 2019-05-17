@@ -19,9 +19,18 @@ namespace Natasha
         public static string LibPath;
         public static ConcurrentBag<string> DynamicDlls;
         public static ConcurrentBag<PortableExecutableReference> References;
+        public static bool IsComplete;
+        
         static ScriptComplier()
         {
+            IsComplete = false;
             LibPath = AppDomain.CurrentDomain.BaseDirectory + "lib\\";
+            if (Directory.Exists(LibPath))
+            {
+                Directory.Delete(LibPath, true);
+            }
+            Directory.CreateDirectory(LibPath);
+            
             var _ref = DependencyContext.Default.CompileLibraries
                                 .SelectMany(cl => cl.ResolveReferencePaths())
                                 .Select(asm => MetadataReference.CreateFromFile(asm));
@@ -29,12 +38,8 @@ namespace Natasha
 
             DynamicDlls = new ConcurrentBag<string>();
             References = new ConcurrentBag<PortableExecutableReference>(_ref);
-
-            if (Directory.Exists(LibPath))
-            {
-                Directory.Delete(LibPath, true);
-            }
-            Directory.CreateDirectory(LibPath);
+            
+            IsComplete = true;
         }
 
 
@@ -72,6 +77,7 @@ namespace Natasha
         /// <returns></returns>
         public static Assembly Complier(string content, string className = null, Action<string> errorAction = null)
         {
+            while (!IsComplete) { }
             //写入分析树
             SyntaxTree tree = SyntaxFactory.ParseSyntaxTree(content);
 
@@ -93,23 +99,30 @@ namespace Natasha
                 references: References);
 
             string path = $"{LibPath}{className}.dll";
-            var fileResult = compilation.Emit(path);
-            
-            if (fileResult.Success)
+            lock (content)
             {
-
-                DynamicDlls.Add(path);
-                References.Add(MetadataReference.CreateFromFile(path));
-
-                //为了实现动态中的动态，使用文件加载模式常驻内存
-                return Assembly.LoadFrom(path);
-            }
-            else
-            {
-                foreach (var item in fileResult.Diagnostics)
+                if (DynamicDlls.Contains(path))
                 {
-                    errorAction?.Invoke(item.GetMessage());
+                    return null;
                 }
+                var fileResult = compilation.Emit(path);
+
+                if (fileResult.Success)
+                {
+                    DynamicDlls.Add(path);
+                    References.Add(MetadataReference.CreateFromFile(path));
+                    //为了实现动态中的动态，使用文件加载模式常驻内存
+                    return Assembly.LoadFrom(path);
+
+                }
+                else
+                {
+                    foreach (var item in fileResult.Diagnostics)
+                    {
+                        errorAction?.Invoke(item.GetMessage());
+                    }
+                }
+
             }
 
             return null;
