@@ -50,17 +50,21 @@ namespace Natasha
         }
 
         /// <summary>
-        /// 通过语法解析获取脚本内容中的第一个类
+        /// 根据命名空间和类的位置获取类型
         /// </summary>
         /// <param name="content">脚本内容</param>
+        /// <param name="index">命名空间里的第index个类</param>
+        /// <param name="namespaceIndex">第x个命名空间</param>
         /// <returns></returns>
-        public static string GetClassName(string content)
+        public static string GetClassName(string content,int index=1,int namespaceIndex=1)
         {
+            index -= 1;
+            namespaceIndex -= 1;
             SyntaxTree tree = CSharpSyntaxTree.ParseText(content);
             CompilationUnitSyntax root = tree.GetCompilationUnitRoot();
-            MemberDeclarationSyntax firstMember = root.Members[0];
+            MemberDeclarationSyntax firstMember = root.Members[namespaceIndex];
             var NameSpaceDeclaration = (NamespaceDeclarationSyntax)firstMember;
-            var ClassDeclaration = (ClassDeclarationSyntax)NameSpaceDeclaration.Members[0];
+            var ClassDeclaration = (ClassDeclarationSyntax)NameSpaceDeclaration.Members[index];
             var identifier = (IdentifierNameSyntax)NameSpaceDeclaration.Name;
             return $"{identifier.Identifier.Text.Trim()}.{ClassDeclaration.Identifier.Text}";
         }
