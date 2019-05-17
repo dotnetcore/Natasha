@@ -2,7 +2,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 
 namespace Natasha
 {
@@ -41,16 +40,24 @@ namespace Natasha
 
 
         private T _instance;
-
+        /// <summary>
+        /// 加载实例对象
+        /// </summary>
+        /// <param name="instance">实例</param>
+        /// <returns></returns>
         public DynamicInstance<T> Load(T instance)
         {
             _instance = instance;
             return this;
         }
 
-
-        public static void InitType(Type type)
+        /// <summary>
+        /// 初始化一个类型
+        /// </summary>
+        /// <param name="type"></param>
+        private static void InitType(Type type)
         {
+            //动态函数-实例的创建
             ScriptBuilder ctor = new ScriptBuilder();
             if (typeof(T)==typeof(object))
             {
@@ -63,8 +70,9 @@ namespace Natasha
                 .Create<Func<T>>();
 
 
-            var members = type.GetMembers();
+            //动态函数-成员调用
             string body = "";
+            var members = type.GetMembers();
             for (int i = 0; i < members.Length; i++)
             {
                 if (members[i].MemberType == MemberTypes.Field)
@@ -158,12 +166,22 @@ namespace Natasha
             }
         }
 
+        /// <summary>
+        /// 获取成员信息
+        /// </summary>
+        /// <param name="name">成员名</param>
+        /// <returns></returns>
         public DynamicInstance<T> Get(string name)
         {
             DynamicGet[name](this, _instance);
             return this;
         }
 
+        /// <summary>
+        /// 设置成员信息
+        /// </summary>
+        /// <param name="name">成员名</param>
+        /// <returns></returns>
         public DynamicInstance<T> Set(string name)
         {
             DynamicSet[name](this, _instance);
