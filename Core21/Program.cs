@@ -36,7 +36,6 @@ namespace Core21
 
             delegateAction2("Hello", "World!");
 
-            ClassBuilder classBuilder = new ClassBuilder();
             string text = @"using System;
 using System.Collections;
 using System.Linq;
@@ -52,7 +51,7 @@ namespace HelloWorld
         }
     }
 }";
-            Type type = classBuilder.GetType(text);
+            Type type = ClassBuilder.GetType(text);
             Console.WriteLine(type.Name);
             Console.ReadKey();
         }
