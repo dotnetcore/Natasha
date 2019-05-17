@@ -59,11 +59,8 @@ namespace Natasha
         {
             //动态函数-实例的创建
             ScriptBuilder ctor = new ScriptBuilder();
-            if (typeof(T)==typeof(object))
-            {
-                ctor.Namespace(type);
-            }
             CtorMapping[type] = ctor
+                .Namespace(type)
                 .Namespace<T>()
                 .Body($@"return new {type.Name}();")
                 .Return<T>()
@@ -90,7 +87,6 @@ namespace Natasha
                     var delegateGetAction = getBuilder
                         .Namespace(type)
                         .Namespace(info.FieldType)
-                        .Namespace<DynamicInstance>()
                         .Param<DynamicInstance>("proxy")
                         .Param<T>("instance")
                         .Body(body)
@@ -110,7 +106,6 @@ namespace Natasha
                     var delegateSetAction = setBuilder
                         .Namespace(type)
                         .Namespace(info.FieldType)
-                        .Namespace<DynamicInstance>()
                         .Param<DynamicInstance>("proxy")
                         .Param<T>("instance")
                         .Body($@"(({type.Name})instance).{info.Name}=proxy.{TypeMemberMapping[info.FieldType]};")
@@ -135,7 +130,6 @@ namespace Natasha
                     var delegateGetAction = getBuilder
                         .Namespace(type)
                         .Namespace(info.PropertyType)
-                        .Namespace<DynamicInstance>()
                         .Param<DynamicInstance>("proxy")
                         .Param<T>("instance")
                         .Body(body)
@@ -155,7 +149,6 @@ namespace Natasha
                     var delegateSetAction = setBuilder
                         .Namespace(type)
                         .Namespace(info.PropertyType)
-                        .Namespace<DynamicInstance>()
                         .Param<DynamicInstance>("proxy")
                         .Param<T>("instance")
                         .Body(body)
