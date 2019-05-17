@@ -12,7 +12,7 @@ namespace Natasha
         private Type _return_type;
         private Type _delegate_type;
         private StringBuilder _namespace;
-
+        private HashSet<string> _namespaces;
         public static Action<string> SingleError;
         private string _class_name;
         private string _text;
@@ -22,6 +22,7 @@ namespace Natasha
             _namespace = new StringBuilder();
             _parameters = new List<KeyValuePair<Type, string>>();
             _parameters_types = new List<Type>();
+            _namespaces = new HashSet<string>();
             _return_type = null;
         }
 
@@ -44,6 +45,7 @@ namespace Natasha
         /// <returns></returns>
         public ScriptBuilder Param(Type type,string key)
         {
+            Namespace(type);
             _parameters_types.Add(type);
             _parameters.Add(new KeyValuePair<Type, string>(type, key));
             return this;
@@ -80,6 +82,7 @@ namespace Natasha
         public ScriptBuilder Return(Type type=null)
         {
             _return_type = type;
+            Namespace(type);
             //根据参数，生成动态委托类型
             _delegate_type = DelegateBuilder.GetDelegate(_parameters_types.ToArray(), type);
             return this;
@@ -138,12 +141,20 @@ namespace Natasha
         }
         public ScriptBuilder Namespace<T>()
         {
-            _namespace.Append($"using {typeof(T).Namespace};");
+            Namespace(typeof(T));
             return this;
         }
         public ScriptBuilder Namespace(Type type)
         {
-            _namespace.Append($"using {type.Namespace};");
+            if (type!=null)
+            {
+                string ns = type.Namespace;
+                if (!_namespaces.Contains(ns))
+                {
+                    _namespaces.Add(ns);
+                    _namespace.Append($"using {ns};");
+                }
+            }
             return this;
         }
 
