@@ -56,15 +56,13 @@ namespace Natasha
         /// <param name="index">命名空间里的第index个类</param>
         /// <param name="namespaceIndex">第x个命名空间</param>
         /// <returns></returns>
-        public static string GetClassName(string content,int index=1,int namespaceIndex=1)
+        public static string GetClassName(string content,int classIndex = 1,int namespaceIndex=1)
         {
-            index -= 1;
-            namespaceIndex -= 1;
             SyntaxTree tree = CSharpSyntaxTree.ParseText(content);
             CompilationUnitSyntax root = tree.GetCompilationUnitRoot();
             MemberDeclarationSyntax firstMember = root.Members[namespaceIndex];
             var NameSpaceDeclaration = (NamespaceDeclarationSyntax)firstMember;
-            var ClassDeclaration = (ClassDeclarationSyntax)NameSpaceDeclaration.Members[index];
+            var ClassDeclaration = (ClassDeclarationSyntax)NameSpaceDeclaration.Members[classIndex];
             var identifier = (IdentifierNameSyntax)NameSpaceDeclaration.Name;
             return $"{identifier.Identifier.Text.Trim()}.{ClassDeclaration.Identifier.Text}";
         }
