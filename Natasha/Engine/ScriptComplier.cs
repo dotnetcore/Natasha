@@ -1,15 +1,12 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Emit;
 using Microsoft.Extensions.DependencyModel;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading;
 
 namespace Natasha
 {
@@ -17,28 +14,28 @@ namespace Natasha
     public class ScriptComplier
     {
         public static string LibPath;
-        public static ConcurrentBag<string> DynamicDlls;
+        public static ConcurrentDictionary<string,Assembly> DynamicDlls;
         public static ConcurrentBag<PortableExecutableReference> References;
         //public static bool IsComplete;
-        
+
         static ScriptComplier()
         {
-           // IsComplete = false;
+            // IsComplete = false;
+            //初始化路径
             LibPath = AppDomain.CurrentDomain.BaseDirectory + "lib\\";
             if (Directory.Exists(LibPath))
             {
                 Directory.Delete(LibPath, true);
             }
             Directory.CreateDirectory(LibPath);
-            
+
+            //程序集缓存
             var _ref = DependencyContext.Default.CompileLibraries
                                 .SelectMany(cl => cl.ResolveReferencePaths())
                                 .Select(asm => MetadataReference.CreateFromFile(asm));
-
-
-            DynamicDlls = new ConcurrentBag<string>();
+            DynamicDlls = new ConcurrentDictionary<string, Assembly>();
             References = new ConcurrentBag<PortableExecutableReference>(_ref);
-            
+
             //IsComplete = true;
         }
 
@@ -82,7 +79,7 @@ namespace Natasha
             SyntaxTree tree = SyntaxFactory.ParseSyntaxTree(content);
 
             //添加程序及引用
-          
+
 
             //创建dll
             if (className == null)
@@ -101,18 +98,20 @@ namespace Natasha
             string path = $"{LibPath}{className}.dll";
             lock (content)
             {
-                if (DynamicDlls.Contains(path))
+                if (DynamicDlls.ContainsKey(path))
                 {
-                    return null;
+                    return DynamicDlls[path];
                 }
                 var fileResult = compilation.Emit(path);
 
                 if (fileResult.Success)
                 {
-                    DynamicDlls.Add(path);
+                   
                     References.Add(MetadataReference.CreateFromFile(path));
                     //为了实现动态中的动态，使用文件加载模式常驻内存
-                    return Assembly.LoadFrom(path);
+                    var result = Assembly.LoadFrom(path);
+                    DynamicDlls[path]= result;
+                    return result;
 
                 }
                 else
@@ -126,7 +125,7 @@ namespace Natasha
             }
 
             return null;
-            
+
         }
     }
 }

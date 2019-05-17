@@ -18,10 +18,6 @@ namespace Natasha
             if (!ClassScriptMapping.ContainsKey(content))
             {
                 assembly = ScriptComplier.Complier(content, className);
-                if (assembly == null)
-                {
-                    assembly = ClassScriptMapping[content];
-                }
                 ClassScriptMapping[content] = assembly;
             }
            
