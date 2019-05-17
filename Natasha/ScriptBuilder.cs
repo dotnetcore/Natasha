@@ -139,6 +139,19 @@ namespace Natasha
             }
             return this;
         }
+        // <summary>
+        /// 设置命名空间
+        /// </summary>
+        /// <param name="namespaces">类型</param>
+        /// <returns></returns>
+        public ScriptBuilder Namespaces(params Type[] namespaces)
+        {
+            for (int i = 0; i < namespaces.Length; i++)
+            {
+                Namespace(namespaces[i]);
+            }
+            return this;
+        }
         public ScriptBuilder Namespace<T>()
         {
             Namespace(typeof(T));
