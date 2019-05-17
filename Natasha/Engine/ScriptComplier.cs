@@ -19,11 +19,11 @@ namespace Natasha
         public static string LibPath;
         public static ConcurrentBag<string> DynamicDlls;
         public static ConcurrentBag<PortableExecutableReference> References;
-        public static bool IsComplete;
+        //public static bool IsComplete;
         
         static ScriptComplier()
         {
-            IsComplete = false;
+           // IsComplete = false;
             LibPath = AppDomain.CurrentDomain.BaseDirectory + "lib\\";
             if (Directory.Exists(LibPath))
             {
@@ -39,7 +39,7 @@ namespace Natasha
             DynamicDlls = new ConcurrentBag<string>();
             References = new ConcurrentBag<PortableExecutableReference>(_ref);
             
-            IsComplete = true;
+            //IsComplete = true;
         }
 
 
@@ -77,7 +77,7 @@ namespace Natasha
         /// <returns></returns>
         public static Assembly Complier(string content, string className = null, Action<string> errorAction = null)
         {
-            while (!IsComplete) { }
+
             //写入分析树
             SyntaxTree tree = SyntaxFactory.ParseSyntaxTree(content);
 
