@@ -198,7 +198,7 @@ namespace Natasha.Standard
             {
                 _script.Append($"namespace {_namespace}{{");
             }
-            _script.Append($"public class {_class_name}");
+            _script.Append($"public class {_class_name} {_inheritance}");
             return _link;
         }
 

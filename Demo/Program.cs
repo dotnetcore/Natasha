@@ -85,6 +85,16 @@ namespace HelloWorld
             Console.WriteLine(instance2["Name"].StringValue);
 
 
+            InterfaceBuilder<ITestA> interfaceBuilder = new InterfaceBuilder<ITestA>();
+            interfaceBuilder.Class("TestClass");
+            interfaceBuilder["Abc"] = "Console.WriteLine(\"ITest\");";
+            interfaceBuilder["Get"] = "return 12345;";
+            interfaceBuilder["Set"] = "return abc;";
+            interfaceBuilder.Compile();
+            var test = interfaceBuilder.GetInstance("TestClass");
+            Console.WriteLine(test.Get());
+            test.Abc();
+            Console.WriteLine(test.Set("ab"));
             Console.ReadKey();
         }
     }
@@ -97,5 +107,12 @@ namespace HelloWorld
         }
         public string Name { get; set; }
         public int Age;
+    }
+
+    public interface ITestA
+    {
+        int Get();
+        string Set(string abc);
+        void Abc();
     }
 }

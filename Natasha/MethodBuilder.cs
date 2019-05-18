@@ -93,11 +93,14 @@ namespace Natasha
             return (T)GetRuntimeMethodDelegate(typeof(T));
         }
 
-
+        /// <summary>
+        /// 创建函数委托
+        /// </summary>
+        /// <param name="delegateType">委托类型</param>
+        /// <returns></returns>
         public Delegate GetRuntimeMethodDelegate(Type delegateType)
         {
             string body = MakerHeader().MakerContent(GetMethodString()).Script;
-            Console.WriteLine(body);
             Assembly assembly = ScriptComplier.Complier(body, _class_name, SingleError);
 
             if (assembly==null)
