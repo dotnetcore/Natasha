@@ -91,14 +91,21 @@ namespace HelloWorld
             interfaceBuilder["Get"] = "return 12345;";
             interfaceBuilder["Set"] = "return abc;";
             interfaceBuilder.Compile();
-            var test = interfaceBuilder.GetInstance("TestClass");
+
+            var test = interfaceBuilder.Create("TestClass");
+            test = InterfaceBuilder<ITestA>.New("TestClass");
             Console.WriteLine(test.Get());
             test.Abc();
-            Console.WriteLine(test.Set("ab"));
+            Console.WriteLine(test.Set("hello world"));
             Console.ReadKey();
         }
     }
-
+    public interface ITestA
+    {
+        int Get();
+        string Set(string abc);
+        void Abc();
+    }
     public class TestB
     {
         public TestB()
@@ -109,10 +116,5 @@ namespace HelloWorld
         public int Age;
     }
 
-    public interface ITestA
-    {
-        int Get();
-        string Set(string abc);
-        void Abc();
-    }
+   
 }

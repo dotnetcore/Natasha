@@ -21,6 +21,11 @@ namespace Natasha
 
         }
 
+        public static T New(string @class) {
+            return _ctor_mapping[@class]();
+        }
+
+
         public override Delegate Compile()
         {
             var result = base.Compile();
@@ -28,7 +33,7 @@ namespace Natasha
             return result;
         }
 
-        public T GetInstance(string @class)
+        public T Create(string @class)
         {
             return _ctor_mapping[@class]();
         }

@@ -27,7 +27,7 @@ namespace NatashaUT
             interfaceBuilder["MethodWidthParamsString"] = "return str+\"1\";";
             interfaceBuilder["MethodWidthParams"] = "return a.ToString()+str+b.ToString();";
             interfaceBuilder.Compile();
-            var test = interfaceBuilder.GetInstance("UTestClass");
+            var test = interfaceBuilder.Create("UTestClass");
             int testi = 1;
             test.MethodWidthParamsRefInt(ref testi);
             Assert.Equal(123456, test.MethodWidthReturnInt());
