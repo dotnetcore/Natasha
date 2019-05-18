@@ -20,7 +20,7 @@ namespace NatashaUT
         public void InterfaceSet()
         {
             InterfaceBuilder<ITest> interfaceBuilder = new InterfaceBuilder<ITest>();
-            interfaceBuilder.Class("UTestClass");
+            interfaceBuilder.ClassName("UTestClass");
             interfaceBuilder["MethodWidthReturnInt"] = "return 123456;";
             interfaceBuilder["MethodWidthReturnString"] = "return \"test\";";
             interfaceBuilder["MethodWidthParamsRefInt"] = "i+=10;";

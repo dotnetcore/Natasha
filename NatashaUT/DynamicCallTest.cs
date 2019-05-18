@@ -34,8 +34,8 @@ namespace HelloWorld
             Type type = ClassBuilder.GetType(text);
             //创建动态类实例代理
             DynamicInstance instance = type;
+            //Get动态调用
             Assert.Equal("111", instance["Name"].StringValue);
-
             //调用动态委托赋值
             instance["Name"].StringValue = "222";
 

@@ -86,7 +86,7 @@ namespace HelloWorld
 
 
             InterfaceBuilder<ITestA> interfaceBuilder = new InterfaceBuilder<ITestA>();
-            interfaceBuilder.Class("TestClass");
+            interfaceBuilder.ClassName("TestClass");
             interfaceBuilder["Abc"] = "Console.WriteLine(\"ITest\");";
             interfaceBuilder["Get"] = "return 12345;";
             interfaceBuilder["Set"] = "return abc;";

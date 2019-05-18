@@ -30,7 +30,7 @@ namespace Natasha.Standard
         /// </summary>
         /// <param name="class">类名</param>
         /// <returns></returns>
-        public LINK Class(string @class)
+        public LINK ClassName(string @class)
         {
             _class_name = @class;
             return _link;
