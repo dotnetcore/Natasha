@@ -11,7 +11,7 @@ namespace NatashaUT
         [Fact(DisplayName = "手动强转委托")]
         public static void RunDelegate1()
         {
-            var delegateAction = ScriptBuilder.NewMethod
+            var delegateAction = MethodBuilder.NewMethod
                 .Using(typeof(Console))
                 .Param<string>("str1")
                 .Param<string>("str2")
@@ -30,7 +30,7 @@ namespace NatashaUT
         [Fact(DisplayName = "自动泛型委托")]
         public static void RunDelegate2()
         {
-            var delegateAction2 = ScriptBuilder.NewMethod
+            var delegateAction2 = MethodBuilder.NewMethod
                 .Using(typeof(Console))
                 .Param<string>("str1")
                 .Param<string>("str2")

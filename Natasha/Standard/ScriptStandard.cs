@@ -24,6 +24,19 @@ namespace Natasha.Standard
             _inheritance = new StringBuilder();
         }
 
+
+        /// <summary>
+        /// 设置类名
+        /// </summary>
+        /// <param name="class">类名</param>
+        /// <returns></returns>
+        public LINK Class(string @class)
+        {
+            _class_name = @class;
+            return _link;
+        }
+
+
         /// <summary>
         /// 写内容
         /// </summary>

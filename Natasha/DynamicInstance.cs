@@ -149,7 +149,7 @@ namespace Natasha
                 GetDynamicCache[type] = new Dictionary<string, Action<DynamicInstanceBase, object>>();
                 SetDynamicCache[type] = new Dictionary<string, Action<DynamicInstanceBase, object>>();
                 //动态函数-实例的创建
-                ScriptBuilder ctor = new ScriptBuilder();
+                MethodBuilder ctor = new MethodBuilder();
                 CtorMapping[type] = DynamicMemberHelper.NewInstance(type);
 
 
@@ -445,7 +445,7 @@ namespace Natasha
 
         public static Func<T> NewInstance<T>()
         {
-            return  ScriptBuilder.NewMethod
+            return  MethodBuilder.NewMethod
                 .Using<T>()
                 .Body($@"return new {typeof(T).Name}();")
                 .Return<T>()
@@ -453,7 +453,7 @@ namespace Natasha
         }
         public static Func<object> NewInstance(Type type)
         {
-            return ScriptBuilder.NewMethod
+            return MethodBuilder.NewMethod
                 .Using(type)
                 .Body($@"return new {type.Name}();")
                 .Return<object>()
@@ -479,7 +479,7 @@ namespace Natasha
             }
 
 
-            var delegateSetAction = ScriptBuilder.NewMethod
+            var delegateSetAction = MethodBuilder.NewMethod
                 .Using(type)
                 .Using(info.FieldType)
                 .Param<DynamicInstanceBase>("proxy")
@@ -509,7 +509,7 @@ namespace Natasha
             }
 
 
-            var delegateGetAction = ScriptBuilder.NewMethod
+            var delegateGetAction = MethodBuilder.NewMethod
                 .Using(type)
                 .Using(info.FieldType)
                 .Param<DynamicInstanceBase>("proxy")
@@ -538,7 +538,7 @@ namespace Natasha
             }
 
 
-            var delegateGetAction = ScriptBuilder.NewMethod
+            var delegateGetAction = MethodBuilder.NewMethod
                 .Using(type)
                 .Using(info.PropertyType)
                 .Param<DynamicInstanceBase>("proxy")
@@ -568,7 +568,7 @@ namespace Natasha
             }
 
 
-            var delegateSetAction = ScriptBuilder.NewMethod
+            var delegateSetAction = MethodBuilder.NewMethod
                 .Using(type)
                 .Using(info.PropertyType)
                 .Param<DynamicInstanceBase>("proxy")

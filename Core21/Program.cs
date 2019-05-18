@@ -14,7 +14,7 @@ namespace Core21
              *   
              *      <PreserveCompilationContext>true</PreserveCompilationContext>
              */
-            var delegateAction = ScriptBuilder.NewMethod
+            var delegateAction = MethodBuilder.NewMethod
                 .Using(typeof(Console))
                 .Param<string>("str1")
                 .Param<string>("str2")
@@ -27,7 +27,7 @@ namespace Core21
 
             ((Action<string, string>)delegateAction)("Hello", "World!");
 
-            var delegateAction2 = ScriptBuilder.NewMethod
+            var delegateAction2 = MethodBuilder.NewMethod
                 .Using(typeof(Console))
                 .Param<string>("str1")
                 .Param<string>("str2")

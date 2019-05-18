@@ -6,24 +6,26 @@ using System.Text;
 
 namespace Natasha
 {
-    public class ScriptBuilder: ScriptStandard<ScriptBuilder>
+    public class MethodBuilder : ScriptStandard<MethodBuilder>
     {
         private List<KeyValuePair<Type, string>> _parameters;
         private List<Type> _parameters_types;
         private Type _return_type;
         private Type _delegate_type;
+        private string _method;
         public static Action<string> SingleError;
-        public ScriptBuilder():base()
+        public MethodBuilder():base()
         {
             _link = this;
             _parameters = new List<KeyValuePair<Type, string>>();
             _parameters_types = new List<Type>();
             _return_type = null;
+            _method = null;
         }
 
-        public static ScriptBuilder NewMethod
+        public static MethodBuilder NewMethod
         {
-            get { return new ScriptBuilder(); }
+            get { return new MethodBuilder(); }
         }
 
 
@@ -33,7 +35,7 @@ namespace Natasha
         /// <typeparam name="T">参数类型</typeparam>
         /// <param name="key">参数名字</param>
         /// <returns></returns>
-        public ScriptBuilder Param<T>(string key)
+        public MethodBuilder Param<T>(string key)
         {
             return Param(typeof(T), key);
         }
@@ -44,7 +46,7 @@ namespace Natasha
         /// <param name="type">参数类型</param>
         /// <param name="key">参数名字</param>
         /// <returns></returns>
-        public ScriptBuilder Param(Type type,string key)
+        public MethodBuilder Param(Type type,string key)
         {
             Using(type);
             _parameters_types.Add(type);
@@ -58,7 +60,7 @@ namespace Natasha
         /// </summary>
         /// <typeparam name="T">返回类型</typeparam>
         /// <returns></returns>
-        public ScriptBuilder Return<T>()
+        public MethodBuilder Return<T>()
         {
             return Return(typeof(T));
         }
@@ -67,7 +69,7 @@ namespace Natasha
         /// </summary>
         /// <param name="type">返回类型</param>
         /// <returns></returns>
-        public ScriptBuilder Return(Type type=null)
+        public MethodBuilder Return(Type type=null)
         {
             _return_type = type;
             Using(type);
@@ -109,13 +111,18 @@ namespace Natasha
                 .CreateDelegate(delegateType);
         }
 
-
-     
-
-        private string GetMethodString()
+        /// <summary>
+        /// 获取动态方法体
+        /// </summary>
+        /// <returns></returns>
+        public string GetMethodString(bool isStatic=true)
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append($"public static ");
+            sb.Append($"public ");
+            if (isStatic)
+            {
+                sb.Append($"static ");
+            }
             if (_return_type==null)
             {
                 sb.Append("void");
@@ -124,7 +131,15 @@ namespace Natasha
             {
                 sb.Append(_return_type.Name);
             }
-            sb.Append(" DynimacMethod(");
+            if (_method==null)
+            {
+                sb.Append(" DynimacMethod");
+            }
+            else
+            {
+                sb.Append(" "+_method);
+            }
+            sb.Append("(");
             if (_parameters.Count>0)
             {
                 sb.Append($"{_parameters[0].Key.Name} {_parameters[0].Value}");
