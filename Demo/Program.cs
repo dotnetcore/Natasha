@@ -14,9 +14,7 @@ namespace Demo
              *   
              *      <PreserveCompilationContext>true</PreserveCompilationContext>
              */
-            ScriptBuilder maker = new ScriptBuilder();
-
-            var delegateAction = maker
+            var delegateAction = ScriptBuilder.NewMethod
                 .Namespace(typeof(Console))
                 .Param<string>("str1")
                 .Param<string>("str2")
@@ -29,8 +27,7 @@ namespace Demo
 
             ((Action<string, string>)delegateAction)("Hello", "World!");
 
-            ScriptBuilder maker2 = new ScriptBuilder();
-            var delegateAction2 = maker2
+            var delegateAction2 = ScriptBuilder.NewMethod
                 .Namespace(typeof(Console))
                 .Param<string>("str1")
                 .Param<string>("str2")
@@ -43,7 +40,6 @@ namespace Demo
 
             delegateAction2("Hello", "World!");
             
-            ScriptComplier.Init();
             string text = @"using System;
 using System.Collections;
 using System.Linq;
@@ -64,17 +60,15 @@ namespace HelloWorld
             //根据脚本创建动态类
             Type type = ClassBuilder.GetType(text);
             //创建动态类实例代理
-            DynamicInstance<object> instance = new DynamicInstance<object>(type);
+            DynamicInstance instance = new DynamicInstance(type);
 
-            if (instance.Get("Name")._string=="111")
+            if (instance["Name"].StringValue=="111")
             {
-                //设置值
-                instance._string = "222";
                 //调用动态委托赋值
-                instance.Set("Name");
+                instance["Name"].StringValue = "222";
             }
             //调用动态类
-            Console.WriteLine(instance.Get("Name")._string);
+            Console.WriteLine(instance["Name"].StringValue);
 
 
 
@@ -82,15 +76,13 @@ namespace HelloWorld
             //创建动态类实例代理
             DynamicInstance<TestB> instance2 = new DynamicInstance<TestB>();
 
-            if (instance2.Get("Name")._string == "111")
+            if (instance2["Name"].StringValue == "111")
             {
-                //设置值
-                instance2._string = "222";
                 //调用动态委托赋值
-                instance2.Set("Name");
+                instance2["Name"].StringValue = "222";
             }
             //调用动态类
-            Console.WriteLine(instance2.Get("Name")._string);
+            Console.WriteLine(instance2["Name"].StringValue);
 
 
             Console.ReadKey();
