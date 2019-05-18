@@ -7,6 +7,10 @@ namespace Natasha
 {
     public class DynamicInstance<T> : DynamicInstanceBase where T : class
     {
+        public static implicit operator DynamicInstance<T>(T instance)
+        {
+            return new DynamicInstance<T>(instance);
+        }
 
         public static Func<T> CtorDelegate;
         public static ConcurrentDictionary<string, Action<DynamicInstanceBase, T>> DynamicGet;
@@ -97,6 +101,13 @@ namespace Natasha
 
     public class DynamicInstance : DynamicInstanceBase
     {
+
+        public static implicit operator DynamicInstance(Type instance)
+        {
+            return new DynamicInstance(instance);
+        }
+
+
         public static ConcurrentDictionary<Type, Dictionary<string, Action<DynamicInstanceBase, object>>> GetDynamicCache;
         public static ConcurrentDictionary<Type, Dictionary<string, Action<DynamicInstanceBase, object>>> SetDynamicCache;
 

@@ -33,7 +33,7 @@ namespace HelloWorld
             //根据脚本创建动态类
             Type type = ClassBuilder.GetType(text);
             //创建动态类实例代理
-            DynamicInstance instance = new DynamicInstance(type);
+            DynamicInstance instance = type;
             Assert.Equal("111", instance["Name"].StringValue);
 
             //调用动态委托赋值
