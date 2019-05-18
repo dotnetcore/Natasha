@@ -26,6 +26,12 @@ namespace Natasha
             _return_type = null;
         }
 
+        public static ScriptBuilder NewMethod
+        {
+            get { return new ScriptBuilder(); }
+        }
+
+
         /// <summary>
         /// 添加参数
         /// </summary>

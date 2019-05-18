@@ -66,15 +66,15 @@ namespace HelloWorld
             //创建动态类实例代理
             DynamicInstance<object> instance = new DynamicInstance<object>(type);
 
-            if (instance.Get("Name").StringValue=="111")
+            if (instance.Get("Name")._string=="111")
             {
                 //设置值
-                instance.StringValue = "222";
+                instance._string = "222";
                 //调用动态委托赋值
                 instance.Set("Name");
             }
             //调用动态类
-            Console.WriteLine(instance.Get("Name").StringValue);
+            Console.WriteLine(instance.Get("Name")._string);
 
 
 
@@ -82,15 +82,15 @@ namespace HelloWorld
             //创建动态类实例代理
             DynamicInstance<TestB> instance2 = new DynamicInstance<TestB>();
 
-            if (instance2.Get("Name").StringValue == "111")
+            if (instance2.Get("Name")._string == "111")
             {
                 //设置值
-                instance2.StringValue = "222";
+                instance2._string = "222";
                 //调用动态委托赋值
                 instance2.Set("Name");
             }
             //调用动态类
-            Console.WriteLine(instance2.Get("Name").StringValue);
+            Console.WriteLine(instance2.Get("Name")._string);
 
 
             Console.ReadKey();

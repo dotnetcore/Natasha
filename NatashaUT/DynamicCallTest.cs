@@ -33,29 +33,27 @@ namespace HelloWorld
             //根据脚本创建动态类
             Type type = ClassBuilder.GetType(text);
             //创建动态类实例代理
-            DynamicInstance<object> instance = new DynamicInstance<object>(type);
-            Assert.Equal("111", instance.Get("Name").StringValue);
+            DynamicInstance instance = new DynamicInstance(type);
+            Assert.Equal("111", instance["Name"].StringValue);
 
-            //设置值
-            instance.StringValue = "222";
             //调用动态委托赋值
-            instance.Set("Name");
-            Assert.Equal("222", instance.Get("Name").StringValue);
+            instance["Name"].StringValue = "222";
+
+            Assert.Equal("222", instance["Name"].StringValue);
            
         }
 
         [Fact(DisplayName = "普通类的动态操作测试")]
         public void TestCall2()
         {
-
             //创建动态类实例代理
             DynamicInstance<TestB> instance = new DynamicInstance<TestB>();
-            Assert.Equal("111", instance.Get("Name").StringValue);
-            //设置值
-            instance.StringValue = "222";
+            Assert.Equal("111", instance["Name"].StringValue);
+
             //调用动态委托赋值
-            instance.Set("Name");
-            Assert.Equal("222", instance.Get("Name").StringValue);
+            instance["Name"].StringValue = "222";
+
+            Assert.Equal("222", instance["Name"].StringValue);
 
         }
     }

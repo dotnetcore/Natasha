@@ -11,9 +11,7 @@ namespace NatashaUT
         [Fact(DisplayName = "手动强转委托")]
         public static void RunDelegate1()
         {
-            ScriptBuilder maker = new ScriptBuilder();
-
-            var delegateAction = maker
+            var delegateAction = ScriptBuilder.NewMethod
                 .Namespace(typeof(Console))
                 .Param<string>("str1")
                 .Param<string>("str2")
@@ -28,12 +26,11 @@ namespace NatashaUT
            string result = ((Func<string, string,string>)delegateAction)("Hello", "World1!");
            Assert.Equal("Hello World1!", result);
         }
+
         [Fact(DisplayName = "自动泛型委托")]
         public static void RunDelegate2()
         {
-
-            ScriptBuilder maker2 = new ScriptBuilder();
-            var delegateAction2 = maker2
+            var delegateAction2 = ScriptBuilder.NewMethod
                 .Namespace(typeof(Console))
                 .Param<string>("str1")
                 .Param<string>("str2")
