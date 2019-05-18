@@ -15,7 +15,7 @@ namespace Core22
              *      <PreserveCompilationContext>true</PreserveCompilationContext>
              */
             var delegateAction = ScriptBuilder.NewMethod
-                .Namespace(typeof(Console))
+                .Using(typeof(Console))
                 .Param<string>("str1")
                 .Param<string>("str2")
                 .Body(@"
@@ -28,7 +28,7 @@ namespace Core22
             ((Action<string, string>)delegateAction)("Hello", "World!");
 
             var delegateAction2 = ScriptBuilder.NewMethod
-                .Namespace(typeof(Console))
+                .Using(typeof(Console))
                 .Param<string>("str1")
                 .Param<string>("str2")
                 .Body(@"

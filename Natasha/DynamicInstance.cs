@@ -12,9 +12,9 @@ namespace Natasha
             return new DynamicInstance<T>(instance);
         }
 
-        public static Func<T> CtorDelegate;
-        public static ConcurrentDictionary<string, Action<DynamicInstanceBase, T>> DynamicGet;
-        public static ConcurrentDictionary<string, Action<DynamicInstanceBase, T>> DynamicSet;
+        private static Func<T> CtorDelegate;
+        private static ConcurrentDictionary<string, Action<DynamicInstanceBase, T>> DynamicGet;
+        private static ConcurrentDictionary<string, Action<DynamicInstanceBase, T>> DynamicSet;
 
 
         static DynamicInstance()
@@ -108,12 +108,12 @@ namespace Natasha
         }
 
 
-        public static ConcurrentDictionary<Type, Dictionary<string, Action<DynamicInstanceBase, object>>> GetDynamicCache;
-        public static ConcurrentDictionary<Type, Dictionary<string, Action<DynamicInstanceBase, object>>> SetDynamicCache;
+        private static ConcurrentDictionary<Type, Dictionary<string, Action<DynamicInstanceBase, object>>> GetDynamicCache;
+        private static ConcurrentDictionary<Type, Dictionary<string, Action<DynamicInstanceBase, object>>> SetDynamicCache;
 
-        public static ConcurrentDictionary<Type, Func<object>> CtorMapping;
-        public Dictionary<string, Action<DynamicInstanceBase, object>> DynamicGet;
-        public Dictionary<string, Action<DynamicInstanceBase, object>> DynamicSet;
+        private static ConcurrentDictionary<Type, Func<object>> CtorMapping;
+        private Dictionary<string, Action<DynamicInstanceBase, object>> DynamicGet;
+        private Dictionary<string, Action<DynamicInstanceBase, object>> DynamicSet;
         private Type _type;
 
         static DynamicInstance()
@@ -214,6 +214,7 @@ namespace Natasha
 
     public abstract class DynamicInstanceBase
     {
+
         private string _current_name;
 
         public DynamicInstanceBase this[string key]
@@ -223,8 +224,6 @@ namespace Natasha
                 return this;
             }
         }
-
-
 
         public bool _bool;
 
@@ -447,7 +446,7 @@ namespace Natasha
         public static Func<T> NewInstance<T>()
         {
             return  ScriptBuilder.NewMethod
-                .Namespace<T>()
+                .Using<T>()
                 .Body($@"return new {typeof(T).Name}();")
                 .Return<T>()
                 .Create<Func<T>>();
@@ -455,7 +454,7 @@ namespace Natasha
         public static Func<object> NewInstance(Type type)
         {
             return ScriptBuilder.NewMethod
-                .Namespace(type)
+                .Using(type)
                 .Body($@"return new {type.Name}();")
                 .Return<object>()
                 .Create<Func<object>>();
@@ -481,8 +480,8 @@ namespace Natasha
 
 
             var delegateSetAction = ScriptBuilder.NewMethod
-                .Namespace(type)
-                .Namespace(info.FieldType)
+                .Using(type)
+                .Using(info.FieldType)
                 .Param<DynamicInstanceBase>("proxy")
                 .Param<T>("instance")
                 .Body($@"(({type.Name})instance).{info.Name}=proxy.{TypeMemberMapping[info.FieldType]};")
@@ -511,8 +510,8 @@ namespace Natasha
 
 
             var delegateGetAction = ScriptBuilder.NewMethod
-                .Namespace(type)
-                .Namespace(info.FieldType)
+                .Using(type)
+                .Using(info.FieldType)
                 .Param<DynamicInstanceBase>("proxy")
                 .Param<T>("instance")
                 .Body(body)
@@ -540,8 +539,8 @@ namespace Natasha
 
 
             var delegateGetAction = ScriptBuilder.NewMethod
-                .Namespace(type)
-                .Namespace(info.PropertyType)
+                .Using(type)
+                .Using(info.PropertyType)
                 .Param<DynamicInstanceBase>("proxy")
                 .Param<T>("instance")
                 .Body(body)
@@ -570,8 +569,8 @@ namespace Natasha
 
 
             var delegateSetAction = ScriptBuilder.NewMethod
-                .Namespace(type)
-                .Namespace(info.PropertyType)
+                .Using(type)
+                .Using(info.PropertyType)
                 .Param<DynamicInstanceBase>("proxy")
                 .Param<T>("instance")
                 .Body(body)

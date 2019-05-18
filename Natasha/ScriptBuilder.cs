@@ -1,28 +1,23 @@
-﻿using System;
+﻿using Natasha.Standard;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
 namespace Natasha
 {
-    public class ScriptBuilder
+    public class ScriptBuilder: ScriptStandard<ScriptBuilder>
     {
         private List<KeyValuePair<Type, string>> _parameters;
         private List<Type> _parameters_types;
         private Type _return_type;
         private Type _delegate_type;
-        private StringBuilder _namespace;
-        private HashSet<string> _namespaces;
         public static Action<string> SingleError;
-        private string _class_name;
-        private string _text;
-        public ScriptBuilder()
+        public ScriptBuilder():base()
         {
-            _class_name = "N"+Guid.NewGuid().ToString("N");
-            _namespace = new StringBuilder();
+            _link = this;
             _parameters = new List<KeyValuePair<Type, string>>();
             _parameters_types = new List<Type>();
-            _namespaces = new HashSet<string>();
             _return_type = null;
         }
 
@@ -51,24 +46,11 @@ namespace Natasha
         /// <returns></returns>
         public ScriptBuilder Param(Type type,string key)
         {
-            Namespace(type);
+            Using(type);
             _parameters_types.Add(type);
             _parameters.Add(new KeyValuePair<Type, string>(type, key));
             return this;
         }
-
-        /// <summary>
-        /// 写函数名
-        /// </summary>
-        /// <param name="text"></param>
-        /// <returns></returns>
-        public ScriptBuilder Body(string text)
-        {
-            _text = text;
-            return this;
-        }
-
-
 
 
         /// <summary>
@@ -88,7 +70,7 @@ namespace Natasha
         public ScriptBuilder Return(Type type=null)
         {
             _return_type = type;
-            Namespace(type);
+            Using(type);
             //根据参数，生成动态委托类型
             _delegate_type = DelegateBuilder.GetDelegate(_parameters_types.ToArray(), type);
             return this;
@@ -100,15 +82,11 @@ namespace Natasha
         /// <returns></returns>
         public Delegate Create()
         {
-            //生成完整动态代码
-            string body = GetScriptString();
             //返回运行时委托
             return GetRuntimeMethodDelegate(_delegate_type);
         }
         public T Create<T>() where T : Delegate
         {
-            //生成完整动态代码
-           
             //返回运行时委托
             return (T)GetRuntimeMethodDelegate(typeof(T));
         }
@@ -116,7 +94,8 @@ namespace Natasha
 
         public Delegate GetRuntimeMethodDelegate(Type delegateType)
         {
-            string body = GetScriptString();
+            string body = MakerHeader().MakerContent(GetMethodString()).Script;
+            Console.WriteLine(body);
             Assembly assembly = ScriptComplier.Complier(body, _class_name, SingleError);
 
             if (assembly==null)
@@ -131,58 +110,11 @@ namespace Natasha
         }
 
 
+     
 
-        /// <summary>
-        /// 设置命名空间
-        /// </summary>
-        /// <param name="namespaces">命名空间</param>
-        /// <returns></returns>
-        public ScriptBuilder Namespaces(params string[] namespaces)
-        {
-            for (int i = 0; i < namespaces.Length; i++)
-            {
-                _namespace.Append($"using {namespaces[i]};");
-            }
-            return this;
-        }
-        // <summary>
-        /// 设置命名空间
-        /// </summary>
-        /// <param name="namespaces">类型</param>
-        /// <returns></returns>
-        public ScriptBuilder Namespaces(params Type[] namespaces)
-        {
-            for (int i = 0; i < namespaces.Length; i++)
-            {
-                Namespace(namespaces[i]);
-            }
-            return this;
-        }
-        public ScriptBuilder Namespace<T>()
-        {
-            Namespace(typeof(T));
-            return this;
-        }
-        public ScriptBuilder Namespace(Type type)
-        {
-            if (type!=null)
-            {
-                string ns = type.Namespace;
-                if (!_namespaces.Contains(ns))
-                {
-                    _namespaces.Add(ns);
-                    _namespace.Append($"using {ns};");
-                }
-            }
-            return this;
-        }
-
-        private string GetScriptString()
+        private string GetMethodString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append(_namespace);
-            sb.Append($"public class {_class_name}");
-            sb.Append("{");
             sb.Append($"public static ");
             if (_return_type==null)
             {
@@ -203,9 +135,8 @@ namespace Natasha
             }
             sb.Append("){");
             sb.Append(_text);
-            sb.Append("}}");
+            sb.Append("}");
             return sb.ToString();
         }
-
     }
 }

@@ -12,7 +12,7 @@ namespace NatashaUT
         public static void RunDelegate1()
         {
             var delegateAction = ScriptBuilder.NewMethod
-                .Namespace(typeof(Console))
+                .Using(typeof(Console))
                 .Param<string>("str1")
                 .Param<string>("str2")
                 .Body(@"
@@ -31,7 +31,7 @@ namespace NatashaUT
         public static void RunDelegate2()
         {
             var delegateAction2 = ScriptBuilder.NewMethod
-                .Namespace(typeof(Console))
+                .Using(typeof(Console))
                 .Param<string>("str1")
                 .Param<string>("str2")
                 .Body(@"
