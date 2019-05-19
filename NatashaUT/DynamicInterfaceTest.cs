@@ -19,7 +19,7 @@ namespace NatashaUT
         [Fact(DisplayName = "接口动态实现")]
         public void InterfaceSet()
         {
-            InterfaceBuilder<ITest> interfaceBuilder = new InterfaceBuilder<ITest>();
+            OopModifier<ITest> interfaceBuilder = new OopModifier<ITest>();
             interfaceBuilder.ClassName("UTestClass");
             interfaceBuilder["MethodWidthReturnInt"] = "return 123456;";
             interfaceBuilder["MethodWidthReturnString"] = "return \"test\";";

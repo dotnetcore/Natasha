@@ -145,16 +145,29 @@ namespace Natasha
             sb.Append("(");
             if (_parameters.Count>0)
             {
-                sb.Append($"{_parameters[0].Key.Name} {_parameters[0].Value}");
+                sb.Append($"{GetRealType(_parameters[0].Key.Name)} {_parameters[0].Value}");
                 for (int i = 1; i < _parameters.Count; i++)
                 {
-                    sb.Append($",{_parameters[i].Key.Name} {_parameters[i].Value}");
+                    sb.Append($",{GetRealType(_parameters[i].Key.Name)} {_parameters[i].Value}");
                 }
             }
             sb.Append("){");
             sb.Append(_text);
             sb.Append("}");
             return sb.ToString();
+        }
+
+        private string GetRealType(string type)
+        {
+            if (type == "Void")
+            {
+                return "void";
+            }
+            else if (type.EndsWith("&"))
+            {
+                return $"ref {type.Substring(0, type.Length - 1)}";
+            }
+            return type;
         }
     }
 }

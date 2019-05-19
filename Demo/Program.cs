@@ -85,7 +85,7 @@ namespace HelloWorld
             Console.WriteLine(instance2["Name"].StringValue);
 
 
-            InterfaceBuilder<ITestA> interfaceBuilder = new InterfaceBuilder<ITestA>();
+            OopModifier<ITestA> interfaceBuilder = new OopModifier<ITestA>();
             interfaceBuilder.ClassName("TestClass");
             interfaceBuilder["Abc"] = "Console.WriteLine(\"ITest\");";
             interfaceBuilder["Get"] = "return 12345;";
@@ -93,7 +93,7 @@ namespace HelloWorld
             interfaceBuilder.Compile();
 
             var test = interfaceBuilder.Create("TestClass");
-            test = InterfaceBuilder<ITestA>.New("TestClass");
+            test = OopModifier<ITestA>.New("TestClass");
             Console.WriteLine(test.Get());
             test.Abc();
             Console.WriteLine(test.Set("hello world"));

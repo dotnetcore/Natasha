@@ -14,7 +14,6 @@ namespace Natasha.Standard
         internal string _text;
         internal LINK _link;
         internal string _namespace;
-
         public ScriptStandard()
         {
             _class_name = "N" + Guid.NewGuid().ToString("N");
@@ -188,9 +187,6 @@ namespace Natasha.Standard
             return _link;
         }
 
-        
-
-
         public LINK MakerHeader()
         {
             _script.Append(_using);
@@ -212,7 +208,6 @@ namespace Natasha.Standard
             _script.Append($"public static class {_class_name}");
             return _link;
         }
-
 
         public LINK MakerContent(string content)
         {
