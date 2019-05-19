@@ -1,4 +1,5 @@
 ﻿using Natasha;
+using Natasha.Operator;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -46,5 +47,47 @@ namespace NatashaUT
            Assert.Equal("Hello World2!",result);
         }
 
+        [Fact(DisplayName = "函数克隆1")]
+        public static void MakerCode1()
+        {
+           var method =new MethodOperator<OopTest>();
+           var result = method["ReWrite1"].SetMethod(@"Console.WriteLine(""hello world"");");
+           Assert.Equal(@"public void ReWrite1(){Console.WriteLine(""hello world"");}", result);
+        }
+
+        [Fact(DisplayName = "函数克隆2")]
+        public static void MakerCode2()
+        {
+            var method = new MethodOperator<OopTest>();
+            var result = method["ReWrite2"].SetMethod(@"Console.WriteLine(""hello world"");return this;");
+            Assert.Equal(@"public OopTest ReWrite2(){Console.WriteLine(""hello world"");return this;}", result);
+        }
+
+        [Fact(DisplayName = "函数克隆3")]
+        public static void MakerCode3()
+        {
+            var method = new MethodOperator<OopTest>();
+            var result = method["ReWrite3"].SetMethod(@"i++;temp+=i.ToString();");
+            Assert.Equal(@"public void ReWrite3(ref Int32 i,String temp){i++;temp+=i.ToString();}", result);
+        }
     }
+
+    public class OopTest
+    {
+        public void ReWrite1()
+        {
+
+        }
+
+        public OopTest ReWrite2()
+        {
+            return this;
+        }
+
+        public void ReWrite3(ref int i,string temp)
+        {
+
+        }
+    }
+
 }

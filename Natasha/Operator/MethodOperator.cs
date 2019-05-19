@@ -29,6 +29,10 @@ namespace Natasha.Operator
         {
             return new MethodOperator(type);
         }
+        public static MethodOperator Loader<T>()
+        {
+            return Loader(typeof(T));
+        }
 
         public MethodOperator this[string key]
         {
