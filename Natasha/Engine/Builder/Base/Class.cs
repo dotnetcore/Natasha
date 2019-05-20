@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace Natasha.Engine.Builder
 {
     public abstract partial class BuilderStandard<LINK>

@@ -14,7 +14,7 @@ namespace Natasha
     public class ScriptComplier
     {
         public static string LibPath;
-        public static ConcurrentDictionary<string,Assembly> DynamicDlls;
+        public static ConcurrentDictionary<string, Assembly> DynamicDlls;
         public static ConcurrentBag<PortableExecutableReference> References;
         //public static bool IsComplete;
 
@@ -56,7 +56,7 @@ namespace Natasha
         /// <param name="index">命名空间里的第index个类</param>
         /// <param name="namespaceIndex">第x个命名空间</param>
         /// <returns></returns>
-        public static string GetClassName(string content,int classIndex = 1,int namespaceIndex=1)
+        public static string GetClassName(string content, int classIndex = 1, int namespaceIndex = 1)
         {
             SyntaxTree tree = CSharpSyntaxTree.ParseText(content);
             CompilationUnitSyntax root = tree.GetCompilationUnitRoot();
@@ -108,11 +108,11 @@ namespace Natasha
 
                 if (fileResult.Success)
                 {
-                   
+
                     References.Add(MetadataReference.CreateFromFile(path));
                     //为了实现动态中的动态，使用文件加载模式常驻内存
                     var result = Assembly.LoadFrom(path);
-                    DynamicDlls[path]= result;
+                    DynamicDlls[path] = result;
                     return result;
 
                 }
@@ -125,9 +125,7 @@ namespace Natasha
                 }
 
             }
-
             return null;
-
         }
     }
 }

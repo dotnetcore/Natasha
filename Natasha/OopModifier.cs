@@ -10,7 +10,7 @@ namespace Natasha
     public class OopModifier<T> : OopModifier
     {
         internal static ConcurrentDictionary<string, Func<T>> _ctor_mapping;
-        
+
         static OopModifier()
         {
             _ctor_mapping = new ConcurrentDictionary<string, Func<T>>();
@@ -21,7 +21,8 @@ namespace Natasha
 
         }
 
-        public static T New(string @class) {
+        public static T New(string @class)
+        {
             return _ctor_mapping[@class]();
         }
 
@@ -37,7 +38,7 @@ namespace Natasha
         {
             return _ctor_mapping[@class]();
         }
-        
+
     }
     public class OopModifier : BuilderStandard<OopModifier>
     {
@@ -64,8 +65,8 @@ namespace Natasha
             }
             set
             {
-                var info  = _oop_type.GetMethod(key);
-                if (info==null)
+                var info = _oop_type.GetMethod(key);
+                if (info == null)
                 {
                     throw new Exception($"无法在{_oop_type.Name}中找到{key}函数！");
                 }

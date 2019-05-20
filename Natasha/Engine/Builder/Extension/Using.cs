@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Natasha.Engine.Builder
 {
     public abstract partial class BuilderStandard<LINK>
     {
-        internal StringBuilder _using = new StringBuilder();
-        internal HashSet<string> _usings = new HashSet<string>();
-
 
         /// <summary>
         /// 设置命名空间
@@ -51,24 +47,11 @@ namespace Natasha.Engine.Builder
         }
         public LINK Using(Type type)
         {
-            if (type==null)
+            if (type == null)
             {
                 return _link;
             }
             return Using(type.Namespace);
         }
-        public LINK Using(string type)
-        {
-            if (type != null)
-            {
-                if (!_usings.Contains(type))
-                {
-                    _usings.Add(type);
-                    _using.Append($"using {type};");
-                }
-            }
-            return _link;
-        }
-
     }
 }

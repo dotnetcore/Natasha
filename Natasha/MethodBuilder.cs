@@ -17,7 +17,7 @@ namespace Natasha
         private MethodInfo _info;
         private string _method;
         public static Action<string> SingleError;
-        public MethodBuilder():base()
+        public MethodBuilder() : base()
         {
             _link = this;
             _parameters = new List<KeyValuePair<Type, string>>();
@@ -66,7 +66,7 @@ namespace Natasha
         /// <param name="type">参数类型</param>
         /// <param name="key">参数名字</param>
         /// <returns></returns>
-        public MethodBuilder Param(Type type,string key)
+        public MethodBuilder Param(Type type, string key)
         {
             Using(type);
             _parameters_types.Add(type);
@@ -89,7 +89,7 @@ namespace Natasha
         /// </summary>
         /// <param name="type">返回类型</param>
         /// <returns></returns>
-        public MethodBuilder Return(Type type=null)
+        public MethodBuilder Return(Type type = null)
         {
             _return_type = type;
             Using(type);
@@ -123,7 +123,7 @@ namespace Natasha
             string body = MakerHeader().MakerContent(GetMethodString()).Script;
             Assembly assembly = ScriptComplier.Complier(body, _class_name, SingleError);
 
-            if (assembly==null)
+            if (assembly == null)
             {
                 return null;
             }
@@ -138,9 +138,9 @@ namespace Natasha
         /// 获取动态方法体
         /// </summary>
         /// <returns></returns>
-        public string GetMethodString(bool isStatic=true)
+        public string GetMethodString(bool isStatic = true)
         {
-            if (_info!=null)
+            if (_info != null)
             {
                 MethodTemplate template = new MethodTemplate(_info);
                 return template.Create(_text);

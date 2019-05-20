@@ -7,7 +7,7 @@ namespace Natasha.Engine.Builder
     {
         public LINK Method(MethodInfo info)
         {
-            if (info!=null)
+            if (info != null)
             {
                 Using(info.ReturnType);
                 Using(info.GetParameters().Select(item => item.ParameterType));

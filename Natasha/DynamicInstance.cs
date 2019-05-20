@@ -1,9 +1,7 @@
-﻿using Natasha.Engine.Builder.Reverser;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Threading;
 
 namespace Natasha
 {
@@ -57,7 +55,7 @@ namespace Natasha
         private T _instance;
         public DynamicInstance(T instance = null)
         {
-            if (instance==null)
+            if (instance == null)
             {
                 _instance = CtorDelegate();
             }
@@ -67,7 +65,7 @@ namespace Natasha
             }
         }
 
-        
+
         /// <summary>
         /// 更换当前实例对象
         /// </summary>
@@ -99,7 +97,7 @@ namespace Natasha
             DynamicSet[name](this, _instance);
         }
     }
-   
+
 
     public class DynamicInstance : DynamicInstanceBase
     {
@@ -126,7 +124,7 @@ namespace Natasha
         }
 
 
-        public DynamicInstance(object instance=null)
+        public DynamicInstance(object instance = null)
         {
             if (instance is Type)
             {
@@ -140,7 +138,7 @@ namespace Natasha
                 _type = instance.GetType();
                 InitType(_type);
             }
-            
+
         }
 
         public void InitType(Type type)
@@ -150,7 +148,7 @@ namespace Natasha
 
                 GetDynamicCache[type] = new Dictionary<string, Action<DynamicInstanceBase, object>>();
                 SetDynamicCache[type] = new Dictionary<string, Action<DynamicInstanceBase, object>>();
-                
+
                 //动态函数-实例的创建
                 CtorMapping[type] = CtorOperator.NewDelegate(type);
 
@@ -221,7 +219,8 @@ namespace Natasha
 
         public DynamicInstanceBase this[string key]
         {
-            get {
+            get
+            {
                 _current_name = key;
                 return this;
             }
@@ -425,7 +424,7 @@ namespace Natasha
             }
         }
         public virtual void Set(string name)
-        { 
+        {
         }
         public virtual void Get(string name)
         {

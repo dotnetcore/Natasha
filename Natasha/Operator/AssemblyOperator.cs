@@ -10,7 +10,7 @@ namespace Natasha
         {
             _assembly = assembly;
         }
-        
+
         /// <summary>
         /// 静态加载程序集
         /// </summary>
@@ -31,7 +31,7 @@ namespace Natasha
             get { return _assembly.GetType(className); }
         }
 
-        
+
 
     }
 }

@@ -51,7 +51,7 @@ namespace Natasha.Engine.Builder.Reverser
             }
             else
             {
-                if (type==typeof(void))
+                if (type == typeof(void))
                 {
                     return "void";
                 }

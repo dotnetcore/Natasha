@@ -7,7 +7,7 @@ namespace Natasha
     {
         static ClassBuilder()
         {
-            
+
         }
         /// <summary>
         /// 根据命名空间和类的位置获取类型
