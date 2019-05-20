@@ -17,17 +17,18 @@
             - [x] Method模板&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;[##########][100%]
             - [ ] 字段/属性模板(待定)&emsp;&emsp;&emsp;[----------][0%]
           - [ ] 类型反解&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[###-------][30%]
-   
+   -------
    - [ ]  动态调用&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[#####-----][25%] 
    
       - [ ] 本地调用&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[#####-----][50%]
       
       - [ ] 远程调用&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[----------][0%]
-   
-   - [x] 接口动态实现 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;[##########][100%]
-   - [x] 方法动态实现 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;[##########][100%]
-   - [x] 类型动态实现 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;[##########][100%]
-   - [x] 动态初始化实现 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;[##########][60%]
+    -------
+    - [ ]  动态实现&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[#####-----][90%] 
+      - [x] 接口动态实现 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;[##########][100%]
+      - [x] 方法动态实现 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;[##########][100%]
+      - [x] 类型动态实现 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;[##########][100%]
+      - [ ] 动态初始化实现 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;[##########][60%]
 
 - **优化计划**：
 
