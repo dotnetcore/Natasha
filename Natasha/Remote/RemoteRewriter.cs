@@ -1,4 +1,5 @@
 ﻿using Natasha.Engine.Builder.Reverser;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -11,6 +12,12 @@ namespace Natasha.Remote
     {
         public static string Serialization;
         public static string Deserialization;
+
+        static RemoteWritter()
+        {
+            Serialization = "JsonConvert.SerializeObject";
+            Deserialization = "JsonConvert.DeserializeObject";
+        }
 
         public static void ComplieToRemote<T>()
         {
@@ -28,7 +35,10 @@ namespace Natasha.Remote
 
                 foreach (var item in infos)
                 {
-
+                    if (item.ReturnType==typeof(void))
+                    {
+                        continue;
+                    }
                     var parameters = item.GetParameters();
                     StringBuilder sb = new StringBuilder();
                     StringBuilder call = new StringBuilder($"{item.Name}(");
@@ -37,20 +47,45 @@ namespace Natasha.Remote
                         if (parameters.Length > 0)
                         {
                             call.Append(parameters[0].Name);
-                            sb.Append($"{TypeReverser.Get(parameters[0].ParameterType)} {parameters[0].Name} = {Serialization}<{TypeReverser.Get(parameters[0].ParameterType)}>(parameters[\"{parameters[0].Name}\"]);");
+                            if (parameters[0].ParameterType != typeof(string))
+                            {
+                                sb.Append($"{TypeReverser.Get(parameters[0].ParameterType)} {parameters[0].Name} = {Deserialization}<{TypeReverser.Get(parameters[0].ParameterType)}>(parameters[\"{parameters[0].Name}\"]);");
+                            }
+                            else
+                            {
+                                sb.Append($"{TypeReverser.Get(parameters[0].ParameterType)} {parameters[0].Name} = parameters[\"{parameters[0].Name}\"];");
+                            }
+                            
                             for (int i = 1; i < parameters.Length; i++)
                             {
                                 call.Append($",{parameters[i].Name}");
-                                sb.Append($"{TypeReverser.Get(parameters[i].ParameterType)} {parameters[i].Name} = {Serialization}<{TypeReverser.Get(parameters[i].ParameterType)}>(parameters[\"{parameters[i].Name}\"]);");
+                                if (parameters[0].ParameterType != typeof(string))
+                                {
+                                    sb.Append($"{TypeReverser.Get(parameters[i].ParameterType)} {parameters[i].Name} = {Deserialization}<{TypeReverser.Get(parameters[i].ParameterType)}>(parameters[\"{parameters[i].Name}\"]);");
+                                }
+                                else
+                                {
+                                    sb.Append($"{TypeReverser.Get(parameters[i].ParameterType)} {parameters[i].Name} = parameters[\"{parameters[i].Name}\"];");
+                                }
                             }
                         }
+                    }
+                    var temp = "";
+                    if (item.ReturnType != typeof(string))
+                    {
+                        temp = $"{Serialization}(instance.{call}))";
+                    }
+                    else
+                    {
+                        temp = $"instance.{call})";
                     }
                     RemoteReader._func_mapping[className][item.Name] = MethodBuilder
                         .NewMethod
                         .Using(type)
+                        .Using(typeof(JsonConvert))
                         .Param<RemoteParameters>("parameters")
                         .Body(
-                        $@"{sb}{className} instance = new {className}();return {Deserialization}<{TypeReverser.Get(item.ReturnType)}> (instance.{call}));"
+                        $@"{sb}{className} instance = new {className}();return {temp};"
                         ).Return<string>().Create<Func<RemoteParameters, string>>();
 
                 }

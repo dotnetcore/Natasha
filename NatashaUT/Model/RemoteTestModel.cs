@@ -13,13 +13,5 @@ namespace NatashaUT.Model
         {
             return str1 + str2;
         }
-
-        public static T Serialization<T>(T value) {
-            return value;
-        }
-        public static string Deserialization<T>(T value)
-        {
-            return value.ToString();
-        }
     }
 }
