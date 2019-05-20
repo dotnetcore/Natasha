@@ -1,24 +1,47 @@
-﻿using System.Text;
+﻿using Natasha.Engine.Builder.Reverser;
+using System;
+using System.Text;
 
 namespace Natasha.Engine.Builder
 {
     public abstract partial class BuilderStandard<LINK>
     {
-        internal StringBuilder _inheritance = new StringBuilder();
-
-        public LINK Inheritance(string type)
+        /// <summary>
+        /// 设置继承
+        /// </summary>
+        /// <param name="types">类型</param>
+        /// <returns></returns>
+        public LINK Inheritance(params string[] types)
         {
-            if (_inheritance.Length > 0)
+            if (types != null && types.Length > 0)
             {
-                _inheritance.Append($",{type}");
+                for (int i = 1; i < types.Length; i++)
+                {
+                    Inheritance(types[i]);
+                }
             }
-            else
+            return _link;
+        }
+        public LINK Inheritance(params Type[] types)
+        {
+            for (int i = 0; i < types.Length; i++)
             {
-                _inheritance.Append(":");
-                _inheritance.Append(type);
+                Inheritance(types[i]);
+            }
+            return _link;
+        }
+        public LINK Inheritance<T>()
+        {
+            return Inheritance(typeof(T));
+        }
+        public LINK Inheritance(Type type)
+        {
+            if (type == null)
+            {
+                return _link;
             }
             Using(type);
-            return _link;
+            return Inheritance(TypeReverser.Get(type));
         }
     }
 }

@@ -50,7 +50,7 @@ namespace Natasha.Remote
                         .Using(type)
                         .Param<RemoteParameters>("parameters")
                         .Body(
-                        $@"{sb}{className} instance = new {className}();return {Deserialization}<string>(instance.{call}));"
+                        $@"{sb}{className} instance = new {className}();return {Deserialization}<{TypeReverser.Get(item.ReturnType)}> (instance.{call}));"
                         ).Return<string>().Create<Func<RemoteParameters, string>>();
 
                 }
