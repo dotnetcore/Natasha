@@ -23,7 +23,7 @@ namespace Natasha
         {
             DynamicGet = new ConcurrentDictionary<string, Action<DynamicInstanceBase, T>>();
             DynamicSet = new ConcurrentDictionary<string, Action<DynamicInstanceBase, T>>();
-            CtorDelegate = DynamicMemberHelper.NewInstance<T>();
+            CtorDelegate = CtorOperator.NewDelegate<T>();
             InitType(typeof(T));
         }
 
@@ -152,7 +152,7 @@ namespace Natasha
                 SetDynamicCache[type] = new Dictionary<string, Action<DynamicInstanceBase, object>>();
                 
                 //动态函数-实例的创建
-                CtorMapping[type] = DynamicMemberHelper.NewInstance(type);
+                CtorMapping[type] = CtorOperator.NewDelegate(type);
 
 
                 //动态函数-成员调用
@@ -445,22 +445,6 @@ namespace Natasha
             }
         }
 
-        public static Func<T> NewInstance<T>()
-        {
-            return  MethodBuilder.NewMethod
-                .Using<T>()
-                .Body($@"return new {TypeReverser.Get(typeof(T))}();")
-                .Return<T>()
-                .Create<Func<T>>();
-        }
-        public static Func<object> NewInstance(Type type)
-        {
-            return MethodBuilder.NewMethod
-                .Using(type)
-                .Body($@"return new {TypeReverser.Get(type)}();")
-                .Return<object>()
-                .Create<Func<object>>();
-        }
 
         public static Action<DynamicInstanceBase, T> SetField<T>(FieldInfo info)
         {
