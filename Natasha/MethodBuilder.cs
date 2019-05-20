@@ -1,4 +1,6 @@
 ﻿using Natasha.Engine.Builder;
+using Natasha.Engine.Builder.Reverser;
+using Natasha.Engine.Template;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -12,6 +14,7 @@ namespace Natasha
         private List<Type> _parameters_types;
         private Type _return_type;
         private Type _delegate_type;
+        private MethodInfo _info;
         private string _method;
         public static Action<string> SingleError;
         public MethodBuilder():base()
@@ -28,6 +31,23 @@ namespace Natasha
             get { return new MethodBuilder(); }
         }
 
+        /// <summary>
+        /// 根据已经存在的函数来设置内容
+        /// </summary>
+        /// <param name="info">函数成员</param>
+        /// <returns></returns>
+        public MethodBuilder From(MethodInfo info)
+        {
+            Method(info);
+            _info = info;
+            return this;
+        }
+        public MethodBuilder From<T>(string name)
+        {
+            var info = typeof(T).GetMethod(name);
+            return From(info);
+
+        }
 
         /// <summary>
         /// 添加参数
@@ -120,54 +140,49 @@ namespace Natasha
         /// <returns></returns>
         public string GetMethodString(bool isStatic=true)
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append($"public ");
-            if (isStatic)
+            if (_info!=null)
             {
-                sb.Append($"static ");
-            }
-            if (_return_type==null)
-            {
-                sb.Append("void");
+                MethodTemplate template = new MethodTemplate(_info);
+                return template.Create(_text);
             }
             else
             {
-                sb.Append(_return_type.Name);
-            }
-            if (_method==null)
-            {
-                sb.Append(" DynimacMethod");
-            }
-            else
-            {
-                sb.Append(" "+_method);
-            }
-            sb.Append("(");
-            if (_parameters.Count>0)
-            {
-                sb.Append($"{GetRealType(_parameters[0].Key.Name)} {_parameters[0].Value}");
-                for (int i = 1; i < _parameters.Count; i++)
+                StringBuilder sb = new StringBuilder();
+                sb.Append($"public ");
+                if (isStatic)
                 {
-                    sb.Append($",{GetRealType(_parameters[i].Key.Name)} {_parameters[i].Value}");
+                    sb.Append($"static ");
                 }
+                if (_return_type == null)
+                {
+                    sb.Append("void");
+                }
+                else
+                {
+                    sb.Append(_return_type.Name);
+                }
+                if (_method == null)
+                {
+                    sb.Append(" DynimacMethod");
+                }
+                else
+                {
+                    sb.Append(" " + _method);
+                }
+                sb.Append("(");
+                if (_parameters.Count > 0)
+                {
+                    sb.Append($"{TypeReverser.Get(_parameters[0].Key)} {_parameters[0].Value}");
+                    for (int i = 1; i < _parameters.Count; i++)
+                    {
+                        sb.Append($",{TypeReverser.Get(_parameters[i].Key)} {_parameters[i].Value}");
+                    }
+                }
+                sb.Append("){");
+                sb.Append(_text);
+                sb.Append("}");
+                return sb.ToString();
             }
-            sb.Append("){");
-            sb.Append(_text);
-            sb.Append("}");
-            return sb.ToString();
-        }
-
-        private string GetRealType(string type)
-        {
-            if (type == "Void")
-            {
-                return "void";
-            }
-            else if (type.EndsWith("&"))
-            {
-                return $"ref {type.Substring(0, type.Length - 1)}";
-            }
-            return type;
         }
     }
 }

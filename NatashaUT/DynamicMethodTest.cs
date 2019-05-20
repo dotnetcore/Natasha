@@ -1,8 +1,5 @@
 ﻿using Natasha;
-using Natasha.Operator;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace NatashaUT
@@ -50,24 +47,21 @@ namespace NatashaUT
         [Fact(DisplayName = "函数克隆1")]
         public static void MakerCode1()
         {
-           var method =new MethodOperator<OopTest>();
-           var result = method["ReWrite1"].SetMethod(@"Console.WriteLine(""hello world"");");
+            var result = MethodBuilder.NewMethod.From(typeof(OopTest).GetMethod("ReWrite1")).Body(@"Console.WriteLine(""hello world"");").GetMethodString(false);
            Assert.Equal(@"public void ReWrite1(){Console.WriteLine(""hello world"");}", result);
         }
 
         [Fact(DisplayName = "函数克隆2")]
         public static void MakerCode2()
         {
-            var method = new MethodOperator<OopTest>();
-            var result = method["ReWrite2"].SetMethod(@"Console.WriteLine(""hello world"");return this;");
+            var result = MethodBuilder.NewMethod.From(typeof(OopTest).GetMethod("ReWrite2")).Body(@"Console.WriteLine(""hello world"");return this;").GetMethodString(false);
             Assert.Equal(@"public OopTest ReWrite2(){Console.WriteLine(""hello world"");return this;}", result);
         }
 
         [Fact(DisplayName = "函数克隆3")]
         public static void MakerCode3()
         {
-            var method = new MethodOperator<OopTest>();
-            var result = method["ReWrite3"].SetMethod(@"i++;temp+=i.ToString();");
+            var result = MethodBuilder.NewMethod.From(typeof(OopTest).GetMethod("ReWrite3")).Body(@"i++;temp+=i.ToString();").GetMethodString(false);
             Assert.Equal(@"public void ReWrite3(ref Int32 i,String temp){i++;temp+=i.ToString();}", result);
         }
     }

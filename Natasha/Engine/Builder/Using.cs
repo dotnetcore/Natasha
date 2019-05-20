@@ -36,6 +36,14 @@ namespace Natasha.Engine.Builder
             }
             return _link;
         }
+        public LINK Using(IEnumerable<Type> namespaces)
+        {
+            foreach (var item in namespaces)
+            {
+                Using(item);
+            }
+            return _link;
+        }
         public LINK Using<T>()
         {
             Using(typeof(T));
@@ -43,7 +51,7 @@ namespace Natasha.Engine.Builder
         }
         public LINK Using(Type type)
         {
-            if (type == null)
+            if (type==null)
             {
                 return _link;
             }

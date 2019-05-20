@@ -1,5 +1,5 @@
 ﻿using Natasha.Engine.Builder;
-using Natasha.Operator;
+using Natasha.Engine.Template;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -45,7 +45,6 @@ namespace Natasha
         private Type _oop_type;
         private Dictionary<string, string> _oop_methods_mapping;
         public string Result;
-        private MethodOperator _method_handler;
         static OopModifier()
         {
             _delegate_mapping = new ConcurrentDictionary<string, Delegate>();
@@ -55,8 +54,6 @@ namespace Natasha
             _link = this;
             _oop_type = oopType;
             _oop_methods_mapping = new Dictionary<string, string>();
-            _method_handler = new MethodOperator(oopType);
-            _method_handler.UsingAction = (item) => Using(item);
         }
 
         public string this[string key]
@@ -67,7 +64,14 @@ namespace Natasha
             }
             set
             {
-                _oop_methods_mapping[key] = _method_handler[key].SetMethod(value);
+                var info  = _oop_type.GetMethod(key);
+                if (info==null)
+                {
+                    throw new Exception($"无法在{_oop_type.Name}中找到{key}函数！");
+                }
+                Method(info);
+                MethodTemplate template = new MethodTemplate(info);
+                _oop_methods_mapping[key] = template.Create(value);
             }
         }
 

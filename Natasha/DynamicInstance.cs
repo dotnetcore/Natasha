@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Natasha.Engine.Builder.Reverser;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading;
 
 namespace Natasha
 {
@@ -36,16 +38,16 @@ namespace Natasha
                 {
 
                     FieldInfo info = (FieldInfo)members[i];
-                    DynamicGet[info.Name] = DynamicMemberHelper.GetField<object>(info);
-                    DynamicSet[info.Name] = DynamicMemberHelper.SetField<object>(info);
+                    DynamicGet[info.Name] = DynamicMemberHelper.GetField<T>(info);
+                    DynamicSet[info.Name] = DynamicMemberHelper.SetField<T>(info);
 
                 }
                 else if (members[i].MemberType == MemberTypes.Property)
                 {
 
                     PropertyInfo info = (PropertyInfo)members[i];
-                    DynamicGet[info.Name] = DynamicMemberHelper.GetProperty<object>(info);
-                    DynamicSet[info.Name] = DynamicMemberHelper.SetProperty<object>(info);
+                    DynamicGet[info.Name] = DynamicMemberHelper.GetProperty<T>(info);
+                    DynamicSet[info.Name] = DynamicMemberHelper.SetProperty<T>(info);
 
                 }
             }
@@ -148,8 +150,8 @@ namespace Natasha
 
                 GetDynamicCache[type] = new Dictionary<string, Action<DynamicInstanceBase, object>>();
                 SetDynamicCache[type] = new Dictionary<string, Action<DynamicInstanceBase, object>>();
+                
                 //动态函数-实例的创建
-                MethodBuilder ctor = new MethodBuilder();
                 CtorMapping[type] = DynamicMemberHelper.NewInstance(type);
 
 
@@ -447,7 +449,7 @@ namespace Natasha
         {
             return  MethodBuilder.NewMethod
                 .Using<T>()
-                .Body($@"return new {typeof(T).Name}();")
+                .Body($@"return new {TypeReverser.Get(typeof(T))}();")
                 .Return<T>()
                 .Create<Func<T>>();
         }
@@ -455,7 +457,7 @@ namespace Natasha
         {
             return MethodBuilder.NewMethod
                 .Using(type)
-                .Body($@"return new {type.Name}();")
+                .Body($@"return new {TypeReverser.Get(type)}();")
                 .Return<object>()
                 .Create<Func<object>>();
         }
