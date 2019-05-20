@@ -27,14 +27,14 @@
    - [x] 接口动态实现 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;[##########][100%]
    - [x] 方法动态实现 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;[##########][100%]
    - [x] 类型动态实现 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;[##########][100%]
+   - [x] 动态初始化实现 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;[##########][60%]
 
 - **优化计划**：
 
      - [ ]  动态编译模块  
         - [ ]  评估“流加载模式”以及“文件加载”模式的资源占用情况
-     - [ ]  脚本构造模块  
+     - [ ]  动态构造模块  
         - [ ]  抽象出最基方法
         - [ ]  采用部分类规整目录结构
-        - [ ]  
       
      
