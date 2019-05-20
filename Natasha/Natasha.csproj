@@ -35,4 +35,8 @@
     <Compile Remove="Utils\NamespaceGetter.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Engine\Builder\Template\" />
+  </ItemGroup>
+
 </Project>
