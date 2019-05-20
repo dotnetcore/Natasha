@@ -89,6 +89,11 @@ namespace Natasha
                 className = GetClassName(content);
             }
 
+            string path = $"{LibPath}{className}.dll";
+            if (DynamicDlls.ContainsKey(path))
+            {
+                return DynamicDlls[path];
+            }
 
             //创建语言编译
             CSharpCompilation compilation = CSharpCompilation.Create(
@@ -97,7 +102,7 @@ namespace Natasha
                 syntaxTrees: new[] { tree },
                 references: References);
 
-            string path = $"{LibPath}{className}.dll";
+           
             lock (content)
             {
                 if (DynamicDlls.ContainsKey(path))
