@@ -1,4 +1,4 @@
-﻿using Natasha.Standard;
+﻿using Natasha.Engine.Builder;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Natasha
 {
-    public class MethodBuilder : ScriptStandard<MethodBuilder>
+    public class MethodBuilder : BuilderStandard<MethodBuilder>
     {
         private List<KeyValuePair<Type, string>> _parameters;
         private List<Type> _parameters_types;

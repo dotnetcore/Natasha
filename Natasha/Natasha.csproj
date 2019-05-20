@@ -36,7 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Engine\Builder\Template\" />
+    <Folder Include="Engine\Template\" />
   </ItemGroup>
 
 </Project>

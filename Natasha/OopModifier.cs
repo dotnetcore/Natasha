@@ -1,9 +1,8 @@
-﻿using Natasha.Operator;
-using Natasha.Standard;
+﻿using Natasha.Engine.Builder;
+using Natasha.Operator;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Text;
 
 namespace Natasha
@@ -40,7 +39,7 @@ namespace Natasha
         }
         
     }
-    public class OopModifier : ScriptStandard<OopModifier>
+    public class OopModifier : BuilderStandard<OopModifier>
     {
         internal static ConcurrentDictionary<string, Delegate> _delegate_mapping;
         private Type _oop_type;
