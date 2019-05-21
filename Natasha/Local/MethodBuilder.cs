@@ -121,7 +121,7 @@ namespace Natasha
         public Delegate GetRuntimeMethodDelegate(Type delegateType)
         {
             string body = MakerHeader().MakerContent(GetMethodString()).Script;
-            Assembly assembly = ScriptComplier.Complier(body, _class_name, SingleError);
+            Assembly assembly = ScriptComplier.StreamComplier(body, _class_name, SingleError);
 
             if (assembly == null)
             {

@@ -68,13 +68,59 @@ namespace Natasha
         }
 
         /// <summary>
-        /// 脚本编译，根据类名生成dll
+        /// 使用内存六进行脚本编译
         /// </summary>
         /// <param name="content">脚本内容</param>
         /// <param name="className">指定类名</param>
         /// <param name="errorAction">发生错误执行委托</param>
         /// <returns></returns>
-        public static Assembly Complier(string content, string className = null, Action<string> errorAction = null)
+        public static Assembly StreamComplier(string content, string className = null, Action<string> errorAction = null)
+        {
+
+            //写入分析树
+            SyntaxTree tree = SyntaxFactory.ParseSyntaxTree(content);
+
+
+            //创建语言编译
+            CSharpCompilation compilation = CSharpCompilation.Create(
+                className,
+                options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary),
+                syntaxTrees: new[] { tree },
+                references: References);
+
+           
+            lock (content)
+            {
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    var fileResult = compilation.Emit(stream);
+                    if (fileResult.Success)
+                    {
+                        var result = Assembly.Load(stream.GetBuffer());
+                        return result;
+
+                    }
+                    else
+                    {
+                        foreach (var item in fileResult.Diagnostics)
+                        {
+                            errorAction?.Invoke(item.GetMessage());
+                        }
+                    }
+                }
+
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 使用文件流进行脚本编译，根据类名生成dll
+        /// </summary>
+        /// <param name="content">脚本内容</param>
+        /// <param name="className">指定类名</param>
+        /// <param name="errorAction">发生错误执行委托</param>
+        /// <returns></returns>
+        public static Assembly FileComplier(string content, string className = null, Action<string> errorAction = null)
         {
 
             //写入分析树
@@ -102,32 +148,32 @@ namespace Natasha
                 syntaxTrees: new[] { tree },
                 references: References);
 
-           
+
             lock (content)
             {
                 if (DynamicDlls.ContainsKey(path))
                 {
                     return DynamicDlls[path];
                 }
-                var fileResult = compilation.Emit(path);
 
-                if (fileResult.Success)
-                {
-
-                    References.Add(MetadataReference.CreateFromFile(path));
-                    //为了实现动态中的动态，使用文件加载模式常驻内存
-                    var result = Assembly.LoadFrom(path);
-                    DynamicDlls[path] = result;
-                    return result;
-
-                }
-                else
-                {
-                    foreach (var item in fileResult.Diagnostics)
+                    var fileResult = compilation.Emit(path);
+                    if (fileResult.Success)
                     {
-                        errorAction?.Invoke(item.GetMessage());
+
+                        References.Add(MetadataReference.CreateFromFile(path));
+                        //为了实现动态中的动态，使用文件加载模式常驻内存
+                        var result = Assembly.LoadFrom(path);
+                        DynamicDlls[path] = result;
+                        return result;
+
                     }
-                }
+                    else
+                    {
+                        foreach (var item in fileResult.Diagnostics)
+                        {
+                            errorAction?.Invoke(item.GetMessage());
+                        }
+                    }
 
             }
             return null;

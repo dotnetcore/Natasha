@@ -22,7 +22,7 @@ namespace Natasha
             namespaceIndex -= 1;
             Assembly assembly = null;
             string className = ScriptComplier.GetClassName(content, classIndex, namespaceIndex);
-            assembly = ScriptComplier.Complier(content, className);
+            assembly = ScriptComplier.FileComplier(content, className);
             return AssemblyOperator.Loader(assembly)[className];
         }
     }
