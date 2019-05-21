@@ -56,6 +56,19 @@ namespace Natasha
             _oop_type = oopType;
             _oop_methods_mapping = new Dictionary<string, string>();
         }
+        private bool _is_override;
+        public OopModifier Override()
+        {
+            _is_override = true;
+            return this;
+        }
+        private bool _is_new;
+        public OopModifier New()
+        {
+            _is_new = true;
+            return this;
+        }
+
 
         public string this[string key]
         {
@@ -72,6 +85,16 @@ namespace Natasha
                 }
                 Method(info);
                 MethodTemplate template = new MethodTemplate(info);
+                if (_is_override)
+                {
+                    template.Override();
+                    _is_override = false;
+                }
+                if (_is_new)
+                {
+                    template.New();
+                    _is_new = false;
+                }
                 _oop_methods_mapping[key] = template.Create(value);
             }
         }

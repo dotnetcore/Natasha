@@ -19,7 +19,7 @@ namespace Natasha.Engine.Builder.Reverser
             }
             return _type_mapping[info];
         }
-        public static string Reverser(ParameterInfo info)
+        internal static string Reverser(ParameterInfo info)
         {
 
             string Prefix = string.Empty;
