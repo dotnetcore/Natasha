@@ -21,11 +21,11 @@
             - [x] 参数反解&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
           - [x] 构造器&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
    -------
-   - [ ]  **动态调用&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[#######*--][50%]** 
+   - [x]  **动态调用&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[#######*--][80%]** 
    
       - [x] 本地调用&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
       
-      - [ ] 远程调用&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[----------][50%]
+      - [ ] 远程调用&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[########--][80%]
     -------
     - [x]  **动态实现&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]** 
       - [x] 接口动态实现&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;&ensp;[##########][100%]
@@ -33,6 +33,13 @@
       - [x] 类型动态实现&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;&ensp;[##########][100%]
       - [x] 动态初始化实现&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;&ensp;[##########][100%]
    -------
+   
+- **测试计划（等待下一版本bechmark）**：
+      
+     - [ ]  **动态函数性能测试（对照组： emit, orgin, delegate）**  
+     - [ ]  **动态调用性能测试（对照组： emit, orgin）**  
+     - [ ]  **远程动态封装函数性能测试（对照组： 动态函数，emit, orgin）**
+
 - **优化计划**：
 
      - [ ]  **动态编译模块**  
@@ -40,5 +47,6 @@
      - [x]  **动态构造模块**  
         - [x]  抽象出最基方法
         - [x]  采用部分类规整目录结构
+      
       
      
