@@ -42,8 +42,12 @@
 
 - **优化计划**：
 
-     - [ ]  **动态编译模块**  
-        - [ ]  评估“流加载模式”以及“文件加载”模式的资源占用情况
+     - [x]  **动态编译模块**  
+        - [x]  评估“流加载模式”以及“文件加载”模式的资源占用情况  
+        
+            内存流： <img src="https://github.com/dotnetcore/Natasha/blob/master/Image/memory.png" height="300" width="250" alt="程序集内存流编译"/>
+            文件流： <img src="https://github.com/dotnetcore/Natasha/blob/master/Image/file.png" height="300" width="250" alt="程序集文件编译"/>
+        - [x]  优化引擎，区分编译方式，增加内存流编译加载。
      - [x]  **动态构造模块**  
         - [x]  抽象出最基方法
         - [x]  采用部分类规整目录结构
