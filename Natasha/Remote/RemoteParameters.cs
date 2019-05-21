@@ -17,7 +17,7 @@ namespace Natasha.Remote
             get { return Parameters[key]; }
             set
             {
-                Parameters[key] =JsonConvert.SerializeObject(value);
+                Parameters[key] =value;
             }
         }
     }

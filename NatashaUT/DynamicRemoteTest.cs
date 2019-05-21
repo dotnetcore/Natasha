@@ -38,8 +38,8 @@ namespace NatashaUT
             RemoteParameters parameters = new RemoteParameters();
             parameters.TypeName = "RemoteTestModel";
             parameters.MethodName = "HelloString";
-            parameters["str1"] = "hello ";
-            parameters["str2"] = "world!";
+            parameters["str1"] = JsonConvert.SerializeObject("hello ");
+            parameters["str2"] = JsonConvert.SerializeObject("world!");
             string result = RemoteReader.Invoke(parameters);
             Assert.Equal("\"hello world!\"", result);
         }
