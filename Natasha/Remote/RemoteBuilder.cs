@@ -4,7 +4,7 @@ namespace Natasha.Remote
 {
     public class RemoteBuilder
     {
-        public string Script
+        public static string Script
         {
             set
             {
