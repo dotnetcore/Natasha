@@ -28,10 +28,10 @@ namespace NatashaUT
             int testi = 1;
             test.MethodWidthParamsRefInt(ref testi);
             Assert.Equal(123456, test.MethodWidthReturnInt());
-            //Assert.Equal("test", test.MethodWidthReturnString());
-            //Assert.Equal(11, testi);
-            //Assert.Equal("test1", test.MethodWidthParamsString("test"));
-            //Assert.Equal("12test12", test.MethodWidthParams(12,"test",12));
+            Assert.Equal("test", test.MethodWidthReturnString());
+            Assert.Equal(11, testi);
+            Assert.Equal("test1", test.MethodWidthParamsString("test"));
+            Assert.Equal("12test12", test.MethodWidthParams(12,"test",12));
 
         }
     }
