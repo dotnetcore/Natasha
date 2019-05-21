@@ -138,10 +138,10 @@ namespace Natasha.Remote
 
         public string GetString<S>(S value)
         {
-            if (typeof(S)==typeof(string))
-            {
-                return value.ToString();
-            }
+            //if (typeof(S)==typeof(string))
+            //{
+             //   return value.ToString();
+           // }
             return JsonConvert.SerializeObject(value); 
         }
     }

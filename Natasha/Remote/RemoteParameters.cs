@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Natasha.Remote
 {
@@ -16,7 +17,7 @@ namespace Natasha.Remote
             get { return Parameters[key]; }
             set
             {
-                Parameters[key] = value;
+                Parameters[key] =JsonConvert.SerializeObject(value);
             }
         }
     }

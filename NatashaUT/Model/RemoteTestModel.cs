@@ -9,7 +9,11 @@ namespace NatashaUT.Model
             Console.WriteLine("hello world");
         }
 
-        public string Hello(string str1,string str2)
+        public string HelloString(string str1,string str2)
+        {
+            return str1 + str2;
+        }
+        public int HelloInt(int str1, int str2)
         {
             return str1 + str2;
         }

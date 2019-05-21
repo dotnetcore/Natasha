@@ -30,12 +30,11 @@ namespace Natasha.Remote
             if (!RemoteReader._func_mapping.ContainsKey(className))
             {
                 RemoteReader._func_mapping[className] = new ConcurrentDictionary<string, Func<RemoteParameters, string>>();
-
                 MethodInfo[] infos = type.GetMethods();
 
                 foreach (var item in infos)
                 {
-                    if (item.ReturnType==typeof(void))
+                    if (item.ReturnType == typeof(void))
                     {
                         continue;
                     }
@@ -47,45 +46,23 @@ namespace Natasha.Remote
                         if (parameters.Length > 0)
                         {
                             call.Append(parameters[0].Name);
-                            if (parameters[0].ParameterType != typeof(string))
-                            {
-                                sb.Append($"{TypeReverser.Get(parameters[0].ParameterType)} {parameters[0].Name} = {Deserialization}<{TypeReverser.Get(parameters[0].ParameterType)}>(parameters[\"{parameters[0].Name}\"]);");
-                            }
-                            else
-                            {
-                                sb.Append($"{TypeReverser.Get(parameters[0].ParameterType)} {parameters[0].Name} = parameters[\"{parameters[0].Name}\"];");
-                            }
-                            
+                            sb.Append($"{TypeReverser.Get(parameters[0].ParameterType)} {parameters[0].Name} = {Deserialization}<{TypeReverser.Get(parameters[0].ParameterType)}>(parameters[\"{parameters[0].Name}\"]);");
+
                             for (int i = 1; i < parameters.Length; i++)
                             {
                                 call.Append($",{parameters[i].Name}");
-                                if (parameters[0].ParameterType != typeof(string))
-                                {
-                                    sb.Append($"{TypeReverser.Get(parameters[i].ParameterType)} {parameters[i].Name} = {Deserialization}<{TypeReverser.Get(parameters[i].ParameterType)}>(parameters[\"{parameters[i].Name}\"]);");
-                                }
-                                else
-                                {
-                                    sb.Append($"{TypeReverser.Get(parameters[i].ParameterType)} {parameters[i].Name} = parameters[\"{parameters[i].Name}\"];");
-                                }
+                                sb.Append($"{TypeReverser.Get(parameters[i].ParameterType)} {parameters[i].Name} = {Deserialization}<{TypeReverser.Get(parameters[i].ParameterType)}>(parameters[\"{parameters[i].Name}\"]);");
                             }
                         }
                     }
-                    var temp = "";
-                    if (item.ReturnType != typeof(string))
-                    {
-                        temp = $"{Serialization}(instance.{call}))";
-                    }
-                    else
-                    {
-                        temp = $"instance.{call})";
-                    }
+
                     RemoteReader._func_mapping[className][item.Name] = MethodBuilder
                         .NewMethod
                         .Using(type)
                         .Using(typeof(JsonConvert))
                         .Param<RemoteParameters>("parameters")
                         .Body(
-                        $@"{sb}{className} instance = new {className}();return {temp};"
+                        $@"{sb}{className} instance = new {className}();return {Serialization}(instance.{call}));"
                         ).Return<string>().Create<Func<RemoteParameters, string>>();
 
                 }
