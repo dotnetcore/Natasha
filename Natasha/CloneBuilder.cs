@@ -33,6 +33,7 @@ namespace Natasha
             string instanceName = TypeReverser.Get(type);
             sb.Append($"{instanceName} newInstance = new {instanceName}();");
 
+            //字段克隆
             var fields = type.GetFields();
             for (int i = 0; i < fields.Length; i++)
             {
@@ -101,7 +102,7 @@ namespace Natasha
                 }
             }
 
-
+            //属性克隆
             var properties = type.GetProperties();
             for (int i = 0; i < properties.Length; i++)
             {
@@ -121,7 +122,7 @@ namespace Natasha
                         || !propertyType.IsClass
                         || propertyType.IsEnum)
                     {
-                        //普通字段
+                        //普通属性
                         sb.Append($"{newProp} = {oldProp};");
                     }
                     else if (propertyType.IsArray)
@@ -173,13 +174,13 @@ namespace Natasha
             }
             sb.Append($"return newInstance;");
             var @delegate = builder
-                       .Public()
-                       .UseFileComplie()
-                       .ClassName("NatashaClone" + instanceName)
-                       .MethodName("Clone")
-                       .Param(type, "oldInstance")
-                       .Body(sb)
-                       .Return(type)
+                       .Public()            //方法可能被动态调用 所以使用公有级别
+                       .UseFileComplie()    //使用文件编译方式常驻程序集
+                       .ClassName("NatashaClone" + instanceName)  //统一类名
+                       .MethodName("Clone")                       //统一方法名
+                       .Param(type, "oldInstance")                //参数
+                       .Body(sb)                                  //方法体
+                       .Return(type)                              //返回类型
                        .Create();
             CloneCache[type] = @delegate;
             return @delegate;
