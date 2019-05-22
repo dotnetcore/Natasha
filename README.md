@@ -23,8 +23,8 @@
    -------
    - [x]  **动态调用&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]**  
    
-      - [x] 本地调用(字段+属性)&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
-      - [x] 远程调用(Json序列化)&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
+      - [x] 本地调用(字段+属性)&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;&ensp;&nbsp;&nbsp;&nbsp;[##########][100%]
+      - [x] 远程调用(Json序列化)&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;[##########][100%]
     -------
     - [x]  **动态实现&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]**  
     
@@ -32,13 +32,18 @@
       - [x] 方法动态实现&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;&ensp;[##########][100%]
       - [x] 类型动态实现&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;&ensp;[##########][100%]
       - [x] 动态初始化实现&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;&ensp;[##########][100%]
-      - [x] 动态深度克隆实现(迭代接口排除)&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;&ensp;[##########][100%]
+      - [x] 动态深度克隆实现(迭代接口排除)&emsp;&ensp;[##########][100%]
    -------
    
  
 - **2019/06 功能计划**：  
 
+   -------
    
+
+<br/>
+<br/>  
+
 - **测试计划（等待下一版本bechmark）**：
       
      - [ ]  **动态函数性能测试（对照组： emit, orgin, delegate）**  
