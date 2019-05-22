@@ -120,7 +120,7 @@ namespace Natasha
         /// <returns></returns>
         public Delegate GetRuntimeMethodDelegate(Type delegateType)
         {
-            string body = MakerHeader().MakerContent(GetMethodString()).Script;
+            string body =Static().Body(GetMethodString()).Builder();
             Assembly assembly = ScriptComplier.StreamComplier(body, _class_name, SingleError);
 
             if (assembly == null)
@@ -143,7 +143,7 @@ namespace Natasha
             if (_info != null)
             {
                 MethodTemplate template = new MethodTemplate(_info);
-                return template.Create(_text);
+                return template.Body(_text).Builder();
             }
             else
             {

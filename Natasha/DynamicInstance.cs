@@ -150,7 +150,7 @@ namespace Natasha
                 SetDynamicCache[type] = new Dictionary<string, Action<DynamicInstanceBase, object>>();
 
                 //动态函数-实例的创建
-                CtorMapping[type] = CtorOperator.NewDelegate(type);
+                CtorMapping[type] = CtorOperator.NewDelegate<object>(type);
 
 
                 //动态函数-成员调用

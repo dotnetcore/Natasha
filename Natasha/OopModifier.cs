@@ -72,7 +72,7 @@ namespace Natasha
                 }
                 Method(info);
                 MethodTemplate template = new MethodTemplate(info);
-                _oop_methods_mapping[key] = template.Create(value);
+                _oop_methods_mapping[key] = template.Body(value).Builder();
             }
         }
 
@@ -92,18 +92,13 @@ namespace Natasha
 
             Result = Using(_oop_type)
                 .Namespace("NatashaInterface")
+                .Public()
                 .Inheritance(_oop_type)
-                .MakerHeader()
-                .MakerContent(sb.ToString()).Script;
+                .Body(sb)
+                .Builder();
 
             Type type = ClassBuilder.GetType(Result);
-            var tempDelegate = MethodBuilder.NewMethod
-                .Using(_oop_type)
-                .Using(type)
-                .Body($"return new {_class_name}();")
-                .Return(_oop_type)
-                .Create();
-
+            var tempDelegate = CtorOperator.NewDelegate(type);
             _delegate_mapping[_class_name] = tempDelegate;
             return tempDelegate;
         }

@@ -2,31 +2,25 @@
 {
     public abstract partial class BuilderStandard<LINK>
     {
-        public LINK MakerHeader()
+        public LINK MakerUsing()
         {
             _script.Append(_using);
             if (_namespace != null)
             {
                 _script.Append($"namespace {_namespace}{{");
             }
-            _script.Append($"public class {_class_name} {_inheritance}");
             return _link;
         }
 
-        public LINK MakerStaticHeader()
+        public LINK MakerClass ()
         {
-            _script.Append(_using);
-            if (_namespace != null)
-            {
-                _script.Append($"namespace {_namespace}{{");
-            }
-            _script.Append($"public static class {_class_name}");
+            _script.Append($"{_level}{_modifier} class {_class_name}{_inheritance}");
             return _link;
         }
 
-        public LINK MakerContent(string content)
+        public LINK MakerContent()
         {
-            _script.Append($"{{{content}}}");
+            _script.Append($"{{{_fields}{_text}}}");
             if (_namespace != null)
             {
                 _script.Append("}");
@@ -34,5 +28,12 @@
             return _link;
         }
 
+        public string Builder()
+        {
+            MakerUsing();
+            MakerClass();
+            MakerContent();
+            return _script.ToString();
+        }
     }
 }

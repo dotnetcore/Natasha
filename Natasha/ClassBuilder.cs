@@ -1,10 +1,15 @@
-﻿using System;
+﻿using Natasha.Engine.Builder;
+using System;
 using System.Reflection;
 
 namespace Natasha
 {
-    public class ClassBuilder
+    public class ClassBuilder:BuilderStandard<ClassBuilder>
     {
+        public ClassBuilder()
+        {
+            _link = this;
+        }
         static ClassBuilder()
         {
 

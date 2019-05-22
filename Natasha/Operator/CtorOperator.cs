@@ -5,21 +5,31 @@ namespace Natasha
 {
     public class CtorOperator
     {
-        public static Func<T> NewDelegate<T>()
+        public static Func<T> NewDelegate<T>(Type type=null)
         {
-            return MethodBuilder.NewMethod
+            var builder = MethodBuilder.NewMethod;
+            if (type==null)
+            {
+                //直接使用T的类型作为初始化类型
+                type = typeof(T);
+            }
+            else
+            {
+                //T为object，那么自动加载type的命名空间
+                builder.Using(type);
+            }
+            return builder
                 .Using<T>()
-                .Body($@"return new {TypeReverser.Get(typeof(T))}();")
+                .Body($@"return new {TypeReverser.Get(type)}();")
                 .Return<T>()
                 .Create<Func<T>>();
         }
-        public static Func<object> NewDelegate(Type type)
+        public static Delegate NewDelegate(Type type)
         {
             return MethodBuilder.NewMethod
-               .Using(type)
                .Body($@"return new {TypeReverser.Get(type)}();")
-               .Return<object>()
-               .Create<Func<object>>();
+               .Return(type)
+               .Create();
         }
     }
 }
