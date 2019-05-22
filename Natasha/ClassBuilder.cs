@@ -14,6 +14,10 @@ namespace Natasha
         {
 
         }
+        public Type GetType(int classIndex = 1, int namespaceIndex = 1)
+        {
+            return GetType(Builder(), classIndex, namespaceIndex);
+        }
         /// <summary>
         /// 根据命名空间和类的位置获取类型
         /// </summary>
