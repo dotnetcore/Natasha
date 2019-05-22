@@ -12,7 +12,7 @@ namespace Natasha
     public class MethodBuilder : BuilderStandard<MethodBuilder>
     {
         private static Regex _get_class;
-
+        private string _method_name;
         static MethodBuilder()
         {
             _get_class = new Regex(@"\sclass.*?(?<result>[a-zA-Z0-9]*?)[\s]*{", RegexOptions.Compiled | RegexOptions.Singleline);
@@ -23,7 +23,9 @@ namespace Natasha
         private Type _delegate_type;
         private MethodInfo _info;
         private string _method;
+        public bool _useFileComplie;
         public static Action<string> SingleError;
+
         public MethodBuilder() : base()
         {
             _link = this;
@@ -31,12 +33,32 @@ namespace Natasha
             _parameters_types = new List<Type>();
             _return_type = null;
             _method = null;
+            _method_name = "DynimacMethod";
         }
 
         public static MethodBuilder NewMethod
         {
             get { return new MethodBuilder(); }
         }
+
+
+        public MethodBuilder UseFileComplie(bool shut=true)
+        {
+            _useFileComplie = shut;
+            return this;
+        }
+
+        /// <summary>
+        /// 设置函数名
+        /// </summary>
+        /// <param name="name">函数名</param>
+        /// <returns></returns>
+        public MethodBuilder MethodName(string name)
+        {
+            _method_name = name;
+            return this;
+        }
+
 
         /// <summary>
         /// 根据已经存在的函数来设置内容
@@ -128,7 +150,16 @@ namespace Natasha
         public Delegate GetRuntimeMethodDelegate(Type delegateType)
         {
             string body = Static().Body(GetScript()).Builder();
-            Assembly assembly = ScriptComplier.StreamComplier(body, _class_name, SingleError);
+            Assembly assembly = null;
+            if (!_useFileComplie)
+            {
+                assembly = ScriptComplier.StreamComplier(body, _class_name, SingleError);
+            }
+            else
+            {
+                assembly = ScriptComplier.FileComplier(body, _class_name, SingleError);
+            }
+           
 
             if (assembly == null)
             {
@@ -137,7 +168,7 @@ namespace Natasha
 
             return AssemblyOperator
                 .Loader(assembly)[_class_name]
-                .GetMethod("DynimacMethod")
+                .GetMethod(_method_name)
                 .CreateDelegate(delegateType);
         }
 
@@ -170,7 +201,7 @@ namespace Natasha
                 }
                 if (_method == null)
                 {
-                    sb.Append(" DynimacMethod");
+                    sb.Append($" {_method_name}");
                 }
                 else
                 {
@@ -232,7 +263,7 @@ namespace Natasha
 
             return AssemblyOperator
                 .Loader(assembly)[className]
-                .GetMethod("DynimacMethod")
+                .GetMethod("DynamicMethod")
                 .CreateDelegate(delegateType);
         }
     }
