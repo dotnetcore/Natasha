@@ -10,7 +10,7 @@ namespace Natasha
     public class OopModifier<T> : OopModifier
     {
         internal static ConcurrentDictionary<string, Func<T>> _ctor_mapping;
-
+        
         static OopModifier()
         {
             _ctor_mapping = new ConcurrentDictionary<string, Func<T>>();
