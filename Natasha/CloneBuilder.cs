@@ -1,6 +1,7 @@
 ﻿using Natasha.Engine.Builder.Reverser;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Text;
 
 namespace Natasha
@@ -20,7 +21,14 @@ namespace Natasha
         {
             CloneCache = new ConcurrentDictionary<Type, Delegate>();
         }
+        public CloneBuilder()
+        {
+            
+        }
 
+        public static void CreateCloneDelegate<T>() {
+            DeepClone<T>.Clone = (Func<T, T>)CreateCloneDelegate(typeof(T));
+        }
         public static Delegate CreateCloneDelegate(Type type)
         {
             if (CloneCache.ContainsKey(type))
