@@ -5,11 +5,18 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Natasha
 {
     public class MethodBuilder : BuilderStandard<MethodBuilder>
     {
+        private static Regex _get_class;
+
+        static MethodBuilder()
+        {
+            _get_class = new Regex(@"\sclass.*?(?<result>[a-zA-Z0-9]*?)[\s]*{", RegexOptions.Compiled | RegexOptions.Singleline);
+        }
         private List<KeyValuePair<Type, string>> _parameters;
         private List<Type> _parameters_types;
         private Type _return_type;
@@ -112,7 +119,7 @@ namespace Natasha
             //返回运行时委托
             return (T)GetRuntimeMethodDelegate(typeof(T));
         }
-
+     
         /// <summary>
         /// 创建函数委托
         /// </summary>
@@ -120,7 +127,7 @@ namespace Natasha
         /// <returns></returns>
         public Delegate GetRuntimeMethodDelegate(Type delegateType)
         {
-            string body =Static().Body(GetMethodString()).Builder();
+            string body = Static().Body(GetScript()).Builder();
             Assembly assembly = ScriptComplier.StreamComplier(body, _class_name, SingleError);
 
             if (assembly == null)
@@ -138,7 +145,7 @@ namespace Natasha
         /// 获取动态方法体
         /// </summary>
         /// <returns></returns>
-        public string GetMethodString(bool isStatic = true)
+        public string GetScript(bool isStatic = true)
         {
             if (_info != null)
             {
@@ -183,6 +190,50 @@ namespace Natasha
                 sb.Append("}");
                 return sb.ToString();
             }
+        }
+
+
+        /// <summary>
+        /// 静态调用，编译传进来的代码
+        /// </summary>
+        /// <param name="script">完全的脚本</param>
+        /// <param name="type">委托类型</param>
+        /// <returns></returns>
+        public static Delegate Create(string script, Type type)
+        {
+            //返回运行时委托
+            return GetRuntimeMethodDelegate(script, type);
+        }
+        /// <summary>
+        /// 静态调用，编译传进来的代码
+        /// </summary>
+        /// <typeparam name="T">委托类型</typeparam>
+        /// <param name="script">完全的脚本</param>
+        /// <returns></returns>
+        public static T Create<T>(string script) where T : Delegate
+        {
+            //返回运行时委托
+            return (T)GetRuntimeMethodDelegate(script, typeof(T));
+        }
+        /// <summary>
+        /// 创建函数委托
+        /// </summary>
+        /// <param name="delegateType">委托类型</param>
+        /// <returns></returns>
+        public static Delegate GetRuntimeMethodDelegate(string content, Type delegateType)
+        {
+            string className = _get_class.Match(content).Groups["result"].Value;
+            Assembly assembly = ScriptComplier.StreamComplier(content, className, SingleError);
+
+            if (assembly == null)
+            {
+                return null;
+            }
+
+            return AssemblyOperator
+                .Loader(assembly)[className]
+                .GetMethod("DynimacMethod")
+                .CreateDelegate(delegateType);
         }
     }
 }

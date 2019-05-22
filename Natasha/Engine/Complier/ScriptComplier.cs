@@ -80,7 +80,6 @@ namespace Natasha
             //写入分析树
             SyntaxTree tree = SyntaxFactory.ParseSyntaxTree(content);
 
-
             //创建语言编译
             CSharpCompilation compilation = CSharpCompilation.Create(
                 className,
@@ -88,7 +87,6 @@ namespace Natasha
                 syntaxTrees: new[] { tree },
                 references: References);
 
-           
             lock (content)
             {
                 using (MemoryStream stream = new MemoryStream())

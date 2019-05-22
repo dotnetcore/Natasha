@@ -47,21 +47,21 @@ namespace NatashaUT
         [Fact(DisplayName = "函数克隆1")]
         public static void MakerCode1()
         {
-            var result = MethodBuilder.NewMethod.From(typeof(OopTest).GetMethod("ReWrite1")).Body(@"Console.WriteLine(""hello world"");").GetMethodString(false);
+            var result = MethodBuilder.NewMethod.From(typeof(OopTest).GetMethod("ReWrite1")).Body(@"Console.WriteLine(""hello world"");").GetScript(false);
            Assert.Equal(@"public void ReWrite1(){Console.WriteLine(""hello world"");}", result);
         }
 
         [Fact(DisplayName = "函数克隆2")]
         public static void MakerCode2()
         {
-            var result = MethodBuilder.NewMethod.From(typeof(OopTest).GetMethod("ReWrite2")).Body(@"Console.WriteLine(""hello world"");return this;").GetMethodString(false);
+            var result = MethodBuilder.NewMethod.From(typeof(OopTest).GetMethod("ReWrite2")).Body(@"Console.WriteLine(""hello world"");return this;").GetScript(false);
             Assert.Equal(@"public OopTest ReWrite2(){Console.WriteLine(""hello world"");return this;}", result);
         }
 
         [Fact(DisplayName = "函数克隆3")]
         public static void MakerCode3()
         {
-            var result = MethodBuilder.NewMethod.From(typeof(OopTest).GetMethod("ReWrite3")).Body(@"i++;temp+=i.ToString();").GetMethodString(false);
+            var result = MethodBuilder.NewMethod.From(typeof(OopTest).GetMethod("ReWrite3")).Body(@"i++;temp+=i.ToString();").GetScript(false);
             Assert.Equal(@"public void ReWrite3(ref Int32 i,String temp){i++;temp+=i.ToString();}", result);
         }
     }
