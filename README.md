@@ -15,16 +15,14 @@
      - [x]  动态构造&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
           - [x] 扩展模板&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
             - [x] Method模板&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;[##########][100%]  
-          ~~- [ ] 字段/属性模板(待定)&emsp;&emsp;&emsp;[----------][0%]~~
           - [x] 反解器&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
             - [x] 类型反解&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
             - [x] 参数反解&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
+            - [x] 字段反解&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
           - [x] 构造器&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
    -------
    - [x]  **动态调用&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[#######*--][80%]** 
-   
       - [x] 本地调用&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
-      
       - [ ] 远程调用&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[########--][80%]
     -------
     - [x]  **动态实现&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]** 

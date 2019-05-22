@@ -21,7 +21,7 @@ namespace Natasha.Engine.Builder.Reverser
             }
             return _type_mapping[type];
         }
-        public static string Reverser(Type type)
+        internal static string Reverser(Type type)
         {
             string Suffix = string.Empty;
             while (type.HasElementType)

@@ -16,7 +16,11 @@ namespace Natasha.Engine.Template
             _script = new StringBuilder();
         }
 
-
+        public MethodTemplate New()
+        {
+            _prefix = "new";
+            return this;
+        }
         public MethodTemplate Override()
         {
             _prefix = "override";
