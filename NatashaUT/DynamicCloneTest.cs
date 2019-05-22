@@ -16,7 +16,7 @@ namespace NatashaUT
             model.Name = "ababab";
             model.Timer = DateTime.Now;
             model.money = 100000;
-          
+            model.Flag = CloneEnum.A;
             model.Title = false;
             model.Id = 100000;
             

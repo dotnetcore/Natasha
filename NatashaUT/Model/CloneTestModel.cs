@@ -11,12 +11,18 @@ namespace NatashaUT.Model
         }
         public const int Const=100;
         public readonly int ReadOnly;
+        public CloneEnum Flag;
         public int Age;
         public string Name;
         public bool Title;
         public DateTime Timer;
         public decimal money;
         public long Id;
+    }
+
+    public enum CloneEnum
+    {
+        A,B,C
     }
 
     public class FieldCloneArrayModel

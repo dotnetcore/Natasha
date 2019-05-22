@@ -47,7 +47,8 @@ namespace Natasha
 
                     if (fieldType.IsPrimitive
                         || fieldType == typeof(string)
-                        || !fieldType.IsClass)
+                        || !fieldType.IsClass
+                        || fieldType.IsEnum)
                     {
                         //普通字段
                         sb.Append($"{newField} = {oldField};");
@@ -110,22 +111,23 @@ namespace Natasha
                 {
                     string oldProp = $"oldInstance.{properties[i].Name}";
                     string newProp = $"newInstance.{properties[i].Name}";
-                    string fieldClassName = TypeReverser.Get(properties[i].PropertyType);
-                    Type fieldType = properties[i].PropertyType;
+                    string propClassName = TypeReverser.Get(properties[i].PropertyType);
+                    Type propertyType = properties[i].PropertyType;
 
 
 
-                    if (fieldType.IsPrimitive
-                        || fieldType == typeof(string)
-                        || !fieldType.IsClass)
+                    if (propertyType.IsPrimitive
+                        || propertyType == typeof(string)
+                        || !propertyType.IsClass
+                        || propertyType.IsEnum)
                     {
                         //普通字段
                         sb.Append($"{newProp} = {oldProp};");
                     }
-                    else if (fieldType.IsArray)
+                    else if (propertyType.IsArray)
                     {
                         //数组
-                        Type eleType = fieldType.GetElementType();
+                        Type eleType = propertyType.GetElementType();
                         string eleName = TypeReverser.Get(eleType);
 
 
@@ -151,19 +153,19 @@ namespace Natasha
 
                         builder.Using(eleType);
                     }
-                    else if (!fieldType.IsNotPublic)
+                    else if (!propertyType.IsNotPublic)
                     {
                         //是集合则视为最小单元
-                        Type spacielType = fieldType.GetInterface("IEnumerable");
+                        Type spacielType = propertyType.GetInterface("IEnumerable");
                         if (spacielType != null)
                         {
                             sb.Append($"{newProp} = {oldProp};");
                         }
                         else
                         {
-                            CreateCloneDelegate(fieldType);
+                            CreateCloneDelegate(propertyType);
                             sb.Append($"if({oldProp}!=null){{");
-                            sb.Append($"{newProp} = NatashaClone{fieldClassName}.Clone({oldProp});");
+                            sb.Append($"{newProp} = NatashaClone{propClassName}.Clone({oldProp});");
                             sb.Append('}');
                         }
                     }
