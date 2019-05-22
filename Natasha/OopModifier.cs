@@ -85,6 +85,16 @@ namespace Natasha
                 }
                 Method(info);
                 MethodTemplate template = new MethodTemplate(info);
+                if (_is_override)
+                {
+                    template.Override();
+                    _is_override = false;
+                }
+                if (_is_new)
+                {
+                    template.New();
+                    _is_new = false;
+                }
                 _oop_methods_mapping[key] = template.Body(value).Builder();
             }
         }
