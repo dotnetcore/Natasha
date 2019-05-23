@@ -13,6 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Natasha.Mapper\Natasha.Mapper.csproj" />
+    <ProjectReference Include="..\Natasha.Remote\Natasha.Remote.csproj" />
     <ProjectReference Include="..\Natasha\Natasha.csproj" />
   </ItemGroup>
 
