@@ -39,8 +39,9 @@
 - **2019/06 功能计划**：  
 
    -------
-   
-
+   - [ ]  **动态实现&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[----------][0%]**
+      - [ ] 类型映射实现&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;&ensp;[----------][0%]
+   -------
 <br/>
 <br/>  
 
