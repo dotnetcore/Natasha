@@ -3,6 +3,7 @@
 
 重启项目，使用roslyn方案。
 
+欢迎参与讨论：[点击加入Gitter讨论组](https://gitter.im/dotnetcore/Natasha)
 
 - ### 项目计划
 
