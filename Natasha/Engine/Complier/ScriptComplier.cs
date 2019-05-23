@@ -13,9 +13,9 @@ namespace Natasha
 
     public class ScriptComplier
     {
-        public static string LibPath;
-        public static ConcurrentDictionary<string, Assembly> DynamicDlls;
-        public static ConcurrentBag<PortableExecutableReference> References;
+        public readonly static string LibPath;
+        public readonly static ConcurrentDictionary<string, Assembly> DynamicDlls;
+        public readonly static ConcurrentBag<PortableExecutableReference> References;
         //public static bool IsComplete;
 
         static ScriptComplier()

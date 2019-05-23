@@ -6,7 +6,7 @@ namespace Natasha.Engine.Builder
 {
     public abstract partial class BuilderStandard<LINK>
     {
-        internal StringBuilder _inheritance = new StringBuilder();
+        internal readonly StringBuilder _inheritance = new StringBuilder();
 
         public LINK Inheritance(string type)
         {

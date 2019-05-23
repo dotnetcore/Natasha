@@ -5,7 +5,7 @@ namespace Natasha.Engine.Builder.Reverser
 {
     public static class ParameterInfoReverser
     {
-        public static ConcurrentDictionary<ParameterInfo, string> _type_mapping;
+        public readonly static ConcurrentDictionary<ParameterInfo, string> _type_mapping;
         static ParameterInfoReverser()
         {
             _type_mapping = new ConcurrentDictionary<ParameterInfo, string>();

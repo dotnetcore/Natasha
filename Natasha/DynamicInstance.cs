@@ -7,14 +7,15 @@ namespace Natasha
 {
     public class DynamicInstance<T> : DynamicInstanceBase where T : class
     {
+ 
         public static implicit operator DynamicInstance<T>(T instance)
         {
             return new DynamicInstance<T>(instance);
         }
 
-        private static Func<T> CtorDelegate;
-        private static ConcurrentDictionary<string, Action<DynamicInstanceBase, T>> DynamicGet;
-        private static ConcurrentDictionary<string, Action<DynamicInstanceBase, T>> DynamicSet;
+        private static readonly Func<T> CtorDelegate;
+        private static readonly ConcurrentDictionary<string, Action<DynamicInstanceBase, T>> DynamicGet;
+        private static readonly ConcurrentDictionary<string, Action<DynamicInstanceBase, T>> DynamicSet;
 
 
         static DynamicInstance()
@@ -108,13 +109,13 @@ namespace Natasha
         }
 
 
-        private static ConcurrentDictionary<Type, Dictionary<string, Action<DynamicInstanceBase, object>>> GetDynamicCache;
-        private static ConcurrentDictionary<Type, Dictionary<string, Action<DynamicInstanceBase, object>>> SetDynamicCache;
+        private static readonly ConcurrentDictionary<Type, Dictionary<string, Action<DynamicInstanceBase, object>>> GetDynamicCache;
+        private static readonly ConcurrentDictionary<Type, Dictionary<string, Action<DynamicInstanceBase, object>>> SetDynamicCache;
 
-        private static ConcurrentDictionary<Type, Func<object>> CtorMapping;
-        private Dictionary<string, Action<DynamicInstanceBase, object>> DynamicGet;
-        private Dictionary<string, Action<DynamicInstanceBase, object>> DynamicSet;
-        private Type _type;
+        private static readonly ConcurrentDictionary<Type, Func<object>> CtorMapping;
+        private readonly Dictionary<string, Action<DynamicInstanceBase, object>> DynamicGet;
+        private readonly Dictionary<string, Action<DynamicInstanceBase, object>> DynamicSet;
+        private readonly Type _type;
 
         static DynamicInstance()
         {
@@ -138,10 +139,11 @@ namespace Natasha
                 _type = instance.GetType();
                 InitType(_type);
             }
-
+            DynamicGet = GetDynamicCache[_type];
+            DynamicSet = SetDynamicCache[_type];
         }
 
-        public void InitType(Type type)
+        private void InitType(Type type)
         {
             if (!GetDynamicCache.ContainsKey(type))
             {
@@ -174,8 +176,6 @@ namespace Natasha
                     }
                 }
             }
-            DynamicGet = GetDynamicCache[type];
-            DynamicSet = SetDynamicCache[type];
         }
 
         private object _instance;

@@ -7,7 +7,7 @@ namespace Natasha.Engine.Builder.Reverser
 
     public static class TypeReverser
     {
-        public static ConcurrentDictionary<Type, string> _type_mapping;
+        public readonly static ConcurrentDictionary<Type, string> _type_mapping;
         static TypeReverser()
         {
             _type_mapping = new ConcurrentDictionary<Type, string>();

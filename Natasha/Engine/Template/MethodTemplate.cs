@@ -4,9 +4,12 @@ using System.Text;
 
 namespace Natasha.Engine.Template
 {
+    /// <summary>
+    /// 函数名，参数什么的都用Methodinfo的信息来构建
+    /// </summary>
     public class MethodTemplate
     {
-        private MethodInfo _info;
+        private readonly MethodInfo _info;
         private string _prefix;
         public StringBuilder _script;
 

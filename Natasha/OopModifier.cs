@@ -21,12 +21,6 @@ namespace Natasha
 
         }
 
-        public static T New(string @class)
-        {
-            return _ctor_mapping[@class]();
-        }
-
-
         public override Delegate Compile()
         {
             var result = base.Compile();
@@ -36,15 +30,19 @@ namespace Natasha
 
         public T Create(string @class)
         {
+            if (!_ctor_mapping.ContainsKey(@class))
+            {
+                Compile();
+            }
             return _ctor_mapping[@class]();
         }
 
     }
     public class OopModifier : BuilderStandard<OopModifier>
     {
-        internal static ConcurrentDictionary<string, Delegate> _delegate_mapping;
-        private Type _oop_type;
-        private Dictionary<string, string> _oop_methods_mapping;
+        internal readonly static ConcurrentDictionary<string, Delegate> _delegate_mapping;
+        private readonly Type _oop_type;
+        private readonly Dictionary<string, string> _oop_methods_mapping;
         public string Result;
         static OopModifier()
         {
@@ -124,6 +122,15 @@ namespace Natasha
             var tempDelegate = CtorOperator.NewDelegate(type);
             _delegate_mapping[_class_name] = tempDelegate;
             return tempDelegate;
+        }
+
+        public T Create<T>(string @class)
+        {
+            if (!_delegate_mapping.ContainsKey(@class))
+            {
+                Compile();
+            }
+            return ((Func<T>)_delegate_mapping[@class])();
         }
     }
 }

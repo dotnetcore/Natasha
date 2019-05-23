@@ -7,8 +7,8 @@ namespace Natasha.Engine.Builder
 {
     public abstract partial class BuilderStandard<LINK>
     {
-        internal StringBuilder _fields = new StringBuilder();
-        internal HashSet<string> _fieldsSet = new HashSet<string>();
+        internal readonly StringBuilder _fields = new StringBuilder();
+        internal readonly HashSet<string> _fieldsSet = new HashSet<string>();
 
         public LINK Field(string level,Type type,string name)
         {

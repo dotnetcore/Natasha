@@ -5,7 +5,7 @@ namespace Natasha
 {
     public class TypeOperator
     {
-        private Type _type;
+        private readonly Type _type;
         public TypeOperator(Type type)
         {
             _type = type;

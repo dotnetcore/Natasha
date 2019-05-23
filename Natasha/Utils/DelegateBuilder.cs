@@ -5,8 +5,8 @@ namespace Natasha
 {
     public class DelegateBuilder
     {
-        public static Type[] FuncMaker;
-        public static Type[] ActionMaker;
+        public readonly static Type[] FuncMaker;
+        public readonly static Type[] ActionMaker;
 
         static DelegateBuilder()
         {

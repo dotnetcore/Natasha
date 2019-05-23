@@ -11,8 +11,8 @@ namespace Natasha
 {
     public class MethodBuilder : BuilderStandard<MethodBuilder>
     {
-        private static Regex _get_class;
-        private string _method_name;
+        private readonly static Regex _get_class;
+        
         static MethodBuilder()
         {
             _get_class = new Regex(@"\sclass.*?(?<result>[a-zA-Z0-9]*?)[\s]*{", RegexOptions.Compiled | RegexOptions.Singleline);
@@ -22,8 +22,8 @@ namespace Natasha
         private Type _return_type;
         private Type _delegate_type;
         private MethodInfo _info;
-        private string _method;
         public bool _useFileComplie;
+        private string _method_name;
         public static Action<string> SingleError;
 
         public MethodBuilder() : base()
@@ -32,7 +32,6 @@ namespace Natasha
             _parameters = new List<KeyValuePair<Type, string>>();
             _parameters_types = new List<Type>();
             _return_type = null;
-            _method = null;
             _method_name = "DynimacMethod";
         }
 
@@ -199,15 +198,9 @@ namespace Natasha
                 {
                     sb.Append(_return_type.Name);
                 }
-                if (_method == null)
-                {
-                    sb.Append($" {_method_name}");
-                }
-                else
-                {
-                    sb.Append(" " + _method);
-                }
-                sb.Append("(");
+
+                sb.Append($" {_method_name}(");
+
                 if (_parameters.Count > 0)
                 {
                     sb.Append($"{TypeReverser.Get(_parameters[0].Key)} {_parameters[0].Value}");
