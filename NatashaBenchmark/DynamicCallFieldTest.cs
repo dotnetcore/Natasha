@@ -1,5 +1,7 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Mathematics;
+using BenchmarkDotNet.Order;
 using Natasha;
 using NatashaBenchmark.Model;
 using System;
@@ -10,6 +12,8 @@ namespace NatashaBenchmark
     [MemoryDiagnoser, CoreJob, MarkdownExporter, RPlotExporter]
     [MinColumn, MaxColumn, MeanColumn, MedianColumn]
     [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
+    [Orderer(SummaryOrderPolicy.FastestToSlowest)]
+    [RankColumn(NumeralSystem.Arabic)]
     [CategoriesColumn]
     public class DynamicCallFieldTest
     {
