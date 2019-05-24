@@ -9,7 +9,8 @@ using System.Reflection.Emit;
 
 namespace NatashaBenchmark
 {
-    [MemoryDiagnoser, CoreJob, MarkdownExporter, RPlotExporter]
+    [CoreJob]
+    [MemoryDiagnoser, MarkdownExporter, RPlotExporter]
     [MinColumn, MaxColumn, MeanColumn, MedianColumn]
     [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
     [Orderer(SummaryOrderPolicy.FastestToSlowest)]
@@ -115,8 +116,9 @@ namespace NatashaBenchmark
             NatashaProxyModel = new CallModel();
             //NatashaCaller = NatashaProxyModel;
         }
+        
         #region 字段写性能
-        [BenchmarkCategory("Write", "String"), Benchmark(Description = "Emit")]
+        [BenchmarkCategory("Write", "String"),Benchmark(Description = "Emit")]
         public void EmitFieldSetStringTest()
         {
             EmitSetString(EmitModel, "Hello");
@@ -155,7 +157,6 @@ namespace NatashaBenchmark
         {
             NatashaCaller["CreateTime"].DateTimeValue = DateTime.Now;
         }
-        [BenchmarkCategory("Write", "Time"), Benchmark(Description = "Emit")]
 
         //[BenchmarkCategory("Write", "DateTime"), Benchmark(Description = "NatashaDirectly")]
         public void DynamicFieldSetTimeTest()
@@ -164,7 +165,7 @@ namespace NatashaBenchmark
         }
         #endregion
 
-
+        /*
         #region 字段读性能
         [BenchmarkCategory("Read", "String"), Benchmark(Description = "Emit")]
         public void EmitFieldGetStringTest()
@@ -208,6 +209,6 @@ namespace NatashaBenchmark
         {
             DateTime result = NatashaGetDateTime(NatashaModel);
         }
-        #endregion
+        #endregion*/
     }
 }
