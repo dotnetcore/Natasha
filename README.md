@@ -7,7 +7,7 @@
 
 - ### 项目计划
 
-- **2019/05 功能计划**：  
+- **2019/05中 功能计划**：  
 
    -------
    - [x]  **脚本引擎&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]**
@@ -37,11 +37,21 @@
    -------
    
  
-- **2019/06 功能计划**：  
+- **2019/05末 功能计划**：  
 
    -------
-   - [ ]  **动态实现&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[----------][0%]**
-      - [ ] 类型映射实现&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;&ensp;[----------][0%]
+   - [x]  **脚本引擎&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]**
+      - [x]  动态构造&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
+          - [x] 扩展模板&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
+            - [x] 类模板&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]  
+            - [x] 方法模板&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]  
+            - [x] 参数模板&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]  
+            - [x] 初始化模板&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]  
+          - [x] 反解器&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
+            - [x] 命名反解&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
+            - [x] 声明反解&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
+            - [x] 访问级别反解&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
+            - [x] 修饰符级别反解&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
    -------
 <br/>
 <br/>  
@@ -65,6 +75,11 @@
         - [x]  抽象出最基方法
         - [x]  采用部分类规整目录结构
      - [x]  **分离类库**  
-      
+     - [x]  **分层动态实现**
+        - [x]  优化脚本构造模板
+        - [x]  在模板上打造Builder
+        - [x]  根据Builder定制操作类
+        
+            
       
      
