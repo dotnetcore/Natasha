@@ -1,9 +1,4 @@
-﻿using BenchmarkDotNet.Configs;
-using BenchmarkDotNet.Diagnosers;
-using BenchmarkDotNet.Environments;
-using BenchmarkDotNet.Jobs;
-using BenchmarkDotNet.Running;
-using BenchmarkDotNet.Toolchains.CsProj;
+﻿using BenchmarkDotNet.Running;
 using System;
 
 namespace NatashaBenchmark
@@ -12,13 +7,7 @@ namespace NatashaBenchmark
     {
         static void Main(string[] args)
         {
-            //DefaultConfig.Instance.With(CsProjCoreToolchain.NetCoreApp20);
-            //IConfig a =  DefaultConfig.Instance.With(Job.ShortRun.With(Jit.RyuJit).With(Platform.X64).With(Runtime.Core).With(CsProjCoreToolchain.NetCoreApp20));
-            //var config = DefaultConfig.Instance.With(
-            //    Job.ShortRun.With(Jit.RyuJit).With(Platform.X64).With(Runtime.Core).With(CsProjCoreToolchain.NetCoreApp20)
-            //    ,Job.ShortRun.With(Jit.RyuJit).With(Platform.X64).With(Runtime.Core).With(CsProjCoreToolchain.NetCoreApp21)
-            //    ,Job.ShortRun.With(Jit.RyuJit).With(Platform.X64).With(Runtime.Core).With(CsProjCoreToolchain.NetCoreApp22));
-            //BenchmarkRunner.Run<DynamicCallFieldTest>(config);
+            //为兼容多版本测试，请使用命令行功能。
             BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args);
             Console.ReadKey();
         }

@@ -20,7 +20,7 @@
 
         public LINK MakerContent()
         {
-            _script.Append($"{_fields}{_text}}}");
+            _script.Append($"{_ctor}{_fields}{_text}}}");
             if (_namespace != null)
             {
                 _script.Append("}");

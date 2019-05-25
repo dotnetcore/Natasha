@@ -215,10 +215,10 @@ namespace NatashaBenchmark
             DateTime result = NatashaGetDateTime(NatashaModel);
         }
         #endregion*/
-        [BenchmarkCategory("Read", "Time"), Benchmark(Description = "Emit")]
-        public void EmitFieldGetTimeTest()
+        [BenchmarkCategory("Read", "Time"), Benchmark(Baseline = true, Description = "Origin")]
+        public void OriginFieldGetTimeTest()
         {
-            DateTime result = EmitGetDateTime(EmitModel);
+            DateTime result = OriginModel.CreateTime;
         }
     }
 }
