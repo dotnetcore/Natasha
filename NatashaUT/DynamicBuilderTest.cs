@@ -15,7 +15,9 @@ namespace NatashaUT
             var script = builder
                 .Using<DynamicBuilderTest>()
                 .Namespace("TestNamespace")
-                .Public().Static().ClassName("TestUt1")
+                .Access(AccessTypes.Public)
+                .Modifier(Modifiers.Static)
+                .ClassName("TestUt1")
                 .Body(@"public static void Test(){}")
                 .PublicStaticField<string>("Name")
                 .PrivateStaticField<int>("_age")
@@ -29,7 +31,9 @@ namespace NatashaUT
             ClassBuilder builder = new ClassBuilder();
             var script = builder
                 .Namespace("TestNamespace")
-                .Private().Abstract().ClassName("TestUt2")
+                .Access(AccessTypes.Private)
+                .Modifier(Modifiers.Abstract)
+                .ClassName("TestUt2")
                 .Body(@"public static void Test(){}")
                 .PublicStaticField<string>("Name")
                 .PrivateStaticField<int>("_age")

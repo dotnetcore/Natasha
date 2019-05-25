@@ -53,7 +53,7 @@ namespace Natasha.Remote
             
             Parameters = new RemoteParameters();
             _type = typeof(T);
-            Parameters.TypeName = TypeReverser.Get(_type);
+            Parameters.TypeName = NameReverser.GetName(_type);
         }
 
         public ParametersMaker<T> this[string key]

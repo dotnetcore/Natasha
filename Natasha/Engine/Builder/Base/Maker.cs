@@ -12,15 +12,15 @@
             return _link;
         }
 
-        public LINK MakerClass ()
+        public LINK MakerClass()
         {
-            _script.Append($"{_level}{_modifier} class {_class_name}{_inheritance}");
+            _script.Append($"{_level}{_modifier}class {_class_name}{_inheritance}{{");            
             return _link;
         }
 
         public LINK MakerContent()
         {
-            _script.Append($"{{{_fields}{_text}}}");
+            _script.Append($"{_fields}{_text}}}");
             if (_namespace != null)
             {
                 _script.Append("}");

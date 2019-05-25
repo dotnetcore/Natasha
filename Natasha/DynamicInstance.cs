@@ -7,7 +7,7 @@ namespace Natasha
 {
     public class DynamicInstance<T> : DynamicInstanceBase where T : class
     {
- 
+
         public static implicit operator DynamicInstance<T>(T instance)
         {
             return new DynamicInstance<T>(instance);
@@ -463,16 +463,7 @@ namespace Natasha
                 body = $@"instance.{info.Name}=proxy.{TypeMemberMapping[info.FieldType]};";
             }
 
-
-            var delegateSetAction = MethodBuilder.NewMethod
-                .Using(type)
-                .Using(info.FieldType)
-                .Param<DynamicInstanceBase>("proxy")
-                .Param<T>("instance")
-                .Body($@"(({type.Name})instance).{info.Name}=proxy.{TypeMemberMapping[info.FieldType]};")
-                .Return()
-                .Create<Action<DynamicInstanceBase, T>>();
-            return delegateSetAction;
+            return GetDelegate<T>(type, info.FieldType, body);
         }
 
         public static Action<DynamicInstanceBase, T> GetField<T>(FieldInfo info)
@@ -494,15 +485,7 @@ namespace Natasha
             }
 
 
-            var delegateGetAction = MethodBuilder.NewMethod
-                .Using(type)
-                .Using(info.FieldType)
-                .Param<DynamicInstanceBase>("proxy")
-                .Param<T>("instance")
-                .Body(body)
-                .Return()
-                .Create<Action<DynamicInstanceBase, T>>();
-            return delegateGetAction;
+            return GetDelegate<T>(type, info.FieldType, body);
         }
 
         public static Action<DynamicInstanceBase, T> GetProperty<T>(PropertyInfo info)
@@ -522,16 +505,7 @@ namespace Natasha
                 body = $@"proxy.{TypeMemberMapping[info.PropertyType]}=instance.{info.Name};";
             }
 
-
-            var delegateGetAction = MethodBuilder.NewMethod
-                .Using(type)
-                .Using(info.PropertyType)
-                .Param<DynamicInstanceBase>("proxy")
-                .Param<T>("instance")
-                .Body(body)
-                .Return()
-                .Create<Action<DynamicInstanceBase, T>>();
-            return delegateGetAction;
+            return GetDelegate<T>(type, info.PropertyType, body);
         }
 
         public static Action<DynamicInstanceBase, T> SetProperty<T>(PropertyInfo info)
@@ -553,15 +527,24 @@ namespace Natasha
             }
 
 
-            var delegateSetAction = MethodBuilder.NewMethod
-                .Using(type)
-                .Using(info.PropertyType)
-                .Param<DynamicInstanceBase>("proxy")
-                .Param<T>("instance")
-                .Body(body)
-                .Return()
-                .Create<Action<DynamicInstanceBase, T>>();
-            return delegateSetAction;
+            return GetDelegate<T>(type,info.PropertyType,body);
+        }
+
+
+        private static Action<DynamicInstanceBase, T> GetDelegate<T>(Type type,Type operatorType,string body)
+        {
+            return FastMethod.New
+              .UseClassTemplate(
+                  t => t
+                  .Using(type)
+                  .Using(operatorType))
+             .UseBodyTemplate(
+                  t => t
+                  .Param<DynamicInstanceBase>("proxy")
+                  .Param<T>("instance")
+                  .Body(body)
+                  .Return())
+              .Create<Action<DynamicInstanceBase, T>>();
         }
     }
 }

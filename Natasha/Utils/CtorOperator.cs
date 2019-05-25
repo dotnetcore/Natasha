@@ -7,7 +7,7 @@ namespace Natasha
     {
         public static Func<T> NewDelegate<T>(Type type=null)
         {
-            var builder = MethodBuilder.NewMethod;
+            var builder = FastMethod.New;
             if (type==null)
             {
                 //直接使用T的类型作为初始化类型
@@ -16,19 +16,20 @@ namespace Natasha
             else
             {
                 //T为object，那么自动加载type的命名空间
-                builder.Using(type);
+                builder.ClassTemplate.Using(type);
             }
             return builder
-                .Using<T>()
-                .Body($@"return new {TypeReverser.Get(type)}();")
-                .Return<T>()
+                .UseClassTemplate(template=>template.Using<T>())
+                .UseBodyTemplate(template=>template.Body($@"return new {NameReverser.GetName(type)}();")
+                .Return<T>())
                 .Create<Func<T>>();
         }
         public static Delegate NewDelegate(Type type)
         {
-            return MethodBuilder.NewMethod
-               .Body($@"return new {TypeReverser.Get(type)}();")
-               .Return(type)
+            return FastMethod.New.UseBodyTemplate(
+                t=>t
+                .Body($@"return new {NameReverser.GetName(type)}();")
+                .Return(type))
                .Create();
         }
     }

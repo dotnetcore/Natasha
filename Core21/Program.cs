@@ -14,31 +14,6 @@ namespace Core21
              *   
              *      <PreserveCompilationContext>true</PreserveCompilationContext>
              */
-            var delegateAction = MethodBuilder.NewMethod
-                .Using(typeof(Console))
-                .Param<string>("str1")
-                .Param<string>("str2")
-                .Body(@"
-                    string result = str1 +"" ""+ str2;
-                    Console.WriteLine(result);
-                                               ")
-                .Return()
-                .Create();
-
-            ((Action<string, string>)delegateAction)("Hello", "World!");
-
-            var delegateAction2 = MethodBuilder.NewMethod
-                .Using(typeof(Console))
-                .Param<string>("str1")
-                .Param<string>("str2")
-                .Body(@"
-                    string result = str1 +"" ""+ str2;
-                    Console.WriteLine(result);
-                                               ")
-                .Return()
-                .Create<Action<string, string>>();
-
-            delegateAction2("Hello", "World!");
 
             string text = @"using System;
 using System.Collections;

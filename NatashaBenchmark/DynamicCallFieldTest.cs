@@ -9,7 +9,6 @@ using System.Reflection.Emit;
 
 namespace NatashaBenchmark
 {
-    [CoreJob]
     [MemoryDiagnoser, MarkdownExporter, RPlotExporter]
     [MinColumn, MaxColumn, MeanColumn, MedianColumn]
     [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
@@ -75,37 +74,41 @@ namespace NatashaBenchmark
             EmitSetDateTime = (Action<CallModel, DateTime>)(method.CreateDelegate(typeof(Action<CallModel, DateTime>)));
 
             NatashaGetString = Natasha
-                .MethodBuilder
-                .NewMethod
+                .FastMethod
+                .New
+                .UseBodyTemplate(t=>t
                 .Param<CallModel>("obj")
                 .Body("return obj.Age;")
-                .Return<string>()
+                .Return<string>())
                 .Create<Func<CallModel, string>>();
 
             NatashaGetDateTime = Natasha
-                .MethodBuilder
-                .NewMethod
+                 .FastMethod
+                .New
+                .UseBodyTemplate(t => t
                 .Param<CallModel>("obj")
                 .Body("return obj.CreateTime;")
-                .Return<DateTime>()
+                .Return<DateTime>())
                 .Create<Func<CallModel, DateTime>>();
 
             NatashaSetString = Natasha
-                .MethodBuilder
-                .NewMethod
+                .FastMethod
+                .New
+                .UseBodyTemplate(t => t
                 .Param<CallModel>("obj")
                 .Param<string>("str")
                 .Body("obj.Age=str;")
-                .Return()
+                .Return())
                 .Create<Action<CallModel, string>>();
 
             NatashaSetDateTime = Natasha
-                .MethodBuilder
-                .NewMethod
+                .FastMethod
+                .New
+                .UseBodyTemplate(t => t
                 .Param<CallModel>("obj")
                 .Param<DateTime>("time")
                 .Body("obj.CreateTime=time;")
-                .Return()
+                .Return())
                 .Create<Action<CallModel, DateTime>>();
         }
         public void Preheating()
@@ -116,55 +119,57 @@ namespace NatashaBenchmark
             NatashaProxyModel = new CallModel();
             //NatashaCaller = NatashaProxyModel;
         }
-        
-        #region 字段写性能
-        [BenchmarkCategory("Write", "String"),Benchmark(Description = "Emit")]
-        public void EmitFieldSetStringTest()
-        {
-            EmitSetString(EmitModel, "Hello");
-        }
-        [BenchmarkCategory("Write", "String"), Benchmark(Baseline = true, Description = "Origin")]
-        public void OriginFieldSetStringTest()
-        {
-            OriginModel.Age = "Hello";
-        }
-        //[BenchmarkCategory("Write", "String"), Benchmark(Description = "NatashaProxy")]
-        public void DynamicFieldProxySetStringTest()
-        {
-            NatashaCaller["Age"].StringValue = "Hello";
-        }
+        /*
+      #region 字段写性能
 
-        //[BenchmarkCategory("Write", "String"), Benchmark(Description = "NatashaDirectly")]
-        public void DynamicFieldSetStringTest()
-        {
-            NatashaSetString(NatashaModel, "Hello");
-        }
+      [BenchmarkCategory("Write", "String"),Benchmark(Description = "Emit")]
+      public void EmitFieldSetStringTest()
+      {
+          EmitSetString(EmitModel, "Hello");
+      }
+      [BenchmarkCategory("Write", "String"), Benchmark(Baseline = true, Description = "Origin")]
+      public void OriginFieldSetStringTest()
+      {
+          OriginModel.Age = "Hello";
+      }
+      //[BenchmarkCategory("Write", "String"), Benchmark(Description = "NatashaProxy")]
+      public void DynamicFieldProxySetStringTest()
+      {
+          NatashaCaller["Age"].StringValue = "Hello";
+      }
+
+      //[BenchmarkCategory("Write", "String"), Benchmark(Description = "NatashaDirectly")]
+      public void DynamicFieldSetStringTest()
+      {
+          NatashaSetString(NatashaModel, "Hello");
+      }
 
 
 
-        [BenchmarkCategory("Write", "Time"), Benchmark(Description = "Emit")]
-        public void EmitFieldSetTimeTest()
-        {
-            EmitSetDateTime(EmitModel, DateTime.Now);
-        }
-        [BenchmarkCategory("Write", "Time"), Benchmark(Baseline = true, Description = "Origin")]
-        public void OriginFieldSetTimeTest()
-        {
-            OriginModel.CreateTime = DateTime.Now;
-        }
-        //[BenchmarkCategory("Write", "Time"), Benchmark(Description = "NatashaProxy")]
-        public void DynamicFieldProxySetTimeTest()
-        {
-            NatashaCaller["CreateTime"].DateTimeValue = DateTime.Now;
-        }
+      [BenchmarkCategory("Write", "Time"), Benchmark(Description = "Emit")]
+      public void EmitFieldSetTimeTest()
+      {
+          EmitSetDateTime(EmitModel, DateTime.Now);
+      }
 
-        //[BenchmarkCategory("Write", "DateTime"), Benchmark(Description = "NatashaDirectly")]
-        public void DynamicFieldSetTimeTest()
-        {
-            NatashaSetDateTime(NatashaProxyModel, DateTime.Now);
-        }
-        #endregion
+      //[BenchmarkCategory("Write", "Time"), Benchmark(Baseline = true, Description = "Origin")]
+      public void OriginFieldSetTimeTest()
+      {
+          OriginModel.CreateTime = DateTime.Now;
+      }
+      //[BenchmarkCategory("Write", "Time"), Benchmark(Description = "NatashaProxy")]
+      public void DynamicFieldProxySetTimeTest()
+      {
+          NatashaCaller["CreateTime"].DateTimeValue = DateTime.Now;
+      }
 
+      //[BenchmarkCategory("Write", "DateTime"), Benchmark(Description = "NatashaDirectly")]
+      public void DynamicFieldSetTimeTest()
+      {
+          NatashaSetDateTime(NatashaProxyModel, DateTime.Now);
+      }
+      #endregion
+      */
         /*
         #region 字段读性能
         [BenchmarkCategory("Read", "String"), Benchmark(Description = "Emit")]
@@ -210,5 +215,10 @@ namespace NatashaBenchmark
             DateTime result = NatashaGetDateTime(NatashaModel);
         }
         #endregion*/
+        [BenchmarkCategory("Read", "Time"), Benchmark(Description = "Emit")]
+        public void EmitFieldGetTimeTest()
+        {
+            DateTime result = EmitGetDateTime(EmitModel);
+        }
     }
 }

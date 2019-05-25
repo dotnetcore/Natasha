@@ -15,7 +15,7 @@ namespace Natasha.Engine.Builder
             Using(type);
             if (!_fieldsSet.Contains(name))
             {
-                _fields.Append($"{level} {TypeReverser.Get(type)} {name};");
+                _fields.Append($"{level} {NameReverser.GetName(type)} {name};");
             }
             return _link;
         }

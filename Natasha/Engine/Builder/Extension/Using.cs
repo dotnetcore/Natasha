@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace Natasha.Engine.Builder
 {
@@ -52,6 +54,16 @@ namespace Natasha.Engine.Builder
                 return _link;
             }
             return Using(type.Namespace);
+        }
+
+        public LINK Using(MethodInfo info)
+        {
+            if (info != null)
+            {
+                Using(info.ReturnType);
+                Using(info.GetParameters().Select(item => item.ParameterType));
+            }
+            return _link;
         }
     }
 }

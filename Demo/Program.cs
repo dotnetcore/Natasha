@@ -100,15 +100,14 @@ namespace Demo
             Console.ReadKey();
             for (int i = 0; i < 500; i++)
             {
-                var delegateAction2 = MethodBuilder.NewMethod
-                 .Using(typeof(Console))
+                var delegateAction2 = FastMethod.New.UseBodyTemplate(t=>t
                  .Param<string>("str1")
                  .Param<string>("str2")
                  .Body(@"
                       string result = str1 +"" ""+ str2;
                       Console.WriteLine(result);
                                                  ")
-                 .Return()
+                 .Return())
                  .Create<Action<string, string>>();
 
                 delegateAction2("Hello", "World!");

@@ -36,9 +36,9 @@ namespace Natasha
                 return CloneCache[type];
             }
 
-            var builder = MethodBuilder.NewMethod;
+            var builder = FastMethod.New;
             StringBuilder sb = new StringBuilder();
-            string instanceName = TypeReverser.Get(type);
+            string instanceName = NameReverser.GetName(type);
             sb.Append($"{instanceName} newInstance = new {instanceName}();");
 
             //字段克隆
@@ -49,7 +49,7 @@ namespace Natasha
                 {
                     string oldField = $"oldInstance.{fields[i].Name}";
                     string newField = $"newInstance.{fields[i].Name}";
-                    string fieldClassName = TypeReverser.Get(fields[i].FieldType);
+                    string fieldClassName = NameReverser.GetName(fields[i].FieldType);
                     Type fieldType = fields[i].FieldType;
 
 
@@ -66,7 +66,7 @@ namespace Natasha
                     {
                         //数组
                         Type eleType = fieldType.GetElementType();
-                        string eleName = TypeReverser.Get(eleType);
+                        string eleName = NameReverser.GetName(eleType);
                         
 
                         //初始化新对象数组长度
@@ -89,7 +89,7 @@ namespace Natasha
                             }}");
                         }
 
-                        builder.Using(eleType);
+                        builder.ClassTemplate.Using(eleType);
                     }
                     else if (!fieldType.IsNotPublic)
                     {
@@ -120,7 +120,7 @@ namespace Natasha
                 {
                     string oldProp = $"oldInstance.{properties[i].Name}";
                     string newProp = $"newInstance.{properties[i].Name}";
-                    string propClassName = TypeReverser.Get(properties[i].PropertyType);
+                    string propClassName = NameReverser.GetName(properties[i].PropertyType);
                     Type propertyType = properties[i].PropertyType;
 
 
@@ -137,7 +137,7 @@ namespace Natasha
                     {
                         //数组
                         Type eleType = propertyType.GetElementType();
-                        string eleName = TypeReverser.Get(eleType);
+                        string eleName = NameReverser.GetName(eleType);
 
 
                         //初始化新对象数组长度
@@ -160,7 +160,7 @@ namespace Natasha
                             }}");
                         }
 
-                        builder.Using(eleType);
+                        builder.ClassTemplate.Using(eleType);
                     }
                     else if (!propertyType.IsNotPublic)
                     {
@@ -180,15 +180,18 @@ namespace Natasha
                     }
                 }
             }
-            sb.Append($"return newInstance;");
+            sb.Append($"return newInstance;");//使用文件编译方式常驻程序集
+            builder.UseFileComplie();
             var @delegate = builder
-                       .Public()            //方法可能被动态调用 所以使用公有级别
-                       .UseFileComplie()    //使用文件编译方式常驻程序集
-                       .ClassName("NatashaClone" + instanceName)  //统一类名
-                       .MethodName("Clone")                       //统一方法名
-                       .Param(type, "oldInstance")                //参数
-                       .Body(sb)                                  //方法体
-                       .Return(type)                              //返回类型
+                       .UseClassTemplate(t=>t
+                        .Access(AccessTypes.Public)
+                        .ClassName("NatashaClone" + instanceName)) 
+                       .UseBodyTemplate(t=>t
+                        .MethodName("Clone")
+                        .Param(type, "oldInstance")                //参数
+                        .Body(sb.ToString())                       //方法体
+                        .Return(type)                              //返回类型
+                       )
                        .Create();
             CloneCache[type] = @delegate;
             return @delegate;

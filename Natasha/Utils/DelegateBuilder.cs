@@ -41,7 +41,7 @@ namespace Natasha
         /// <returns>函数委托</returns>
         public static Type GetDelegate(Type[] types = null, Type returnType = null)
         {
-            if (returnType == null)
+            if (returnType == null || returnType == typeof(void))
             {
                 return GetAction(types);
             }

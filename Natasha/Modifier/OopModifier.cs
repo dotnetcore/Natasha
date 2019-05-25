@@ -1,9 +1,10 @@
 ﻿using Natasha.Engine.Builder;
-using Natasha.Engine.Template;
+using Natasha;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
+using Natasha.Engine.Template;
 
 namespace Natasha
 {
@@ -44,6 +45,7 @@ namespace Natasha
         private readonly Type _oop_type;
         private readonly Dictionary<string, string> _oop_methods_mapping;
         public string Result;
+        public Type TargetType;
         static OopModifier()
         {
             _delegate_mapping = new ConcurrentDictionary<string, Delegate>();
@@ -81,19 +83,20 @@ namespace Natasha
                 {
                     throw new Exception($"无法在{_oop_type.Name}中找到{key}函数！");
                 }
-                Method(info);
-                MethodTemplate template = new MethodTemplate(info);
+                Using(info);
+
+                var template = FakeMethod.New;
                 if (_is_override)
                 {
-                    template.Override();
+                    template.ModifyAction(item=>item.Modifier(Modifiers.Override));
                     _is_override = false;
                 }
                 if (_is_new)
                 {
-                    template.New();
+                    template.ModifyAction(item => item.Modifier(Modifiers.New));
                     _is_new = false;
                 }
-                _oop_methods_mapping[key] = template.Body(value).Builder();
+                _oop_methods_mapping[key] = template.UseMethod(info).MethodBody(value).MethodScript;
             }
         }
 
@@ -113,13 +116,13 @@ namespace Natasha
 
             Result = Using(_oop_type)
                 .Namespace("NatashaInterface")
-                .Public()
+                .Access(AccessTypes.Public)
                 .Inheritance(_oop_type)
                 .Body(sb)
                 .Builder();
 
-            Type type = ClassBuilder.GetType(Result);
-            var tempDelegate = CtorOperator.NewDelegate(type);
+            TargetType = ClassBuilder.GetType(Result);
+            var tempDelegate = CtorOperator.NewDelegate(TargetType);
             _delegate_mapping[_class_name] = tempDelegate;
             return tempDelegate;
         }

@@ -5,16 +5,20 @@ using System.Text;
 namespace Natasha.Engine.Builder.Reverser
 {
 
-    public static class TypeReverser
+    public static class NameReverser
     {
         public readonly static ConcurrentDictionary<Type, string> _type_mapping;
-        static TypeReverser()
+        static NameReverser()
         {
             _type_mapping = new ConcurrentDictionary<Type, string>();
         }
 
-        public static string Get(Type type)
+        public static string GetName(Type type)
         {
+            if (type==null)
+            {
+                return "";
+            }
             if (!_type_mapping.ContainsKey(type))
             {
                 _type_mapping[type] = Reverser(type);
@@ -24,6 +28,7 @@ namespace Natasha.Engine.Builder.Reverser
         internal static string Reverser(Type type)
         {
             string Suffix = string.Empty;
+            //string CurrentType = string.Empty;
             while (type.HasElementType)
             {
                 if (type.IsArray)
@@ -31,6 +36,7 @@ namespace Natasha.Engine.Builder.Reverser
                     Suffix = "[]";
                 }
                 type = type.GetElementType();
+                //CurrentType = GetName(type);
             }
             if (type.IsGenericType)
             {

@@ -41,7 +41,7 @@ namespace Natasha.Engine.Builder
                 return _link;
             }
             Using(type);
-            return Inheritance(TypeReverser.Get(type));
+            return Inheritance(NameReverser.GetName(type));
         }
     }
 }

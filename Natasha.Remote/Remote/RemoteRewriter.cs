@@ -25,7 +25,7 @@ namespace Natasha.Remote
         }
         public static void ComplieToRemote(Type type)
         {
-            string className = TypeReverser.Get(type);
+            string className = NameReverser.GetName(type);
 
             if (!RemoteReader._func_mapping.ContainsKey(className))
             {
@@ -46,24 +46,26 @@ namespace Natasha.Remote
                         if (parameters.Length > 0)
                         {
                             call.Append(parameters[0].Name);
-                            sb.Append($"{TypeReverser.Get(parameters[0].ParameterType)} {parameters[0].Name} = {Deserialization}<{TypeReverser.Get(parameters[0].ParameterType)}>(parameters[\"{parameters[0].Name}\"]);");
+                            sb.Append($"{NameReverser.GetName(parameters[0].ParameterType)} {parameters[0].Name} = {Deserialization}<{NameReverser.GetName(parameters[0].ParameterType)}>(parameters[\"{parameters[0].Name}\"]);");
 
                             for (int i = 1; i < parameters.Length; i++)
                             {
                                 call.Append($",{parameters[i].Name}");
-                                sb.Append($"{TypeReverser.Get(parameters[i].ParameterType)} {parameters[i].Name} = {Deserialization}<{TypeReverser.Get(parameters[i].ParameterType)}>(parameters[\"{parameters[i].Name}\"]);");
+                                sb.Append($"{NameReverser.GetName(parameters[i].ParameterType)} {parameters[i].Name} = {Deserialization}<{NameReverser.GetName(parameters[i].ParameterType)}>(parameters[\"{parameters[i].Name}\"]);");
                             }
                         }
                     }
 
-                    RemoteReader._func_mapping[className][item.Name] = MethodBuilder
-                        .NewMethod
-                        .Using(type)
-                        .Using(typeof(JsonConvert))
-                        .Param<RemoteParameters>("parameters")
-                        .Body(
-                        $@"{sb}{className} instance = new {className}();return {Serialization}(instance.{call}));"
-                        ).Return<string>().Create<Func<RemoteParameters, string>>();
+                    RemoteReader._func_mapping[className][item.Name] = FastMethod.New
+                        .UseClassTemplate(t=>t
+                            .Using(type)
+                            .Using(typeof(JsonConvert)))
+                       .UseBodyTemplate(t=>t
+                            .Param<RemoteParameters>("parameters")
+                            .Body(
+                            $@"{sb}{className} instance = new {className}();return {Serialization}(instance.{call}));")
+                            .Return<string>())
+                        .Create<Func<RemoteParameters, string>>();
 
                 }
             }

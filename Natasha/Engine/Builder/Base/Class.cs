@@ -1,5 +1,6 @@
-﻿using System;
-using System.Text;
+﻿using Natasha.Engine.Reverser;
+using System;
+using System.Reflection;
 
 namespace Natasha.Engine.Builder
 {
@@ -17,45 +18,36 @@ namespace Natasha.Engine.Builder
             _class_name = @class;
             return _link;
         }
-
-        private StringBuilder _modifier = new StringBuilder();
-
-        public LINK Static()
-        {
-            _modifier.Append(" static");
-            return _link;
-        }
-        public LINK Abstract()
-        {
-            _modifier.Append(" abstract");
-            return _link;
-        }
-        public LINK Partial()
-        {
-            _modifier.Append(" partial");
-            return _link;
-        }
-
         private string _level;
-        public LINK Public()
+        public LINK Access(AccessTypes access)
         {
-            _level="public";
+            _level = AccessReverser.GetAccess(access);
             return _link;
         }
-        public LINK Private()
+        public LINK Access(MethodInfo access)
         {
-            _level="private";
+            _level = AccessReverser.GetAccess(access);
             return _link;
         }
-        public  LINK Protected()
+        public LINK Access(Type access)
         {
-            _level="protected";
+            _level = AccessReverser.GetAccess(access);
             return _link;
         }
-        
-        public LINK Internal()
+        private string _modifier;
+        public LINK Modifier(Modifiers modifier)
         {
-            _level="internal";
+            _modifier = ModifierReverser.GetModifier(modifier);
+            return _link;
+        }
+        public LINK Modifier(MethodInfo modifier)
+        {
+            _modifier = ModifierReverser.GetModifier(modifier);
+            return _link;
+        }
+        public LINK Modifier(Type modifier)
+        {
+            _modifier = ModifierReverser.GetModifier(modifier);
             return _link;
         }
     }

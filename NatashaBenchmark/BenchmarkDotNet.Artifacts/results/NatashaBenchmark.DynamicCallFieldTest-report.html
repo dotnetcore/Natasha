@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>NatashaBenchmark.DynamicCallFieldTest-20190525-101243</title>
+
+<style type="text/css">
+	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
+	td, th { padding: 6px 13px; border: 1px solid #ddd; }
+	tr { background-color: #fff; border-top: 1px solid #ccc; }
+	tr:nth-child(even) { background: #f8f8f8; }
+</style>
+</head>
+<body>
+<pre><code>
+BenchmarkDotNet=v0.11.5, OS=Windows 10.0.17134.765 (1803/April2018Update/Redstone4)
+Intel Core i7-6700HQ CPU 2.60GHz (Skylake), 1 CPU, 8 logical and 4 physical cores
+Frequency=2531254 Hz, Resolution=395.0611 ns, Timer=TSC
+.NET Core SDK=2.2.204
+  [Host]     : .NET Core 2.0.9 (CoreCLR 4.6.26614.01, CoreFX 4.6.26614.01), 64bit RyuJIT
+  Job-UMHHUD : .NET Core 2.0.9 (CoreCLR 4.6.26614.01, CoreFX 4.6.26614.01), 64bit RyuJIT
+  Job-SMNRUP : .NET Core 2.1.11 (CoreCLR 4.6.27617.04, CoreFX 4.6.27617.02), 64bit RyuJIT
+  Job-OFCJRY : .NET Core 2.2.5 (CoreCLR 4.6.27617.05, CoreFX 4.6.27618.01), 64bit RyuJIT
+</code></pre>
+<pre><code>Runtime=Core  Categories=Read,Time  
+</code></pre>
+
+<table>
+<thead><tr><th>Method</th><th>Toolchain</th><th>Mean</th><th>Error</th><th>StdDev</th><th>Min</th><th>Max</th><th>Median</th><th>Ratio</th><th>RatioSD</th><th>Rank</th><th>Gen 0</th><th>Gen 1</th><th>Gen 2</th><th>Allocated</th>
+</tr>
+</thead><tbody><tr><td>Emit</td><td>netcoreapp2.0</td><td>3.317 ns</td><td>0.0457 ns</td><td>0.0405 ns</td><td>3.274 ns</td><td>3.399 ns</td><td>3.315 ns</td><td>1.00</td><td>0.00</td><td>1</td><td>-</td><td>-</td><td>-</td><td>-</td>
+</tr><tr><td>Emit</td><td>netcoreapp2.1</td><td>3.600 ns</td><td>0.1102 ns</td><td>0.2420 ns</td><td>2.682 ns</td><td>3.785 ns</td><td>3.661 ns</td><td>1.01</td><td>0.13</td><td>2</td><td>-</td><td>-</td><td>-</td><td>-</td>
+</tr><tr><td>Emit</td><td>netcoreapp2.2</td><td>3.632 ns</td><td>0.0493 ns</td><td>0.0437 ns</td><td>3.577 ns</td><td>3.733 ns</td><td>3.619 ns</td><td>1.09</td><td>0.02</td><td>2</td><td>-</td><td>-</td><td>-</td><td>-</td>
+</tr></tbody></table>
+</body>
+</html>
