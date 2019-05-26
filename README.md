@@ -58,6 +58,21 @@
             - [x] 访问级别反解&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
             - [x] 修饰符级别反解&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
    -------
+   
+   
+   - **2019/06 功能计划**：  
+
+   -------
+   - [x]  **脚本引擎&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]**  
+   
+      - [x]  动态构造&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
+          - [x] 核心模板&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
+            - [x] 成员模板&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%] 
+            - [x] 类的模板&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
+            - [x] 方法模板&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]  
+            
+ 
+   -------
 <br/>
 <br/>  
 
@@ -81,7 +96,7 @@
         - [x]  采用部分类规整目录结构
      - [x]  **分离类库**  
      - [x]  **分层动态实现**
-        - [x]  优化脚本构造模板粒度
+        - [x]  优化脚本构造模板粒度，模板作为引擎核心
         - [x]  在重组模板上打造Builder
         - [x]  根据Builder定制操作类
         
