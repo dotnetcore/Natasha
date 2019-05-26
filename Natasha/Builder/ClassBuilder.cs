@@ -9,16 +9,26 @@ namespace Natasha
         public CtorTemplate CtorBuilder;
         public ClassBuilder()
         {
-            CtorBuilder = new CtorTemplate();
             Link = this;
         }
         static ClassBuilder()
         {
 
         }
+
+        public ClassBuilder Ctor(Action<CtorTemplate> action)
+        {
+            CtorBuilder = new CtorTemplate();
+            action(CtorBuilder);
+            return this;
+        }
+
         public override string Builder()
         {
-            Script.Append(CtorBuilder.Builder());
+            if (CtorBuilder!=null)
+            {
+                Script.Append(CtorBuilder.Builder());
+            }
             return base.Builder();
         }
         public Type GetType(int classIndex = 1, int namespaceIndex = 1)
