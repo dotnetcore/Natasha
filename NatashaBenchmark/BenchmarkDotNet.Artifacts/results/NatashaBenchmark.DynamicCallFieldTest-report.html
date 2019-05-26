@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' />
-<title>NatashaBenchmark.DynamicCallFieldTest-20190525-101724</title>
+<title>NatashaBenchmark.DynamicCallFieldTest-20190526-053430</title>
 
 <style type="text/css">
 	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
@@ -15,22 +15,22 @@
 <pre><code>
 BenchmarkDotNet=v0.11.5, OS=Windows 10.0.17134.765 (1803/April2018Update/Redstone4)
 Intel Core i7-6700HQ CPU 2.60GHz (Skylake), 1 CPU, 8 logical and 4 physical cores
-Frequency=2531254 Hz, Resolution=395.0611 ns, Timer=TSC
+Frequency=2531255 Hz, Resolution=395.0609 ns, Timer=TSC
 .NET Core SDK=2.2.204
   [Host]     : .NET Core 2.2.5 (CoreCLR 4.6.27617.05, CoreFX 4.6.27618.01), 64bit RyuJIT
-  Job-YFYKOK : .NET Core 2.2.5 (CoreCLR 4.6.27617.05, CoreFX 4.6.27618.01), 64bit RyuJIT
-  Job-KFPNPS : .NET Core 2.0.9 (CoreCLR 4.6.26614.01, CoreFX 4.6.26614.01), 64bit RyuJIT
-  Job-XENDTJ : .NET Core 2.1.11 (CoreCLR 4.6.27617.04, CoreFX 4.6.27617.02), 64bit RyuJIT
+  Job-RHUWAZ : .NET Core 2.1.11 (CoreCLR 4.6.27617.04, CoreFX 4.6.27617.02), 64bit RyuJIT
+  Job-YMJGKJ : .NET Core 2.0.9 (CoreCLR 4.6.26614.01, CoreFX 4.6.26614.01), 64bit RyuJIT
+  Job-EJKFFU : .NET Core 2.2.5 (CoreCLR 4.6.27617.05, CoreFX 4.6.27618.01), 64bit RyuJIT
 </code></pre>
 <pre><code>Runtime=Core  UnrollFactor=64  Categories=Read,Time  
 </code></pre>
 
 <table>
-<thead><tr><th>Method</th><th>Toolchain</th><th>Mean</th><th>Error</th><th>StdDev</th><th>Median</th><th>Min</th><th>Max</th><th>Ratio</th><th>RatioSD</th><th>Rank</th><th>Gen 0</th><th>Gen 1</th><th>Gen 2</th><th>Allocated</th>
+<thead><tr><th>Method</th><th>Toolchain</th><th>Mean</th><th>Error</th><th>StdDev</th><th>Min</th><th>Max</th><th>Median</th><th>Ratio</th><th>RatioSD</th><th>Rank</th><th>Gen 0</th><th>Gen 1</th><th>Gen 2</th><th>Allocated</th>
 </tr>
-</thead><tbody><tr><td>Origin</td><td>netcoreapp2.2</td><td>0.0012 ns</td><td>0.0052 ns</td><td>0.0043 ns</td><td>0.0000 ns</td><td>0.0 ns</td><td>0.0156 ns</td><td>?</td><td>?</td><td>1</td><td>-</td><td>-</td><td>-</td><td>-</td>
-</tr><tr><td>Origin</td><td>netcoreapp2.0</td><td>0.0016 ns</td><td>0.0052 ns</td><td>0.0046 ns</td><td>0.0000 ns</td><td>0.0 ns</td><td>0.0165 ns</td><td>?</td><td>?</td><td>1</td><td>-</td><td>-</td><td>-</td><td>-</td>
-</tr><tr><td>Origin</td><td>netcoreapp2.1</td><td>0.0135 ns</td><td>0.0224 ns</td><td>0.0210 ns</td><td>0.0026 ns</td><td>0.0 ns</td><td>0.0633 ns</td><td>?</td><td>?</td><td>1</td><td>-</td><td>-</td><td>-</td><td>-</td>
+</thead><tbody><tr><td>Origin</td><td>netcoreapp2.1</td><td>444.5 ns</td><td>7.597 ns</td><td>7.107 ns</td><td>434.1 ns</td><td>458.9 ns</td><td>443.2 ns</td><td>1.00</td><td>0.03</td><td>1</td><td>-</td><td>-</td><td>-</td><td>-</td>
+</tr><tr><td>Origin</td><td>netcoreapp2.0</td><td>447.2 ns</td><td>8.835 ns</td><td>10.175 ns</td><td>433.6 ns</td><td>466.5 ns</td><td>445.0 ns</td><td>1.00</td><td>0.00</td><td>1</td><td>-</td><td>-</td><td>-</td><td>-</td>
+</tr><tr><td>Origin</td><td>netcoreapp2.2</td><td>885.0 ns</td><td>20.276 ns</td><td>25.642 ns</td><td>850.9 ns</td><td>960.8 ns</td><td>884.5 ns</td><td>1.98</td><td>0.07</td><td>2</td><td>-</td><td>-</td><td>-</td><td>-</td>
 </tr></tbody></table>
 </body>
 </html>
