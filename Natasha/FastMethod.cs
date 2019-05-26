@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Natasha.Engine.Template;
 
 namespace Natasha
 {
@@ -15,6 +12,7 @@ namespace Natasha
         {
             _link = this;
             ClassTemplate
+                .HiddenNameSpace()
                 .Access(AccessTypes.Public)
                 .Modifier(Modifiers.Static);
             MethodTemplate
@@ -22,7 +20,7 @@ namespace Natasha
                 .Modifier(Modifiers.Static);
         }
 
-        public override FastMethod UseClassTemplate(Action<ClassTemplate> template)
+        public override FastMethod UseClassTemplate(Action<ClassBuilder> template)
         {
             template(ClassTemplate);
             return this;

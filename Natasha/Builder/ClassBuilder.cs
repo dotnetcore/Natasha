@@ -4,15 +4,22 @@ using System.Reflection;
 
 namespace Natasha
 {
-    public class ClassBuilder:BuilderStandard<ClassBuilder>
+    public class ClassBuilder:ClassContentTemplate<ClassBuilder>
     {
+        public CtorTemplate CtorBuilder;
         public ClassBuilder()
         {
-            _link = this;
+            CtorBuilder = new CtorTemplate();
+            Link = this;
         }
         static ClassBuilder()
         {
 
+        }
+        public override string Builder()
+        {
+            Script.Append(CtorBuilder.Builder());
+            return base.Builder();
         }
         public Type GetType(int classIndex = 1, int namespaceIndex = 1)
         {

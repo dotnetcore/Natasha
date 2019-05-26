@@ -1,4 +1,4 @@
-﻿using Natasha.Engine.Template;
+﻿using Natasha;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -15,11 +15,11 @@ namespace Natasha
         }
         public static Action<string> SingleError;
         internal (string Flag, IEnumerable<Type> Types, string Script, Type Delegate) _info;
-        public ClassTemplate ClassTemplate;
+        public ClassBuilder ClassTemplate;
         public MethodTemplate MethodTemplate;
         public MethodBuilder()
         {
-            ClassTemplate = new ClassTemplate();
+            ClassTemplate = new ClassBuilder();
             MethodTemplate = new MethodTemplate();
         }
         
@@ -28,13 +28,13 @@ namespace Natasha
             get { return _info.Script; }
         }
 
-        public virtual T UseClassTemplate(ClassTemplate template)
+        public virtual T UseClassTemplate(ClassBuilder template)
         {
             ClassTemplate = template;
             return _link;
         }
 
-        public virtual T UseClassTemplate(Action<ClassTemplate> template)
+        public virtual T UseClassTemplate(Action<ClassBuilder> template)
         {
             template(ClassTemplate);
             return _link;
@@ -61,11 +61,11 @@ namespace Natasha
             Assembly assembly = null;
             if (!_useFileComplie)
             {
-                assembly = ScriptComplier.StreamComplier(script, ClassTemplate._class_name, SingleError);
+                assembly = ScriptComplier.StreamComplier(script, ClassTemplate.NameScript, SingleError);
             }
             else
             {
-                assembly = ScriptComplier.FileComplier(script, ClassTemplate._class_name, SingleError);
+                assembly = ScriptComplier.FileComplier(script, ClassTemplate.NameScript, SingleError);
             }
 
 
@@ -75,7 +75,7 @@ namespace Natasha
             }
 
             return AssemblyOperator
-                .Loader(assembly)[ClassTemplate._class_name]
+                .Loader(assembly)[ClassTemplate.NameScript]
                 .GetMethod(_info.Flag)
                 .CreateDelegate(_info.Delegate);
         }

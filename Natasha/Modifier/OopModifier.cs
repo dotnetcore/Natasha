@@ -1,10 +1,8 @@
 ﻿using Natasha.Engine.Builder;
-using Natasha;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
-using Natasha.Engine.Template;
 
 namespace Natasha
 {
@@ -25,7 +23,7 @@ namespace Natasha
         public override Delegate Compile()
         {
             var result = base.Compile();
-            _ctor_mapping[_class_name] = (Func<T>)result;
+            _ctor_mapping[NameScript] = (Func<T>)result;
             return result;
         }
 
@@ -39,7 +37,7 @@ namespace Natasha
         }
 
     }
-    public class OopModifier : BuilderStandard<OopModifier>
+    public class OopModifier : ClassContentTemplate<OopModifier>
     {
         internal readonly static ConcurrentDictionary<string, Delegate> _delegate_mapping;
         private readonly Type _oop_type;
@@ -52,7 +50,7 @@ namespace Natasha
         }
         public OopModifier(Type oopType) : base()
         {
-            _link = this;
+            Link = this;
             _oop_type = oopType;
             _oop_methods_mapping = new Dictionary<string, string>();
         }
@@ -118,12 +116,12 @@ namespace Natasha
                 .Namespace("NatashaInterface")
                 .Access(AccessTypes.Public)
                 .Inheritance(_oop_type)
-                .Body(sb)
+                .Body(sb.ToString())
                 .Builder();
 
             TargetType = ClassBuilder.GetType(Result);
             var tempDelegate = CtorOperator.NewDelegate(TargetType);
-            _delegate_mapping[_class_name] = tempDelegate;
+            _delegate_mapping[NameScript] = tempDelegate;
             return tempDelegate;
         }
 

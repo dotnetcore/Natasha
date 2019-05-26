@@ -185,9 +185,9 @@ namespace Natasha
             var @delegate = builder
                        .UseClassTemplate(t=>t
                         .Access(AccessTypes.Public)
-                        .ClassName("NatashaClone" + instanceName)) 
+                        .Name("NatashaClone" + instanceName)) 
                        .UseBodyTemplate(t=>t
-                        .MethodName("Clone")
+                        .Name("Clone")
                         .Param(type, "oldInstance")                //参数
                         .Body(sb.ToString())                       //方法体
                         .Return(type)                              //返回类型

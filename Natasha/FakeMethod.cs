@@ -1,5 +1,4 @@
-﻿using Natasha.Engine.Template;
-using System;
+﻿using System;
 using System.Reflection;
 
 namespace Natasha
@@ -16,6 +15,7 @@ namespace Natasha
         {
             _link = this;
             ClassTemplate
+                .HiddenNameSpace()
                 .Access(AccessTypes.Public);
         }
 
@@ -35,7 +35,7 @@ namespace Natasha
             Action?.Invoke(MethodTemplate);
             if (!MethodTemplate.HashMethodName())
             {
-                MethodTemplate.MethodName(_temp_info);
+                MethodTemplate.Name(_temp_info);
             }
             MethodTemplate
                      .Access(_temp_info)

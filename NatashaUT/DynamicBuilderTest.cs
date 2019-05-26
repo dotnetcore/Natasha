@@ -17,13 +17,13 @@ namespace NatashaUT
                 .Namespace("TestNamespace")
                 .Access(AccessTypes.Public)
                 .Modifier(Modifiers.Static)
-                .ClassName("TestUt1")
+                .Name("TestUt1")
                 .Body(@"public static void Test(){}")
                 .PublicStaticField<string>("Name")
                 .PrivateStaticField<int>("_age")
                 .Builder();
 
-            Assert.Equal(@"using NatashaUT;using System;namespace TestNamespace{public static class TestUt1{public static String Name;private static Int32 _age;public static void Test(){}}}", script);
+            Assert.Equal(@"using NatashaUT;using System;namespace TestNamespace{public static class TestUt1{public static void Test(){}public static String Name;private static Int32 _age;}}", script);
         }
         [Fact(DisplayName = "Builder测试2")]
         public void TestBuilder2()
@@ -33,13 +33,13 @@ namespace NatashaUT
                 .Namespace("TestNamespace")
                 .Access(AccessTypes.Private)
                 .Modifier(Modifiers.Abstract)
-                .ClassName("TestUt2")
+                .Name("TestUt2")
                 .Body(@"public static void Test(){}")
                 .PublicStaticField<string>("Name")
                 .PrivateStaticField<int>("_age")
                 .Builder();
 
-            Assert.Equal(@"using System;namespace TestNamespace{private abstract class TestUt2{public static String Name;private static Int32 _age;public static void Test(){}}}", script);
+            Assert.Equal(@"using System;namespace TestNamespace{private abstract class TestUt2{public static void Test(){}public static String Name;private static Int32 _age;}}", script);
         }
     }
 }
