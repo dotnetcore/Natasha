@@ -32,6 +32,10 @@ namespace Natasha
 
         public static Delegate CreateCloneDelegate(Type type)
         {
+            if (type.FullName == null)
+            {
+                return null;
+            }
             if (CloneCache.ContainsKey(type))
             {
                 return CloneCache[type];
@@ -40,21 +44,75 @@ namespace Natasha
             {
                 return null;
             }
+            string instanceName = AvailableNameReverser.GetName(type);
 
-            if (type.GetInterface("IEnumerable") != null)
-            {
-                return CreateCollectionDelegate(type);
-            }
             if (type.IsArray)
             {
-                return CreateCloneDelegate(type.GetElementType());
+                StringBuilder scriptBuilder = new StringBuilder();
+                Type eleType = type.GetElementType();
+                CreateCloneDelegate(eleType);
+                scriptBuilder.Append($"var newInstance = new {NameReverser.GetName(eleType)}[oldInstance.Length];");
+                if (IsOnceType(eleType))
+                {
+                    //结构体复制
+                    scriptBuilder.Append($@"for (int i = 0; i < oldInstance.Length; i++){{
+                                    newInstance[i] = oldInstance[i];
+                            }}return newInstance;");
+                }
+                else
+                {
+                    CreateCloneDelegate(eleType);
+                    //类走克隆
+                    scriptBuilder.Append($@"for (int i = 0; i < oldInstance.Length; i++){{
+                                    newInstance[i] = NatashaClone{AvailableNameReverser.GetName(eleType)}.Clone(oldInstance[i]);
+                            }}return newInstance;");
+                }
+
+
+                var tempBuilder = FastMethod.New;
+                tempBuilder.ComplierInstance.UseFileComplie();
+                tempBuilder.Using(eleType);
+                return CloneCache[type] = tempBuilder
+                            .Using("Natasha")
+                            .ClassName("NatashaClone" + instanceName)
+                            .MethodName("Clone")
+                            .Param(type, "oldInstance")                //参数
+                            .MethodBody(scriptBuilder.ToString())         //方法体
+                            .Return(type)                              //返回类型
+                            .Complie();
+
             }
-            string instanceName = NameReverser.GetName(type);
-            if (IsOnceType(type))
+            else if (type.GetInterface("IEnumerable") != null)
+            {
+                CreateCollectionDelegate(type);
+                StringBuilder scriptBuilder = new StringBuilder();
+                scriptBuilder.Append(@"if(oldInstance!=null){");
+                if (type.IsInterface)
+                {
+                    scriptBuilder.Append($"return oldInstance.CloneExtension();");
+                }
+                else
+                {
+                    scriptBuilder.Append($"return new {NameReverser.GetName(type)}(oldInstance.CloneExtension());");
+                }
+                scriptBuilder.Append("}return null;");
+                var tempBuilder = FastMethod.New;
+                tempBuilder.ComplierInstance.UseFileComplie();
+                return CloneCache[type] = tempBuilder
+                            .Using("Natasha")
+                            .Using(type.GetGenericArguments())
+                            .ClassName("NatashaClone" + instanceName)
+                            .MethodName("Clone")
+                            .Param(type, "oldInstance")                //参数
+                            .MethodBody(scriptBuilder.ToString())         //方法体
+                            .Return(type)                              //返回类型
+                            .Complie();
+            }
+            else if (IsOnceType(type))
             {
                 var tempBuilder = FastMethod.New;
                 tempBuilder.ComplierInstance.UseFileComplie();
-                CloneCache[type] = tempBuilder
+                return CloneCache[type] = tempBuilder
                             .ClassName("NatashaClone" + instanceName)
                             .MethodName("Clone")
                             .Param(type, "oldInstance")                //参数
@@ -62,11 +120,11 @@ namespace Natasha
                             .Return(type)                              //返回类型
                             .Complie();
             }
-           
+
             var builder = FastMethod.New;
             StringBuilder sb = new StringBuilder();
-            
-            sb.Append($"{instanceName} newInstance = new {instanceName}();");
+            string className = NameReverser.GetName(type);
+            sb.Append($"{className} newInstance = new {className}();");
 
             //字段克隆
             var fields = type.GetFields();
@@ -90,11 +148,9 @@ namespace Natasha
                     {
                         //数组
                         Type eleType = fieldType.GetElementType();
-                        string eleName = NameReverser.GetName(eleType);
-
-
+ 
                         //初始化新对象数组长度
-                        sb.Append($"{newField} = new {eleName}[{oldField}.Length];");
+                        sb.Append($"{newField} = new {NameReverser.GetName(eleType)}[{oldField}.Length];");
                         if (IsOnceType(eleType))
                         {
                             //结构体复制
@@ -107,7 +163,7 @@ namespace Natasha
                             CreateCloneDelegate(eleType);
                             //类走克隆
                             sb.Append($@"for (int i = 0; i < {oldField}.Length; i++){{
-                                    {newField}[i] = NatashaClone{eleName}.Clone({oldField}[i]);
+                                    {newField}[i] = NatashaClone{AvailableNameReverser.GetName(eleType)}.Clone({oldField}[i]);
                             }}");
                         }
 
@@ -115,11 +171,11 @@ namespace Natasha
                     }
                     else if (!fieldType.IsNotPublic)
                     {
-                        //是集合则视为最小单元
                         Type spacielType = fieldType.GetInterface("IEnumerable");
                         if (spacielType != null)
                         {
-                            CreateCollectionDelegate(spacielType);
+                            CreateCollectionDelegate(fieldType);
+                            sb.Append($@"if({oldField}!=null){{");
                             if (fieldType.IsInterface)
                             {
                                 sb.Append($"{newField} = {oldField}.CloneExtension();");
@@ -128,6 +184,7 @@ namespace Natasha
                             {
                                 sb.Append($"{newField} = new {fieldClassName}({oldField}.CloneExtension());");
                             }
+                            sb.Append('}');
                             builder.Using(fieldType);
                             builder.Using("Natasha");
                         }
@@ -135,7 +192,7 @@ namespace Natasha
                         {
                             CreateCloneDelegate(fieldType);
                             sb.Append($"if({oldField}!=null){{");
-                            sb.Append($"{newField} = NatashaClone{fieldClassName}.Clone({oldField});");
+                            sb.Append($"{newField} = NatashaClone{AvailableNameReverser.GetName(fieldType)}.Clone({oldField});");
                             sb.Append('}');
                         }
                     }
@@ -166,11 +223,9 @@ namespace Natasha
                     {
                         //数组
                         Type eleType = propertyType.GetElementType();
-                        string eleName = NameReverser.GetName(eleType);
-
 
                         //初始化新对象数组长度
-                        sb.Append($"{newProp} = new {eleName}[{oldProp}.Length];");
+                        sb.Append($"{newProp} = new {NameReverser.GetName(eleType)}[{oldProp}.Length];");
                         if (IsOnceType(eleType))
                         {
                             //结构体复制
@@ -183,7 +238,7 @@ namespace Natasha
                             CreateCloneDelegate(eleType);
                             //类走克隆
                             sb.Append($@"for (int i = 0; i < {oldProp}.Length; i++){{
-                                    {newProp}[i] = NatashaClone{eleName}.Clone({oldProp}[i]);
+                                    {newProp}[i] = NatashaClone{AvailableNameReverser.GetName(eleType)}.Clone({oldProp}[i]);
                             }}");
                         }
 
@@ -191,12 +246,11 @@ namespace Natasha
                     }
                     else if (!propertyType.IsNotPublic)
                     {
-                        //是集合则视为最小单元
                         Type spacielType = propertyType.GetInterface("IEnumerable");
                         if (spacielType != null)
                         {
-                            CreateCollectionDelegate(spacielType);
-
+                            CreateCollectionDelegate(propertyType);
+                            sb.Append($@"if({oldProp}!=null){{");
                             if (propertyType.IsInterface)
                             {
                                 sb.Append($"{newProp} = {oldProp}.CloneExtension();");
@@ -205,6 +259,7 @@ namespace Natasha
                             {
                                 sb.Append($"{newProp} = new  {propClassName}({oldProp}.CloneExtension());");
                             }
+                            sb.Append('}');
                             builder.Using(propertyType);
                             builder.Using("Natasha");
                         }
@@ -212,7 +267,7 @@ namespace Natasha
                         {
                             CreateCloneDelegate(propertyType);
                             sb.Append($"if({oldProp}!=null){{");
-                            sb.Append($"{newProp} = NatashaClone{propClassName}.Clone({oldProp});");
+                            sb.Append($"{newProp} = NatashaClone{AvailableNameReverser.GetName(propertyType)}.Clone({oldProp});");
                             sb.Append('}');
                         }
                     }
@@ -231,18 +286,19 @@ namespace Natasha
             return @delegate;
         }
 
-        public static Delegate CreateCollectionDelegate(Type type)
+        public static void CreateCollectionDelegate(Type type)
         {
             if (!type.IsInterface)
             {
-                var args = type.GetGenericTypeDefinition().GetGenericArguments();
+                var args = type.GetGenericArguments();
+
                 CreateCloneDelegate(args[0]);
+
                 if (args.Length == 2)
                 {
                     CreateCloneDelegate(args[1]);
                 }
             }
-            return null;
         }
 
 

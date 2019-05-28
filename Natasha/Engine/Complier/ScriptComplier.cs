@@ -133,7 +133,7 @@ namespace Natasha.Complier
                 className = GetClassName(content);
             }
 
-            string path = $"{LibPath}{className}.dll";
+            string path = $"{LibPath}{className.Replace('<','[').Replace('>',']')}.dll";
             if (DynamicDlls.ContainsKey(path))
             {
                 return DynamicDlls[path];

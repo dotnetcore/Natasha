@@ -4,7 +4,6 @@ using System.Text;
 
 namespace Natasha.Engine.Builder.Reverser
 {
-
     public static class NameReverser
     {
         public readonly static ConcurrentDictionary<Type, string> _type_mapping;

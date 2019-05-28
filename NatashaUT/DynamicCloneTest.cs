@@ -203,7 +203,7 @@ namespace NatashaUT
 
 
         [Fact(DisplayName = "属性--类集合克隆测试")]
-        public void PropClassCollectionArray()
+        public void PropClassCollectionTest()
         {
             PropCloneClassCollectionModel model = new PropCloneClassCollectionModel();
 
@@ -221,6 +221,69 @@ namespace NatashaUT
                 Assert.Equal(model.Nodes[i].Name, newModel.Nodes[i].Name);
                 Assert.Equal(model.Nodes[i].Age, newModel.Nodes[i].Age);
             }
+
+        }
+
+
+        [Fact(DisplayName = "类集合嵌套集合克隆测试")]
+        public void PropClassCollectionArray1()
+        {
+            PropCloneCollectionModel model = new PropCloneCollectionModel();
+
+            model.LLNodes = new List<List<PropCloneNormalModel>>();
+            for (int i = 0; i < 5; i++)
+            {
+                model.LLNodes.Add(new List<PropCloneNormalModel>());
+                for (int j = 0; j < 10; j++)
+                {
+                    model.LLNodes[i].Add(new PropCloneNormalModel() { Age = j, Name = j.ToString() });
+                }
+            }
+
+
+            CloneBuilder<PropCloneCollectionModel>.CreateCloneDelegate();
+            var newModel = DeepClone<PropCloneCollectionModel>.CloneDelegate(model);
+
+            for (int i = 0; i < 5; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    Assert.Equal(model.LLNodes[i][j].Name, newModel.LLNodes[i][j].Name);
+                    Assert.Equal(model.LLNodes[i][j].Age, newModel.LLNodes[i][j].Age);
+                }
+            }
+
+
+        }
+
+        [Fact(DisplayName = "类集合嵌套数组克隆测试")]
+        public void PropClassCollectionArray2()
+        {
+            PropCloneCollectionModel model = new PropCloneCollectionModel();
+
+            model.LANodes = new List<PropCloneNormalModel[]>();
+            for (int i = 0; i < 5; i++)
+            {
+                model.LANodes.Add(new PropCloneNormalModel[10]);
+                for (int j = 0; j < 10; j++)
+                {
+                    model.LANodes[i][j]=new PropCloneNormalModel() { Age = j, Name = j.ToString() };
+                }
+            }
+
+
+            CloneBuilder<PropCloneCollectionModel>.CreateCloneDelegate();
+            var newModel = DeepClone<PropCloneCollectionModel>.Clone(model);
+
+            for (int i = 0; i < 5; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    Assert.Equal(model.LANodes[i][j].Name, newModel.LANodes[i][j].Name);
+                    Assert.Equal(model.LANodes[i][j].Age, newModel.LANodes[i][j].Age);
+                }
+            }
+
 
         }
     }

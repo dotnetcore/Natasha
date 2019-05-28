@@ -83,10 +83,14 @@ namespace NatashaUT.Model
 
         public PropCloneNormalModel Node { get; set; }
     }
-
     public class PropCloneClassCollectionModel
     {
-
         public List<PropCloneNormalModel> Nodes { get; set; }
+    }
+    public class PropCloneCollectionModel
+    {
+        //public List<PropCloneNormalModel>[] ALNodes { get; set; }
+        public List<PropCloneNormalModel[]> LANodes { get; set; }
+        public List<List<PropCloneNormalModel>> LLNodes { get; set; }
     }
 }
