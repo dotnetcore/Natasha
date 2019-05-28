@@ -13,7 +13,7 @@ namespace Natasha
         {
             //_get_class = new Regex(@"\sclass.*?(?<result>[a-zA-Z0-9]*?)[\s]*{", RegexOptions.Compiled | RegexOptions.Singleline);
         }
-        public static Action<string> SingleError;
+
         internal (string Flag, IEnumerable<Type> Types, string Script, Type Delegate) _info;
         public ClassBuilder ClassTemplate;
         public MethodTemplate MethodTemplate;
@@ -28,7 +28,7 @@ namespace Natasha
             get { return _info.Script; }
         }
 
-        public virtual T UseClassTemplate(ClassBuilder template)
+        public virtual T SetClassTemplate(ClassBuilder template)
         {
             ClassTemplate = template;
             return _link;
@@ -40,7 +40,7 @@ namespace Natasha
             return _link;
         }
 
-        public virtual T UseBodyTemplate(MethodTemplate template)
+        public virtual T SetBodyTemplate(MethodTemplate template)
         {
             MethodTemplate = template;
             return _link;
@@ -52,22 +52,16 @@ namespace Natasha
         }
 
 
-
-        public override Delegate Complie()
+        public override string Builder()
         {
             _info = MethodTemplate.Package();
             ClassTemplate.Using(_info.Types);
-            string script = ClassTemplate.Body(_info.Script).Builder();
-            Assembly assembly = null;
-            if (!_useFileComplie)
-            {
-                assembly = ScriptComplier.StreamComplier(script, ClassTemplate.NameScript, SingleError);
-            }
-            else
-            {
-                assembly = ScriptComplier.FileComplier(script, ClassTemplate.NameScript, SingleError);
-            }
-
+            return ClassTemplate.ClassBody(_info.Script).Builder();
+        }
+        public override Delegate Complie()
+        {
+            
+            Assembly assembly = GetAssemblyByScript(ClassTemplate.NameScript);
 
             if (assembly == null)
             {

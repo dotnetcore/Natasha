@@ -76,40 +76,36 @@ namespace NatashaBenchmark
             NatashaGetString = Natasha
                 .FastMethod
                 .New
-                .UseBodyTemplate(t=>t
                 .Param<CallModel>("obj")
-                .Body("return obj.Age;")
-                .Return<string>())
-                .Create<Func<CallModel, string>>();
+                .ClassBody("return obj.Age;")
+                .Return<string>()
+                .Complie<Func<CallModel, string>>();
 
             NatashaGetDateTime = Natasha
                  .FastMethod
                 .New
-                .UseBodyTemplate(t => t
                 .Param<CallModel>("obj")
-                .Body("return obj.CreateTime;")
-                .Return<DateTime>())
-                .Create<Func<CallModel, DateTime>>();
+                .ClassBody("return obj.CreateTime;")
+                .Return<DateTime>()
+                .Complie<Func<CallModel, DateTime>>();
 
             NatashaSetString = Natasha
                 .FastMethod
                 .New
-                .UseBodyTemplate(t => t
                 .Param<CallModel>("obj")
                 .Param<string>("str")
-                .Body("obj.Age=str;")
-                .Return())
-                .Create<Action<CallModel, string>>();
+                .ClassBody("obj.Age=str;")
+                .Return()
+                .Complie<Action<CallModel, string>>();
 
             NatashaSetDateTime = Natasha
                 .FastMethod
                 .New
-                .UseBodyTemplate(t => t
                 .Param<CallModel>("obj")
                 .Param<DateTime>("time")
-                .Body("obj.CreateTime=time;")
-                .Return())
-                .Create<Action<CallModel, DateTime>>();
+                .ClassBody("obj.CreateTime=time;")
+                .Return()
+                .Complie<Action<CallModel, DateTime>>();
         }
         public void Preheating()
         {

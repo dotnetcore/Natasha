@@ -8,7 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace Natasha
+namespace Natasha.Complier
 {
 
     public class ScriptComplier

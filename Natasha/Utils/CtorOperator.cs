@@ -16,21 +16,20 @@ namespace Natasha
             else
             {
                 //T为object，那么自动加载type的命名空间
-                builder.ClassTemplate.Using(type);
+                builder.Using(type);
             }
             return builder
-                .UseClassTemplate(template=>template.Using<T>())
-                .UseBodyTemplate(template=>template.Body($@"return new {NameReverser.GetName(type)}();")
-                .Return<T>())
-                .Create<Func<T>>();
+                .Using<T>()
+                .MethodBody($@"return new {NameReverser.GetName(type)}();")
+                .Return<T>()
+                .Complie<Func<T>>();
         }
         public static Delegate NewDelegate(Type type)
         {
-            return FastMethod.New.UseBodyTemplate(
-                t=>t
-                .Body($@"return new {NameReverser.GetName(type)}();")
-                .Return(type))
-               .Create();
+            return FastMethod.New
+                .MethodBody($@"return new {NameReverser.GetName(type)}();")
+                .Return(type)
+                .Complie();
         }
     }
 }

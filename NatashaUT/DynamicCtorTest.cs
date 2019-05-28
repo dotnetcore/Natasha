@@ -13,7 +13,7 @@ namespace NatashaUT
         {
             CtorTemplate ctor = new CtorTemplate();
             string result = ctor.Name("Test")
-                .Access(AccessTypes.Public)
+                .MemberAccess(AccessTypes.Public)
                 .Param<string>("initString")
                 .Body("this.connection = initString;")
                 .Builder();
@@ -25,7 +25,7 @@ namespace NatashaUT
         {
             CtorTemplate ctor = new CtorTemplate();
             string result = ctor.Name("Test")
-                .Access(AccessTypes.Private)
+                .MemberAccess(AccessTypes.Private)
                 .Body("this.connection = initString;")
                 .Builder();
 
@@ -36,7 +36,7 @@ namespace NatashaUT
         {
             CtorTemplate ctor = new CtorTemplate();
             string result = ctor.Name("Test")
-                .Modifier(Modifiers.Static)
+                .MemberModifier(Modifiers.Static)
                 .Body("this.connection = initString;")
                 .Builder();
 

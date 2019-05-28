@@ -9,17 +9,17 @@ namespace Natasha
     public class MemberModifierTemplate<T>:MemberAccessTemplate<T>
     {
         public string ModifierScript;
-        public T Modifier(MethodInfo modifier)
+        public T MemberModifier(MethodInfo modifier)
         {
             ModifierScript = ModifierReverser.GetModifier(modifier);
             return Link;
         }
-        public T Modifier(Modifiers modifier)
+        public T MemberModifier(Modifiers modifier)
         {
             ModifierScript = ModifierReverser.GetModifier(modifier);
             return Link;
         }
-        public T Modifier(string modifier)
+        public T MemberModifier(string modifier)
         {
             ModifierScript = modifier;
             return Link;

@@ -57,15 +57,13 @@ namespace Natasha.Remote
                     }
 
                     RemoteReader._func_mapping[className][item.Name] = FastMethod.New
-                        .UseClassTemplate(t=>t
                             .Using(type)
-                            .Using(typeof(JsonConvert)))
-                       .UseBodyTemplate(t=>t
+                            .Using(typeof(JsonConvert))
                             .Param<RemoteParameters>("parameters")
-                            .Body(
+                            .MethodBody(
                             $@"{sb}{className} instance = new {className}();return {Serialization}(instance.{call}));")
-                            .Return<string>())
-                        .Create<Func<RemoteParameters, string>>();
+                            .Return<string>()
+                        .Complie<Func<RemoteParameters, string>>();
 
                 }
             }

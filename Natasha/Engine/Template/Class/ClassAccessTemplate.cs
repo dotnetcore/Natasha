@@ -6,17 +6,17 @@ namespace Natasha
     public class ClassAccessTemplate<T> : NamespaceTemplate<T>
     {
         public string AccessScript;
-        public T Access(MethodInfo access)
+        public T ClassAccess(MethodInfo access)
         {
             AccessScript = AccessReverser.GetAccess(access);
             return Link;
         }
-        public T Access(AccessTypes access)
+        public T ClassAccess(AccessTypes access)
         {
             AccessScript = AccessReverser.GetAccess(access);
             return Link;
         }
-        public T Access(string access)
+        public T ClassAccess(string access)
         {
             AccessScript = access;
             return Link;

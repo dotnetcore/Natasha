@@ -11,21 +11,21 @@ namespace Natasha
         {
             NameScript = "N" + Guid.NewGuid().ToString("N");
         }
-        public T Name(string name)
+        public T ClassName(string name)
         {
             NameScript = name;
             return Link;
         }
-        public T Name(Type type)
+        public T ClassName(Type type)
         {
             NameScript = NameReverser.GetName(type);
             return Link;
         }
-        public T Name<S>()
+        public T ClassName<S>()
         {
-            return Name(typeof(S));
+            return ClassName(typeof(S));
         }
-        public T Name(MethodInfo info)
+        public T ClassName(MethodInfo info)
         {
             NameScript = info.Name;
             return Link;

@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Natasha.Builder;
+using System;
 
 namespace Natasha
 {
-    public class FastMethod : MethodBuilder<FastMethod>
+    public class FastMethod : OnceMethodBuilder<FastMethod>
     {
         public static FastMethod New
         {
@@ -10,25 +11,12 @@ namespace Natasha
         }
         public FastMethod()
         {
-            _link = this;
-            ClassTemplate
-                .HiddenNameSpace()
-                .Access(AccessTypes.Public)
-                .Modifier(Modifiers.Static);
-            MethodTemplate
-                .Access(AccessTypes.Public)
-                .Modifier(Modifiers.Static);
-        }
-
-        public override FastMethod UseClassTemplate(Action<ClassBuilder> template)
-        {
-            template(ClassTemplate);
-            return this;
-        }
-        public override FastMethod UseBodyTemplate(Action<MethodTemplate> template)
-        {
-            template(MethodTemplate);
-            return this;
+            Link = this;
+            HiddenNameSpace()
+                .ClassAccess(AccessTypes.Public)
+                .ClassModifier(Modifiers.Static)
+                .MethodAccess(AccessTypes.Public)
+                .MethodModifier(Modifiers.Static);
         }
     }
 }

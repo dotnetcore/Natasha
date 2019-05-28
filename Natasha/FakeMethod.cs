@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Natasha.Builder;
+using System;
 using System.Reflection;
 
 namespace Natasha
 {
-    public class FakeMethod:MethodBuilder<FakeMethod>
+    public class FakeMethod : OnceMethodBuilder<FakeMethod>
     {
         public Action<MethodTemplate> Action;
         public static FakeMethod New
@@ -13,10 +14,9 @@ namespace Natasha
         private MethodInfo _temp_info;
         public FakeMethod()
         {
-            _link = this;
-            ClassTemplate
-                .HiddenNameSpace()
-                .Access(AccessTypes.Public);
+            Link = this;
+            HiddenNameSpace();
+            ClassAccess(AccessTypes.Public);
         }
 
         public FakeMethod UseMethod(MethodInfo info)
@@ -25,25 +25,18 @@ namespace Natasha
             return this;
         }
 
-        public FakeMethod ModifyAction(Action<MethodTemplate> action)
+        public FakeMethod MethodContent(string content)
         {
-            Action = action;
-            return this;
-        }
-        public FakeMethod MethodBody(string content)
-        {
-            Action?.Invoke(MethodTemplate);
-            if (!MethodTemplate.HashMethodName())
+            if (!HashMethodName())
             {
-                MethodTemplate.Name(_temp_info);
+                MethodName(_temp_info);
             }
-            MethodTemplate
-                     .Access(_temp_info)
-                     .Modifier(_temp_info)
-                     .Parameter(_temp_info)
-                     .Body(content)
-                     .Return(_temp_info);
-            _info = MethodTemplate.Package();
+            MethodAccess(_temp_info)
+            .MethodModifier(_temp_info)
+            .Parameter(_temp_info)
+            .MethodBody(content)
+            .Return(_temp_info)
+            .Builder();
             return this;
         }
     }

@@ -17,7 +17,7 @@ namespace NatashaUT
         public void InterfaceSet()
         {
             OopModifier<ITest> interfaceBuilder = new OopModifier<ITest>();
-            interfaceBuilder.Name("UTestClass");
+            interfaceBuilder.ClassName("UTestClass");
             interfaceBuilder["MethodWidthReturnInt"] = "return 123456;";
             interfaceBuilder["MethodWidthReturnString"] = "return \"test\";";
             interfaceBuilder["MethodWidthParamsRefInt"] = "i+=10;";

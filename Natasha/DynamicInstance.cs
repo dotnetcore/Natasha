@@ -534,17 +534,13 @@ namespace Natasha
         private static Action<DynamicInstanceBase, T> GetDelegate<T>(Type type,Type operatorType,string body)
         {
             return FastMethod.New
-              .UseClassTemplate(
-                  t => t
                   .Using(type)
-                  .Using(operatorType))
-             .UseBodyTemplate(
-                  t => t
+                  .Using(operatorType)
                   .Param<DynamicInstanceBase>("proxy")
                   .Param<T>("instance")
-                  .Body(body)
-                  .Return())
-              .Create<Action<DynamicInstanceBase, T>>();
+                  .MethodBody(body)
+                  .Return()
+              .Complie<Action<DynamicInstanceBase, T>>();
         }
     }
 }

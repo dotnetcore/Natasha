@@ -3,7 +3,7 @@
     public class ClassContentTemplate<T>:FieldTemplate<T>
     {
         public string ContentScript;
-        public T Body(string text)
+        public T ClassBody(string text)
         {
             ContentScript = text;
             return Link;

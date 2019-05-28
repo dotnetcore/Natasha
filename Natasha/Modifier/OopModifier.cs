@@ -86,15 +86,15 @@ namespace Natasha
                 var template = FakeMethod.New;
                 if (_is_override)
                 {
-                    template.ModifyAction(item=>item.Modifier(Modifiers.Override));
+                    template.MethodModifier(Modifiers.Override);
                     _is_override = false;
                 }
                 if (_is_new)
                 {
-                    template.ModifyAction(item => item.Modifier(Modifiers.New));
+                    template.MethodModifier(Modifiers.New);
                     _is_new = false;
                 }
-                _oop_methods_mapping[key] = template.UseMethod(info).MethodBody(value).MethodScript;
+                _oop_methods_mapping[key] = template.UseMethod(info).MethodContent(value).MethodScript;
             }
         }
 
@@ -114,9 +114,9 @@ namespace Natasha
 
             Result = Using(_oop_type)
                 .Namespace("NatashaInterface")
-                .Access(AccessTypes.Public)
+                .ClassAccess(AccessTypes.Public)
                 .Inheritance(_oop_type)
-                .Body(sb.ToString())
+                .ClassBody(sb.ToString())
                 .Builder();
 
             TargetType = ClassBuilder.GetType(Result);

@@ -6,17 +6,17 @@ namespace Natasha
     public class ClassModifierTemplate<T> : ClassAccessTemplate<T>
     {
         public string ModifierScript;
-        public T Modifier(MethodInfo modifier)
+        public T ClassModifier(MethodInfo modifier)
         {
             ModifierScript = ModifierReverser.GetModifier(modifier);
             return Link;
         }
-        public T Modifier(Modifiers modifier)
+        public T ClassModifier(Modifiers modifier)
         {
             ModifierScript = ModifierReverser.GetModifier(modifier);
             return Link;
         }
-        public T Modifier(string modifier)
+        public T ClassModifier(string modifier)
         {
             ModifierScript = modifier + " ";
             return Link;

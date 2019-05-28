@@ -89,7 +89,7 @@ namespace Natasha
                             }}");
                         }
 
-                        builder.ClassTemplate.Using(eleType);
+                        builder.Using(eleType);
                     }
                     else if (!fieldType.IsNotPublic)
                     {
@@ -160,7 +160,7 @@ namespace Natasha
                             }}");
                         }
 
-                        builder.ClassTemplate.Using(eleType);
+                        builder.Using(eleType);
                     }
                     else if (!propertyType.IsNotPublic)
                     {
@@ -181,18 +181,14 @@ namespace Natasha
                 }
             }
             sb.Append($"return newInstance;");//使用文件编译方式常驻程序集
-            builder.UseFileComplie();
+            builder.ComplierInstance.UseFileComplie();
             var @delegate = builder
-                       .UseClassTemplate(t=>t
-                        .Access(AccessTypes.Public)
-                        .Name("NatashaClone" + instanceName)) 
-                       .UseBodyTemplate(t=>t
-                        .Name("Clone")
+                        .ClassName("NatashaClone" + instanceName)
+                        .MethodName("Clone")
                         .Param(type, "oldInstance")                //参数
-                        .Body(sb.ToString())                       //方法体
+                        .MethodBody(sb.ToString())                 //方法体
                         .Return(type)                              //返回类型
-                       )
-                       .Create();
+                       .Complie();
             CloneCache[type] = @delegate;
             return @delegate;
         }
