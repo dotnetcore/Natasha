@@ -23,7 +23,7 @@ namespace NatashaUT
 
             CloneBuilder<FieldCloneNormalModel>.CreateCloneDelegate();
 
-            var newModel = DeepClone<FieldCloneNormalModel>.Clone(model);
+            var newModel = DeepClone<FieldCloneNormalModel>.CloneDelegate(model);
             Assert.Equal(model.Id, newModel.Id);
             Assert.Equal(model.Title, newModel.Title);
             Assert.Equal(model.money, newModel.money);
@@ -45,7 +45,7 @@ namespace NatashaUT
 
             CloneBuilder<FieldCloneArrayModel>.CreateCloneDelegate();
 
-            var newModel = DeepClone<FieldCloneArrayModel>.Clone(model);
+            var newModel = DeepClone<FieldCloneArrayModel>.CloneDelegate(model);
 
            
             for (int i = 0; i < 10; i++)
@@ -67,7 +67,7 @@ namespace NatashaUT
 
             CloneBuilder<FieldCloneClassArrayModel>.CreateCloneDelegate();
 
-            var newModel = DeepClone<FieldCloneClassArrayModel>.Clone(model);
+            var newModel = DeepClone<FieldCloneClassArrayModel>.CloneDelegate(model);
 
             
             for (int i = 0; i < 10; i++)
@@ -86,7 +86,7 @@ namespace NatashaUT
             model.Node = new FieldCloneNormalModel() { Age = 1, Name = "111" };
 
             CloneBuilder<FieldCloneSubNodeModel>.CreateCloneDelegate();
-            var newModel = DeepClone<FieldCloneSubNodeModel>.Clone(model);
+            var newModel = DeepClone<FieldCloneSubNodeModel>.CloneDelegate(model);
 
             
             Assert.Equal(model.Node.Name, newModel.Node.Name);
@@ -106,7 +106,7 @@ namespace NatashaUT
             }
 
             CloneBuilder<FieldCloneClassCollectionModel>.CreateCloneDelegate();
-            var newModel = DeepClone<FieldCloneClassCollectionModel>.Clone(model);
+            var newModel = DeepClone<FieldCloneClassCollectionModel>.CloneDelegate(model);
            
             for (int i = 0; i < 10; i++)
             {
@@ -131,7 +131,7 @@ namespace NatashaUT
 
             CloneBuilder<PropCloneNormalModel>.CreateCloneDelegate();
 
-            var newModel = DeepClone<PropCloneNormalModel>.Clone(model);
+            var newModel = DeepClone<PropCloneNormalModel>.CloneDelegate(model);
             Assert.Equal(model.Id, newModel.Id);
             Assert.Equal(model.Title, newModel.Title);
             Assert.Equal(model.money, newModel.money);
@@ -153,7 +153,7 @@ namespace NatashaUT
 
             CloneBuilder<PropCloneArrayModel>.CreateCloneDelegate();
 
-            var newModel = DeepClone<PropCloneArrayModel>.Clone(model);
+            var newModel = DeepClone<PropCloneArrayModel>.CloneDelegate(model);
 
 
             for (int i = 0; i < 10; i++)
@@ -175,7 +175,7 @@ namespace NatashaUT
 
             CloneBuilder<PropCloneClassArrayModel>.CreateCloneDelegate();
 
-            var newModel = DeepClone<PropCloneClassArrayModel>.Clone(model);
+            var newModel = DeepClone<PropCloneClassArrayModel>.CloneDelegate(model);
 
 
             for (int i = 0; i < 10; i++)
@@ -194,7 +194,7 @@ namespace NatashaUT
             model.Node = new PropCloneNormalModel() { Age = 1, Name = "111" };
 
             CloneBuilder<PropCloneSubNodeModel>.CreateCloneDelegate();
-            var newModel = DeepClone<PropCloneSubNodeModel>.Clone(model);
+            var newModel = DeepClone<PropCloneSubNodeModel>.CloneDelegate(model);
 
 
             Assert.Equal(model.Node.Name, newModel.Node.Name);
@@ -214,7 +214,7 @@ namespace NatashaUT
             }
 
             CloneBuilder<PropCloneClassCollectionModel>.CreateCloneDelegate();
-            var newModel = DeepClone<PropCloneClassCollectionModel>.Clone(model);
+            var newModel = DeepClone<PropCloneClassCollectionModel>.CloneDelegate(model);
 
             for (int i = 0; i < 10; i++)
             {
