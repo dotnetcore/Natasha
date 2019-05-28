@@ -286,5 +286,34 @@ namespace NatashaUT
 
 
         }
+
+        [Fact(DisplayName = "类数组嵌套集合克隆测试")]
+        public void PropClassCollectionArray3()
+        {
+            PropCloneCollectionModel model = new PropCloneCollectionModel();
+
+            model.ALNodes = new List<PropCloneNormalModel>[5];
+            for (int i = 0; i < 5; i++)
+            {
+                model.ALNodes[i] = new List<PropCloneNormalModel>();
+                for (int j = 0; j < 10; j++)
+                {
+                    model.ALNodes[i].Add(new PropCloneNormalModel() { Age = j, Name = j.ToString() });
+                }
+            }
+
+
+            CloneBuilder<PropCloneCollectionModel>.CreateCloneDelegate();
+            var newModel = DeepClone<PropCloneCollectionModel>.Clone(model);
+
+            for (int i = 0; i < 5; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    Assert.Equal(model.ALNodes[i][j].Name, newModel.ALNodes[i][j].Name);
+                    Assert.Equal(model.ALNodes[i][j].Age, newModel.ALNodes[i][j].Age);
+                }
+            }
+        }
     }
 }

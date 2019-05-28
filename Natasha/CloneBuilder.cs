@@ -51,6 +51,7 @@ namespace Natasha
                 StringBuilder scriptBuilder = new StringBuilder();
                 Type eleType = type.GetElementType();
                 CreateCloneDelegate(eleType);
+                scriptBuilder.Append(@"if(oldInstance!=null){");
                 scriptBuilder.Append($"var newInstance = new {NameReverser.GetName(eleType)}[oldInstance.Length];");
                 if (IsOnceType(eleType))
                 {
@@ -67,7 +68,7 @@ namespace Natasha
                                     newInstance[i] = NatashaClone{AvailableNameReverser.GetName(eleType)}.Clone(oldInstance[i]);
                             }}return newInstance;");
                 }
-
+                scriptBuilder.Append("}return null;");
 
                 var tempBuilder = FastMethod.New;
                 tempBuilder.ComplierInstance.UseFileComplie();
@@ -148,8 +149,9 @@ namespace Natasha
                     {
                         //数组
                         Type eleType = fieldType.GetElementType();
- 
+
                         //初始化新对象数组长度
+                        sb.Append($@"if({oldField}!=null){{");
                         sb.Append($"{newField} = new {NameReverser.GetName(eleType)}[{oldField}.Length];");
                         if (IsOnceType(eleType))
                         {
@@ -166,7 +168,7 @@ namespace Natasha
                                     {newField}[i] = NatashaClone{AvailableNameReverser.GetName(eleType)}.Clone({oldField}[i]);
                             }}");
                         }
-
+                        sb.Append('}');
                         builder.Using(eleType);
                     }
                     else if (!fieldType.IsNotPublic)
@@ -225,6 +227,7 @@ namespace Natasha
                         Type eleType = propertyType.GetElementType();
 
                         //初始化新对象数组长度
+                        sb.Append($@"if({oldProp}!=null){{");
                         sb.Append($"{newProp} = new {NameReverser.GetName(eleType)}[{oldProp}.Length];");
                         if (IsOnceType(eleType))
                         {
@@ -241,7 +244,7 @@ namespace Natasha
                                     {newProp}[i] = NatashaClone{AvailableNameReverser.GetName(eleType)}.Clone({oldProp}[i]);
                             }}");
                         }
-
+                        sb.Append('}');
                         builder.Using(eleType);
                     }
                     else if (!propertyType.IsNotPublic)
