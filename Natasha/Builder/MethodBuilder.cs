@@ -1,14 +1,12 @@
-﻿using Natasha;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 
 namespace Natasha
 {
-    public class MethodBuilder<T> :IComplier
+    public class MethodBuilder :IComplier
     {
         //private readonly static Regex _get_class;
-        protected T _link;
         static MethodBuilder()
         {
             //_get_class = new Regex(@"\sclass.*?(?<result>[a-zA-Z0-9]*?)[\s]*{", RegexOptions.Compiled | RegexOptions.Singleline);
@@ -28,35 +26,37 @@ namespace Natasha
             get { return _info.Script; }
         }
 
-        public virtual T SetClassTemplate(ClassBuilder template)
+        public virtual MethodBuilder SetClassTemplate(ClassBuilder template)
         {
             ClassTemplate = template;
-            return _link;
+            return this;
         }
 
-        public virtual T UseClassTemplate(Action<ClassBuilder> template)
+        public virtual MethodBuilder UseClassTemplate(Action<ClassBuilder> template)
         {
             template(ClassTemplate);
-            return _link;
+            return this;
         }
 
-        public virtual T SetBodyTemplate(MethodTemplate template)
+        public virtual MethodBuilder SetBodyTemplate(MethodTemplate template)
         {
             MethodTemplate = template;
-            return _link;
+            return this;
         }
-        public virtual T UseBodyTemplate(Action<MethodTemplate> template)
+        public virtual MethodBuilder UseBodyTemplate(Action<MethodTemplate> template)
         {
             template(MethodTemplate);
-            return _link;
+            return this;
         }
 
 
         public override string Builder()
         {
             _info = MethodTemplate.Package();
-            ClassTemplate.Using(_info.Types);
-            return ClassTemplate.ClassBody(_info.Script).Builder();
+            return ClassTemplate
+                .Using(_info.Types)
+                .ClassBody(_info.Script)
+                .Builder();
         }
         public override Delegate Complie()
         {
