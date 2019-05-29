@@ -1,7 +1,6 @@
 ﻿using Natasha.Engine.Builder.Reverser;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Text;
 
 namespace Natasha
@@ -40,87 +39,98 @@ namespace Natasha
             {
                 return CloneCache[type];
             }
-            if (IsOnceType(type))
-            {
-                return null;
-            }
             string instanceName = AvailableNameReverser.GetName(type);
 
-            if (type.IsArray)
+            if (type.IsArray)                                   //数组直接克隆
             {
-                StringBuilder scriptBuilder = new StringBuilder();
-                Type eleType = type.GetElementType();
-                CreateCloneDelegate(eleType);
-                scriptBuilder.Append(@"if(oldInstance!=null){");
-                scriptBuilder.Append($"var newInstance = new {NameReverser.GetName(eleType)}[oldInstance.Length];");
-                if (IsOnceType(eleType))
+                return CreateArrayDelegate(type);
+            }
+            else if (type.GetInterface("IEnumerable") != null)  //集合直接克隆
+            {
+                return CreateCollectionDelegate(type);
+            }
+            else
+            {                                                   //实体类型克隆
+                return CreateEntityDelegate(type);
+            }
+        }
+
+        internal static Delegate CreateCollectionDelegate(Type type)
+        {
+            if (!type.IsInterface)
+            {
+                var args = type.GetGenericArguments();
+
+                CreateCloneDelegate(args[0]);
+
+                if (args.Length == 2)
                 {
-                    //结构体复制
-                    scriptBuilder.Append($@"for (int i = 0; i < oldInstance.Length; i++){{
+                    CreateCloneDelegate(args[1]);
+                }
+            }
+            StringBuilder scriptBuilder = new StringBuilder();
+            scriptBuilder.Append(@"if(oldInstance!=null){");
+            if (type.IsInterface)
+            {
+                scriptBuilder.Append($"return oldInstance.CloneExtension();");
+            }
+            else
+            {
+                scriptBuilder.Append($"return new {NameReverser.GetName(type)}(oldInstance.CloneExtension());");
+            }
+            scriptBuilder.Append("}return null;");
+            var tempBuilder = FastMethod.New;
+            tempBuilder.ComplierInstance.UseFileComplie();
+            return CloneCache[type] = tempBuilder
+                        .Using("Natasha")
+                        .Using(type.GetGenericArguments())
+                        .ClassName("NatashaClone" + AvailableNameReverser.GetName(type))
+                        .MethodName("Clone")
+                        .Param(type, "oldInstance")                //参数
+                        .MethodBody(scriptBuilder.ToString())         //方法体
+                        .Return(type)                              //返回类型
+                        .Complie();
+        }
+
+        internal static Delegate CreateArrayDelegate(Type type)
+        {
+            StringBuilder scriptBuilder = new StringBuilder();
+            Type eleType = type.GetElementType();
+            CreateCloneDelegate(eleType);
+            scriptBuilder.Append(@"if(oldInstance!=null){");
+            scriptBuilder.Append($"var newInstance = new {NameReverser.GetName(eleType)}[oldInstance.Length];");
+            if (IsOnceType(eleType))
+            {
+                //普通类型复制
+                scriptBuilder.Append($@"for (int i = 0; i < oldInstance.Length; i++){{
                                     newInstance[i] = oldInstance[i];
                             }}return newInstance;");
-                }
-                else
-                {
-                    CreateCloneDelegate(eleType);
-                    //类走克隆
-                    scriptBuilder.Append($@"for (int i = 0; i < oldInstance.Length; i++){{
+            }
+            else
+            {
+                CreateCloneDelegate(eleType);
+                //类的克隆
+                scriptBuilder.Append($@"for (int i = 0; i < oldInstance.Length; i++){{
                                     newInstance[i] = NatashaClone{AvailableNameReverser.GetName(eleType)}.Clone(oldInstance[i]);
                             }}return newInstance;");
-                }
-                scriptBuilder.Append("}return null;");
+            }
+            scriptBuilder.Append("}return null;");
 
-                var tempBuilder = FastMethod.New;
-                tempBuilder.ComplierInstance.UseFileComplie();
-                tempBuilder.Using(eleType);
-                return CloneCache[type] = tempBuilder
-                            .Using("Natasha")
-                            .ClassName("NatashaClone" + instanceName)
-                            .MethodName("Clone")
-                            .Param(type, "oldInstance")                //参数
-                            .MethodBody(scriptBuilder.ToString())         //方法体
-                            .Return(type)                              //返回类型
-                            .Complie();
+            var tempBuilder = FastMethod.New;
+            tempBuilder.ComplierInstance.UseFileComplie();
+            tempBuilder.Using(eleType);
+            return CloneCache[type] = tempBuilder
+                        .Using("Natasha")
+                        .ClassName("NatashaClone" + AvailableNameReverser.GetName(type))
+                        .MethodName("Clone")
+                        .Param(type, "oldInstance")                //参数
+                        .MethodBody(scriptBuilder.ToString())         //方法体
+                        .Return(type)                              //返回类型
+                        .Complie();
+        }
 
-            }
-            else if (type.GetInterface("IEnumerable") != null)
-            {
-                CreateCollectionDelegate(type);
-                StringBuilder scriptBuilder = new StringBuilder();
-                scriptBuilder.Append(@"if(oldInstance!=null){");
-                if (type.IsInterface)
-                {
-                    scriptBuilder.Append($"return oldInstance.CloneExtension();");
-                }
-                else
-                {
-                    scriptBuilder.Append($"return new {NameReverser.GetName(type)}(oldInstance.CloneExtension());");
-                }
-                scriptBuilder.Append("}return null;");
-                var tempBuilder = FastMethod.New;
-                tempBuilder.ComplierInstance.UseFileComplie();
-                return CloneCache[type] = tempBuilder
-                            .Using("Natasha")
-                            .Using(type.GetGenericArguments())
-                            .ClassName("NatashaClone" + instanceName)
-                            .MethodName("Clone")
-                            .Param(type, "oldInstance")                //参数
-                            .MethodBody(scriptBuilder.ToString())         //方法体
-                            .Return(type)                              //返回类型
-                            .Complie();
-            }
-            else if (IsOnceType(type))
-            {
-                var tempBuilder = FastMethod.New;
-                tempBuilder.ComplierInstance.UseFileComplie();
-                return CloneCache[type] = tempBuilder
-                            .ClassName("NatashaClone" + instanceName)
-                            .MethodName("Clone")
-                            .Param(type, "oldInstance")                //参数
-                            .MethodBody("return oldInstance;")         //方法体
-                            .Return(type)                              //返回类型
-                            .Complie();
-            }
+        internal static Delegate CreateEntityDelegate(Type type)
+        {
 
             var builder = FastMethod.New;
             StringBuilder sb = new StringBuilder();
@@ -279,7 +289,7 @@ namespace Natasha
             sb.Append($"return newInstance;");//使用文件编译方式常驻程序集
             builder.ComplierInstance.UseFileComplie();
             var @delegate = builder
-                        .ClassName("NatashaClone" + instanceName)
+                        .ClassName("NatashaClone" + AvailableNameReverser.GetName(type))
                         .MethodName("Clone")
                         .Param(type, "oldInstance")                //参数
                         .MethodBody(sb.ToString())                 //方法体
@@ -288,23 +298,6 @@ namespace Natasha
             CloneCache[type] = @delegate;
             return @delegate;
         }
-
-        public static void CreateCollectionDelegate(Type type)
-        {
-            if (!type.IsInterface)
-            {
-                var args = type.GetGenericArguments();
-
-                CreateCloneDelegate(args[0]);
-
-                if (args.Length == 2)
-                {
-                    CreateCloneDelegate(args[1]);
-                }
-            }
-        }
-
-
         public static bool IsOnceType(Type type)
         {
             return type.IsPrimitive
