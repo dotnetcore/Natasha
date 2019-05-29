@@ -77,7 +77,7 @@ namespace NatashaBenchmark
                 .FastMethod
                 .New
                 .Param<CallModel>("obj")
-                .ClassBody("return obj.Age;")
+                .MethodBody("return obj.Age;")
                 .Return<string>()
                 .Complie<Func<CallModel, string>>();
 
@@ -85,7 +85,7 @@ namespace NatashaBenchmark
                  .FastMethod
                 .New
                 .Param<CallModel>("obj")
-                .ClassBody("return obj.CreateTime;")
+                .MethodBody("return obj.CreateTime;")
                 .Return<DateTime>()
                 .Complie<Func<CallModel, DateTime>>();
 
@@ -94,7 +94,7 @@ namespace NatashaBenchmark
                 .New
                 .Param<CallModel>("obj")
                 .Param<string>("str")
-                .ClassBody("obj.Age=str;")
+                .MethodBody("obj.Age=str;")
                 .Return()
                 .Complie<Action<CallModel, string>>();
 
@@ -103,7 +103,7 @@ namespace NatashaBenchmark
                 .New
                 .Param<CallModel>("obj")
                 .Param<DateTime>("time")
-                .ClassBody("obj.CreateTime=time;")
+                .MethodBody("obj.CreateTime=time;")
                 .Return()
                 .Complie<Action<CallModel, DateTime>>();
         }
