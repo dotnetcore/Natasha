@@ -298,7 +298,7 @@ namespace Natasha
             CloneCache[type] = @delegate;
             return @delegate;
         }
-        public static bool IsOnceType(Type type)
+        internal static bool IsOnceType(Type type)
         {
             return type.IsPrimitive
                             || type == typeof(string)
