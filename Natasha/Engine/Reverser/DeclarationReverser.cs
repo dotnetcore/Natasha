@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Natasha.Engine.Builder.Reverser;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-namespace Natasha.Engine.Builder.Reverser
+namespace Natasha
 {
     public static class DeclarationReverser
     {

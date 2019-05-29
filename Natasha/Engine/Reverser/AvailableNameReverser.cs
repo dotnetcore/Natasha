@@ -29,15 +29,7 @@ namespace Natasha
 
         public static string GetAvailableName(Type type)
         {
-            if (type.IsArray)
-            {
-                return "Array" + NameReverser.GetName(type).Replace("[]","");
-            }
-            else if (type.IsGenericType)
-            {
-                return "Generic" + NameReverser.GetName(type).Replace('<','_').Replace('>','_').Replace(',','_');
-            }
-            return NameReverser.GetName(type);
+            return NameReverser.GetName(type).Replace('<', '_').Replace('>', '_').Replace(',', '_').Replace("[]", "__");
         }
     }
 }

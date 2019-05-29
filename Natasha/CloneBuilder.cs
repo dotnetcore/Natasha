@@ -24,6 +24,8 @@ namespace Natasha
         {
 
         }
+
+        public static Action<Type, Delegate> StaticMapping;
         public static void CreateCloneDelegate<T>()
         {
             DeepClone<T>.CloneDelegate = (Func<T, T>)CreateCloneDelegate(typeof(T));
@@ -57,9 +59,10 @@ namespace Natasha
 
         internal static Delegate CreateCollectionDelegate(Type type)
         {
+            Type[] args = null;
             if (!type.IsInterface)
             {
-                var args = type.GetGenericArguments();
+                args = type.GetGenericArguments();
 
                 CreateCloneDelegate(args[0]);
 
@@ -80,10 +83,12 @@ namespace Natasha
             }
             scriptBuilder.Append("}return null;");
             var tempBuilder = FastMethod.New;
+            tempBuilder.Using(args);
+            tempBuilder.Using("Natasha");
             tempBuilder.ComplierInstance.UseFileComplie();
             return CloneCache[type] = tempBuilder
                         .Using("Natasha")
-                        .Using(type.GetGenericArguments())
+                        .Using(GenericTypeReverser.GetTypes(type))
                         .ClassName("NatashaClone" + AvailableNameReverser.GetName(type))
                         .MethodName("Clone")
                         .Param(type, "oldInstance")                //参数
@@ -223,8 +228,6 @@ namespace Natasha
                     string newProp = $"newInstance.{properties[i].Name}";
                     string propClassName = NameReverser.GetName(properties[i].PropertyType);
                     Type propertyType = properties[i].PropertyType;
-
-
 
                     if (IsOnceType(propertyType))
                     {

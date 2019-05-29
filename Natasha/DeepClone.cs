@@ -4,6 +4,13 @@ using System.Linq;
 
 namespace Natasha
 {
+    public static class DeepClone {
+        public static T Clone<T>(T instance)
+        {
+            return DeepClone<T>.Clone(instance);
+        }
+    }
+
     public static class DeepClone<T>
     {
         static DeepClone()

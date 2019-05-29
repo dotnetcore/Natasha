@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Natasha.Engine.Reverser
+namespace Natasha
 {
     public static class AccessReverser
     {
