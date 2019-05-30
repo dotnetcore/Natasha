@@ -6,6 +6,7 @@ namespace Natasha
     {
         public static Func<T> NewDelegate<T>(Type type=null)
         {
+
             var builder = FastMethod.New;
             if (type==null)
             {
@@ -17,12 +18,24 @@ namespace Natasha
                 //T为object，那么自动加载type的命名空间
                 builder.Using(type);
             }
+
+
+            //返回构建委托
             return builder
                 .Using<T>()
                 .MethodBody($@"return new {NameReverser.GetName(type)}();")
                 .Return<T>()
                 .Complie<Func<T>>();
         }
+
+
+
+
+        /// <summary>
+        /// 返回初始化委托
+        /// </summary>
+        /// <param name="type">类型</param>
+        /// <returns></returns>
         public static Delegate NewDelegate(Type type)
         {
             return FastMethod.New

@@ -9,12 +9,17 @@ namespace Natasha
     /// </summary>
     public class FakeMethod : OnceMethodBuilder<FakeMethod>
     {
+
         public Action<MethodTemplate> Action;
+
+        private MethodInfo _temp_info;
+
         public static FakeMethod New
         {
             get { return new FakeMethod(); }
         }
-        private MethodInfo _temp_info;
+      
+
         public FakeMethod()
         {
             Link = this;

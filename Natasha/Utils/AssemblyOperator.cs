@@ -5,6 +5,7 @@ namespace Natasha
 {
     public class AssemblyOperator
     {
+
         private readonly Assembly _assembly;
         public AssemblyOperator(Assembly assembly)
         {
