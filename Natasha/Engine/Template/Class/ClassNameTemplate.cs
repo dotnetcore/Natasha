@@ -1,5 +1,4 @@
-﻿using Natasha.Engine.Builder.Reverser;
-using System;
+﻿using System;
 using System.Reflection;
 
 namespace Natasha
@@ -25,9 +24,9 @@ namespace Natasha
         {
             return ClassName(typeof(S));
         }
-        public T ClassName(MethodInfo info)
+        public T ClassName(MethodInfo reflectMethodInfo)
         {
-            NameScript = info.Name;
+            NameScript = reflectMethodInfo.Name;
             return Link;
         }
 

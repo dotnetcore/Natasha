@@ -5,13 +5,17 @@ using System.Reflection;
 
 namespace Natasha
 {
+    /// <summary>
+    /// 运行时动态操作类
+    /// </summary>
+    /// <typeparam name="T">运行时类型</typeparam>
     public class DynamicInstance<T> : DynamicInstanceBase where T : class
     {
-
         public static implicit operator DynamicInstance<T>(T instance)
         {
             return new DynamicInstance<T>(instance);
         }
+
 
         private static readonly Func<T> CtorDelegate;
         private static readonly ConcurrentDictionary<string, Action<DynamicInstanceBase, T>> DynamicGet;
@@ -27,6 +31,12 @@ namespace Natasha
         }
 
 
+
+
+        /// <summary>
+        /// 初始化方法
+        /// </summary>
+        /// <param name="type"></param>
         public static void InitType(Type type)
         {
             //动态函数-成员调用
@@ -53,6 +63,10 @@ namespace Natasha
 
         }
 
+
+
+
+
         private T _instance;
         public DynamicInstance(T instance = null)
         {
@@ -67,6 +81,8 @@ namespace Natasha
         }
 
 
+
+
         /// <summary>
         /// 更换当前实例对象
         /// </summary>
@@ -78,6 +94,9 @@ namespace Natasha
             return this;
         }
 
+
+
+
         /// <summary>
         /// 获取成员信息
         /// </summary>
@@ -87,6 +106,10 @@ namespace Natasha
         {
             DynamicGet[name](this, _instance);
         }
+
+
+
+
 
         /// <summary>
         /// 设置成员信息
@@ -99,7 +122,9 @@ namespace Natasha
         }
     }
 
-
+    /// <summary>
+    /// 动态类的动态调用
+    /// </summary>
     public class DynamicInstance : DynamicInstanceBase
     {
 
@@ -111,7 +136,6 @@ namespace Natasha
 
         private static readonly ConcurrentDictionary<Type, Dictionary<string, Action<DynamicInstanceBase, object>>> GetDynamicCache;
         private static readonly ConcurrentDictionary<Type, Dictionary<string, Action<DynamicInstanceBase, object>>> SetDynamicCache;
-
         private static readonly ConcurrentDictionary<Type, Func<object>> CtorMapping;
         private readonly Dictionary<string, Action<DynamicInstanceBase, object>> DynamicGet;
         private readonly Dictionary<string, Action<DynamicInstanceBase, object>> DynamicSet;
@@ -125,6 +149,12 @@ namespace Natasha
         }
 
 
+
+
+        /// <summary>
+        /// 初始化方法
+        /// </summary>
+        /// <param name="instance">传个类型或者实例</param>
         public DynamicInstance(object instance = null)
         {
             if (instance is Type)
@@ -143,6 +173,13 @@ namespace Natasha
             DynamicSet = SetDynamicCache[_type];
         }
 
+
+
+
+        /// <summary>
+        /// 初始化类型
+        /// </summary>
+        /// <param name="type">类型</param>
         private void InitType(Type type)
         {
             if (!GetDynamicCache.ContainsKey(type))
@@ -150,6 +187,7 @@ namespace Natasha
 
                 GetDynamicCache[type] = new Dictionary<string, Action<DynamicInstanceBase, object>>();
                 SetDynamicCache[type] = new Dictionary<string, Action<DynamicInstanceBase, object>>();
+
 
                 //动态函数-实例的创建
                 CtorMapping[type] = CtorOperator.NewDelegate<object>(type);
@@ -178,6 +216,9 @@ namespace Natasha
             }
         }
 
+
+
+
         private object _instance;
         /// <summary>
         /// 更换当前实例对象
@@ -191,6 +232,8 @@ namespace Natasha
         }
 
 
+
+
         /// <summary>
         /// 获取成员信息
         /// </summary>
@@ -200,6 +243,9 @@ namespace Natasha
         {
             DynamicGet[name](this, _instance);
         }
+
+
+
 
         /// <summary>
         /// 设置成员信息

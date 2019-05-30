@@ -11,6 +11,9 @@ namespace Natasha
             _type = type;
         }
 
+
+
+
         /// <summary>
         /// 静态加类型
         /// </summary>
@@ -20,6 +23,9 @@ namespace Natasha
         {
             return new TypeOperator(type);
         }
+
+
+
 
         /// <summary>
         /// 根据索引值获取程序集中的类

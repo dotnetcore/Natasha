@@ -1,8 +1,10 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Natasha.Remote
 {
+    /// <summary>
+    /// 远程参数实体类
+    /// </summary>
     public class RemoteParameters
     {
         public string TypeName;

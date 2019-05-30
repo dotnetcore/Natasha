@@ -1,31 +1,38 @@
-﻿using Natasha.Engine.Builder.Reverser;
-using System;
-using System.Collections.Concurrent;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
 namespace Natasha
 {
+    /// <summary>
+    /// 声明反解
+    /// </summary>
     public static class DeclarationReverser
     {
-        //public readonly static ConcurrentDictionary<ParameterInfo, string> _type_mapping;
-        //static DeclarationReverser()
-        //{
-        //    _type_mapping = new ConcurrentDictionary<ParameterInfo, string>();
-        //}
-
-        public static string GetParametersType(ParameterInfo info)
+        /// <summary>
+        /// 根据参数反射信息反解出参数类型
+        /// </summary>
+        /// <param name="parameterInfo">参数反射信息</param>
+        /// <returns></returns>
+        public static string GetParametersType(ParameterInfo parameterInfo)
         {
+            //前缀
             string Prefix = string.Empty;
-            string result = NameReverser.GetName(info.ParameterType);
-            if (info.ParameterType.Name.EndsWith("&"))
+
+
+            //反解参数类型
+            string result = NameReverser.GetName(parameterInfo.ParameterType);
+
+
+            //特殊类型反解
+            if (parameterInfo.ParameterType.Name.EndsWith("&"))
             {
-                if (info.IsIn)
+                if (parameterInfo.IsIn)
                 {
                     Prefix = "in ";
                 }
-                else if (info.IsOut)
+                else if (parameterInfo.IsOut)
                 {
                     Prefix = "out ";
                 }
@@ -40,17 +47,33 @@ namespace Natasha
                 return $"{result}";
             }
         }
-        public static string GetParametersDeclaration(ParameterInfo info)
+
+
+
+
+        /// <summary>
+        /// 根据参数反射信息反解参数定义
+        /// </summary>
+        /// <param name="parameterInfo">参数反射信息</param>
+        /// <returns></returns>
+        public static string GetParametersDeclaration(ParameterInfo parameterInfo)
         {
+            //前缀
             string Prefix = string.Empty;
-            string result = NameReverser.GetName(info.ParameterType);
-            if (info.ParameterType.Name.EndsWith("&"))
+
+
+            //反解类名
+            string result = NameReverser.GetName(parameterInfo.ParameterType);
+
+
+            //特殊处理
+            if (parameterInfo.ParameterType.Name.EndsWith("&"))
             {
-                if (info.IsIn)
+                if (parameterInfo.IsIn)
                 {
                     Prefix = "in ";
                 }
-                else if (info.IsOut)
+                else if (parameterInfo.IsOut)
                 {
                     Prefix = "out ";
                 }
@@ -58,33 +81,48 @@ namespace Natasha
                 {
                     Prefix = "ref ";
                 }
-                return $"{Prefix}{result} {info.Name}";
+                return $"{Prefix}{result} {parameterInfo.Name}";
             }
             else
             {
-                return $"{result} {info.Name}";
+                return $"{result} {parameterInfo.Name}";
             }
         }
 
-        public static string GetFieldDeclaration(FieldInfo info)
+
+
+
+        /// <summary>
+        /// 根据字段反射信息反解字段定义
+        /// </summary>
+        /// <param name="reflectFieldInfo">字段反射信息</param>
+        /// <returns></returns>
+        public static string GetFieldDeclaration(FieldInfo reflectFieldInfo)
         {
-            return NameReverser.GetName(info.FieldType) + " "+info.Name;
+            return NameReverser.GetName(reflectFieldInfo.FieldType) + " "+reflectFieldInfo.Name;
         }
 
 
-        public static string GetParameters(params ParameterInfo[] parameters)
+
+
+        /// <summary>
+        /// 根据参数反射信息集合反解函数参数定义，带括号
+        /// </summary>
+        /// <param name="parametersInfo">参数集合</param>
+        /// <returns></returns>
+        public static string GetParameters(params ParameterInfo[] parametersInfo)
         {
             StringBuilder result = new StringBuilder();
             result.Append('(');
-            if (parameters != null)
+            if (parametersInfo != null)
             {
-                if (parameters.Length > 0)
+                if (parametersInfo.Length > 0)
                 {
-                    result.Append(GetParametersDeclaration(parameters[0]));
-                    for (int i = 1; i < parameters.Length; i++)
+                    result.Append(GetParametersDeclaration(parametersInfo[0]));
+                    for (int i = 1; i < parametersInfo.Length; i++)
                     {
                         result.Append(',');
-                        result.Append(GetParametersDeclaration(parameters[i]));
+                        result.Append(GetParametersDeclaration(parametersInfo[i]));
                     }
                 }
             }
@@ -114,13 +152,22 @@ namespace Natasha
             result.Append(')');
             return result.ToString();
         }
-        public static string GetParameters(MethodInfo info)
+
+
+
+
+        /// <summary>
+        /// 根据方法反射信息获取参数定义
+        /// </summary>
+        /// <param name="reflectMethodInfo">方法反射信息</param>
+        /// <returns></returns>
+        public static string GetParameters(MethodInfo reflectMethodInfo)
         {
-            if (info == null)
+            if (reflectMethodInfo == null)
             {
                 throw new Exception("参数模板传参不能为空！");
             }
-            var parameters = info.GetParameters();
+            var parameters = reflectMethodInfo.GetParameters();
             return GetParameters(parameters);
         }
     }

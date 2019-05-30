@@ -1,5 +1,4 @@
-﻿using Natasha.Engine.Builder.Reverser;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -15,12 +14,23 @@ namespace Natasha
             FieldScript = new StringBuilder();
             _fieldsSet = new HashSet<string>();
         }
-        public T Field(string level, Type type, string name)
+
+
+
+
+        /// <summary>
+        /// 定义一个字段
+        /// </summary>
+        /// <param name="access"></param>
+        /// <param name="type"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public T Field(string access, Type type, string name)
         {
             Using(type);
             if (!_fieldsSet.Contains(name))
             {
-                FieldScript.Append($"{level} {NameReverser.GetName(type)} {name};");
+                FieldScript.Append($"{access} {NameReverser.GetName(type)} {name};");
             }
             return Link;
         }

@@ -1,5 +1,4 @@
-﻿using Natasha.Engine.Builder.Reverser;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Text;
 
@@ -41,7 +40,6 @@ namespace Natasha
             {
                 return CloneCache[type];
             }
-            string instanceName = AvailableNameReverser.GetName(type);
 
             if (type.IsArray)                                   //数组直接克隆
             {
@@ -88,7 +86,7 @@ namespace Natasha
             tempBuilder.ComplierInstance.UseFileComplie();
             return CloneCache[type] = tempBuilder
                         .Using("Natasha")
-                        .Using(GenericTypeReverser.GetTypes(type))
+                        .Using(GenericTypeOperator.GetTypes(type))
                         .ClassName("NatashaClone" + AvailableNameReverser.GetName(type))
                         .MethodName("Clone")
                         .Param(type, "oldInstance")                //参数

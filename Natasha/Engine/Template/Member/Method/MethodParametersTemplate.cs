@@ -1,12 +1,11 @@
-﻿using Natasha.Engine.Builder.Reverser;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 
 namespace Natasha
-{ 
+{
     public class MethodParametersTemplate<T>: MethodNameTemplate<T>
     {
         public readonly List<KeyValuePair<Type, string>> ParametersMappings;

@@ -4,6 +4,9 @@ using System.Reflection;
 
 namespace Natasha
 {
+    /// <summary>
+    /// 根据现有反射方法伪造一个方法，内容自己定
+    /// </summary>
     public class FakeMethod : OnceMethodBuilder<FakeMethod>
     {
         public Action<MethodTemplate> Action;
@@ -19,12 +22,28 @@ namespace Natasha
             ClassAccess(AccessTypes.Public);
         }
 
-        public FakeMethod UseMethod(MethodInfo info)
+
+
+
+        /// <summary>
+        /// 填装反射方法
+        /// </summary>
+        /// <param name="reflectMethodInfo">反射方法</param>
+        /// <returns></returns>
+        public FakeMethod UseMethod(MethodInfo reflectMethodInfo)
         {
-            _temp_info = info;
+            _temp_info = reflectMethodInfo;
             return this;
         }
 
+
+
+
+        /// <summary>
+        /// 指定方法内容
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
         public FakeMethod MethodContent(string content)
         {
             if (!HashMethodName())

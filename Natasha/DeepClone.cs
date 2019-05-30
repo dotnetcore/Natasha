@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace Natasha
 {
+    /// <summary>
+    /// 深度克隆
+    /// </summary>
     public static class DeepClone {
         public static T Clone<T>(T instance)
         {
@@ -11,6 +14,10 @@ namespace Natasha
         }
     }
 
+    /// <summary>
+    /// 深度克隆
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public static class DeepClone<T>
     {
         static DeepClone()
@@ -27,6 +34,7 @@ namespace Natasha
             return CloneDelegate(instance);
         }
     }
+
 
     public static class IEnumerableExtension
     {

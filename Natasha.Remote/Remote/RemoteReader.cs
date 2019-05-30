@@ -3,23 +3,32 @@ using System.Collections.Concurrent;
 
 namespace Natasha.Remote
 {
+
+    /// <summary>
+    /// 远程读取
+    /// </summary>
     public class RemoteReader
     {
 
         internal static ConcurrentDictionary<string, ConcurrentDictionary<string, Func<RemoteParameters, string>>> _func_mapping;
-        static RemoteReader()
-        {
-            _func_mapping = new ConcurrentDictionary<string, ConcurrentDictionary<string, Func<RemoteParameters, string>>>();
-        }
+        static RemoteReader() => _func_mapping = new ConcurrentDictionary<string, ConcurrentDictionary<string, Func<RemoteParameters, string>>>();
+
+
+
+
         /// <summary>
         /// 获取动态调用委托
         /// </summary>
-        /// <param name="parameters"></param>
+        /// <param name="parameters">远程参数</param>
         /// <returns></returns>
         public static Func<RemoteParameters, string> GetFunc(RemoteParameters parameters)
         {
             return _func_mapping[parameters.TypeName][parameters.MethodName];
         }
+
+
+
+
         /// <summary>
         /// 动态调用
         /// </summary>

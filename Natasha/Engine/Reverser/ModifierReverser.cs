@@ -3,11 +3,19 @@ using System.Reflection;
 
 namespace Natasha
 {
+    /// <summary>
+    /// 修饰符反解
+    /// </summary>
     public static class ModifierReverser
     {
-        public static string GetModifier(Modifiers modifier)
+        /// <summary>
+        /// 根据修饰符枚举，获取修饰符
+        /// </summary>
+        /// <param name="enumModifier">修饰符枚举</param>
+        /// <returns></returns>
+        public static string GetModifier(Modifiers enumModifier)
         {
-            switch (modifier)
+            switch (enumModifier)
             {
                 case Modifiers.Static:
                     return "static ";
@@ -23,18 +31,36 @@ namespace Natasha
                     return "";
             }
         }
-        public static string GetModifier(MethodInfo info)
+
+
+
+
+        /// <summary>
+        /// 获取方法的修饰符
+        /// </summary>
+        /// <param name="reflectMethodInfo">方法反射信息</param>
+        /// <returns></returns>
+        public static string GetModifier(MethodInfo reflectMethodInfo)
         {
-            if (info.IsStatic)
+            if (reflectMethodInfo.IsStatic)
             {
                 return "static ";
             }
-            if (info.IsVirtual)
+            if (reflectMethodInfo.IsVirtual)
             {
                 return "virtual ";
             }
             return "";
         }
+
+        
+
+
+        /// <summary>
+        /// 获取类型的修饰符信息
+        /// </summary>
+        /// <param name="info">类型</param>
+        /// <returns></returns>
         public static string GetModifier(Type info)
         {
             if (info.IsAbstract)

@@ -1,31 +1,56 @@
-﻿using Natasha.Engine.Builder.Reverser;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Reflection;
 
 namespace Natasha.Remote
 {
+
+    /// <summary>
+    /// 远程参数生成器
+    /// </summary>
     public class ParametersMaker
     {
-        public RemoteParameters Parameters;
         private string _current_name;
-        public ParametersMaker()
-        {
-            Parameters = new RemoteParameters();
-        }
+        public RemoteParameters Parameters;
 
-        public ParametersMaker SetClass(string @class)
+        public ParametersMaker() => Parameters = new RemoteParameters();
+
+
+
+
+        /// <summary>
+        /// 设置类名
+        /// </summary>
+        /// <param name="className">类名</param>
+        /// <returns></returns>
+        public ParametersMaker ClassName(string className)
         {
-            Parameters.TypeName = @class;
+            Parameters.TypeName = className;
             return this;
         }
 
-        public ParametersMaker SetMethod(string method)
+
+
+
+        /// <summary>
+        /// 设置方法名字
+        /// </summary>
+        /// <param name="methodName">方法名</param>
+        /// <returns></returns>
+        public ParametersMaker SetMethod(string methodName)
         {
-            Parameters.MethodName = method;
+            Parameters.MethodName = methodName;
             return this;
         }
 
+
+
+
+        /// <summary>
+        /// 设置当前key
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public ParametersMaker this[string key]
         {
             get
@@ -35,6 +60,15 @@ namespace Natasha.Remote
             }
         }
 
+
+
+
+        /// <summary>
+        /// 添加参数
+        /// </summary>
+        /// <typeparam name="T">参数类型</typeparam>
+        /// <param name="instance">参数值</param>
+        /// <returns></returns>
         public ParametersMaker Params<T>(T instance)
         {
             Parameters[_current_name] = JsonConvert.SerializeObject(instance);
@@ -43,6 +77,10 @@ namespace Natasha.Remote
     }
 
 
+    /// <summary>
+    /// 远程参数生成器
+    /// </summary>
+    /// <typeparam name="T">运行时的类型</typeparam>
     public class ParametersMaker<T>
     {
         public RemoteParameters Parameters;
@@ -50,12 +88,20 @@ namespace Natasha.Remote
         private Type _type;
         public ParametersMaker()
         {
-            
-            Parameters = new RemoteParameters();
             _type = typeof(T);
+            Parameters = new RemoteParameters();
             Parameters.TypeName = NameReverser.GetName(_type);
         }
 
+
+
+
+
+        /// <summary>
+        /// 设置当前方法名
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public ParametersMaker<T> this[string key]
         {
             get
@@ -65,6 +111,10 @@ namespace Natasha.Remote
                 return this;
             }
         }
+
+
+
+
 
         public RemoteParameters Params<P1>(P1 param1)
         {
@@ -136,6 +186,15 @@ namespace Natasha.Remote
             return Parameters;
         }
 
+
+
+
+        /// <summary>
+        /// 序列化处理封装
+        /// </summary>
+        /// <typeparam name="S">参数类型</typeparam>
+        /// <param name="value">参数值</param>
+        /// <returns></returns>
         public string GetString<S>(S value)
         {
             //if (typeof(S)==typeof(string))

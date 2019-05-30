@@ -1,8 +1,10 @@
 ﻿using Natasha.Builder;
-using System;
 
 namespace Natasha
 {
+    /// <summary>
+    /// 快速创建一个动态方法
+    /// </summary>
     public class FastMethod : OnceMethodBuilder<FastMethod>
     {
         public static FastMethod New

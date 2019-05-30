@@ -1,9 +1,8 @@
-﻿using Natasha.Engine.Builder.Reverser;
-using System;
+﻿using System;
 using System.Text;
 
 namespace Natasha
-{ 
+{
     public class InheritanceTemplate<T> : ClassNameTemplate<T>
     {
         public readonly StringBuilder Inheritances;

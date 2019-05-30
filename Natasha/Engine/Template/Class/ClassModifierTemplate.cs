@@ -5,14 +5,14 @@ namespace Natasha
     public class ClassModifierTemplate<T> : ClassAccessTemplate<T>
     {
         public string ModifierScript;
-        public T ClassModifier(MethodInfo modifier)
+        public T ClassModifier(MethodInfo reflectMethodInfo)
         {
-            ModifierScript = ModifierReverser.GetModifier(modifier);
+            ModifierScript = ModifierReverser.GetModifier(reflectMethodInfo);
             return Link;
         }
-        public T ClassModifier(Modifiers modifier)
+        public T ClassModifier(Modifiers enumModifier)
         {
-            ModifierScript = ModifierReverser.GetModifier(modifier);
+            ModifierScript = ModifierReverser.GetModifier(enumModifier);
             return Link;
         }
         public T ClassModifier(string modifier)

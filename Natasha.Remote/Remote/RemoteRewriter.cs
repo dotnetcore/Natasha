@@ -1,13 +1,14 @@
-﻿using Natasha.Engine.Builder.Reverser;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
 namespace Natasha.Remote
 {
+    /// <summary>
+    /// 动态方法写入
+    /// </summary>
     public class RemoteWritter
     {
         public static string Serialization;
@@ -19,6 +20,10 @@ namespace Natasha.Remote
             Deserialization = "JsonConvert.DeserializeObject";
         }
 
+        /// <summary>
+        /// 将类型中的方法写入缓存
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
         public static void ComplieToRemote<T>()
         {
             ComplieToRemote(typeof(T));

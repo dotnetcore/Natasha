@@ -1,8 +1,4 @@
-﻿using Natasha.Engine.Builder.Reverser;
-using System;
-using System.Text;
-
-namespace Natasha
+﻿namespace Natasha
 {
     public class CtorTemplate: MethodContentTemplate<CtorTemplate>,IScriptBuilder
     {

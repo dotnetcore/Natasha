@@ -3,11 +3,20 @@ using System.Reflection;
 
 namespace Natasha
 {
+    /// <summary>
+    /// 访问级别反解器
+    /// </summary>
     public static class AccessReverser
     {
-        public static string GetAccess(AccessTypes access)
+
+        /// <summary>
+        /// 根据枚举获取访问级别
+        /// </summary>
+        /// <param name="enumAccess">访问级别枚举</param>
+        /// <returns></returns>
+        public static string GetAccess(AccessTypes enumAccess)
         {
-            switch (access)
+            switch (enumAccess)
             {
                 case AccessTypes.Public:
                     return "public ";
@@ -23,29 +32,51 @@ namespace Natasha
                     return "internal ";
             }
         }
-        public static string GetAccess(MethodInfo info)
+
+
+
+
+        /// <summary>
+        /// 获取方法的访问级别
+        /// </summary>
+        /// <param name="reflectMethodInfo">反射出的方法成员</param>
+        /// <returns></returns>
+        public static string GetAccess(MethodInfo reflectMethodInfo)
         {
-            if (info.IsPublic)
+            if (reflectMethodInfo.IsPublic)
             {
                 return "public ";
             }
-            else if (info.IsPrivate)
+            else if (reflectMethodInfo.IsPrivate)
             {
                 return "private ";
             }
-            else if (info.IsFamily)
+            else if (reflectMethodInfo.IsFamily)
             {
                 return "protected ";
             }
-            else if (info.IsAssembly)
+            else if (reflectMethodInfo.IsAssembly)
             {
                 return "internal ";
             }
-            else if (info.IsFamilyOrAssembly)
+            else if (reflectMethodInfo.IsFamilyOrAssembly)
             {
                 return "protected internal ";
             }
             return "internal ";
+        }
+
+
+
+
+        /// <summary>
+        /// 获取类型的访问级别
+        /// </summary>
+        /// <param name="type">类型</param>
+        /// <returns></returns>
+        public static string GetAccess<T>()
+        {
+            return GetAccess(typeof(T));
         }
         public static string GetAccess(Type type)
         {

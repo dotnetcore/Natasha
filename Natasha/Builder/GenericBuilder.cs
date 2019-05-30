@@ -1,18 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Natasha
 {
+    /// <summary>
+    /// 泛型类型构建器
+    /// </summary>
     public class GenericBuilder
     {
-        public static Type GetType(Type gType,params Type[] types)
+        /// <summary>
+        /// 生成对应的泛型类
+        /// </summary>
+        /// <param name="genericType">泛型类型</param>
+        /// <param name="genericParametersTypes">泛型参数</param>
+        /// <returns></returns>
+        public static Type GetType(Type genericType, params Type[] genericParametersTypes)
         {
-            return gType.MakeGenericType(types);
+            return genericType.MakeGenericType(genericParametersTypes);
         }
-        public static Type GetType<G>(params Type[] types)
+
+
+
+
+        /// <summary>
+        /// 生成对应的泛型类
+        /// </summary>
+        /// <typeparam name="G">泛型类型</typeparam>
+        /// <param name="genericParametersTypes">泛型参数</param>
+        /// <returns></returns>
+        public static Type GetType<G>(params Type[] genericParametersTypes)
         {
-            return typeof(G).MakeGenericType(types);
+            return typeof(G).MakeGenericType(genericParametersTypes);
         }
     }
 }

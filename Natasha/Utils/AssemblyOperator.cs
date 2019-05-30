@@ -11,6 +11,9 @@ namespace Natasha
             _assembly = assembly;
         }
 
+
+
+
         /// <summary>
         /// 静态加载程序集
         /// </summary>
@@ -21,6 +24,9 @@ namespace Natasha
             return new AssemblyOperator(assembly);
         }
 
+
+
+
         /// <summary>
         /// 根据索引值获取程序集中的类
         /// </summary>
@@ -30,8 +36,5 @@ namespace Natasha
         {
             get { return _assembly.GetType(className); }
         }
-
-
-
     }
 }

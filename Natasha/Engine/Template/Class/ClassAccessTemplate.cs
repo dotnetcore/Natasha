@@ -2,17 +2,21 @@
 
 namespace Natasha
 {
+    /// <summary>
+    /// 类型模板
+    /// </summary>
+    /// <typeparam name="T">LINK类型</typeparam>
     public class ClassAccessTemplate<T> : NamespaceTemplate<T>
     {
         public string AccessScript;
-        public T ClassAccess(MethodInfo access)
+        public T ClassAccess(MethodInfo reflectMethodInfo)
         {
-            AccessScript = AccessReverser.GetAccess(access);
+            AccessScript = AccessReverser.GetAccess(reflectMethodInfo);
             return Link;
         }
-        public T ClassAccess(AccessTypes access)
+        public T ClassAccess(AccessTypes enumAccess)
         {
-            AccessScript = AccessReverser.GetAccess(access);
+            AccessScript = AccessReverser.GetAccess(enumAccess);
             return Link;
         }
         public T ClassAccess(string access)
