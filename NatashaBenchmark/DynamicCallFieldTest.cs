@@ -214,10 +214,7 @@ namespace NatashaBenchmark
         [BenchmarkCategory("Read", "Time"), Benchmark(Baseline = true, Description = "Origin")]
         public void OriginFieldGetTimeTest()
         {
-            for (int i = 0; i < 1000; i++)
-            {
-                DateTime result = OriginModel.CreateTime;
-            }
+            DateTime result = OriginModel.CreateTime;
         }
     }
 }
