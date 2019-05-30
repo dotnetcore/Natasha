@@ -8,6 +8,9 @@ namespace NatashaUT
 {
     public class DynamicCloneTest
     {
+
+
+
         [Fact(DisplayName = "字段--基元类型以及结构体克隆测试")]
         public void Normal()
         {
@@ -47,8 +50,10 @@ namespace NatashaUT
             {
                 Assert.Equal(model.Name[i], newModel.Name[i]);
             }
-
         }
+
+
+
         [Fact(DisplayName = "字段--类数组克隆测试")]
         public void ClassArray()
         {
@@ -68,8 +73,9 @@ namespace NatashaUT
                 Assert.Equal(model.Models[i].Name, newModel.Models[i].Name);
                 Assert.Equal(model.Models[i].Age, newModel.Models[i].Age);
             }
-
         }
+
+
 
         [Fact(DisplayName = "字段--子节点克隆测试")]
         public void SubClassArray()
@@ -83,6 +89,7 @@ namespace NatashaUT
             Assert.Equal(model.Node.Name, newModel.Node.Name);
             Assert.Equal(model.Node.Age, newModel.Node.Age);
         }
+
 
 
         [Fact(DisplayName = "字段--类集合克隆测试")]
@@ -104,8 +111,9 @@ namespace NatashaUT
                 Assert.Equal(model.Nodes[i].Name, newModel.Nodes[i].Name);
                 Assert.Equal(model.Nodes[i].Age, newModel.Nodes[i].Age);
             }
-
         }
+
+
 
         [Fact(DisplayName = "属性--基元类型以及结构体克隆测试")]
         public void PropNormal()
@@ -128,6 +136,8 @@ namespace NatashaUT
             Assert.Equal(model.Name, newModel.Name);
         }
 
+
+
         [Fact(DisplayName = "属性--时间以及非类数组克隆测试")]
         public void PropNotClassArray()
         {
@@ -146,8 +156,10 @@ namespace NatashaUT
             {
                 Assert.Equal(model.Name[i], newModel.Name[i]);
             }
-
         }
+
+
+
         [Fact(DisplayName = "属性--类数组克隆测试")]
         public void PropClassArray()
         {
@@ -170,6 +182,8 @@ namespace NatashaUT
 
         }
 
+
+
         [Fact(DisplayName = "属性--子节点克隆测试")]
         public void PropSubClassArray()
         {
@@ -184,6 +198,7 @@ namespace NatashaUT
             Assert.Equal(model.Node.Name, newModel.Node.Name);
             Assert.Equal(model.Node.Age, newModel.Node.Age);
         }
+
 
 
         [Fact(DisplayName = "属性--类集合克隆测试")]
@@ -207,6 +222,7 @@ namespace NatashaUT
             }
 
         }
+
 
 
         [Fact(DisplayName = "类集合嵌套集合克隆测试")]
@@ -236,9 +252,9 @@ namespace NatashaUT
                     Assert.Equal(model.LLNodes[i][j].Age, newModel.LLNodes[i][j].Age);
                 }
             }
-
-
         }
+
+
 
         [Fact(DisplayName = "类集合嵌套数组克隆测试")]
         public void PropClassCollectionArray2()
@@ -268,9 +284,9 @@ namespace NatashaUT
                     Assert.Equal(model.LANodes[i][j].Age, newModel.LANodes[i][j].Age);
                 }
             }
-
-
         }
+
+
 
         [Fact(DisplayName = "类数组嵌套集合克隆测试")]
         public void PropClassCollectionArray3()

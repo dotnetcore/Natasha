@@ -6,6 +6,9 @@ namespace NatashaUT
 {
     public class DynamicMethodTest
     {
+
+
+
         [Fact(DisplayName = "手动强转委托")]
         public static void RunDelegate1()
         {
@@ -23,6 +26,8 @@ namespace NatashaUT
            string result = ((Func<string, string,string>)delegateAction)("Hello", "World1!");
            Assert.Equal("Hello World1!", result);
         }
+
+
 
         [Fact(DisplayName = "自动泛型委托")]
         public static void RunDelegate2()
@@ -42,6 +47,8 @@ namespace NatashaUT
            Assert.Equal("Hello World2!",result);
         }
 
+
+
         [Fact(DisplayName = "函数克隆1")]
         public static void MakerCode1()
         {
@@ -53,6 +60,8 @@ namespace NatashaUT
            Assert.Equal(@"public void ReWrite1(){Console.WriteLine(""hello world"");}", builder.MethodScript);
         }
 
+
+
         [Fact(DisplayName = "函数克隆2")]
         public static void MakerCode2()
         {
@@ -62,6 +71,8 @@ namespace NatashaUT
                 .MethodContent(@"Console.WriteLine(""hello world"");return this;");
             Assert.Equal(@"public OopTest ReWrite2(){Console.WriteLine(""hello world"");return this;}", builder.MethodScript);
         }
+
+
 
         [Fact(DisplayName = "函数克隆3")]
         public static void MakerCode3()

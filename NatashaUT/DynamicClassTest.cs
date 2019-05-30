@@ -8,6 +8,9 @@ namespace NatashaUT
 {
     public class DynamicClassTest
     {
+
+
+
         [Fact(DisplayName = "动态类生成测试")]
         public static void RunClassName0()
         {
@@ -33,6 +36,7 @@ namespace HelloWorld
             Type type = ClassBuilder.GetType(text);
             Assert.Equal("Test", type.Name);
         }
+
 
 
         [Fact(DisplayName = "选择类")]
@@ -77,6 +81,8 @@ namespace HelloWorld{
             Type type = ClassBuilder.GetType(text,3);
             Assert.Equal("TestIndex3", type.Name);
         }
+
+
 
         [Fact(DisplayName = "选择命名空间+类")]
         public static void RunClassName2()

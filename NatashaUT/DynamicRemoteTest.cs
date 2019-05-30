@@ -7,6 +7,9 @@ namespace NatashaUT
 {
     public class DynamicRemoteTest
     {
+
+
+
         [Fact(DisplayName = "远程调用--客户端参数")]
         public void RemoteParametersTest()
         {
@@ -17,6 +20,9 @@ namespace NatashaUT
             Assert.Equal("\"hello \"", temp["str1"]);
             Assert.Equal("\"world!\"", temp["str2"]);
         }
+
+
+
         [Fact(DisplayName = "远程调用--服务端委托")]
         public void RemoteDelegateTest()
         {
@@ -27,6 +33,9 @@ namespace NatashaUT
             Assert.NotNull(RemoteReader.GetFunc(parameters));
 
         }
+
+
+
         [Fact(DisplayName = "远程调用--服务端结果")]
         public void RemoteInvokeTest()
         {
@@ -42,8 +51,6 @@ namespace NatashaUT
 
             string result = RemoteReader.Invoke(parameters);
             Assert.Equal("\"hello world!\"", result);
-
-
 
 
             var parameter = new ParametersMaker<RemoteTestModel>();

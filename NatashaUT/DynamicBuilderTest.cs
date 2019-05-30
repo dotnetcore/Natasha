@@ -8,6 +8,9 @@ namespace NatashaUT
 {
     public class DynamicBuilderTest
     {
+
+
+
         [Fact(DisplayName = "Builder测试1")]
         public void TestBuilder1()
         {
@@ -25,6 +28,9 @@ namespace NatashaUT
 
             Assert.Equal(@"using NatashaUT;using System;namespace TestNamespace{public static class TestUt1{public static void Test(){}public static String Name;private static Int32 _age;}}", script);
         }
+
+
+
         [Fact(DisplayName = "Builder测试2")]
         public void TestBuilder2()
         {

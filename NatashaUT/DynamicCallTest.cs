@@ -6,9 +6,11 @@ using Xunit;
 
 namespace NatashaUT
 {
-  
     public class DynamicCallTest
     {
+
+
+
         [Fact(DisplayName = "动态类的动态操作测试")]
         public void TestCall1()
         {
@@ -42,6 +44,8 @@ namespace HelloWorld
             Assert.Equal("222", instance["Name"].StringValue);
            
         }
+
+
 
         [Fact(DisplayName = "普通类的动态操作测试")]
         public void TestCall2()
