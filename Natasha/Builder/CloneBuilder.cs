@@ -202,6 +202,7 @@ namespace Natasha
 
 
             StringBuilder sb = new StringBuilder();
+            sb.Append($"if(oldInstance==null){{return null;}}");
             sb.Append($"{className} newInstance = new {className}();");
 
             //字段克隆
