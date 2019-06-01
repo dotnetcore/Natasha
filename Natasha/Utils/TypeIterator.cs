@@ -4,6 +4,15 @@ namespace Natasha
 {
     public abstract class TypeIterator
     {
+
+        public virtual void ArrayOnceTypeHandler(BuilderInfo builderInfo)
+        {
+
+        }
+        public virtual void ArrayEntityTypeHandler(BuilderInfo builderInfo)
+        {
+
+        }
         public void TypeHandler(Type type)
         {
             //无效类PASS
@@ -16,7 +25,21 @@ namespace Natasha
 
             if (type.IsArray)                                   //数组直接克隆
             {
-                MemberArrayHandler(typeInfo);
+                Type eleType = type.GetElementType();
+                TypeHandler(eleType);
+                typeInfo.MemberType = eleType;
+                typeInfo.ClassName = NameReverser.GetName(eleType);
+                typeInfo.AvailableName = AvailableNameReverser.GetName(eleType);
+
+                if (IsOnceType(eleType))
+                {
+                    ArrayOnceTypeHandler(typeInfo);
+                }
+                else
+                {
+                    ArrayEntityTypeHandler(typeInfo);
+                }
+                
             }
             else if (type.GetInterface("IEnumerable") != null)  //集合直接克隆
             {
@@ -112,6 +135,7 @@ namespace Natasha
         {
 
         }
+
         public virtual void MemberEntitiesHandler(BuilderInfo buildInfo)
         {
 
@@ -156,6 +180,122 @@ namespace Natasha
         {
 
         }
+
+
+        /*
+        /// <summary>
+        /// 获取克隆委托
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static Delegate CreateCloneDelegate(Type type)
+        {
+            //无效类PASS
+            if (type.FullName == null)
+            {
+                return null;
+            }
+
+
+            //缓存有则跳过
+            if (CloneCache.ContainsKey(type))
+            {
+                return CloneCache[type];
+            }
+
+
+            if (type.IsArray)                                   //数组直接克隆
+            {
+                return CreateArrayDelegate(type);
+            }
+            else if (type.GetInterface("IEnumerable") != null)  //集合直接克隆
+            {
+                return CreateCollectionDelegate(type);
+            }
+            else
+            {                                                   //实体类型克隆
+                return CreateEntityDelegate(type);
+            }
+        }
+
+
+
+
+        /// <summary>
+        /// 获取集合委托
+        /// </summary>
+        /// <param name="type">集合类型</param>
+        /// <returns></returns>
+        internal static Delegate CreateCollectionDelegate(Type type)
+        {
+            //泛型集合参数
+            Type[] args = null;
+
+
+            //检测接口
+            if (!type.IsInterface)
+            {
+
+                //获取泛型参数
+                args = type.GetGenericArguments();
+
+
+                //创建参数的委托
+                CreateCloneDelegate(args[0]);
+
+
+                //如果存在第二个泛型参数，例如字典，同样进行克隆处理
+                if (args.Length == 2)
+                {
+                    CreateCloneDelegate(args[1]);
+                }
+            }
+
+
+            //生成方法体
+            StringBuilder scriptBuilder = new StringBuilder();
+            scriptBuilder.Append(@"if(oldInstance!=null){");
+            if (type.IsInterface)
+            {
+                scriptBuilder.Append($"return oldInstance.CloneExtension();");
+            }
+            else
+            {
+                scriptBuilder.Append($"return new {NameReverser.GetName(type)}(oldInstance.CloneExtension());");
+            }
+            scriptBuilder.Append("}return null;");
+
+
+            //创建委托
+            var tempBuilder = FastMethod.New;
+            tempBuilder.Using(args);
+            tempBuilder.Using("Natasha");
+            tempBuilder.ComplierInstance.UseFileComplie();
+            return CloneCache[type] = tempBuilder
+                        .Using("Natasha")
+                        .Using(GenericTypeOperator.GetTypes(type))
+                        .ClassName("NatashaClone" + AvailableNameReverser.GetName(type))
+                        .MethodName("Clone")
+                        .Param(type, "oldInstance")                 //参数
+                        .MethodBody(scriptBuilder.ToString())       //方法体
+                        .Return(type)                               //返回类型
+                        .Complie();
+        }
+
+
+ 
+        /// <summary>
+        /// 创建数组委托
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        internal Delegate ArrayHandler(Type type)
+        {
+
+        }
+    */
+
+
         /// <summary>
         /// 创建实体类委托
         /// </summary>
@@ -207,6 +347,7 @@ namespace Natasha
                         }
                         else
                         {
+                            TypeHandler(eleType);
                             FieldArrayEntitiesHandler(fieldInfo);
                         }
                     }
@@ -215,7 +356,7 @@ namespace Natasha
 
                         //检测集合
                         Type collectionType = fieldType.GetInterface("IEnumerable");
-
+                        TypeHandler(fieldType);
                         if (collectionType != null)
                         {
                             //创建集合克隆
@@ -270,6 +411,7 @@ namespace Natasha
                         }
                         else
                         {
+                            TypeHandler(eleType);
                             PropertyArrayEntitiesHandler(propInfo);
                         }
                     }
@@ -278,7 +420,7 @@ namespace Natasha
 
                         Type collectionType = propertyType.GetInterface("IEnumerable");
 
-
+                        TypeHandler(propertyType);
                         if (collectionType != null)
                         {
                             if (collectionType.IsInterface)
@@ -299,6 +441,7 @@ namespace Natasha
                             }
                             else
                             {
+                                TypeHandler(propertyType);
                                 PropertyEntitiesHandler(propInfo);
                             }
                         }

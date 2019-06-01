@@ -267,7 +267,7 @@ namespace Natasha
                         {
 
                             //创建集合克隆
-                            CreateCollectionDelegate(fieldType);
+                            CreateCloneDelegate(fieldType);
 
 
                             sb.Append($@"if({oldField}!=null){{");
@@ -356,7 +356,7 @@ namespace Natasha
                         if (collectionType != null)
                         {
                             //集合复制
-                            CreateCollectionDelegate(propertyType);
+                            CreateCloneDelegate(propertyType);
 
 
                             sb.Append($@"if({oldProp}!=null){{");
