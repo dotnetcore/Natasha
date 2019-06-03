@@ -6,29 +6,7 @@
 欢迎参与讨论：[点击加入Gitter讨论组](https://gitter.im/dotnetcore/Natasha)
 
 - ### 项目计划
- 
-- **2019/05末 功能计划**：  
 
-   -------
-   - [x]  **脚本引擎&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]**  
-   
-      - [x]  动态构造&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
-          - [x] 扩展模板&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
-            - [x] Using记录模板&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;[##########][100%]  
-            - [x] 访问级别模板&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
-            - [x] 内容模板&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%] 
-            - [x] 参数模板&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
-            - [x] 初始化模板&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%] 
-            - [x] 方法模板&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]  
-            - [x] 类模板&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]  
- 
-          - [x] 反解器&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
-            - [x] 命名反解&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
-            - [x] 声明反解&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
-            - [x] 访问级别反解&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
-            - [x] 修饰符级别反解&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
-   -------
-   
    
    - **2019/06 功能计划**：  
 
@@ -44,9 +22,10 @@
            - [x] 泛型反解&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
            - [x] 文件可用名反解&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]  
             
-    - [x] **动态实现&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]**  
+    - [x] **动态实现&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[#####-----][50%]**  
     
-      - [x] 深度克隆&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
+      - [x] 深度克隆&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]  
+      - [ ] 实体类快照&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[----------][0%]
  
    -------
 <br/>
