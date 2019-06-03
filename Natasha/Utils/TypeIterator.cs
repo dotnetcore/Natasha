@@ -4,15 +4,24 @@ namespace Natasha
 {
     public abstract class TypeIterator
     {
-        public virtual void EntityHandler(BuilderInfo info)
+        public Type CloneType;
+        public virtual void EntityHandler(Type type)
         {
-
+            
         }
         public virtual void ArrayOnceTypeHandler(BuilderInfo info)
         {
 
         }
         public virtual void ArrayEntityHandler(BuilderInfo info)
+        {
+
+        }
+        public virtual void ICollectionHandler(BuilderInfo info)
+        {
+
+        }
+        public virtual void CollectionHandler(BuilderInfo info)
         {
 
         }
@@ -32,18 +41,10 @@ namespace Natasha
             else
             {
                 //复杂类型交由入口处理
-                TypeHandler(eleType);
+                EntityHandler(eleType);
                 ArrayEntityHandler(typeInfo);
             }
         }
-        public virtual void ICollectionHandler(BuilderInfo info)
-        {
-
-        }
-        public virtual void CollectionHandler(BuilderInfo info)
-        {
-
-        }        
         public void EntityRouter(Type type)
         {
 
@@ -90,7 +91,7 @@ namespace Natasha
                         }
                         else
                         {
-                            TypeHandler(eleType);
+                            EntityHandler(eleType);
                             FieldArrayEntityHandler(info);
                         }
                     }
@@ -107,9 +108,9 @@ namespace Natasha
 
                         if (collectionType != null)
                         {
-                            
+
                             //创建集合克隆
-                            TypeHandler(fieldType);
+                            EntityHandler(fieldType);
                             if (fieldType.IsInterface)
                             {
                                 FieldICollectionHandler(info);
@@ -121,6 +122,7 @@ namespace Natasha
                         }
                         else
                         {
+                            EntityHandler(info.RealType);
                             FieldEntityHandler(info);
                         }
                     }
@@ -167,7 +169,7 @@ namespace Natasha
                         }
                         else
                         {
-                            TypeHandler(eleType);
+                            EntityHandler(eleType);
                             PropertyArrayEntityHandler(info);
                         }
                     }
@@ -185,7 +187,7 @@ namespace Natasha
                         {
 
                             //创建集合克隆
-                            TypeHandler(propertyType);
+                            EntityHandler(propertyType);
                             if (propertyType.IsInterface)
                             {
                                 PropertyICollectionHandler(info);
@@ -197,6 +199,7 @@ namespace Natasha
                         }
                         else
                         {
+                            EntityHandler(info.RealType);
                             PropertyEntityHandler(info);
                         }
                     }
@@ -209,23 +212,23 @@ namespace Natasha
         public void CollectionRouter(Type type)
         {
             //泛型集合参数
-            Type[] args = null;
+            Type[] args = type.GetGenericArguments();
 
             BuilderInfo typeInfo = new BuilderInfo();
-            typeInfo.Type = type;
+            typeInfo.RealType = type;
             typeInfo.TypeName = NameReverser.GetName(type);
             typeInfo.AvailableName = AvailableNameReverser.GetName(type);
             //检测接口
             if (!type.IsInterface)
             {
 
-                TypeHandler(args[0]);
+                EntityHandler(args[0]);
 
 
                 //如果存在第二个泛型参数，例如字典，同样进行克隆处理
                 if (args.Length == 2)
                 {
-                    TypeHandler(args[1]);
+                    EntityHandler(args[1]);
                 }
             }
             if (type.IsInterface)
@@ -248,7 +251,6 @@ namespace Natasha
 
         }
         #endregion
-
 
         #region Field
         public virtual void FieldOnceTypeHandler(BuilderInfo info)
@@ -276,7 +278,6 @@ namespace Natasha
             MemberEntityHandler(info);
         }
         #endregion
-       
 
         #region Property
         public virtual void PropertyOnceTypeHandler(BuilderInfo info)
@@ -353,7 +354,8 @@ namespace Natasha
                 CollectionRouter(type);
             }
             else
-            {                                                   //实体类型
+            {
+                //实体类型
                 EntityRouter(type);
             }
         }
