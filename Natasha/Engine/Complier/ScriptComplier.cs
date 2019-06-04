@@ -91,6 +91,7 @@ namespace Natasha.Complier
         /// <returns></returns>
         public static Assembly StreamComplier(string content, string className = null, Action<string> errorAction = null)
         {
+
 #if DEBUG
             StringBuilder recoder = new StringBuilder(content);
 #endif
@@ -117,16 +118,39 @@ namespace Natasha.Complier
                     if (fileResult.Success)
                     {
                         var result = Assembly.Load(stream.GetBuffer());
+#if DEBUG
+                        recoder.AppendLine("\r\n\r\n------------------------------------------succeed-------------------------------------------");
+                        recoder.AppendLine($"\r\n    Target :\t\t{className}");
+                        recoder.AppendLine($"\r\n    Size :\t\t{stream.Length}");
+                        recoder.AppendLine($"\r\n    Assembly : \t{result.FullName}");
+                        recoder.AppendLine("\r\n----------------------------------------------------------------------------------------------");
+                        NDebug.Show($"Builder Assembly Succeed : {result.FullName}");
+                        NDebug.FileRecoder("Succeed : " + className, recoder.ToString());
+#endif
+                        
                         return result;
 
                     }
                     else
                     {
+#if DEBUG
+                        recoder.AppendLine("\r\n\r\n------------------------------------------error----------------------------------------------");
+                        recoder.AppendLine($"\r\n    Target:\t\t{className}");
+                        recoder.AppendLine($"\r\n    Error:");
+#endif
+
                         //错误处理
                         foreach (var item in fileResult.Diagnostics)
                         {
+#if DEBUG
+                            recoder.AppendLine("\t\t" + item.GetMessage());
+#endif
                             errorAction?.Invoke(item.GetMessage());
                         }
+#if DEBUG
+                        recoder.AppendLine("\r\n---------------------------------------------------------------------------------------------");
+#endif
+                        NDebug.FileRecoder("Error : " + className, recoder.ToString());
                     }
                 }
 
@@ -146,9 +170,9 @@ namespace Natasha.Complier
         /// <returns></returns>
         public static Assembly FileComplier(string content, string className = null, Action<string> errorAction = null)
         {
+
 #if DEBUG
             StringBuilder recoder = new StringBuilder(content);
-           
 #endif
 
 
