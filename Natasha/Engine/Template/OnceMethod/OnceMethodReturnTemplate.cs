@@ -28,6 +28,10 @@ namespace Natasha
                 type = typeof(void);
             }
             ReturnType = type;
+            if (type.IsGenericType)
+            {
+                UsingRecoder.Add(GenericTypeOperator.GetTypes(type));
+            }
             UsingRecoder.Add(type);
             ReturnScript = NameReverser.GetName(type)+" ";
             return Link;

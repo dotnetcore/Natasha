@@ -8,7 +8,7 @@ namespace Natasha
     {
         public static void CreateCloneDelegate()
         {
-            DeepClone<T>.CloneDelegate = (Func<T, T>)DropCloneBuilder.CreateCloneDelegate(typeof(T));
+            DeepClone<T>.CloneDelegate =(Func<T, T>)((new CloneBuilder(typeof(T)).Create())); ;
         }
     }
     public class CloneBuilder : TypeIterator
@@ -22,23 +22,10 @@ namespace Natasha
         static CloneBuilder() => CloneCache = new ConcurrentDictionary<Type, Delegate>();
 
         public CloneBuilder(Type type=null) {
-            CloneType = type;
+            CurrentType = type;
             Script = new StringBuilder();
             MethodHandler = new FastMethod();
         }
-
-
-
-
-        /// <summary>
-        /// 根据委托强类型获取强类型
-        /// </summary>
-        /// <typeparam name="T">强类型</typeparam>
-        public static void CreateCloneDelegate<T>()
-        {
-            DeepClone<T>.CloneDelegate = (Func<T, T>)((new CloneBuilder(typeof(T)).Create()));
-        }
-
 
 
 
@@ -252,17 +239,17 @@ namespace Natasha
 
         public Delegate Create()
         {
-            TypeHandler(CloneType);
+            TypeHandler(CurrentType);
             //创建委托
             MethodHandler.ComplierInstance.UseFileComplie();
             var @delegate = MethodHandler
-                        .ClassName("NatashaClone" + AvailableNameReverser.GetName(CloneType))
+                        .ClassName("NatashaClone" + AvailableNameReverser.GetName(CurrentType))
                         .MethodName("Clone")
-                        .Param(CloneType, OldInstance)                //参数
+                        .Param(CurrentType, OldInstance)                //参数
                         .MethodBody(Script.ToString())                 //方法体
-                        .Return(CloneType)                              //返回类型
+                        .Return(CurrentType)                              //返回类型
                        .Complie();
-            return CloneCache[CloneType] = @delegate;
+            return CloneCache[CurrentType] = @delegate;
         }
     }
 }

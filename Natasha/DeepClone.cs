@@ -29,14 +29,14 @@ namespace Natasha
         {
             if (CloneDelegate==null)
             {
-                CloneBuilder.CreateCloneDelegate<T>();
+                CloneBuilder<T>.CreateCloneDelegate();
             }
             return CloneDelegate(instance);
         }
     }
 
 
-    public static class IEnumerableExtension
+    public static class IEnumerableCloneExtension
     {
         public static IEnumerable<T> NormalCloneExtension<T>(this IEnumerable<T> collection)
         {
@@ -99,6 +99,25 @@ namespace Natasha
                 dictionary[DeepClone<TKey>.Clone(item.Key)] = item.Value;
             }
             return dictionary;
+        }
+    }
+
+
+    public static class IEnumerableDiffExtension {
+        public static HashSet<T> SnapshotExtension<T>(this IEnumerable<T> collection,IEnumerable<T> oldInstances)
+        {
+            HashSet<T> temp = new HashSet<T>(oldInstances);
+            foreach (var item1 in oldInstances)
+            {
+                foreach (var item2 in collection)
+                {
+                    if (SnapshotOperator.Diff(item1, item2).Count==0)
+                    {
+                        temp.Remove(item1);
+                    }
+                }
+            }
+            return temp;
         }
     }
 }

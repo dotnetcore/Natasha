@@ -4,7 +4,7 @@ namespace Natasha
 {
     public abstract class TypeIterator
     {
-        public Type CloneType;
+        public Type CurrentType;
         public virtual void EntityHandler(Type type)
         {
             
