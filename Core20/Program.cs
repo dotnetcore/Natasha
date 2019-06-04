@@ -16,12 +16,7 @@ namespace Core20
              */
           
 
-            string text = @"using System;
-using System.Collections;
-using System.Linq;
-using System.Text;
- 
-namespace HelloWorld
+            string text = @"namespace HelloWorld
 {
     public class Test
     {
@@ -46,7 +41,9 @@ namespace HelloWorld
             //调用动态类
             Console.WriteLine(instance["Name"].StringValue);
 
-
+            TestB b = new TestB();
+            b.Name = "abc";
+            var result = DeepClone.Clone(b);
 
 
             //创建动态类实例代理

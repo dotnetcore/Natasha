@@ -7,6 +7,7 @@ using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 
 namespace Natasha.Complier
 {
@@ -90,6 +91,9 @@ namespace Natasha.Complier
         /// <returns></returns>
         public static Assembly StreamComplier(string content, string className = null, Action<string> errorAction = null)
         {
+#if DEBUG
+            StringBuilder recoder = new StringBuilder(content);
+#endif
 
             //写入分析树
             SyntaxTree tree = SyntaxFactory.ParseSyntaxTree(content);
@@ -142,9 +146,10 @@ namespace Natasha.Complier
         /// <returns></returns>
         public static Assembly FileComplier(string content, string className = null, Action<string> errorAction = null)
         {
-
-            //写入分析树
-            SyntaxTree tree = SyntaxFactory.ParseSyntaxTree(content);
+#if DEBUG
+            StringBuilder recoder = new StringBuilder(content);
+           
+#endif
 
 
             //类名获取
@@ -156,10 +161,19 @@ namespace Natasha.Complier
 
             //生成路径
             string path = $"{LibPath}{className}.dll";
+
+            
+            NDebug.Show("Writing:" + path);
+
+
             if (DynamicDlls.ContainsKey(path))
             {
                 return DynamicDlls[path];
             }
+
+
+            //写入分析树
+            SyntaxTree tree = SyntaxFactory.ParseSyntaxTree(content);
 
 
             //创建语言编译
@@ -173,29 +187,60 @@ namespace Natasha.Complier
             //锁住内容
             lock (content)
             {
+
                 //再次检查缓存，解决并发问题
                 if (DynamicDlls.ContainsKey(path))
                 {
                     return DynamicDlls[path];
                 }
 
+
                 //编译到文件
                 var fileResult = compilation.Emit(path);
                 if (fileResult.Success)
                 {
-
                     References.Add(MetadataReference.CreateFromFile(path));
                     //为了实现动态中的动态，使用文件加载模式常驻内存
                     var result = Assembly.LoadFrom(path);
+
+
+#if DEBUG
+                    recoder.AppendLine("\r\n\r\n------------------------------------------succeed-------------------------------------------");
+                    recoder.AppendLine($"\r\n    Target :\t\t{className}");
+                    recoder.AppendLine($"\r\n    Path :\t\t{path}");
+                    recoder.AppendLine($"\r\n    Assembly : \t{result.FullName}");
+                    recoder.AppendLine("\r\n----------------------------------------------------------------------------------------------");
+                    NDebug.Show($"Builder Assembly Succeed : {result.FullName}");
+                    NDebug.FileRecoder("Succeed : " + className, recoder.ToString());
+#endif
+
+
                     DynamicDlls[path] = result;
                     return result;
                 }
                 else
                 {
+
+#if DEBUG
+                    recoder.AppendLine("\r\n\r\n------------------------------------------error----------------------------------------------");
+                    recoder.AppendLine($"\r\n    Target:\t\t{className}");
+                    recoder.AppendLine($"\r\n    Error:");
+#endif
+
+
                     foreach (var item in fileResult.Diagnostics)
                     {
+#if DEBUG
+                        recoder.AppendLine("\t\t" + item.GetMessage());
+#endif
                         errorAction?.Invoke(item.GetMessage());
                     }
+
+
+#if DEBUG
+                    recoder.AppendLine("\r\n---------------------------------------------------------------------------------------------");
+#endif
+                    NDebug.FileRecoder("Error : " + className, recoder.ToString());
                 }
             }
             return null;
