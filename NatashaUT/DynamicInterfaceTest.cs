@@ -10,7 +10,7 @@ namespace NatashaUT
         string MethodWidthParamsString(string str);
         string MethodWidthParams(int a,string str,int b);
     }
-
+    [Trait("快速构建","接口")]
     public class DynamicInterfaceTest
     {
         [Fact(DisplayName = "接口动态实现")]

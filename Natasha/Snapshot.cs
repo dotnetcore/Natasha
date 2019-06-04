@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 namespace Natasha
 {
-    public static class SnapshotOperator<T>
+    public static class Snapshot<T>
     {
         public static readonly ConcurrentDictionary<T, T> SnapshotCache;
 
-        static SnapshotOperator() => SnapshotCache = new ConcurrentDictionary<T, T>();
+        static Snapshot() => SnapshotCache = new ConcurrentDictionary<T, T>();
         public static void MakeSnapshot(T needSnapshot)
         {
             SnapshotCache[needSnapshot] = DeepClone.Clone(needSnapshot);
@@ -38,23 +38,23 @@ namespace Natasha
             return CompareFunc(instance, SnapshotCache[instance]);
         }
     }
-    public static class SnapshotOperator
+    public static class Snapshot
     {
         public static Dictionary<string, DiffModel> Diff<T>(T newInstance, T oldInstance)
         {
-            return SnapshotOperator<T>.Diff(newInstance, oldInstance);
+            return Snapshot<T>.Diff(newInstance, oldInstance);
         }
         public static bool IsDiffernt<T>(T instance)
         {
-            return SnapshotOperator<T>.Compare(instance).Count != 0;
+            return Snapshot<T>.Compare(instance).Count != 0;
         }
         public static Dictionary<string, DiffModel> Compare<T>(T instance)
         {
-            return SnapshotOperator<T>.Compare(instance);
+            return Snapshot<T>.Compare(instance);
         }
         public static void MakeSnapshot<T>(T needSnapshot)
         {
-            SnapshotOperator<T>.MakeSnapshot(needSnapshot);
+            Snapshot<T>.MakeSnapshot(needSnapshot);
         }
     }
 }

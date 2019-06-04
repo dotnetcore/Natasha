@@ -1,14 +1,12 @@
 ﻿using Natasha;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace NatashaUT
 {
+    [Trait("快速构建","完整类")]
     public class DynamicClassTest
     {
-
 
 
         [Fact(DisplayName = "动态类生成测试")]

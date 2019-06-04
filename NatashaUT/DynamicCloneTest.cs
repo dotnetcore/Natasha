@@ -6,12 +6,11 @@ using Xunit;
 
 namespace NatashaUT
 {
+    [Trait("克隆测试","")]
     public class DynamicCloneTest
     {
 
-
-
-        [Fact(DisplayName = "字段--基元类型以及结构体克隆测试")]
+        [Fact(DisplayName = "字段--基元类型以及结构体")]
         public void Normal()
         {
             FieldCloneNormalModel model = new FieldCloneNormalModel();
@@ -32,7 +31,7 @@ namespace NatashaUT
             Assert.Equal(model.Name, newModel.Name);
         }
 
-        [Fact(DisplayName = "字段--时间以及非类数组克隆测试")]
+        [Fact(DisplayName = "字段--时间以及非类数组")]
         public void NotClassArray()
         {
             FieldCloneArrayModel model = new FieldCloneArrayModel();
@@ -54,7 +53,7 @@ namespace NatashaUT
 
 
 
-        [Fact(DisplayName = "字段--类数组克隆测试")]
+        [Fact(DisplayName = "字段--类数组")]
         public void ClassArray()
         {
             FieldCloneClassArrayModel model = new FieldCloneClassArrayModel();
@@ -77,7 +76,7 @@ namespace NatashaUT
 
 
 
-        [Fact(DisplayName = "字段--子节点克隆测试")]
+        [Fact(DisplayName = "字段--子节点")]
         public void SubClassArray()
         {
             FieldCloneSubNodeModel model = new FieldCloneSubNodeModel();
@@ -92,7 +91,7 @@ namespace NatashaUT
 
 
 
-        [Fact(DisplayName = "字段--类集合克隆测试")]
+        [Fact(DisplayName = "字段--类集合")]
         public void ClassCollectionArray()
         {
             FieldCloneClassCollectionModel model = new FieldCloneClassCollectionModel();
@@ -115,7 +114,7 @@ namespace NatashaUT
 
 
 
-        [Fact(DisplayName = "属性--基元类型以及结构体克隆测试")]
+        [Fact(DisplayName = "属性--基元类型以及结构体")]
         public void PropNormal()
         {
             PropCloneNormalModel model = new PropCloneNormalModel();
@@ -138,7 +137,7 @@ namespace NatashaUT
 
 
 
-        [Fact(DisplayName = "属性--时间以及非类数组克隆测试")]
+        [Fact(DisplayName = "属性--时间以及非类数组")]
         public void PropNotClassArray()
         {
             PropCloneArrayModel model = new PropCloneArrayModel();
@@ -160,7 +159,7 @@ namespace NatashaUT
 
 
 
-        [Fact(DisplayName = "属性--类数组克隆测试")]
+        [Fact(DisplayName = "属性--类数组")]
         public void PropClassArray()
         {
             PropCloneClassArrayModel model = new PropCloneClassArrayModel();
@@ -184,7 +183,7 @@ namespace NatashaUT
 
 
 
-        [Fact(DisplayName = "属性--子节点克隆测试")]
+        [Fact(DisplayName = "属性--子节点")]
         public void PropSubClassArray()
         {
             PropCloneSubNodeModel model = new PropCloneSubNodeModel();
@@ -201,7 +200,7 @@ namespace NatashaUT
 
 
 
-        [Fact(DisplayName = "属性--类集合克隆测试")]
+        [Fact(DisplayName = "属性--类集合")]
         public void PropClassCollectionTest()
         {
             PropCloneClassCollectionModel model = new PropCloneClassCollectionModel();
@@ -225,7 +224,7 @@ namespace NatashaUT
 
 
 
-        [Fact(DisplayName = "类集合嵌套集合克隆测试")]
+        [Fact(DisplayName = "类集合嵌套集合")]
         public void PropClassCollectionArray1()
         {
             PropCloneCollectionModel model = new PropCloneCollectionModel();
@@ -256,7 +255,7 @@ namespace NatashaUT
 
 
 
-        [Fact(DisplayName = "类集合嵌套数组克隆测试")]
+        [Fact(DisplayName = "类集合嵌套数组")]
         public void PropClassCollectionArray2()
         {
             PropCloneCollectionModel model = new PropCloneCollectionModel();
@@ -288,7 +287,7 @@ namespace NatashaUT
 
 
 
-        [Fact(DisplayName = "类数组嵌套集合克隆测试")]
+        [Fact(DisplayName = "类数组嵌套集合")]
         public void PropClassCollectionArray3()
         {
             PropCloneCollectionModel model = new PropCloneCollectionModel();

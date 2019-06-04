@@ -1,16 +1,12 @@
 ﻿using Natasha;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace NatashaUT
 {
+    [Trait("构建类", "遍历")]
     public class DynamicCallTest
     {
-
-
-
         [Fact(DisplayName = "动态类的动态操作测试")]
         public void TestCall1()
         {

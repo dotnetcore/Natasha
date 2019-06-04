@@ -5,9 +5,9 @@ using Xunit;
 
 namespace NatashaUT
 {
+    [Trait("远程调用","")]
     public class DynamicRemoteTest
     {
-
 
 
         [Fact(DisplayName = "远程调用--客户端参数")]

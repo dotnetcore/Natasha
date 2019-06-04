@@ -7,11 +7,12 @@ using Xunit;
 
 namespace NatashaUT
 {
+    [Trait("快照测试", "")]
     public class DynamicSnapshotTest
     {
 
 
-        [Fact(DisplayName = "字段--基元类型以及结构体快照测试")]
+        [Fact(DisplayName = "字段--基元类型以及结构体")]
         public void Normal()
         {
             FieldCloneNormalModel model = new FieldCloneNormalModel();
@@ -23,12 +24,12 @@ namespace NatashaUT
             model.Title = false;
             model.Id = 100000;
 
-            SnapshotOperator.MakeSnapshot(model);
+            Snapshot.MakeSnapshot(model);
             model.Age = 1001;
             model.Name = "hahaha";
             model.Flag = CloneEnum.B;
             model.Title = true;
-            var reuslt = SnapshotOperator.Compare(model);
+            var reuslt = Snapshot.Compare(model);
             Assert.NotEqual(model.Age, (int)(reuslt["Age"].Value));
             Assert.NotEqual(model.Title, (bool)(reuslt["Title"].Value));
             Assert.NotEqual(model.Name, (string)(reuslt["Name"].Value));
@@ -40,7 +41,7 @@ namespace NatashaUT
         }
 
 
-        [Fact(DisplayName = "字段--非类数组快照测试")]
+        [Fact(DisplayName = "字段--非类数组")]
         public void NotClassArray()
         {
             FieldCloneArrayModel model = new FieldCloneArrayModel();
@@ -51,12 +52,12 @@ namespace NatashaUT
                 model.Name[i] = i.ToString();
             }
 
-            SnapshotOperator.MakeSnapshot(model);
+            Snapshot.MakeSnapshot(model);
             for (int i = 5; i < 10; i++)
             {
                 model.Name[i] = (i + 100).ToString();
             }
-            var reuslt = SnapshotOperator.Compare(model);
+            var reuslt = Snapshot.Compare(model);
             var value = (HashSet<string>)reuslt["Name"].Value;
             int temp = 5;
             foreach (var item in value)
@@ -68,7 +69,7 @@ namespace NatashaUT
 
         
 
-        [Fact(DisplayName = "字段--类数组快照测试")]
+        [Fact(DisplayName = "字段--类数组")]
         public void ClassArray()
         {
             FieldCloneClassArrayModel model = new FieldCloneClassArrayModel();
@@ -79,12 +80,12 @@ namespace NatashaUT
                 model.Models[i] = new FieldCloneNormalModel() { Age = i, Name = i.ToString() };
             }
 
-            SnapshotOperator.MakeSnapshot(model);
+            Snapshot.MakeSnapshot(model);
             for (int i = 5; i < 10; i++)
             {
                 model.Models[i] = new FieldCloneNormalModel() { Age = i+100, Name = (i+100).ToString() };
             }
-            var reuslt = SnapshotOperator.Compare(model);
+            var reuslt = Snapshot.Compare(model);
             var value = (HashSet<FieldCloneNormalModel>)reuslt["Models"].Value;
             int temp = 5;
             foreach (var item in value)
@@ -97,18 +98,18 @@ namespace NatashaUT
 
        
 
-        [Fact(DisplayName = "字段--子节点快照测试")]
+        [Fact(DisplayName = "字段--子节点")]
         public void SubClassArray()
         {
             FieldCloneSubNodeModel model = new FieldCloneSubNodeModel();
             
             model.Node = new FieldCloneNormalModel() { Age = 1, Name = "111" };
 
-            SnapshotOperator.MakeSnapshot(model);
+            Snapshot.MakeSnapshot(model);
 
             model.Node = new FieldCloneNormalModel() { Age = 2, Name = "222" };
 
-            var result = SnapshotOperator.Compare(model);
+            var result = Snapshot.Compare(model);
             var value = (Dictionary<string,DiffModel>)(result["Node"].Value);
             Assert.NotEqual(model.Node.Name,(string)(value["Name"].Value));
             Assert.NotEqual(model.Node.Age, (int)(value["Age"].Value));
@@ -118,7 +119,7 @@ namespace NatashaUT
 
         
 
-       [Fact(DisplayName = "字段--类集合快照测试")]
+       [Fact(DisplayName = "字段--类集合")]
        public void ClassCollectionArray()
        {
            FieldCloneClassCollectionModel model = new FieldCloneClassCollectionModel();
@@ -129,7 +130,7 @@ namespace NatashaUT
                model.Nodes.Add(new FieldCloneNormalModel() { Age = i, Name = i.ToString() });
            }
 
-            SnapshotOperator.MakeSnapshot(model);
+            Snapshot.MakeSnapshot(model);
 
             for (int i = 5; i < 10; i++)
             {
@@ -137,7 +138,7 @@ namespace NatashaUT
             }
 
 
-            var reuslt = SnapshotOperator.Compare(model);
+            var reuslt = Snapshot.Compare(model);
             var value = (HashSet<FieldCloneNormalModel>)reuslt["Nodes"].Value;
             int temp = 5;
 
@@ -151,7 +152,7 @@ namespace NatashaUT
      
 
 
-        [Fact(DisplayName = "属性--基元类型以及结构体快照测试")]
+        [Fact(DisplayName = "属性--基元类型以及结构体")]
         public void PropNormal()
         {
             var tempDate = DateTime.Now;
@@ -163,7 +164,7 @@ namespace NatashaUT
             model.Title = false;
             model.Id = 100000;
             //生成快照
-            SnapshotOperator.MakeSnapshot(model);
+            Snapshot.MakeSnapshot(model);
 
             //更改model
             model.Age = 1001;
@@ -172,7 +173,7 @@ namespace NatashaUT
             model.Title = true;
 
             //对比快照
-            var reuslt = SnapshotOperator.Compare(model);
+            var reuslt = Snapshot.Compare(model);
 
 
             Assert.NotEqual(model.Age, (int)(reuslt["Age"].Value));
@@ -188,7 +189,7 @@ namespace NatashaUT
 
         
 
-        [Fact(DisplayName = "属性--时间以及非类数组快照测试")]
+        [Fact(DisplayName = "属性--时间以及非类数组")]
         public void PropNotClassArray()
         {
             
@@ -200,13 +201,13 @@ namespace NatashaUT
                 model.Name[i] = i.ToString();
             }
 
-            SnapshotOperator.MakeSnapshot(model);
+            Snapshot.MakeSnapshot(model);
             for (int i = 5; i < 10; i++)
             {
 
                 model.Name[i] = (i + 100).ToString();
             }
-            var reuslt = SnapshotOperator.Compare(model);
+            var reuslt = Snapshot.Compare(model);
             var value = (HashSet<string>)reuslt["Name"].Value;
             int temp = 5;
             foreach (var item in value)
@@ -218,7 +219,7 @@ namespace NatashaUT
 
         
 
-        [Fact(DisplayName = "属性--类数组快照测试")]
+        [Fact(DisplayName = "属性--类数组")]
         public void PropClassArray()
         {
             PropCloneClassArrayModel model = new PropCloneClassArrayModel();
@@ -229,12 +230,12 @@ namespace NatashaUT
                 model.Models[i] = new PropCloneNormalModel() { Age = i, Name = i.ToString() };
             }
 
-            SnapshotOperator.MakeSnapshot(model);
+            Snapshot.MakeSnapshot(model);
             for (int i = 5; i < 10; i++)
             {
                 model.Models[i] = new PropCloneNormalModel() { Age = i + 100, Name = (i + 100).ToString() };
             }
-            var reuslt = SnapshotOperator.Compare(model);
+            var reuslt = Snapshot.Compare(model);
             var value = (HashSet<PropCloneNormalModel>)reuslt["Models"].Value;
             int temp = 5;
             foreach (var item in value)
@@ -248,18 +249,18 @@ namespace NatashaUT
 
 
     
-        [Fact(DisplayName = "属性--子节点快照测试")]
+        [Fact(DisplayName = "属性--子节点")]
         public void PropSubClassArray()
         {
             PropCloneSubNodeModel model = new PropCloneSubNodeModel();
             
             model.Node = new PropCloneNormalModel() { Age = 1, Name = "111" };
 
-            SnapshotOperator.MakeSnapshot(model);
+            Snapshot.MakeSnapshot(model);
 
             model.Node = new PropCloneNormalModel() { Age = 2, Name = "222" };
 
-            var result = SnapshotOperator.Compare(model);
+            var result = Snapshot.Compare(model);
             var value = (Dictionary<string,DiffModel>)(result["Node"].Value);
             Assert.NotEqual(model.Node.Name,(string)(value["Name"].Value));
             Assert.NotEqual(model.Node.Age, (int)(value["Age"].Value));
@@ -269,7 +270,7 @@ namespace NatashaUT
 
       
 
-    [Fact(DisplayName = "属性--类集合快照测试")]
+    [Fact(DisplayName = "属性--类集合")]
     public void PropClassCollectionTest()
     {
          PropCloneClassCollectionModel model = new PropCloneClassCollectionModel();
@@ -280,7 +281,7 @@ namespace NatashaUT
                model.Nodes.Add(new PropCloneNormalModel() { Age = i, Name = i.ToString() });
            }
 
-            SnapshotOperator.MakeSnapshot(model);
+            Snapshot.MakeSnapshot(model);
 
             for (int i = 5; i < 10; i++)
             {
@@ -288,7 +289,7 @@ namespace NatashaUT
             }
 
 
-            var reuslt = SnapshotOperator.Compare(model);
+            var reuslt = Snapshot.Compare(model);
             var value = (HashSet<PropCloneNormalModel>)reuslt["Nodes"].Value;
             int temp = 5;
 
@@ -302,7 +303,7 @@ namespace NatashaUT
 
         
 
-  [Fact(DisplayName = "类集合嵌套集合快照测试")]
+  [Fact(DisplayName = "类集合嵌套集合")]
   public void PropClassCollectionArray1()
   {
       PropCloneCollectionModel model = new PropCloneCollectionModel();
@@ -333,7 +334,7 @@ namespace NatashaUT
 
         /*
 
-[Fact(DisplayName = "类集合嵌套数组快照测试")]
+[Fact(DisplayName = "类集合嵌套数组")]
 public void PropClassCollectionArray2()
 {
 PropCloneCollectionModel model = new PropCloneCollectionModel();
@@ -365,7 +366,7 @@ for (int i = 0; i < 5; i++)
 
 
 
-[Fact(DisplayName = "类数组嵌套集合快照测试")]
+[Fact(DisplayName = "类数组嵌套集合")]
 public void PropClassCollectionArray3()
 {
 PropCloneCollectionModel model = new PropCloneCollectionModel();

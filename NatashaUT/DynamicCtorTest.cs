@@ -1,15 +1,11 @@
 ﻿using Natasha;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace NatashaUT
 {
+    [Trait("快速构建","初始化函数")]
     public class DynamicCtorTest
     {
-
-
 
         [Fact(DisplayName ="公有初始化函数")]
         public void TestCtor1()

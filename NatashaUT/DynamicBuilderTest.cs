@@ -1,15 +1,11 @@
 ﻿using Natasha;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace NatashaUT
 {
+    [Trait("快速构建", "类")]
     public class DynamicBuilderTest
     {
-
-
 
         [Fact(DisplayName = "Builder测试1")]
         public void TestBuilder1()

@@ -71,7 +71,7 @@ namespace Natasha
                         HashSet<{info.TypeName}> compareOld = new HashSet<{info.TypeName}>({OldInstance});
                         for(int j = 0; j < OldInstance.Length;j+=1){{
                             for(int i = 0; i < NewInstance.Length;i+=1){{
-                                if(SnapshotOperator.Diff({NewInstance}[i],{OldInstance}[j]).Count==0){{
+                                if(Snapshot.Diff({NewInstance}[i],{OldInstance}[j]).Count==0){{
                                     compareOld.Remove({OldInstance}[j]);
                                 }}
                             }}
@@ -220,7 +220,7 @@ namespace Natasha
                         HashSet<{info.TypeName}> compareOld = new HashSet<{info.TypeName}>({OldInstance}.{info.MemberName});
                         for(int j = 0; j < {OldInstance}.{info.MemberName}.Length;j+=1){{
                             for(int i = 0; i < {NewInstance}.{info.MemberName}.Length;i+=1){{
-                                if(SnapshotOperator.Diff({NewInstance}.{info.MemberName}[i],{OldInstance}.{info.MemberName}[j]).Count==0){{
+                                if(Snapshot.Diff({NewInstance}.{info.MemberName}[i],{OldInstance}.{info.MemberName}[j]).Count==0){{
                                     compareOld.Remove({OldInstance}.{info.MemberName}[j]);
                                 }}
                             }}
@@ -264,9 +264,9 @@ namespace Natasha
         /// 根据委托强类型获取强类型
         /// </summary>
         /// <typeparam name="T">强类型</typeparam>
-        public static void CreateCloneDelegate<T>()
+        public static void CreateSnapshotDelegate<T>()
         {
-            DeepClone<T>.CloneDelegate = (Func<T, T>)((new SnapshotBuilder(typeof(T)).Create()));
+            Snapshot<T>.CompareFunc = (Func<T, T, Dictionary<string, DiffModel>>)((new SnapshotBuilder(typeof(T)).Create()));
         }
 
 
