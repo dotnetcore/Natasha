@@ -30,10 +30,14 @@ namespace NatashaUT
             model.Flag = CloneEnum.B;
             model.Title = true;
             var reuslt = SnapshotOperator.Compare(model);
+
+
             Assert.NotEqual(model.Age, (int)(reuslt["Age"].Value));
             Assert.NotEqual(model.Title, (bool)(reuslt["Title"].Value));
             Assert.NotEqual(model.Name, (string)(reuslt["Name"].Value));
             Assert.NotEqual(model.Flag, (CloneEnum)(reuslt["Flag"].Value));
+
+
             Assert.Equal(1000, (int)(reuslt["Age"].Value));
             Assert.False((bool)(reuslt["Title"].Value));
             Assert.Equal("ababab", (string)(reuslt["Name"].Value));
