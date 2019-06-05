@@ -7,7 +7,7 @@
 
 
 - ### 项目架构
-   <img src="https://github.com/dotnetcore/Natasha/blob/master/Image/Natasha架构图.png" height="600" width="800" alt="Natasha架构"/>
+   <img src="https://github.com/dotnetcore/Natasha/blob/master/Image/Natasha架构图.png" height="600" width="900" alt="Natasha架构"/>
 - ### 项目计划
 
    
