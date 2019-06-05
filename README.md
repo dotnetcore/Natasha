@@ -8,29 +8,7 @@
 
 - ### 项目架构
    <img src="https://github.com/dotnetcore/Natasha/blob/master/Image/Natasha架构图.png" height="500" width="900" alt="Natasha架构"/>
-- ### 项目计划
 
-   
-   - **2019/06 功能计划**：  
-
-   -------
-   - [x]  **脚本引擎&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]**  
-   
-      - [x]  动态构造&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
-          - [x] 核心模板&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
-            - [x] 成员模板&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%] 
-            - [x] 类的模板&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
-            - [x] 方法模板&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]  
-      - [x] 反解器&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]  
-           - [x] 泛型反解&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
-           - [x] 文件可用名反解&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]  
-            
-    - [x] **动态实现&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]**  
-    
-      - [x] 深度克隆&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]  
-      - [x] 实体类快照&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[##########][100%]
- 
-   -------
 <br/>
 <br/>  
 
