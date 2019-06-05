@@ -5,6 +5,9 @@
 
 欢迎参与讨论：[点击加入Gitter讨论组](https://gitter.im/dotnetcore/Natasha)
 
+
+- ### 项目架构
+   <img src="https://github.com/dotnetcore/Natasha/blob/master/Image/Natasha架构图.png" height="600" width="500" alt="Natasha架构"/>
 - ### 项目计划
 
    
