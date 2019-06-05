@@ -11,7 +11,7 @@ namespace Natasha
     /// <typeparam name="T">运行时类型</typeparam>
     public class OopOperator<T> : OopOperator
     {
-        internal static ConcurrentDictionary<string, Func<T>> _ctor_mapping;
+        private readonly static ConcurrentDictionary<string, Func<T>> _ctor_mapping;
         
         static OopOperator() => _ctor_mapping = new ConcurrentDictionary<string, Func<T>>();
 
@@ -51,7 +51,7 @@ namespace Natasha
     public class OopOperator : ClassContentTemplate<OopOperator>
     {
 
-        internal readonly static ConcurrentDictionary<string, Delegate> _delegate_mapping;
+        private readonly static ConcurrentDictionary<string, Delegate> _delegate_mapping;
         private readonly Type _oop_type;
         private readonly Dictionary<string, string> _oop_methods_mapping;
 
