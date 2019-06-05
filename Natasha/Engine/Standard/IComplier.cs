@@ -1,4 +1,5 @@
-﻿using Natasha.Complier;
+﻿using Microsoft.CodeAnalysis;
+using Natasha.Complier;
 using System;
 using System.Diagnostics;
 using System.Reflection;
@@ -11,10 +12,10 @@ namespace Natasha
         /// 编译时错误提示处理
         /// </summary>
         /// <param name="msg"></param>
-        public virtual void SingleError(string msg)
+        public virtual void SingleError(Diagnostic msg)
         {
 #if DEBUG
-            Debug.WriteLine(msg);
+            Debug.WriteLine(msg.GetMessage());
 #endif
         }
 

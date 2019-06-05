@@ -19,7 +19,7 @@ namespace NatashaUT
                         .MethodBody(@"
                             string result = str1 +"" ""+ str2;
                             Console.WriteLine(result);
-                            return result;                 ")
+                            return result;")
                         .Return<string>()
                 .Complie();
 
@@ -39,7 +39,7 @@ namespace NatashaUT
                         .MethodBody(@"
                             string result = str1 +"" ""+ str2;
                             Console.WriteLine(result);
-                            return result;                 ")
+                            return result;")
                         .Return<string>()
                 .Complie<Func<string, string, string>>();
 

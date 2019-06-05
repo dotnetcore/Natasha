@@ -9,13 +9,15 @@ namespace Natasha
 
     public static class NDebug
     {
-        public static readonly StreamWriter Writer;
-        public static readonly ConcurrentQueue<string> LogQueue;
-        public static readonly StringBuilder LogRecoder;
+        public static readonly StreamWriter SucceedWriter;
+        public static readonly StreamWriter ErrorWriter;
+        public static readonly ConcurrentQueue<string> SucceedQueue;
+        public static readonly ConcurrentQueue<string> ErrorQueue;
         static NDebug() {
-            LogQueue = new ConcurrentQueue<string>();
-            Writer = new StreamWriter("Debug.log", true, Encoding.UTF8);
-            LogRecoder = new StringBuilder();
+            SucceedQueue = new ConcurrentQueue<string>();
+            ErrorQueue = new ConcurrentQueue<string>();
+            SucceedWriter = new StreamWriter("Succeed.log", true, Encoding.UTF8);
+            ErrorWriter = new StreamWriter("Error.log",true,Encoding.UTF8);
         }
         [Conditional("DEBUG")]
         public static void Show(string msg)
@@ -24,40 +26,75 @@ namespace Natasha
         }
 
         [Conditional("DEBUG")]
-        public static void FileRecoder(string title,string msg)
+        public static void SucceedRecoder(string title,string msg)
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine($"\r\n\r\n==================={title}===================\r\n");
             sb.AppendLine(msg);
             sb.AppendLine("==========================================================");
-            sb.Replace(";\r\n", ";").Replace(";",";\r\n").Replace("get;\r\n", "get;").Replace("set;\r\n", "set;");
-            LogQueue.Enqueue(sb.ToString());
-            Write();
+            SucceedQueue.Enqueue(sb.ToString());
+            SucceedWrite();
         }
 
         [Conditional("DEBUG")]
-        public static void FileRecoder(string msg)
+        public static void SucceedRecoder(string msg)
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine($"\r\n\r\n============================================\r\n");
             sb.AppendLine(msg);
             sb.AppendLine("============================================");
-            sb.Replace(";\r\n", ";").Replace(";", ";\r\n").Replace("get;\r\n","get;").Replace("set;\r\n", "set;");
-            LogQueue.Enqueue(sb.ToString());
-            Write();
+            SucceedQueue.Enqueue(sb.ToString());
+            SucceedWrite();
         }
         [Conditional("DEBUG")]
-        internal async static void Write()
+        internal async static void SucceedWrite()
         {
-            while (LogQueue.Count > 0)
+            while (SucceedQueue.Count > 0)
             {
-                if (LogQueue.TryDequeue(out string result))
+                if (SucceedQueue.TryDequeue(out string result))
                 {
-                    await Writer.WriteLineAsync(result);
-                    Writer.Flush();
+                    await SucceedWriter.WriteLineAsync(result);
+                    SucceedWriter.Flush();
                 } 
             }
         }
 
+
+        [Conditional("DEBUG")]
+        public static void ErrorRecoder(string title, string msg)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine($"\r\n\r\n==================={title}===================\r\n");
+            sb.AppendLine(msg);
+            sb.AppendLine("==========================================================");
+            ErrorQueue.Enqueue(sb.ToString());
+            ErrorWrite();
+        }
+
+        [Conditional("DEBUG")]
+        public static void ErrorRecoder(string msg)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine($"\r\n\r\n============================================\r\n");
+            sb.AppendLine(msg);
+            sb.AppendLine("============================================");
+            ErrorQueue.Enqueue(sb.ToString());
+            ErrorWrite();
+        }
+        [Conditional("DEBUG")]
+        internal async static void ErrorWrite()
+        {
+            while (ErrorQueue.Count > 0)
+            {
+                if (ErrorQueue.TryDequeue(out string result))
+                {
+                    await ErrorWriter.WriteLineAsync(result);
+                    ErrorWriter.Flush();
+                }
+            }
+        }
+
+
+        
     }
 }

@@ -88,11 +88,10 @@ namespace Natasha.Complier
         /// <param name="className">指定类名</param>
         /// <param name="errorAction">发生错误执行委托</param>
         /// <returns></returns>
-        public static Assembly StreamComplier(string content, string className = null, Action<string> errorAction = null)
+        public static Assembly StreamComplier(string content, string className = null, Action<Diagnostic> errorAction = null)
         {
-
 #if DEBUG
-            StringBuilder recoder = new StringBuilder(content);
+            StringBuilder recoder = new StringBuilder(LineFormat(ref content));
 #endif
 
             //写入分析树
@@ -119,12 +118,13 @@ namespace Natasha.Complier
                         var result = Assembly.Load(stream.GetBuffer());
 #if DEBUG
                         recoder.AppendLine("\r\n\r\n------------------------------------------succeed-------------------------------------------");
+                        recoder.AppendLine($"\r\n    Lauguage :\t{compilation.Language}___{compilation.LanguageVersion}");
                         recoder.AppendLine($"\r\n    Target :\t\t{className}");
                         recoder.AppendLine($"\r\n    Size :\t\t{stream.Length}");
                         recoder.AppendLine($"\r\n    Assembly : \t{result.FullName}");
                         recoder.AppendLine("\r\n----------------------------------------------------------------------------------------------");
                         NDebug.Show($"Builder Assembly Succeed : {result.FullName}");
-                        NDebug.FileRecoder("Succeed : " + className, recoder.ToString());
+                        NDebug.SucceedRecoder("Succeed : " + className, recoder.ToString());
 #endif
                         
                         return result;
@@ -134,22 +134,26 @@ namespace Natasha.Complier
                     {
 #if DEBUG
                         recoder.AppendLine("\r\n\r\n------------------------------------------error----------------------------------------------");
+                        recoder.AppendLine($"\r\n    Lauguage :\t{compilation.Language}___{compilation.LanguageVersion}");
                         recoder.AppendLine($"\r\n    Target:\t\t{className}");
-                        recoder.AppendLine($"\r\n    Error:");
+                        recoder.AppendLine($"\r\n    Error:\t\t共{fileResult.Diagnostics.Length}处错误！");
 #endif
 
                         //错误处理
                         foreach (var item in fileResult.Diagnostics)
                         {
 #if DEBUG
-                            recoder.AppendLine("\t\t" + item.GetMessage());
+                            var temp = item.Location.GetLineSpan().StartLinePosition;
+                            var result = GetErrorString(content, item.Location.GetLineSpan());
+                            recoder.AppendLine($"\t\t第{temp.Line}行，第{temp.Character}个字符：       内容【{result}】  {item.GetMessage()}");
 #endif
-                            errorAction?.Invoke(item.GetMessage());
+                            errorAction?.Invoke(item);
                         }
 #if DEBUG
                         recoder.AppendLine("\r\n---------------------------------------------------------------------------------------------");
+                        NDebug.ErrorRecoder("Error : " + className, recoder.ToString());
 #endif
-                        NDebug.FileRecoder("Error : " + className, recoder.ToString());
+
                     }
                 }
 
@@ -167,11 +171,10 @@ namespace Natasha.Complier
         /// <param name="className">指定类名</param>
         /// <param name="errorAction">发生错误执行委托</param>
         /// <returns></returns>
-        public static Assembly FileComplier(string content, string className = null, Action<string> errorAction = null)
+        public static Assembly FileComplier(string content, string className = null, Action<Diagnostic> errorAction = null)
         {
-
 #if DEBUG
-            StringBuilder recoder = new StringBuilder(content);
+            StringBuilder recoder = new StringBuilder(LineFormat(ref content));
 #endif
 
 
@@ -197,15 +200,14 @@ namespace Natasha.Complier
 
             //写入分析树
             SyntaxTree tree = SyntaxFactory.ParseSyntaxTree(content);
-
-
+            
             //创建语言编译
             CSharpCompilation compilation = CSharpCompilation.Create(
                 className,
                 options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary),
                 syntaxTrees: new[] { tree },
                 references: References);
-
+            
 
             //锁住内容
             lock (content)
@@ -229,12 +231,13 @@ namespace Natasha.Complier
 
 #if DEBUG
                     recoder.AppendLine("\r\n\r\n------------------------------------------succeed-------------------------------------------");
+                    recoder.AppendLine($"\r\n    Lauguage :\t{compilation.Language}___{compilation.LanguageVersion}");
                     recoder.AppendLine($"\r\n    Target :\t\t{className}");
                     recoder.AppendLine($"\r\n    Path :\t\t{path}");
                     recoder.AppendLine($"\r\n    Assembly : \t{result.FullName}");
                     recoder.AppendLine("\r\n----------------------------------------------------------------------------------------------");
                     NDebug.Show($"Builder Assembly Succeed : {result.FullName}");
-                    NDebug.FileRecoder("Succeed : " + className, recoder.ToString());
+                    NDebug.SucceedRecoder("Succeed : " + className, recoder.ToString());
 #endif
 
 
@@ -246,27 +249,96 @@ namespace Natasha.Complier
 
 #if DEBUG
                     recoder.AppendLine("\r\n\r\n------------------------------------------error----------------------------------------------");
+                    recoder.AppendLine($"\r\n    Lauguage :\t{compilation.Language}___{compilation.LanguageVersion}");
                     recoder.AppendLine($"\r\n    Target:\t\t{className}");
-                    recoder.AppendLine($"\r\n    Error:");
+                    recoder.AppendLine($"\r\n    Error:\t\t共{fileResult.Diagnostics.Length}处错误！");
 #endif
-
 
                     foreach (var item in fileResult.Diagnostics)
                     {
 #if DEBUG
-                        recoder.AppendLine("\t\t" + item.GetMessage());
+                        var temp = item.Location.GetLineSpan().StartLinePosition;
+                        var result = GetErrorString(content, item.Location.GetLineSpan());
+                        recoder.AppendLine($"\t\t第{temp.Line}行，第{temp.Character}个字符：       内容【{result}】  {item.GetMessage()}");
 #endif
-                        errorAction?.Invoke(item.GetMessage());
+                        errorAction?.Invoke(item);
                     }
 
 
 #if DEBUG
                     recoder.AppendLine("\r\n---------------------------------------------------------------------------------------------");
+                    NDebug.ErrorRecoder("Error : " + className, recoder.ToString());
 #endif
-                    NDebug.FileRecoder("Error : " + className, recoder.ToString());
+
                 }
             }
             return null;
         }
+
+#if DEBUG
+
+        public static void AddTab(ref string content, string value)
+        {
+            content = content.Replace(value, value + "\r\n");
+        }
+        public static string LineFormat(ref string content)
+        {
+            content = content.Replace("\r\n", "");
+            AddTab(ref content, "{");
+            AddTab(ref content, "}");
+            AddTab(ref content, ";");
+            StringBuilder builder = new StringBuilder();
+            var arrayLines = content.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+            for (int i = 0; i < arrayLines.Length; i++)
+            {
+                builder.AppendLine($"{i}:\t{arrayLines[i]}");
+            }
+            return builder.ToString();
+        }
+        public static string GetErrorString(string content,FileLinePositionSpan linePositionSpan)
+        {
+            var start = linePositionSpan.StartLinePosition;
+            var end = linePositionSpan.EndLinePosition;
+            if (start.Line == end.Line 
+                && start.Character == end.Character)
+            {
+                var arrayLines = content.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+                var currentErrorLine = arrayLines[start.Line];
+                return currentErrorLine.Substring(0, start.Character-1).Trim();
+            }
+            else
+            {
+                if (start.Line == end.Line)
+                {
+                    var arrayLines = content.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+                    var currentErrorLine = arrayLines[start.Line];
+                    var endPosition = currentErrorLine.IndexOf(';', start.Character);
+                    if (endPosition == -1)
+                    {
+                        return currentErrorLine.Substring(start.Character).Replace("\r\n", "").Trim();
+                    }
+                    return currentErrorLine.Substring(start.Character, endPosition - start.Character+1).Replace("\r\n","").Trim();
+                }
+                else
+                {
+                    StringBuilder builder = new StringBuilder();
+                    var arrayLines = content.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+                    var currentErrorLine = arrayLines[start.Line];
+                    currentErrorLine.Substring(start.Character).Trim();
+                    builder.AppendLine(currentErrorLine);
+                    for (int i = start.Line + 1; i < end.Line; i += 1)
+                    {
+                        builder.AppendLine("\t\t\t" + arrayLines[i].Trim());
+                    }
+                    currentErrorLine = arrayLines[end.Line];
+                    currentErrorLine = currentErrorLine.Substring(0, end.Character).Trim();
+                    builder.AppendLine(currentErrorLine);
+                    return builder.ToString();
+                }
+            }
+            
+        }
+#endif
+
     }
 }

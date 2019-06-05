@@ -13,10 +13,7 @@ namespace NatashaUT
         public static void RunClassName0()
         {
             //ScriptComplier.Init();
-            string text = @"using System;
-using System.Collections;
-using System.Linq;
-using System.Text;
+            string text = @"
  
 namespace HelloWorld
 {
