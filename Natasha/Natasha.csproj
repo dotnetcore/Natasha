@@ -3,15 +3,15 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;</TargetFrameworks>
     <Product>Natasha</Product>
-    <Description>使用Roslyn进行动态构建。</Description>
+    <Description>使用roslyn方案打造高性能动态代码，包括动态构建，动态调用，深度克隆，实体快照，远程调用等。（Use Roslyn to create efficient dynamic code. Including dynamic build, dynamic call, deep clone, entity snapshot, remote call and so on.）</Description>
     <Copyright>.NET Core Community and Contributors</Copyright>
     <PackageId>Natasha</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <PackageReleaseNotes>赶紧发布，防止被抢。。</PackageReleaseNotes>
-    <Version>0.1.0</Version>
+    <PackageReleaseNotes>发布一版稳定版。</PackageReleaseNotes>
+    <Version>0.5.0</Version>
     <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
-    <PackageTags>Roslyn ;  IL ; Scripte ;</PackageTags>
+    <PackageTags>Roslyn ;  IL ; Scripte ; Dynamic ;</PackageTags>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <Company>Natasha</Company>
     <PackageIconUrl>https://www.dotnetcore.xyz/images/project/asp-natasha-avator.png</PackageIconUrl>
