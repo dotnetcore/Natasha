@@ -5,6 +5,9 @@
 
 欢迎参与讨论：[点击加入Gitter讨论组](https://gitter.im/dotnetcore/Natasha)
 
+Nuget已发布 0.5.0版本，案例可依照UT测试。  
+
+
 
 - ### 项目架构
    <img src="https://github.com/dotnetcore/Natasha/blob/master/Image/Natasha架构图.png" height="500" width="900" alt="Natasha架构"/>
