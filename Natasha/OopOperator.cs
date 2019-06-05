@@ -6,9 +6,9 @@ using System.Text;
 namespace Natasha
 {
     /// <summary>
-    /// 类构建器
+    /// 运行时类型动态构建器
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">运行时类型</typeparam>
     public class OopOperator<T> : OopOperator
     {
         internal static ConcurrentDictionary<string, Func<T>> _ctor_mapping;
