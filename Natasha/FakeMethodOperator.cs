@@ -7,20 +7,20 @@ namespace Natasha
     /// <summary>
     /// 根据现有反射方法伪造一个方法，内容自己定
     /// </summary>
-    public class FakeMethod : OnceMethodBuilder<FakeMethod>
+    public class FakeMethodOperator : OnceMethodBuilder<FakeMethodOperator>
     {
 
         public Action<MethodTemplate> Action;
 
         private MethodInfo _temp_info;
 
-        public static FakeMethod New
+        public static FakeMethodOperator New
         {
-            get { return new FakeMethod(); }
+            get { return new FakeMethodOperator(); }
         }
       
 
-        public FakeMethod()
+        public FakeMethodOperator()
         {
             Link = this;
             HiddenNameSpace();
@@ -35,7 +35,7 @@ namespace Natasha
         /// </summary>
         /// <param name="reflectMethodInfo">反射方法</param>
         /// <returns></returns>
-        public FakeMethod UseMethod(MethodInfo reflectMethodInfo)
+        public FakeMethodOperator UseMethod(MethodInfo reflectMethodInfo)
         {
             _temp_info = reflectMethodInfo;
             return this;
@@ -49,7 +49,7 @@ namespace Natasha
         /// </summary>
         /// <param name="content"></param>
         /// <returns></returns>
-        public FakeMethod MethodContent(string content)
+        public FakeMethodOperator MethodContent(string content)
         {
             if (!HashMethodName())
             {

@@ -5,13 +5,13 @@ namespace Natasha
     /// <summary>
     /// 快速创建一个动态方法
     /// </summary>
-    public class FastMethod : OnceMethodBuilder<FastMethod>
+    public class FastMethodOperator : OnceMethodBuilder<FastMethodOperator>
     {
-        public static FastMethod New
+        public static FastMethodOperator New
         {
-            get { return new FastMethod(); }
+            get { return new FastMethodOperator(); }
         }
-        public FastMethod()
+        public FastMethodOperator()
         {
             Link = this;
             HiddenNameSpace()

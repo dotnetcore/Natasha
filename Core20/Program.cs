@@ -31,7 +31,7 @@ namespace Core20
             //根据脚本创建动态类
             Type type = ClassBuilder.GetType(text);
             //创建动态类实例代理
-            DynamicInstance instance = type;
+            DynamicOperator instance = type;
 
             if (instance["Name"].StringValue == "111")
             {
@@ -43,11 +43,11 @@ namespace Core20
 
             TestB b = new TestB();
             b.Name = "abc";
-            var result = DeepClone.Clone(b);
+            var result = CloneOperator.Clone(b);
 
 
             //创建动态类实例代理
-            DynamicInstance<TestB> instance2 = new DynamicInstance<TestB>();
+            DynamicOperator<TestB> instance2 = new DynamicOperator<TestB>();
 
             if (instance2["Name"].StringValue == "111")
             {

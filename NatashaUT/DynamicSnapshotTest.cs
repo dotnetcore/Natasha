@@ -24,12 +24,12 @@ namespace NatashaUT
             model.Title = false;
             model.Id = 100000;
 
-            Snapshot.MakeSnapshot(model);
+            SnapshotOperator.MakeSnapshot(model);
             model.Age = 1001;
             model.Name = "hahaha";
             model.Flag = CloneEnum.B;
             model.Title = true;
-            var reuslt = Snapshot.Compare(model);
+            var reuslt = SnapshotOperator.Compare(model);
             Assert.NotEqual(model.Age, (int)(reuslt["Age"].Value));
             Assert.NotEqual(model.Title, (bool)(reuslt["Title"].Value));
             Assert.NotEqual(model.Name, (string)(reuslt["Name"].Value));
@@ -52,12 +52,12 @@ namespace NatashaUT
                 model.Name[i] = i.ToString();
             }
 
-            Snapshot.MakeSnapshot(model);
+            SnapshotOperator.MakeSnapshot(model);
             for (int i = 5; i < 10; i++)
             {
                 model.Name[i] = (i + 100).ToString();
             }
-            var reuslt = Snapshot.Compare(model);
+            var reuslt = SnapshotOperator.Compare(model);
             var value = (HashSet<string>)reuslt["Name"].Value;
             int temp = 5;
             foreach (var item in value)
@@ -80,12 +80,12 @@ namespace NatashaUT
                 model.Models[i] = new FieldCloneNormalModel() { Age = i, Name = i.ToString() };
             }
 
-            Snapshot.MakeSnapshot(model);
+            SnapshotOperator.MakeSnapshot(model);
             for (int i = 5; i < 10; i++)
             {
                 model.Models[i] = new FieldCloneNormalModel() { Age = i+100, Name = (i+100).ToString() };
             }
-            var reuslt = Snapshot.Compare(model);
+            var reuslt = SnapshotOperator.Compare(model);
             var value = (HashSet<FieldCloneNormalModel>)reuslt["Models"].Value;
             int temp = 5;
             foreach (var item in value)
@@ -105,11 +105,11 @@ namespace NatashaUT
             
             model.Node = new FieldCloneNormalModel() { Age = 1, Name = "111" };
 
-            Snapshot.MakeSnapshot(model);
+            SnapshotOperator.MakeSnapshot(model);
 
             model.Node = new FieldCloneNormalModel() { Age = 2, Name = "222" };
 
-            var result = Snapshot.Compare(model);
+            var result = SnapshotOperator.Compare(model);
             var value = (Dictionary<string,DiffModel>)(result["Node"].Value);
             Assert.NotEqual(model.Node.Name,(string)(value["Name"].Value));
             Assert.NotEqual(model.Node.Age, (int)(value["Age"].Value));
@@ -130,7 +130,7 @@ namespace NatashaUT
                model.Nodes.Add(new FieldCloneNormalModel() { Age = i, Name = i.ToString() });
            }
 
-            Snapshot.MakeSnapshot(model);
+            SnapshotOperator.MakeSnapshot(model);
 
             for (int i = 5; i < 10; i++)
             {
@@ -138,7 +138,7 @@ namespace NatashaUT
             }
 
 
-            var reuslt = Snapshot.Compare(model);
+            var reuslt = SnapshotOperator.Compare(model);
             var value = (HashSet<FieldCloneNormalModel>)reuslt["Nodes"].Value;
             int temp = 5;
 
@@ -164,7 +164,7 @@ namespace NatashaUT
             model.Title = false;
             model.Id = 100000;
             //生成快照
-            Snapshot.MakeSnapshot(model);
+            SnapshotOperator.MakeSnapshot(model);
 
             //更改model
             model.Age = 1001;
@@ -173,7 +173,7 @@ namespace NatashaUT
             model.Title = true;
 
             //对比快照
-            var reuslt = Snapshot.Compare(model);
+            var reuslt = SnapshotOperator.Compare(model);
 
 
             Assert.NotEqual(model.Age, (int)(reuslt["Age"].Value));
@@ -201,13 +201,13 @@ namespace NatashaUT
                 model.Name[i] = i.ToString();
             }
 
-            Snapshot.MakeSnapshot(model);
+            SnapshotOperator.MakeSnapshot(model);
             for (int i = 5; i < 10; i++)
             {
 
                 model.Name[i] = (i + 100).ToString();
             }
-            var reuslt = Snapshot.Compare(model);
+            var reuslt = SnapshotOperator.Compare(model);
             var value = (HashSet<string>)reuslt["Name"].Value;
             int temp = 5;
             foreach (var item in value)
@@ -230,12 +230,12 @@ namespace NatashaUT
                 model.Models[i] = new PropCloneNormalModel() { Age = i, Name = i.ToString() };
             }
 
-            Snapshot.MakeSnapshot(model);
+            SnapshotOperator.MakeSnapshot(model);
             for (int i = 5; i < 10; i++)
             {
                 model.Models[i] = new PropCloneNormalModel() { Age = i + 100, Name = (i + 100).ToString() };
             }
-            var reuslt = Snapshot.Compare(model);
+            var reuslt = SnapshotOperator.Compare(model);
             var value = (HashSet<PropCloneNormalModel>)reuslt["Models"].Value;
             int temp = 5;
             foreach (var item in value)
@@ -256,11 +256,11 @@ namespace NatashaUT
             
             model.Node = new PropCloneNormalModel() { Age = 1, Name = "111" };
 
-            Snapshot.MakeSnapshot(model);
+            SnapshotOperator.MakeSnapshot(model);
 
             model.Node = new PropCloneNormalModel() { Age = 2, Name = "222" };
 
-            var result = Snapshot.Compare(model);
+            var result = SnapshotOperator.Compare(model);
             var value = (Dictionary<string,DiffModel>)(result["Node"].Value);
             Assert.NotEqual(model.Node.Name,(string)(value["Name"].Value));
             Assert.NotEqual(model.Node.Age, (int)(value["Age"].Value));
@@ -281,7 +281,7 @@ namespace NatashaUT
                model.Nodes.Add(new PropCloneNormalModel() { Age = i, Name = i.ToString() });
            }
 
-            Snapshot.MakeSnapshot(model);
+            SnapshotOperator.MakeSnapshot(model);
 
             for (int i = 5; i < 10; i++)
             {
@@ -289,7 +289,7 @@ namespace NatashaUT
             }
 
 
-            var reuslt = Snapshot.Compare(model);
+            var reuslt = SnapshotOperator.Compare(model);
             var value = (HashSet<PropCloneNormalModel>)reuslt["Nodes"].Value;
             int temp = 5;
 
@@ -318,7 +318,7 @@ namespace NatashaUT
           }
       }
 
-      var newModel = DeepClone.Clone(model);
+      var newModel = CloneOperator.Clone(model);
 
       for (int i = 0; i < 5; i++)
       {
@@ -350,7 +350,7 @@ for (int i = 0; i < 5; i++)
 }
 
 
-var newModel = DeepClone.Clone(model);
+var newModel = CloneOperator.Clone(model);
 
 for (int i = 0; i < 5; i++)
 {
@@ -381,7 +381,7 @@ for (int i = 0; i < 5; i++)
    }
 }
 
-var newModel = DeepClone.Clone(model);
+var newModel = CloneOperator.Clone(model);
 
 for (int i = 0; i < 5; i++)
 {

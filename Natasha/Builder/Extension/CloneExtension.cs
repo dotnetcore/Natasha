@@ -12,7 +12,7 @@ namespace Natasha
                 return null;
             }
 
-            return collection.Select(item => DeepClone<T>.Clone(item));
+            return collection.Select(item => CloneOperator<T>.Clone(item));
         }
 
         public static IDictionary<TKey, TValue> CloneExtension<TKey, TValue>(this IDictionary<TKey, TValue> collection)
@@ -25,7 +25,7 @@ namespace Natasha
             Dictionary<TKey, TValue> dictionary = new Dictionary<TKey, TValue>();
             foreach (var item in collection)
             {
-                dictionary[DeepClone<TKey>.Clone(item.Key)] = DeepClone<TValue>.Clone(item.Value);
+                dictionary[CloneOperator<TKey>.Clone(item.Key)] = CloneOperator<TValue>.Clone(item.Value);
             }
             return dictionary;
         }
@@ -40,7 +40,7 @@ namespace Natasha
             Dictionary<TKey, TValue> dictionary = new Dictionary<TKey, TValue>();
             foreach (var item in collection)
             {
-                dictionary[DeepClone<TKey>.Clone(item.Key)] = item.Value;
+                dictionary[CloneOperator<TKey>.Clone(item.Key)] = item.Value;
             }
             return dictionary;
         }
@@ -54,7 +54,7 @@ namespace Natasha
             Dictionary<TKey, TValue> dictionary = new Dictionary<TKey, TValue>();
             foreach (var item in collection)
             {
-                dictionary[DeepClone<TKey>.Clone(item.Key)] = item.Value;
+                dictionary[CloneOperator<TKey>.Clone(item.Key)] = item.Value;
             }
             return dictionary;
         }

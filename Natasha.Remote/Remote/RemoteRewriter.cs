@@ -61,7 +61,7 @@ namespace Natasha.Remote
                         }
                     }
 
-                    RemoteReader._func_mapping[className][item.Name] = FastMethod.New
+                    RemoteReader._func_mapping[className][item.Name] = FastMethodOperator.New
                             .Using(type)
                             .Using(typeof(JsonConvert))
                             .Param<RemoteParameters>("parameters")

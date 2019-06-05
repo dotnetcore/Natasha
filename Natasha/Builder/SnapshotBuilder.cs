@@ -9,7 +9,7 @@ namespace Natasha
     public class SnapshotBuilder : TypeIterator
     {
         public readonly StringBuilder Script;
-        private readonly FastMethod MethodHandler;
+        private readonly FastMethodOperator MethodHandler;
         private const string NewInstance = "NewInstance";
         private const string OldInstance = "OldInstance";
         public static readonly ConcurrentDictionary<Type, Delegate> SnapshotCache;
@@ -24,7 +24,7 @@ namespace Natasha
         {
             CurrentType = type;
             Script = new StringBuilder();
-            MethodHandler = new FastMethod();
+            MethodHandler = new FastMethodOperator();
         }
 
         public override void ArrayOnceTypeHandler(BuilderInfo info)
@@ -45,7 +45,7 @@ namespace Natasha
             ");
 
             //创建委托
-            var tempBuilder = FastMethod.New;
+            var tempBuilder = FastMethodOperator.New;
             tempBuilder.ComplierInstance.UseFileComplie();
             tempBuilder.Using(info.Type).Using(info.RealType).Using(typeof(HashSet<>)); ;
             SnapshotCache[info.Type] = tempBuilder
@@ -71,7 +71,7 @@ namespace Natasha
                         HashSet<{info.TypeName}> compareOld = new HashSet<{info.TypeName}>({OldInstance});
                         for(int j = 0; j < OldInstance.Length;j+=1){{
                             for(int i = 0; i < NewInstance.Length;i+=1){{
-                                if(Snapshot.Diff({NewInstance}[i],{OldInstance}[j]).Count==0){{
+                                if(SnapshotOperator.Diff({NewInstance}[i],{OldInstance}[j]).Count==0){{
                                     compareOld.Remove({OldInstance}[j]);
                                 }}
                             }}
@@ -82,7 +82,7 @@ namespace Natasha
             ");
 
             //创建委托
-            var tempBuilder = FastMethod.New;
+            var tempBuilder = FastMethodOperator.New;
             tempBuilder.ComplierInstance.UseFileComplie();
             tempBuilder.Using(info.Type).Using(info.RealType).Using(typeof(HashSet<>)); ;
             SnapshotCache[info.Type] = tempBuilder
@@ -163,7 +163,7 @@ namespace Natasha
             ");
 
             //创建委托
-            var tempBuilder = FastMethod.New;
+            var tempBuilder = FastMethodOperator.New;
             tempBuilder.ComplierInstance.UseFileComplie();
             tempBuilder.Using(info.RealType).Using(typeof(HashSet<>)); ;
             SnapshotCache[info.RealType] = tempBuilder
@@ -193,7 +193,7 @@ namespace Natasha
             ");
 
             //创建委托
-            var tempBuilder = FastMethod.New;
+            var tempBuilder = FastMethodOperator.New;
             tempBuilder.ComplierInstance.UseFileComplie();
             tempBuilder.Using(info.RealType).Using(typeof(HashSet<>)); ;
             SnapshotCache[info.RealType] = tempBuilder
@@ -220,7 +220,7 @@ namespace Natasha
                         HashSet<{info.TypeName}> compareOld = new HashSet<{info.TypeName}>({OldInstance}.{info.MemberName});
                         for(int j = 0; j < {OldInstance}.{info.MemberName}.Length;j+=1){{
                             for(int i = 0; i < {NewInstance}.{info.MemberName}.Length;i+=1){{
-                                if(Snapshot.Diff({NewInstance}.{info.MemberName}[i],{OldInstance}.{info.MemberName}[j]).Count==0){{
+                                if(SnapshotOperator.Diff({NewInstance}.{info.MemberName}[i],{OldInstance}.{info.MemberName}[j]).Count==0){{
                                     compareOld.Remove({OldInstance}.{info.MemberName}[j]);
                                 }}
                             }}
@@ -266,7 +266,7 @@ namespace Natasha
         /// <typeparam name="T">强类型</typeparam>
         public static void CreateSnapshotDelegate<T>()
         {
-            Snapshot<T>.CompareFunc = (Func<T, T, Dictionary<string, DiffModel>>)((new SnapshotBuilder(typeof(T)).Create()));
+            SnapshotOperator<T>.CompareFunc = (Func<T, T, Dictionary<string, DiffModel>>)((new SnapshotBuilder(typeof(T)).Create()));
         }
 
 

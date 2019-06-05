@@ -8,13 +8,13 @@ namespace Natasha
     {
         public static void CreateCloneDelegate()
         {
-            DeepClone<T>.CloneDelegate =(Func<T, T>)((new CloneBuilder(typeof(T)).Create())); ;
+            CloneOperator<T>.CloneDelegate =(Func<T, T>)((new CloneBuilder(typeof(T)).Create())); ;
         }
     }
     public class CloneBuilder : TypeIterator
     {
         public readonly StringBuilder Script;
-        private readonly FastMethod MethodHandler;
+        private readonly FastMethodOperator MethodHandler;
         private const string NewInstance = "NewInstance";
         private const string OldInstance = "OldInstance";
         public static readonly ConcurrentDictionary<Type, Delegate> CloneCache;
@@ -24,7 +24,7 @@ namespace Natasha
         public CloneBuilder(Type type=null) {
             CurrentType = type;
             Script = new StringBuilder();
-            MethodHandler = new FastMethod();
+            MethodHandler = new FastMethodOperator();
         }
 
 
@@ -51,7 +51,7 @@ namespace Natasha
                  }}return newInstance;}}return null;");
 
             //创建委托
-            var tempBuilder = FastMethod.New;
+            var tempBuilder = FastMethodOperator.New;
             tempBuilder.ComplierInstance.UseFileComplie();
             tempBuilder.Using(info.RealType);
             CloneCache[info.Type] = tempBuilder
@@ -80,7 +80,7 @@ namespace Natasha
                  }}return newInstance;}}return null;");
 
             //创建委托
-            var tempBuilder = FastMethod.New;
+            var tempBuilder = FastMethodOperator.New;
             tempBuilder.ComplierInstance.UseFileComplie();
             tempBuilder.Using(info.RealType);
             CloneCache[info.Type] = tempBuilder
@@ -105,7 +105,7 @@ namespace Natasha
 
 
             //创建委托
-            var tempBuilder = FastMethod.New;
+            var tempBuilder = FastMethodOperator.New;
             tempBuilder.Using(info.RealType.GetGenericArguments());
             tempBuilder.Using("Natasha");
             tempBuilder.ComplierInstance.UseFileComplie();
@@ -132,7 +132,7 @@ namespace Natasha
             scriptBuilder.Append("}return null;");
 
             //创建委托
-            var tempBuilder = FastMethod.New;
+            var tempBuilder = FastMethodOperator.New;
             tempBuilder.Using(info.RealType.GetGenericArguments());
             tempBuilder.Using("Natasha");
             tempBuilder.ComplierInstance.UseFileComplie();

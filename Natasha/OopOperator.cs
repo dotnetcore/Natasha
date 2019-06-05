@@ -9,13 +9,13 @@ namespace Natasha
     /// 类构建器
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class OopModifier<T> : OopModifier
+    public class OopOperator<T> : OopOperator
     {
         internal static ConcurrentDictionary<string, Func<T>> _ctor_mapping;
         
-        static OopModifier() => _ctor_mapping = new ConcurrentDictionary<string, Func<T>>();
+        static OopOperator() => _ctor_mapping = new ConcurrentDictionary<string, Func<T>>();
 
-        public OopModifier() : base(typeof(T)){}
+        public OopOperator() : base(typeof(T)){}
 
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Natasha
     /// <summary>
     /// 类构建器
     /// </summary>
-    public class OopModifier : ClassContentTemplate<OopModifier>
+    public class OopOperator : ClassContentTemplate<OopOperator>
     {
 
         internal readonly static ConcurrentDictionary<string, Delegate> _delegate_mapping;
@@ -58,9 +58,9 @@ namespace Natasha
         public string Result;
         public Type TargetType;
 
-        static OopModifier()=> _delegate_mapping = new ConcurrentDictionary<string, Delegate>();
+        static OopOperator()=> _delegate_mapping = new ConcurrentDictionary<string, Delegate>();
 
-        public OopModifier(Type oopType) : base()
+        public OopOperator(Type oopType) : base()
         {
             Link = this;
             _oop_type = oopType;
@@ -75,7 +75,7 @@ namespace Natasha
         /// 重写函数
         /// </summary>
         /// <returns></returns>
-        public OopModifier Override()
+        public OopOperator Override()
         {
             _is_override = true;
             return this;
@@ -89,7 +89,7 @@ namespace Natasha
         /// 覆盖函数
         /// </summary>
         /// <returns></returns>
-        public OopModifier New()
+        public OopOperator New()
         {
             _is_new = true;
             return this;
@@ -125,7 +125,7 @@ namespace Natasha
 
 
                 //使用伪造函数模板
-                var template = FakeMethod.New;
+                var template = FakeMethodOperator.New;
 
 
                 

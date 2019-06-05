@@ -35,7 +35,7 @@ namespace HelloWorld
             //根据脚本创建动态类
             Type type = ClassBuilder.GetType(text);
             //创建动态类实例代理
-            DynamicInstance instance = new DynamicInstance(type);
+            DynamicOperator instance = new DynamicOperator(type);
 
             if (instance["Name"].StringValue == "111")
             {
@@ -49,7 +49,7 @@ namespace HelloWorld
 
 
             //创建动态类实例代理
-            DynamicInstance<TestB> instance2 = new DynamicInstance<TestB>();
+            DynamicOperator<TestB> instance2 = new DynamicOperator<TestB>();
 
             if (instance2["Name"].StringValue == "111")
             {

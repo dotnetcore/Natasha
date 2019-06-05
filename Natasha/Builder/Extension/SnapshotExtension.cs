@@ -11,7 +11,7 @@ namespace Natasha
             {
                 foreach (var item2 in collection)
                 {
-                    if (Snapshot.Diff(item1, item2).Count == 0)
+                    if (SnapshotOperator.Diff(item1, item2).Count == 0)
                     {
                         temp.Remove(item1);
                     }

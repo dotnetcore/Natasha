@@ -5,10 +5,10 @@ namespace Natasha
     /// <summary>
     /// 深度克隆
     /// </summary>
-    public static class DeepClone {
+    public static class CloneOperator {
         public static T Clone<T>(T instance)
         {
-            return DeepClone<T>.Clone(instance);
+            return CloneOperator<T>.Clone(instance);
         }
     }
 
@@ -16,9 +16,9 @@ namespace Natasha
     /// 深度克隆
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public static class DeepClone<T>
+    public static class CloneOperator<T>
     {
-        static DeepClone()
+        static CloneOperator()
         {
 
         }

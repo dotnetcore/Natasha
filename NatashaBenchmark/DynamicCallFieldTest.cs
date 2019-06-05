@@ -33,7 +33,7 @@ namespace NatashaBenchmark
         public CallModel NatashaModel;
         public CallModel NatashaProxyModel;
 
-        public DynamicInstance<CallModel> NatashaCaller;
+        public DynamicOperator<CallModel> NatashaCaller;
         public DynamicCallFieldTest()
         {
             Precache();
@@ -74,7 +74,7 @@ namespace NatashaBenchmark
             EmitSetDateTime = (Action<CallModel, DateTime>)(method.CreateDelegate(typeof(Action<CallModel, DateTime>)));
 
             NatashaGetString = Natasha
-                .FastMethod
+                .FastMethodOperator
                 .New
                 .Param<CallModel>("obj")
                 .MethodBody("return obj.Age;")
@@ -82,7 +82,7 @@ namespace NatashaBenchmark
                 .Complie<Func<CallModel, string>>();
 
             NatashaGetDateTime = Natasha
-                 .FastMethod
+                 .FastMethodOperator
                 .New
                 .Param<CallModel>("obj")
                 .MethodBody("return obj.CreateTime;")
@@ -90,7 +90,7 @@ namespace NatashaBenchmark
                 .Complie<Func<CallModel, DateTime>>();
 
             NatashaSetString = Natasha
-                .FastMethod
+                .FastMethodOperator
                 .New
                 .Param<CallModel>("obj")
                 .Param<string>("str")
@@ -99,7 +99,7 @@ namespace NatashaBenchmark
                 .Complie<Action<CallModel, string>>();
 
             NatashaSetDateTime = Natasha
-                .FastMethod
+                .FastMethodOperator
                 .New
                 .Param<CallModel>("obj")
                 .Param<DateTime>("time")

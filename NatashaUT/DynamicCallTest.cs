@@ -31,7 +31,7 @@ namespace HelloWorld
             //根据脚本创建动态类
             Type type = ClassBuilder.GetType(text);
             //创建动态类实例代理
-            DynamicInstance instance = type;
+            DynamicOperator instance = type;
             //Get动态调用
             Assert.Equal("111", instance["Name"].StringValue);
             //调用动态委托赋值
@@ -47,7 +47,7 @@ namespace HelloWorld
         public void TestCall2()
         {
             //创建动态类实例代理
-            DynamicInstance<TestB> instance = new DynamicInstance<TestB>();
+            DynamicOperator<TestB> instance = new DynamicOperator<TestB>();
             Assert.Equal("111", instance["Name"].StringValue);
 
             //调用动态委托赋值

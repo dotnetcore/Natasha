@@ -17,7 +17,7 @@ namespace NatashaBenchmark
         public CallModel OriginModel;
         public CallModel NatashaModel;
 
-        public DynamicInstance<CallModel> NatasshaCaller;
+        public DynamicOperator<CallModel> NatasshaCaller;
         public DynamicCallInitTest()
         {
             Precache();

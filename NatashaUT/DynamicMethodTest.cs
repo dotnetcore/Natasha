@@ -12,7 +12,7 @@ namespace NatashaUT
         [Fact(DisplayName = "手动强转委托")]
         public static void RunDelegate1()
         {
-            var delegateAction = FastMethod
+            var delegateAction = FastMethodOperator
                 .New
                         .Param<string>("str1")
                         .Param<string>("str2")
@@ -32,7 +32,7 @@ namespace NatashaUT
         [Fact(DisplayName = "自动泛型委托")]
         public static void RunDelegate2()
         {
-            var delegateAction = FastMethod
+            var delegateAction = FastMethodOperator
                 .New
                         .Param<string>("str1")
                         .Param<string>("str2")
@@ -53,7 +53,7 @@ namespace NatashaUT
         public static void MakerCode1()
         {
 
-            var builder = FakeMethod.New;
+            var builder = FakeMethodOperator.New;
             builder
                 .UseMethod(typeof(OopTest).GetMethod("ReWrite1"))
                 .MethodContent(@"Console.WriteLine(""hello world"");");
@@ -65,7 +65,7 @@ namespace NatashaUT
         [Fact(DisplayName = "函数克隆2")]
         public static void MakerCode2()
         {
-            var builder = FakeMethod.New;
+            var builder = FakeMethodOperator.New;
             builder
                 .UseMethod(typeof(OopTest).GetMethod("ReWrite2"))
                 .MethodContent(@"Console.WriteLine(""hello world"");return this;");
@@ -77,7 +77,7 @@ namespace NatashaUT
         [Fact(DisplayName = "函数克隆3")]
         public static void MakerCode3()
         {
-            var builder = FakeMethod.New;
+            var builder = FakeMethodOperator.New;
             builder
                 .UseMethod(typeof(OopTest).GetMethod("ReWrite3"))
                 .MethodContent(@"i++;temp+=i.ToString();");

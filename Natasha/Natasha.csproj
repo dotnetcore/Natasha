@@ -31,8 +31,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Remove="Utils\NamespaceGetter.cs" />
-  </ItemGroup>
-
 </Project>

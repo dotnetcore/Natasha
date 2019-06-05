@@ -60,7 +60,7 @@ namespace Demo
               //根据脚本创建动态类
               Type type = ClassBuilder.GetType(text);
               //创建动态类实例代理
-              DynamicInstance instance = new DynamicInstance(type);
+              DynamicOperator instance = new DynamicOperator(type);
 
               if (instance["Name"].StringValue=="111")
               {
@@ -74,7 +74,7 @@ namespace Demo
 
 
               //创建动态类实例代理
-              DynamicInstance<TestB> instance2 = new DynamicInstance<TestB>();
+              DynamicOperator<TestB> instance2 = new DynamicOperator<TestB>();
 
               if (instance2["Name"].StringValue == "111")
               {
@@ -85,7 +85,7 @@ namespace Demo
               Console.WriteLine(instance2["Name"].StringValue);
 
 
-              OopModifier<ITestA> interfaceBuilder = new OopModifier<ITestA>();
+              OopOperator<ITestA> interfaceBuilder = new OopOperator<ITestA>();
               interfaceBuilder.ClassName("TestClass");
               interfaceBuilder["Abc"] = "Console.WriteLine(\"ITest\");";
               interfaceBuilder["Get"] = "return 12345;";
@@ -93,14 +93,14 @@ namespace Demo
               interfaceBuilder.Compile();
 
               var test = interfaceBuilder.Create("TestClass");
-              test = OopModifier<ITestA>.New("TestClass");
+              test = OopOperator<ITestA>.New("TestClass");
               Console.WriteLine(test.Get());
               test.Abc();
               Console.WriteLine(test.Set("hello world"));*/
             Console.ReadKey();
             for (int i = 0; i < 500; i++)
             {
-                var delegateAction2 = FastMethod.New
+                var delegateAction2 = FastMethodOperator.New
                  .Param<string>("str1")
                  .Param<string>("str2")
                  .ClassBody(@"

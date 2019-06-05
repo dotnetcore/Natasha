@@ -9,23 +9,23 @@ namespace Natasha
     /// 运行时动态操作类
     /// </summary>
     /// <typeparam name="T">运行时类型</typeparam>
-    public class DynamicInstance<T> : DynamicInstanceBase where T : class
+    public class DynamicOperator<T> : DynamicOperatorBase where T : class
     {
-        public static implicit operator DynamicInstance<T>(T instance)
+        public static implicit operator DynamicOperator<T>(T instance)
         {
-            return new DynamicInstance<T>(instance);
+            return new DynamicOperator<T>(instance);
         }
 
 
         private static readonly Func<T> CtorDelegate;
-        private static readonly ConcurrentDictionary<string, Action<DynamicInstanceBase, T>> DynamicGet;
-        private static readonly ConcurrentDictionary<string, Action<DynamicInstanceBase, T>> DynamicSet;
+        private static readonly ConcurrentDictionary<string, Action<DynamicOperatorBase, T>> DynamicGet;
+        private static readonly ConcurrentDictionary<string, Action<DynamicOperatorBase, T>> DynamicSet;
 
 
-        static DynamicInstance()
+        static DynamicOperator()
         {
-            DynamicGet = new ConcurrentDictionary<string, Action<DynamicInstanceBase, T>>();
-            DynamicSet = new ConcurrentDictionary<string, Action<DynamicInstanceBase, T>>();
+            DynamicGet = new ConcurrentDictionary<string, Action<DynamicOperatorBase, T>>();
+            DynamicSet = new ConcurrentDictionary<string, Action<DynamicOperatorBase, T>>();
             CtorDelegate = CtorOperator.NewDelegate<T>();
             InitType(typeof(T));
         }
@@ -68,7 +68,7 @@ namespace Natasha
 
 
         private T _instance;
-        public DynamicInstance(T instance = null)
+        public DynamicOperator(T instance = null)
         {
             if (instance == null)
             {
@@ -88,7 +88,7 @@ namespace Natasha
         /// </summary>
         /// <param name="instance">新实例</param>
         /// <returns></returns>
-        public DynamicInstance<T> Change(T newInstance)
+        public DynamicOperator<T> Change(T newInstance)
         {
             _instance = newInstance;
             return this;
@@ -125,26 +125,26 @@ namespace Natasha
     /// <summary>
     /// 动态类的动态调用
     /// </summary>
-    public class DynamicInstance : DynamicInstanceBase
+    public class DynamicOperator : DynamicOperatorBase
     {
 
-        public static implicit operator DynamicInstance(Type instance)
+        public static implicit operator DynamicOperator(Type instance)
         {
-            return new DynamicInstance(instance);
+            return new DynamicOperator(instance);
         }
 
 
-        private static readonly ConcurrentDictionary<Type, Dictionary<string, Action<DynamicInstanceBase, object>>> GetDynamicCache;
-        private static readonly ConcurrentDictionary<Type, Dictionary<string, Action<DynamicInstanceBase, object>>> SetDynamicCache;
+        private static readonly ConcurrentDictionary<Type, Dictionary<string, Action<DynamicOperatorBase, object>>> GetDynamicCache;
+        private static readonly ConcurrentDictionary<Type, Dictionary<string, Action<DynamicOperatorBase, object>>> SetDynamicCache;
         private static readonly ConcurrentDictionary<Type, Func<object>> CtorMapping;
-        private readonly Dictionary<string, Action<DynamicInstanceBase, object>> DynamicGet;
-        private readonly Dictionary<string, Action<DynamicInstanceBase, object>> DynamicSet;
+        private readonly Dictionary<string, Action<DynamicOperatorBase, object>> DynamicGet;
+        private readonly Dictionary<string, Action<DynamicOperatorBase, object>> DynamicSet;
         private readonly Type _type;
 
-        static DynamicInstance()
+        static DynamicOperator()
         {
-            GetDynamicCache = new ConcurrentDictionary<Type, Dictionary<string, Action<DynamicInstanceBase, object>>>();
-            SetDynamicCache = new ConcurrentDictionary<Type, Dictionary<string, Action<DynamicInstanceBase, object>>>();
+            GetDynamicCache = new ConcurrentDictionary<Type, Dictionary<string, Action<DynamicOperatorBase, object>>>();
+            SetDynamicCache = new ConcurrentDictionary<Type, Dictionary<string, Action<DynamicOperatorBase, object>>>();
             CtorMapping = new ConcurrentDictionary<Type, Func<object>>();
         }
 
@@ -155,7 +155,7 @@ namespace Natasha
         /// 初始化方法
         /// </summary>
         /// <param name="instance">传个类型或者实例</param>
-        public DynamicInstance(object instance = null)
+        public DynamicOperator(object instance = null)
         {
             if (instance is Type)
             {
@@ -185,8 +185,8 @@ namespace Natasha
             if (!GetDynamicCache.ContainsKey(type))
             {
 
-                GetDynamicCache[type] = new Dictionary<string, Action<DynamicInstanceBase, object>>();
-                SetDynamicCache[type] = new Dictionary<string, Action<DynamicInstanceBase, object>>();
+                GetDynamicCache[type] = new Dictionary<string, Action<DynamicOperatorBase, object>>();
+                SetDynamicCache[type] = new Dictionary<string, Action<DynamicOperatorBase, object>>();
 
 
                 //动态函数-实例的创建
@@ -225,7 +225,7 @@ namespace Natasha
         /// </summary>
         /// <param name="instance">新实例</param>
         /// <returns></returns>
-        public DynamicInstance Change(object newInstance)
+        public DynamicOperator Change(object newInstance)
         {
             _instance = newInstance;
             return this;
@@ -258,12 +258,12 @@ namespace Natasha
         }
     }
 
-    public abstract class DynamicInstanceBase
+    public abstract class DynamicOperatorBase
     {
 
         private string _current_name;
 
-        public DynamicInstanceBase this[string key]
+        public DynamicOperatorBase this[string key]
         {
             get
             {
@@ -483,7 +483,7 @@ namespace Natasha
         static DynamicMemberHelper()
         {
             TypeMemberMapping = new ConcurrentDictionary<Type, string>();
-            var infos = typeof(DynamicInstanceBase).GetFields();
+            var infos = typeof(DynamicOperatorBase).GetFields();
             for (int i = 0; i < infos.Length; i++)
             {
                 TypeMemberMapping[infos[i].FieldType] = infos[i].Name;
@@ -491,7 +491,7 @@ namespace Natasha
         }
 
 
-        public static Action<DynamicInstanceBase, T> SetField<T>(FieldInfo info)
+        public static Action<DynamicOperatorBase, T> SetField<T>(FieldInfo info)
         {
 
             string body = "";
@@ -512,7 +512,7 @@ namespace Natasha
             return GetDelegate<T>(type, info.FieldType, body);
         }
 
-        public static Action<DynamicInstanceBase, T> GetField<T>(FieldInfo info)
+        public static Action<DynamicOperatorBase, T> GetField<T>(FieldInfo info)
         {
 
             string body = "";
@@ -534,7 +534,7 @@ namespace Natasha
             return GetDelegate<T>(type, info.FieldType, body);
         }
 
-        public static Action<DynamicInstanceBase, T> GetProperty<T>(PropertyInfo info)
+        public static Action<DynamicOperatorBase, T> GetProperty<T>(PropertyInfo info)
         {
             string body = "";
             Type type = null;
@@ -554,7 +554,7 @@ namespace Natasha
             return GetDelegate<T>(type, info.PropertyType, body);
         }
 
-        public static Action<DynamicInstanceBase, T> SetProperty<T>(PropertyInfo info)
+        public static Action<DynamicOperatorBase, T> SetProperty<T>(PropertyInfo info)
         {
 
             string body = "";
@@ -577,16 +577,16 @@ namespace Natasha
         }
 
 
-        private static Action<DynamicInstanceBase, T> GetDelegate<T>(Type type,Type operatorType,string body)
+        private static Action<DynamicOperatorBase, T> GetDelegate<T>(Type type,Type operatorType,string body)
         {
-            return FastMethod.New
+            return FastMethodOperator.New
                   .Using(type)
                   .Using(operatorType)
-                  .Param<DynamicInstanceBase>("proxy")
+                  .Param<DynamicOperatorBase>("proxy")
                   .Param<T>("instance")
                   .MethodBody(body)
                   .Return()
-              .Complie<Action<DynamicInstanceBase, T>>();
+              .Complie<Action<DynamicOperatorBase, T>>();
         }
     }
 }

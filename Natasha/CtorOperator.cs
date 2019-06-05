@@ -7,7 +7,7 @@ namespace Natasha
         public static Func<T> NewDelegate<T>(Type type=null)
         {
 
-            var builder = FastMethod.New;
+            var builder = FastMethodOperator.New;
             if (type==null)
             {
                 //直接使用T的类型作为初始化类型
@@ -38,7 +38,7 @@ namespace Natasha
         /// <returns></returns>
         public static Delegate NewDelegate(Type type)
         {
-            return FastMethod.New
+            return FastMethodOperator.New
                 .MethodBody($@"return new {NameReverser.GetName(type)}();")
                 .Return(type)
                 .Complie();
