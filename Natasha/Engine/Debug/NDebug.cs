@@ -47,13 +47,13 @@ namespace Natasha
             SucceedWrite();
         }
         [Conditional("DEBUG")]
-        internal async static void SucceedWrite()
+        internal static void SucceedWrite()
         {
             while (SucceedQueue.Count > 0)
             {
                 if (SucceedQueue.TryDequeue(out string result))
                 {
-                    await SucceedWriter.WriteLineAsync(result);
+                    SucceedWriter.WriteLine(result);
                     SucceedWriter.Flush();
                 } 
             }
@@ -82,13 +82,13 @@ namespace Natasha
             ErrorWrite();
         }
         [Conditional("DEBUG")]
-        internal async static void ErrorWrite()
+        internal static void ErrorWrite()
         {
             while (ErrorQueue.Count > 0)
             {
                 if (ErrorQueue.TryDequeue(out string result))
                 {
-                    await ErrorWriter.WriteLineAsync(result);
+                    ErrorWriter.WriteLine(result);
                     ErrorWriter.Flush();
                 }
             }

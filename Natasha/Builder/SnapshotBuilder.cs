@@ -41,7 +41,8 @@ namespace Natasha
                         compareNew.ExceptWith(compareOld);
                         result.Add(""different"",new DiffModel(){{ Name=""different"",Value=compareNew}});
                     }}
-                }}   
+                }}
+                 return result;
             ");
 
             //创建委托
@@ -78,7 +79,8 @@ namespace Natasha
                         }}
                         result.Add(""different"",new DiffModel(){{ Name=""different"",Value=compareOld}});
                     }}
-                }}   
+                }}
+                 return result;
             ");
 
             //创建委托
@@ -159,7 +161,8 @@ namespace Natasha
                        
                         result.Add(""different"",new DiffModel(){{ Name=""different"",Value={NewInstance}.SnapshotExtension({OldInstance})}});
                     }}
-                }}   
+                }}
+                 return result;
             ");
 
             //创建委托
@@ -189,7 +192,8 @@ namespace Natasha
                        
                         result.Add(""different"",new DiffModel(){{ Name=""different"",Value={NewInstance}.SnapshotExtension({OldInstance})}});
                     }}
-                }}   
+                }}
+                return result;
             ");
 
             //创建委托
@@ -227,7 +231,7 @@ namespace Natasha
                         }}
                         result.Add(""{info.MemberName}"",new DiffModel(){{ Name=""{info.MemberName}"",Value=compareOld}});
                     }}
-                }}   
+                }}
             ");
         }
 
