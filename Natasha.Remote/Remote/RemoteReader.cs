@@ -34,7 +34,7 @@ namespace Natasha.Remote
         /// </summary>
         /// <param name="remote">调用信息</param>
         /// <returns>返回序列化的结果</returns>
-        public static string Invoke(string remote)
+        public static string Execute(string remote)
         {
             TransportParameters parameters = null;
             return _func_mapping[parameters.TypeName][parameters.MethodName](parameters);
@@ -44,7 +44,7 @@ namespace Natasha.Remote
         /// </summary>
         /// <param name="parameters">调用参数</param>
         /// <returns>返回序列化的结果</returns>
-        public static string Invoke(TransportParameters parameters)
+        public static string Execute(TransportParameters parameters)
         {
             return _func_mapping[parameters.TypeName][parameters.MethodName](parameters);
         }

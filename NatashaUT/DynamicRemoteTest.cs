@@ -49,21 +49,21 @@ namespace NatashaUT
             parameters["str2"] = JsonConvert.SerializeObject("world!");
 
 
-            string result = RemoteReader.Invoke(parameters);
+            string result = RemoteReader.Execute(parameters);
             Assert.Equal("\"hello world!\"", result);
 
 
             var parameter = new RequestParameters<RemoteTestModel>();
             var temp = parameter["HelloString"].Params("hello ", "world!");
 
-            result = JsonConvert.DeserializeObject<string>(RemoteReader.Invoke(temp));
+            result = JsonConvert.DeserializeObject<string>(RemoteReader.Execute(temp));
             Assert.Equal("hello world!", result);
 
 
             parameter = new RequestParameters<RemoteTestModel>();
             temp = parameter["HelloInt"].Params(10, 100);
 
-            int intResult = JsonConvert.DeserializeObject<int>(RemoteReader.Invoke(temp));
+            int intResult = JsonConvert.DeserializeObject<int>(RemoteReader.Execute(temp));
             Assert.Equal(110, intResult);
         }
     }
