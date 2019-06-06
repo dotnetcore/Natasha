@@ -1,0 +1,9 @@
+<Project>
+  <PropertyGroup>
+   <Copyright>copyright © .NET Core Community</Copyright>
+   <Product>Natasha</Product>
+   <Company>.NET Core Community</Company>
+   <Authors>NMSAzulx</Authors>
+   <Owners>NMSAzulx</Owners>
+</PropertyGroup>
+</Project>

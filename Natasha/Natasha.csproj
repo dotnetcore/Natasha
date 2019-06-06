@@ -7,11 +7,11 @@
     <Copyright>.NET Core Community and Contributors</Copyright>
     <PackageId>Natasha</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <PackageReleaseNotes>发布一版稳定版。</PackageReleaseNotes>
-    <Version>0.5.0</Version>
+    <PackageReleaseNotes>日志分离，Error/Succeed/Warning,  编译引擎去掉锁，使用休眠缓解争用。</PackageReleaseNotes>
+    <Version>0.5.6.3</Version>
     <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
-    <PackageTags>Roslyn ;  IL ; Scripte ; Dynamic ;</PackageTags>
+    <PackageTags>Roslyn ; IL ; Scripte ; Dynamic ; </PackageTags>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <Company>Natasha</Company>
     <PackageIconUrl>https://www.dotnetcore.xyz/images/project/asp-natasha-avator.png</PackageIconUrl>
