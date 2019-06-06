@@ -49,6 +49,7 @@ namespace NatashaBenchmark
             il.Emit(OpCodes.Ret);
             EmitGetString = (Func<CallModel, string>)(method.CreateDelegate(typeof(Func<CallModel, string>)));
 
+
             method = new DynamicMethod("GetDateTime", typeof(DateTime), new Type[] { type });
             il = method.GetILGenerator();
             il.Emit(OpCodes.Ldarg_0);
@@ -65,6 +66,7 @@ namespace NatashaBenchmark
             il.Emit(OpCodes.Ret);
             EmitSetString = (Action<CallModel, string>)(method.CreateDelegate(typeof(Action<CallModel, string>)));
 
+
             method = new DynamicMethod("SetDateTime", null , new Type[] { type,typeof(DateTime) });
             il = method.GetILGenerator();
             il.Emit(OpCodes.Ldarg_0);
@@ -72,6 +74,7 @@ namespace NatashaBenchmark
             il.Emit(OpCodes.Stfld, type.GetField("CreateTime"));
             il.Emit(OpCodes.Ret);
             EmitSetDateTime = (Action<CallModel, DateTime>)(method.CreateDelegate(typeof(Action<CallModel, DateTime>)));
+
 
             NatashaGetString = Natasha
                 .FastMethodOperator

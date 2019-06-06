@@ -87,10 +87,23 @@ namespace NatashaUT.Model
     {
         public List<PropCloneNormalModel> Nodes { get; set; }
     }
-    public class PropCloneCollectionModel
+    public class CloneCollectionModel
     {
         public List<PropCloneNormalModel>[] ALNodes { get; set; }
         public List<PropCloneNormalModel[]> LANodes { get; set; }
         public List<List<PropCloneNormalModel>> LLNodes { get; set; }
+    }
+
+    public class CloneDictModel
+    {
+        public Dictionary<string,string> Dicts;
+    }
+    public class CloneDictCollectionModel
+    {
+        public Dictionary<string, List<FieldCloneNormalModel>> Dicts;
+    }
+    public class CloneDictArrayModel
+    {
+        public Dictionary<FieldCloneNormalModel, string>[] Dicts;
     }
 }

@@ -227,7 +227,7 @@ namespace NatashaUT
         [Fact(DisplayName = "类集合嵌套集合")]
         public void PropClassCollectionArray1()
         {
-            PropCloneCollectionModel model = new PropCloneCollectionModel();
+            CloneCollectionModel model = new CloneCollectionModel();
 
             model.LLNodes = new List<List<PropCloneNormalModel>>();
             for (int i = 0; i < 5; i++)
@@ -258,7 +258,7 @@ namespace NatashaUT
         [Fact(DisplayName = "类集合嵌套数组")]
         public void PropClassCollectionArray2()
         {
-            PropCloneCollectionModel model = new PropCloneCollectionModel();
+            CloneCollectionModel model = new CloneCollectionModel();
 
             model.LANodes = new List<PropCloneNormalModel[]>();
             for (int i = 0; i < 5; i++)
@@ -290,7 +290,7 @@ namespace NatashaUT
         [Fact(DisplayName = "类数组嵌套集合")]
         public void PropClassCollectionArray3()
         {
-            PropCloneCollectionModel model = new PropCloneCollectionModel();
+            CloneCollectionModel model = new CloneCollectionModel();
 
             model.ALNodes = new List<PropCloneNormalModel>[5];
             for (int i = 0; i < 5; i++)
@@ -314,6 +314,36 @@ namespace NatashaUT
                     Assert.Equal(model.ALNodes[i][j].Age, newModel.ALNodes[i][j].Age);
                 }
             }
+        }
+
+        [Fact(DisplayName = "字段字典")]
+        public void CloneDictionaryTest()
+        {
+            CloneDictModel model = new CloneDictModel();
+            model.Dicts = new Dictionary<string, string>();
+            model.Dicts["1"] = "2";
+            model.Dicts["2"] = "3";
+            var newModel = CloneOperator.Clone(model);
+            foreach (var item in newModel.Dicts)
+            {
+                Assert.Equal(model.Dicts[item.Key], item.Value);
+            }
+            model.Dicts["1"] = "4";
+            Assert.NotEqual(model.Dicts, newModel.Dicts);
+        }
+
+
+        [Fact(DisplayName = "字典集合")]
+        public void CloneDictionaryCollectionTest()
+        {
+
+        }
+
+
+        [Fact(DisplayName = "字典数组")]
+        public void CloneDictionaryArrayTest()
+        {
+
         }
     }
 }

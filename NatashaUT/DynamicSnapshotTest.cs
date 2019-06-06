@@ -310,7 +310,7 @@ namespace NatashaUT
   [Fact(DisplayName = "类集合嵌套集合")]
   public void PropClassCollectionArray1()
   {
-      PropCloneCollectionModel model = new PropCloneCollectionModel();
+      CloneCollectionModel model = new CloneCollectionModel();
 
       model.LLNodes = new List<List<PropCloneNormalModel>>();
       for (int i = 0; i < 5; i++)

@@ -36,8 +36,25 @@ namespace Natasha
             builder.Create();
         }
 
+        public override void OnceTypeHandler(BuilderInfo info)
+        {
+            StringBuilder scriptBuilder = new StringBuilder();
+            //普通类型复制
+            scriptBuilder.Append($@"return oldInstance;");
 
-
+            //创建委托
+            var tempBuilder = FastMethodOperator.New;
+            tempBuilder.ComplierInstance.UseFileComplie();
+            tempBuilder.Using(info.RealType);
+            CloneCache[info.RealType] = tempBuilder
+                        .Using("Natasha")
+                        .ClassName("NatashaClone" + info.AvailableName)
+                        .MethodName("Clone")
+                        .Param(info.RealType, "oldInstance")                 //参数
+                        .MethodBody(scriptBuilder.ToString())            //方法体
+                        .Return(info.RealType)                               //返回类型
+                        .Complie();
+        }
 
         public override void ArrayOnceTypeHandler(BuilderInfo info)
         {
@@ -210,6 +227,7 @@ namespace Natasha
         public override void MemberICollectionHandler(BuilderInfo info)
         {
             MethodHandler.Using(info.RealType);
+            MethodHandler.Using(GenericTypeOperator.GetTypes(info.RealType));
             Script.Append($@"if({OldInstance}.{info.MemberName}!=null){{");
             Script.Append($@"{NewInstance}.{info.MemberName} = {OldInstance}.{info.MemberName}.CloneExtension();}}");
         }
@@ -220,6 +238,7 @@ namespace Natasha
         public override void MemberCollectionHandler(BuilderInfo info)
         {
             MethodHandler.Using(info.RealType);
+            MethodHandler.Using(GenericTypeOperator.GetTypes(info.RealType));
             Script.Append($@"if({OldInstance}.{info.MemberName}!=null){{");
             Script.Append($@"{NewInstance}.{info.MemberName} = new  {info.TypeName}({OldInstance}.{info.MemberName}.CloneExtension());}}");
         }
@@ -239,17 +258,20 @@ namespace Natasha
 
         public Delegate Create()
         {
-            TypeHandler(CurrentType);
-            //创建委托
-            MethodHandler.ComplierInstance.UseFileComplie();
-            var @delegate = MethodHandler
-                        .ClassName("NatashaClone" + AvailableNameReverser.GetName(CurrentType))
-                        .MethodName("Clone")
-                        .Param(CurrentType, OldInstance)                //参数
-                        .MethodBody(Script.ToString())                 //方法体
-                        .Return(CurrentType)                              //返回类型
-                       .Complie();
-            return CloneCache[CurrentType] = @delegate;
+            if (TypeHandler(CurrentType))
+            {
+                //创建委托
+                MethodHandler.ComplierInstance.UseFileComplie();
+                var @delegate = MethodHandler
+                            .ClassName("NatashaClone" + AvailableNameReverser.GetName(CurrentType))
+                            .MethodName("Clone")
+                            .Param(CurrentType, OldInstance)                //参数
+                            .MethodBody(Script.ToString())                 //方法体
+                            .Return(CurrentType)                              //返回类型
+                           .Complie();
+                return CloneCache[CurrentType] = @delegate;
+            }
+            return null;
         }
     }
 }

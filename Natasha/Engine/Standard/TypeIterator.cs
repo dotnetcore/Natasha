@@ -224,7 +224,6 @@ namespace Natasha
 
                 EntityHandler(args[0]);
 
-
                 //如果存在第二个泛型参数，例如字典，同样进行克隆处理
                 if (args.Length == 2)
                 {
@@ -239,6 +238,15 @@ namespace Natasha
             {
                 CollectionHandler(typeInfo);
             }
+        }
+
+        public void OnceTypeRouter(Type type)
+        {
+            BuilderInfo typeInfo = new BuilderInfo();
+            typeInfo.RealType = type;
+            typeInfo.TypeName = NameReverser.GetName(type);
+            typeInfo.AvailableName = AvailableNameReverser.GetName(type);
+            OnceTypeHandler(typeInfo);
         }
 
         #region StartAndEnd
@@ -332,17 +340,28 @@ namespace Natasha
 
         }
         #endregion
+
+        public virtual void OnceTypeHandler(BuilderInfo info)
+        {
+
+        }
         /// <summary>
         /// 获取克隆委托
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public void TypeHandler(Type type)
+        public bool TypeHandler(Type type)
         {
             //无效类PASS
             if (type.FullName == null)
             {
-                return;
+                return false;
+            }
+
+            if (IsOnceType(type))
+            {
+                OnceTypeRouter(type);
+                return true;
             }
 
             if (type.IsArray)                                   //数组直接
@@ -358,6 +377,7 @@ namespace Natasha
                 //实体类型
                 EntityRouter(type);
             }
+            return true;
         }
 
 
