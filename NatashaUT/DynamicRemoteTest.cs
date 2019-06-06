@@ -13,7 +13,7 @@ namespace NatashaUT
         [Fact(DisplayName = "远程调用--客户端参数")]
         public void RemoteParametersTest()
         {
-            var parameter = new ParametersMaker<RemoteTestModel>();
+            var parameter = new RequestParameters<RemoteTestModel>();
             var temp = parameter["HelloString"].Params("hello ", "world!");
             Assert.Equal("RemoteTestModel", temp.TypeName);
             Assert.Equal("HelloString", temp.MethodName);
@@ -27,7 +27,7 @@ namespace NatashaUT
         public void RemoteDelegateTest()
         {
             RemoteWritter.ComplieToRemote<RemoteTestModel>();
-            RemoteParameters parameters = new RemoteParameters();
+            TransportParameters parameters = new TransportParameters();
             parameters.TypeName = "RemoteTestModel";
             parameters.MethodName = "HelloString";
             Assert.NotNull(RemoteReader.GetFunc(parameters));
@@ -42,7 +42,7 @@ namespace NatashaUT
             RemoteWritter.ComplieToRemote<RemoteTestModel>();
 
 
-            RemoteParameters parameters = new RemoteParameters();
+            TransportParameters parameters = new TransportParameters();
             parameters.TypeName = "RemoteTestModel";
             parameters.MethodName = "HelloString";
             parameters["str1"] = JsonConvert.SerializeObject("hello ");
@@ -53,14 +53,14 @@ namespace NatashaUT
             Assert.Equal("\"hello world!\"", result);
 
 
-            var parameter = new ParametersMaker<RemoteTestModel>();
+            var parameter = new RequestParameters<RemoteTestModel>();
             var temp = parameter["HelloString"].Params("hello ", "world!");
 
             result = JsonConvert.DeserializeObject<string>(RemoteReader.Invoke(temp));
             Assert.Equal("hello world!", result);
 
 
-            parameter = new ParametersMaker<RemoteTestModel>();
+            parameter = new RequestParameters<RemoteTestModel>();
             temp = parameter["HelloInt"].Params(10, 100);
 
             int intResult = JsonConvert.DeserializeObject<int>(RemoteReader.Invoke(temp));

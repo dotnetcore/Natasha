@@ -10,8 +10,8 @@ namespace Natasha.Remote
     public class RemoteReader
     {
 
-        internal static ConcurrentDictionary<string, ConcurrentDictionary<string, Func<RemoteParameters, string>>> _func_mapping;
-        static RemoteReader() => _func_mapping = new ConcurrentDictionary<string, ConcurrentDictionary<string, Func<RemoteParameters, string>>>();
+        public readonly static ConcurrentDictionary<string, ConcurrentDictionary<string, Func<TransportParameters, string>>> _func_mapping;
+        static RemoteReader() => _func_mapping = new ConcurrentDictionary<string, ConcurrentDictionary<string, Func<TransportParameters, string>>>();
 
 
 
@@ -21,7 +21,7 @@ namespace Natasha.Remote
         /// </summary>
         /// <param name="parameters">远程参数</param>
         /// <returns></returns>
-        public static Func<RemoteParameters, string> GetFunc(RemoteParameters parameters)
+        public static Func<TransportParameters, string> GetFunc(TransportParameters parameters)
         {
             return _func_mapping[parameters.TypeName][parameters.MethodName];
         }
@@ -36,7 +36,7 @@ namespace Natasha.Remote
         /// <returns>返回序列化的结果</returns>
         public static string Invoke(string remote)
         {
-            RemoteParameters parameters = null;
+            TransportParameters parameters = null;
             return _func_mapping[parameters.TypeName][parameters.MethodName](parameters);
         }
         /// <summary>
@@ -44,7 +44,7 @@ namespace Natasha.Remote
         /// </summary>
         /// <param name="parameters">调用参数</param>
         /// <returns>返回序列化的结果</returns>
-        public static string Invoke(RemoteParameters parameters)
+        public static string Invoke(TransportParameters parameters)
         {
             return _func_mapping[parameters.TypeName][parameters.MethodName](parameters);
         }

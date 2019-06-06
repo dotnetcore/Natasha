@@ -5,12 +5,12 @@ namespace Natasha.Remote
     /// <summary>
     /// 远程参数实体类
     /// </summary>
-    public class RemoteParameters
+    public class TransportParameters
     {
         public string TypeName;
         public string MethodName;
         public Dictionary<string, string> Parameters;
-        public RemoteParameters()
+        public TransportParameters()
         {
             Parameters = new Dictionary<string, string>();
         }

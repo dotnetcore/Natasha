@@ -34,7 +34,7 @@ namespace Natasha.Remote
 
             if (!RemoteReader._func_mapping.ContainsKey(className))
             {
-                RemoteReader._func_mapping[className] = new ConcurrentDictionary<string, Func<RemoteParameters, string>>();
+                RemoteReader._func_mapping[className] = new ConcurrentDictionary<string, Func<TransportParameters, string>>();
                 MethodInfo[] infos = type.GetMethods();
 
                 foreach (var item in infos)
@@ -64,11 +64,10 @@ namespace Natasha.Remote
                     RemoteReader._func_mapping[className][item.Name] = FastMethodOperator.New
                             .Using(type)
                             .Using(typeof(JsonConvert))
-                            .Param<RemoteParameters>("parameters")
-                            .MethodBody(
-                            $@"{sb}{className} instance = new {className}();return {Serialization}(instance.{call}));")
+                            .Param<TransportParameters>("parameters")
+                            .MethodBody($@"{sb}{className} instance = new {className}();return {Serialization}(instance.{call}));")
                             .Return<string>()
-                        .Complie<Func<RemoteParameters, string>>();
+                        .Complie<Func<TransportParameters, string>>();
 
                 }
             }
