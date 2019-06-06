@@ -393,7 +393,8 @@ namespace Natasha
             return type.IsPrimitive
                             || type == typeof(string)
                             || !type.IsClass
-                            || type.IsEnum;
+                            || type.IsEnum
+                            || type == typeof(Delegate);
         }
     }
 
