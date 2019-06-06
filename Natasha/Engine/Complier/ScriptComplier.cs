@@ -123,8 +123,7 @@ namespace Natasha.Complier
                     recoder.AppendLine($"\r\n    Size :\t\t{stream.Length}");
                     recoder.AppendLine($"\r\n    Assembly : \t{result.FullName}");
                     recoder.AppendLine("\r\n----------------------------------------------------------------------------------------------");
-                    NDebug.Show($"Builder Assembly Succeed : {result.FullName}");
-                    NDebug.SucceedRecoder("Succeed : " + className, recoder.ToString());
+                    NDebug.Succeed("Succeed : " + className, recoder.ToString());
 #endif
 
                     return result;
@@ -151,7 +150,7 @@ namespace Natasha.Complier
                     }
 #if DEBUG
                     recoder.AppendLine("\r\n---------------------------------------------------------------------------------------------");
-                    NDebug.ErrorRecoder("Error : " + className, recoder.ToString());
+                    NDebug.Error("Error : " + className, recoder.ToString());
 #endif
 
                 }
@@ -183,7 +182,6 @@ namespace Natasha.Complier
             }
 
             string path = $"{LibPath}{className}.dll";
-            NDebug.Show("Writing:" + path);
 
             //生成路径
 
@@ -223,7 +221,7 @@ namespace Natasha.Complier
                         loop += 1;
                     }
 
-                    NDebug.SucceedRecoder(className, $"\r\n    IODelay :\t检测到争用，延迟{loop*200}调用");
+                    NDebug.Warning(className, $"    I/O Delay :\t检测到争用，延迟{loop*200}ms调用;\r\n");
 
                     return DynamicDlls[path];
                 }
@@ -244,8 +242,7 @@ namespace Natasha.Complier
                 recoder.AppendLine($"\r\n    Path :\t\t{path}");
                 recoder.AppendLine($"\r\n    Assembly : \t{result.FullName}");
                 recoder.AppendLine("\r\n----------------------------------------------------------------------------------------------");
-                NDebug.Show($"Builder Assembly Succeed : {result.FullName}");
-                NDebug.SucceedRecoder("Succeed : " + className, recoder.ToString());
+                NDebug.Succeed("Succeed : " + className, recoder.ToString());
 #endif
 
 
@@ -275,7 +272,7 @@ namespace Natasha.Complier
 
 #if DEBUG
                 recoder.AppendLine("\r\n---------------------------------------------------------------------------------------------");
-                NDebug.ErrorRecoder("Error : " + className, recoder.ToString());
+                NDebug.Error("Error : " + className, recoder.ToString());
 #endif
 
             }
