@@ -228,27 +228,28 @@ namespace NatashaUT
         public void PropClassCollectionArray1()
         {
             CloneCollectionModel model = new CloneCollectionModel();
-
-            model.LLNodes = new List<List<PropCloneNormalModel>>();
+            var INodes = new List<List<PropCloneNormalModel>>();
             for (int i = 0; i < 5; i++)
             {
-                model.LLNodes.Add(new List<PropCloneNormalModel>());
+                INodes.Add(new List<PropCloneNormalModel>());
                 for (int j = 0; j < 10; j++)
                 {
-                    model.LLNodes[i].Add(new PropCloneNormalModel() { Age = j, Name = j.ToString() });
+                    INodes[i].Add(new PropCloneNormalModel() { Age = j, Name = j.ToString() });
                 }
             }
-
+            model.LLNodes = INodes;
             var newModel = CloneOperator.Clone(model);
 
+            Assert.NotEqual(model.LLNodes, newModel.LLNodes);
+            var oldNodes = new List<List<PropCloneNormalModel>>(model.LLNodes);
+            var newNodes = new List<List<PropCloneNormalModel>>(newModel.LLNodes);
             for (int i = 0; i < 5; i++)
             {
-                Assert.NotEqual(model.LLNodes, newModel.LLNodes);
                 for (int j = 0; j < 10; j++)
                 {
-                    Assert.NotEqual(model.LLNodes[i], newModel.LLNodes[i]);
-                    Assert.Equal(model.LLNodes[i][j].Name, newModel.LLNodes[i][j].Name);
-                    Assert.Equal(model.LLNodes[i][j].Age, newModel.LLNodes[i][j].Age);
+                    Assert.NotEqual(oldNodes[i], newNodes[i]);
+                    Assert.Equal(oldNodes[i][j].Name, newNodes[i][j].Name);
+                    Assert.Equal(oldNodes[i][j].Age, newNodes[i][j].Age);
                 }
             }
         }

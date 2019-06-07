@@ -9,6 +9,7 @@ namespace Natasha
         {
             
         }
+        #region ArraySingle
         public virtual void ArrayOnceTypeHandler(BuilderInfo info)
         {
 
@@ -17,6 +18,9 @@ namespace Natasha
         {
 
         }
+        #endregion
+
+        #region Collection
         public virtual void ICollectionHandler(BuilderInfo info)
         {
 
@@ -25,6 +29,20 @@ namespace Natasha
         {
 
         }
+        public virtual void IDictionaryHandler(BuilderInfo info)
+        {
+
+        }
+        public virtual void DictionaryHandler(BuilderInfo info)
+        {
+
+        }
+        #endregion
+        public virtual void OnceTypeHandler(BuilderInfo info)
+        {
+
+        }
+
         public void ArrayRouter(Type type)
         {
             Type eleType = type.GetElementType();
@@ -52,6 +70,7 @@ namespace Natasha
             typeInfo.Type = type;
             typeInfo.TypeName = NameReverser.GetName(type);
             typeInfo.AvailableName = AvailableNameReverser.GetName(type);
+
 
             EntityStartHandler(typeInfo);
 
@@ -99,30 +118,40 @@ namespace Natasha
                     {
 
                         //检测集合
-                        Type collectionType = fieldType.GetInterface("IEnumerable");
                         BuilderInfo info = new BuilderInfo();
                         info.MemberName = fieldInfo.Name;
                         info.RealType = fieldType;
                         info.TypeName = NameReverser.GetName(fieldType);
                         info.AvailableName = AvailableNameReverser.GetName(fieldType);
 
-                        if (collectionType != null)
+                        EntityHandler(fieldType);
+                        if (fieldType.GetInterface("IEnumerable") != null)
                         {
-
-                            //创建集合克隆
-                            EntityHandler(fieldType);
-                            if (fieldType.IsInterface)
+                            if (fieldType.GetInterface("IDictionary") != null)
                             {
-                                FieldICollectionHandler(info);
+                                if (fieldType.IsInterface)
+                                {
+                                    FieldIDictionaryHandler(info);
+                                }
+                                else
+                                {
+                                    FieldDictionaryHandler(info);
+                                }
                             }
                             else
                             {
-                                FieldCollectionHandler(info);
+                                if (fieldType.IsInterface)
+                                {
+                                    FieldICollectionHandler(info);
+                                }
+                                else
+                                {
+                                    FieldCollectionHandler(info);
+                                }
                             }
                         }
                         else
                         {
-                            EntityHandler(info.RealType);
                             FieldEntityHandler(info);
                         }
                     }
@@ -176,30 +205,43 @@ namespace Natasha
                     else if (!propertyType.IsNotPublic)
                     {
                         //检测集合
-                        Type collectionType = propertyType.GetInterface("IEnumerable");
                         BuilderInfo info = new BuilderInfo();
                         info.MemberName = propertyInfo.Name;
                         info.RealType = propertyType;
                         info.TypeName = NameReverser.GetName(propertyType);
                         info.AvailableName = AvailableNameReverser.GetName(propertyType);
 
-                        if (collectionType != null)
-                        {
 
-                            //创建集合克隆
-                            EntityHandler(propertyType);
-                            if (propertyType.IsInterface)
+                        EntityHandler(propertyType);
+
+
+                        if (propertyType.GetInterface("IEnumerable") != null)
+                        {
+                            if (propertyType.GetInterface("IDictionary") != null)
                             {
-                                PropertyICollectionHandler(info);
+                                if (propertyType.IsInterface)
+                                {
+                                    PropertyIDictionaryHandler(info);
+                                }
+                                else
+                                {
+                                    PropertyDictionaryHandler(info);
+                                }
                             }
                             else
                             {
-                                PropertyCollectionHandler(info);
+                                if (propertyType.IsInterface)
+                                {
+                                    PropertyICollectionHandler(info);
+                                }
+                                else
+                                {
+                                    PropertyCollectionHandler(info);
+                                }
                             }
                         }
                         else
                         {
-                            EntityHandler(info.RealType);
                             PropertyEntityHandler(info);
                         }
                     }
@@ -210,26 +252,21 @@ namespace Natasha
 
         }
         public void CollectionRouter(Type type)
-        {
-            //泛型集合参数
-            Type[] args = type.GetGenericArguments();
+        {           
 
             BuilderInfo typeInfo = new BuilderInfo();
             typeInfo.RealType = type;
             typeInfo.TypeName = NameReverser.GetName(type);
             typeInfo.AvailableName = AvailableNameReverser.GetName(type);
-            //检测接口
-            if (!type.IsInterface)
+
+
+            if (!type.IsGenericType)
             {
-
+                Type[] args = type.GetGenericArguments();
                 EntityHandler(args[0]);
-
-                //如果存在第二个泛型参数，例如字典，同样进行克隆处理
-                if (args.Length == 2)
-                {
-                    EntityHandler(args[1]);
-                }
             }
+
+
             if (type.IsInterface)
             {
                 ICollectionHandler(typeInfo);
@@ -239,7 +276,32 @@ namespace Natasha
                 CollectionHandler(typeInfo);
             }
         }
+        public void DictionaryRouter(Type type)
+        {
 
+            BuilderInfo typeInfo = new BuilderInfo();
+            typeInfo.RealType = type;
+            typeInfo.TypeName = NameReverser.GetName(type);
+            typeInfo.AvailableName = AvailableNameReverser.GetName(type);
+
+
+            if (!type.IsGenericType)
+            {
+                Type[] args = type.GetGenericArguments();
+                EntityHandler(args[0]);
+                EntityHandler(args[1]);
+            }
+
+
+            if (type.IsInterface)
+            {
+                IDictionaryHandler(typeInfo);
+            }
+            else
+            {
+                DictionaryHandler(typeInfo);
+            }
+        }
         public void OnceTypeRouter(Type type)
         {
             BuilderInfo typeInfo = new BuilderInfo();
@@ -285,6 +347,14 @@ namespace Natasha
         {
             MemberEntityHandler(info);
         }
+        public virtual void FieldIDictionaryHandler(BuilderInfo info)
+        {
+            MemberIDictionaryHandler(info);
+        }
+        public virtual void FieldDictionaryHandler(BuilderInfo info)
+        {
+            MemberDictionaryHandler(info);
+        }
         #endregion
 
         #region Property
@@ -311,6 +381,14 @@ namespace Natasha
         public virtual void PropertyEntityHandler(BuilderInfo info)
         {
             MemberEntityHandler(info);
+        }
+        public virtual void PropertyIDictionaryHandler(BuilderInfo info)
+        {
+            MemberIDictionaryHandler(info);
+        }
+        public virtual void PropertyDictionaryHandler(BuilderInfo info)
+        {
+            MemberDictionaryHandler(info);
         }
         #endregion
 
@@ -339,12 +417,19 @@ namespace Natasha
         {
 
         }
-        #endregion
-
-        public virtual void OnceTypeHandler(BuilderInfo info)
+        public virtual void MemberIDictionaryHandler(BuilderInfo info)
         {
 
         }
+        public virtual void MemberDictionaryHandler(BuilderInfo info)
+        {
+
+        }
+        #endregion
+
+
+
+
         /// <summary>
         /// 获取克隆委托
         /// </summary>
@@ -370,7 +455,14 @@ namespace Natasha
             }
             else if (type.GetInterface("IEnumerable") != null)  //集合直接
             {
-                CollectionRouter(type);
+                if (type.GetInterface("IDictionary")!=null)
+                {
+                    DictionaryRouter(type);
+                }
+                else
+                {
+                    CollectionRouter(type);
+                }
             }
             else
             {
@@ -392,7 +484,7 @@ namespace Natasha
         {
             return type.IsPrimitive
                             || type == typeof(string)
-                            || !type.IsClass
+                            || (!type.IsClass && !type.IsInterface)
                             || type.IsEnum
                             || type == typeof(Delegate);
         }

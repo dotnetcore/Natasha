@@ -91,7 +91,7 @@ namespace NatashaUT.Model
     {
         public List<PropCloneNormalModel>[] ALNodes { get; set; }
         public List<PropCloneNormalModel[]> LANodes { get; set; }
-        public List<List<PropCloneNormalModel>> LLNodes { get; set; }
+        public IEnumerable<List<PropCloneNormalModel>> LLNodes { get; set; }
     }
 
     public class CloneDictModel
