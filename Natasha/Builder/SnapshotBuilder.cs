@@ -47,7 +47,7 @@ namespace Natasha
 
             //创建委托
             var tempBuilder = FastMethodOperator.New;
-            tempBuilder.ComplierInstance.UseFileComplie();
+            tempBuilder.ComplierOption.UseFileComplie();
             tempBuilder.Using(info.Type).Using(info.RealType).Using(typeof(HashSet<>)); ;
             SnapshotCache[info.Type] = tempBuilder
                         .Using("Natasha")
@@ -85,7 +85,7 @@ namespace Natasha
 
             //创建委托
             var tempBuilder = FastMethodOperator.New;
-            tempBuilder.ComplierInstance.UseFileComplie();
+            tempBuilder.ComplierOption.UseFileComplie();
             tempBuilder.Using(info.Type).Using(info.RealType).Using(typeof(HashSet<>)); ;
             SnapshotCache[info.Type] = tempBuilder
                         .Using("Natasha")
@@ -167,7 +167,7 @@ namespace Natasha
 
             //创建委托
             var tempBuilder = FastMethodOperator.New;
-            tempBuilder.ComplierInstance.UseFileComplie();
+            tempBuilder.ComplierOption.UseFileComplie();
             tempBuilder.Using(info.RealType).Using(typeof(HashSet<>)); ;
             SnapshotCache[info.RealType] = tempBuilder
                         .Using("Natasha")
@@ -198,7 +198,7 @@ namespace Natasha
 
             //创建委托
             var tempBuilder = FastMethodOperator.New;
-            tempBuilder.ComplierInstance.UseFileComplie();
+            tempBuilder.ComplierOption.UseFileComplie();
             tempBuilder.Using(info.RealType).Using(typeof(HashSet<>)); ;
             SnapshotCache[info.RealType] = tempBuilder
                         .Using("Natasha")
@@ -285,7 +285,7 @@ namespace Natasha
         {
             TypeHandler(CurrentType);
             //创建委托
-            MethodHandler.ComplierInstance.UseFileComplie();
+            MethodHandler.ComplierOption.UseFileComplie();
             var @delegate = MethodHandler
                         .ClassName("NatashaSnapshot" + AvailableNameReverser.GetName(CurrentType))
                         .MethodName("Compare")

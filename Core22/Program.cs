@@ -15,6 +15,14 @@ namespace Core22
              *      <PreserveCompilationContext>true</PreserveCompilationContext>
              */
 
+            var delegateConvt = FastMethodOperator.New
+                .Param<string>("value")
+                .MethodBody($@"return value==""true"" || value==""mama"";")
+                .Return<bool>()
+                .Complie<Func<string, bool>>();
+
+            Console.WriteLine(delegateConvt("mama"));
+
             string text = @"using System;
 using System.Collections;
 using System.Linq;

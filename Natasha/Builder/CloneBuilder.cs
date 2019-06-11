@@ -44,7 +44,7 @@ namespace Natasha
 
             //创建委托
             var tempBuilder = FastMethodOperator.New;
-            tempBuilder.ComplierInstance.UseFileComplie();
+            tempBuilder.ComplierOption.UseFileComplie();
             tempBuilder.Using(info.RealType);
             CloneCache[info.RealType] = tempBuilder
                         .Using("Natasha")
@@ -69,7 +69,7 @@ namespace Natasha
 
             //创建委托
             var tempBuilder = FastMethodOperator.New;
-            tempBuilder.ComplierInstance.UseFileComplie();
+            tempBuilder.ComplierOption.UseFileComplie();
             tempBuilder.Using(info.RealType);
             CloneCache[info.Type] = tempBuilder
                         .Using("Natasha")
@@ -98,7 +98,7 @@ namespace Natasha
 
             //创建委托
             var tempBuilder = FastMethodOperator.New;
-            tempBuilder.ComplierInstance.UseFileComplie();
+            tempBuilder.ComplierOption.UseFileComplie();
             tempBuilder.Using(info.RealType);
             CloneCache[info.Type] = tempBuilder
                         .Using("Natasha")
@@ -135,7 +135,7 @@ namespace Natasha
             tempBuilder.Using(info.RealType.GetGenericArguments());
             tempBuilder.Using("Natasha");
             tempBuilder.Using("System.Linq");
-            tempBuilder.ComplierInstance.UseFileComplie();
+            tempBuilder.ComplierOption.UseFileComplie();
             CloneCache[info.RealType] = tempBuilder
                         .Using("Natasha")
                         .Using(info.RealType)
@@ -172,7 +172,7 @@ namespace Natasha
             tempBuilder.Using(info.RealType.GetGenericArguments());
             tempBuilder.Using("Natasha");
             tempBuilder.Using("System.Linq");
-            tempBuilder.ComplierInstance.UseFileComplie();
+            tempBuilder.ComplierOption.UseFileComplie();
             CloneCache[info.RealType] = tempBuilder
                         .Using("Natasha")
                         .Using(info.RealType)
@@ -220,7 +220,7 @@ namespace Natasha
             tempBuilder.Using(info.RealType.GetGenericArguments());
             tempBuilder.Using("Natasha");
             tempBuilder.Using("System.Linq");
-            tempBuilder.ComplierInstance.UseFileComplie();
+            tempBuilder.ComplierOption.UseFileComplie();
             CloneCache[info.RealType] = tempBuilder
                         .Using("Natasha")
                         .Using(info.RealType)
@@ -287,7 +287,7 @@ namespace Natasha
             tempBuilder.Using(info.RealType.GetGenericArguments());
             tempBuilder.Using("Natasha");
             tempBuilder.Using("System.Linq");
-            tempBuilder.ComplierInstance.UseFileComplie();
+            tempBuilder.ComplierOption.UseFileComplie();
             CloneCache[info.RealType] = tempBuilder
                         .Using("Natasha")
                         .Using(info.RealType)
@@ -396,7 +396,7 @@ namespace Natasha
             if (TypeHandler(CurrentType))
             {
                 //创建委托
-                MethodHandler.ComplierInstance.UseFileComplie();
+                MethodHandler.ComplierOption.UseFileComplie();
                 var @delegate = MethodHandler
                             .ClassName("NatashaClone" + AvailableNameReverser.GetName(CurrentType))
                             .MethodName("Clone")

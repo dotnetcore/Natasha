@@ -11,9 +11,9 @@ namespace Natasha.Builder
     {
 
         //使用默认编译器
-        public DefaultComplier ComplierInstance;
+        public DefaultComplier ComplierOption;
 
-        public OnceMethodBuilder() => ComplierInstance = new DefaultComplier();
+        public OnceMethodBuilder() => ComplierOption = new DefaultComplier();
 
 
 
@@ -24,7 +24,7 @@ namespace Natasha.Builder
         /// <returns></returns>
         public Delegate Complie()
         {
-            return ComplierInstance.Complie(Package(), NameScript);
+            return ComplierOption.Complie(Package(), NameScript);
         }
 
 
