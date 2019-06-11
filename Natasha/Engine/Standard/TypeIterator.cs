@@ -5,44 +5,95 @@ namespace Natasha
     public abstract class TypeIterator
     {
         public Type CurrentType;
+
+        /// <summary>
+        /// 单独处理复杂类型，例如类、接口，不包括集合、字典
+        /// </summary>
+        /// <param name="type"></param>
         public virtual void EntityHandler(Type type)
         {
             
         }
+
+        
         #region ArraySingle
+        /// <summary>
+        /// 一次性赋值的类型，比如int,string,枚举这类的
+        /// </summary>
+        /// <param name="info">构建信息</param>
         public virtual void ArrayOnceTypeHandler(BuilderInfo info)
         {
 
         }
+
+
+        /// <summary>
+        /// 复杂类型，比如类、接口、集合类型等
+        /// </summary>
+        /// <param name="info"></param>
         public virtual void ArrayEntityHandler(BuilderInfo info)
         {
 
         }
         #endregion
 
-        #region Collection
+
+        #region Collection 
+        /// <summary>
+        /// 集合接口类型，IEnumable<T>
+        /// </summary>
+        /// <param name="info"></param>
         public virtual void ICollectionHandler(BuilderInfo info)
         {
 
         }
+
+
+        /// <summary>
+        /// 集合实体类型，比如List<T>
+        /// </summary>
+        /// <param name="info"></param>
         public virtual void CollectionHandler(BuilderInfo info)
         {
 
         }
+
+
+        /// <summary>
+        /// 字典接口类型，IDictionary<TKey,TValue>
+        /// </summary>
+        /// <param name="info"></param>
         public virtual void IDictionaryHandler(BuilderInfo info)
         {
 
         }
+
+
+        /// <summary>
+        /// 字典实体类型，Dictionary<TKey,TValue>
+        /// </summary>
+        /// <param name="info"></param>
         public virtual void DictionaryHandler(BuilderInfo info)
         {
 
         }
         #endregion
+
+
+        /// <summary>
+        /// 一次性类型处理，比如int,string,枚举这类的
+        /// </summary>
+        /// <param name="info"></param>
         public virtual void OnceTypeHandler(BuilderInfo info)
         {
 
         }
 
+
+        /// <summary>
+        /// 数组分配方法，数组类型会被拆分，例如：class[]或者int[]
+        /// </summary>
+        /// <param name="type"></param>
         public void ArrayRouter(Type type)
         {
             Type eleType = type.GetElementType();
@@ -63,6 +114,12 @@ namespace Natasha
                 ArrayEntityHandler(typeInfo);
             }
         }
+
+
+        /// <summary>
+        /// 实体分配方法，会遍历实体类中的所有成员，不包括方法
+        /// </summary>
+        /// <param name="type"></param>
         public void EntityRouter(Type type)
         {
 
@@ -251,6 +308,12 @@ namespace Natasha
             EntityReturnHandler(typeInfo);
 
         }
+
+
+        /// <summary>
+        /// 集合分配方法，将集合拆分处理，例如，IEnumable<T>或List<T>
+        /// </summary>
+        /// <param name="type"></param>
         public void CollectionRouter(Type type)
         {           
 
@@ -276,6 +339,12 @@ namespace Natasha
                 CollectionHandler(typeInfo);
             }
         }
+
+
+        /// <summary>
+        /// 字典分配方法，将字典拆分处理，例如，IDictionary<TKey,TValue>或Dictionary<TKey,TValue>
+        /// </summary>
+        /// <param name="type"></param>
         public void DictionaryRouter(Type type)
         {
 
@@ -302,6 +371,12 @@ namespace Natasha
                 DictionaryHandler(typeInfo);
             }
         }
+
+
+        /// <summary>
+        /// 一次性类型分配方法
+        /// </summary>
+        /// <param name="type"></param>
         public void OnceTypeRouter(Type type)
         {
             BuilderInfo typeInfo = new BuilderInfo();
@@ -312,10 +387,20 @@ namespace Natasha
         }
 
         #region StartAndEnd
+        /// <summary>
+        /// 复杂类型刚开始时需要处理的，比如初始化
+        /// </summary>
+        /// <param name="info"></param>
         public virtual void EntityStartHandler(BuilderInfo info)
         {
 
         }
+
+
+        /// <summary>
+        /// 复杂类型结束时需要处理的，比如返回一个实例
+        /// </summary>
+        /// <param name="info"></param>
         public virtual void EntityReturnHandler(BuilderInfo info)
         {
 
@@ -393,34 +478,88 @@ namespace Natasha
         #endregion
 
         #region Member
+        /// <summary>
+        /// 复杂类型中，一次性类型的成员操作,
+        /// 例如 public int Age; public string Name{get;set;}
+        /// </summary>
+        /// <param name="info"></param>
         public virtual void MemberOnceTypeHandler(BuilderInfo info)
         {
 
         }
+
+
+        /// <summary>
+        /// 复杂类型中，一次性数组类型的成员操作，
+        /// 例如public int[] Scores;public string[] Names{get;set;}
+        /// </summary>
+        /// <param name="info"></param>
         public virtual void MemberArrayOnceTypeHandler(BuilderInfo info)
         {
 
         }
+
+
+        /// <summary>
+        /// 复杂类型中，复杂类型数组的成员操作，
+        /// 例如public ClassA[] values;
+        /// </summary>
+        /// <param name="info"></param>
         public virtual void MemberArrayEntityHandler(BuilderInfo info)
         {
 
         }
+
+
+        /// <summary>
+        /// 复杂类型中，接口集合的成员操作，
+        /// 例如public IEnumables<T> list;
+        /// </summary>
+        /// <param name="info"></param>
         public virtual void MemberICollectionHandler(BuilderInfo info)
         {
 
         }
+
+
+        /// <summary>
+        /// 复杂类型中，接口集合的成员操作，
+        /// 例如public List<T> list;
+        /// </summary>
+        /// <param name="info"></param>
         public virtual void MemberCollectionHandler(BuilderInfo info)
         {
 
         }
+
+
+        /// <summary>
+        /// 复杂类型中，复杂类型的成员操作，
+        /// 例如public ClassA SubClass;
+        /// </summary>
+        /// <param name="info"></param>
         public virtual void MemberEntityHandler(BuilderInfo info)
         {
 
         }
+
+
+        /// <summary>
+        /// 复杂类型中，接口集合的成员操作，
+        /// 例如public IDictionary<TKey,TValue> dict;
+        /// </summary>
+        /// <param name="info"></param>
         public virtual void MemberIDictionaryHandler(BuilderInfo info)
         {
 
         }
+
+
+        /// <summary>
+        /// 复杂类型中，接口集合的成员操作，
+        /// 例如public Dictionary<TKey,TValue> dict;
+        /// </summary>
+        /// <param name="info"></param>
         public virtual void MemberDictionaryHandler(BuilderInfo info)
         {
 
