@@ -48,13 +48,13 @@ namespace Natasha
             //创建委托
             var tempBuilder = FastMethodOperator.New;
             tempBuilder.ComplierOption.UseFileComplie();
-            tempBuilder.Using(info.Type).Using(info.RealType).Using(typeof(HashSet<>)); ;
-            SnapshotCache[info.Type] = tempBuilder
+            tempBuilder.Using(info.RealType).Using(info.Type).Using(typeof(HashSet<>)); ;
+            SnapshotCache[info.RealType] = tempBuilder
                         .Using("Natasha")
                         .ClassName("NatashaSnapshot" + info.AvailableName)
                         .MethodName("Compare")
-                        .Param(info.Type, OldInstance)
-                        .Param(info.Type, NewInstance)
+                        .Param(info.RealType, OldInstance)
+                        .Param(info.RealType, NewInstance)
                         .MethodBody(scriptBuilder.ToString())      
                         .Return<Dictionary<string, DiffModel>>()  
                         .Complie();
@@ -86,13 +86,13 @@ namespace Natasha
             //创建委托
             var tempBuilder = FastMethodOperator.New;
             tempBuilder.ComplierOption.UseFileComplie();
-            tempBuilder.Using(info.Type).Using(info.RealType).Using(typeof(HashSet<>)); ;
-            SnapshotCache[info.Type] = tempBuilder
+            tempBuilder.Using(info.RealType).Using(info.Type).Using(typeof(HashSet<>)); ;
+            SnapshotCache[info.RealType] = tempBuilder
                         .Using("Natasha")
                         .ClassName("NatashaSnapshot" + info.AvailableName)
                         .MethodName("Compare")
-                        .Param(info.Type, OldInstance)
-                        .Param(info.Type, NewInstance)
+                        .Param(info.RealType, OldInstance)
+                        .Param(info.RealType, NewInstance)
                         .MethodBody(scriptBuilder.ToString())         
                         .Return<Dictionary<string, DiffModel>>()                  
                         .Complie();
@@ -108,7 +108,7 @@ namespace Natasha
 
         public override void MemberICollectionHandler(BuilderInfo info)
         {
-            MethodHandler.Using(info.RealType);
+            MethodHandler.Using(info.Type);
             Script.Append(
                 $@"if({NewInstance}.{info.MemberName}!={OldInstance}.{info.MemberName}){{
                     if({NewInstance}.{info.MemberName}==null || {OldInstance}.{info.MemberName}==null){{
@@ -122,7 +122,7 @@ namespace Natasha
 
         public override void MemberCollectionHandler(BuilderInfo info)
         {
-            MethodHandler.Using(info.RealType);
+            MethodHandler.Using(info.Type);
             Script.Append(
                 $@"if({NewInstance}.{info.MemberName}!={OldInstance}.{info.MemberName}){{
                     if({NewInstance}.{info.MemberName}==null || {OldInstance}.{info.MemberName}==null){{
@@ -137,7 +137,7 @@ namespace Natasha
 
         public override void MemberEntityHandler(BuilderInfo info)
         {
-            MethodHandler.Using(info.RealType);
+            MethodHandler.Using(info.Type);
             Script.Append(
                 $@"if({NewInstance}.{info.MemberName}!={OldInstance}.{info.MemberName}){{
                     if({NewInstance}.{info.MemberName}==null || {OldInstance}.{info.MemberName}==null){{
@@ -168,13 +168,13 @@ namespace Natasha
             //创建委托
             var tempBuilder = FastMethodOperator.New;
             tempBuilder.ComplierOption.UseFileComplie();
-            tempBuilder.Using(info.RealType).Using(typeof(HashSet<>)); ;
-            SnapshotCache[info.RealType] = tempBuilder
+            tempBuilder.Using(info.Type).Using(typeof(HashSet<>)); ;
+            SnapshotCache[info.Type] = tempBuilder
                         .Using("Natasha")
                         .ClassName("NatashaSnapshot" + info.AvailableName)
                         .MethodName("Compare")
-                        .Param(info.RealType, OldInstance)
-                        .Param(info.RealType, NewInstance)
+                        .Param(info.Type, OldInstance)
+                        .Param(info.Type, NewInstance)
                         .MethodBody(scriptBuilder.ToString())            
                         .Return<Dictionary<string, DiffModel>>()       
                         .Complie();
@@ -199,13 +199,13 @@ namespace Natasha
             //创建委托
             var tempBuilder = FastMethodOperator.New;
             tempBuilder.ComplierOption.UseFileComplie();
-            tempBuilder.Using(info.RealType).Using(typeof(HashSet<>)); ;
-            SnapshotCache[info.RealType] = tempBuilder
+            tempBuilder.Using(info.Type).Using(typeof(HashSet<>)); ;
+            SnapshotCache[info.Type] = tempBuilder
                         .Using("Natasha")
                         .ClassName("NatashaSnapshot" + info.AvailableName)
                         .MethodName("Compare")
-                        .Param(info.RealType, OldInstance)
-                        .Param(info.RealType, NewInstance)
+                        .Param(info.Type, OldInstance)
+                        .Param(info.Type, NewInstance)
                         .MethodBody(scriptBuilder.ToString())          
                         .Return<Dictionary<string, DiffModel>>()             
                         .Complie();
@@ -213,8 +213,8 @@ namespace Natasha
 
         public override void MemberArrayEntityHandler(BuilderInfo info)
         {
-            MethodHandler.Using(info.Type);
             MethodHandler.Using(info.RealType);
+            MethodHandler.Using(info.Type);
             MethodHandler.Using(typeof(HashSet<>));
             Script.Append(
                 $@"if({NewInstance}.{info.MemberName}!={OldInstance}.{info.MemberName}){{

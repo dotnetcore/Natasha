@@ -47,8 +47,8 @@ namespace Natasha
         {
             Type eleType = type.GetElementType();
             BuilderInfo typeInfo = new BuilderInfo();
-            typeInfo.Type = type;
-            typeInfo.RealType = eleType;
+            typeInfo.RealType = type;
+            typeInfo.Type = eleType;
             typeInfo.TypeName = NameReverser.GetName(eleType);
             typeInfo.AvailableName = AvailableNameReverser.GetName(type);
             if (IsOnceType(eleType))
@@ -67,7 +67,7 @@ namespace Natasha
         {
 
             BuilderInfo typeInfo = new BuilderInfo();
-            typeInfo.Type = type;
+            typeInfo.RealType = type;
             typeInfo.TypeName = NameReverser.GetName(type);
             typeInfo.AvailableName = AvailableNameReverser.GetName(type);
 
@@ -88,7 +88,7 @@ namespace Natasha
                     {
                         BuilderInfo info = new BuilderInfo();
                         info.MemberName = fieldInfo.Name;
-                        info.RealType = fieldType;
+                        info.Type = fieldType;
                         info.TypeName = NameReverser.GetName(fieldType);
                         info.AvailableName = AvailableNameReverser.GetName(fieldType);
                         FieldOnceTypeHandler(info);
@@ -99,8 +99,8 @@ namespace Natasha
                         Type eleType = fieldType.GetElementType();
                         BuilderInfo info = new BuilderInfo();
                         info.MemberName = fieldInfo.Name;
-                        info.Type = eleType;
                         info.RealType = eleType;
+                        info.Type = eleType;
                         info.TypeName = NameReverser.GetName(eleType);
                         info.AvailableName = AvailableNameReverser.GetName(fieldType);
 
@@ -120,7 +120,7 @@ namespace Natasha
                         //检测集合
                         BuilderInfo info = new BuilderInfo();
                         info.MemberName = fieldInfo.Name;
-                        info.RealType = fieldType;
+                        info.Type = fieldType;
                         info.TypeName = NameReverser.GetName(fieldType);
                         info.AvailableName = AvailableNameReverser.GetName(fieldType);
 
@@ -175,7 +175,7 @@ namespace Natasha
                     {
                         BuilderInfo info = new BuilderInfo();
                         info.MemberName = propertyInfo.Name;
-                        info.RealType = propertyType;
+                        info.Type = propertyType;
                         info.TypeName = NameReverser.GetName(propertyType);
                         info.AvailableName = AvailableNameReverser.GetName(propertyType);
                         PropertyOnceTypeHandler(info);
@@ -187,8 +187,8 @@ namespace Natasha
 
                         BuilderInfo info = new BuilderInfo();
                         info.MemberName = propertyInfo.Name;
-                        info.Type = propertyType;
-                        info.RealType = eleType;
+                        info.RealType = propertyType;
+                        info.Type = eleType;
                         info.TypeName = NameReverser.GetName(eleType);
                         info.AvailableName = AvailableNameReverser.GetName(propertyType);
 
@@ -207,7 +207,7 @@ namespace Natasha
                         //检测集合
                         BuilderInfo info = new BuilderInfo();
                         info.MemberName = propertyInfo.Name;
-                        info.RealType = propertyType;
+                        info.Type = propertyType;
                         info.TypeName = NameReverser.GetName(propertyType);
                         info.AvailableName = AvailableNameReverser.GetName(propertyType);
 
@@ -255,7 +255,7 @@ namespace Natasha
         {           
 
             BuilderInfo typeInfo = new BuilderInfo();
-            typeInfo.RealType = type;
+            typeInfo.Type = type;
             typeInfo.TypeName = NameReverser.GetName(type);
             typeInfo.AvailableName = AvailableNameReverser.GetName(type);
 
@@ -280,7 +280,7 @@ namespace Natasha
         {
 
             BuilderInfo typeInfo = new BuilderInfo();
-            typeInfo.RealType = type;
+            typeInfo.Type = type;
             typeInfo.TypeName = NameReverser.GetName(type);
             typeInfo.AvailableName = AvailableNameReverser.GetName(type);
 
@@ -305,7 +305,7 @@ namespace Natasha
         public void OnceTypeRouter(Type type)
         {
             BuilderInfo typeInfo = new BuilderInfo();
-            typeInfo.RealType = type;
+            typeInfo.Type = type;
             typeInfo.TypeName = NameReverser.GetName(type);
             typeInfo.AvailableName = AvailableNameReverser.GetName(type);
             OnceTypeHandler(typeInfo);
@@ -488,15 +488,6 @@ namespace Natasha
                             || type.IsEnum
                             || type == typeof(Delegate);
         }
-    }
-
-    public class BuilderInfo
-    {
-        public string MemberName;
-        public string TypeName;
-        public Type Type;
-        public Type RealType;
-        public string AvailableName;
-    }
+    }    
 }
 
