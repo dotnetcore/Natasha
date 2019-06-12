@@ -574,7 +574,7 @@ namespace Natasha
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public bool TypeHandler(Type type)
+        public bool TypeRouter(Type type)
         {
             //无效类PASS
             if (type.FullName == null)

@@ -393,7 +393,7 @@ namespace Natasha
 
         public Delegate Create()
         {
-            if (TypeHandler(CurrentType))
+            if (TypeRouter(CurrentType))
             {
                 //创建委托
                 MethodHandler.ComplierOption.UseFileComplie();

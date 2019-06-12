@@ -283,7 +283,7 @@ namespace Natasha
 
         public Delegate Create()
         {
-            TypeHandler(CurrentType);
+            TypeRouter(CurrentType);
             //创建委托
             MethodHandler.ComplierOption.UseFileComplie();
             var @delegate = MethodHandler
