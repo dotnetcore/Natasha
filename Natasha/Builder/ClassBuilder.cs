@@ -71,16 +71,12 @@ namespace Natasha
         public static Type GetType(string content, int classIndex = 1, int namespaceIndex = 1)
         {
 
-            //运算索引
-            classIndex -= 1; namespaceIndex -= 1;
-
-
             //根据索引获取类名
-            string className = ScriptComplier.GetClassName(content, classIndex, namespaceIndex);
+            string className = ScriptComplier.GetTreeAndClassName(content, classIndex, namespaceIndex).ClassName;
 
 
             //获取程序集
-            Assembly assembly = ScriptComplier.FileComplier(content, className);
+            Assembly assembly = ScriptComplier.FileComplier(content);
 
 
             //获取类型

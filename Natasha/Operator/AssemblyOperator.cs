@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 
 namespace Natasha
@@ -35,7 +36,7 @@ namespace Natasha
         /// <returns></returns>
         public Type this[string className]
         {
-            get { return _assembly.GetType(className); }
+            get { return _assembly.GetTypes().First(item=>item.Name==className); }
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace Natasha
 {
-    public abstract class IComplier : IScriptBuilder
+    public abstract class IComplier
     {
         /// <summary>
         /// 编译时错误提示处理
@@ -36,71 +36,21 @@ namespace Natasha
 
 
 
-
-        /// <summary>
-        /// 生成委托
-        /// </summary>
-        /// <returns></returns>
-        public Delegate Create()
-        {
-            return Complie();
-        }
-
-
-
-
-        /// <summary>
-        /// 生成强类型委托
-        /// </summary>
-        /// <typeparam name="T">强类型</typeparam>
-        /// <returns></returns>
-        public T Create<T>() where T: Delegate
-        {
-            return (T)Complie();
-        }
-
-
-
-
         /// <summary>
         /// 获取编译后的程序集
         /// </summary>
         /// <param name="className">类名</param>
         /// <returns></returns>
-        public Assembly GetAssemblyByScript(string className=null)
+        public Assembly GetAssemblyByScript(string content)
         {
             if (!_useFileComplie)
             {
-                return ScriptComplier.StreamComplier(Builder(), className, SingleError);
+                return ScriptComplier.StreamComplier(content, SingleError);
             }
             else
             {
-                return ScriptComplier.FileComplier(Builder(), className, SingleError);
+                return ScriptComplier.FileComplier(content, SingleError);
             }
-        }
-
-
-
-
-        /// <summary>
-        /// 编译虚方法
-        /// </summary>
-        /// <returns></returns>
-        public virtual Delegate Complie()
-        {
-            return null;
-        }
-
-
-
-
-        /// <summary>
-        /// 构建脚本，虚方法
-        /// </summary>
-        /// <returns></returns>
-        public virtual string Builder()
-        {
-            return "";
         }
     }
 }

@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis.Emit;
 using Microsoft.Extensions.DependencyModel;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -19,6 +20,7 @@ namespace Natasha.Complier
     public class ScriptComplier
     {
         public readonly static string LibPath;
+        public readonly static ConcurrentDictionary<string, Assembly> ClassMapping;
         public readonly static ConcurrentDictionary<string, Assembly> DynamicDlls;
         public readonly static ConcurrentBag<PortableExecutableReference> References;
 
@@ -42,6 +44,7 @@ namespace Natasha.Complier
                                 .Select(asm => MetadataReference.CreateFromFile(asm));
             DynamicDlls = new ConcurrentDictionary<string, Assembly>();
             References = new ConcurrentBag<PortableExecutableReference>(_ref);
+            ClassMapping = new ConcurrentDictionary<string, Assembly>();
         }
 
 
@@ -69,15 +72,50 @@ namespace Natasha.Complier
         /// <param name="classIndex">命名空间里的第index个类</param>
         /// <param name="namespaceIndex">第namespaceIndex个命名空间</param>
         /// <returns></returns>
-        public static string GetClassName(string content, int classIndex = 1, int namespaceIndex = 1)
+        public static (SyntaxTree Tree, string ClassName) GetTreeAndClassName(string content, int classIndex = 1, int namespaceIndex = 1)
         {
+            classIndex -= 1;
+            namespaceIndex -= 1;
             SyntaxTree tree = CSharpSyntaxTree.ParseText(content);
             CompilationUnitSyntax root = tree.GetCompilationUnitRoot();
-            MemberDeclarationSyntax firstMember = root.Members[namespaceIndex];
-            var NameSpaceDeclaration = (NamespaceDeclarationSyntax)firstMember;
-            var ClassDeclaration = (ClassDeclarationSyntax)NameSpaceDeclaration.Members[classIndex];
-            var identifier = (IdentifierNameSyntax)NameSpaceDeclaration.Name;
-            return $"{identifier.Identifier.Text.Trim()}.{ClassDeclaration.Identifier.Text}";
+            var firstMember = root.Members[namespaceIndex];
+            if (firstMember is NamespaceDeclarationSyntax)
+            {
+                var NameSpaceDeclaration = (NamespaceDeclarationSyntax)firstMember;
+                var ClassDeclaration = (ClassDeclarationSyntax)NameSpaceDeclaration.Members[classIndex];
+                return (tree, ClassDeclaration.Identifier.Text);
+            }
+            else
+            {
+                var ClassDeclaration = (ClassDeclarationSyntax)firstMember;
+                return (tree, ClassDeclaration.Identifier.Text);
+            }
+
+        }
+
+        public static (SyntaxTree Tree, string[] ClassNames) GetTreeAndClassNames(string content)
+        {
+            List<string> names = new List<string>();
+            SyntaxTree tree = CSharpSyntaxTree.ParseText(content);
+            CompilationUnitSyntax root = tree.GetCompilationUnitRoot();
+            foreach (var item in root.Members)
+            {
+                if (item is NamespaceDeclarationSyntax)         //有命名空间
+                {
+                    var NameSpaceDeclaration = (NamespaceDeclarationSyntax)item;
+                    foreach (var itemClass in NameSpaceDeclaration.Members)
+                    {
+                        var ClassDeclaration = (ClassDeclarationSyntax)itemClass;
+                        names.Add(ClassDeclaration.Identifier.Text);
+                    }
+                }
+                else                                            //无命名空间
+                {
+                    var ClassDeclaration = (ClassDeclarationSyntax)item;
+                    names.Add(ClassDeclaration.Identifier.Text);
+                }
+            }
+            return (tree, names.ToArray());
         }
 
 
@@ -87,25 +125,22 @@ namespace Natasha.Complier
         /// 使用内存流进行脚本编译
         /// </summary>
         /// <param name="content">脚本内容</param>
-        /// <param name="className">指定类名</param>
         /// <param name="errorAction">发生错误执行委托</param>
         /// <returns></returns>
-        public static Assembly StreamComplier(string content, string className = null, Action<Diagnostic> errorAction = null)
+        public static Assembly StreamComplier(string content, Action<Diagnostic> errorAction = null)
         {
 #if DEBUG
             StringBuilder recoder = new StringBuilder(LineFormat(ref content));
 #endif
 
-
-            //写入分析树
-            SyntaxTree tree = SyntaxFactory.ParseSyntaxTree(content);
+            var node = GetTreeAndClassName(content);
 
 
             //创建语言编译
             CSharpCompilation compilation = CSharpCompilation.Create(
-                className,
+                node.ClassName,
                 options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary),
-                syntaxTrees: new[] { tree },
+                syntaxTrees: new[] { node.Tree },
                 references: References);
 
 
@@ -119,11 +154,11 @@ namespace Natasha.Complier
 #if DEBUG
                     recoder.AppendLine("\r\n\r\n------------------------------------------succeed-------------------------------------------");
                     recoder.AppendLine($"\r\n    Lauguage :\t{compilation.Language}___{compilation.LanguageVersion}");
-                    recoder.AppendLine($"\r\n    Target :\t\t{className}");
+                    recoder.AppendLine($"\r\n    Target :\t\t{node.ClassName}");
                     recoder.AppendLine($"\r\n    Size :\t\t{stream.Length}");
                     recoder.AppendLine($"\r\n    Assembly : \t{result.FullName}");
                     recoder.AppendLine("\r\n----------------------------------------------------------------------------------------------");
-                    NDebug.Succeed("Succeed : " + className, recoder.ToString());
+                    NDebug.Succeed("Succeed : " + node.ClassName, recoder.ToString());
 #endif
 
                     return result;
@@ -134,7 +169,7 @@ namespace Natasha.Complier
 #if DEBUG
                     recoder.AppendLine("\r\n\r\n------------------------------------------error----------------------------------------------");
                     recoder.AppendLine($"\r\n    Lauguage :\t{compilation.Language}___{compilation.LanguageVersion}");
-                    recoder.AppendLine($"\r\n    Target:\t\t{className}");
+                    recoder.AppendLine($"\r\n    Target:\t\t{node.ClassName}");
                     recoder.AppendLine($"\r\n    Error:\t\t共{fileResult.Diagnostics.Length}处错误！");
 #endif
 
@@ -150,7 +185,7 @@ namespace Natasha.Complier
                     }
 #if DEBUG
                     recoder.AppendLine("\r\n---------------------------------------------------------------------------------------------");
-                    NDebug.Error("Error : " + className, recoder.ToString());
+                    NDebug.Error("Error : " + node.ClassName, recoder.ToString());
 #endif
 
                 }
@@ -160,31 +195,34 @@ namespace Natasha.Complier
             return null;
         }
 
-
+        public static Assembly GetDynamicAssembly(string className)
+        {
+            if (ClassMapping.ContainsKey(className))
+            {
+                return ClassMapping[className];
+            }
+            return null;
+        }
 
 
         /// <summary>
         /// 使用文件流进行脚本编译，根据类名生成dll
         /// </summary>
         /// <param name="content">脚本内容</param>
-        /// <param name="className">指定类名</param>
         /// <param name="errorAction">发生错误执行委托</param>
         /// <returns></returns>
-        public static Assembly FileComplier(string content, string className = null, Action<Diagnostic> errorAction = null)
+        public static Assembly FileComplier(string content, Action<Diagnostic> errorAction = null)
         {
 #if DEBUG
             StringBuilder recoder = new StringBuilder(LineFormat(ref content));
 #endif
-            //类名获取
-            if (className == null)
-            {
-                className = GetClassName(content);
-            }
 
-            string path = $"{LibPath}{className}.dll";
+            //类名获取
+            var node = GetTreeAndClassNames(content);
+
 
             //生成路径
-
+            string path = $"{LibPath}{node.ClassNames[0]}.dll";
 
 
             if (DynamicDlls.ContainsKey(path))
@@ -194,13 +232,13 @@ namespace Natasha.Complier
 
 
             //写入分析树
-            SyntaxTree tree = SyntaxFactory.ParseSyntaxTree(content);
+            //SyntaxTree tree = SyntaxFactory.ParseSyntaxTree(content);
 
             //创建语言编译
             CSharpCompilation compilation = CSharpCompilation.Create(
-                className,
+                node.ClassNames[0],
                 options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary),
-                syntaxTrees: new[] { tree },
+                syntaxTrees: new[] { node.Tree },
                 references: References);
 
 
@@ -221,7 +259,7 @@ namespace Natasha.Complier
                         loop += 1;
                     }
 
-                    NDebug.Warning(className, $"    I/O Delay :\t检测到争用，延迟{loop*200}ms调用;\r\n");
+                    NDebug.Warning(node.ClassNames[0], $"    I/O Delay :\t检测到争用，延迟{loop * 200}ms调用;\r\n");
 
                     return DynamicDlls[path];
                 }
@@ -233,16 +271,19 @@ namespace Natasha.Complier
                 References.Add(MetadataReference.CreateFromFile(path));
                 //为了实现动态中的动态，使用文件加载模式常驻内存
                 var result = Assembly.LoadFrom(path);
-
+                for (int i = 0; i < node.ClassNames.Length; i += 1)
+                {
+                    ClassMapping[node.ClassNames[i]] = result;
+                }
 
 #if DEBUG
                 recoder.AppendLine("\r\n\r\n------------------------------------------succeed-------------------------------------------");
                 recoder.AppendLine($"\r\n    Lauguage :\t{compilation.Language}___{compilation.LanguageVersion}");
-                recoder.AppendLine($"\r\n    Target :\t\t{className}");
+                recoder.AppendLine($"\r\n    Target :\t\t{node.ClassNames[0]}");
                 recoder.AppendLine($"\r\n    Path :\t\t{path}");
                 recoder.AppendLine($"\r\n    Assembly : \t{result.FullName}");
                 recoder.AppendLine("\r\n----------------------------------------------------------------------------------------------");
-                NDebug.Succeed("Succeed : " + className, recoder.ToString());
+                NDebug.Succeed("Succeed : " + node.ClassNames[0], recoder.ToString());
 #endif
 
 
@@ -255,7 +296,7 @@ namespace Natasha.Complier
 #if DEBUG
                 recoder.AppendLine("\r\n\r\n------------------------------------------error----------------------------------------------");
                 recoder.AppendLine($"\r\n    Lauguage :\t{compilation.Language}___{compilation.LanguageVersion}");
-                recoder.AppendLine($"\r\n    Target:\t\t{className}");
+                recoder.AppendLine($"\r\n    Target:\t\t{node.ClassNames[0]}");
                 recoder.AppendLine($"\r\n    Error:\t\t共{fileResult.Diagnostics.Length}处错误！");
 #endif
 
@@ -272,7 +313,7 @@ namespace Natasha.Complier
 
 #if DEBUG
                 recoder.AppendLine("\r\n---------------------------------------------------------------------------------------------");
-                NDebug.Error("Error : " + className, recoder.ToString());
+                NDebug.Error("Error : " + node.ClassNames[0], recoder.ToString());
 #endif
 
             }

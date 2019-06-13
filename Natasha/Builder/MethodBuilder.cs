@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
 
 namespace Natasha
@@ -9,15 +8,9 @@ namespace Natasha
     /// </summary>
     public class MethodBuilder :IComplier
     {
-        //private readonly static Regex _get_class;
-        static MethodBuilder()
-        {
-            //_get_class = new Regex(@"\sclass.*?(?<result>[a-zA-Z0-9]*?)[\s]*{", RegexOptions.Compiled | RegexOptions.Singleline);
-        }
 
         public ClassBuilder ClassTemplate;
         public MethodTemplate MethodTemplate;
-        internal (string Flag, IEnumerable<Type> Types, string Script, Type Delegate) _info;
 
         public MethodBuilder()
         {
@@ -33,7 +26,7 @@ namespace Natasha
         /// </summary>
         public string MethodScript
         {
-            get { return _info.Script; }
+            get { return MethodTemplate.Builder(); }
         }
 
 
@@ -86,43 +79,26 @@ namespace Natasha
         /// </summary>
         /// <param name="methodAction">方法模板委托</param>
         /// <returns></returns>
-        public virtual MethodBuilder UseBodyTemplate(Action<MethodTemplate> methodAction)
+        public virtual MethodBuilder MethodAction(Action<MethodTemplate> methodAction)
         {
             methodAction(MethodTemplate);
             return this;
         }
 
 
-
-
-        /// <summary>
-        /// 构建完整脚本
-        /// </summary>
-        /// <returns></returns>
-        public override string Builder()
-        {
-            //获取方法脚本以及其他信息
-            _info = MethodTemplate.Package();
-
-            
-            //生成完整脚本
-            return ClassTemplate
-                .Using(_info.Types)
-                .ClassBody(_info.Script)
-                .Builder();
-        }
-
-
-
-
         /// <summary>
         /// 编译并返回委托
         /// </summary>
         /// <returns></returns>
-        public override Delegate Complie()
+        public Delegate Complie()
         {
             //获取程序集
-            Assembly assembly = GetAssemblyByScript(ClassTemplate.NameScript);
+            Assembly assembly = GetAssemblyByScript(
+                ClassTemplate
+                .Using(MethodTemplate.UsingRecoder.Types)
+                .ClassBody(MethodTemplate.Builder())
+                .Builder()
+                );
 
 
             //判空
@@ -135,8 +111,8 @@ namespace Natasha
             //获取方法委托
             return AssemblyOperator
                 .Loader(assembly)[ClassTemplate.NameScript]
-                .GetMethod(_info.Flag)
-                .CreateDelegate(_info.Delegate);
+                .GetMethod(MethodTemplate.NameScript)
+                .CreateDelegate(MethodTemplate.DelegateType);
         }
 
     }
