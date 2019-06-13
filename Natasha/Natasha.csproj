@@ -7,8 +7,8 @@
     <Copyright>.NET Core Community and Contributors</Copyright>
     <PackageId>Natasha</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <PackageReleaseNotes>日志分离，Error/Succeed/Warning,  编译引擎去掉锁，使用休眠缓解争用。</PackageReleaseNotes>
-    <Version>0.5.6.7</Version>
+    <PackageReleaseNotes>优化引擎，移除类名参数，使用语法解析自动解析类名，支持非命名空间类名解析，复用解析树，优化部分Builder结构。</PackageReleaseNotes>
+    <Version>0.6.0</Version>
     <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
     <PackageTags>Roslyn ; IL ; Scripte ; Dynamic ; </PackageTags>
