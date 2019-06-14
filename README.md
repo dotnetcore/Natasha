@@ -5,7 +5,7 @@
 
 欢迎参与讨论：[点击加入Gitter讨论组](https://gitter.im/dotnetcore/Natasha)
 
-目前源码版本 0.6.0.0  
+目前源码版本 0.6.0.1  
 
 Nuget版本 0.6.0.0 ，案例可依照UT测试。  
 
