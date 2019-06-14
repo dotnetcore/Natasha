@@ -223,7 +223,7 @@ namespace Natasha
                 var propertyInfo = properties[i];
 
                 //排除不能操作的属性
-                if (propertyInfo.CanRead && propertyInfo.CanWrite && !propertyInfo.GetGetMethod(true).IsStatic)
+                if (propertyInfo.CanRead && !propertyInfo.GetGetMethod(true).IsStatic)
                 {
                     Type propertyType = propertyInfo.PropertyType;
 
