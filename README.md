@@ -31,17 +31,7 @@ Nuget版本 0.6.1.1 ，案例可依照UT测试。
         
             内存流： <img src="https://github.com/dotnetcore/Natasha/blob/master/Image/memory.png" height="300" width="250" alt="程序集内存流编译"/>
             文件流： <img src="https://github.com/dotnetcore/Natasha/blob/master/Image/file.png" height="300" width="250" alt="程序集文件编译"/>
-        - [x]  优化引擎，区分编译方式，增加内存流编译加载。
-     - [x]  **动态构造模块**  
-        - [x]  抽象出最基方法
-        - [x]  采用部分类规整目录结构
-     - [x]  **分离类库**  
-     - [x]  **分层动态实现**
-        - [x]  优化脚本构造模板粒度，模板作为引擎核心
-        - [x]  在重组模板上打造Builder
-        - [x]  根据Builder定制操作类
-     - [x]  **类型深度迭代器**
-        - [x]  使用虚方法提供处理函数，继承迭代器抽象类     
+
         
             
       
