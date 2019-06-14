@@ -76,46 +76,52 @@ namespace Natasha.Complier
         {
             classIndex -= 1;
             namespaceIndex -= 1;
+
+
             SyntaxTree tree = CSharpSyntaxTree.ParseText(content);
             CompilationUnitSyntax root = tree.GetCompilationUnitRoot();
             var firstMember = root.Members[namespaceIndex];
-            if (firstMember is NamespaceDeclarationSyntax)
+
+
+            IEnumerable<SyntaxNode> result = from namespaceNodes
+                         in root.DescendantNodes().OfType<NamespaceDeclarationSyntax>()
+                         select namespaceNodes;
+
+
+            SyntaxNode node = null;
+            if (result.Count() != 0)
             {
-                var NameSpaceDeclaration = (NamespaceDeclarationSyntax)firstMember;
-                var ClassDeclaration = (ClassDeclarationSyntax)NameSpaceDeclaration.Members[classIndex];
-                return (tree, ClassDeclaration.Identifier.Text);
+                node = result.ToArray()[namespaceIndex];
             }
             else
             {
-                var ClassDeclaration = (ClassDeclarationSyntax)firstMember;
-                return (tree, ClassDeclaration.Identifier.Text);
+                node = root;
             }
+
+
+            var classResult = from classNodes
+                              in node.DescendantNodes().OfType<ClassDeclarationSyntax>()
+                              select classNodes;
+
+
+            return (tree, classResult.ToArray()[classIndex].Identifier.Text);
 
         }
 
         public static (SyntaxTree Tree, string[] ClassNames) GetTreeAndClassNames(string content)
         {
-            List<string> names = new List<string>();
+
+
             SyntaxTree tree = CSharpSyntaxTree.ParseText(content);
             CompilationUnitSyntax root = tree.GetCompilationUnitRoot();
-            foreach (var item in root.Members)
-            {
-                if (item is NamespaceDeclarationSyntax)         //有命名空间
-                {
-                    var NameSpaceDeclaration = (NamespaceDeclarationSyntax)item;
-                    foreach (var itemClass in NameSpaceDeclaration.Members)
-                    {
-                        var ClassDeclaration = (ClassDeclarationSyntax)itemClass;
-                        names.Add(ClassDeclaration.Identifier.Text);
-                    }
-                }
-                else                                            //无命名空间
-                {
-                    var ClassDeclaration = (ClassDeclarationSyntax)item;
-                    names.Add(ClassDeclaration.Identifier.Text);
-                }
-            }
-            return (tree, names.ToArray());
+
+
+            var result = from classNodes
+                         in root.DescendantNodes().OfType<ClassDeclarationSyntax>()
+                         select classNodes.Identifier.Text;
+
+
+            return (tree, result.ToArray());
         }
 
 
