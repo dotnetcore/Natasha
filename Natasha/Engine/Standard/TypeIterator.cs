@@ -131,16 +131,18 @@ namespace Natasha
 
             EntityStartHandler(typeInfo);
 
+
             //字段克隆
             var fields = type.GetFields();
             for (int i = 0; i < fields.Length; i++)
             {
+
                 var fieldInfo = fields[i];
                 //排除不能操作的类型
                 if (!fieldInfo.IsStatic && !fieldInfo.IsInitOnly)
                 {
+
                     Type fieldType = fieldInfo.FieldType;
-                   
                     if (IsOnceType(fieldType))       //普通字段
                     {
                         BuilderInfo info = new BuilderInfo();
@@ -180,6 +182,7 @@ namespace Natasha
                         info.Type = fieldType;
                         info.TypeName = NameReverser.GetName(fieldType);
                         info.AvailableName = AvailableNameReverser.GetName(fieldType);
+
 
                         EntityHandler(fieldType);
                         if (fieldType.GetInterface("IEnumerable") != null)
@@ -221,7 +224,6 @@ namespace Natasha
             {
 
                 var propertyInfo = properties[i];
-
                 //排除不能操作的属性
                 if (propertyInfo.CanRead && !propertyInfo.GetGetMethod(true).IsStatic)
                 {
@@ -241,7 +243,6 @@ namespace Natasha
                     {
 
                         Type eleType = propertyType.GetElementType();
-
                         BuilderInfo info = new BuilderInfo();
                         info.MemberName = propertyInfo.Name;
                         info.RealType = propertyType;
