@@ -19,13 +19,11 @@ namespace Natasha
             LogWriter = new StreamWriter($"{typeof(T).Name}.log", true, Encoding.UTF8);
         }
 
-        [Conditional("DEBUG")]
         public static void Show(string msg)
         {
             Debug.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss ") + msg);
         }
 
-        [Conditional("DEBUG")]
         public static void Recoder(string title, string msg)
         {
             StringBuilder sb = new StringBuilder();

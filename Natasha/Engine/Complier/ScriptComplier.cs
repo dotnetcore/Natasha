@@ -85,7 +85,7 @@ namespace Natasha.Complier
 
             IEnumerable<SyntaxNode> result = from namespaceNodes
                          in root.DescendantNodes().OfType<NamespaceDeclarationSyntax>()
-                         select namespaceNodes;
+                                             select namespaceNodes;
 
 
             SyntaxNode node = null;
@@ -135,9 +135,8 @@ namespace Natasha.Complier
         /// <returns></returns>
         public static Assembly StreamComplier(string content, Action<Diagnostic> errorAction = null)
         {
-#if DEBUG
+
             StringBuilder recoder = new StringBuilder(LineFormat(ref content));
-#endif
 
             var node = GetTreeAndClassName(content);
 
@@ -157,42 +156,49 @@ namespace Natasha.Complier
                 if (fileResult.Success)
                 {
                     var result = Assembly.Load(stream.GetBuffer());
-#if DEBUG
-                    recoder.AppendLine("\r\n\r\n------------------------------------------succeed-------------------------------------------");
-                    recoder.AppendLine($"\r\n    Lauguage :\t{compilation.Language}___{compilation.LanguageVersion}");
-                    recoder.AppendLine($"\r\n    Target :\t\t{node.ClassName}");
-                    recoder.AppendLine($"\r\n    Size :\t\t{stream.Length}");
-                    recoder.AppendLine($"\r\n    Assembly : \t{result.FullName}");
-                    recoder.AppendLine("\r\n----------------------------------------------------------------------------------------------");
-                    NDebug.Succeed("Succeed : " + node.ClassName, recoder.ToString());
-#endif
+
+                    if (NDebug.UseLog)
+                    {
+                        recoder.AppendLine("\r\n\r\n------------------------------------------succeed-------------------------------------------");
+                        recoder.AppendLine($"\r\n    Lauguage :\t{compilation.Language}___{compilation.LanguageVersion}");
+                        recoder.AppendLine($"\r\n    Target :\t\t{node.ClassName}");
+                        recoder.AppendLine($"\r\n    Size :\t\t{stream.Length}");
+                        recoder.AppendLine($"\r\n    Assembly : \t{result.FullName}");
+                        recoder.AppendLine("\r\n----------------------------------------------------------------------------------------------");
+                        NDebug.Succeed("Succeed : " + node.ClassName, recoder.ToString());
+                    }
+
 
                     return result;
 
                 }
                 else
                 {
-#if DEBUG
-                    recoder.AppendLine("\r\n\r\n------------------------------------------error----------------------------------------------");
-                    recoder.AppendLine($"\r\n    Lauguage :\t{compilation.Language}___{compilation.LanguageVersion}");
-                    recoder.AppendLine($"\r\n    Target:\t\t{node.ClassName}");
-                    recoder.AppendLine($"\r\n    Error:\t\t共{fileResult.Diagnostics.Length}处错误！");
-#endif
+                    if (NDebug.UseLog)
+                    {
+                        recoder.AppendLine("\r\n\r\n------------------------------------------error----------------------------------------------");
+                        recoder.AppendLine($"\r\n    Lauguage :\t{compilation.Language}___{compilation.LanguageVersion}");
+                        recoder.AppendLine($"\r\n    Target:\t\t{node.ClassName}");
+                        recoder.AppendLine($"\r\n    Error:\t\t共{fileResult.Diagnostics.Length}处错误！");
+                    }
 
                     //错误处理
                     foreach (var item in fileResult.Diagnostics)
                     {
-#if DEBUG
-                        var temp = item.Location.GetLineSpan().StartLinePosition;
-                        var result = GetErrorString(content, item.Location.GetLineSpan());
-                        recoder.AppendLine($"\t\t第{temp.Line}行，第{temp.Character}个字符：       内容【{result}】  {item.GetMessage()}");
-#endif
+                        if (NDebug.UseLog)
+                        {
+                            var temp = item.Location.GetLineSpan().StartLinePosition;
+                            var result = GetErrorString(content, item.Location.GetLineSpan());
+                            recoder.AppendLine($"\t\t第{temp.Line}行，第{temp.Character}个字符：       内容【{result}】  {item.GetMessage()}");
+                        }
                         errorAction?.Invoke(item);
                     }
-#if DEBUG
-                    recoder.AppendLine("\r\n---------------------------------------------------------------------------------------------");
-                    NDebug.Error("Error : " + node.ClassName, recoder.ToString());
-#endif
+
+                    if (NDebug.UseLog)
+                    {
+                        recoder.AppendLine("\r\n---------------------------------------------------------------------------------------------");
+                        NDebug.Error("Error : " + node.ClassName, recoder.ToString());
+                    }
 
                 }
             }
@@ -219,9 +225,9 @@ namespace Natasha.Complier
         /// <returns></returns>
         public static Assembly FileComplier(string content, Action<Diagnostic> errorAction = null)
         {
-#if DEBUG
+
             StringBuilder recoder = new StringBuilder(LineFormat(ref content));
-#endif
+
 
             //类名获取
             var node = GetTreeAndClassNames(content);
@@ -282,15 +288,16 @@ namespace Natasha.Complier
                     ClassMapping[node.ClassNames[i]] = result;
                 }
 
-#if DEBUG
-                recoder.AppendLine("\r\n\r\n------------------------------------------succeed-------------------------------------------");
-                recoder.AppendLine($"\r\n    Lauguage :\t{compilation.Language}___{compilation.LanguageVersion}");
-                recoder.AppendLine($"\r\n    Target :\t\t{node.ClassNames[0]}");
-                recoder.AppendLine($"\r\n    Path :\t\t{path}");
-                recoder.AppendLine($"\r\n    Assembly : \t{result.FullName}");
-                recoder.AppendLine("\r\n----------------------------------------------------------------------------------------------");
-                NDebug.Succeed("Succeed : " + node.ClassNames[0], recoder.ToString());
-#endif
+                if (NDebug.UseLog)
+                {
+                    recoder.AppendLine("\r\n\r\n------------------------------------------succeed-------------------------------------------");
+                    recoder.AppendLine($"\r\n    Lauguage :\t{compilation.Language}___{compilation.LanguageVersion}");
+                    recoder.AppendLine($"\r\n    Target :\t\t{node.ClassNames[0]}");
+                    recoder.AppendLine($"\r\n    Path :\t\t{path}");
+                    recoder.AppendLine($"\r\n    Assembly : \t{result.FullName}");
+                    recoder.AppendLine("\r\n----------------------------------------------------------------------------------------------");
+                    NDebug.Succeed("Succeed : " + node.ClassNames[0], recoder.ToString());
+                }
 
 
                 DynamicDlls[path] = result;
@@ -299,34 +306,32 @@ namespace Natasha.Complier
             else
             {
 
-#if DEBUG
-                recoder.AppendLine("\r\n\r\n------------------------------------------error----------------------------------------------");
-                recoder.AppendLine($"\r\n    Lauguage :\t{compilation.Language}___{compilation.LanguageVersion}");
-                recoder.AppendLine($"\r\n    Target:\t\t{node.ClassNames[0]}");
-                recoder.AppendLine($"\r\n    Error:\t\t共{fileResult.Diagnostics.Length}处错误！");
-#endif
+                if (NDebug.UseLog)
+                {
+                    recoder.AppendLine("\r\n\r\n------------------------------------------error----------------------------------------------");
+                    recoder.AppendLine($"\r\n    Lauguage :\t{compilation.Language}___{compilation.LanguageVersion}");
+                    recoder.AppendLine($"\r\n    Target:\t\t{node.ClassNames[0]}");
+                    recoder.AppendLine($"\r\n    Error:\t\t共{fileResult.Diagnostics.Length}处错误！");
+                }
 
                 foreach (var item in fileResult.Diagnostics)
                 {
-#if DEBUG
-                    var temp = item.Location.GetLineSpan().StartLinePosition;
-                    var result = GetErrorString(content, item.Location.GetLineSpan());
-                    recoder.AppendLine($"\t\t第{temp.Line}行，第{temp.Character}个字符：       内容【{result}】  {item.GetMessage()}");
-#endif
+                    if (NDebug.UseLog)
+                    {
+                        var temp = item.Location.GetLineSpan().StartLinePosition;
+                        var result = GetErrorString(content, item.Location.GetLineSpan());
+                        recoder.AppendLine($"\t\t第{temp.Line}行，第{temp.Character}个字符：       内容【{result}】  {item.GetMessage()}");
+                    }
                     errorAction?.Invoke(item);
                 }
 
 
-#if DEBUG
                 recoder.AppendLine("\r\n---------------------------------------------------------------------------------------------");
                 NDebug.Error("Error : " + node.ClassNames[0], recoder.ToString());
-#endif
 
             }
             return null;
         }
-
-#if DEBUG
 
         public static void AddTab(ref string content, string value)
         {
@@ -389,7 +394,7 @@ namespace Natasha.Complier
             }
 
         }
-#endif
+
 
     }
 }

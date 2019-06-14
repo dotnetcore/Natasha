@@ -3,6 +3,7 @@
 
     public static class NDebug
     {
+        public static bool UseLog;
         public static void Error(string title,string content)
         {
             NDebugWriter<NError>.Recoder(title,content);
