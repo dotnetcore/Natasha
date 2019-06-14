@@ -6,15 +6,22 @@ namespace Natasha
 {
     public static class SnapshotOperator<T>
     {
-        public static readonly ConcurrentDictionary<T, T> SnapshotCache;
 
+
+        public static readonly ConcurrentDictionary<T, T> SnapshotCache;
+        public static Func<T, T, Dictionary<string, DiffModel>> CompareFunc;
         static SnapshotOperator() => SnapshotCache = new ConcurrentDictionary<T, T>();
+
+
+
+
         public static void MakeSnapshot(T needSnapshot)
         {
             SnapshotCache[needSnapshot] = CloneOperator.Clone(needSnapshot);
         }
 
-        public static Func<T, T, Dictionary<string, DiffModel>> CompareFunc;
+        
+
 
         public static Dictionary<string, DiffModel> Diff(T newInstance, T oldInstance)
         {
@@ -24,10 +31,17 @@ namespace Natasha
             }
             return CompareFunc(newInstance, oldInstance);
         }
+
+
+
+
         public static bool IsDiffernt(T instance)
         {
             return Compare(instance).Count != 0;
         }
+
+
+
 
         public static Dictionary<string, DiffModel> Compare(T instance)
         {
@@ -38,6 +52,10 @@ namespace Natasha
             return CompareFunc(instance, SnapshotCache[instance]);
         }
     }
+
+
+
+
     public static class SnapshotOperator
     {
         public static Dictionary<string, DiffModel> Diff<T>(T newInstance, T oldInstance)

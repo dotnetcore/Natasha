@@ -9,6 +9,7 @@ namespace Natasha
     public class AvailableNameReverser
     {
 
+
         public readonly static ConcurrentDictionary<Type, string> _type_mapping;
         static AvailableNameReverser() => _type_mapping = new ConcurrentDictionary<Type, string>();
 

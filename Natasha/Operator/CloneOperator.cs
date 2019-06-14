@@ -18,11 +18,11 @@ namespace Natasha
     /// <typeparam name="T"></typeparam>
     public static class CloneOperator<T>
     {
-        static CloneOperator()
-        {
 
-        }
+
         public static Func<T, T> CloneDelegate;
+
+
         public static T Clone(T instance)
         {
             if (CloneDelegate==null)

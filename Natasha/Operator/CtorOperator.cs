@@ -2,11 +2,19 @@
 
 namespace Natasha
 {
+    /// <summary>
+    /// 初始化操作类，生成初始化委托
+    /// </summary>
     public class CtorOperator
     {
+        /// <summary>
+        /// 返回初始化委托
+        /// </summary>
+        /// <typeparam name="T">初始化类型</typeparam>
+        /// <param name="type">当T为object类型时候，type为真实类型</param>
+        /// <returns></returns>
         public static Func<T> NewDelegate<T>(Type type=null)
         {
-
             var builder = FastMethodOperator.New;
             if (type==null)
             {

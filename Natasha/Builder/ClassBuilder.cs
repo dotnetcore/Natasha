@@ -10,8 +10,8 @@ namespace Natasha
     public class ClassBuilder:ClassContentTemplate<ClassBuilder>
     {
 
-        public CtorTemplate CtorBuilder;
 
+        public CtorTemplate CtorBuilder;
         public ClassBuilder() => Link = this;
 
 

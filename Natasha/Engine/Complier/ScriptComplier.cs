@@ -19,10 +19,13 @@ namespace Natasha.Complier
     /// </summary>
     public class ScriptComplier
     {
+
+
         public readonly static string LibPath;
         public readonly static ConcurrentDictionary<string, Assembly> ClassMapping;
         public readonly static ConcurrentDictionary<string, Assembly> DynamicDlls;
         public readonly static ConcurrentBag<PortableExecutableReference> References;
+
 
         static ScriptComplier()
         {
@@ -207,6 +210,9 @@ namespace Natasha.Complier
             return null;
         }
 
+
+
+
         public static Assembly GetDynamicAssembly(string className)
         {
             if (ClassMapping.ContainsKey(className))
@@ -215,6 +221,8 @@ namespace Natasha.Complier
             }
             return null;
         }
+
+
 
 
         /// <summary>
@@ -332,6 +340,10 @@ namespace Natasha.Complier
             }
             return null;
         }
+
+
+
+
 
         public static void AddTab(ref string content, string value)
         {

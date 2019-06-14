@@ -2,6 +2,9 @@
 
 namespace Natasha
 {
+    /// <summary>
+    /// 构建信息
+    /// </summary>
     public class BuilderInfo
     {
         public string MemberName;

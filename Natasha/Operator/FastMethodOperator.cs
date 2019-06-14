@@ -7,10 +7,14 @@ namespace Natasha
     /// </summary>
     public class FastMethodOperator : OnceMethodBuilder<FastMethodOperator>
     {
+
+
         public static FastMethodOperator New
         {
             get { return new FastMethodOperator(); }
         }
+
+
         public FastMethodOperator()
         {
             Link = this;

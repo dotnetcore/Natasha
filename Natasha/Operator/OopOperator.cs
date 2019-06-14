@@ -11,10 +11,10 @@ namespace Natasha
     /// <typeparam name="T">运行时类型</typeparam>
     public class OopOperator<T> : OopOperator
     {
-        private readonly static ConcurrentDictionary<string, Func<T>> _ctor_mapping;
-        
-        static OopOperator() => _ctor_mapping = new ConcurrentDictionary<string, Func<T>>();
 
+
+        private readonly static ConcurrentDictionary<string, Func<T>> _ctor_mapping;
+        static OopOperator() => _ctor_mapping = new ConcurrentDictionary<string, Func<T>>();
         public OopOperator() : base(typeof(T)){}
 
 
@@ -51,15 +51,15 @@ namespace Natasha
     public class OopOperator : ClassContentTemplate<OopOperator>
     {
 
+
         private readonly static ConcurrentDictionary<string, Delegate> _delegate_mapping;
-        private readonly Type _oop_type;
-        private readonly Dictionary<string, string> _oop_methods_mapping;
+        static OopOperator()=> _delegate_mapping = new ConcurrentDictionary<string, Delegate>();
+
 
         public string Result;
         public Type TargetType;
-
-        static OopOperator()=> _delegate_mapping = new ConcurrentDictionary<string, Delegate>();
-
+        private readonly Type _oop_type;
+        private readonly Dictionary<string, string> _oop_methods_mapping;
         public OopOperator(Type oopType) : base()
         {
             Link = this;

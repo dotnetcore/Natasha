@@ -11,6 +11,8 @@ namespace Natasha
     /// <typeparam name="T">运行时类型</typeparam>
     public class DynamicOperator<T> : DynamicOperatorBase where T : class
     {
+
+
         public static implicit operator DynamicOperator<T>(T instance)
         {
             return new DynamicOperator<T>(instance);
@@ -122,11 +124,15 @@ namespace Natasha
         }
     }
 
+
+
+
     /// <summary>
     /// 动态类的动态调用
     /// </summary>
     public class DynamicOperator : DynamicOperatorBase
     {
+
 
         public static implicit operator DynamicOperator(Type instance)
         {
@@ -134,13 +140,11 @@ namespace Natasha
         }
 
 
+
+
         private static readonly ConcurrentDictionary<Type, Dictionary<string, Action<DynamicOperatorBase, object>>> GetDynamicCache;
         private static readonly ConcurrentDictionary<Type, Dictionary<string, Action<DynamicOperatorBase, object>>> SetDynamicCache;
         private static readonly ConcurrentDictionary<Type, Func<object>> CtorMapping;
-        private readonly Dictionary<string, Action<DynamicOperatorBase, object>> DynamicGet;
-        private readonly Dictionary<string, Action<DynamicOperatorBase, object>> DynamicSet;
-        private readonly Type _type;
-
         static DynamicOperator()
         {
             GetDynamicCache = new ConcurrentDictionary<Type, Dictionary<string, Action<DynamicOperatorBase, object>>>();
@@ -151,10 +155,9 @@ namespace Natasha
 
 
 
-        /// <summary>
-        /// 初始化方法
-        /// </summary>
-        /// <param name="instance">传个类型或者实例</param>
+        private readonly Dictionary<string, Action<DynamicOperatorBase, object>> DynamicGet;
+        private readonly Dictionary<string, Action<DynamicOperatorBase, object>> DynamicSet;
+        private readonly Type _type;
         public DynamicOperator(object instance = null)
         {
             if (instance is Type)
@@ -261,8 +264,8 @@ namespace Natasha
     public abstract class DynamicOperatorBase
     {
 
-        private string _current_name;
 
+        private string _current_name;
         public DynamicOperatorBase this[string key]
         {
             get
@@ -272,8 +275,8 @@ namespace Natasha
             }
         }
 
-        public bool _bool;
 
+        public bool _bool;
         public bool BoolValue
         {
             get
@@ -287,6 +290,8 @@ namespace Natasha
                 Set(_current_name);
             }
         }
+
+
         public byte _byte;
         public byte ByteValue
         {
@@ -301,6 +306,8 @@ namespace Natasha
                 Set(_current_name);
             }
         }
+
+
         public sbyte _sbyte;
         public sbyte SByteValue
         {
@@ -315,6 +322,8 @@ namespace Natasha
                 Set(_current_name);
             }
         }
+
+
         public short _short;
         public short ShortValue
         {
@@ -329,6 +338,8 @@ namespace Natasha
                 Set(_current_name);
             }
         }
+
+
         public ushort _ushort;
         public ushort UShortValue
         {
@@ -343,6 +354,8 @@ namespace Natasha
                 Set(_current_name);
             }
         }
+
+
         public int _int;
         public int IntValue
         {
@@ -357,6 +370,8 @@ namespace Natasha
                 Set(_current_name);
             }
         }
+
+
         public uint _uint;
         public uint UIntValue
         {
@@ -371,6 +386,8 @@ namespace Natasha
                 Set(_current_name);
             }
         }
+
+
         public long _long;
         public long LongValue
         {
@@ -385,6 +402,8 @@ namespace Natasha
                 Set(_current_name);
             }
         }
+
+
         public ulong _ulong;
         public ulong ULongValue
         {
@@ -399,6 +418,8 @@ namespace Natasha
                 Set(_current_name);
             }
         }
+
+
         public float _float;
         public float FloatValue
         {
@@ -413,6 +434,8 @@ namespace Natasha
                 Set(_current_name);
             }
         }
+
+
         public double _double;
         public double DoubleValue
         {
@@ -427,6 +450,8 @@ namespace Natasha
                 Set(_current_name);
             }
         }
+
+
         public decimal _decimal;
         public decimal DecimalValue
         {
@@ -441,6 +466,8 @@ namespace Natasha
                 Set(_current_name);
             }
         }
+
+
         public string _string;
         public string StringValue
         {
@@ -455,6 +482,8 @@ namespace Natasha
                 Set(_current_name);
             }
         }
+
+
         public DateTime _DateTime;
         public DateTime DateTimeValue
         {
@@ -469,6 +498,8 @@ namespace Natasha
                 Set(_current_name);
             }
         }
+
+
         public virtual void Set(string name)
         {
         }
@@ -477,8 +508,14 @@ namespace Natasha
         }
     }
 
+
+
+
+
     internal class DynamicMemberHelper
     {
+
+
         internal static ConcurrentDictionary<Type, string> TypeMemberMapping;
         static DynamicMemberHelper()
         {
@@ -512,6 +549,7 @@ namespace Natasha
             return GetDelegate<T>(type, info.FieldType, body);
         }
 
+
         public static Action<DynamicOperatorBase, T> GetField<T>(FieldInfo info)
         {
 
@@ -534,6 +572,7 @@ namespace Natasha
             return GetDelegate<T>(type, info.FieldType, body);
         }
 
+
         public static Action<DynamicOperatorBase, T> GetProperty<T>(PropertyInfo info)
         {
             string body = "";
@@ -553,6 +592,7 @@ namespace Natasha
 
             return GetDelegate<T>(type, info.PropertyType, body);
         }
+
 
         public static Action<DynamicOperatorBase, T> SetProperty<T>(PropertyInfo info)
         {

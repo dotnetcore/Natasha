@@ -11,8 +11,12 @@ namespace Natasha
     public class NSucceed { }
     public static class NDebugWriter<T>
     {
+
+
         public static readonly StreamWriter LogWriter;
         public static readonly ConcurrentQueue<string> LogQueue;
+
+
         static NDebugWriter()
         {
             LogQueue = new ConcurrentQueue<string>();

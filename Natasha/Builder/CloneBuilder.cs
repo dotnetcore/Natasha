@@ -13,13 +13,18 @@ namespace Natasha
     }
     public class CloneBuilder : TypeIterator
     {
+
+
         public readonly StringBuilder Script;
         private readonly FastMethodOperator MethodHandler;
         private const string NewInstance = "NewInstance";
         private const string OldInstance = "OldInstance";
-        public static readonly ConcurrentDictionary<Type, Delegate> CloneCache;
 
+
+        public static readonly ConcurrentDictionary<Type, Delegate> CloneCache;
         static CloneBuilder() => CloneCache = new ConcurrentDictionary<Type, Delegate>();
+
+
 
         public CloneBuilder(Type type=null) {
             CurrentType = type;
@@ -29,12 +34,16 @@ namespace Natasha
 
 
 
+
         public override void EntityHandler(Type type)
         {
             MethodHandler.Using("Natasha");
             CloneBuilder builder = new CloneBuilder(type);
             builder.Create();
         }
+
+
+
 
         public override void OnceTypeHandler(BuilderInfo info)
         {
@@ -55,6 +64,9 @@ namespace Natasha
                         .Return(info.Type)                               //返回类型
                         .Complie();
         }
+
+
+
 
         public override void ArrayOnceTypeHandler(BuilderInfo info)
         {
@@ -187,6 +199,7 @@ namespace Natasha
 
 
 
+
         public override void DictionaryHandler(BuilderInfo info)
         {
             StringBuilder scriptBuilder = new StringBuilder();
@@ -245,6 +258,8 @@ namespace Natasha
         }
 
 
+
+
         public override void MemberIDictionaryHandler(BuilderInfo info)
         {
             MethodHandler.Using(info.Type);
@@ -252,6 +267,8 @@ namespace Natasha
             Script.Append($@"if({OldInstance}.{info.MemberName}!=null){{");
             Script.Append($@"{NewInstance}.{info.MemberName} = NatashaClone{AvailableNameReverser.GetName(info.Type)}.Clone({OldInstance}.{info.MemberName});}}");
         }
+
+
 
 
         public override void IDictionaryHandler(BuilderInfo info)
@@ -324,7 +341,6 @@ namespace Natasha
         {
             Script.Append($"{NewInstance}.{info.MemberName} = {OldInstance}.{info.MemberName};");
         }
-
 
 
 

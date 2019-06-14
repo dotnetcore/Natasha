@@ -10,12 +10,10 @@ namespace Natasha.Builder
     public class OnceMethodBuilder<TBuilder> : OnceMethodTemplate<TBuilder>
     {
 
+
         //使用默认编译器
         public MethodComplier ComplierOption;
-
         public OnceMethodBuilder() => ComplierOption = new MethodComplier();
-
-
 
 
         /// <summary>

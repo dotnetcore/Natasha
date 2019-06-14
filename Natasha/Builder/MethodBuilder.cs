@@ -9,8 +9,10 @@ namespace Natasha
     public class MethodBuilder :IComplier
     {
 
+
         public ClassBuilder ClassTemplate;
         public MethodTemplate MethodTemplate;
+
 
         public MethodBuilder()
         {

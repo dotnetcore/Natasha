@@ -5,20 +5,20 @@ using System.Text;
 
 namespace Natasha
 {
- 
     public class SnapshotBuilder : TypeIterator
     {
+
+
         public readonly StringBuilder Script;
         private readonly FastMethodOperator MethodHandler;
         private const string NewInstance = "NewInstance";
         private const string OldInstance = "OldInstance";
+
+
         public static readonly ConcurrentDictionary<Type, Delegate> SnapshotCache;
+        static SnapshotBuilder()=>SnapshotCache = new ConcurrentDictionary<Type, Delegate>();
 
 
-        static SnapshotBuilder()
-        {
-            SnapshotCache = new ConcurrentDictionary<Type, Delegate>();
-        }
 
         public SnapshotBuilder(Type type = null)
         {
@@ -26,6 +26,9 @@ namespace Natasha
             Script = new StringBuilder();
             MethodHandler = new FastMethodOperator();
         }
+
+
+
 
         public override void ArrayOnceTypeHandler(BuilderInfo info)
         {
@@ -59,6 +62,9 @@ namespace Natasha
                         .Return<Dictionary<string, DiffModel>>()  
                         .Complie();
         }
+
+
+
 
         public override void ArrayEntityHandler(BuilderInfo info)
         {
@@ -99,12 +105,17 @@ namespace Natasha
         }
 
 
+
+
         public override void MemberOnceTypeHandler(BuilderInfo info)
         {
             Script.Append($@"if({NewInstance}.{info.MemberName}!={OldInstance}.{info.MemberName}){{
                     result.Add(""{info.MemberName}"",new DiffModel(){{ Name=""{info.MemberName}"",Value={OldInstance}.{info.MemberName} }});
             }}");
         }
+
+
+
 
         public override void MemberICollectionHandler(BuilderInfo info)
         {
@@ -119,6 +130,9 @@ namespace Natasha
                 }}   
             ");
         }
+
+
+
 
         public override void MemberCollectionHandler(BuilderInfo info)
         {
@@ -135,6 +149,8 @@ namespace Natasha
         }
 
 
+
+
         public override void MemberEntityHandler(BuilderInfo info)
         {
             MethodHandler.Using(info.Type);
@@ -148,6 +164,9 @@ namespace Natasha
                 }}   
             ");
         }
+
+
+
 
         public override void CollectionHandler(BuilderInfo info)
         {
@@ -180,6 +199,9 @@ namespace Natasha
                         .Complie();
         }
 
+
+
+
         public override void ICollectionHandler(BuilderInfo info)
         {
             StringBuilder scriptBuilder = new StringBuilder();
@@ -211,6 +233,9 @@ namespace Natasha
                         .Complie();
         }
 
+
+
+
         public override void MemberArrayEntityHandler(BuilderInfo info)
         {
             MethodHandler.Using(info.RealType);
@@ -235,6 +260,9 @@ namespace Natasha
             ");
         }
 
+
+
+
         public override void MemberArrayOnceTypeHandler(BuilderInfo info)
         {
             MethodHandler.Using(typeof(HashSet<>));
@@ -253,15 +281,22 @@ namespace Natasha
         }
 
 
+
+
         public override void EntityStartHandler(BuilderInfo info)
         {
             Script.Append($@"Dictionary<string,DiffModel> result = new Dictionary<string,DiffModel>();");
         }
 
+
+
+
         public override void EntityReturnHandler(BuilderInfo info)
         {
             Script.Append($@"return result;");
         }
+
+
 
 
         /// <summary>
@@ -274,12 +309,17 @@ namespace Natasha
         }
 
 
+
+
         public override void EntityHandler(Type type)
         {
             MethodHandler.Using("Natasha");
             SnapshotBuilder builder = new SnapshotBuilder(type);
             builder.Create();
         }
+
+
+
 
         public Delegate Create()
         {

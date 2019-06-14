@@ -3,9 +3,12 @@
 
     public static class NDebug
     {
-        public static bool UseLog;
 
+
+        public static bool UseLog;
         static NDebug() => UseLog = true;
+
+
         public static void Error(string title,string content)
         {
             NDebugWriter<NError>.Recoder(title,content);

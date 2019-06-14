@@ -7,6 +7,8 @@ namespace Natasha
     /// </summary>
     public class GenericTypeOperator
     {
+
+
         /// <summary>
         /// 获取泛型类型的所有参数类型
         /// </summary>
@@ -25,6 +27,9 @@ namespace Natasha
             }
             return result;
         }
+
+
+
 
         public static List<Type> GetTypes<T>()
         {
