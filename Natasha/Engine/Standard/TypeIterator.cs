@@ -624,9 +624,9 @@ namespace Natasha
         {
             return type.IsPrimitive
                             || type == typeof(string)
-                            || (!type.IsClass && !type.IsInterface)
+                            || type == typeof(Delegate)
                             || type.IsEnum
-                            || type == typeof(Delegate);
+                            || (!type.IsClass && !type.IsInterface);
         }
     }    
 }
