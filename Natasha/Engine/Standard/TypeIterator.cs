@@ -620,7 +620,7 @@ namespace Natasha
         /// </summary>
         /// <param name="type">类型</param>
         /// <returns></returns>
-        internal static bool IsOnceType(Type type)
+        public static bool IsOnceType(Type type)
         {
             return type.IsPrimitive
                             || type == typeof(string)
