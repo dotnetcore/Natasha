@@ -38,12 +38,12 @@ namespace Natasha
 
         public static string GetAvailableName(this Type type)
         {
-            return type.GetAvailableName();
+            return AvailableNameReverser.GetName(type);
         }
 
         public static string GetDevelopName(this Type type)
         {
-            return type.GetDevelopName();
+            return ClassNameReverser.GetName(type);
         }
     }
 }

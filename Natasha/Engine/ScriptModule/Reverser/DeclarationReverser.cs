@@ -11,6 +11,25 @@ namespace Natasha
     public static class DeclarationReverser
     {
         /// <summary>
+        /// 根据元数据反解出函数信息
+        /// </summary>
+        /// <param name="methodInfo">方法元数据</param>
+        /// <returns></returns>
+        public static string GetMethodDeclaration(MethodInfo methodInfo)
+        {
+            StringBuilder declaration = new StringBuilder();
+            declaration.Append(AccessReverser.GetAccess(methodInfo));
+            declaration.Append(ModifierReverser.GetModifier(methodInfo));
+            declaration.Append(methodInfo.ReturnType.GetDevelopName());
+            declaration.Append(methodInfo.Name);
+            declaration.Append(GetParameters(methodInfo));
+            return declaration.ToString();
+        }
+
+
+
+
+        /// <summary>
         /// 根据参数反射信息反解出参数类型
         /// </summary>
         /// <param name="parameterInfo">参数反射信息</param>
