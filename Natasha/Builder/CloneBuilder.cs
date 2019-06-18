@@ -6,9 +6,9 @@ namespace Natasha
 {
     public class CloneBuilder<T>
     {
-        public static void CreateCloneDelegate()
+        public static Delegate Create()
         {
-            CloneOperator<T>.CloneDelegate =(Func<T, T>)((new CloneBuilder(typeof(T)).Create())); ;
+            return (new CloneBuilder(typeof(T)).Create());
         }
     }
     public class CloneBuilder : TypeIterator
@@ -409,6 +409,10 @@ namespace Natasha
 
         public Delegate Create()
         {
+            if (CloneCache.ContainsKey(CurrentType))
+            {
+                return CloneCache[CurrentType];
+            }
             if (TypeRouter(CurrentType))
             {
                 //创建委托

@@ -18,18 +18,7 @@ namespace Natasha
     /// <typeparam name="T"></typeparam>
     public static class CloneOperator<T>
     {
-
-
-        public static Func<T, T> CloneDelegate;
-
-
-        public static T Clone(T instance)
-        {
-            if (CloneDelegate==null)
-            {
-                CloneBuilder<T>.CreateCloneDelegate();
-            }
-            return CloneDelegate(instance);
-        }
+        public readonly static Func<T, T> Clone;
+        static CloneOperator() => Clone = (Func<T, T>)CloneBuilder<T>.Create();
     }
 }
