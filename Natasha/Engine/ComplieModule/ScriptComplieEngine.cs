@@ -160,7 +160,7 @@ namespace Natasha.Complier
                 {
                     var result = Assembly.Load(stream.GetBuffer());
 
-                    if (NDebug.UseLog)
+                    if (NScriptLog.UseLog)
                     {
                         recoder.AppendLine("\r\n\r\n------------------------------------------succeed-------------------------------------------");
                         recoder.AppendLine($"\r\n    Lauguage :\t{compilation.Language}___{compilation.LanguageVersion}");
@@ -168,7 +168,7 @@ namespace Natasha.Complier
                         recoder.AppendLine($"\r\n    Size :\t\t{stream.Length}");
                         recoder.AppendLine($"\r\n    Assembly : \t{result.FullName}");
                         recoder.AppendLine("\r\n----------------------------------------------------------------------------------------------");
-                        NDebug.Succeed("Succeed : " + node.ClassName, recoder.ToString());
+                        NScriptLog.Succeed("Succeed : " + node.ClassName, recoder.ToString());
                     }
 
 
@@ -177,7 +177,7 @@ namespace Natasha.Complier
                 }
                 else
                 {
-                    if (NDebug.UseLog)
+                    if (NScriptLog.UseLog)
                     {
                         recoder.AppendLine("\r\n\r\n------------------------------------------error----------------------------------------------");
                         recoder.AppendLine($"\r\n    Lauguage :\t{compilation.Language}___{compilation.LanguageVersion}");
@@ -188,7 +188,7 @@ namespace Natasha.Complier
                     //错误处理
                     foreach (var item in fileResult.Diagnostics)
                     {
-                        if (NDebug.UseLog)
+                        if (NScriptLog.UseLog)
                         {
                             var temp = item.Location.GetLineSpan().StartLinePosition;
                             var result = GetErrorString(content, item.Location.GetLineSpan());
@@ -197,10 +197,10 @@ namespace Natasha.Complier
                         errorAction?.Invoke(item);
                     }
 
-                    if (NDebug.UseLog)
+                    if (NScriptLog.UseLog)
                     {
                         recoder.AppendLine("\r\n---------------------------------------------------------------------------------------------");
-                        NDebug.Error("Error : " + node.ClassName, recoder.ToString());
+                        NScriptLog.Error("Error : " + node.ClassName, recoder.ToString());
                     }
 
                 }
@@ -279,7 +279,7 @@ namespace Natasha.Complier
                         loop += 1;
                     }
 
-                    NDebug.Warning(node.ClassNames[0], $"    I/O Delay :\t检测到争用，延迟{loop * 200}ms调用;\r\n");
+                    NScriptLog.Warning(node.ClassNames[0], $"    I/O Delay :\t检测到争用，延迟{loop * 200}ms调用;\r\n");
 
                     return DynamicDlls[path];
                 }
@@ -296,7 +296,7 @@ namespace Natasha.Complier
                     ClassMapping[node.ClassNames[i]] = result;
                 }
 
-                if (NDebug.UseLog)
+                if (NScriptLog.UseLog)
                 {
                     recoder.AppendLine("\r\n\r\n------------------------------------------succeed-------------------------------------------");
                     recoder.AppendLine($"\r\n    Lauguage :\t{compilation.Language}___{compilation.LanguageVersion}");
@@ -304,7 +304,7 @@ namespace Natasha.Complier
                     recoder.AppendLine($"\r\n    Path :\t\t{path}");
                     recoder.AppendLine($"\r\n    Assembly : \t{result.FullName}");
                     recoder.AppendLine("\r\n----------------------------------------------------------------------------------------------");
-                    NDebug.Succeed("Succeed : " + node.ClassNames[0], recoder.ToString());
+                    NScriptLog.Succeed("Succeed : " + node.ClassNames[0], recoder.ToString());
                 }
 
 
@@ -314,7 +314,7 @@ namespace Natasha.Complier
             else
             {
 
-                if (NDebug.UseLog)
+                if (NScriptLog.UseLog)
                 {
                     recoder.AppendLine("\r\n\r\n------------------------------------------error----------------------------------------------");
                     recoder.AppendLine($"\r\n    Lauguage :\t{compilation.Language}___{compilation.LanguageVersion}");
@@ -324,7 +324,7 @@ namespace Natasha.Complier
 
                 foreach (var item in fileResult.Diagnostics)
                 {
-                    if (NDebug.UseLog)
+                    if (NScriptLog.UseLog)
                     {
                         var temp = item.Location.GetLineSpan().StartLinePosition;
                         var result = GetErrorString(content, item.Location.GetLineSpan());
@@ -335,7 +335,7 @@ namespace Natasha.Complier
 
 
                 recoder.AppendLine("\r\n---------------------------------------------------------------------------------------------");
-                NDebug.Error("Error : " + node.ClassNames[0], recoder.ToString());
+                NScriptLog.Error("Error : " + node.ClassNames[0], recoder.ToString());
 
             }
             return null;
