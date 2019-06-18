@@ -47,7 +47,7 @@ namespace HelloWorld{
 }
 
 ";
-            var result = ScriptComplier.GetTreeAndClassNames(text);
+            var result = ScriptComplieEngine.GetTreeAndClassNames(text);
             Assert.Equal("TestIndex1", result.ClassNames[0]);
             Assert.Equal("TestIndex2", result.ClassNames[1]);
             Assert.Equal("TestIndex3", result.ClassNames[2]);

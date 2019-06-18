@@ -45,11 +45,11 @@ namespace Natasha
         {
             if (!_useFileComplie)
             {
-                return ScriptComplier.StreamComplier(content, SingleError);
+                return ScriptComplieEngine.StreamComplier(content, SingleError);
             }
             else
             {
-                return ScriptComplier.FileComplier(content, SingleError);
+                return ScriptComplieEngine.FileComplier(content, SingleError);
             }
         }
     }

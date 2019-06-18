@@ -17,7 +17,7 @@ namespace Natasha.Complier
     /// <summary>
     /// 核心编译引擎
     /// </summary>
-    public class ScriptComplier
+    public class ScriptComplieEngine
     {
 
 
@@ -27,7 +27,7 @@ namespace Natasha.Complier
         public readonly static ConcurrentBag<PortableExecutableReference> References;
 
 
-        static ScriptComplier()
+        static ScriptComplieEngine()
         {
             //初始化路径
             LibPath = AppDomain.CurrentDomain.BaseDirectory + "lib\\";

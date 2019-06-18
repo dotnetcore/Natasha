@@ -72,11 +72,11 @@ namespace Natasha
         {
 
             //根据索引获取类名
-            string className = ScriptComplier.GetTreeAndClassName(content, classIndex, namespaceIndex).ClassName;
+            string className = ScriptComplieEngine.GetTreeAndClassName(content, classIndex, namespaceIndex).ClassName;
 
 
             //获取程序集
-            Assembly assembly = ScriptComplier.FileComplier(content);
+            Assembly assembly = ScriptComplieEngine.FileComplier(content);
 
 
             //获取类型
