@@ -178,7 +178,7 @@ namespace Natasha
 
 
             //返回委托
-            return _delegate_mapping[NameScript] = CtorOperator.NewDelegate(TargetType);
+            return _delegate_mapping[NameScript] = CtorBuilder.NewDelegate(TargetType);
         }
 
 

@@ -1,5 +1,6 @@
 ﻿using Natasha;
 using System;
+using System.Diagnostics;
 
 namespace Core22
 {
@@ -52,6 +53,37 @@ namespace HelloWorld
             }
             //调用动态类
             Console.WriteLine(instance["Name"].StringValue);
+
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            if (instance["Name"].StringValue == "111")
+            {
+                //调用动态委托赋值
+                instance["Name"].StringValue = "222";
+            }
+            stopwatch.Stop();
+            Console.WriteLine(stopwatch.Elapsed);
+
+
+            var newInstance = DynamicOperator.GetOperator(type);
+            stopwatch.Restart();
+            if (newInstance["Name"].StringValue == "111")
+            {
+                //调用动态委托赋值
+                newInstance["Name"].StringValue = "222";
+            }
+            stopwatch.Stop();
+            Console.WriteLine(stopwatch.Elapsed);
+
+            newInstance = DynamicOperator.GetOperator(type);
+            stopwatch.Restart();
+            if (newInstance["Name"].StringValue == "111")
+            {
+                //调用动态委托赋值
+                newInstance["Name"].StringValue = "222";
+            }
+            stopwatch.Stop();
+            Console.WriteLine(stopwatch.Elapsed);
 
 
 

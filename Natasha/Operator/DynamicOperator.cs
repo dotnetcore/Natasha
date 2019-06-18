@@ -28,7 +28,7 @@ namespace Natasha
         {
             DynamicGet = new ConcurrentDictionary<string, Action<DynamicOperatorBase, T>>();
             DynamicSet = new ConcurrentDictionary<string, Action<DynamicOperatorBase, T>>();
-            CtorDelegate = CtorOperator.NewDelegate<T>();
+            CtorDelegate = CtorBuilder.NewDelegate<T>();
             InitType(typeof(T));
         }
 
@@ -145,11 +145,13 @@ namespace Natasha
         private static readonly ConcurrentDictionary<Type, Dictionary<string, Action<DynamicOperatorBase, object>>> GetDynamicCache;
         private static readonly ConcurrentDictionary<Type, Dictionary<string, Action<DynamicOperatorBase, object>>> SetDynamicCache;
         private static readonly ConcurrentDictionary<Type, Func<object>> CtorMapping;
+        private static readonly ConcurrentDictionary<Type, Func<DynamicOperatorBase>> OperatorMapping;
         static DynamicOperator()
         {
             GetDynamicCache = new ConcurrentDictionary<Type, Dictionary<string, Action<DynamicOperatorBase, object>>>();
             SetDynamicCache = new ConcurrentDictionary<Type, Dictionary<string, Action<DynamicOperatorBase, object>>>();
             CtorMapping = new ConcurrentDictionary<Type, Func<object>>();
+            OperatorMapping = new ConcurrentDictionary<Type, Func<DynamicOperatorBase>>();
         }
 
 
@@ -177,6 +179,18 @@ namespace Natasha
         }
 
 
+        public static DynamicOperatorBase GetOperator(Type type)
+        {
+            if (!OperatorMapping.ContainsKey(type))
+            {
+                OperatorMapping[type] = FastMethodOperator.New
+                    .Using(type)
+                    .MethodBody($@"return new DynamicOperator<{type.GetDevelopName()}>();")
+                    .Return<DynamicOperatorBase>()
+                    .Complie<Func<DynamicOperatorBase>>();
+            }
+            return OperatorMapping[type]();
+        }
 
 
         /// <summary>
@@ -193,7 +207,7 @@ namespace Natasha
 
 
                 //动态函数-实例的创建
-                CtorMapping[type] = CtorOperator.NewDelegate<object>(type);
+                CtorMapping[type] = CtorBuilder.NewDelegate<object>(type);
 
 
                 //动态函数-成员调用
