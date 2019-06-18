@@ -58,7 +58,7 @@ namespace Natasha
             ParametersTypes.Add(type);
             if (type.IsGenericType)
             {
-                UsingRecoder.Add(GenericTypeOperator.GetTypes(type));
+                UsingRecoder.Add(type.GetAllGenericTypes());
             }
             UsingRecoder.Add(type);
             ParametersMappings.Add(new KeyValuePair<Type, string>(type, key));

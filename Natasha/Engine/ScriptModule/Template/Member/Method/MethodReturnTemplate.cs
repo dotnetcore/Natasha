@@ -30,7 +30,7 @@ namespace Natasha
             ReturnType = type;
             if (type.IsGenericType)
             {
-                UsingRecoder.Add(GenericTypeOperator.GetTypes(type));
+                UsingRecoder.Add(type.GetAllGenericTypes());
             }
             UsingRecoder.Add(type);
             ReturnScript = NameReverser.GetName(type)+" ";

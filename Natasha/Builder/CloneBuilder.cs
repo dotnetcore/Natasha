@@ -151,7 +151,7 @@ namespace Natasha
             CloneCache[info.Type] = tempBuilder
                         .Using("Natasha")
                         .Using(info.Type)
-                        .Using(GenericTypeOperator.GetTypes(info.Type))
+                        .Using(info.Type.GetAllGenericTypes())
                         .ClassName("NatashaClone" +info.AvailableName)
                         .MethodName("Clone")
                         .Param(info.Type, "oldInstance")                 //参数
@@ -188,7 +188,7 @@ namespace Natasha
             CloneCache[info.Type] = tempBuilder
                         .Using("Natasha")
                         .Using(info.Type)
-                        .Using(GenericTypeOperator.GetTypes(info.Type))
+                        .Using(info.Type.GetAllGenericTypes())
                         .ClassName("NatashaClone" + info.AvailableName)
                         .MethodName("Clone")
                         .Param(info.Type, "oldInstance")                 //参数
@@ -237,7 +237,7 @@ namespace Natasha
             CloneCache[info.Type] = tempBuilder
                         .Using("Natasha")
                         .Using(info.Type)
-                        .Using(GenericTypeOperator.GetTypes(info.Type))
+                        .Using(info.Type.GetAllGenericTypes())
                         .ClassName("NatashaClone" + info.AvailableName)
                         .MethodName("Clone")
                         .Param(info.Type, "oldInstance")                 //参数
@@ -252,7 +252,7 @@ namespace Natasha
         public override void MemberDictionaryHandler(BuilderInfo info)
         {
             MethodHandler.Using(info.Type);
-            MethodHandler.Using(GenericTypeOperator.GetTypes(info.Type));
+            MethodHandler.Using(info.Type.GetAllGenericTypes());
             Script.Append($@"if({OldInstance}.{info.MemberName}!=null){{");
             Script.Append($@"{NewInstance}.{info.MemberName} = NatashaClone{AvailableNameReverser.GetName(info.Type)}.Clone({OldInstance}.{info.MemberName});}}");
         }
@@ -263,7 +263,7 @@ namespace Natasha
         public override void MemberIDictionaryHandler(BuilderInfo info)
         {
             MethodHandler.Using(info.Type);
-            MethodHandler.Using(GenericTypeOperator.GetTypes(info.Type));
+            MethodHandler.Using(info.Type.GetAllGenericTypes());
             Script.Append($@"if({OldInstance}.{info.MemberName}!=null){{");
             Script.Append($@"{NewInstance}.{info.MemberName} = NatashaClone{AvailableNameReverser.GetName(info.Type)}.Clone({OldInstance}.{info.MemberName});}}");
         }
@@ -308,7 +308,7 @@ namespace Natasha
             CloneCache[info.Type] = tempBuilder
                         .Using("Natasha")
                         .Using(info.Type)
-                        .Using(GenericTypeOperator.GetTypes(info.Type))
+                        .Using(info.Type.GetAllGenericTypes())
                         .ClassName("NatashaClone" + info.AvailableName)
                         .MethodName("Clone")
                         .Param(info.Type, "oldInstance")                 //参数
@@ -378,7 +378,7 @@ namespace Natasha
         public override void MemberICollectionHandler(BuilderInfo info)
         {
             MethodHandler.Using(info.Type);
-            MethodHandler.Using(GenericTypeOperator.GetTypes(info.Type));
+            MethodHandler.Using(info.Type.GetAllGenericTypes());
             Script.Append($@"if({OldInstance}.{info.MemberName}!=null){{");
             Script.Append($@"{NewInstance}.{info.MemberName} = NatashaClone{AvailableNameReverser.GetName(info.Type)}.Clone({OldInstance}.{info.MemberName});}}");
         }
@@ -389,7 +389,7 @@ namespace Natasha
         public override void MemberCollectionHandler(BuilderInfo info)
         {
             MethodHandler.Using(info.Type);
-            MethodHandler.Using(GenericTypeOperator.GetTypes(info.Type));
+            MethodHandler.Using(info.Type.GetAllGenericTypes());
             Script.Append($@"if({OldInstance}.{info.MemberName}!=null){{");
             Script.Append($@"{NewInstance}.{info.MemberName} = NatashaClone{AvailableNameReverser.GetName(info.Type)}.Clone({OldInstance}.{info.MemberName});}}");
         }
