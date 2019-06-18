@@ -30,7 +30,7 @@ namespace Natasha.Remote
         }
         public static void ComplieToRemote(Type type)
         {
-            string className = NameReverser.GetName(type);
+            string className = type.GetDevelopName();
 
             if (!RemoteReader._func_mapping.ContainsKey(className))
             {
@@ -51,12 +51,12 @@ namespace Natasha.Remote
                         if (parameters.Length > 0)
                         {
                             call.Append(parameters[0].Name);
-                            sb.Append($"{NameReverser.GetName(parameters[0].ParameterType)} {parameters[0].Name} = {Deserialization}<{NameReverser.GetName(parameters[0].ParameterType)}>(parameters[\"{parameters[0].Name}\"]);");
+                            sb.Append($"{parameters[0].ParameterType.GetDevelopName()} {parameters[0].Name} = {Deserialization}<{parameters[0].ParameterType.GetDevelopName()}>(parameters[\"{parameters[0].Name}\"]);");
 
                             for (int i = 1; i < parameters.Length; i++)
                             {
                                 call.Append($",{parameters[i].Name}");
-                                sb.Append($"{NameReverser.GetName(parameters[i].ParameterType)} {parameters[i].Name} = {Deserialization}<{NameReverser.GetName(parameters[i].ParameterType)}>(parameters[\"{parameters[i].Name}\"]);");
+                                sb.Append($"{parameters[i].ParameterType.GetDevelopName()} {parameters[i].Name} = {Deserialization}<{parameters[i].ParameterType.GetDevelopName()}>(parameters[\"{parameters[i].Name}\"]);");
                             }
                         }
                     }

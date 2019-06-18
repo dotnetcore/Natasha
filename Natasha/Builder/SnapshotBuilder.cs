@@ -327,7 +327,7 @@ namespace Natasha
             //创建委托
             MethodHandler.ComplierOption.UseFileComplie();
             var @delegate = MethodHandler
-                        .ClassName("NatashaSnapshot" + AvailableNameReverser.GetName(CurrentType))
+                        .ClassName("NatashaSnapshot" + CurrentType.GetAvailableName())
                         .MethodName("Compare")
                         .Param(CurrentType, NewInstance)
                         .Param(CurrentType, OldInstance)

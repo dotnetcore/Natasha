@@ -30,7 +30,7 @@ namespace Natasha
             Using(type);
             if (!_fieldsSet.Contains(name))
             {
-                FieldScript.Append($"{access} {NameReverser.GetName(type)} {name};");
+                FieldScript.Append($"{access} {type.GetDevelopName()} {name};");
             }
             return Link;
         }

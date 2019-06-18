@@ -27,7 +27,7 @@ namespace Natasha
                 case AccessTypes.Internal:
                     return "internal ";
                 case AccessTypes.InternalAndProtected:
-                    return "internal ";
+                    return "internal protected";
                 default:
                     return "internal ";
             }
@@ -61,7 +61,40 @@ namespace Natasha
             }
             else if (reflectMethodInfo.IsFamilyOrAssembly)
             {
-                return "protected internal ";
+                return "internal protected";
+            }
+            return "internal ";
+        }
+
+
+
+
+        /// <summary>
+        /// 获取字段的访问级别
+        /// </summary>
+        /// <param name="reflectFieldInfo">反射出的字段成员</param>
+        /// <returns></returns>
+        public static string GetAccess(FieldInfo reflectFieldInfo)
+        {
+            if (reflectFieldInfo.IsPublic)
+            {
+                return "public ";
+            }
+            else if (reflectFieldInfo.IsPrivate)
+            {
+                return "private ";
+            }
+            else if (reflectFieldInfo.IsFamily)
+            {
+                return "protected ";
+            }
+            else if (reflectFieldInfo.IsAssembly)
+            {
+                return "internal ";
+            }
+            else if (reflectFieldInfo.IsFamilyOrAssembly)
+            {
+                return "internal protected";
             }
             return "internal ";
         }
@@ -94,7 +127,7 @@ namespace Natasha
             }
             else if (type.IsNestedAssembly)
             {
-                return "internal protected";
+                return "internal protected ";
             }
             return "internal ";
         }

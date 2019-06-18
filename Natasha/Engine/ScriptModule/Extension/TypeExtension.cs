@@ -34,5 +34,16 @@ namespace Natasha
         {
             return typeof(T).GetAllGenericTypes();
         }
+
+
+        public static string GetAvailableName(this Type type)
+        {
+            return type.GetAvailableName();
+        }
+
+        public static string GetDevelopName(this Type type)
+        {
+            return type.GetDevelopName();
+        }
     }
 }

@@ -44,7 +44,7 @@ namespace Natasha
         /// <returns></returns>
         public static string GetAvailableName(Type type)
         {
-            return NameReverser.GetName(type).Replace('<', '_').Replace('>', '_').Replace(',', '_').Replace("[]", "__");
+            return type.GetDevelopName().Replace('<', '_').Replace('>', '_').Replace(',', '_').Replace("[]", "__");
         }
     }
 }

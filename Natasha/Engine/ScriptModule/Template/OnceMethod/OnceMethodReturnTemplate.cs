@@ -33,7 +33,7 @@ namespace Natasha
                 UsingRecoder.Add(type.GetAllGenericTypes());
             }
             UsingRecoder.Add(type);
-            ReturnScript = NameReverser.GetName(type)+" ";
+            ReturnScript = type.GetDevelopName()+" ";
             return Link;
         }
 

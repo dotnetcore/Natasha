@@ -61,7 +61,7 @@ namespace Natasha
                 return Link;
             }
             UsingRecoder.Add(type);
-            return Inheritance(NameReverser.GetName(type));
+            return Inheritance(type.GetDevelopName());
         }
 
         public override string Builder()

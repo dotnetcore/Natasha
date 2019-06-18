@@ -90,7 +90,7 @@ namespace Natasha.Remote
         {
             _type = typeof(T);
             Parameters = new TransportParameters();
-            Parameters.TypeName = NameReverser.GetName(_type);
+            Parameters.TypeName = _type.GetDevelopName();
         }
 
 

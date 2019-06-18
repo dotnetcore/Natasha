@@ -31,7 +31,7 @@ namespace Natasha
             //返回构建委托
             return builder
                 .Using<T>()
-                .MethodBody($@"return new {NameReverser.GetName(type)}();")
+                .MethodBody($@"return new {type.GetDevelopName()}();")
                 .Return<T>()
                 .Complie<Func<T>>();
         }
@@ -47,7 +47,7 @@ namespace Natasha
         public static Delegate NewDelegate(Type type)
         {
             return FastMethodOperator.New
-                .MethodBody($@"return new {NameReverser.GetName(type)}();")
+                .MethodBody($@"return new {type.GetDevelopName()}();")
                 .Return(type)
                 .Complie();
         }

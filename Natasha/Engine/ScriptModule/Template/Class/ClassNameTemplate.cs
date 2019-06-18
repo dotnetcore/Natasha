@@ -17,7 +17,7 @@ namespace Natasha
         }
         public T ClassName(Type type)
         {
-            NameScript = NameReverser.GetName(type);
+            NameScript = type.GetDevelopName();
             return Link;
         }
         public T ClassName<S>()

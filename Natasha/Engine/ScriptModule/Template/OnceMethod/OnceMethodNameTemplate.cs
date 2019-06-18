@@ -24,7 +24,7 @@ namespace Natasha
         }
         public T MethodName(Type type)
         {
-            MethodNameScript = NameReverser.GetName(type);
+            MethodNameScript = type.GetDevelopName();
             return Link;
         }
         public T MethodName<S>()

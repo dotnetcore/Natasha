@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using System.Text;
 
 namespace Natasha
 {
@@ -50,10 +51,35 @@ namespace Natasha
             {
                 return "virtual ";
             }
+            if (reflectMethodInfo.IsAbstract)
+            {
+                return "abstract ";
+            }
             return "";
         }
 
-        
+
+
+
+        /// <summary>
+        /// 获取字段的修饰符
+        /// </summary>
+        /// <param name="reflectFieldInfo">字段反射信息</param>
+        /// <returns></returns>
+        public static string GetModifier(FieldInfo reflectFieldInfo)
+        {
+            if (reflectFieldInfo.IsStatic)
+            {
+                return "static ";
+            }
+            if (reflectFieldInfo.IsInitOnly)
+            {
+                return "readonly ";
+            }
+            return "";
+        }
+
+
 
 
         /// <summary>
@@ -63,15 +89,16 @@ namespace Natasha
         /// <returns></returns>
         public static string GetModifier(Type info)
         {
-            if (info.IsAbstract)
-            {
-                return "abstract ";
-            }
+            StringBuilder builder = new StringBuilder();
             if (info.IsSealed)
             {
-                return "sealed ";
+                builder.Append("sealed ");
             }
-            return "";
+            if (info.IsAbstract)
+            {
+                builder.Append("abstract ");
+            }
+            return builder.ToString();
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Natasha
 
 
             //反解参数类型
-            string result = NameReverser.GetName(parameterInfo.ParameterType);
+            string result = parameterInfo.ParameterType.GetDevelopName();
 
 
             //特殊类型反解
@@ -63,7 +63,7 @@ namespace Natasha
 
 
             //反解类名
-            string result = NameReverser.GetName(parameterInfo.ParameterType);
+            string result = parameterInfo.ParameterType.GetDevelopName();
 
 
             //特殊处理
@@ -99,7 +99,7 @@ namespace Natasha
         /// <returns></returns>
         public static string GetFieldDeclaration(FieldInfo reflectFieldInfo)
         {
-            return NameReverser.GetName(reflectFieldInfo.FieldType) + " "+reflectFieldInfo.Name;
+            return reflectFieldInfo.FieldType.GetDevelopName() + " "+reflectFieldInfo.Name;
         }
 
 
@@ -143,7 +143,7 @@ namespace Natasha
                         result.Append(',');
                     }
 
-                    result.Append(NameReverser.GetName(item.Key));
+                    result.Append(item.Key.GetDevelopName());
                     result.Append(' ');
                     result.Append(item.Value);
                     i += 1;

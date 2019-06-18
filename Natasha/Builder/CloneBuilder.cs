@@ -105,7 +105,7 @@ namespace Natasha
             //普通类型复制
             scriptBuilder.Append(
                 $@"for (int i = 0; i < oldInstance.Length; i+=1){{
-                    newInstance[i] =  NatashaClone{AvailableNameReverser.GetName(info.Type)}.Clone(oldInstance[i]);
+                    newInstance[i] =  NatashaClone{info.Type.GetAvailableName()}.Clone(oldInstance[i]);
                  }}return newInstance;}}return null;");
 
             //创建委托
@@ -137,7 +137,7 @@ namespace Natasha
             else
             {
                 EntityHandler(type);
-                scriptBuilder.Append($"return new {info.TypeName}(oldInstance.Select(item => NatashaClone{AvailableNameReverser.GetName(type)}.Clone(item)));");
+                scriptBuilder.Append($"return new {info.TypeName}(oldInstance.Select(item => NatashaClone{type.GetAvailableName()}.Clone(item)));");
             }
             scriptBuilder.Append("}return null;");
 
@@ -170,12 +170,12 @@ namespace Natasha
             var type = info.Type.GetGenericArguments()[0];
             if (IsOnceType(type))
             {
-                scriptBuilder.Append($"return new List<{NameReverser.GetName(type)}>(oldInstance);");
+                scriptBuilder.Append($"return new List<{type.GetDevelopName()}>(oldInstance);");
             }
             else
             {
                 EntityHandler(type);
-                scriptBuilder.Append($"return oldInstance.Select(item => NatashaClone{AvailableNameReverser.GetName(type)}.Clone(item));");
+                scriptBuilder.Append($"return oldInstance.Select(item => NatashaClone{type.GetAvailableName()}.Clone(item));");
             }
             scriptBuilder.Append("}return null;");
 
@@ -214,7 +214,7 @@ namespace Natasha
             else
             {
                 EntityHandler(keyType);
-                scriptBuilder.Append($"NatashaClone{AvailableNameReverser.GetName(keyType)}.Clone(item.Key),");
+                scriptBuilder.Append($"NatashaClone{keyType.GetAvailableName()}.Clone(item.Key),");
             }
             if (IsOnceType(valueType))
             {
@@ -223,7 +223,7 @@ namespace Natasha
             else
             {
                 EntityHandler(valueType);
-                scriptBuilder.Append($"NatashaClone{AvailableNameReverser.GetName(valueType)}.Clone(item.Value)");
+                scriptBuilder.Append($"NatashaClone{valueType.GetAvailableName()}.Clone(item.Value)");
             }
             scriptBuilder.Append(");}));}return null;");
 
@@ -254,7 +254,7 @@ namespace Natasha
             MethodHandler.Using(info.Type);
             MethodHandler.Using(info.Type.GetAllGenericTypes());
             Script.Append($@"if({OldInstance}.{info.MemberName}!=null){{");
-            Script.Append($@"{NewInstance}.{info.MemberName} = NatashaClone{AvailableNameReverser.GetName(info.Type)}.Clone({OldInstance}.{info.MemberName});}}");
+            Script.Append($@"{NewInstance}.{info.MemberName} = NatashaClone{info.Type.GetAvailableName()}.Clone({OldInstance}.{info.MemberName});}}");
         }
 
 
@@ -265,7 +265,7 @@ namespace Natasha
             MethodHandler.Using(info.Type);
             MethodHandler.Using(info.Type.GetAllGenericTypes());
             Script.Append($@"if({OldInstance}.{info.MemberName}!=null){{");
-            Script.Append($@"{NewInstance}.{info.MemberName} = NatashaClone{AvailableNameReverser.GetName(info.Type)}.Clone({OldInstance}.{info.MemberName});}}");
+            Script.Append($@"{NewInstance}.{info.MemberName} = NatashaClone{info.Type.GetAvailableName()}.Clone({OldInstance}.{info.MemberName});}}");
         }
 
 
@@ -285,7 +285,7 @@ namespace Natasha
             else
             {
                 EntityHandler(keyType);
-                scriptBuilder.Append($"NatashaClone{AvailableNameReverser.GetName(keyType)}.Clone(item.Key),");
+                scriptBuilder.Append($"NatashaClone{keyType.GetAvailableName()}.Clone(item.Key),");
             }
             if (IsOnceType(valueType))
             {
@@ -294,7 +294,7 @@ namespace Natasha
             else
             {
                 EntityHandler(valueType);
-                scriptBuilder.Append($"NatashaClone{AvailableNameReverser.GetName(valueType)}.Clone(item.Value)");
+                scriptBuilder.Append($"NatashaClone{valueType.GetAvailableName()}.Clone(item.Value)");
             }
             scriptBuilder.Append(")});}return null;");
 
@@ -368,7 +368,7 @@ namespace Natasha
             //普通类型复制
             Script.Append(
                 $@"for (int i = 0; i < {OldInstance}.{info.MemberName}.Length; i++){{
-                      {NewInstance}.{info.MemberName}[i] = NatashaClone{AvailableNameReverser.GetName(info.Type)}.Clone({OldInstance}.{info.MemberName}[i]);
+                      {NewInstance}.{info.MemberName}[i] = NatashaClone{info.Type.GetAvailableName()}.Clone({OldInstance}.{info.MemberName}[i]);
                 }}}}");
         }
 
@@ -380,7 +380,7 @@ namespace Natasha
             MethodHandler.Using(info.Type);
             MethodHandler.Using(info.Type.GetAllGenericTypes());
             Script.Append($@"if({OldInstance}.{info.MemberName}!=null){{");
-            Script.Append($@"{NewInstance}.{info.MemberName} = NatashaClone{AvailableNameReverser.GetName(info.Type)}.Clone({OldInstance}.{info.MemberName});}}");
+            Script.Append($@"{NewInstance}.{info.MemberName} = NatashaClone{info.Type.GetAvailableName()}.Clone({OldInstance}.{info.MemberName});}}");
         }
 
 
@@ -391,7 +391,7 @@ namespace Natasha
             MethodHandler.Using(info.Type);
             MethodHandler.Using(info.Type.GetAllGenericTypes());
             Script.Append($@"if({OldInstance}.{info.MemberName}!=null){{");
-            Script.Append($@"{NewInstance}.{info.MemberName} = NatashaClone{AvailableNameReverser.GetName(info.Type)}.Clone({OldInstance}.{info.MemberName});}}");
+            Script.Append($@"{NewInstance}.{info.MemberName} = NatashaClone{info.Type.GetAvailableName()}.Clone({OldInstance}.{info.MemberName});}}");
         }
 
 
@@ -414,7 +414,7 @@ namespace Natasha
                 //创建委托
                 MethodHandler.ComplierOption.UseFileComplie();
                 var @delegate = MethodHandler
-                            .ClassName("NatashaClone" + AvailableNameReverser.GetName(CurrentType))
+                            .ClassName("NatashaClone" + CurrentType.GetAvailableName())
                             .MethodName("Clone")
                             .Param(CurrentType, OldInstance)                //参数
                             .MethodBody(Script.ToString())                 //方法体

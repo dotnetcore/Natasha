@@ -100,8 +100,8 @@ namespace Natasha
             BuilderInfo typeInfo = new BuilderInfo();
             typeInfo.RealType = type;
             typeInfo.Type = eleType;
-            typeInfo.TypeName = NameReverser.GetName(eleType);
-            typeInfo.AvailableName = AvailableNameReverser.GetName(type);
+            typeInfo.TypeName = eleType.GetDevelopName();
+            typeInfo.AvailableName = type.GetAvailableName();
             if (IsOnceType(eleType))
             {
                 //普通类型处理
@@ -125,8 +125,8 @@ namespace Natasha
 
             BuilderInfo typeInfo = new BuilderInfo();
             typeInfo.RealType = type;
-            typeInfo.TypeName = NameReverser.GetName(type);
-            typeInfo.AvailableName = AvailableNameReverser.GetName(type);
+            typeInfo.TypeName = type.GetDevelopName();
+            typeInfo.AvailableName = type.GetAvailableName();
 
 
             EntityStartHandler(typeInfo);
@@ -148,8 +148,8 @@ namespace Natasha
                         BuilderInfo info = new BuilderInfo();
                         info.MemberName = fieldInfo.Name;
                         info.Type = fieldType;
-                        info.TypeName = NameReverser.GetName(fieldType);
-                        info.AvailableName = AvailableNameReverser.GetName(fieldType);
+                        info.TypeName = fieldType.GetDevelopName();
+                        info.AvailableName = fieldType.GetAvailableName();
                         FieldOnceTypeHandler(info);
                     }
                     else if (fieldType.IsArray)      //数组
@@ -160,8 +160,8 @@ namespace Natasha
                         info.MemberName = fieldInfo.Name;
                         info.RealType = eleType;
                         info.Type = eleType;
-                        info.TypeName = NameReverser.GetName(eleType);
-                        info.AvailableName = AvailableNameReverser.GetName(fieldType);
+                        info.TypeName = eleType.GetDevelopName();
+                        info.AvailableName = fieldType.GetAvailableName();
 
                         if (IsOnceType(eleType))
                         {
@@ -180,8 +180,8 @@ namespace Natasha
                         BuilderInfo info = new BuilderInfo();
                         info.MemberName = fieldInfo.Name;
                         info.Type = fieldType;
-                        info.TypeName = NameReverser.GetName(fieldType);
-                        info.AvailableName = AvailableNameReverser.GetName(fieldType);
+                        info.TypeName = fieldType.GetDevelopName();
+                        info.AvailableName = fieldType.GetAvailableName();
 
 
                         EntityHandler(fieldType);
@@ -235,8 +235,8 @@ namespace Natasha
                         BuilderInfo info = new BuilderInfo();
                         info.MemberName = propertyInfo.Name;
                         info.Type = propertyType;
-                        info.TypeName = NameReverser.GetName(propertyType);
-                        info.AvailableName = AvailableNameReverser.GetName(propertyType);
+                        info.TypeName = propertyType.GetDevelopName();
+                        info.AvailableName = propertyType.GetAvailableName();
                         PropertyOnceTypeHandler(info);
                     }
                     else if (propertyType.IsArray)               //数组
@@ -247,8 +247,8 @@ namespace Natasha
                         info.MemberName = propertyInfo.Name;
                         info.RealType = propertyType;
                         info.Type = eleType;
-                        info.TypeName = NameReverser.GetName(eleType);
-                        info.AvailableName = AvailableNameReverser.GetName(propertyType);
+                        info.TypeName = eleType.GetDevelopName();
+                        info.AvailableName = propertyType.GetAvailableName();
 
                         if (IsOnceType(eleType))
                         {
@@ -266,8 +266,8 @@ namespace Natasha
                         BuilderInfo info = new BuilderInfo();
                         info.MemberName = propertyInfo.Name;
                         info.Type = propertyType;
-                        info.TypeName = NameReverser.GetName(propertyType);
-                        info.AvailableName = AvailableNameReverser.GetName(propertyType);
+                        info.TypeName = propertyType.GetDevelopName();
+                        info.AvailableName = propertyType.GetAvailableName();
 
 
                         EntityHandler(propertyType);
@@ -320,8 +320,8 @@ namespace Natasha
 
             BuilderInfo typeInfo = new BuilderInfo();
             typeInfo.Type = type;
-            typeInfo.TypeName = NameReverser.GetName(type);
-            typeInfo.AvailableName = AvailableNameReverser.GetName(type);
+            typeInfo.TypeName = type.GetDevelopName();
+            typeInfo.AvailableName = type.GetAvailableName();
 
 
             if (!type.IsGenericType)
@@ -351,8 +351,8 @@ namespace Natasha
 
             BuilderInfo typeInfo = new BuilderInfo();
             typeInfo.Type = type;
-            typeInfo.TypeName = NameReverser.GetName(type);
-            typeInfo.AvailableName = AvailableNameReverser.GetName(type);
+            typeInfo.TypeName = type.GetDevelopName();
+            typeInfo.AvailableName = type.GetAvailableName();
 
 
             if (!type.IsGenericType)
@@ -382,8 +382,8 @@ namespace Natasha
         {
             BuilderInfo typeInfo = new BuilderInfo();
             typeInfo.Type = type;
-            typeInfo.TypeName = NameReverser.GetName(type);
-            typeInfo.AvailableName = AvailableNameReverser.GetName(type);
+            typeInfo.TypeName = type.GetDevelopName();
+            typeInfo.AvailableName = type.GetAvailableName();
             OnceTypeHandler(typeInfo);
         }
 
