@@ -553,6 +553,10 @@ namespace Natasha
                 Get(_current_name);
                 return _operator;
             }
+            set
+            {
+                _operator = value;
+            }
         }
 
 
@@ -590,19 +594,23 @@ namespace Natasha
             string body = "";
             Type type = null;
 
-
-            if (typeof(T) == typeof(object))
+            if (TypeMemberMapping.ContainsKey(info.FieldType))
             {
-                type = info.DeclaringType;
-                body = $@"(({type.Name})instance).{info.Name}=proxy.{TypeMemberMapping[info.FieldType]};";
-            }
-            else
-            {
-                type = typeof(T);
-                body = $@"instance.{info.Name}=proxy.{TypeMemberMapping[info.FieldType]};";
+                if (typeof(T) == typeof(object))
+                {
+                    type = info.DeclaringType;
+                    body = $@"(({type.Name})instance).{info.Name}=proxy.{TypeMemberMapping[info.FieldType]};";
+                }
+                else
+                {
+                    type = typeof(T);
+                    body = $@"instance.{info.Name}=proxy.{TypeMemberMapping[info.FieldType]};";
+                }
+
+                return GetDelegate<T>(type, info.FieldType, body);
             }
 
-            return GetDelegate<T>(type, info.FieldType, body);
+            return null;
         }
 
 
@@ -616,7 +624,15 @@ namespace Natasha
             if (typeof(T) == typeof(object))
             {
                 type = info.DeclaringType;
-                body = $@"proxy.{TypeMemberMapping[info.FieldType]}=(({type.Name})instance).{info.Name};";
+                if (TypeMemberMapping.ContainsKey(info.FieldType))
+                {
+                    body = $@"proxy.{TypeMemberMapping[info.FieldType]}=(({type.Name})instance).{info.Name};";
+                }
+                else
+                {
+                    body = $@"DynamicOperator<{info.FieldType.GetDevelopName()}> {info.Name}temp = (({type.Name})instance).{info.Name}; proxy.OperatorValue={info.Name}temp;";
+                }
+                
             }
             else
             {
@@ -645,7 +661,14 @@ namespace Natasha
             if (typeof(T) == typeof(object))
             {
                 type = info.DeclaringType;
-                body = $@"proxy.{TypeMemberMapping[info.PropertyType]}=(({type.Name})instance).{info.Name};";
+                if (TypeMemberMapping.ContainsKey(info.PropertyType))
+                {
+                    body = $@"proxy.{TypeMemberMapping[info.PropertyType]}=(({type.Name})instance).{info.Name};";
+                }
+                else
+                {
+                    body = $@"DynamicOperator<{info.PropertyType.GetDevelopName()}> {info.Name}temp = (({type.Name})instance).{info.Name}; proxy.OperatorValue={info.Name}temp;";
+                }
             }
             else
             {
@@ -670,20 +693,22 @@ namespace Natasha
             string body = "";
             Type type = null;
 
-
-            if (typeof(T) == typeof(object))
+            if (TypeMemberMapping.ContainsKey(info.PropertyType))
             {
-                type = info.DeclaringType;
-                body = $@"(({type.Name})instance).{info.Name}=proxy.{TypeMemberMapping[info.PropertyType]};";
-            }
-            else
-            {
-                type = typeof(T);
-                body = $@"instance.{info.Name}=proxy.{TypeMemberMapping[info.PropertyType]};";
-            }
+                if (typeof(T) == typeof(object))
+                {
+                    type = info.DeclaringType;
+                    body = $@"(({type.Name})instance).{info.Name}=proxy.{TypeMemberMapping[info.PropertyType]};";
+                }
+                else
+                {
+                    type = typeof(T);
+                    body = $@"instance.{info.Name}=proxy.{TypeMemberMapping[info.PropertyType]};";
+                }
 
-
-            return GetDelegate<T>(type,info.PropertyType,body);
+                return GetDelegate<T>(type, info.PropertyType, body);
+            }
+            return null;
         }
 
 

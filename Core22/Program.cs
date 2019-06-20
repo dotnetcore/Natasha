@@ -38,10 +38,15 @@ namespace HelloWorld
     {
         public Test(){
             Name=""111"";
+            Instance = new Test1();
         }
 
         public string Name;
         public int Age{get;set;}
+        public Test1 Instance;
+    }
+    public class Test1{
+         public string Name=""1"";
     }
 }";
             //根据脚本创建动态类
@@ -54,6 +59,8 @@ namespace HelloWorld
                 //调用动态委托赋值
                 instance["Name"].StringValue = "222";
             }
+            Console.WriteLine("===");
+            Console.WriteLine(instance["Instance"].OperatorValue["Name"].StringValue); 
             //调用动态类
             Console.WriteLine(instance["Name"].StringValue);
 
@@ -101,7 +108,6 @@ namespace HelloWorld
             }
             //调用动态类
             Console.WriteLine(instance2["Name"].StringValue);
-
 
             Console.ReadKey();
         }
