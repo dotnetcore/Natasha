@@ -74,6 +74,59 @@ Example:
 
 ```
 
+### 动态调用普通类  
+
+```C#
+public class A{
+   public int Age;
+   public DateTime Time;
+   public B Outter = new B();
+}
+public class B{
+   public string Name;
+   public B(){
+      Name = "小明"
+   }
+}
+//如果是运行时动态生成类，也同样
+```
+
+```C#
+var handler = DynamicOperator.GetOperator(typeof(A));
+
+handler["Age"].IntValue = 100;                                    // Set Operator
+
+Console.WriteLine(handler["Time"].DateTime);                      // Get Operator
+
+handler["Outter"].OperatorValue["Name"].StringValue = "NewName"   // Link Operator
+```
+
+
+### 动态调用静态类
+```C#
+public static class A{
+   public static int Age;
+   public static DateTime Time;
+   public static B Outter = new B();
+}
+public class B{
+   public string Name;
+   public B(){
+      Name = "小明"
+   }
+}
+//如果是运行时动态生成类，也同样
+```
+
+```C#
+DynamicStaticOperator handler = typeof(A);
+
+handler["Age"].IntValue = 100;                                    // Set Operator
+
+Console.WriteLine(handler["Time"].DateTime);                      // Get Operator
+
+handler["Outter"].OperatorValue["Name"].StringValue = "NewName"   // Link Operator
+```
 <br/>
 <br/>  
 
