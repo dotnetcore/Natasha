@@ -8,4 +8,9 @@ namespace Core22
     class TestA
     {
     }
+
+    public static class TestStatic
+    {
+
+    }
 }

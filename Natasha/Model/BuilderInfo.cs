@@ -12,5 +12,6 @@ namespace Natasha
         public Type RealType;
         public Type Type;
         public string AvailableName;
+        public bool IsStatic;
     }
 }

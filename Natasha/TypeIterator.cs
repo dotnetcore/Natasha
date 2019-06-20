@@ -5,6 +5,10 @@ namespace Natasha
     public abstract class TypeIterator
     {
         public Type CurrentType;
+        public bool IncludeStatic;
+        public bool IncludeCanWrite;
+        public bool IncludeCanRead;
+
 
         /// <summary>
         /// 单独处理复杂类型，例如类、接口，不包括集合、字典
@@ -139,7 +143,7 @@ namespace Natasha
 
                 var fieldInfo = fields[i];
                 //排除不能操作的类型
-                if (!fieldInfo.IsStatic && !fieldInfo.IsInitOnly)
+                if ((!fieldInfo.IsStatic | IncludeStatic) && !fieldInfo.IsInitOnly)
                 {
 
                     Type fieldType = fieldInfo.FieldType;
@@ -225,10 +229,9 @@ namespace Natasha
 
                 var propertyInfo = properties[i];
                 //排除不能操作的属性
-                if (propertyInfo.CanRead && !propertyInfo.GetGetMethod(true).IsStatic)
+                if ((propertyInfo.CanRead | !IncludeCanRead) && (propertyInfo.CanWrite | !IncludeCanWrite) && (!propertyInfo.GetGetMethod(true).IsStatic | IncludeStatic))
                 {
                     Type propertyType = propertyInfo.PropertyType;
-
 
                     if (IsOnceType(propertyType))               //普通属性
                     {

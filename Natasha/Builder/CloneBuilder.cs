@@ -30,6 +30,9 @@ namespace Natasha
             CurrentType = type;
             Script = new StringBuilder();
             MethodHandler = new FastMethodOperator();
+            IncludeStatic = false;
+            IncludeCanRead = true;
+            IncludeCanWrite = false;
         }
 
 

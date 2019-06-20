@@ -4,7 +4,7 @@ using Xunit;
 
 namespace NatashaUT
 {
-    [Trait("构建类", "遍历")]
+    [Trait("动态调用", "普通类")]
     public class DynamicCallTest
     {
         [Fact(DisplayName = "动态类的动态操作测试")]

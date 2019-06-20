@@ -142,14 +142,14 @@ namespace Natasha
 
 
 
-        private static readonly ConcurrentDictionary<Type, Dictionary<string, Action<DynamicOperatorBase, object>>> GetDynamicCache;
-        private static readonly ConcurrentDictionary<Type, Dictionary<string, Action<DynamicOperatorBase, object>>> SetDynamicCache;
+        private static readonly ConcurrentDictionary<Type, ConcurrentDictionary<string, Action<DynamicOperatorBase, object>>> GetDynamicCache;
+        private static readonly ConcurrentDictionary<Type, ConcurrentDictionary<string, Action<DynamicOperatorBase, object>>> SetDynamicCache;
         private static readonly ConcurrentDictionary<Type, Func<object>> CtorMapping;
         private static readonly ConcurrentDictionary<Type, Func<DynamicOperatorBase>> OperatorMapping;
         static DynamicOperator()
         {
-            GetDynamicCache = new ConcurrentDictionary<Type, Dictionary<string, Action<DynamicOperatorBase, object>>>();
-            SetDynamicCache = new ConcurrentDictionary<Type, Dictionary<string, Action<DynamicOperatorBase, object>>>();
+            GetDynamicCache = new ConcurrentDictionary<Type, ConcurrentDictionary<string, Action<DynamicOperatorBase, object>>>();
+            SetDynamicCache = new ConcurrentDictionary<Type, ConcurrentDictionary<string, Action<DynamicOperatorBase, object>>>();
             CtorMapping = new ConcurrentDictionary<Type, Func<object>>();
             OperatorMapping = new ConcurrentDictionary<Type, Func<DynamicOperatorBase>>();
         }
@@ -157,8 +157,8 @@ namespace Natasha
 
 
 
-        private readonly Dictionary<string, Action<DynamicOperatorBase, object>> DynamicGet;
-        private readonly Dictionary<string, Action<DynamicOperatorBase, object>> DynamicSet;
+        private readonly ConcurrentDictionary<string, Action<DynamicOperatorBase, object>> DynamicGet;
+        private readonly ConcurrentDictionary<string, Action<DynamicOperatorBase, object>> DynamicSet;
         private readonly Type _type;
         public DynamicOperator(object instance = null)
         {
@@ -202,8 +202,8 @@ namespace Natasha
             if (!GetDynamicCache.ContainsKey(type))
             {
 
-                GetDynamicCache[type] = new Dictionary<string, Action<DynamicOperatorBase, object>>();
-                SetDynamicCache[type] = new Dictionary<string, Action<DynamicOperatorBase, object>>();
+                GetDynamicCache[type] = new ConcurrentDictionary<string, Action<DynamicOperatorBase, object>>();
+                SetDynamicCache[type] = new ConcurrentDictionary<string, Action<DynamicOperatorBase, object>>();
 
 
                 //动态函数-实例的创建
