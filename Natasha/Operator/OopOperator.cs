@@ -140,8 +140,8 @@ namespace Natasha
                     _is_new = false;
                 }
 
-
-                _oop_methods_mapping[key] = template.UseMethod(reflectMethodInfo).MethodContent(value).MethodScript;
+                template.UseMethod(reflectMethodInfo).MethodContent(value).Builder();
+                _oop_methods_mapping[key] = template.MethodScript;
             }
         }
 

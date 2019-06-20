@@ -56,7 +56,8 @@ namespace NatashaUT
             var builder = FakeMethodOperator.New;
             builder
                 .UseMethod(typeof(OopTest).GetMethod("ReWrite1"))
-                .MethodContent(@"Console.WriteLine(""hello world"");");
+                .MethodContent(@"Console.WriteLine(""hello world"");")
+                .Builder();
            Assert.Equal(@"public void ReWrite1(){Console.WriteLine(""hello world"");}", builder.MethodScript);
         }
 
@@ -68,7 +69,8 @@ namespace NatashaUT
             var builder = FakeMethodOperator.New;
             builder
                 .UseMethod(typeof(OopTest).GetMethod("ReWrite2"))
-                .MethodContent(@"Console.WriteLine(""hello world"");return this;");
+                .MethodContent(@"Console.WriteLine(""hello world"");return this;")
+                .Builder();
             Assert.Equal(@"public OopTest ReWrite2(){Console.WriteLine(""hello world"");return this;}", builder.MethodScript);
         }
 
@@ -80,7 +82,8 @@ namespace NatashaUT
             var builder = FakeMethodOperator.New;
             builder
                 .UseMethod(typeof(OopTest).GetMethod("ReWrite3"))
-                .MethodContent(@"i++;temp+=i.ToString();");
+                .MethodContent(@"i++;temp+=i.ToString();")
+                .Builder();
             Assert.Equal(@"public void ReWrite3(ref Int32 i,String temp){i++;temp+=i.ToString();}", builder.MethodScript);
         }
     }

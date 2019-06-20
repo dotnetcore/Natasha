@@ -529,6 +529,33 @@ namespace Natasha
         }
 
 
+        public Delegate _delegate;
+        public Delegate DelegateValue
+        {
+            get
+            {
+                Get(_current_name);
+                return _delegate;
+            }
+            set
+            {
+                _delegate = value;
+                Set(_current_name);
+            }
+        }
+
+
+        private DynamicOperatorBase _operator;
+        public DynamicOperatorBase OperatorValue
+        {
+            get
+            {
+                Get(_current_name);
+                return _operator;
+            }
+        }
+
+
         public virtual void Set(string name)
         {
         }
@@ -549,7 +576,7 @@ namespace Natasha
         static DynamicMemberHelper()
         {
             TypeMemberMapping = new ConcurrentDictionary<Type, string>();
-            var infos = typeof(DynamicOperatorBase).GetFields();
+            var infos = typeof(DynamicOperatorBase).GetFields(BindingFlags.Public | BindingFlags.Instance);
             for (int i = 0; i < infos.Length; i++)
             {
                 TypeMemberMapping[infos[i].FieldType] = infos[i].Name;
@@ -594,7 +621,14 @@ namespace Natasha
             else
             {
                 type = typeof(T);
-                body = $@"proxy.{TypeMemberMapping[info.FieldType]}=instance.{info.Name};";
+                if (TypeMemberMapping.ContainsKey(info.FieldType))
+                {
+                    body = $@"proxy.{TypeMemberMapping[info.FieldType]}=instance.{info.Name};";
+                }
+                else
+                {
+                    body = $@"DynamicOperator<{info.FieldType.GetDevelopName()}> {info.Name}temp = instance.{info.Name}; proxy.OperatorValue={info.Name}temp;";
+                }
             }
 
 
@@ -616,7 +650,14 @@ namespace Natasha
             else
             {
                 type = typeof(T);
-                body = $@"proxy.{TypeMemberMapping[info.PropertyType]}=instance.{info.Name};";
+                if (TypeMemberMapping.ContainsKey(info.PropertyType))
+                {
+                    body = $@"proxy.{TypeMemberMapping[info.PropertyType]}=instance.{info.Name};";
+                }
+                else
+                {
+                    body = $@"DynamicOperator<{info.PropertyType.GetDevelopName()}> {info.Name}temp = instance.{info.Name}; proxy.OperatorValue={info.Name}temp;";
+                }
             }
 
             return GetDelegate<T>(type, info.PropertyType, body);
