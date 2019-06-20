@@ -10,7 +10,7 @@
 Nuget版本 0.6.5.0 ，案例可依照UT测试。  
 
 
-### 使用快速构建函数：
+### 使用 FastMethodOperator 快速构建函数：
 ```C#
      var action = FastMethodOperator.New
                     .Param<string>("str1")
@@ -22,7 +22,7 @@ Nuget版本 0.6.5.0 ，案例可依照UT测试。
      string result = action("Hello ","World!");    //result:   "Hello World!"
 ```
 
-
+### 使用 DelegateOperator 快速实现委托：
 ```C# 
      //定义一个委托
      public delegate string GetterDelegate(int value);
