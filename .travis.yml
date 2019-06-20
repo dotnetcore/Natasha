@@ -4,6 +4,9 @@ mono: none
 dotnet: 2.2
 dist: xenial
 sudo: required
+
+before_install:
+  - apt-get nuget
 env:
   global:
     - DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
