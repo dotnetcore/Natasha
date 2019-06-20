@@ -8,7 +8,6 @@ sudo: required
 
 before_install:
   - sudo apt-get install nuget
-  - sudo nuget config -ConfigFile NuGet.Config
   - sudo apt-get update -qq
 
 
@@ -20,7 +19,7 @@ env:
 
 install:
 - dotnet restore
-- sudo nuget install xunit.runner.console -OutputDirectory testrunner
+- sudo nuget install xunit.runner.console -OutputDirectory testrunner -ConfigFile NuGet.Config
 
 script:
 - msbuild /p:Configuration=Release Natasha.sln
