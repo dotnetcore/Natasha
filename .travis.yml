@@ -1,4 +1,8 @@
 language: csharp
 solution: Natasha.sln
+install:
+  - nuget restore Natasha.sln
+  - nuget install xunit.runners -Version 2.4.1 -OutputDirectory testrunner
 script:
- - dotnet restore
+  - msbuild /p:Configuration=Release Natasha.sln
+  - dotnet ./testrunner/xunit.runners.2.4.1/tools/xunit.console.clr4.exe ./NatashaUT/bin/Release/netcoreapp2.2/NatashaUT.dll
