@@ -513,6 +513,21 @@ namespace Natasha
             }
         }
 
+        public char _char;
+        public char CharValue
+        {
+            get
+            {
+                Get(_current_name);
+                return _char;
+            }
+            set
+            {
+                _char = value;
+                Set(_current_name);
+            }
+        }
+
 
         public virtual void Set(string name)
         {
