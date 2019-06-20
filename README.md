@@ -1,12 +1,4 @@
 # Natasha
-去除IL操作，像正常人一样创造你的动态代码。
-
-重启项目，使用roslyn方案。
-
-欢迎参与讨论：[点击加入Gitter讨论组](https://gitter.im/dotnetcore/Natasha)
-
-目前源码版本 0.6.7.0 ，案例可依照UT测试。 
-
 
 [![Build Status](https://travis-ci.com/dotnetcore/Natasha.svg?branch=master)](https://travis-ci.org/dotnetcore/Natasha)
 
@@ -16,7 +8,14 @@
 
 | Nuget | |
 | --- | --- |
-| Natasha | [![NuGet Badge](https://buildstats.info/nuget/Natasha?includePreReleases=true)](https://www.nuget.org/packages/Natasha) |
+| Natasha | [![NuGet Badge](https://buildstats.info/nuget/Natasha?includePreReleases=true)](https://www.nuget.org/packages/Natasha) |  
+
+重启项目，使用roslyn方案，去除IL操作，像正常人一样创造你的动态代码。
+
+欢迎参与讨论：[点击加入Gitter讨论组](https://gitter.im/dotnetcore/Natasha)
+
+目前源码版本 0.6.7.0 ，案例可依照UT测试。 
+
 
 ### 使用 FastMethodOperator 快速构建函数：  
   
