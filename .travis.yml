@@ -3,6 +3,7 @@ solution: Natasha.sln
 mono: none
 dotnet: 2.2
 dist: xenial
+sudo: required
 env:
   global:
     - DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
