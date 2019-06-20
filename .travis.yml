@@ -8,6 +8,7 @@ sudo: required
 
 before_install:
   - sudo apt-get install nuget
+  - sudo nuget config -ConfigFile NuGet.Config
   - sudo apt-get update -qq
 
 
