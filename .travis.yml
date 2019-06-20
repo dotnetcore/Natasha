@@ -6,7 +6,7 @@ dist: xenial
 sudo: required
 
 before_install:
-  - apt-get install nuget
+  - sudo apt-get install nuget
 env:
   global:
     - DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
