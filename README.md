@@ -44,7 +44,7 @@ public class Test{
 ```C#
 var action = FakeMethodOperator.New
                   .UseMethod(typeof(Test).GetMethod("Handler"))
-                  .StaticMethodContent(" str += ""is xxx;"",return str; ")
+                  .StaticMethodContent(" str += "" is xxx;"",return str; ")
                   .Complie<Func<string,string>>();
                   
 string result = action("xiao");              //result: "xiao is xxx;"          
