@@ -2,6 +2,7 @@ language: csharp
 solution: Natasha.sln
 mono: none
 dotnet: 2.2
+dist: xenial
 install:
   - nuget restore Natasha.sln
   - nuget install xunit.runners -Version 2.4.1 -OutputDirectory testrunner
