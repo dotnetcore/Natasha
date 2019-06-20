@@ -5,10 +5,12 @@
 
 欢迎参与讨论：[点击加入Gitter讨论组](https://gitter.im/dotnetcore/Natasha)
 
-目前源码版本 0.6.7.0 
+目前源码版本 0.6.7.0 ，案例可依照UT测试。 
 
-Nuget版本 0.6.5.0 ，案例可依照UT测试。  
 
+| Nuget | |
+| --- | --- |
+| Natasha | [![NuGet Badge](https://buildstats.info/nuget/Natasha?includePreReleases=true)](https://www.nuget.org/packages/Natasha) |
 
 ### 使用 FastMethodOperator 快速构建函数：  
   
