@@ -3,8 +3,11 @@ solution: Natasha.sln
 mono: none
 dotnet: 2.2
 dist: xenial
+env:
+  global:
+    - DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+    - DOTNET_CLI_TELEMETRY_OPTOUT: 1
 install:
-  - nuget restore Natasha.sln
   - nuget install xunit.runners -Version 2.4.1 -OutputDirectory testrunner
 script:
   - msbuild /p:Configuration=Release Natasha.sln
