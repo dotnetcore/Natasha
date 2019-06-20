@@ -12,27 +12,45 @@ Nuget版本 0.6.5.0 ，案例可依照UT测试。
 
 ### 使用 FastMethodOperator 快速构建函数：
 ```C#
-     var action = FastMethodOperator.New
+var action = FastMethodOperator.New
                     .Param<string>("str1")
                     .Param(typeof(string),"str2")
                     .MethodBody("return str1+str2;")
                     .Return<string>()
                     .Complie<Func<string,string,string>>();
                     
-     string result = action("Hello ","World!");    //result:   "Hello World!"
+string result = action("Hello ","World!");    //result:   "Hello World!"
 ```
 
 ### 使用 DelegateOperator 快速实现委托：
 ```C# 
-     //定义一个委托
-     public delegate string GetterDelegate(int value);
+//定义一个委托
+public delegate string GetterDelegate(int value);
      
      
-     var action = DelegateOperator<GetterDelegate>.Create("value += 101; return value.ToString();");
+var action = DelegateOperator<GetterDelegate>.Create("value += 101; return value.ToString();");
      
-     string result = action(1);              //result: "102"
+string result = action(1);              //result: "102"
      
 ```
+
+### 使用 FakeMethodOperator 快速构建函数：
+```C#
+public class Test{
+   public string Handler(string str){ retrurn null; }
+}
+
+```
+```C#
+var action = FakeMethodOperator.New
+                  .UseMethod(typeof(Test).GetMethod("Handler"))
+                  .StaticMethodContent(" str += ""is xxx;"",return str; ")
+                  .Complie<Func<string,string>>();
+                  
+string result = action("xiao");              //result: "xiao is xxx;"          
+```
+
+
 <br/>
 <br/>  
 
