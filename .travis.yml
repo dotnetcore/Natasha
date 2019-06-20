@@ -1,0 +1,4 @@
+language: csharp
+solution: Natasha.sln
+script:
+ - dotnet restore
