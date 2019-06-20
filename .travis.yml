@@ -19,7 +19,7 @@ env:
 
 install:
 - dotnet restore
-- sudo nuget install xunit.runner.console -OutputDirectory testrunner -ConfigFile NuGet.Config
+- sudo nuget install xunit.runner.console -OutputDirectory testrunner -Source https://api.nuget.org/api/v3/
 
 script:
 - msbuild /p:Configuration=Release Natasha.sln
