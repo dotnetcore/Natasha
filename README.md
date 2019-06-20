@@ -5,15 +5,34 @@
 
 欢迎参与讨论：[点击加入Gitter讨论组](https://gitter.im/dotnetcore/Natasha)
 
-目前源码版本 0.6.5.0 
+目前源码版本 0.6.6.0 
 
 Nuget版本 0.6.5.0 ，案例可依照UT测试。  
 
 
+### 使用快速构建函数：
+```C#
+     var action = FastMethodOperator.New
+                    .Param<string>("str1")
+                    .Param(typeof(string),"str2")
+                    .MethodBody("return str1+str2;")
+                    .Return<string>()
+                    .Complie<Func<string,string,string>>();
+                    
+     string result = action("Hello ","World!");    //result:   "Hello World!"
+```
 
-- ### 项目架构
-   <img src="https://github.com/dotnetcore/Natasha/blob/master/Image/Natasha架构图.png" height="500" width="900" alt="Natasha架构"/>
 
+```C# 
+     //定义一个委托
+     public delegate string GetterDelegate(int value);
+     
+     
+     var action = DelegateOperator<GetterDelegate>.Create("value += 101; return value.ToString();");
+     
+     string result = action(1);              //result: "102"
+     
+```
 <br/>
 <br/>  
 
@@ -24,13 +43,6 @@ Nuget版本 0.6.5.0 ，案例可依照UT测试。
      - [ ]  **动态克隆性能测试（对照组： origin）**
      - [ ]  **远程动态封装函数性能测试（对照组： 动态函数，emit, origin）**
 
-- **优化计划**：
-
-     - [x]  **动态编译模块**  
-        - [x]  评估“流加载模式”以及“文件加载”模式的资源占用情况  
-        
-            内存流： <img src="https://github.com/dotnetcore/Natasha/blob/master/Image/memory.png" height="300" width="250" alt="程序集内存流编译"/>
-            文件流： <img src="https://github.com/dotnetcore/Natasha/blob/master/Image/file.png" height="300" width="250" alt="程序集文件编译"/>
 
         
             
