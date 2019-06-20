@@ -8,6 +8,12 @@
 目前源码版本 0.6.7.0 ，案例可依照UT测试。 
 
 
+[![Build Status](https://travis-ci.com/dotnetcore/Natasha.svg?branch=master)](https://travis-ci.org/dotnetcore/Natasha)
+
+[![Coverage Status](https://coveralls.io/repos/github/dotnetcore/Natasha.svg?branch=master)](https://coveralls.io/github/dotnetcore/Natasha?branch=master)
+
+[![Build history](https://buildstats.info/travisci/chart/dotnetcore/Natasha)](https://travis-ci.com/dotnetcore/Natasha/builds)  
+
 | Nuget | |
 | --- | --- |
 | Natasha | [![NuGet Badge](https://buildstats.info/nuget/Natasha?includePreReleases=true)](https://www.nuget.org/packages/Natasha) |
