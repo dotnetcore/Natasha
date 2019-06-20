@@ -16,6 +16,9 @@ namespace Core22
              *      <PreserveCompilationContext>true</PreserveCompilationContext>
              */
 
+           var delegate2 = DelegateOperator<GetterDelegate>.Create("return value.ToString();");
+            Console.WriteLine(delegate2(1));
+
             var delegateConvt = FastMethodOperator.New
                 .Param<string>("value")
                 .MethodBody($@"return value==""true"" || value==""mama"";")

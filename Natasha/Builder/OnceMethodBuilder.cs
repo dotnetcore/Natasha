@@ -39,7 +39,10 @@ namespace Natasha.Builder
         /// <returns></returns>
         public T Complie<T>() where T:Delegate
         {
-            return (T)Complie();
+            return (T)ComplierOption.Complie<T>(
+                NameScript,
+                Builder(),
+                MethodNameScript);
         }
     }
 }

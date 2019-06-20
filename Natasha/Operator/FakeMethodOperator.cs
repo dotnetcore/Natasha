@@ -58,8 +58,29 @@ namespace Natasha
             .MethodModifier(_temp_info)
             .Parameter(_temp_info)
             .MethodBody(content)
-            .Return(_temp_info)
-            .Builder();
+            .Return(_temp_info);
+            return this;
+        }
+
+
+
+        /// <summary>
+        /// 指定方法内容
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public FakeMethodOperator StaticMethodContent(string content)
+        {
+            if (!HashMethodName())
+            {
+                MethodName(_temp_info);
+            }
+            ClassModifier(Modifiers.Static)
+            .MethodAccess(_temp_info)
+            .MethodModifier(Modifiers.Static)
+            .Parameter(_temp_info)
+            .MethodBody(content)
+            .Return(_temp_info);
             return this;
         }
     }
