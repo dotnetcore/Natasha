@@ -7,8 +7,8 @@
     <Copyright>.NET Core Community and Contributors</Copyright>
     <PackageId>Natasha</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <PackageReleaseNotes>修复Debug日志</PackageReleaseNotes>
-    <Version>0.6.5</Version>
+    <PackageReleaseNotes>动态调用增加静态类操作，增加直接实现动态委托。</PackageReleaseNotes>
+    <Version>0.6.7</Version>
     <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
     <PackageTags>Roslyn ; IL ; Scripte ; Dynamic ; </PackageTags>

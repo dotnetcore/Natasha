@@ -12,6 +12,8 @@ env:
     - DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
     - DOTNET_CLI_TELEMETRY_OPTOUT: 1
 install:
-  - dotnet restore
+- dotnet restore
+- nuget install xunit -Version 2.4.1 -OutputDirectory testrunner
 script:
-  - dotnet build -c Release
+- msbuild /p:Configuration=Release Natasha.sln
+- dotnet ./testrunner/xunit.2.4.1/tools/xunit.console.clr4.exe ./NatashaUT/bin/Release/netcoreapp2.2/NatashaUT.dll
