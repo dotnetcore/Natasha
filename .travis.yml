@@ -19,6 +19,7 @@ install:
 # - sudo nuget install xunit.runner.console -OutputDirectory testrunner -Source https://api.nuget.org/v3/index.json
 
 script:
-- xbuild /p:Configuration=Release Natasha.sln
+ - dotnet build -c Release
+#- xbuild /p:Configuration=Release Natasha.sln
 # - dotnet ./testrunner/xunit.runner.console.2.4.1/tools/xunit.console.exe ./NatashaUT/bin/Release/netcoreapp2.2/NatashaUT.dll
 # - dotnet ./testrunner/xunit.runner.console*/tools/xunit.console.dll ./NatashaUT/bin/Release/netcoreapp2.2/NatashaUT.dll
