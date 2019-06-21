@@ -5,7 +5,7 @@ dotnet: 2.2
 dist: xenial
 
 before_install:
-  - sudo apt-get update qq
+
 
 #env:
   #global:
