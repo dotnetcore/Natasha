@@ -5,22 +5,20 @@ dotnet: 2.2
 dist: xenial
 
 before_install:
-  - sudo apt-get update -qq
-  - sudo wget https://dist.nuget.org/win-x86-commandline/latest/nuget.exe -O .nuget/NuGet.exe
+  - sudo apt-get update qq
 
-env:
-  global:
-    - DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
-    - DOTNET_CLI_TELEMETRY_OPTOUT: 1
+#env:
+  #global:
+    #- DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+    #- DOTNET_CLI_TELEMETRY_OPTOUT: 1
 
 
 install:
 - dotnet restore
-
 - nuget install xunit.runner.console -Version 2.4.1 -OutputDirectory testrunner
 # - sudo nuget install xunit.runner.console -OutputDirectory testrunner -Source https://api.nuget.org/v3/index.json
 
 script:
 - xbuild /p:Configuration=Release Natasha.sln
-- dotnet ./testrunner/xunit.runner.console.*/tools/xunit.console.exe ./NatashaUT/bin/Release/netcoreapp2.2/NatashaUT.dll
+- dotnet ./testrunner/xunit.runner.console.2.4.1/tools/xunit.console.exe ./NatashaUT/bin/Release/netcoreapp2.2/NatashaUT.dll
 # - dotnet ./testrunner/xunit.runner.console*/tools/xunit.console.dll ./NatashaUT/bin/Release/netcoreapp2.2/NatashaUT.dll
