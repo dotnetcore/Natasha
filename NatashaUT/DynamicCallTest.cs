@@ -63,11 +63,6 @@ namespace HelloWorld
         {
             //创建动态类实例代理
             DynamicOperator<TestB> instance = new DynamicOperator<TestB>();
-            var c = instance["InstanceC"].Get<TestC>();
-            Assert.Equal("abc", c.Name);
-
-            instance["InstanceC"].Set(new TestC() { Name="bbca"});
-            Assert.Equal("bbca", instance["InstanceC"].OperatorValue["Name"].StringValue);
 
             Assert.Equal("111", instance["Name"].StringValue);
 
@@ -75,6 +70,16 @@ namespace HelloWorld
             instance["Name"].StringValue = "222";
 
             Assert.Equal("222", instance["Name"].StringValue);
+
+
+            var c = instance["InstanceC"].Get<TestC>();
+            Assert.Equal("abc", c.Name);
+
+
+            instance["InstanceC"].Set(new TestC() { Name="bbca"});
+            Assert.Equal("bbca", instance["InstanceC"].OperatorValue["Name"].StringValue);
+
+          
         }
     }
     public class TestB
