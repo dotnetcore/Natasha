@@ -8,16 +8,12 @@
 [![GitHub license](https://img.shields.io/github/license/dotnetcore/Natasha.svg)](https://github.com/dotnetcore/EasyCaching/blob/master/LICENSE)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdotnetcore%2FEasyCaching.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fdotnetcore%2FNatasha?ref=badge_shield)  
 
-| Platform | Build Server | Master Status  |
-|--------- |------------- |---------|
-| Travis   | Linux | [![Build Status](https://travis-ci.com/dotnetcore/Natasha.svg?branch=master)](https://travis-ci.org/dotnetcore/Natasha) |  
+| Platform | Build Server | Master Status  | Nuget Version |
+|--------- |------------- |---------|---------|
+| Travis   | Linux | [![Build Status](https://travis-ci.com/dotnetcore/Natasha.svg?branch=master)](https://travis-ci.org/dotnetcore/Natasha) |   [![NuGet Badge](https://buildstats.info/nuget/Natasha?includePreReleases=true)](https://www.nuget.org/packages/Natasha)|
 
 [![Build history](https://buildstats.info/travisci/chart/dotnetcore/Natasha)](https://travis-ci.com/dotnetcore/Natasha/builds)    
 
-
-| Nuget | |
-| --- | --- |
-| Natasha | [![NuGet Badge](https://buildstats.info/nuget/Natasha?includePreReleases=true)](https://www.nuget.org/packages/Natasha) |  
 
 重启项目，使用roslyn方案，去除IL操作，像正常人一样创造你的动态代码。
 
