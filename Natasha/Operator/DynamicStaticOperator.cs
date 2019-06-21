@@ -60,7 +60,7 @@ namespace Natasha
 
 
                 //动态函数-成员调用
-                var members = type.GetMembers( BindingFlags.Public| BindingFlags.Static| BindingFlags.Instance );
+                var members = type.GetMembers(BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance);
                 for (int i = 0; i < members.Length; i++)
                 {
                     if (members[i].MemberType == MemberTypes.Field)
@@ -108,6 +108,100 @@ namespace Natasha
         {
             DynamicSet[name](this);
         }
+
+
+
+
+        /// <summary>
+        /// 获取指定类型的字段或者属性
+        /// </summary>
+        /// <typeparam name="TValue">需要获取的类型</typeparam>
+        /// <param name="name">属性/字段名</param>
+        /// <returns></returns>
+        public override TValue Get<TValue>()
+        {
+            InternalStaticEntityCaller<TValue>.Init(_type);
+            return InternalStaticEntityCaller<TValue>.GetterDelegateMapping[_type][_current_name]();
+        }
+
+
+
+
+        /// <summary>
+        /// 赋值操作，给指定字段或者属性 赋值
+        /// </summary>
+        /// <typeparam name="TValue">值类型</typeparam>
+        /// <param name="name">属性/字段名</param>
+        /// <param name="value">值</param>
+        public override void Set<TValue>(TValue value)
+        {
+            InternalStaticEntityCaller<TValue>.Init(_type);
+            InternalStaticEntityCaller<TValue>.SetterDelegateMapping[_type][_current_name](value);
+        }
+    }
+
+    public static class InternalStaticEntityCaller<T>
+    {
+        internal readonly static ConcurrentDictionary<Type, ConcurrentDictionary<string, Action<T>>> SetterDelegateMapping;
+        internal readonly static ConcurrentDictionary<Type, ConcurrentDictionary<string, Func<T>>> GetterDelegateMapping;
+        static InternalStaticEntityCaller()
+        {
+            SetterDelegateMapping = new ConcurrentDictionary<Type, ConcurrentDictionary<string, Action<T>>>();
+            GetterDelegateMapping = new ConcurrentDictionary<Type, ConcurrentDictionary<string, Func<T>>>();
+        }
+
+        public static void Init(Type type)
+        {
+            if (!GetterDelegateMapping.ContainsKey(type))
+            {
+                Type memberType = typeof(T);
+
+                var fields = type.GetFields();
+                for (int i = 0; i < fields.Length; i += 1)
+                {
+                    if (fields[i].FieldType == memberType)
+                    {
+
+                        SetterDelegateMapping[type][fields[i].Name] = FastMethodOperator
+                            .New
+                            .Param<T>("value")
+                            .MethodBody($"{type.GetDevelopName()}.{fields[i].Name} = value;")
+                            .Return()
+                            .Complie<Action<T>>();
+
+                        GetterDelegateMapping[type][fields[i].Name] = FastMethodOperator
+                            .New
+                            .MethodBody($"return {type.GetDevelopName()}.{fields[i].Name};")
+                            .Return<T>()
+                            .Complie<Func<T>>();
+
+                    }
+                }
+
+                var props = type.GetProperties();
+                for (int i = 0; i < props.Length; i += 1)
+                {
+                    if (props[i].PropertyType == memberType)
+                    {
+
+                        SetterDelegateMapping[type][props[i].Name] = FastMethodOperator
+                            .New
+                            .Param<T>("value")
+                            .MethodBody($"{type.GetDevelopName()}.{props[i].Name} = value;")
+                            .Return()
+                            .Complie<Action<T>>();
+
+                        GetterDelegateMapping[type][props[i].Name] = FastMethodOperator
+                           .New
+                           .MethodBody($"return {type.GetDevelopName()}.{props[i].Name};")
+                           .Return<T>()
+                           .Complie<Func<T>>();
+
+                    }
+                }
+            }
+        }
+
     }
 
     internal class DynamicStaticMemberHelper
