@@ -3,11 +3,8 @@ solution: Natasha.sln
 mono: none
 dotnet: 2.2
 dist: xenial
-sudo: required
-
 
 before_install:
-  - sudo apt-get install nuget
   - sudo apt-get update -qq
 
 
@@ -19,8 +16,11 @@ env:
 
 install:
 - dotnet restore
+- nuget
+- nuget install xunit.runner.console -Version 2.3.1 -OutputDirectory testrunner
 # - sudo nuget install xunit.runner.console -OutputDirectory testrunner -Source https://api.nuget.org/v3/index.json
 
 script:
-- dotnet build -c Release
+- xbuild /p:Configuration=Release Natasha.sln
+- dotnet ./testrunner/xunit.runner.console.*/tools/xunit.console.exe ./NatashaUT/bin/Release/netcoreapp2.2/NatashaUT.dll
 # - dotnet ./testrunner/xunit.runner.console*/tools/xunit.console.dll ./NatashaUT/bin/Release/netcoreapp2.2/NatashaUT.dll
