@@ -1,13 +1,18 @@
 # Natasha
 
-[![Build Status](https://travis-ci.com/dotnetcore/Natasha.svg?branch=master)](https://travis-ci.org/dotnetcore/Natasha)
-[![Coverage Status](https://coveralls.io/repos/github/dotnetcore/Natasha.svg?branch=master)](https://coveralls.io/github/dotnetcore/Natasha?branch=master)  
+## CI Build Status
+
+| Platform | Build Server | Master Status  |
+|--------- |------------- |---------|
+| Travis   | Linux | [![Build Status](https://travis-ci.com/dotnetcore/Natasha.svg?branch=master)](https://travis-ci.org/dotnetcore/Natasha) | 
+
+[![Build history](https://buildstats.info/travisci/chart/dotnetcore/Natasha)](https://travis-ci.com/dotnetcore/Natasha/builds)    
 
 [![Member project of .NET Core Community](https://img.shields.io/badge/member%20project%20of-NCC-9e20c9.svg)](https://github.com/dotnetcore)
 [![GitHub license](https://img.shields.io/github/license/dotnetcore/Natasha.svg)](https://github.com/dotnetcore/EasyCaching/blob/master/LICENSE)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdotnetcore%2FEasyCaching.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fdotnetcore%2FNatasha?ref=badge_shield)  
 
-[![Build history](https://buildstats.info/travisci/chart/dotnetcore/Natasha)](https://travis-ci.com/dotnetcore/Natasha/builds)  
+
 
 | Nuget | |
 | --- | --- |
@@ -18,7 +23,6 @@
 欢迎参与讨论：[点击加入Gitter讨论组](https://gitter.im/dotnetcore/Natasha)
 
 目前源码版本 0.6.7.0 ，案例可依照UT测试。 
-
 
 ### 使用 FastMethodOperator 快速构建函数：  
   
