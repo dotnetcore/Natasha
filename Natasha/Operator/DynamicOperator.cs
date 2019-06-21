@@ -122,6 +122,30 @@ namespace Natasha
         {
             DynamicSet[name](this, _instance);
         }
+
+
+        /// <summary>
+        /// 获取指定类型的字段或者属性
+        /// </summary>
+        /// <typeparam name="TValue">需要获取的类型</typeparam>
+        /// <param name="name">属性/字段名</param>
+        /// <returns></returns>
+        public override TValue Get<TValue>()
+        {
+            return InternalEntityCaller<T, TValue>.GetterDelegateMapping[_current_name](_instance);
+        }
+
+
+        /// <summary>
+        /// 赋值操作，给指定字段或者属性 赋值
+        /// </summary>
+        /// <typeparam name="TValue">值类型</typeparam>
+        /// <param name="name">属性/字段名</param>
+        /// <param name="value">值</param>
+        public override void Set<TValue>(TValue value)
+        {
+            InternalEntityCaller<T, TValue>.SetterDelegateMapping[_current_name](_instance, value);
+        }
     }
 
 
@@ -279,7 +303,7 @@ namespace Natasha
     {
 
 
-        private string _current_name;
+        internal string _current_name;
         public DynamicOperatorBase this[string key]
         {
             get
@@ -566,9 +590,79 @@ namespace Natasha
         public virtual void Get(string name)
         {
         }
+        public virtual void Set<T>(T value)
+        {
+            
+        }
+        public virtual T Get<T>()
+        {
+            return default(T);
+        }
     }
 
+    public static class InternalEntityCaller<S,T>
+    {
+        internal readonly static ConcurrentDictionary<string, Action<S, T>> SetterDelegateMapping;
+        internal readonly static ConcurrentDictionary<string, Func<S, T>> GetterDelegateMapping;
+        static InternalEntityCaller()
+        {
+            SetterDelegateMapping = new ConcurrentDictionary<string, Action<S, T>>();
+            GetterDelegateMapping = new ConcurrentDictionary<string, Func<S, T>>();
 
+            Type type = typeof(S);
+            Type memberType = typeof(T);
+
+            var fields = type.GetFields();
+            for (int i = 0; i < fields.Length; i+=1)
+            {
+                if (fields[i].FieldType==memberType)
+                {
+
+                    SetterDelegateMapping[fields[i].Name] = FastMethodOperator
+                        .New
+                        .Param<S>("obj")
+                        .Param<T>("value")
+                        .MethodBody($"obj.{fields[i].Name} = value;")
+                        .Return()
+                        .Complie<Action<S, T>>();
+
+                    GetterDelegateMapping[fields[i].Name] = FastMethodOperator
+                        .New
+                        .Param<S>("obj")
+                        .MethodBody($"return obj.{fields[i].Name};")
+                        .Return<T>()
+                        .Complie<Func<S, T>>();
+
+                }
+            }
+
+            var props = type.GetProperties();
+            for (int i = 0; i < props.Length; i += 1)
+            {
+                if (props[i].PropertyType == memberType)
+                {
+
+                    SetterDelegateMapping[props[i].Name] = FastMethodOperator
+                        .New
+                        .Param<S>("obj")
+                        .Param<T>("value")
+                        .MethodBody($"obj.{props[i].Name} = value;")
+                        .Return()
+                        .Complie<Action<S, T>>();
+
+                    GetterDelegateMapping[props[i].Name] = FastMethodOperator
+                       .New
+                       .Param<S>("obj")
+                       .MethodBody($"return obj.{props[i].Name};")
+                       .Return<T>()
+                       .Complie<Func<S, T>>();
+
+                }
+            }
+        }
+
+        
+    }
 
 
 
