@@ -6,7 +6,7 @@ dist: xenial
 
 before_install:
   - sudo apt-get update -qq
-
+  - sudo wget https://dist.nuget.org/win-x86-commandline/latest/nuget.exe -O .nuget/NuGet.exe
 
 env:
   global:
@@ -16,8 +16,8 @@ env:
 
 install:
 - dotnet restore
-- nuget
-- nuget install xunit.runner.console -Version 2.3.1 -OutputDirectory testrunner
+
+- nuget install xunit.runner.console -Version 2.4.1 -OutputDirectory testrunner
 # - sudo nuget install xunit.runner.console -OutputDirectory testrunner -Source https://api.nuget.org/v3/index.json
 
 script:
