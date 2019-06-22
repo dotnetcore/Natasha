@@ -101,21 +101,16 @@ namespace Natasha
         public void ArrayRouter(Type type)
         {
             Type eleType = type.GetElementType();
-            BuilderInfo typeInfo = new BuilderInfo();
-            typeInfo.RealType = type;
-            typeInfo.Type = eleType;
-            typeInfo.TypeName = eleType.GetDevelopName();
-            typeInfo.AvailableName = type.GetAvailableName();
             if (IsOnceType(eleType))
             {
                 //普通类型处理
-                ArrayOnceTypeHandler(typeInfo);
+                ArrayOnceTypeHandler(type);
             }
             else
             {
                 //复杂类型交由入口处理
                 EntityHandler(eleType);
-                ArrayEntityHandler(typeInfo);
+                ArrayEntityHandler(type);
             }
         }
 
@@ -127,13 +122,7 @@ namespace Natasha
         public void EntityRouter(Type type)
         {
 
-            BuilderInfo typeInfo = new BuilderInfo();
-            typeInfo.RealType = type;
-            typeInfo.TypeName = type.GetDevelopName();
-            typeInfo.AvailableName = type.GetAvailableName();
-
-
-            EntityStartHandler(typeInfo);
+            EntityStartHandler(type);
 
 
             //字段克隆
@@ -149,45 +138,24 @@ namespace Natasha
                     Type fieldType = fieldInfo.FieldType;
                     if (IsOnceType(fieldType))       //普通字段
                     {
-                        BuilderInfo info = new BuilderInfo();
-                        info.MemberName = fieldInfo.Name;
-                        info.Type = fieldType;
-                        info.TypeName = fieldType.GetDevelopName();
-                        info.AvailableName = fieldType.GetAvailableName();
-                        FieldOnceTypeHandler(info);
+                        FieldOnceTypeHandler(fieldInfo);
                     }
                     else if (fieldType.IsArray)      //数组
                     {
-
                         Type eleType = fieldType.GetElementType();
-                        BuilderInfo info = new BuilderInfo();
-                        info.MemberName = fieldInfo.Name;
-                        info.RealType = eleType;
-                        info.Type = eleType;
-                        info.TypeName = eleType.GetDevelopName();
-                        info.AvailableName = fieldType.GetAvailableName();
-
                         if (IsOnceType(eleType))
                         {
-                            FieldArrayOnceTypeHandler(info);
+                            FieldArrayOnceTypeHandler(fieldInfo);
                         }
                         else
                         {
                             EntityHandler(eleType);
-                            FieldArrayEntityHandler(info);
+                            FieldArrayEntityHandler(fieldInfo);
                         }
                     }
                     else if (!fieldType.IsNotPublic)
                     {
-
                         //检测集合
-                        BuilderInfo info = new BuilderInfo();
-                        info.MemberName = fieldInfo.Name;
-                        info.Type = fieldType;
-                        info.TypeName = fieldType.GetDevelopName();
-                        info.AvailableName = fieldType.GetAvailableName();
-
-
                         EntityHandler(fieldType);
                         if (fieldType.GetInterface("IEnumerable") != null)
                         {
@@ -195,28 +163,28 @@ namespace Natasha
                             {
                                 if (fieldType.IsInterface)
                                 {
-                                    FieldIDictionaryHandler(info);
+                                    FieldIDictionaryHandler(fieldInfo);
                                 }
                                 else
                                 {
-                                    FieldDictionaryHandler(info);
+                                    FieldDictionaryHandler(fieldInfo);
                                 }
                             }
                             else
                             {
                                 if (fieldType.IsInterface)
                                 {
-                                    FieldICollectionHandler(info);
+                                    FieldICollectionHandler(fieldInfo);
                                 }
                                 else
                                 {
-                                    FieldCollectionHandler(info);
+                                    FieldCollectionHandler(fieldInfo);
                                 }
                             }
                         }
                         else
                         {
-                            FieldEntityHandler(info);
+                            FieldEntityHandler(fieldInfo);
                         }
                     }
                 }
@@ -235,12 +203,7 @@ namespace Natasha
 
                     if (IsOnceType(propertyType))               //普通属性
                     {
-                        BuilderInfo info = new BuilderInfo();
-                        info.MemberName = propertyInfo.Name;
-                        info.Type = propertyType;
-                        info.TypeName = propertyType.GetDevelopName();
-                        info.AvailableName = propertyType.GetAvailableName();
-                        PropertyOnceTypeHandler(info);
+                        PropertyOnceTypeHandler(propertyInfo);
                     }
                     else if (propertyType.IsArray)               //数组
                     {
@@ -248,31 +211,24 @@ namespace Natasha
                         Type eleType = propertyType.GetElementType();
                         BuilderInfo info = new BuilderInfo();
                         info.MemberName = propertyInfo.Name;
-                        info.RealType = propertyType;
-                        info.Type = eleType;
-                        info.TypeName = eleType.GetDevelopName();
-                        info.AvailableName = propertyType.GetAvailableName();
+                        info.ElementType = propertyType;
+                        info.MemberType = eleType;
+                        info.MemberTypeName = eleType.GetDevelopName();
+                        info.DeclaringAvailableName = propertyType.GetAvailableName();
 
                         if (IsOnceType(eleType))
                         {
-                            PropertyArrayOnceTypeHandler(info);
+                            PropertyArrayOnceTypeHandler(propertyInfo);
                         }
                         else
                         {
                             EntityHandler(eleType);
-                            PropertyArrayEntityHandler(info);
+                            PropertyArrayEntityHandler(propertyInfo);
                         }
                     }
                     else if (!propertyType.IsNotPublic)
                     {
                         //检测集合
-                        BuilderInfo info = new BuilderInfo();
-                        info.MemberName = propertyInfo.Name;
-                        info.Type = propertyType;
-                        info.TypeName = propertyType.GetDevelopName();
-                        info.AvailableName = propertyType.GetAvailableName();
-
-
                         EntityHandler(propertyType);
 
 
@@ -282,34 +238,34 @@ namespace Natasha
                             {
                                 if (propertyType.IsInterface)
                                 {
-                                    PropertyIDictionaryHandler(info);
+                                    PropertyIDictionaryHandler(propertyInfo);
                                 }
                                 else
                                 {
-                                    PropertyDictionaryHandler(info);
+                                    PropertyDictionaryHandler(propertyInfo);
                                 }
                             }
                             else
                             {
                                 if (propertyType.IsInterface)
                                 {
-                                    PropertyICollectionHandler(info);
+                                    PropertyICollectionHandler(propertyInfo);
                                 }
                                 else
                                 {
-                                    PropertyCollectionHandler(info);
+                                    PropertyCollectionHandler(propertyInfo);
                                 }
                             }
                         }
                         else
                         {
-                            PropertyEntityHandler(info);
+                            PropertyEntityHandler(propertyInfo);
                         }
                     }
                 }
             }
 
-            EntityReturnHandler(typeInfo);
+            EntityReturnHandler(type);
 
         }
 
@@ -321,12 +277,6 @@ namespace Natasha
         public void CollectionRouter(Type type)
         {           
 
-            BuilderInfo typeInfo = new BuilderInfo();
-            typeInfo.Type = type;
-            typeInfo.TypeName = type.GetDevelopName();
-            typeInfo.AvailableName = type.GetAvailableName();
-
-
             if (!type.IsGenericType)
             {
                 Type[] args = type.GetGenericArguments();
@@ -336,11 +286,11 @@ namespace Natasha
 
             if (type.IsInterface)
             {
-                ICollectionHandler(typeInfo);
+                ICollectionHandler(type);
             }
             else
             {
-                CollectionHandler(typeInfo);
+                CollectionHandler(type);
             }
         }
 
@@ -352,12 +302,6 @@ namespace Natasha
         public void DictionaryRouter(Type type)
         {
 
-            BuilderInfo typeInfo = new BuilderInfo();
-            typeInfo.Type = type;
-            typeInfo.TypeName = type.GetDevelopName();
-            typeInfo.AvailableName = type.GetAvailableName();
-
-
             if (!type.IsGenericType)
             {
                 Type[] args = type.GetGenericArguments();
@@ -368,11 +312,11 @@ namespace Natasha
 
             if (type.IsInterface)
             {
-                IDictionaryHandler(typeInfo);
+                IDictionaryHandler(type);
             }
             else
             {
-                DictionaryHandler(typeInfo);
+                DictionaryHandler(type);
             }
         }
 
@@ -383,11 +327,7 @@ namespace Natasha
         /// <param name="type"></param>
         public void OnceTypeRouter(Type type)
         {
-            BuilderInfo typeInfo = new BuilderInfo();
-            typeInfo.Type = type;
-            typeInfo.TypeName = type.GetDevelopName();
-            typeInfo.AvailableName = type.GetAvailableName();
-            OnceTypeHandler(typeInfo);
+            OnceTypeHandler(type);
         }
 
         #region StartAndEnd

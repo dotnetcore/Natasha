@@ -336,7 +336,7 @@ namespace Natasha
                 }
             }
 
-            var props = type.GetProperties();
+            var props = type.GetProperties(); 
             for (int i = 0; i < props.Length; i += 1)
             {
                 if (props[i].PropertyType == memberType)

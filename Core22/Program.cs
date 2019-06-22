@@ -95,8 +95,36 @@ namespace HelloWorld
             stopwatch.Stop();
             Console.WriteLine(stopwatch.Elapsed);
 
+            var entity = EntityOperator.Create(type);
 
+            stopwatch.Restart();
+            if (newInstance["Name"].Get<string>() == "111")
+            {
+                //调用动态委托赋值
+                newInstance["Name"].Set("222");
+            }
+            stopwatch.Stop();
+            Console.WriteLine(stopwatch.Elapsed);
 
+            entity = EntityOperator.Create(type);
+            stopwatch.Restart();
+            if (newInstance["Name"].Get<string>() == "111")
+            {
+                //调用动态委托赋值
+                newInstance["Name"].Set("222");
+            }
+            stopwatch.Stop();
+            Console.WriteLine(stopwatch.Elapsed);
+
+            entity = EntityOperator.Create(type);
+            stopwatch.Restart();
+            if (newInstance["Name"].Get<string>() == "111")
+            {
+                //调用动态委托赋值
+                newInstance["Name"].Set("222");
+            }
+            stopwatch.Stop();
+            Console.WriteLine(stopwatch.Elapsed);
 
             //创建动态类实例代理
             DynamicOperator<TestB> instance2 = new DynamicOperator<TestB>();
@@ -109,6 +137,15 @@ namespace HelloWorld
             //调用动态类
             Console.WriteLine(instance2["Name"].StringValue);
 
+            var temp = StaticEntityOperator.Create(typeof(StaticTestB));
+
+            temp.Set("Name", "Name");
+            temp.Set("Age", 1);
+
+            Console.WriteLine(temp.Get<string>("Name"));
+            Console.WriteLine(temp.Get<int>("Age"));
+            Console.WriteLine(StaticTestB.Name);
+            Console.WriteLine(StaticTestB.Age);
             Console.ReadKey();
         }
     }
@@ -120,5 +157,11 @@ namespace HelloWorld
         }
         public string Name { get; set; }
         public int Age;
+    }
+
+    public static class StaticTestB
+    {
+        public static string Name;
+        public static int Age;
     }
 }

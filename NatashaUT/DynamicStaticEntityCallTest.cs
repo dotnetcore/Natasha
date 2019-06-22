@@ -5,8 +5,8 @@ using Xunit;
 
 namespace NatashaUT
 {
-    [Trait("动态调用", "静态类")]
-    public class DynamicCallStaticClassTest
+    [Trait("动态调用1", "静态类")]
+    public class DynamicStaticEntityCallTest
     {
         [Fact(DisplayName = "动态类的动态操作测试")]
         public void TestCall1()
@@ -19,9 +19,9 @@ using System.Text;
  
 namespace HelloWorld
 {
-    public static class StaticTest
+    public static class StaticTest1
     {
-        static StaticTest(){
+        static StaticTest1(){
             Name=""111"";
         }
 
@@ -32,13 +32,13 @@ namespace HelloWorld
             //根据脚本创建动态类
             Type type = ClassBuilder.GetType(text);
             //创建动态类实例代理
-            DynamicStaticOperator instance = type;
+            var instance =StaticEntityOperator.Create(type);
             //Get动态调用
-            Assert.Equal("111", instance["Name"].StringValue);
+            Assert.Equal("111", instance["Name"].Get<string>());
             //调用动态委托赋值
-            instance["Name"].StringValue = "222";
+            instance["Name"].Set("222");
 
-            Assert.Equal("222", instance["Name"].StringValue);
+            Assert.Equal("222", instance.Get<string>("Name"));
 
         }
 
@@ -48,16 +48,16 @@ namespace HelloWorld
         public void TestCall2()
         {
             //创建动态类实例代理
-            DynamicStaticOperator instance = typeof(StaticTestModel);
+            var instance = StaticEntityOperator.Create(typeof(StaticTestModel));
             StaticTestModel.Name = "111";
-            Assert.Equal("111", instance["Name"].StringValue);
-            instance["Name"].StringValue = "222";
-            Assert.Equal("222", instance["Name"].StringValue);
+            Assert.Equal("111", instance["Name"].Get<string>());
+            instance["Name"].Set("222");
+            Assert.Equal("222", instance["Name"].Get<string>());
             StaticTestModel.Age = 1001;
-            Assert.Equal(1001, instance["Age"].IntValue);
+            Assert.Equal(1001, instance.Get<int>("Age"));
             StaticTestModel.Temp = DateTime.Now;
-            instance["Temp"].DateTimeValue = StaticTestModel.Temp;
-            Assert.Equal(StaticTestModel.Temp, instance["Temp"].DateTimeValue);
+            instance["Temp"].Set(StaticTestModel.Temp);
+            Assert.Equal(StaticTestModel.Temp, instance["Temp"].Get<DateTime>());
 
         }
 
@@ -65,16 +65,16 @@ namespace HelloWorld
         public void TestCall3()
         {
             //创建动态类实例代理
-            DynamicStaticOperator instance = typeof(FakeStaticTestModel);
+            var instance = StaticEntityOperator.Create(typeof(FakeStaticTestModel));
             FakeStaticTestModel.Name = "111";
-            Assert.Equal("111", instance["Name"].StringValue);
-            instance["Name"].StringValue = "222";
-            Assert.Equal("222", instance["Name"].StringValue);
+            Assert.Equal("111", instance["Name"].Get<string>());
+            instance["Name"].Set("222");
+            Assert.Equal("222", instance["Name"].Get<string>());
             FakeStaticTestModel.Age = 1001;
-            Assert.Equal(1001, instance["Age"].IntValue);
+            Assert.Equal(1001, instance.Get<int>("Age"));
             FakeStaticTestModel.Temp = DateTime.Now;
-            instance["Temp"].DateTimeValue = FakeStaticTestModel.Temp;
-            Assert.Equal(FakeStaticTestModel.Temp, instance["Temp"].DateTimeValue);
+            instance["Temp"].Set(FakeStaticTestModel.Temp);
+            Assert.Equal(FakeStaticTestModel.Temp, instance["Temp"].Get<DateTime>());
 
         }
     }

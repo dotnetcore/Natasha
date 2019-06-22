@@ -39,8 +39,8 @@ namespace Natasha
                     if({NewInstance}==null || {OldInstance}==null){{
                         result.Add(""different"",new DiffModel(){{ Name=""different"",Value={OldInstance}}});
                     }}else{{
-                        HashSet<{info.TypeName}> compareNew = new HashSet<{info.TypeName}>({NewInstance});
-                        HashSet<{info.TypeName}> compareOld = new HashSet<{info.TypeName}>({OldInstance});
+                        HashSet<{info.ElementTypeName}> compareNew = new HashSet<{info.ElementTypeName}>({NewInstance});
+                        HashSet<{info.ElementTypeName}> compareOld = new HashSet<{info.ElementTypeName}>({OldInstance});
                         compareNew.ExceptWith(compareOld);
                         result.Add(""different"",new DiffModel(){{ Name=""different"",Value=compareNew}});
                     }}
@@ -51,13 +51,13 @@ namespace Natasha
             //创建委托
             var tempBuilder = FastMethodOperator.New;
             tempBuilder.ComplierOption.UseFileComplie();
-            tempBuilder.Using(info.RealType).Using(info.Type).Using(typeof(HashSet<>)); ;
-            SnapshotCache[info.RealType] = tempBuilder
+            tempBuilder.Using(info.ElementType).Using(info.DeclaringType).Using(typeof(HashSet<>)); ;
+            SnapshotCache[info.ElementType] = tempBuilder
                         .Using("Natasha")
-                        .ClassName("NatashaSnapshot" + info.AvailableName)
+                        .ClassName("NatashaSnapshot" + info.DeclaringAvailableName)
                         .MethodName("Compare")
-                        .Param(info.RealType, OldInstance)
-                        .Param(info.RealType, NewInstance)
+                        .Param(info.ElementType, OldInstance)
+                        .Param(info.ElementType, NewInstance)
                         .MethodBody(scriptBuilder.ToString())      
                         .Return<Dictionary<string, DiffModel>>()  
                         .Complie();
@@ -75,7 +75,7 @@ namespace Natasha
                     if({NewInstance}==null || {OldInstance}==null){{
                         result.Add(""different"",new DiffModel(){{ Name=""different"",Value={OldInstance}}});
                     }}else{{
-                        HashSet<{info.TypeName}> compareOld = new HashSet<{info.TypeName}>({OldInstance});
+                        HashSet<{info.ElementTypeName}> compareOld = new HashSet<{info.ElementTypeName}>({OldInstance});
                         for(int j = 0; j < OldInstance.Length;j+=1){{
                             for(int i = 0; i < NewInstance.Length;i+=1){{
                                 if(SnapshotOperator.Diff({NewInstance}[i],{OldInstance}[j]).Count==0){{
@@ -92,13 +92,13 @@ namespace Natasha
             //创建委托
             var tempBuilder = FastMethodOperator.New;
             tempBuilder.ComplierOption.UseFileComplie();
-            tempBuilder.Using(info.RealType).Using(info.Type).Using(typeof(HashSet<>)); ;
-            SnapshotCache[info.RealType] = tempBuilder
+            tempBuilder.Using(info.ElementType).Using(info.DeclaringTypeName).Using(typeof(HashSet<>)); ;
+            SnapshotCache[info.ElementType] = tempBuilder
                         .Using("Natasha")
-                        .ClassName("NatashaSnapshot" + info.AvailableName)
+                        .ClassName("NatashaSnapshot" + info.DeclaringAvailableName)
                         .MethodName("Compare")
-                        .Param(info.RealType, OldInstance)
-                        .Param(info.RealType, NewInstance)
+                        .Param(info.ElementType, OldInstance)
+                        .Param(info.ElementType, NewInstance)
                         .MethodBody(scriptBuilder.ToString())         
                         .Return<Dictionary<string, DiffModel>>()                  
                         .Complie();
@@ -119,7 +119,7 @@ namespace Natasha
 
         public override void MemberICollectionHandler(BuilderInfo info)
         {
-            MethodHandler.Using(info.Type);
+            MethodHandler.Using(info.MemberType);
             Script.Append(
                 $@"if({NewInstance}.{info.MemberName}!={OldInstance}.{info.MemberName}){{
                     if({NewInstance}.{info.MemberName}==null || {OldInstance}.{info.MemberName}==null){{
@@ -136,7 +136,7 @@ namespace Natasha
 
         public override void MemberCollectionHandler(BuilderInfo info)
         {
-            MethodHandler.Using(info.Type);
+            MethodHandler.Using(info.MemberType);
             Script.Append(
                 $@"if({NewInstance}.{info.MemberName}!={OldInstance}.{info.MemberName}){{
                     if({NewInstance}.{info.MemberName}==null || {OldInstance}.{info.MemberName}==null){{
@@ -153,13 +153,13 @@ namespace Natasha
 
         public override void MemberEntityHandler(BuilderInfo info)
         {
-            MethodHandler.Using(info.Type);
+            MethodHandler.Using(info.MemberType);
             Script.Append(
                 $@"if({NewInstance}.{info.MemberName}!={OldInstance}.{info.MemberName}){{
                     if({NewInstance}.{info.MemberName}==null || {OldInstance}.{info.MemberName}==null){{
                         result.Add(""{info.MemberName}"",new DiffModel(){{ Name=""{info.MemberName}"",Value={OldInstance}.{info.MemberName}}});
                     }}else{{
-                        result.Add(""{info.MemberName}"",new DiffModel(){{ Name=""{info.MemberName}"",Value=NatashaSnapshot{info.AvailableName}.Compare({NewInstance}.{info.MemberName},{OldInstance}.{info.MemberName})}});
+                        result.Add(""{info.MemberName}"",new DiffModel(){{ Name=""{info.MemberName}"",Value=NatashaSnapshot{info.MemberTypeAvailableName}.Compare({NewInstance}.{info.MemberName},{OldInstance}.{info.MemberName})}});
                     }}
                 }}   
             ");
@@ -187,13 +187,13 @@ namespace Natasha
             //创建委托
             var tempBuilder = FastMethodOperator.New;
             tempBuilder.ComplierOption.UseFileComplie();
-            tempBuilder.Using(info.Type).Using(typeof(HashSet<>)); ;
-            SnapshotCache[info.Type] = tempBuilder
+            tempBuilder.Using(info.DeclaringType).Using(typeof(HashSet<>)); ;
+            SnapshotCache[info.DeclaringType] = tempBuilder
                         .Using("Natasha")
-                        .ClassName("NatashaSnapshot" + info.AvailableName)
+                        .ClassName("NatashaSnapshot" + info.DeclaringAvailableName)
                         .MethodName("Compare")
-                        .Param(info.Type, OldInstance)
-                        .Param(info.Type, NewInstance)
+                        .Param(info.DeclaringType, OldInstance)
+                        .Param(info.DeclaringType, NewInstance)
                         .MethodBody(scriptBuilder.ToString())            
                         .Return<Dictionary<string, DiffModel>>()       
                         .Complie();
@@ -221,13 +221,13 @@ namespace Natasha
             //创建委托
             var tempBuilder = FastMethodOperator.New;
             tempBuilder.ComplierOption.UseFileComplie();
-            tempBuilder.Using(info.Type).Using(typeof(HashSet<>)); ;
-            SnapshotCache[info.Type] = tempBuilder
+            tempBuilder.Using(info.DeclaringType).Using(typeof(HashSet<>)); ;
+            SnapshotCache[info.DeclaringType] = tempBuilder
                         .Using("Natasha")
-                        .ClassName("NatashaSnapshot" + info.AvailableName)
+                        .ClassName("NatashaSnapshot" + info.DeclaringAvailableName)
                         .MethodName("Compare")
-                        .Param(info.Type, OldInstance)
-                        .Param(info.Type, NewInstance)
+                        .Param(info.DeclaringType, OldInstance)
+                        .Param(info.DeclaringType, NewInstance)
                         .MethodBody(scriptBuilder.ToString())          
                         .Return<Dictionary<string, DiffModel>>()             
                         .Complie();
@@ -238,15 +238,15 @@ namespace Natasha
 
         public override void MemberArrayEntityHandler(BuilderInfo info)
         {
-            MethodHandler.Using(info.RealType);
-            MethodHandler.Using(info.Type);
+            MethodHandler.Using(info.ElementType);
+            MethodHandler.Using(info.MemberType);
             MethodHandler.Using(typeof(HashSet<>));
             Script.Append(
                 $@"if({NewInstance}.{info.MemberName}!={OldInstance}.{info.MemberName}){{
                     if({NewInstance}.{info.MemberName}==null || {OldInstance}.{info.MemberName}==null){{
                         result.Add(""{info.MemberName}"",new DiffModel(){{ Name=""{info.MemberName}"",Value={OldInstance}.{info.MemberName}}});
                     }}else{{
-                        HashSet<{info.TypeName}> compareOld = new HashSet<{info.TypeName}>({OldInstance}.{info.MemberName});
+                        HashSet<{info.ElementTypeName}> compareOld = new HashSet<{info.ElementTypeName}>({OldInstance}.{info.MemberName});
                         for(int j = 0; j < {OldInstance}.{info.MemberName}.Length;j+=1){{
                             for(int i = 0; i < {NewInstance}.{info.MemberName}.Length;i+=1){{
                                 if(SnapshotOperator.Diff({NewInstance}.{info.MemberName}[i],{OldInstance}.{info.MemberName}[j]).Count==0){{
@@ -271,8 +271,8 @@ namespace Natasha
                     if({NewInstance}.{info.MemberName}==null || {OldInstance}.{info.MemberName}==null){{
                         result.Add(""{info.MemberName}"",new DiffModel(){{ Name=""{info.MemberName}"",Value={OldInstance}.{info.MemberName}}});
                     }}else{{
-                        HashSet<{info.TypeName}> compareNew = new HashSet<{info.TypeName}>({NewInstance}.{info.MemberName});
-                        HashSet<{info.TypeName}> compareOld = new HashSet<{info.TypeName}>({OldInstance}.{info.MemberName});
+                        HashSet<{info.ElementTypeName}> compareNew = new HashSet<{info.ElementTypeName}>({NewInstance}.{info.MemberName});
+                        HashSet<{info.ElementTypeName}> compareOld = new HashSet<{info.ElementTypeName}>({OldInstance}.{info.MemberName});
                         compareOld.ExceptWith(compareNew);
                         result.Add(""{info.MemberName}"",new DiffModel(){{ Name=""{info.MemberName}"",Value=compareOld}});
                     }}

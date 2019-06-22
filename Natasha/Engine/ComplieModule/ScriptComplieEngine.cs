@@ -372,6 +372,10 @@ namespace Natasha.Complier
             {
                 var arrayLines = content.Split(new string[] { "\r\n" }, StringSplitOptions.None);
                 var currentErrorLine = arrayLines[start.Line];
+                if (start.Character==0)
+                {
+                    return currentErrorLine.Substring(0, end.Character).Trim();
+                }
                 return currentErrorLine.Substring(0, start.Character - 1).Trim();
             }
             else

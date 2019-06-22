@@ -4,8 +4,8 @@ using Xunit;
 
 namespace NatashaUT
 {
-    [Trait("动态调用2", "普通类")]
-    public class DynamicCallTest
+    [Trait("动态调用1", "普通类")]
+    public class DynamicEntityCallTest
     {
         [Fact(DisplayName = "动态类的动态操作测试")]
         public void TestCall1()
@@ -81,22 +81,5 @@ namespace HelloWorld
 
           
         }
-    }
-    public class TestB
-    {
-        public TestB()
-        {
-            Name = "111";
-            InstanceC = new TestC();
-            InstanceC.Name = "abc";
-        }
-        public string Name { get; set; }
-        public int Age;
-        public TestC InstanceC;
-    }
-
-    public class TestC
-    {
-        public string Name;
     }
 }
