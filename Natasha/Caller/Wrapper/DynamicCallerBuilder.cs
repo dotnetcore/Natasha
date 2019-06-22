@@ -40,28 +40,29 @@ namespace Natasha.Caller.Wrapper
             ClassBuilder builder = new ClassBuilder();
             StringBuilder body = new StringBuilder();
 
-            body.Append($@"
-                    private {entityClassName} _instance;
-                    public {className}(){{ _instance = new {type.GetDevelopName()}();}}
-            ");
+
+            body.Append($@" 
+                    public override void New(){{
+                         Instance = new {type.GetDevelopName()}();
+                    }}");
 
             body.Append($@" 
                     public override T Get<T>(string name){{
-                        return {innerBody}<T>.GetterMapping[name](_instance);
+                        return {innerBody}<T>.GetterMapping[name](Instance);
                     }}");
 
             body.Append($@" 
                     public override T Get<T>(){{
-                        return {innerBody}<T>.GetterMapping[_current_name](_instance);
+                        return {innerBody}<T>.GetterMapping[_current_name](Instance);
                     }}");
 
             body.Append($@" 
                     public override void Set<T>(string name,T value){{
-                        {innerBody}<T>.SetterMapping[name](_instance,value);
+                        {innerBody}<T>.SetterMapping[name](Instance,value);
                     }}");
             body.Append($@" 
                     public override void Set<T>(T value){{
-                        {innerBody}<T>.SetterMapping[_current_name](_instance,value);
+                        {innerBody}<T>.SetterMapping[_current_name](Instance,value);
                     }}");
 
             Type tempClass = builder
@@ -69,9 +70,9 @@ namespace Natasha.Caller.Wrapper
                     .Using("System")
                     .Using("System.Collections.Concurrent")
                     .ClassAccess(AccessTypes.Public)
-                    .ClassName("NatashaDynamic" + type.Name)
+                    .ClassName("NatashaDynamic" + type.GetAvailableName())
                     .Namespace("NatashaDynamic")
-                    .Inheritance<DynamicBase>()
+                    .Inheritance(GenericBuilder.GetType(typeof(DynamicBase<>),type))
                     .ClassBody(body + InnerTemplate.GetNormalInnerString(innerBody, entityClassName))
                     .GetType();
 

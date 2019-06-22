@@ -4,6 +4,12 @@ using System.Text;
 
 namespace Natasha
 {
+    public abstract class DynamicBase<T> : DynamicBase {
+        public T Instance;
+        public void SetInstance(T value) {
+            Instance = value;
+        }
+    }
     public abstract class DynamicBase
     {
         public string _current_name;
@@ -14,7 +20,7 @@ namespace Natasha
                 return this;
             }
         }
-
+        public virtual void New() { }
 
         public abstract T Get<T>(string name);
 

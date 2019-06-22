@@ -1,4 +1,5 @@
 ﻿using Natasha;
+using Natasha.Caller;
 using System;
 using System.Diagnostics;
 
@@ -91,7 +92,7 @@ namespace HelloWorld
 
 
             var entity = EntityOperator.Create(type);
-
+            entity.New();
             stopwatch.Restart();
             if (entity["Name"].Get<string>() == "111")
             {
@@ -102,6 +103,7 @@ namespace HelloWorld
             Console.WriteLine(stopwatch.Elapsed);
 
             entity = EntityOperator.Create(type);
+            entity.New();
             stopwatch.Restart();
             if (entity["Name"].Get<string>() == "111")
             {
@@ -130,6 +132,7 @@ namespace HelloWorld
             for (int i = 0; i < 10; i++)
             {
                 entity = EntityOperator.Create(type);
+                entity.New();
                 stopwatch.Restart();
                 if (entity["Name"].Get<string>() == "111")
                 {
@@ -159,6 +162,7 @@ namespace HelloWorld
             for (int i = 0; i < 10; i++)
             {
                 entity = EntityOperator.Create(type);
+                entity.New();
                 stopwatch.Restart();
                 if (entity.Get<string>("Name") == "111")
                 {
@@ -169,6 +173,20 @@ namespace HelloWorld
                 Console.WriteLine("new:" + stopwatch.Elapsed);
             }
 
+
+
+            for (int i = 0; i < 10; i++)
+            {
+                var tEntity = (new TestB()).Caller();
+                stopwatch.Restart();
+                if (tEntity.Get<string>("Name") == "111")
+                {
+                    //调用动态委托赋值
+                    tEntity.Set("Name", "222");
+                }
+                stopwatch.Stop();
+                Console.WriteLine("new:" + stopwatch.Elapsed);
+            }
 
 
             //创建动态类实例代理

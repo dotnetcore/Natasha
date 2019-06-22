@@ -33,6 +33,7 @@ namespace Natasha
             IncludeStatic = false;
             IncludeCanRead = true;
             IncludeCanWrite = false;
+            //CloneCache[type] = null;
         }
 
 

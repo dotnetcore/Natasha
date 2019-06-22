@@ -31,13 +31,14 @@ namespace HelloWorld
             //根据脚本创建动态类
             Type type = ClassBuilder.GetType(text);
             //创建动态类实例代理
-            DynamicOperatorBase instance = DynamicOperator.GetOperator(type);
+            var instance = EntityOperator.Create(type);
+            instance.New();
             //Get动态调用
-            Assert.Equal("111", instance["Name"].StringValue);
+            Assert.Equal("111", instance["Name"].Get<string>());
             //调用动态委托赋值
-            instance["Name"].StringValue = "222";
+            instance.Set("Name", "222");
 
-            Assert.Equal("222", instance["Name"].StringValue);
+            Assert.Equal("222", instance["Name"].Get<string>());
            
         }
 
@@ -47,13 +48,14 @@ namespace HelloWorld
         public void TestCall2()
         {
             //创建动态类实例代理
-            DynamicOperator<TestB> instance = new DynamicOperator<TestB>();
-            Assert.Equal("111", instance["Name"].StringValue);
+            var instance = EntityOperator<TestB>.Create();
+            instance.New();
+            Assert.Equal("111", instance["Name"].Get<string>());
 
             //调用动态委托赋值
-            instance["Name"].StringValue = "222";
+            instance.Set("Name", "222");
 
-            Assert.Equal("222", instance["Name"].StringValue);
+            Assert.Equal("222", instance["Name"].Get<string>());
         }
 
 
@@ -62,14 +64,14 @@ namespace HelloWorld
         public void TestCall3()
         {
             //创建动态类实例代理
-            DynamicOperator<TestB> instance = new DynamicOperator<TestB>();
-
-            Assert.Equal("111", instance["Name"].StringValue);
+            var instance = EntityOperator<TestB>.Create();
+            instance.New();
+            Assert.Equal("111", instance["Name"].Get<string>());
 
             //调用动态委托赋值
-            instance["Name"].StringValue = "222";
+            instance.Set("Name", "222");
 
-            Assert.Equal("222", instance["Name"].StringValue);
+            Assert.Equal("222", instance["Name"].Get<string>());
 
 
             var c = instance["InstanceC"].Get<TestC>();
@@ -77,7 +79,7 @@ namespace HelloWorld
 
 
             instance["InstanceC"].Set(new TestC() { Name="bbca"});
-            Assert.Equal("bbca", instance["InstanceC"].OperatorValue["Name"].StringValue);
+            Assert.Equal("bbca", instance["InstanceC"].Get<TestC>().Name);
 
           
         }

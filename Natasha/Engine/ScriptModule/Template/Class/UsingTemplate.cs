@@ -10,10 +10,12 @@ namespace Natasha
     {
         public readonly StringBuilder UsingScript;
         private readonly HashSet<string> _usings;
+        private readonly HashSet<Type> _usingTypes;
         public UsingTemplate()
         {
             UsingScript = new StringBuilder();
             _usings = new HashSet<string>();
+            _usingTypes = new HashSet<Type>();
         }
        
 
@@ -72,11 +74,13 @@ namespace Natasha
         }
         public T Using(Type type)
         {
-            if (type == null)
+            if (type!=null && !_usingTypes.Contains(type))
             {
-                return Link;
+                _usingTypes.Add(type);
+                Using(type.GetAllGenericTypes());
+                return Using(type.Namespace);
             }
-            return Using(type.Namespace);
+            return Link;
         }
 
         public T Using(MethodInfo info)

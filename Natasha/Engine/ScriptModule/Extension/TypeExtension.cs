@@ -45,5 +45,10 @@ namespace Natasha
         {
             return ClassNameReverser.GetName(type);
         }
+
+        public static Type With(this Type type,params Type[] types)
+        {
+            return type.MakeGenericType(types);
+        }
     }
 }

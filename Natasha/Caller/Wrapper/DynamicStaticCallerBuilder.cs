@@ -57,7 +57,7 @@ namespace Natasha.Caller.Wrapper
                     .Using("System")
                     .Using("System.Collections.Concurrent")
                     .ClassAccess(AccessTypes.Public)
-                    .ClassName("NatashaDynamicStatic" + type.Name)
+                    .ClassName("NatashaDynamicStatic" + type.GetAvailableName())
                     .Namespace("NatashaDynamicStatic")
                     .Inheritance<DynamicBase>()
                     .ClassBody(body + InnerTemplate.GetStaticInnerString(innerClassName, entityClassName))
