@@ -141,14 +141,14 @@ namespace Natasha.Complier
 
             StringBuilder recoder = new StringBuilder(LineFormat(ref content));
 
-            var node = GetTreeAndClassName(content);
+            var (Tree, ClassName) = GetTreeAndClassName(content);
 
 
             //创建语言编译
             CSharpCompilation compilation = CSharpCompilation.Create(
-                node.ClassName,
+                ClassName,
                 options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary),
-                syntaxTrees: new[] { node.Tree },
+                syntaxTrees: new[] { Tree },
                 references: References);
 
 
@@ -164,11 +164,11 @@ namespace Natasha.Complier
                     {
                         recoder.AppendLine("\r\n\r\n------------------------------------------succeed-------------------------------------------");
                         recoder.AppendLine($"\r\n    Lauguage :\t{compilation.Language}___{compilation.LanguageVersion}");
-                        recoder.AppendLine($"\r\n    Target :\t\t{node.ClassName}");
+                        recoder.AppendLine($"\r\n    Target :\t\t{ClassName}");
                         recoder.AppendLine($"\r\n    Size :\t\t{stream.Length}");
                         recoder.AppendLine($"\r\n    Assembly : \t{result.FullName}");
                         recoder.AppendLine("\r\n----------------------------------------------------------------------------------------------");
-                        NScriptLog.Succeed("Succeed : " + node.ClassName, recoder.ToString());
+                        NScriptLog.Succeed("Succeed : " + ClassName, recoder.ToString());
                     }
 
 
@@ -181,7 +181,7 @@ namespace Natasha.Complier
                     {
                         recoder.AppendLine("\r\n\r\n------------------------------------------error----------------------------------------------");
                         recoder.AppendLine($"\r\n    Lauguage :\t{compilation.Language}___{compilation.LanguageVersion}");
-                        recoder.AppendLine($"\r\n    Target:\t\t{node.ClassName}");
+                        recoder.AppendLine($"\r\n    Target:\t\t{ClassName}");
                         recoder.AppendLine($"\r\n    Error:\t\t共{fileResult.Diagnostics.Length}处错误！");
                     }
 
@@ -200,7 +200,7 @@ namespace Natasha.Complier
                     if (NScriptLog.UseLog)
                     {
                         recoder.AppendLine("\r\n---------------------------------------------------------------------------------------------");
-                        NScriptLog.Error("Error : " + node.ClassName, recoder.ToString());
+                        NScriptLog.Error("Error : " + ClassName, recoder.ToString());
                     }
 
                 }
@@ -238,11 +238,11 @@ namespace Natasha.Complier
 
 
             //类名获取
-            var node = GetTreeAndClassNames(content);
+            var (Tree, ClassNames) = GetTreeAndClassNames(content);
 
 
             //生成路径
-            string path = $"{LibPath}{node.ClassNames[0]}.dll";
+            string path = $"{LibPath}{ClassNames[0]}.dll";
 
 
             if (DynamicDlls.ContainsKey(path))
@@ -256,14 +256,14 @@ namespace Natasha.Complier
 
             //创建语言编译
             CSharpCompilation compilation = CSharpCompilation.Create(
-                node.ClassNames[0],
+                ClassNames[0],
                 options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary),
-                syntaxTrees: new[] { node.Tree },
+                syntaxTrees: new[] { Tree },
                 references: References);
 
 
+            EmitResult fileResult;
             //编译到文件
-            EmitResult fileResult = null;
             try
             {
                 fileResult = compilation.Emit(path);
@@ -279,7 +279,7 @@ namespace Natasha.Complier
                         loop += 1;
                     }
 
-                    NScriptLog.Warning(node.ClassNames[0], $"    I/O Delay :\t检测到争用，延迟{loop * 200}ms调用;\r\n");
+                    NScriptLog.Warning(ClassNames[0], $"    I/O Delay :\t检测到争用，延迟{loop * 200}ms调用;\r\n");
 
                     return DynamicDlls[path];
                 }
@@ -291,20 +291,20 @@ namespace Natasha.Complier
                 References.Add(MetadataReference.CreateFromFile(path));
                 //为了实现动态中的动态，使用文件加载模式常驻内存
                 var result = Assembly.LoadFrom(path);
-                for (int i = 0; i < node.ClassNames.Length; i += 1)
+                for (int i = 0; i < ClassNames.Length; i += 1)
                 {
-                    ClassMapping[node.ClassNames[i]] = result;
+                    ClassMapping[ClassNames[i]] = result;
                 }
 
                 if (NScriptLog.UseLog)
                 {
                     recoder.AppendLine("\r\n\r\n------------------------------------------succeed-------------------------------------------");
                     recoder.AppendLine($"\r\n    Lauguage :\t{compilation.Language}___{compilation.LanguageVersion}");
-                    recoder.AppendLine($"\r\n    Target :\t\t{node.ClassNames[0]}");
+                    recoder.AppendLine($"\r\n    Target :\t\t{ClassNames[0]}");
                     recoder.AppendLine($"\r\n    Path :\t\t{path}");
                     recoder.AppendLine($"\r\n    Assembly : \t{result.FullName}");
                     recoder.AppendLine("\r\n----------------------------------------------------------------------------------------------");
-                    NScriptLog.Succeed("Succeed : " + node.ClassNames[0], recoder.ToString());
+                    NScriptLog.Succeed("Succeed : " + ClassNames[0], recoder.ToString());
                 }
 
 
@@ -318,7 +318,7 @@ namespace Natasha.Complier
                 {
                     recoder.AppendLine("\r\n\r\n------------------------------------------error----------------------------------------------");
                     recoder.AppendLine($"\r\n    Lauguage :\t{compilation.Language}___{compilation.LanguageVersion}");
-                    recoder.AppendLine($"\r\n    Target:\t\t{node.ClassNames[0]}");
+                    recoder.AppendLine($"\r\n    Target:\t\t{ClassNames[0]}");
                     recoder.AppendLine($"\r\n    Error:\t\t共{fileResult.Diagnostics.Length}处错误！");
                 }
 
@@ -335,7 +335,7 @@ namespace Natasha.Complier
 
 
                 recoder.AppendLine("\r\n---------------------------------------------------------------------------------------------");
-                NScriptLog.Error("Error : " + node.ClassNames[0], recoder.ToString());
+                NScriptLog.Error("Error : " + ClassNames[0], recoder.ToString());
 
             }
             return null;

@@ -87,8 +87,10 @@ namespace HelloWorld
         public TestB()
         {
             Name = "111";
-            InstanceC = new TestC();
-            InstanceC.Name = "abc";
+            InstanceC = new TestC
+            {
+                Name = "abc"
+            };
         }
         public string Name { get; set; }
         public int Age;

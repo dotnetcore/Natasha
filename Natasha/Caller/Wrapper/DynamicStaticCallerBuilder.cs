@@ -28,7 +28,7 @@ namespace Natasha.Caller.Wrapper
         {
             string innerClassName = "InnerDynamicStatic" + type.GetAvailableName();
             string entityClassName = type.GetDevelopName();
-            string className = "NatashaDynamicStatic" + type.GetAvailableName();
+          
             ClassBuilder builder = new ClassBuilder();
             StringBuilder body = new StringBuilder();
 

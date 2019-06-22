@@ -209,12 +209,6 @@ namespace Natasha
                     {
 
                         Type eleType = propertyType.GetElementType();
-                        BuilderInfo info = new BuilderInfo();
-                        info.MemberName = propertyInfo.Name;
-                        info.ElementType = propertyType;
-                        info.MemberType = eleType;
-                        info.MemberTypeName = eleType.GetDevelopName();
-                        info.DeclaringAvailableName = propertyType.GetAvailableName();
 
                         if (IsOnceType(eleType))
                         {

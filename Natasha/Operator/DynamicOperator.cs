@@ -381,12 +381,10 @@ namespace Natasha
 
         public static Action<DynamicOperatorBase, T> SetField<T>(FieldInfo info)
         {
-
-            string body = "";
-            Type type = null;
-
             if (TypeMemberMapping.ContainsKey(info.FieldType))
             {
+                string body;
+                Type type;
                 if (typeof(T) == typeof(object))
                 {
                     type = info.DeclaringType;
@@ -407,11 +405,8 @@ namespace Natasha
 
         public static Action<DynamicOperatorBase, T> GetField<T>(FieldInfo info)
         {
-
-            string body = "";
-            Type type = null;
-
-
+            string body;
+            Type type;
             if (typeof(T) == typeof(object))
             {
                 type = info.DeclaringType;
@@ -423,7 +418,7 @@ namespace Natasha
                 {
                     body = $@"DynamicOperator<{info.FieldType.GetDevelopName()}> {info.Name}temp = (({type.Name})instance).{info.Name}; proxy.OperatorValue={info.Name}temp;";
                 }
-                
+
             }
             else
             {
@@ -445,10 +440,8 @@ namespace Natasha
 
         public static Action<DynamicOperatorBase, T> GetProperty<T>(PropertyInfo info)
         {
-            string body = "";
-            Type type = null;
-
-
+            string body;
+            Type type;
             if (typeof(T) == typeof(object))
             {
                 type = info.DeclaringType;
@@ -480,12 +473,10 @@ namespace Natasha
 
         public static Action<DynamicOperatorBase, T> SetProperty<T>(PropertyInfo info)
         {
-
-            string body = "";
-            Type type = null;
-
             if (TypeMemberMapping.ContainsKey(info.PropertyType))
             {
+                string body;
+                Type type;
                 if (typeof(T) == typeof(object))
                 {
                     type = info.DeclaringType;

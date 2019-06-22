@@ -31,17 +31,21 @@ namespace Natasha
             {
                 var tempInfo = (FieldInfo)(info);
 
-                var instance = new BuilderInfo();
-                instance.DeclaringType = tempInfo.DeclaringType;
-                instance.DeclaringTypeName = tempInfo.DeclaringType.GetDevelopName();
-                instance.DeclaringAvailableName = tempInfo.DeclaringType.GetAvailableName();
+                var instance = new BuilderInfo
+                {
+                    DeclaringType = tempInfo.DeclaringType,
+                    DeclaringTypeName = tempInfo.DeclaringType.GetDevelopName(),
+                    DeclaringAvailableName = tempInfo.DeclaringType.GetAvailableName(),
 
-                instance.MemberName = tempInfo.Name;
-                instance.MemberType = tempInfo.FieldType;
-                instance.MemberTypeName = tempInfo.FieldType.GetDevelopName();
-                instance.MemberTypeAvailableName = tempInfo.FieldType.GetAvailableName();
 
-                instance.ElementType = tempInfo.FieldType.HasElementType ? tempInfo.FieldType.GetElementType() : tempInfo.FieldType;
+                    MemberName = tempInfo.Name,
+                    MemberType = tempInfo.FieldType,
+                    MemberTypeName = tempInfo.FieldType.GetDevelopName(),
+                    MemberTypeAvailableName = tempInfo.FieldType.GetAvailableName(),
+
+
+                    ElementType = tempInfo.FieldType.HasElementType ? tempInfo.FieldType.GetElementType() : tempInfo.FieldType
+                };
                 instance.ElementTypeName = instance.ElementType.GetDevelopName();
                 instance.ElementTypeAvailableName = instance.ElementType.GetAvailableName();
 
@@ -57,17 +61,21 @@ namespace Natasha
             {
                 var tempInfo = (PropertyInfo)(info);
 
-                var instance = new BuilderInfo();
-                instance.DeclaringType = tempInfo.DeclaringType;
-                instance.DeclaringTypeName = tempInfo.DeclaringType.GetDevelopName();
-                instance.DeclaringAvailableName = tempInfo.DeclaringType.GetAvailableName();
+                var instance = new BuilderInfo
+                {
+                    DeclaringType = tempInfo.DeclaringType,
+                    DeclaringTypeName = tempInfo.DeclaringType.GetDevelopName(),
+                    DeclaringAvailableName = tempInfo.DeclaringType.GetAvailableName(),
 
-                instance.MemberName = tempInfo.Name;
-                instance.MemberType = tempInfo.PropertyType;
-                instance.MemberTypeName = tempInfo.PropertyType.GetDevelopName();
-                instance.MemberTypeAvailableName = tempInfo.PropertyType.GetAvailableName();
 
-                instance.ElementType = tempInfo.PropertyType.HasElementType ? tempInfo.PropertyType.GetElementType() : tempInfo.PropertyType;
+                    MemberName = tempInfo.Name,
+                    MemberType = tempInfo.PropertyType,
+                    MemberTypeName = tempInfo.PropertyType.GetDevelopName(),
+                    MemberTypeAvailableName = tempInfo.PropertyType.GetAvailableName(),
+
+
+                    ElementType = tempInfo.PropertyType.HasElementType ? tempInfo.PropertyType.GetElementType() : tempInfo.PropertyType
+                };
                 instance.ElementTypeName = instance.ElementType.GetDevelopName();
                 instance.ElementTypeAvailableName = instance.ElementType.GetAvailableName();
 
@@ -84,11 +92,13 @@ namespace Natasha
 
         public static implicit operator BuilderInfo(Type type)
         {
-            var instance = new BuilderInfo();
-            instance.DeclaringType = type;
-            instance.DeclaringTypeName = type.GetDevelopName();
-            instance.DeclaringAvailableName = type.GetAvailableName();
-            instance.ElementType = type.HasElementType ? type.GetElementType() : type;
+            var instance = new BuilderInfo
+            {
+                DeclaringType = type,
+                DeclaringTypeName = type.GetDevelopName(),
+                DeclaringAvailableName = type.GetAvailableName(),
+                ElementType = type.HasElementType ? type.GetElementType() : type
+            };
             instance.ElementTypeName = instance.ElementType.GetDevelopName();
             instance.ElementTypeAvailableName = instance.ElementType.GetAvailableName();
             return instance;

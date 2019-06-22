@@ -234,33 +234,31 @@ namespace Natasha
 
         public static Action<DynamicOperatorBase> GetField(FieldInfo info)
         {
-            string body = "";
-            Type type = info.DeclaringType;
+            string body;
             if (TypeMemberMapping.ContainsKey(info.FieldType))
             {
-                body = $@"proxy.{TypeMemberMapping[info.FieldType]}={type.GetDevelopName()}.{info.Name};";
+                body = $@"proxy.{TypeMemberMapping[info.FieldType]}={info.DeclaringType.GetDevelopName()}.{info.Name};";
             }
             else
             {
-                body = $@"DynamicOperator<{info.FieldType.GetDevelopName()}> {info.Name}temp = {type.GetDevelopName()}.{info.Name}; proxy.OperatorValue={info.Name}temp;";
+                body = $@"DynamicOperator<{info.FieldType.GetDevelopName()}> {info.Name}temp = {info.DeclaringType.GetDevelopName()}.{info.Name}; proxy.OperatorValue={info.Name}temp;";
             }
-            return GetStaticDelegate(type, info.FieldType, body);
+            return GetStaticDelegate(info.DeclaringType, info.FieldType, body);
         }
 
 
         public static Action<DynamicOperatorBase> GetProperty(PropertyInfo info)
         {
-            string body = "";
-            Type type = info.DeclaringType;
+            string body;
             if (TypeMemberMapping.ContainsKey(info.PropertyType))
             {
-                body = $@"proxy.{TypeMemberMapping[info.PropertyType]}={type.GetDevelopName()}.{info.Name};";
+                body = $@"proxy.{TypeMemberMapping[info.PropertyType]}={info.DeclaringType.GetDevelopName()}.{info.Name};";
             }
             else
             {
-                body = $@"DynamicOperator<{info.PropertyType.GetDevelopName()}> {info.Name}temp = {type.GetDevelopName()}.{info.Name}; proxy.OperatorValue={info.Name}temp;";
+                body = $@"DynamicOperator<{info.PropertyType.GetDevelopName()}> {info.Name}temp = {info.DeclaringType.GetDevelopName()}.{info.Name}; proxy.OperatorValue={info.Name}temp;";
             }
-            return GetStaticDelegate(type, info.PropertyType, body);
+            return GetStaticDelegate(info.DeclaringType, info.PropertyType, body);
         }
 
 
