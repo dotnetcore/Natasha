@@ -7,15 +7,15 @@
     <Copyright>.NET Core Community and Contributors</Copyright>
     <PackageId>Natasha</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <PackageReleaseNotes>完善动态调用</PackageReleaseNotes>
-    <Version>0.6.8.1</Version>
+    <PackageReleaseNotes>增加另一种形态的动态调用，增加BuildInfo的隐式转换。</PackageReleaseNotes>
+    <Version>0.6.9</Version>
     <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
     <PackageTags>Roslyn ; IL ; Scripte ; Dynamic ; </PackageTags>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-    <Company>Natasha</Company>
+    <Company>.NET Core Community</Company>
     <PackageIconUrl>https://www.dotnetcore.xyz/images/project/asp-natasha-avator.png</PackageIconUrl>
-    <Authors>Natasha</Authors>
+    <Authors>NMSAzulX</Authors>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
