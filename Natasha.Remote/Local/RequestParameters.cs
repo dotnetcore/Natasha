@@ -89,8 +89,10 @@ namespace Natasha.Remote
         public RequestParameters()
         {
             _type = typeof(T);
-            Parameters = new TransportParameters();
-            Parameters.TypeName = _type.GetDevelopName();
+            Parameters = new TransportParameters
+            {
+                TypeName = _type.GetDevelopName()
+            };
         }
 
 
