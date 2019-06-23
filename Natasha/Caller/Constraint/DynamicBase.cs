@@ -22,6 +22,8 @@ namespace Natasha
         }
         public virtual void New() { }
 
+        public abstract DynamicBase Get(string name);
+
         public abstract T Get<T>(string name);
 
         public abstract T Get<T>();

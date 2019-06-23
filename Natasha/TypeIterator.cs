@@ -101,7 +101,7 @@ namespace Natasha
         public void ArrayRouter(Type type)
         {
             Type eleType = type.GetElementType();
-            if (IsOnceType(eleType))
+            if (eleType.IsOnceType())
             {
                 //普通类型处理
                 ArrayOnceTypeHandler(type);
@@ -136,14 +136,14 @@ namespace Natasha
                 {
 
                     Type fieldType = fieldInfo.FieldType;
-                    if (IsOnceType(fieldType))       //普通字段
+                    if (fieldType.IsOnceType())       //普通字段
                     {
                         FieldOnceTypeHandler(fieldInfo);
                     }
                     else if (fieldType.IsArray)      //数组
                     {
                         Type eleType = fieldType.GetElementType();
-                        if (IsOnceType(eleType))
+                        if (eleType.IsOnceType())
                         {
                             FieldArrayOnceTypeHandler(fieldInfo);
                         }
@@ -201,7 +201,7 @@ namespace Natasha
                 {
                     Type propertyType = propertyInfo.PropertyType;
 
-                    if (IsOnceType(propertyType))               //普通属性
+                    if (propertyType.IsOnceType())               //普通属性
                     {
                         PropertyOnceTypeHandler(propertyInfo);
                     }
@@ -210,7 +210,7 @@ namespace Natasha
 
                         Type eleType = propertyType.GetElementType();
 
-                        if (IsOnceType(eleType))
+                        if (eleType.IsOnceType())
                         {
                             PropertyArrayOnceTypeHandler(propertyInfo);
                         }
@@ -520,7 +520,7 @@ namespace Natasha
                 return false;
             }
 
-            if (IsOnceType(type))
+            if (type.IsOnceType())
             {
                 OnceTypeRouter(type);
                 return true;
@@ -547,23 +547,6 @@ namespace Natasha
                 EntityRouter(type);
             }
             return true;
-        }
-
-
-
-
-        /// <summary>
-        /// 判断是否为普通类型
-        /// </summary>
-        /// <param name="type">类型</param>
-        /// <returns></returns>
-        public static bool IsOnceType(Type type)
-        {
-            return type.IsPrimitive
-                            || type == typeof(string)
-                            || type == typeof(Delegate)
-                            || type.IsEnum
-                            || (!type.IsClass && !type.IsInterface);
         }
     }    
 }

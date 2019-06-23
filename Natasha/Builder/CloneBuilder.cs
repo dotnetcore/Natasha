@@ -134,7 +134,7 @@ namespace Natasha
             StringBuilder scriptBuilder = new StringBuilder();
             scriptBuilder.Append(@"if(oldInstance!=null){");
             var type = info.DeclaringType.GetGenericArguments()[0];
-            if (IsOnceType(type))
+            if (type.IsOnceType())
             {
                 scriptBuilder.Append($"return new {info.DeclaringTypeName}(oldInstance);");
             }
@@ -172,7 +172,7 @@ namespace Natasha
             StringBuilder scriptBuilder = new StringBuilder();
             scriptBuilder.Append(@"if(oldInstance!=null){");
             var type = info.DeclaringType.GetGenericArguments()[0];
-            if (IsOnceType(type))
+            if (type.IsOnceType())
             {
                 scriptBuilder.Append($"return new List<{type.GetDevelopName()}>(oldInstance);");
             }
@@ -211,7 +211,7 @@ namespace Natasha
             var keyType = info.DeclaringType.GetGenericArguments()[0];
             var valueType = info.DeclaringType.GetGenericArguments()[1];
             scriptBuilder.Append($"return new {info.DeclaringTypeName}(oldInstance.Select(item=>{{return KeyValuePair.Create(");
-            if (IsOnceType(keyType))
+            if (keyType.IsOnceType())
             {
                 scriptBuilder.Append($"item.Key,");
             }
@@ -220,7 +220,7 @@ namespace Natasha
                 EntityHandler(keyType);
                 scriptBuilder.Append($"NatashaClone{keyType.GetAvailableName()}.Clone(item.Key),");
             }
-            if (IsOnceType(valueType))
+            if (valueType.IsOnceType())
             {
                 scriptBuilder.Append($"item.Value");
             }
@@ -282,7 +282,7 @@ namespace Natasha
             var keyType = info.DeclaringType.GetGenericArguments()[0];
             var valueType = info.DeclaringType.GetGenericArguments()[1];
             scriptBuilder.Append($"return oldInstance.Select(item=>{{return KeyValuePair.Create(");
-            if (IsOnceType(keyType))
+            if (keyType.IsOnceType())
             {
                 scriptBuilder.Append($"item.Key,");
             }
@@ -291,7 +291,7 @@ namespace Natasha
                 EntityHandler(keyType);
                 scriptBuilder.Append($"NatashaClone{keyType.GetAvailableName()}.Clone(item.Key),");
             }
-            if (IsOnceType(valueType))
+            if (valueType.IsOnceType())
             {
                 scriptBuilder.Append($"item.Value");
             }

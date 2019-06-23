@@ -100,6 +100,8 @@ namespace HelloWorld
                 entity["Name"].Set("222");
             }
             stopwatch.Stop();
+            entity.Get("Instance").Set("Name", "haha");
+            Console.WriteLine(entity.Get("Instance").Get<string>("Name"));
             Console.WriteLine(stopwatch.Elapsed);
 
             entity = EntityOperator.Create(type);

@@ -50,5 +50,16 @@ namespace Natasha
         {
             return type.MakeGenericType(types);
         }
+
+
+        public static bool IsOnceType(this Type type)
+        {
+            if (type==null){return false;}
+            return type.IsPrimitive
+                           || type == typeof(string)
+                           || type == typeof(Delegate)
+                           || type.IsEnum
+                           || (!type.IsClass && !type.IsInterface);
+        }
     }
 }
