@@ -167,8 +167,8 @@ handler.Get("Outter").Set(Name,"NewName");                        // Link Operat
      - [ ]  **动态克隆性能测试（对照组： origin）**
      - [ ]  **远程动态封装函数性能测试（对照组： 动态函数，emit, origin）**
 
-
         
-            
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdotnetcore%2FNatasha.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fdotnetcore%2FNatasha?ref=badge_large)          
       
      
