@@ -100,7 +100,7 @@ public class B{
 }
 //如果是运行时动态生成类，也同样
 ```
-
+调用方式一
 ```C#
 var handler = DynamicOperator.GetOperator(typeof(A));
 
@@ -110,7 +110,16 @@ Console.WriteLine(handler["Time"].DateTime);                      // Get Operato
 
 handler["Outter"].OperatorValue["Name"].StringValue = "NewName"   // Link Operator
 ```
+调用方式二
+```C#
+var handler EntityOperator.Create(typeof(A));
 
+handler.Set("Age",100);                                           // Set Operator
+
+Console.WriteLine(handlerGet<DateTime>("Time"));                  // Get Operator
+
+handler.Get("Outter")["Name"].Set("NewName");                     // Link Operator
+```
 
 ### 动态调用静态类
 ```C#
@@ -127,15 +136,26 @@ public class B{
 }
 //如果是运行时动态生成类，也同样
 ```
-
+调用方式一
 ```C#
 DynamicStaticOperator handler = typeof(A);
 
-handler["Age"].IntValue = 100;                                    // Set Operator
+handler["Age"].IntValue = 100;                                        // Set Operator
 
-Console.WriteLine(handler["Time"].DateTime);                      // Get Operator
+Console.WriteLine(handler["Time"].DateTime);                          // Get Operator
 
-handler["Outter"].OperatorValue["Name"].StringValue = "NewName"   // Link Operator
+handler.Get["Outter"].OperatorValue["Name"].StringValue = "NewName"   // Link Operator
+```
+调用方式二
+```C#
+var handler EntityOperator.Create(type);
+
+handler["Age"].Set(100);                                          // Set Operator
+
+Console.WriteLine(handler["Time"].Get<DateTime>());               // Get Operator
+
+handler.Get("Outter").Set(Name,"NewName");           // Link Operator
+
 ```
 <br/>
 <br/>  
