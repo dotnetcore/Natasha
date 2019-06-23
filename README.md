@@ -154,7 +154,7 @@ handler["Age"].Set(100);                                          // Set Operato
 
 Console.WriteLine(handler["Time"].Get<DateTime>());               // Get Operator
 
-handler.Get("Outter").Set(Name,"NewName");           // Link Operator
+handler.Get("Outter").Set(Name,"NewName");                        // Link Operator
 
 ```
 <br/>
