@@ -19,17 +19,21 @@ jobs:
     inputs:
       version: '2.2.300'
 
+
   - task: DotNetCoreCLI@1
     displayName: restore
-  - script: dotnet restore
-  - script: dir
+    inputs:
+      command: restore
+
 
   - task: DotNetCoreCLI@2
-    displayName: Build
+    displayName: build
     inputs:
       command: build
-      projects: './Natahsa/Natasha.csproj'
-      arguments: '--configuration Release'
+      projects: '.\Natahsa\Natasha.csproj'
+      arguments: '-c Release'
+
+
 
 
 - job: macOS
@@ -43,17 +47,21 @@ jobs:
     inputs:
       version: '2.2.300'
 
+
   - task: DotNetCoreCLI@1
     displayName: restore
-  - script: dotnet restore
-  - script: dir
+    inputs:
+      command: restore
+
 
   - task: DotNetCoreCLI@2
-    displayName: Build
+    displayName: build
     inputs:
       command: build
-      projects: './Natahsa/Natasha.csproj'
-      arguments: '--configuration Release'
+      projects: '.\Natahsa\Natasha.csproj'
+      arguments: '-c Release'
+
+
 
 
 - job: Windows
@@ -67,14 +75,16 @@ jobs:
     inputs:
       version: '2.2.300'
 
+
   - task: DotNetCoreCLI@1
     displayName: restore
-  - script: dotnet restore
-  - script: dir
+    inputs:
+      command: restore
+
 
   - task: DotNetCoreCLI@2
-    displayName: Build
+    displayName: build
     inputs:
       command: build
-      projects: './Natahsa/Natasha.csproj'
-      arguments: '--configuration Release'
+      projects: '.\Natahsa\Natasha.csproj'
+      arguments: '-c Release'
