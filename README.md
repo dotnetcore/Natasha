@@ -30,8 +30,12 @@
 
 欢迎参与讨论：[点击加入Gitter讨论组](https://gitter.im/dotnetcore/Natasha)
 
-<br/>
-### 使用 FastMethodOperator 快速构建函数：  
+<br/>  
+
+
+### 使用方法：
+
+#### 使用 FastMethodOperator 快速构建函数：  
   
   
 ```C#
