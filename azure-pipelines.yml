@@ -15,13 +15,13 @@ jobs:
 
   steps:
   - task: DotNetCoreInstaller@0
-    displayName: 'install'
+    displayName: install
     inputs:
       version: '2.2.300'
 
 
   - task: DotNetCoreCLI@1
-    displayName: 'restore'
+    displayName: restore
     inputs:
       command: restore
       projects: './Natasha/Natasha.csproj'
@@ -56,13 +56,14 @@ jobs:
       command: restore
       projects: './Natasha/Natasha.csproj'
 
-
+  - script: ll
+  - script: ls
   - task: DotNetCoreCLI@2
     displayName: build
     inputs:
       command: build
       projects: './Natasha/Natasha.csproj'
-      arguments: '--configuration Release'
+      arguments: '-c Release'
 
 
 
