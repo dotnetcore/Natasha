@@ -1,6 +1,6 @@
 language: csharp
 solution: Natasha.sln
-#dist: xenial
+dist: trusty
 dotnet: 2.2.203
 mono: none
 
