@@ -12,6 +12,7 @@ pull_requests:
 skip_commits:
   files:
     - docs/*
+    - Image/*
     - media/*
     - LICENSE
     - mkdocs.yml
