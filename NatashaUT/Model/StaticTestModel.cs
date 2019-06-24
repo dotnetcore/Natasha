@@ -22,7 +22,7 @@ namespace NatashaUT.Model
         public static float Money;
     }
 
-    public static class StaticTestModel
+    public static class StaticTestModel1
     {
         public static int Age;
         public static string Name { get; set; }
@@ -32,7 +32,7 @@ namespace NatashaUT.Model
         public static float Money;
     }
 
-    public class FakeStaticTestModel
+    public class FakeStaticTestModel1
     {
         public static int Age;
         public static string Name { get; set; }
