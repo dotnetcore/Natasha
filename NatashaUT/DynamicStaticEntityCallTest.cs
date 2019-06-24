@@ -48,16 +48,16 @@ namespace HelloWorld
         public void TestCall2()
         {
             //创建动态类实例代理
-            var instance = StaticEntityOperator.Create(typeof(StaticTestModel));
-            StaticTestModel.Name = "111";
+            var instance = StaticEntityOperator.Create(typeof(StaticTestModel1));
+            StaticTestModel1.Name = "111";
             Assert.Equal("111", instance["Name"].Get<string>());
             instance["Name"].Set("222");
             Assert.Equal("222", instance["Name"].Get<string>());
-            StaticTestModel.Age = 1001;
+            StaticTestModel1.Age = 1001;
             Assert.Equal(1001, instance.Get<int>("Age"));
-            StaticTestModel.Temp = DateTime.Now;
-            instance["Temp"].Set(StaticTestModel.Temp);
-            Assert.Equal(StaticTestModel.Temp, instance["Temp"].Get<DateTime>());
+            StaticTestModel1.Temp = DateTime.Now;
+            instance["Temp"].Set(StaticTestModel1.Temp);
+            Assert.Equal(StaticTestModel1.Temp, instance["Temp"].Get<DateTime>());
 
         }
 
@@ -65,16 +65,16 @@ namespace HelloWorld
         public void TestCall3()
         {
             //创建动态类实例代理
-            var instance = StaticEntityOperator.Create(typeof(FakeStaticTestModel));
-            FakeStaticTestModel.Name = "111";
+            var instance = StaticEntityOperator.Create(typeof(FakeStaticTestModel1));
+            FakeStaticTestModel1.Name = "111";
             Assert.Equal("111", instance["Name"].Get<string>());
             instance["Name"].Set("222");
             Assert.Equal("222", instance["Name"].Get<string>());
-            FakeStaticTestModel.Age = 1001;
+            FakeStaticTestModel1.Age = 1001;
             Assert.Equal(1001, instance.Get<int>("Age"));
-            FakeStaticTestModel.Temp = DateTime.Now;
-            instance["Temp"].Set(FakeStaticTestModel.Temp);
-            Assert.Equal(FakeStaticTestModel.Temp, instance["Temp"].Get<DateTime>());
+            FakeStaticTestModel1.Temp = DateTime.Now;
+            instance["Temp"].Set(FakeStaticTestModel1.Temp);
+            Assert.Equal(FakeStaticTestModel1.Temp, instance["Temp"].Get<DateTime>());
 
         }
     }

@@ -21,4 +21,24 @@ namespace NatashaUT.Model
 
         public static float Money;
     }
+
+    public static class StaticTestModel
+    {
+        public static int Age;
+        public static string Name { get; set; }
+
+        public static DateTime Temp;
+
+        public static float Money;
+    }
+
+    public class FakeStaticTestModel
+    {
+        public static int Age;
+        public static string Name { get; set; }
+
+        public static DateTime Temp;
+
+        public static float Money;
+    }
 }
