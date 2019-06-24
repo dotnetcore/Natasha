@@ -30,7 +30,7 @@ for:
   #- ps: cd c:\projects\xxx
                 
   before_build:
-  - ps: nuget install xunit.runner.console -Version2.4.1 -OutputDirectory testrunner -Source https://api.nuget.org/v3/index.json
+  - ps: nuget install xunit.runner.console -Version 2.4.1 -OutputDirectory testrunner -Source https://api.nuget.org/v3/index.json
   - ps: dotnet restore
 
   build_script:
