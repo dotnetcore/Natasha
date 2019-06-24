@@ -61,7 +61,6 @@ jobs:
     displayName: build
     inputs:
       command: build
-      projects: './Natasha/Natasha.csproj'
       arguments: '-c Release'
 
 
