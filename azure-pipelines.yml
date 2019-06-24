@@ -27,13 +27,18 @@ jobs:
       projects: './Natasha/Natasha.csproj'
 
 
-
-  - task: DotNetCoreCLI@2
+  - task: DotNetCoreCLI@1
     displayName: build
     inputs:
       command: build
       projects: './Natasha/Natasha.csproj'
       arguments: '-c Release'
+
+
+  - task: DotNetCoreCLI@2
+    displayName: test
+    inputs:
+      command: test
 
 
 
@@ -57,12 +62,18 @@ jobs:
       projects: './Natasha/Natasha.csproj'
 
 
-  - task: DotNetCoreCLI@2
+  - task: DotNetCoreCLI@1
     displayName: build
     inputs:
       command: build
       projects: './Natasha/Natasha.csproj'
       arguments: '-c Release'
+
+
+  - task: DotNetCoreCLI@2
+    displayName: test
+    inputs:
+      command: test
 
 
 
@@ -73,12 +84,6 @@ jobs:
 
 
   steps:
-  - task: DotNetCoreInstaller@0
-    displayName: install
-    inputs:
-      version: '2.2.300'
-
-
   - task: DotNetCoreCLI@1
     displayName: restore
     inputs:
@@ -86,9 +91,15 @@ jobs:
       projects: './Natasha/Natasha.csproj'
 
 
-  - task: DotNetCoreCLI@2
+  - task: DotNetCoreCLI@1
     displayName: build
     inputs:
       command: build
       projects: './Natasha/Natasha.csproj'
       arguments: '-c Release'
+
+
+  - task: DotNetCoreCLI@2
+    displayName: test
+    inputs:
+      command: test
