@@ -1,0 +1,60 @@
+version: 0.7.{build}
+image:
+- Ubuntu1804
+- Visual Studio 2019
+configuration: Release
+clone_depth: 50
+
+pull_requests:
+  do_not_increment_build_number: true
+
+#skip_branch_with_pr: true
+skip_commits:
+  files:
+    - docs/*
+    - media/*
+    - LICENSE
+    - mkdocs.yml
+    - README.md
+    - .travis.yml
+    - .gitignore
+
+for:
+-
+  matrix:
+    only:
+      - image: Visual Studio 2019
+
+
+  install:
+  #- ps: cd c:\projects\xxx
+                
+  before_build:
+  - ps: nuget install xunit.runner.console -Version2.4.1 -OutputDirectory testrunner -Source https://api.nuget.org/v3/index.json
+  - ps: dotnet restore
+
+  build_script:
+  - ps: dotnet build -c Release
+
+  test_script:
+   - dotnet ./testrunner/xunit.runner.console.2.4.1/tools/xunit.console.dll ./NatashaUT/bin/Release/netcoreapp2.2/NatashaUT.dll
+
+-
+  matrix:
+    only:
+      - image: Ubuntu1804
+
+  services:
+
+
+  install:
+
+    
+  before_build:
+  - sh: dotnet restore
+  
+  build_script:
+  - sh: dotnet build -c Release
+  
+  test_script:
+  #
