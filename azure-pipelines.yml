@@ -7,18 +7,61 @@ trigger:
 - master
 
 jobs:
+
 - job: Linux
   pool:
     vmImage: 'ubuntu-16.04'
+
+
   steps:
-  - script: echo hello from Linux
+  - task: DotNetCoreInstaller@0
+    inputs:
+      version: '2.1.300'
+  - script: dotnet restore
+
+  - task: DotNetCoreCLI@1
+    displayName: 'Build'
+      inputs: 
+        command: build
+        projects: './Natahsa/Natasha.csproj'
+        arguments: '--configuration Release'
+
+
 - job: macOS
   pool:
     vmImage: 'macOS-10.14'
+
+
   steps:
-  - script: echo hello from macOS
+  - task: DotNetCoreInstaller@0
+    inputs:
+      version: '2.1.300'
+  - script: dotnet restore
+
+
+  - task: DotNetCoreCLI@1
+    displayName: 'Build'
+      inputs: 
+        command: build
+        projects: './Natahsa/Natasha.csproj'
+        arguments: '--configuration Release'
+
+
 - job: Windows
   pool:
     vmImage: 'windows-2019'
+
+
   steps:
-  - script: echo hello from Windows
+  - task: DotNetCoreInstaller@0
+    inputs:
+      version: '2.1.300'
+  - script: dotnet restore
+
+
+    - task: DotNetCoreCLI@1
+      displayName: 'Build'
+      inputs: 
+        command: build
+        projects: './Natahsa/Natasha.csproj' 
+        arguments: '--configuration Release'
