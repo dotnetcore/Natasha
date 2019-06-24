@@ -1,12 +1,11 @@
 language: csharp
 solution: Natasha.sln
-dist: xenial
+#dist: xenial
 dotnet: 2.2.203
 mono: none
 
 
 before_install:
-
 #env:
   #global:
     #- DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
