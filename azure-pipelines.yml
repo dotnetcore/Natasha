@@ -22,8 +22,8 @@ jobs:
 
   - task: DotNetCoreCLI@1
     displayName: restore
-    inputs:
-      command: restore
+  - script: dotnet restore
+
 
 
   - task: DotNetCoreCLI@2
