@@ -15,11 +15,16 @@ jobs:
 
   steps:
   - task: DotNetCoreInstaller@0
+    displayName: install
     inputs:
       version: '2.2.300'
-  - script: dotnet restore
 
   - task: DotNetCoreCLI@1
+    displayName: restore
+  - script: dotnet restore
+  - script: dir
+
+  - task: DotNetCoreCLI@2
     displayName: Build
     inputs:
       command: build
@@ -34,13 +39,17 @@ jobs:
 
   steps:
   - task: DotNetCoreInstaller@0
-    inputs: 
+    displayName: install
+    inputs:
       version: '2.2.300'
-  - script: dotnet restore
-
 
   - task: DotNetCoreCLI@1
-    displayName: 'Build'
+    displayName: restore
+  - script: dotnet restore
+  - script: dir
+
+  - task: DotNetCoreCLI@2
+    displayName: Build
     inputs:
       command: build
       projects: './Natahsa/Natasha.csproj'
@@ -54,14 +63,18 @@ jobs:
 
   steps:
   - task: DotNetCoreInstaller@0
+    displayName: install
     inputs:
       version: '2.2.300'
-  - script: dotnet restore
-
 
   - task: DotNetCoreCLI@1
-    displayName: 'Build'
-    inputs: 
+    displayName: restore
+  - script: dotnet restore
+  - script: dir
+
+  - task: DotNetCoreCLI@2
+    displayName: Build
+    inputs:
       command: build
-      projects: './Natahsa/Natasha.csproj' 
+      projects: './Natahsa/Natasha.csproj'
       arguments: '--configuration Release'
