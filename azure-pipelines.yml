@@ -40,14 +40,14 @@ jobs:
 
 - job: macOS
   pool:
-    vmImage: 'macOS-10.13'
+    vmImage: 'macOS-10.14'
 
 
   steps:
   - task: DotNetCoreInstaller@0
     displayName: install
     inputs:
-      version: '2.2.300'
+      version: '2.2.106'
 
 
   - task: DotNetCoreCLI@1
@@ -61,6 +61,7 @@ jobs:
     displayName: build
     inputs:
       command: build
+      projects: './Natasha/Natasha.csproj'
       arguments: '-c Release'
 
 
