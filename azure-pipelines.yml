@@ -41,6 +41,12 @@ jobs:
       command: test
 
 
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'publish'
+      publishWebProjects: false
+
+
 
 
 - job: macOS
@@ -74,6 +80,13 @@ jobs:
     displayName: test
     inputs:
       command: test
+
+
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'publish'
+      publishWebProjects: false
+
 
 
 
@@ -110,3 +123,8 @@ jobs:
     inputs:
       command: test
 
+
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'publish'
+      publishWebProjects: false
