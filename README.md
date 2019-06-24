@@ -21,10 +21,8 @@
 
 | CI Platform | Build Server | Master Status  |
 |--------- |------------- |---------|
-| Travis   | Linux | [![Build Status](https://travis-ci.com/dotnetcore/Natasha.svg?branch=master)](https://travis-ci.org/dotnetcore/Natasha) |  |
 | AppVeyor |  Windows/Linux |[![Build status](https://ci.appveyor.com/api/projects/status/5ydt5yvb9lwfqocw?svg=true)](https://ci.appveyor.com/project/NMSAzulX/natasha)|  
-
-[![Build history](https://buildstats.info/travisci/chart/dotnetcore/Natasha)](https://travis-ci.com/dotnetcore/Natasha/builds)    
+ 
 
 使用roslyn动态编译运行时代码，高性能、可追踪。  
 
