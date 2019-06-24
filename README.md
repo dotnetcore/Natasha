@@ -13,7 +13,7 @@
 
 ## CI Build Status  
 
-| ScanName | Status |
+| Scan Name | Status |
 |--------- |------------- |
 | Support | ![standard](https://img.shields.io/badge/platform-standard2.0-blue.svg) | 
 | License | [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdotnetcore%2FNatasha.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fdotnetcore%2FNatasha?ref=badge_shield) |
@@ -45,7 +45,8 @@ var action = FastMethodOperator.New
 string result = action("Hello ","World!");    //result:   "Hello World!"
 ```
 <br/>
-<br/>
+<br/>  
+
 #### 使用 DelegateOperator 快速实现委托：  
 
 ```C# 
@@ -60,7 +61,8 @@ string result = action(1);              //result: "102"
 ```  
 
 <br/>
-<br/>
+<br/>  
+
 #### 使用 FakeMethodOperator 快速构建函数：  
 
 ```C#
@@ -83,7 +85,8 @@ string result = action("xiao");              //result: "xiao is xxx;"
 ```
   
 <br/>
-<br/>
+<br/>  
+
 #### 使用Natasha的类扩展  
 
 ```C#
@@ -98,7 +101,8 @@ Example:
 
 ```
 <br/>
-<br/>
+<br/>  
+
 #### 动态调用普通类  
 
 ```C#
@@ -136,7 +140,8 @@ Console.WriteLine(handlerGet<DateTime>("Time"));                  // Get Operato
 handler.Get("Outter")["Name"].Set("NewName");                     // Link Operator
 ```
 <br/>
-<br/>
+<br/>  
+
 #### 动态调用静态类
 ```C#
 public static class A{
