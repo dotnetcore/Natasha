@@ -30,14 +30,13 @@ for:
   #- ps: cd c:\projects\xxx
                 
   before_build:
-  - ps: nuget install xunit.runner.console -Version 2.4.1 -OutputDirectory testrunner -Source https://api.nuget.org/v3/index.json
   - ps: dotnet restore
 
   build_script:
   - ps: dotnet build -c Release
 
   test_script:
-  - ps: dotnet ./testrunner/xunit.runner.console.2.4.1/tools/xunit.console.dll ./NatashaUT/bin/Release/netcoreapp2.2/NatashaUT.dll
+  - ps: dotnet test
 
 -
   matrix:
@@ -57,4 +56,4 @@ for:
   - sh: dotnet build -c Release
   
   test_script:
-  #
+  - ps: dotnet test
