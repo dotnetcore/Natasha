@@ -13,9 +13,11 @@
 
 ## CI Build Status  
 
-| Platform | License Status | Script Support |
-|--------- |------------- |---------|
-| ![standard](https://img.shields.io/badge/Platform-Standard2.0-blue.svg) | [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdotnetcore%2FEasyCaching.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fdotnetcore%2FNatasha?ref=badge_shield) | ![Complie](https://img.shields.io/badge/language-CSharp-green.svg)|   
+| ScanName | Status |
+|--------- |------------- |
+| Support | ![standard](https://img.shields.io/badge/platform-standard2.0-blue.svg) | 
+| License | [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdotnetcore%2FNatasha.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fdotnetcore%2FNatasha?ref=badge_shield) |
+| Script Type | ![Complie](https://img.shields.io/badge/language-csharp-brightgreen.svg)|   
 
 | CI Platform | Build Server | Master Status  |
 |--------- |------------- |---------|
