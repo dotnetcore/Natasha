@@ -10,7 +10,7 @@ jobs:
 
 - job: Linux
   pool:
-    vmImage: 'ubuntu-16.04'
+    vmImage: 'ubuntu-18.10'
 
 
   steps:
@@ -62,7 +62,7 @@ jobs:
     inputs:
       command: build
       projects: './Natasha/Natasha.csproj'
-      arguments: '-c Release'
+      arguments: '--configuration Release'
 
 
 
