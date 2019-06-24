@@ -129,12 +129,10 @@ namespace Natasha
             var fields = type.GetFields();
             for (int i = 0; i < fields.Length; i++)
             {
-
                 var fieldInfo = fields[i];
                 //排除不能操作的类型
                 if ((!fieldInfo.IsStatic | IncludeStatic) && !fieldInfo.IsInitOnly)
                 {
-
                     Type fieldType = fieldInfo.FieldType;
                     if (fieldType.IsOnceType())       //普通字段
                     {
@@ -194,7 +192,6 @@ namespace Natasha
             var properties = type.GetProperties();
             for (int i = 0; i < properties.Length; i++)
             {
-
                 var propertyInfo = properties[i];
                 //排除不能操作的属性
                 if ((propertyInfo.CanRead | !IncludeCanRead) && (propertyInfo.CanWrite | !IncludeCanWrite) && (!propertyInfo.GetGetMethod(true).IsStatic | IncludeStatic))
