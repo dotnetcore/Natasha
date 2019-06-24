@@ -56,7 +56,7 @@ jobs:
       command: restore
       projects: './Natasha/Natasha.csproj'
 
-  - script: ls
+
   - task: DotNetCoreCLI@2
     displayName: build
     inputs:
