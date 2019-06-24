@@ -4,6 +4,10 @@ dist: xenial
 dotnet: 2.2
 mono: none
 
+branches:
+  only:
+  - master
+
 
 before_install:
  - sudo apt-get install apt-transport-https
