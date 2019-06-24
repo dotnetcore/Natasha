@@ -84,6 +84,12 @@ jobs:
 
 
   steps:
+  - task: DotNetCoreInstaller@0
+    displayName: install
+    inputs:
+      version: '2.2.300'
+
+
   - task: DotNetCoreCLI@1
     displayName: restore
     inputs:
