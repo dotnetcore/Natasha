@@ -1,8 +1,8 @@
 language: csharp
-solution: Natasha.sln
 mono: none
-dotnet: 2.2
-dist: xenial
+dotnet: 2.2.300
+solution: Natasha.sln
+# dist: xenial
 
 before_install:
 
@@ -13,11 +13,12 @@ before_install:
 
 
 install:
-- dotnet restore
+
 #- nuget install xunit.runner.console -Version 2.4.1 -OutputDirectory testrunner
 # - sudo nuget install xunit.runner.console -OutputDirectory testrunner -Source https://api.nuget.org/v3/index.json
 
 script:
+ - dotnet restore
  - dotnet build -c Release
  - dotnet test
 #- xbuild /p:Configuration=Release Natasha.sln
