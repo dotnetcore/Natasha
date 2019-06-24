@@ -1,8 +1,9 @@
 language: csharp
-dist: xenial
-mono: none
-dotnet: 2.2.300
 solution: Natasha.sln
+dist: xenial
+dotnet: 2.2.203
+mono: none
+
 
 before_install:
 
