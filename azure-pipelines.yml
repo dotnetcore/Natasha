@@ -23,8 +23,8 @@ jobs:
     displayName: 'Build'
       inputs: 
         command: build
-        projects: './Natahsa/Natasha.csproj'
-        arguments: '--configuration Release'
+        projects: './Natahsa/Natasha.csproj' 
+        arguments: '--configuration Release' 
 
 
 - job: macOS
