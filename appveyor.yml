@@ -37,7 +37,7 @@ for:
   - ps: dotnet build -c Release
 
   test_script:
-   - dotnet ./testrunner/xunit.runner.console.2.4.1/tools/xunit.console.dll ./NatashaUT/bin/Release/netcoreapp2.2/NatashaUT.dll
+  - ps: dotnet ./testrunner/xunit.runner.console.2.4.1/tools/xunit.console.dll ./NatashaUT/bin/Release/netcoreapp2.2/NatashaUT.dll
 
 -
   matrix:
