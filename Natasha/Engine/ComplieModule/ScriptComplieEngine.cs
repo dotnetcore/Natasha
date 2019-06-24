@@ -30,7 +30,7 @@ namespace Natasha.Complier
         static ScriptComplieEngine()
         {
             //初始化路径
-            LibPath = AppDomain.CurrentDomain.BaseDirectory + "lib\\";
+            LibPath = AppDomain.CurrentDomain.BaseDirectory + "lib/";
 
 
             //处理目录
