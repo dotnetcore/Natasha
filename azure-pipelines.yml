@@ -47,7 +47,7 @@ jobs:
   - task: DotNetCoreInstaller@0
     displayName: install
     inputs:
-      version: '2.2.106'
+      version: '2.2.105'
 
 
   - task: DotNetCoreCLI@1
