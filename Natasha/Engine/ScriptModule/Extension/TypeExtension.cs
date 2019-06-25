@@ -59,6 +59,7 @@ namespace Natasha
                            || type == typeof(string)
                            || type == typeof(Delegate)
                            || type.IsEnum
+                           || type == typeof(object)
                            || (!type.IsClass && !type.IsInterface);
         }
     }
