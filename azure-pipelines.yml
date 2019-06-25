@@ -27,7 +27,7 @@ jobs:
     vmImage: 'ubuntu-16.04'
   dependsOn: InstallCore
   
-
+  steps:
   - task: DotNetCoreCLI@1
     displayName: restore
     inputs:
