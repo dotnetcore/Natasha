@@ -41,11 +41,6 @@ jobs:
       command: test
 
 
-  - task: DotNetCoreCLI@2
-    inputs:
-      command: 'publish'
-      publishWebProjects: false
-
 
 
 
@@ -58,7 +53,7 @@ jobs:
   - task: DotNetCoreInstaller@0
     displayName: install
     inputs:
-      version: '2.2.105'
+      version: '2.2.300'
 
 
   - task: DotNetCoreCLI@1
@@ -81,11 +76,6 @@ jobs:
     inputs:
       command: test
 
-
-  - task: DotNetCoreCLI@2
-    inputs:
-      command: 'publish'
-      publishWebProjects: false
 
 
 
@@ -122,9 +112,3 @@ jobs:
     displayName: test
     inputs:
       command: test
-
-
-  - task: DotNetCoreCLI@2
-    inputs:
-      command: 'publish'
-      publishWebProjects: false
