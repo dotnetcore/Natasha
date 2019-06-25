@@ -19,7 +19,7 @@
 |--------- |------------- |
 | Rumtime Support | ![standard](https://img.shields.io/badge/platform-standard2.0-blue.svg) | 
 | Lang Support | ![Complie](https://img.shields.io/badge/script-csharp-yellow.svg)|
-| OS Support Type | ![Windows](https://img.shields.io/badge/os-windows-orange.svg) ![linux](https://img.shields.io/badge/os-linux-orange.svg) ![mac](https://img.shields.io/badge/os-mac-orange.svg)|   
+| OS Support | ![Windows](https://img.shields.io/badge/os-windows-orange.svg) ![linux](https://img.shields.io/badge/os-linux-orange.svg) ![mac](https://img.shields.io/badge/os-mac-orange.svg)|   
 
 | CI Platform | Build Server | Master Status  |
 |--------- |------------- |---------|
