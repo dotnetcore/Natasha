@@ -1,5 +1,6 @@
 # Natasha
 
+Dynamic compilation of runtime code using roslyn, high performance, traceable.  [OnlineChat](https://gitter.im/dotnetcore/Natasha)
 
 使用roslyn动态编译运行时代码，高性能、可追踪。  欢迎参与讨论：[点击加入Gitter讨论组](https://gitter.im/dotnetcore/Natasha)
 
