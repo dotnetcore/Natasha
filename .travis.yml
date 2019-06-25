@@ -8,6 +8,10 @@ branches:
   only:
   - master
 
+os:
+  - linux
+  - osx
+  - windows
 
 before_install:
  - sudo apt-get install apt-transport-https
