@@ -102,6 +102,8 @@ Example:
         typeof(Dictionary<string,List<int>>).GetAvailableName();   //result:  "Dictionary_String_List_Int32____"
         typeof(Dictionary<string,List<int>>).GetAllGenericTypes(); //result:  [string,list<>,int]
         typeof(Dictionary<string,List<int>>).IsImplementFrom<IDictionary>(); //result: true
+        typeof(Dictionary<string,List<int>>).IsOnceType();         //result: false
+        typeof(List<>).With(typeof(int));                          //result: List<int>
 
 ```
 <br/>
@@ -137,9 +139,11 @@ handler["Outter"].OperatorValue["Name"].StringValue = "NewName"   // Link Operat
 ```C#
 var handler EntityOperator.Create(typeof(A));
 
+handler.New();
+
 handler.Set("Age",100);                                           // Set Operator
 
-Console.WriteLine(handlerGet<DateTime>("Time"));                  // Get Operator
+Console.WriteLine(handler.Get<DateTime>("Time"));                  // Get Operator
 
 handler.Get("Outter")["Name"].Set("NewName");                     // Link Operator
 ```
@@ -156,7 +160,7 @@ public static class A{
 public class B{
    public string Name;
    public B(){
-      Name = "小明"
+      Name = "小明";
    }
 }
 //如果是运行时动态生成类，也同样
@@ -173,7 +177,7 @@ handler.Get["Outter"].OperatorValue["Name"].StringValue = "NewName"   // Link Op
 ```
 调用方式二
 ```C#
-var handler EntityOperator.Create(type);
+var handler = StaticEntityOperator.Create(type);
 
 handler["Age"].Set(100);                                          // Set Operator
 
