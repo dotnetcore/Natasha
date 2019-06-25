@@ -14,20 +14,20 @@ trigger:
     - .travis.yml
 
 jobs:
-
-- job: InstallCore
-  steps:
-    - task: DotNetCoreInstaller@0
-      displayName: install
-      inputs:
-        version: '2.2.300'
+    
 
 - job: Linux
   pool:
     vmImage: 'ubuntu-16.04'
-  dependsOn: InstallCore
+
   
   steps:
+  - task: DotNetCoreInstaller@0
+    displayName: install
+    inputs:
+      version: '2.2.300'
+
+
   - task: DotNetCoreCLI@1
     displayName: restore
     inputs:
@@ -47,12 +47,6 @@ jobs:
     displayName: test
     inputs:
       command: test
-
-
-  - task: DotNetCoreCLI@2
-    inputs:
-      command: 'publish'
-      publishWebProjects: false
 
 
 
@@ -90,13 +84,6 @@ jobs:
       command: test
 
 
-  - task: DotNetCoreCLI@2
-    inputs:
-      command: 'publish'
-      publishWebProjects: false
-
-
-
 
 
 - job: Windows
@@ -130,9 +117,3 @@ jobs:
     displayName: test
     inputs:
       command: test
-
-
-  - task: DotNetCoreCLI@2
-    inputs:
-      command: 'publish'
-      publishWebProjects: false
