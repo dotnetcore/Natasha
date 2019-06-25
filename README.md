@@ -15,13 +15,16 @@
 
 | Scan Name | Status |
 |--------- |------------- |
-| Support | ![standard](https://img.shields.io/badge/platform-standard2.0-blue.svg) | 
 | License | [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdotnetcore%2FNatasha.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fdotnetcore%2FNatasha?ref=badge_shield) |
+| Support | ![standard](https://img.shields.io/badge/platform-standard2.0-blue.svg) | 
 | Script Type | ![Complie](https://img.shields.io/badge/language-csharp-brightgreen.svg)|   
 
 | CI Platform | Build Server | Master Status  |
 |--------- |------------- |---------|
 | AppVeyor |  Windows/Linux |[![Build status](https://ci.appveyor.com/api/projects/status/5ydt5yvb9lwfqocw?svg=true)](https://ci.appveyor.com/project/NMSAzulX/natasha)|  
+| Azure |  Windows |[![Build Status](https://dev.azure.com/NightMoonStudio/Natasha/_apis/build/status/dotnetcore.Natasha?branchName=master&jobName=Windows)](https://dev.azure.com/NightMoonStudio/Natasha/_build/latest?definitionId=3&branchName=master)| 
+| Azure |  Linux |[![Build Status](https://dev.azure.com/NightMoonStudio/Natasha/_apis/build/status/dotnetcore.Natasha?branchName=master&jobName=Linux)](https://dev.azure.com/NightMoonStudio/Natasha/_build/latest?definitionId=3&branchName=master)| 
+| Azure |  Mac |[![Build Status](https://dev.azure.com/NightMoonStudio/Natasha/_apis/build/status/dotnetcore.Natasha?branchName=master&jobName=macOS)](https://dev.azure.com/NightMoonStudio/Natasha/_build/latest?definitionId=3&branchName=master)| 
  
 
 使用roslyn动态编译运行时代码，高性能、可追踪。  
