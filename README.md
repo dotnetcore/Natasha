@@ -14,7 +14,7 @@ Dynamic compilation of runtime code using roslyn, high performance, traceable.  
 
 
 
-## CI Build Status  
+## 持续构建(CI Build Status)
 
 | Scan Name | Status |
 |--------- |------------- |
@@ -33,7 +33,7 @@ Dynamic compilation of runtime code using roslyn, high performance, traceable.  
 
 ---------------------
 
-### 使用方法：
+### 使用方法(User Api)：
 
 #### 使用 FastMethodOperator 快速构建函数：  
   
