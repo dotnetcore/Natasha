@@ -18,8 +18,8 @@
 |--------- |------------- |
 | License | [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdotnetcore%2FNatasha.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fdotnetcore%2FNatasha?ref=badge_shield) |
 | Rumtime Support | ![standard](https://img.shields.io/badge/platform-standard2.0-blue.svg) | 
-| Lang Support | ![Complie](https://img.shields.io/badge/script-csharp-brightgreen.svg)|
-| OS Support Type | ![Windows](https://img.shields.io/badge/os-windows-brightblue.svg) ![linux](https://img.shields.io/badge/os-linux-brightblue.svg) ![mac](https://img.shields.io/badge/os-mac-brightblue.svg)|   
+| Lang Support | ![Complie](https://img.shields.io/badge/script-csharp-yellow.svg)|
+| OS Support Type | ![Windows](https://img.shields.io/badge/os-windows-orange.svg) ![linux](https://img.shields.io/badge/os-linux-orange.svg) ![mac](https://img.shields.io/badge/os-mac-orange.svg)|   
 
 | CI Platform | Build Server | Master Status  |
 |--------- |------------- |---------|
