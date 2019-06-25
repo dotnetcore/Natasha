@@ -37,14 +37,16 @@ Dynamic compilation of runtime code using roslyn, high performance, traceable.  
 
 ### 发布计划(Publish Plan)  
 
- - 2019-06-25晚 ： 将发布v0.7.1.2, 修复跨平台调用，将object类型纳入一次性赋值类型，增加类扩展方法。  
+ - 2019-06-25晚 ： 将发布v0.7.1.2, 修复跨平台调用，将object类型纳入一次性赋值类型，增加类扩展方法。   
+ 
+ <br/>  
  
 ---------------------  
 
 
 ### 使用方法(User Api)：
 
-#### 首先编辑您的工程文件
+#### 首先编辑您的工程文件：
 
 ```C#
   <PropertyGroup>
@@ -110,7 +112,7 @@ string result = action("xiao");              //result: "xiao is xxx;"
 <br/>
 <br/>  
 
-#### 使用Natasha的类扩展  
+#### 使用Natasha的类扩展:  
 
 ```C#
 
@@ -128,7 +130,7 @@ Example:
 <br/>
 <br/>  
 
-#### 动态调用普通类  
+#### 动态调用普通类:  
 
 ```C#
 public class A{
@@ -169,7 +171,8 @@ handler.Get("Outter")["Name"].Set("NewName");                     // Link Operat
 <br/>
 <br/>  
 
-#### 动态调用静态类
+#### 动态调用静态类:  
+
 ```C#
 public static class A{
    public static int Age;
