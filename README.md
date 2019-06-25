@@ -37,8 +37,10 @@ Dynamic compilation of runtime code using roslyn, high performance, traceable.  
 
 ### 发布计划(Publish Plan)  
 
- - 2019-06-25晚 ： 将发布v0.7.1.2, 修复跨平台调用，将object类型纳入一次性赋值类型，增加类扩展方法。
----------------------
+ - 2019-06-25晚 ： 将发布v0.7.1.2, 修复跨平台调用，将object类型纳入一次性赋值类型，增加类扩展方法。  
+ 
+---------------------  
+
 
 ### 使用方法(User Api)：
 
@@ -206,6 +208,9 @@ handler.Get("Outter").Set(Name,"NewName");                        // Link Operat
 <br/>
 <br/>  
 
+---------------------  
+
+
 - **测试计划（等待下一版本bechmark）**：
       
      - [ ]  **动态函数性能测试（对照组： emit, origin）**  
@@ -213,7 +218,8 @@ handler.Get("Outter").Set(Name,"NewName");                        // Link Operat
      - [ ]  **动态克隆性能测试（对照组： origin）**
      - [ ]  **远程动态封装函数性能测试（对照组： 动态函数，emit, origin）**
 
-        
+---------------------  
+
 ## License
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdotnetcore%2FNatasha.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fdotnetcore%2FNatasha?ref=badge_large)          
       
