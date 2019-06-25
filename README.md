@@ -39,6 +39,18 @@ Dynamic compilation of runtime code using roslyn, high performance, traceable.  
 
 ### 使用方法(User Api)：
 
+#### 首先编辑您的工程文件
+
+```C#
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <PreserveCompilationContext>true</PreserveCompilationContext>   <--- 一定要加上这句话
+  </PropertyGroup>
+  
+  
+```
+
 #### 使用 FastMethodOperator 快速构建函数：  
   
   
