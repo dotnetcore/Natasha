@@ -7,8 +7,8 @@
     <Copyright>.NET Core Community and Contributors</Copyright>
     <PackageId>Natasha</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <PackageReleaseNotes>动态调用增加链式调用</PackageReleaseNotes>
-    <Version>0.7.1</Version>
+    <PackageReleaseNotes>修复跨平台调用</PackageReleaseNotes>
+    <Version>0.7.1.2</Version>
     <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
     <PackageTags>Roslyn ; IL ; Scripte ; Dynamic ; </PackageTags>
