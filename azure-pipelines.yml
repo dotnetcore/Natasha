@@ -4,21 +4,29 @@
 # https://docs.microsoft.com/azure/devops/pipelines/apps/windows/dot-net
 
 trigger:
-- master
+  branches:
+    include:
+    - master
+  paths:
+    exclude:
+    - README.md
+    - appveyor.yml
+    - .travis.yml
 
 jobs:
+
+- job: InstallCore
+  steps:
+    - task: DotNetCoreInstaller@0
+      displayName: install
+      inputs:
+        version: '2.2.300'
 
 - job: Linux
   pool:
     vmImage: 'ubuntu-16.04'
-
-
-  steps:
-  - task: DotNetCoreInstaller@0
-    displayName: install
-    inputs:
-      version: '2.2.300'
-
+  dependsOn: InstallCore
+  
 
   - task: DotNetCoreCLI@1
     displayName: restore
@@ -40,6 +48,11 @@ jobs:
     inputs:
       command: test
 
+
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'publish'
+      publishWebProjects: false
 
 
 
@@ -77,6 +90,11 @@ jobs:
       command: test
 
 
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'publish'
+      publishWebProjects: false
+
 
 
 
@@ -112,3 +130,9 @@ jobs:
     displayName: test
     inputs:
       command: test
+
+
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'publish'
+      publishWebProjects: false

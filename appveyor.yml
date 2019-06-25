@@ -2,6 +2,7 @@ version: 0.7.1.{build}
 image:
 - Ubuntu1804
 - Visual Studio 2019
+
 configuration: Release
 clone_depth: 50
 
@@ -22,6 +23,7 @@ skip_commits:
     - README.md
     - .travis.yml
     - .gitignore
+    - azure-pipelines.yml
 
 for:
 -
