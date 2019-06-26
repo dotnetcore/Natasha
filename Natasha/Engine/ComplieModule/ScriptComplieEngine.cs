@@ -81,7 +81,7 @@ namespace Natasha.Complier
             classIndex -= 1;
             namespaceIndex -= 1;
 
-
+            var option = new CSharpParseOptions();
             SyntaxTree tree = CSharpSyntaxTree.ParseText(content);
             CompilationUnitSyntax root = tree.GetCompilationUnitRoot();
             var firstMember = root.Members[namespaceIndex];
@@ -148,7 +148,10 @@ namespace Natasha.Complier
             //创建语言编译
             CSharpCompilation compilation = CSharpCompilation.Create(
                 ClassName,
-                options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary),
+                options: new CSharpCompilationOptions(
+                    outputKind:OutputKind.DynamicallyLinkedLibrary,
+                    optimizationLevel: OptimizationLevel.Release
+                    ),
                 syntaxTrees: new[] { Tree },
                 references: References);
 
@@ -260,7 +263,10 @@ namespace Natasha.Complier
             //创建语言编译
             CSharpCompilation compilation = CSharpCompilation.Create(
                 ClassNames[0],
-                options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary),
+                options: new CSharpCompilationOptions(
+                    outputKind: OutputKind.DynamicallyLinkedLibrary,
+                    optimizationLevel: OptimizationLevel.Release
+                    ),
                 syntaxTrees: new[] { Tree },
                 references: References);
 
