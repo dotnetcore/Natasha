@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Loader;
 using System.Text;
 using System.Threading;
 
@@ -158,8 +159,10 @@ namespace Natasha.Complier
                 var fileResult = compilation.Emit(stream);
                 if (fileResult.Success)
                 {
-                    var result = Assembly.Load(stream.GetBuffer());
-
+                    stream.Position = 0;
+                    AssemblyLoadContext context = AssemblyLoadContext.Default;
+                    var result = context.LoadFromStream(stream);
+                    
                     if (NScriptLog.UseLog)
                     {
                         recoder.AppendLine("\r\n\r\n------------------------------------------succeed-------------------------------------------");
@@ -290,7 +293,10 @@ namespace Natasha.Complier
             {
                 References.Add(MetadataReference.CreateFromFile(path));
                 //为了实现动态中的动态，使用文件加载模式常驻内存
-                var result = Assembly.LoadFrom(path);
+
+                AssemblyLoadContext context = AssemblyLoadContext.Default;
+                var result = context.LoadFromAssemblyPath(path);
+
                 for (int i = 0; i < ClassNames.Length; i += 1)
                 {
                     ClassMapping[ClassNames[i]] = result;
