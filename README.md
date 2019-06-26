@@ -39,6 +39,7 @@ Dynamic compilation of runtime code using roslyn, high performance, traceable.  
 ### 发布计划(Publish Plan)  
 
  - 2019-06-25晚 ： 将发布v0.7.1.2, 修复跨平台调用，将object类型纳入一次性赋值类型，增加类扩展方法。   
+ - 2019-06-26晚 ： 将发布v0.7.2.0, 升级到Standard的程序集操作，并指定release模式进行编译。  
  
  <br/>  
  
