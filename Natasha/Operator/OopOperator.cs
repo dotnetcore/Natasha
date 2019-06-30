@@ -174,7 +174,7 @@ namespace Natasha
 
 
             //获取类型
-            TargetType = ClassBuilder.GetType(Result);
+            TargetType = RuntimeComplier.GetType(Result);
 
 
             //返回委托

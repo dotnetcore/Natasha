@@ -28,7 +28,7 @@ namespace HelloWorld
     }
 }";
             //根据脚本创建动态类
-            Type type = ClassBuilder.GetType(text);
+            Type type = RuntimeComplier.GetType(text);
             Assert.Equal("Test", type.Name);
         }
 
@@ -73,7 +73,7 @@ namespace HelloWorld{
 
 ";
             //根据脚本创建动态类
-            Type type = ClassBuilder.GetType(text,3);
+            Type type = RuntimeComplier.GetType(text,3);
             Assert.Equal("TestIndex3", type.Name);
         }
 
@@ -118,7 +118,7 @@ namespace HelloWorld{
 
 ";
             //根据脚本创建动态类
-            Type type = ClassBuilder.GetType(text, 1,2);
+            Type type = RuntimeComplier.GetType(text, 1,2);
             Assert.Equal("TestIndex4", type.Name);
         }
     }

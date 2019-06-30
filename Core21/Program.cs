@@ -33,7 +33,7 @@ namespace HelloWorld
     }
 }";
             //根据脚本创建动态类
-            Type type = ClassBuilder.GetType(text);
+            Type type = RuntimeComplier.GetType(text);
             //创建动态类实例代理
             DynamicOperator instance = new DynamicOperator(type);
 
