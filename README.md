@@ -20,8 +20,8 @@ Dynamic compilation of runtime code using roslyn, high performance, traceable.  
 |--------- |------------- |
 | Version | [![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/dotnetcore/natasha.svg)](https://github.com/dotnetcore/Natasha/releases) |
 | Lang | ![Complie](https://img.shields.io/badge/script-csharp-green.svg)|
-| Rumtime | ![standard](https://img.shields.io/badge/platform-standard2.0-blue.svg) | 
 | Size | ![GitHub repo size](https://img.shields.io/github/repo-size/dotnetcore/Natasha.svg) |
+| Rumtime | ![standard](https://img.shields.io/badge/platform-standard2.0-blue.svg) | 
 | OS | ![Windows](https://img.shields.io/badge/os-windows-black.svg) ![linux](https://img.shields.io/badge/os-linux-black.svg) ![mac](https://img.shields.io/badge/os-mac-black.svg)|   
 
 <br/>  
