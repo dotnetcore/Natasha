@@ -1,4 +1,4 @@
-# Natasha  &ensp; [![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/dotnetcore/natasha.svg)](https://github.com/dotnetcore/Natasha/releases)
+# Natasha   [![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/dotnetcore/natasha.svg)](https://github.com/dotnetcore/Natasha/releases)
 
 Dynamic compilation of runtime code using roslyn, high performance, traceable.  [OnlineChat](https://gitter.im/dotnetcore/Natasha)
 
