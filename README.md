@@ -1,8 +1,5 @@
 # Natasha  
-[![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/dotnetcore/natasha.svg)](https://github.com/dotnetcore/Natasha/releases)
-[![GitHub commit activity](https://img.shields.io/github/commit-activity/m/dotnetcore/Natasha.svg)](https://github.com/dotnetcore/Natasha/commits/master)  
-[![GitHub forks](https://img.shields.io/github/forks/dotnetcore/Natasha.svg?style=social)](https://github.com/dotnetcore/Natasha/network/members)
--------------  
+
 
 Dynamic compilation of runtime code using roslyn, high performance, traceable.  [OnlineChat](https://gitter.im/dotnetcore/Natasha)
 
@@ -13,7 +10,7 @@ Dynamic compilation of runtime code using roslyn, high performance, traceable.  
 [![NuGet Badge](https://buildstats.info/nuget/Natasha?includePreReleases=true)](https://www.nuget.org/packages/Natasha)
 [![GitHub license](https://img.shields.io/github/license/dotnetcore/Natasha.svg)](https://github.com/dotnetcore/Natasha/blob/master/LICENSE)
 [![Gitter](https://badges.gitter.im/dotnetcore/Natasha.svg)](https://gitter.im/dotnetcore/Natasha?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-
+[![GitHub commit activity](https://img.shields.io/github/commit-activity/m/dotnetcore/Natasha.svg)](https://github.com/dotnetcore/Natasha/commits/master)
 
 <br/>
 
@@ -21,9 +18,11 @@ Dynamic compilation of runtime code using roslyn, high performance, traceable.  
 
 | Scan Name | Status |
 |--------- |------------- |
-| Rumtime Support | ![standard](https://img.shields.io/badge/platform-standard2.0-blue.svg) | 
-| Lang Support | ![Complie](https://img.shields.io/badge/script-csharp-green.svg)|
-| OS Support | ![Windows](https://img.shields.io/badge/os-windows-black.svg) ![linux](https://img.shields.io/badge/os-linux-black.svg) ![mac](https://img.shields.io/badge/os-mac-black.svg)|   
+| Lang | ![Complie](https://img.shields.io/badge/script-csharp-green.svg)|
+| Rumtime | ![standard](https://img.shields.io/badge/platform-standard2.0-blue.svg) | 
+| Size | ![GitHub repo size](https://img.shields.io/github/repo-size/dotnetcore/Natasha.svg) |
+| Version | [![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/dotnetcore/natasha.svg)](https://github.com/dotnetcore/Natasha/releases) |
+| OS | ![Windows](https://img.shields.io/badge/os-windows-black.svg) ![linux](https://img.shields.io/badge/os-linux-black.svg) ![mac](https://img.shields.io/badge/os-mac-black.svg)|   
 
 <br/>  
 
