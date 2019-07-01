@@ -1,4 +1,4 @@
-# Natasha
+# Natasha[![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/dotnetcore/natasha.svg)](https://github.com/dotnetcore/Natasha/releases)
 
 Dynamic compilation of runtime code using roslyn, high performance, traceable.  [OnlineChat](https://gitter.im/dotnetcore/Natasha)
 
@@ -9,7 +9,6 @@ Dynamic compilation of runtime code using roslyn, high performance, traceable.  
 [![NuGet Badge](https://buildstats.info/nuget/Natasha?includePreReleases=true)](https://www.nuget.org/packages/Natasha)
 [![GitHub license](https://img.shields.io/github/license/dotnetcore/Natasha.svg)](https://github.com/dotnetcore/Natasha/blob/master/LICENSE)
 [![Gitter](https://badges.gitter.im/dotnetcore/Natasha.svg)](https://gitter.im/dotnetcore/Natasha?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-[![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/dotnetcore/natasha.svg)](https://github.com/dotnetcore/Natasha/releases)
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/m/dotnetcore/Natasha.svg)](https://github.com/dotnetcore/Natasha/commits/master)
 
 <br/>
