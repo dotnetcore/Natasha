@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Natasha
+namespace Natasha.Method
 {
     public static class DelegateExtension
     {

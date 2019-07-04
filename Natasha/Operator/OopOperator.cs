@@ -131,8 +131,12 @@ namespace Natasha
                 
                 if (_is_override || reflectMethodInfo.IsAbstract)
                 {
-                    template.MethodModifier(Modifiers.Override);
-                    _is_override = false;
+                    if (!_oop_type.IsInterface)
+                    {
+                        template.MethodModifier(Modifiers.Override);
+                        _is_override = false;
+                    }
+                   
                 }
                 if (_is_new)
                 {

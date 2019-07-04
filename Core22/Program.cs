@@ -2,6 +2,7 @@
 using Natasha.Caller;
 using System;
 using System.Diagnostics;
+using Natasha.Method;
 
 namespace Core22
 {
