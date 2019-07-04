@@ -104,12 +104,12 @@ string result = action(1);              //result: "102"
 #### 使用 FakeMethodOperator 快速构建函数：  
 
 ```C#
-public class Test{ 
-
-   public string Handler(string str){ 
+public class Test
+{ 
+   public string Handler(string str)
+   { 
         retrurn null; 
    }
-   
 }
 
 ```
@@ -130,15 +130,18 @@ string result = action("xiao");              //result: "xiao is xxx;"
 
 ```C#
 
-public class A{
+public class A
+{
    public int Age;
    public DateTime Time;
    public B Outter = new B();
 }
 
-public class B{
+public class B
+{
    public string Name;
-   public B(){
+   public B()
+   {
       Name = "小明"
    }
 }
@@ -174,15 +177,18 @@ handler.Get("Outter")["Name"].Set("NewName");                     // Link Operat
 
 ```C#
 
-public static class A{
+public static class A
+{
    public static int Age;
    public static DateTime Time;
    public static B Outter = new B();
 }
 
-public class B{
+public class B
+{
    public string Name;
-   public B(){
+   public B()
+   {
       Name = "小明";
    }
 }
