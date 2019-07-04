@@ -13,6 +13,11 @@ namespace Core22
             {
                 throw new ArgumentNullException(nameof(args));
             }
+            var action = FastMethodOperator.New
+                .MethodBody("return 1+1;")
+                .Return<int>()
+                .Complie<Func<int>>();
+            action();
             /*
              *   在此之前，你需要右键，选择工程文件，在你的.csproj里面 
              *   
