@@ -35,10 +35,11 @@ namespace Natasha
             return Link;
         }
 
-        public override string Builder()
+        public override T Builder()
         {
-            Script.Append(FieldScript);
-            return base.Builder();
+            base.Builder();
+            _script.Append(FieldScript);
+            return Link;
         }
 
         public T PublicField<S>(string name)

@@ -28,7 +28,7 @@ namespace Natasha
         /// </summary>
         public string MethodScript
         {
-            get { return MethodTemplate.Builder(); }
+            get { return MethodTemplate.Builder().Script; }
         }
 
 
@@ -98,8 +98,8 @@ namespace Natasha
             Assembly assembly = GetAssemblyByScript(
                 ClassTemplate
                 .Using(MethodTemplate.UsingRecoder.Types)
-                .ClassBody(MethodTemplate.Builder())
-                .Builder()
+                .ClassBody(MethodTemplate.Builder()._script)
+                .Builder().Script
                 );
 
 
@@ -113,7 +113,7 @@ namespace Natasha
             //获取方法委托
             return AssemblyOperator
                 .Loader(assembly)[ClassTemplate.NameScript]
-                .GetMethod(MethodTemplate.NameScript)
+                .GetMethod(MethodTemplate.MethodNameScript)
                 .CreateDelegate(MethodTemplate.DelegateType);
         }
 

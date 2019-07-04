@@ -6,15 +6,15 @@ namespace Natasha
     public class NamespaceTemplate<T>:UsingTemplate<T>
     {
         public string NamespaceScript;
-        private bool _hiddenNamesapce;
+        public bool HiddenNamesapce;
         public NamespaceTemplate()
         {
-            _hiddenNamesapce = false;
+            HiddenNamesapce = false;
             NamespaceScript = "NatashaDynimacSpace";
         }
         public T HiddenNameSpace(bool shut = true)
         {
-            _hiddenNamesapce = shut;
+            HiddenNamesapce = shut;
             return Link;
         }
         /// <summary>
@@ -37,15 +37,14 @@ namespace Natasha
             return Link;
         }
 
-        public override string Builder()
+        public override T Builder()
         {
-            if (!_hiddenNamesapce)
+            base.Builder();
+            if (!HiddenNamesapce)
             {
-                StringBuilder temp = new StringBuilder();
-                temp.Append($@"namespace {NamespaceScript}{{{Script}}}");
-                Script = temp;
+                _script.Append($@"namespace {NamespaceScript}{{");
             }
-            return base.Builder();
+            return Link;
         }
     }
 }

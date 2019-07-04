@@ -3,8 +3,8 @@
     /// <summary>
     /// 构建脚本接口
     /// </summary>
-    public interface IScriptBuilder
+    public interface IScriptBuilder<T>
     {
-        string Builder();
+        T Builder();
     }
 }

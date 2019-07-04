@@ -10,10 +10,12 @@
         }
 
 
-        public override string Builder()
+        public override T Builder()
         {
-            Script.Append(ContentScript);
-            return base.Builder();
+            base.Builder();
+            _script.Append(ContentScript);
+            _script.Append("}");
+            return Link;
         }
     }
 }

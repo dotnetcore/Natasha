@@ -20,9 +20,9 @@ namespace Natasha
             OnceModifierScript = modifier;
             return Link;
         }
-        public override string Builder()
+        public override T Builder()
         {
-            Script.Insert(0, OnceModifierScript);
+            OnceBuilder.Insert(0, OnceModifierScript);
             return base.Builder();
         }
     }

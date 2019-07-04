@@ -64,12 +64,11 @@ namespace Natasha
             return Inheritance(type.GetDevelopName());
         }
 
-        public override string Builder()
+        public override T Builder()
         {
-            StringBuilder temp = new StringBuilder();
-            temp.Append($@"{Inheritances}{{{Script}}}");
-            Script = temp;
-            return base.Builder();
+            base.Builder();
+            _script.Append($@"{Inheritances}{{");
+            return Link;
         }
     }
 }

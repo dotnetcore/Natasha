@@ -1,11 +1,18 @@
 ﻿using System.Reflection;
+using System.Text;
 
 namespace Natasha
 {
     public class OnceAccessTemplate<T>:ClassContentTemplate<T>
     {
+        public StringBuilder OnceBuilder;
         public string MethodScript;
         public string OnceAccessScript;
+
+        public OnceAccessTemplate()
+        {
+            OnceBuilder = new StringBuilder();
+        }
         public T MethodAccess(MethodInfo access)
         {
             OnceAccessScript = AccessReverser.GetAccess(access);
@@ -21,10 +28,11 @@ namespace Natasha
             OnceAccessScript = access;
             return Link;
         }
-        public override string Builder()
+        public override T Builder()
         {
-            Script.Insert(0, OnceAccessScript);
-            MethodScript = Script.ToString();
+            OnceBuilder.Insert(0,OnceAccessScript);
+            MethodScript = OnceBuilder.ToString();
+            ClassBody(MethodScript);
             return base.Builder();
         }
     }

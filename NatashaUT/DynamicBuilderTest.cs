@@ -20,9 +20,10 @@ namespace NatashaUT
                 .ClassBody(@"public static void Test(){}")
                 .PublicStaticField<string>("Name")
                 .PrivateStaticField<int>("_age")
-                .Builder();
+                .Builder()
+                .Script;
 
-            Assert.Equal(@"using NatashaUT;using System;namespace TestNamespace{public static class TestUt1{public static void Test(){}public static String Name;private static Int32 _age;}}", script);
+            Assert.Equal(@"using NatashaUT;using System;namespace TestNamespace{public static class TestUt1{public static String Name;private static Int32 _age;public static void Test(){}}}", script);
         }
 
 
@@ -39,9 +40,9 @@ namespace NatashaUT
                 .ClassBody(@"public static void Test(){}")
                 .PublicStaticField<string>("Name")
                 .PrivateStaticField<int>("_age")
-                .Builder();
+                .Builder().Script;
 
-            Assert.Equal(@"using System;namespace TestNamespace{private abstract class TestUt2{public static void Test(){}public static String Name;private static Int32 _age;}}", script);
+            Assert.Equal(@"using System;namespace TestNamespace{private abstract class TestUt2{public static String Name;private static Int32 _age;public static void Test(){}}}", script);
         }
     }
 }

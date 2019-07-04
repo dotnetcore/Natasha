@@ -25,10 +25,11 @@ namespace Natasha
             return Link;
         }
 
-        public override string Builder()
+        public override T Builder()
         {
-            Script.Insert(0, AccessScript);
-            return base.Builder();
+            base.Builder();
+            _script.Append(AccessScript);
+            return Link;
         }
     }
 }

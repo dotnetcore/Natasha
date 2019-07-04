@@ -5,26 +5,26 @@ namespace Natasha
 {
     public class CtorNameTemplate<T>:MemberModifierTemplate<T>
     {
-        public string NameScript;
+        public string CtorNameScript;
 
         public CtorNameTemplate()
         {
-            NameScript = "NatashaDynamicMethod";
+            CtorNameScript = "NatashaDynamicMethod";
         }
 
         public bool HashMethodName()
         {
-            return NameScript != "NatashaDynamicMethod";
+            return CtorNameScript != "NatashaDynamicMethod";
         }
 
         public T Name(string name)
         {
-            NameScript = name;
+            CtorNameScript = name;
             return Link;
         }
         public T Name(Type type)
         {
-            NameScript = type.GetDevelopName();
+            CtorNameScript = type.GetDevelopName();
             return Link;
         }
         public T Name<S>()
@@ -33,14 +33,15 @@ namespace Natasha
         }
         public T Name(MethodInfo info)
         {
-            NameScript =info.Name;
+            CtorNameScript =info.Name;
             return Link;
         }
 
-        public override string Builder()
+        public override T Builder()
         {
-            Script.Insert(0, NameScript);
-            return base.Builder();
+            base.Builder();
+            _script.Append(CtorNameScript);
+            return Link;
         }
     }
 }

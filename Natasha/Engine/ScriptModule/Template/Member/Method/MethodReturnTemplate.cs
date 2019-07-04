@@ -5,7 +5,7 @@ namespace Natasha
 {
     public class MethodReturnTemplate<T>:MemberModifierTemplate<T>
     {
-        public string ReturnScript;
+        public string MethodReturnScript;
         public Type ReturnType;
         /// <summary>
         /// 设置返回类型
@@ -33,14 +33,15 @@ namespace Natasha
                 UsingRecoder.Add(type.GetAllGenericTypes());
             }
             UsingRecoder.Add(type);
-            ReturnScript = type.GetDevelopName()+" ";
+            MethodReturnScript = type.GetDevelopName()+" ";
             return Link;
         }
 
-        public override string Builder()
+        public override T Builder()
         {
-            Script.Insert(0, ReturnScript);
-            return base.Builder();
+            base.Builder();
+            _script.Append(MethodReturnScript);
+            return Link;
         }
 
     }

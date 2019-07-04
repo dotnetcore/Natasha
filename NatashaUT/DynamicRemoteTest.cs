@@ -27,9 +27,11 @@ namespace NatashaUT
         public void RemoteDelegateTest()
         {
             RemoteWritter.ComplieToRemote<RemoteTestModel>();
-            TransportParameters parameters = new TransportParameters();
-            parameters.TypeName = "RemoteTestModel";
-            parameters.MethodName = "HelloString";
+            TransportParameters parameters = new TransportParameters
+            {
+                TypeName = "RemoteTestModel",
+                MethodName = "HelloString"
+            };
             Assert.NotNull(RemoteReader.GetFunc(parameters));
 
         }
@@ -42,9 +44,11 @@ namespace NatashaUT
             RemoteWritter.ComplieToRemote<RemoteTestModel>();
 
 
-            TransportParameters parameters = new TransportParameters();
-            parameters.TypeName = "RemoteTestModel";
-            parameters.MethodName = "HelloString";
+            TransportParameters parameters = new TransportParameters
+            {
+                TypeName = "RemoteTestModel",
+                MethodName = "HelloString"
+            };
             parameters["str1"] = JsonConvert.SerializeObject("hello ");
             parameters["str2"] = JsonConvert.SerializeObject("world!");
 

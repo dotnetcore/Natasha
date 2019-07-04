@@ -93,11 +93,12 @@ namespace Natasha
             return Link;
         }
 
-        public override string Builder()
+        public override T Builder()
         {
+            base.Builder();
             Using(UsingRecoder.Types);
-            Script.Insert(0,UsingScript);
-            return base.Builder();
+            _script.Append(UsingScript);
+            return Link;
         }
     }
 }

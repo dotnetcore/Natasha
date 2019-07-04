@@ -15,7 +15,7 @@ namespace NatashaUT
                 .MemberAccess(AccessTypes.Public)
                 .Param<string>("initString")
                 .Body("this.connection = initString;")
-                .Builder();
+                .Builder().Script;
 
             Assert.Equal("public Test(String initString){this.connection = initString;}", result);
         }
@@ -29,7 +29,7 @@ namespace NatashaUT
             string result = ctor.Name("Test")
                 .MemberAccess(AccessTypes.Private)
                 .Body("this.connection = initString;")
-                .Builder();
+                .Builder().Script;
 
             Assert.Equal("private Test(){this.connection = initString;}", result);
         }
@@ -43,7 +43,7 @@ namespace NatashaUT
             string result = ctor.Name("Test")
                 .MemberModifier(Modifiers.Static)
                 .Body("this.connection = initString;")
-                .Builder();
+                .Builder().Script;
 
             Assert.Equal("static Test(){this.connection = initString;}", result);
         }

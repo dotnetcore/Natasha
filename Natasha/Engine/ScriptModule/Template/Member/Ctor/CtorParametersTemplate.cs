@@ -61,15 +61,13 @@ namespace Natasha
             return Link;
         }
 
-        public override string Builder()
+        public override T Builder()
         {
             if (ParametersScript == null)
             {
                 Parameter(ParametersMappings);
             }
-            StringBuilder temp = new StringBuilder();
-            temp.Append($@"{ParametersScript}{{{Script}}}");
-            Script = temp;
+            _script.Append($@"{ParametersScript}{{");
             return base.Builder();
         }
 

@@ -1,19 +1,21 @@
 ﻿namespace Natasha
 {
-    public class MethodContentTemplate<T> : MethodParametersTemplate<T>
+    public class MethodBodyTemplate<T> : MethodParametersTemplate<T>
     {
-        public string ContentScript;
+        public string MethodBodyScript;
         public T Body(string text)
         {
-            ContentScript = text;
+            MethodBodyScript = text;
             return Link;
         }
 
 
-        public override string Builder()
+        public override T Builder()
         {
-            Script.Append(ContentScript);
-            return base.Builder();
+            base.Builder();
+            _script.Append(MethodBodyScript);
+            _script.Append("}");
+            return Link;
         }
     }
 }

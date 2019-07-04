@@ -22,9 +22,10 @@ namespace Natasha.Builder
         /// <returns></returns>
         public Delegate Complie()
         {
+            Builder();
             return ComplierOption.Complie(
                 NameScript, 
-                Builder(),
+                Script,
                 MethodNameScript,
                 DelegateType);
         }
@@ -39,9 +40,10 @@ namespace Natasha.Builder
         /// <returns></returns>
         public T Complie<T>() where T:Delegate
         {
+            Builder();
             return (T)ComplierOption.Complie<T>(
                 NameScript,
-                Builder(),
+                Script,
                 MethodNameScript);
         }
     }

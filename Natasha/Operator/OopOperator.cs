@@ -174,7 +174,7 @@ namespace Natasha
                 .ClassAccess(AccessTypes.Public)
                 .Inheritance(_oop_type)
                 .ClassBody(sb.ToString())
-                .Builder();
+                .Builder().Script;
 
 
             //获取类型

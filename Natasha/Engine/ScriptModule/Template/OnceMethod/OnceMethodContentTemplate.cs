@@ -10,9 +10,9 @@
         }
 
 
-        public override string Builder()
+        public override T Builder()
         {
-            Script.Append(OnceContentScript);
+            OnceBuilder.Append(OnceContentScript);
             return base.Builder();
         }
     }

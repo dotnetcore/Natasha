@@ -3,11 +3,9 @@
     /// <summary>
     /// 初始化模板
     /// </summary>
-    public class CtorTemplate: MethodContentTemplate<CtorTemplate>,IScriptBuilder
+    public class CtorTemplate: MethodBodyTemplate<CtorTemplate>
     {
         public CtorTemplate() => Link = this;
-
-
 
 
 
@@ -21,7 +19,7 @@
         {
 
             //类名即方法名
-            NameScript = template.NameScript;
+            MethodNameScript = template.NameScript;
 
 
             //如果是静态的使用静态初始化

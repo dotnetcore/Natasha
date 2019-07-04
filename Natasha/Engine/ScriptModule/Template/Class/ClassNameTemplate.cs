@@ -30,10 +30,11 @@ namespace Natasha
             return Link;
         }
 
-        public override string Builder()
+        public override T Builder()
         {
-            Script.Insert(0, "class "+NameScript);
-            return base.Builder();
+            base.Builder();
+            _script.Append("class "+NameScript);
+            return Link;
         }
     }
 }

@@ -7,28 +7,31 @@ namespace Natasha
     /// 记录模板
     /// </summary>
     /// <typeparam name="T">LINK返回的类型</typeparam>
-    public class TemplateRecoder<T>:IScriptBuilder
+    public class TemplateRecoder<T>:IScriptBuilder<T>
     {
 
-        public StringBuilder Script;
+        public StringBuilder _script;
         public readonly TypeRecoder UsingRecoder;
         public T Link;
         public TemplateRecoder()
         {
             UsingRecoder = new TypeRecoder();
-            Script = new StringBuilder();
+            _script = new StringBuilder(200);
         }
 
-
+        public string Script
+        {
+            get { return _script.ToString(); }
+        }
 
 
         /// <summary>
         /// 脚本构建
         /// </summary>
         /// <returns></returns>
-        public virtual string Builder()
+        public virtual T Builder()
         {
-            return Script.ToString();
+            return Link;
         }
     }
 }

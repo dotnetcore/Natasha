@@ -5,26 +5,26 @@ namespace Natasha
 {
     public class MethodNameTemplate<T>:MethodReturnTemplate<T>
     {
-        public string NameScript;
+        public string MethodNameScript;
 
         public MethodNameTemplate()
         {
-            NameScript = "NatashaDynamicMethod";
+            MethodNameScript = "NatashaDynamicMethod";
         }
 
         public bool HashMethodName()
         {
-            return NameScript != "NatashaDynamicMethod";
+            return MethodNameScript != "NatashaDynamicMethod";
         }
 
         public T Name(string name)
         {
-            NameScript = name;
+            MethodNameScript = name;
             return Link;
         }
         public T Name(Type type)
         {
-            NameScript = type.GetDevelopName();
+            MethodNameScript = type.GetDevelopName();
             return Link;
         }
         public T Name<S>()
@@ -33,14 +33,15 @@ namespace Natasha
         }
         public T Name(MethodInfo info)
         {
-            NameScript =info.Name;
+            MethodNameScript =info.Name;
             return Link;
         }
 
-        public override string Builder()
+        public override T Builder()
         {
-            Script.Insert(0, NameScript);
-            return base.Builder();
+            base.Builder();
+            _script.Append(MethodNameScript);
+            return Link;
         }
     }
 }

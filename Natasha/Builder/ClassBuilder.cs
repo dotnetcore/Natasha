@@ -38,11 +38,11 @@ namespace Natasha
         /// 构建脚本
         /// </summary>
         /// <returns></returns>
-        public override string Builder()
+        public override ClassBuilder Builder()
         {
             if (CtorBuilder!=null)
             {
-                Script.Append(CtorBuilder.Builder());
+               ClassBody(CtorBuilder.Builder()._script);
             }
             return base.Builder();
         }
@@ -58,7 +58,7 @@ namespace Natasha
         /// <returns></returns>
         public Type GetType(int classIndex = 1, int namespaceIndex = 1)
         {
-            return Complier.GetType(Builder(), classIndex, namespaceIndex);
+            return Complier.GetType(Builder().Script, classIndex, namespaceIndex);
         }
     }
 }

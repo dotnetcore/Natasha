@@ -37,9 +37,9 @@ namespace Natasha
             return Link;
         }
 
-        public override string Builder()
+        public override T Builder()
         {
-            Script.Insert(0, ReturnScript);
+            OnceBuilder.Insert(0, ReturnScript);
             return base.Builder();
         }
 
