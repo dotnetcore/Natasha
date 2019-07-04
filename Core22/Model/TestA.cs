@@ -13,4 +13,12 @@ namespace Core22
     {
 
     }
+
+    public abstract class TestAbstract
+    {
+        public string Name;
+        public int Age;
+        public abstract int GetAge();
+        public abstract string GetName();
+    }
 }

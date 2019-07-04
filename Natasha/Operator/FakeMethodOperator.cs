@@ -39,7 +39,11 @@ namespace Natasha
             _temp_info = reflectMethodInfo;
             return this;
         }
-
+        public FakeMethodOperator UseMethod<T>(string methodName)
+        {
+            _temp_info = typeof(T).GetMethod(methodName);
+            return this;
+        }
 
 
 
@@ -54,8 +58,11 @@ namespace Natasha
             {
                 MethodName(_temp_info);
             }
+            if (OnceModifierScript==string.Empty)
+            {
+                MethodModifier(_temp_info);
+            }
             MethodAccess(_temp_info)
-            .MethodModifier(_temp_info)
             .Parameter(_temp_info)
             .MethodBody(content)
             .Return(_temp_info);

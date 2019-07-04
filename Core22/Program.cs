@@ -17,7 +17,21 @@ namespace Core22
                 .MethodBody("return 1+1;")
                 .Return<int>()
                 .Complie<Func<int>>();
+
             action();
+
+            //FakeMethodOperator.New
+            //    .UseMethod<Program>("Main")
+            //    .StaticMethodContent($@"Console.WriteLine(""Hello World!"")")
+            //    .Complie<Action<string[]>>();
+
+            Console.WriteLine(FakeMethodOperator.New
+               .UseMethod<TestB>("TestMethod")
+               .StaticMethodContent($@"Console.WriteLine(""Hello World!"")")
+               .Builder()
+               );
+
+
             /*
              *   在此之前，你需要右键，选择工程文件，在你的.csproj里面 
              *   
@@ -25,6 +39,13 @@ namespace Core22
              *   
              *      <PreserveCompilationContext>true</PreserveCompilationContext>
              */
+
+            OopOperator<TestAbstract> abstractBuilder = new OopOperator<TestAbstract>();
+            abstractBuilder.ClassName("UTestClass");
+            abstractBuilder["GetName"] = "return Name;";
+            abstractBuilder["GetAge"] = "return Age;";
+            abstractBuilder.Compile();
+            var test = abstractBuilder.Create("UTestClass");
 
             var delegate2 = DelegateOperator<GetterDelegate>.Create("return value.ToString();");
             Console.WriteLine(delegate2(1));
@@ -226,6 +247,10 @@ namespace HelloWorld
         }
         public string Name { get; set; }
         public int Age;
+        public void TestMethod()
+        {
+
+        }
     }
 
     public static class StaticTestB

@@ -129,7 +129,7 @@ namespace Natasha
 
 
                 
-                if (_is_override)
+                if (_is_override || reflectMethodInfo.IsAbstract)
                 {
                     template.MethodModifier(Modifiers.Override);
                     _is_override = false;
