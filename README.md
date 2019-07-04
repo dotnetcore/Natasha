@@ -85,9 +85,13 @@ string result = action("Hello ","World!");    //result:   "Hello World!"
 //定义一个委托
 public delegate string GetterDelegate(int value);
      
-     
+//方法一     
 var action = DelegateOperator<GetterDelegate>.Create("value += 101; return value.ToString();");
-     
+string result = action(1);              //result: "102"
+
+
+//方法二
+var action = "value += 101; return value.ToString();".Create<GetterDelegate>();
 string result = action(1);              //result: "102"
      
 ```  
