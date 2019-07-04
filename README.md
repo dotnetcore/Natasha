@@ -125,38 +125,24 @@ string result = action("xiao");              //result: "xiao is xxx;"
 <br/>
 <br/>  
 
-#### 使用Natasha的类扩展:  
-
-```C#
-
-Example:  
-        Type : Dictionary<string,List<int>>[] 
-        
-        typeof(Dictionary<string,List<int>>).GetDevelopName();     //result:  "Dictionary<String,List<Int32>>[]"
-        typeof(Dictionary<string,List<int>>).GetAvailableName();   //result:  "Dictionary_String_List_Int32____"
-        typeof(Dictionary<string,List<int>>).GetAllGenericTypes(); //result:  [string,list<>,int]
-        typeof(Dictionary<string,List<int>>).IsImplementFrom<IDictionary>(); //result: true
-        typeof(Dictionary<string,List<int>>).IsOnceType();         //result: false
-        typeof(List<>).With(typeof(int));                          //result: List<int>
-
-```
-<br/>
-<br/>  
 
 #### 动态调用普通类:  
 
 ```C#
+
 public class A{
    public int Age;
    public DateTime Time;
    public B Outter = new B();
 }
+
 public class B{
    public string Name;
    public B(){
       Name = "小明"
    }
 }
+
 //如果是运行时动态生成类，也同样
 ```
 调用方式一
@@ -187,17 +173,20 @@ handler.Get("Outter")["Name"].Set("NewName");                     // Link Operat
 #### 动态调用静态类:  
 
 ```C#
+
 public static class A{
    public static int Age;
    public static DateTime Time;
    public static B Outter = new B();
 }
+
 public class B{
    public string Name;
    public B(){
       Name = "小明";
    }
 }
+
 //如果是运行时动态生成类，也同样
 ```
 调用方式一
@@ -223,6 +212,109 @@ handler.Get("Outter").Set(Name,"NewName");                        // Link Operat
 ```
 <br/>
 <br/>  
+
+
+### 方便的扩展
+
+#### 使用Natasha的类扩展:  
+
+```C#
+
+Example:  
+        Type : Dictionary<string,List<int>>[] 
+        
+        typeof(Dictionary<string,List<int>>).GetDevelopName();     //result:  "Dictionary<String,List<Int32>>[]"
+        typeof(Dictionary<string,List<int>>).GetAvailableName();   //result:  "Dictionary_String_List_Int32____"
+        typeof(Dictionary<string,List<int>>).GetAllGenericTypes(); //result:  [string,list<>,int]
+        typeof(Dictionary<string,List<int>>).IsImplementFrom<IDictionary>(); //result: true
+        typeof(Dictionary<string,List<int>>).IsOnceType();         //result: false
+        typeof(List<>).With(typeof(int));                          //result: List<int>
+
+```
+<br/>
+<br/>    
+
+#### 使用Natasha的方法扩展:  
+
+```C#
+
+Example:  
+
+        Using : Natasha.Method; 
+        public delegate int AddOne(int value);
+        
+        
+        var action = "return value + 1;".Create<AddOne>();
+        var result = action(9);
+        //result : 10
+        
+        
+        var action = typeof(AddOne).Create("return value + 1;");
+        var result = action(9);
+        //result : 10
+```
+<br/>
+<br/>    
+ 
+ #### 使用Natasha的克隆扩展:  
+
+```C#
+
+Example:  
+
+        Using : Natasha.Clone; 
+        var instance = new ClassA();
+        var result = instance.Clone();
+```
+<br/>
+<br/>    
+ 
+  #### 使用Natasha的快照扩展:  
+
+```C#
+
+Example:  
+
+        Using : Natasha.Snapshot; 
+        var instance = new ClassA();
+        
+        instance.MakeSnapshot();
+        
+        // ********
+        //  do sth
+        // ********
+        
+        var result = instance.Compare();
+```
+
+<br/>
+<br/>    
+
+  #### 使用Natasha的动态扩展:  
+
+```C#
+
+Example:  
+
+        Using : Natasha.Caller; 
+        var instance = new ClassA();
+        
+        //Get DynamicHandler on the instance.
+        var handler = instance.Caller();
+        
+        //Get Operation
+        handler.Get<string>("MemberName");
+        handler["MemberName"].Get<string>();
+        
+        //Set Operation
+        handler.Set("MemberName",AnythingValue);
+        handler["MemberName"].Set(AnythingValue);
+
+```
+
+<br/>
+<br/>    
+
 
 ---------------------  
 
