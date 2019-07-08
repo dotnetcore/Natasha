@@ -43,7 +43,7 @@ Dynamic compilation of runtime code using roslyn, high performance, traceable.  
 
  - 2019-06-25 ： 发布v0.7.1.2, 修复跨平台调用，将object类型纳入一次性赋值类型，增加类扩展方法。   
  - 2019-06-26 ： 发布v0.7.2.0, 升级到Standard的程序集操作，并指定release模式进行编译。  
- - 2019-08-01 ： 发布v1.0.0.0, 稳如老狗的版本，抛弃Emit农耕铲，端起Roslyn金饭碗。  
+ - 2019-08-01 ： 发布v1.0.0.0, 发布稳如老狗版，抛弃Emit农耕铲，端起Roslyn金饭碗。  
  
  <br/>  
  
