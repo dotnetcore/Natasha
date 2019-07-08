@@ -166,7 +166,7 @@ handler.New();
 
 handler.Set("Age",100);                                           // Set Operator
 
-Console.WriteLine(handler.Get<DateTime>("Time"));                  // Get Operator
+Console.WriteLine(handler.Get<DateTime>("Time"));                 // Get Operator
 
 handler.Get("Outter")["Name"].Set("NewName");                     // Link Operator
 ```
