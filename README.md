@@ -18,6 +18,7 @@ Dynamic compilation of runtime code using roslyn, high performance, traceable.  
 
 | Scan Name | Status |
 |--------- |------------- |
+| Document | [![wiki](https://img.shields.io/badge/wiki-ch-blue.svg)](https://github.com/dotnetcore/Natasha/wiki) |
 | Version | [![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/dotnetcore/natasha.svg)](https://github.com/dotnetcore/Natasha/releases) |
 | Lang | ![Complie](https://img.shields.io/badge/script-csharp-green.svg)|
 | Size | ![GitHub repo size](https://img.shields.io/github/repo-size/dotnetcore/Natasha.svg) |
