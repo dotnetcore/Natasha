@@ -49,8 +49,8 @@ for:
 
   test_script:
   - ps: dotnet test
-  - ps: OpenCover.Console.exe -register:user -target:"dotnet" -targetargs:".\NatashaUT\bin\Debug\NatashaUT.dll -noshadow" -filter:"+[Natasha*]*" -output:".\coverage.xml"
-  - ps: codecov -f "coverage.xml" -t %coverage_key%
+  - ps: OpenCover.Console.exe -register:user -target:"dotnet " -targetargs:".\NatashaUT\bin\Debug\NatashaUT.dll -noshadow" -filter:"+[Natasha*]*" -output:".\coverage.xml"
+  - ps: codecov -f "coverage.xml" -t %COVERAGE_KEY%
 
 -
   matrix:
