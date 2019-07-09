@@ -3,6 +3,9 @@ image:
 - Ubuntu1804
 - Visual Studio 2019
 
+
+
+
 configuration: Release
 clone_depth: 50
 
@@ -37,12 +40,17 @@ for:
                 
   before_build:
   - ps: dotnet restore
+  - ps: choco install opencover.portable
+  - ps: choco install codecov
 
   build_script:
   - ps: dotnet build -c Release
+  
 
   test_script:
   - ps: dotnet test
+  - ps: OpenCover.Console.exe -register:user -target:"dotnet" -targetargs:".\NatashaUT\bin\Debug\NatashaUT.dll -noshadow" -filter:"+[Natasha*]*" -output:".\coverage.xml"
+  - ps: codecov -f "coverage.xml" -t %coverage_key%
 
 -
   matrix:
