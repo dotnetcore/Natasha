@@ -12,6 +12,7 @@ trigger:
     - README.md
     - appveyor.yml
     - .travis.yml
+    - lang/*
 
 jobs:
     

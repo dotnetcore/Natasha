@@ -27,6 +27,7 @@ skip_commits:
     - .travis.yml
     - .gitignore
     - azure-pipelines.yml
+    - lang/*
 
 for:
 -
