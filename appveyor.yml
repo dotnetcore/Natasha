@@ -48,8 +48,7 @@ for:
   
 
   test_script:
-  - ps: dotnet test
-  - ps: OpenCover.Console.exe -register:user -target:"dotnet.exe" -targetargs:test -output:".\coverage.xml" -oldstyle
+  - ps: OpenCover.Console.exe -register:user -target:"dotnet.exe" -targetargs:test -output:".\coverage.xml" -filter:"-[NatashaUT]*" -oldstyle
   - ps: codecov -f "coverage.xml" -t %COVERAGE_KEY%
 
 -
