@@ -1,6 +1,6 @@
 <p align="center">
-  <span>中文</span> |  
-  <a href="https://github.com/dotnetcore/natasha/tree/master/lang/english">English</a>
+  <span>English</span> |  
+  <a href="https://github.com/dotnetcore/natasha">中文</a>
 </p>
 
 # Natasha 
@@ -11,12 +11,12 @@
 [![Badge](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu/#/zh_CN)
 [![GitHub license](https://img.shields.io/github/license/dotnetcore/natasha.svg)](https://github.com/dotnetcore/Natasha/blob/master/LICENSE)
 
-&ensp;&ensp;&ensp;&ensp;基于roslyn的动态编译库，为您提供高效率、高性能、可追踪的动态构建方案，兼容stanadard2.0, 只需原生C#语法不用Emit。
-让您的动态方法更加容易编写、跟踪、维护。  欢迎参与讨论：[点击加入Gitter讨论组](https://gitter.im/dotnetcore/Natasha)
+&ensp;&ensp;&ensp;&ensp;This is a roslyn-based dynamic compilation library that provides you with efficient, high-performance, traceable dynamic build solutions. It is compatible with stanadard2.0, and uses only native C # syntax without Emit. 
+Make your dynamic approach easier to write, track, and maintain.  Welcome to discuss with me online.：[Click and join the gitter](https://gitter.im/dotnetcore/Natasha)
 
 <br/>
 
-### 类库信息(Library Info)  
+### Library Info  
 
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/dotnetcore/natasha.svg)](https://github.com/dotnetcore/Natasha/releases) ![GitHub repo size](https://img.shields.io/github/repo-size/dotnetcore/Natasha.svg) [![GitHub commit activity](https://img.shields.io/github/commit-activity/m/dotnetcore/natasha.svg)](https://github.com/dotnetcore/Natasha/commits/master) [![Codecov](https://img.shields.io/codecov/c/github/dotnetcore/natasha.svg)](https://codecov.io/gh/dotnetcore/Natasha)  
 
@@ -29,7 +29,7 @@
 
 <br/>  
 
-### 持续构建(CI Build Status)  
+### CI Build Status  
 
 | CI Platform | Build Server | Master Build  | Master Test |
 |--------- |------------- |---------| --------|
@@ -42,11 +42,11 @@
 <br/>    
 
 
-### 发布计划(Publish Plan)  
+### Publish Plan  
 
- - 2019-06-25 ： 发布v0.7.1.2, 修复跨平台调用，将object类型纳入一次性赋值类型，增加类扩展方法。   
- - 2019-06-26 ： 发布v0.7.2.0, 升级到Standard的程序集操作，并指定release模式进行编译。  
- - 2019-08-01 ： 发布v1.0.0.0, 发布稳如老狗版，抛弃Emit农耕铲，端起Roslyn金饭碗。  
+ - 2019-06-25 ： Published v0.7.1.2, Fix cross-platform calls, incorporate object types into one-time assignment types, and add class extension methods.   
+ - 2019-06-26 ： Published v0.7.2.0, Upgrade to the assembly operation of Standard2.0 and specify the release mode to compile.  
+ - 2019-08-01 ： Publish v1.0.0.0, The first official stable version.  
  
  <br/>  
  
@@ -54,23 +54,23 @@
  <br/>  
  
 
-### 使用方法(User Api)：  
+### User Api：  
  <br/>  
  
-#### 首先编辑您的工程文件：
+#### First edit your project file *.csproj：
 
 ```C#
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <PreserveCompilationContext>true</PreserveCompilationContext>   <--- 一定要加上这句话
+    <PreserveCompilationContext>true</PreserveCompilationContext>   <--- must.
   </PropertyGroup>
 ```  
 <br/>
 <br/> 
 
 
-#### 使用 FastMethodOperator 快速构建函数：  
+#### Using FastMethodOperator to build dynamic functions quickly：  
   
   
 ```C#
@@ -86,18 +86,18 @@ string result = action("Hello ","World!");    //result:   "Hello World!"
 <br/>
 <br/>  
 
-#### 使用 DelegateOperator 快速实现委托：  
+#### Fast implementation of delegation using DelegateOperator：  
 
 ```C# 
-//定义一个委托
+//Define a delegate
 public delegate string GetterDelegate(int value);
      
-//方法一     
+//Usage 1    
 var action = DelegateOperator<GetterDelegate>.Create("value += 101; return value.ToString();");
 string result = action(1);              //result: "102"
 
 
-//方法二
+//Usage 2
 var action = "value += 101; return value.ToString();".Create<GetterDelegate>();
 string result = action(1);              //result: "102"
      
@@ -106,7 +106,7 @@ string result = action(1);              //result: "102"
 <br/>
 <br/>  
 
-#### 使用 FakeMethodOperator 快速构建函数：  
+#### Using FakeMethodOperator to build dynamic functions quickly：  
 
 ```C#
 public class Test
@@ -131,7 +131,7 @@ string result = action("xiao");              //result: "xiao is xxx;"
 <br/>  
 
 
-#### 动态调用普通类:  
+#### Dynamic call to normal classes:  
 
 ```C#
 
@@ -147,14 +147,15 @@ public class B
    public string Name;
    public B()
    {
-      Name = "小明"
+      Name = "Jim"
    }
 }
 
-//如果是运行时动态生成类，也同样
+//the same as dynamically generating classes at run time.
 
 
-//调用方式一
+//Usage 1
+
 var handler = DynamicOperator.GetOperator(typeof(A));
 
 handler["Age"].IntValue = 100;                                    // Set Operator
@@ -165,7 +166,7 @@ handler["Outter"].OperatorValue["Name"].StringValue = "NewName"   // Link Operat
 
 
 
-//调用方式二
+//Usage 2
 
 var handler EntityOperator.Create(typeof(A));
 
@@ -180,7 +181,7 @@ handler.Get("Outter")["Name"].Set("NewName");                     // Link Operat
 <br/>
 <br/>  
 
-#### 动态调用静态类:  
+#### Dynamic call to static class:  
 
 ```C#
 
@@ -196,14 +197,14 @@ public class B
    public string Name;
    public B()
    {
-      Name = "小明";
+      Name = "Jim";
    }
 }
 
-//如果是运行时动态生成类，也同样
+//the same as dynamically generating classes at run time.
 
 
-//调用方式一
+//Usage 1
 
 DynamicStaticOperator handler = typeof(A);
 
@@ -214,7 +215,7 @@ Console.WriteLine(handler["Time"].DateTime);                          // Get Ope
 handler.Get["Outter"].OperatorValue["Name"].StringValue = "NewName"   // Link Operator
 
 
-//调用方式二
+//Usage 2
 
 var handler = StaticEntityOperator.Create(type);
 
@@ -229,11 +230,11 @@ handler.Get("Outter").Set(Name,"NewName");                        // Link Operat
 <br/>  
 
 
-### 方便的扩展  
+### Convenient extension  
  <br/>  
  
 
-#### 使用Natasha的类扩展:  
+#### Class extension of Natasha:  
 
 ```C#
 
@@ -251,7 +252,7 @@ Example:
 <br/>
 <br/>    
 
-#### 使用Natasha的方法扩展:  
+#### Method extension of Natasha:  
 
 ```C#
 
@@ -273,7 +274,7 @@ Example:
 <br/>
 <br/>    
  
- #### 使用Natasha的克隆扩展:  
+ #### Cloning extension of Natasha:  
 
 ```C#
 
@@ -286,7 +287,7 @@ Example:
 <br/>
 <br/>    
  
-  #### 使用Natasha的快照扩展:  
+  #### Snapshot extension of Natasha:  
 
 ```C#
 
@@ -307,7 +308,7 @@ Example:
 <br/>
 <br/>    
 
-  #### 使用Natasha的动态扩展:  
+  #### Dynamic call extension of Natasha:  
 
 ```C#
 
@@ -336,12 +337,12 @@ Example:
 ---------------------  
 
 
-- **测试计划（等待下一版本bechmark）**：
+- **Benchmark test plan（Waiting for the next version of bechmark）**：
       
-     - [ ]  **动态函数性能测试（对照组： emit, origin）**  
-     - [ ]  **动态调用性能测试（对照组： 动态直接调用，动态代理调用，emit, origin）**  
-     - [ ]  **动态克隆性能测试（对照组： origin）**
-     - [ ]  **远程动态封装函数性能测试（对照组： 动态函数，emit, origin）**
+     - [ ]  **Dynamic function performance test（control group： emit, origin）**  
+     - [ ]  **Dynamic call performance test（control group： dynamic direct call，dynamic proxy call，emit, origin）**  
+     - [ ]  **Dynamic cloning performance test（control group： origin）**
+     - [ ]  **Performance test of remote module（control group： emit, origin）**
 
 ---------------------  
 
