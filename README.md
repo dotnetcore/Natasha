@@ -1,9 +1,7 @@
-# Natasha [![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/dotnetcore/natasha.svg)](https://github.com/dotnetcore/Natasha/releases) ![GitHub repo size](https://img.shields.io/github/repo-size/dotnetcore/Natasha.svg) [![GitHub commit activity](https://img.shields.io/github/commit-activity/m/dotnetcore/natasha.svg)](https://github.com/dotnetcore/Natasha/commits/master) [![Codecov](https://img.shields.io/codecov/c/github/dotnetcore/natasha.svg)](https://codecov.io/gh/dotnetcore/Natasha)
+# Natasha 
 
-
-Dynamic compilation of runtime code using roslyn, high performance, traceable.  [OnlineChat](https://gitter.im/dotnetcore/Natasha)
-
-使用roslyn动态编译运行时代码，高性能、可追踪。  欢迎参与讨论：[点击加入Gitter讨论组](https://gitter.im/dotnetcore/Natasha)
+&ensp;&ensp;&ensp;&ensp;基于roslyn的动态编译库，为您提供高效率、高性能、可追踪的动态构建方案，兼容stanadard2.0, 只需原生C#语法不用Emit。
+让您的动态方法更加容易编写、跟踪、维护。  欢迎参与讨论：[点击加入Gitter讨论组](https://gitter.im/dotnetcore/Natasha)
 
 
 [![Member project of .NET Core Community](https://img.shields.io/badge/member%20project%20of-NCC-9e20c9.svg)](https://github.com/dotnetcore)
@@ -14,7 +12,9 @@ Dynamic compilation of runtime code using roslyn, high performance, traceable.  
 
 <br/>
 
-### 类库信息(Library Info)
+### 类库信息(Library Info)  
+
+[![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/dotnetcore/natasha.svg)](https://github.com/dotnetcore/Natasha/releases) ![GitHub repo size](https://img.shields.io/github/repo-size/dotnetcore/Natasha.svg) [![GitHub commit activity](https://img.shields.io/github/commit-activity/m/dotnetcore/natasha.svg)](https://github.com/dotnetcore/Natasha/commits/master) [![Codecov](https://img.shields.io/codecov/c/github/dotnetcore/natasha.svg)](https://codecov.io/gh/dotnetcore/Natasha)  
 
 | Scan Name | Status |
 |--------- |------------- |
@@ -47,10 +47,12 @@ Dynamic compilation of runtime code using roslyn, high performance, traceable.  
  <br/>  
  
 ---------------------  
-
+ <br/>  
+ 
 
 ### 使用方法(User Api)：  
-
+ <br/>  
+ 
 #### 首先编辑您的工程文件：
 
 ```C#
@@ -146,9 +148,9 @@ public class B
 }
 
 //如果是运行时动态生成类，也同样
-```
-调用方式一
-```C#
+
+
+//调用方式一
 var handler = DynamicOperator.GetOperator(typeof(A));
 
 handler["Age"].IntValue = 100;                                    // Set Operator
@@ -156,9 +158,11 @@ handler["Age"].IntValue = 100;                                    // Set Operato
 Console.WriteLine(handler["Time"].DateTime);                      // Get Operator
 
 handler["Outter"].OperatorValue["Name"].StringValue = "NewName"   // Link Operator
-```
-调用方式二
-```C#
+
+
+
+//调用方式二
+
 var handler EntityOperator.Create(typeof(A));
 
 handler.New();
@@ -193,9 +197,10 @@ public class B
 }
 
 //如果是运行时动态生成类，也同样
-```
-调用方式一
-```C#
+
+
+//调用方式一
+
 DynamicStaticOperator handler = typeof(A);
 
 handler["Age"].IntValue = 100;                                        // Set Operator
@@ -203,9 +208,10 @@ handler["Age"].IntValue = 100;                                        // Set Ope
 Console.WriteLine(handler["Time"].DateTime);                          // Get Operator
 
 handler.Get["Outter"].OperatorValue["Name"].StringValue = "NewName"   // Link Operator
-```
-调用方式二
-```C#
+
+
+//调用方式二
+
 var handler = StaticEntityOperator.Create(type);
 
 handler["Age"].Set(100);                                          // Set Operator
@@ -219,7 +225,9 @@ handler.Get("Outter").Set(Name,"NewName");                        // Link Operat
 <br/>  
 
 
-### 方便的扩展
+### 方便的扩展  
+ <br/>  
+ 
 
 #### 使用Natasha的类扩展:  
 
