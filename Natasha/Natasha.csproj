@@ -8,8 +8,9 @@
     <PackageId>DotNetCore.Natasha</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageReleaseNotes>- 采用正序构建
-- 增加一些扩展用法</PackageReleaseNotes>
-    <Version>0.7.3.1</Version>
+- 增加一些扩展用法
+- 移除自动格式化功能</PackageReleaseNotes>
+    <Version>0.7.3.2</Version>
     <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
     <PackageTags>Roslyn ; IL ; Scripte ; Dynamic ; </PackageTags>
