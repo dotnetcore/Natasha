@@ -140,7 +140,7 @@ namespace Natasha.Complier
         public static Assembly StreamComplier(string content, Action<Diagnostic> errorAction = null)
         {
 
-            StringBuilder recoder = new StringBuilder(LineFormat(ref content));
+            StringBuilder recoder = new StringBuilder(content);
 
             var (Tree, ClassName) = GetTreeAndClassName(content);
 
@@ -240,7 +240,7 @@ namespace Natasha.Complier
         public static Assembly FileComplier(string content, Action<Diagnostic> errorAction = null)
         {
 
-            StringBuilder recoder = new StringBuilder(LineFormat(ref content));
+            StringBuilder recoder = new StringBuilder(content);
 
 
             //类名获取
