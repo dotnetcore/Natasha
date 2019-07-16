@@ -13,14 +13,16 @@ namespace NatashaUT
         [Fact(DisplayName = "字段--基元类型以及结构体")]
         public void Normal()
         {
-            FieldCloneNormalModel model = new FieldCloneNormalModel();
-            model.Age = 1000;
-            model.Name = "ababab";
-            model.Timer = DateTime.Now;
-            model.money = 100000;
-            model.Flag = CloneEnum.A;
-            model.Title = false;
-            model.Id = 100000;
+            FieldCloneNormalModel model = new FieldCloneNormalModel
+            {
+                Age = 1000,
+                Name = "ababab",
+                Timer = DateTime.Now,
+                money = 100000,
+                Flag = CloneEnum.A,
+                Title = false,
+                Id = 100000
+            };
 
             var newModel = CloneOperator.Clone(model);
             Assert.Equal(model.Id, newModel.Id);
@@ -34,9 +36,10 @@ namespace NatashaUT
         [Fact(DisplayName = "字段--时间以及非类数组")]
         public void NotClassArray()
         {
-            FieldCloneArrayModel model = new FieldCloneArrayModel();
-
-            model.Name = new string[10];
+            FieldCloneArrayModel model = new FieldCloneArrayModel
+            {
+                Name = new string[10]
+            };
             for (int i = 0; i < 10; i++)
             {
                 model.Name[i] = i.ToString();
@@ -56,9 +59,10 @@ namespace NatashaUT
         [Fact(DisplayName = "字段--类数组")]
         public void ClassArray()
         {
-            FieldCloneClassArrayModel model = new FieldCloneClassArrayModel();
-
-            model.Models = new FieldCloneNormalModel[10];
+            FieldCloneClassArrayModel model = new FieldCloneClassArrayModel
+            {
+                Models = new FieldCloneNormalModel[10]
+            };
             for (int i = 0; i < 10; i++)
             {
                 model.Models[i] = new FieldCloneNormalModel() { Age = i, Name = i.ToString() };
@@ -79,9 +83,10 @@ namespace NatashaUT
         [Fact(DisplayName = "字段--子节点")]
         public void SubClassArray()
         {
-            FieldCloneSubNodeModel model = new FieldCloneSubNodeModel();
-
-            model.Node = new FieldCloneNormalModel() { Age = 1, Name = "111" };
+            FieldCloneSubNodeModel model = new FieldCloneSubNodeModel
+            {
+                Node = new FieldCloneNormalModel() { Age = 1, Name = "111" }
+            };
 
             var newModel = CloneOperator.Clone(model);
 
@@ -94,9 +99,10 @@ namespace NatashaUT
         [Fact(DisplayName = "字段--类集合")]
         public void ClassCollectionArray()
         {
-            FieldCloneClassCollectionModel model = new FieldCloneClassCollectionModel();
-
-            model.Nodes = new List<FieldCloneNormalModel>();
+            FieldCloneClassCollectionModel model = new FieldCloneClassCollectionModel
+            {
+                Nodes = new List<FieldCloneNormalModel>()
+            };
             for (int i = 0; i < 10; i++)
             {
                 model.Nodes.Add(new FieldCloneNormalModel() { Age = i, Name = i.ToString() });
@@ -117,14 +123,16 @@ namespace NatashaUT
         [Fact(DisplayName = "属性--基元类型以及结构体")]
         public void PropNormal()
         {
-            PropCloneNormalModel model = new PropCloneNormalModel();
-            model.Age = 1000;
-            model.Name = "ababab";
-            model.Timer = DateTime.Now;
-            model.money = 100000;
+            PropCloneNormalModel model = new PropCloneNormalModel
+            {
+                Age = 1000,
+                Name = "ababab",
+                Timer = DateTime.Now,
+                money = 100000,
 
-            model.Title = false;
-            model.Id = 100000;
+                Title = false,
+                Id = 100000
+            };
 
             var newModel = CloneOperator.Clone(model);
             Assert.Equal(model.Id, newModel.Id);
@@ -140,9 +148,10 @@ namespace NatashaUT
         [Fact(DisplayName = "属性--时间以及非类数组")]
         public void PropNotClassArray()
         {
-            PropCloneArrayModel model = new PropCloneArrayModel();
-
-            model.Name = new string[10];
+            PropCloneArrayModel model = new PropCloneArrayModel
+            {
+                Name = new string[10]
+            };
             for (int i = 0; i < 10; i++)
             {
                 model.Name[i] = i.ToString();
@@ -162,9 +171,10 @@ namespace NatashaUT
         [Fact(DisplayName = "属性--类数组")]
         public void PropClassArray()
         {
-            PropCloneClassArrayModel model = new PropCloneClassArrayModel();
-
-            model.Models = new PropCloneNormalModel[10];
+            PropCloneClassArrayModel model = new PropCloneClassArrayModel
+            {
+                Models = new PropCloneNormalModel[10]
+            };
             for (int i = 0; i < 10; i++)
             {
                 model.Models[i] = new PropCloneNormalModel() { Age = i, Name = i.ToString() };
@@ -186,9 +196,10 @@ namespace NatashaUT
         [Fact(DisplayName = "属性--子节点")]
         public void PropSubClassArray()
         {
-            PropCloneSubNodeModel model = new PropCloneSubNodeModel();
-
-            model.Node = new PropCloneNormalModel() { Age = 1, Name = "111" };
+            PropCloneSubNodeModel model = new PropCloneSubNodeModel
+            {
+                Node = new PropCloneNormalModel() { Age = 1, Name = "111" }
+            };
 
 
             var newModel = CloneOperator.Clone(model);
@@ -203,9 +214,10 @@ namespace NatashaUT
         [Fact(DisplayName = "属性--类集合")]
         public void PropClassCollectionTest()
         {
-            PropCloneClassCollectionModel model = new PropCloneClassCollectionModel();
-
-            model.Nodes = new List<PropCloneNormalModel>();
+            PropCloneClassCollectionModel model = new PropCloneClassCollectionModel
+            {
+                Nodes = new List<PropCloneNormalModel>()
+            };
             for (int i = 0; i < 10; i++)
             {
                 model.Nodes.Add(new PropCloneNormalModel() { Age = i, Name = i.ToString() });
@@ -259,9 +271,10 @@ namespace NatashaUT
         [Fact(DisplayName = "类集合嵌套数组")]
         public void PropClassCollectionArray2()
         {
-            CloneCollectionModel model = new CloneCollectionModel();
-
-            model.LANodes = new List<PropCloneNormalModel[]>();
+            CloneCollectionModel model = new CloneCollectionModel
+            {
+                LANodes = new List<PropCloneNormalModel[]>()
+            };
             for (int i = 0; i < 5; i++)
             {
                 model.LANodes.Add(new PropCloneNormalModel[10]);
@@ -291,9 +304,10 @@ namespace NatashaUT
         [Fact(DisplayName = "类数组嵌套集合")]
         public void PropClassCollectionArray3()
         {
-            CloneCollectionModel model = new CloneCollectionModel();
-
-            model.ALNodes = new List<PropCloneNormalModel>[5];
+            CloneCollectionModel model = new CloneCollectionModel
+            {
+                ALNodes = new List<PropCloneNormalModel>[5]
+            };
             for (int i = 0; i < 5; i++)
             {
                 model.ALNodes[i] = new List<PropCloneNormalModel>();
@@ -320,8 +334,10 @@ namespace NatashaUT
         [Fact(DisplayName = "字段字典")]
         public void CloneDictionaryTest()
         {
-            CloneDictModel model = new CloneDictModel();
-            model.Dicts = new Dictionary<string, string>();
+            CloneDictModel model = new CloneDictModel
+            {
+                Dicts = new Dictionary<string, string>()
+            };
             model.Dicts["1"] = "2";
             model.Dicts["2"] = "3";
             var newModel = CloneOperator.Clone(model);
@@ -337,8 +353,10 @@ namespace NatashaUT
         [Fact(DisplayName = "字典集合")]
         public void CloneDictionaryCollectionTest()
         {
-            CloneDictCollectionModel model = new CloneDictCollectionModel();
-            model.Dicts = new Dictionary<List<string>, List<FieldCloneNormalModel>>();
+            CloneDictCollectionModel model = new CloneDictCollectionModel
+            {
+                Dicts = new Dictionary<List<string>, List<FieldCloneNormalModel>>()
+            };
             var key1 = new List<string>() { "1" };
             var key2 = new List<string>() { "2" };
             model.Dicts[key1] = new List<FieldCloneNormalModel>(){ new FieldCloneNormalModel
@@ -388,8 +406,10 @@ namespace NatashaUT
         [Fact(DisplayName = "字典数组")]
         public void CloneDictionaryArrayTest()
         {
-            CloneDictArrayModel model = new CloneDictArrayModel();
-            model.Dicts = new Dictionary<string, FieldCloneNormalModel[]>[5];
+            CloneDictArrayModel model = new CloneDictArrayModel
+            {
+                Dicts = new Dictionary<string, FieldCloneNormalModel[]>[5]
+            };
             for (int i = 0; i < 5; i++)
             {
                 model.Dicts[i] = new Dictionary<string, FieldCloneNormalModel[]>();
@@ -433,6 +453,31 @@ namespace NatashaUT
                     }
                 }
             }
+        }
+
+        [Fact(DisplayName = "链表节点")]
+        public void CloneLinkTest()
+        {
+            FieldLinkModel model = new FieldLinkModel();
+            model.Nodes.AddFirst(new FieldLinkModel()
+            {
+                Name = "1",
+                Age = 1
+            });
+            model.Nodes.AddLast(new FieldLinkModel()
+            {
+                Name = "2",
+                Age = 2
+            });
+
+
+            var newModel = CloneOperator.Clone(model);
+            Assert.NotEqual(model.Nodes.First, newModel.Nodes.First);
+            Assert.Equal(model.Nodes.First.Value.Name, newModel.Nodes.First.Value.Name);
+
+            Assert.NotEqual(model.Nodes.First.Next, newModel.Nodes.First.Next);
+            Assert.Equal(model.Nodes.First.Next.Value.Name, newModel.Nodes.First.Next.Value.Name);
+
         }
     }
 }

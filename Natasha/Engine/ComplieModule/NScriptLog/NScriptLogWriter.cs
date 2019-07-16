@@ -19,6 +19,7 @@ namespace Natasha
 
         static NScriptLogWriter()
         {
+
             string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log/");
             if (!Directory.Exists(logPath))
             {
@@ -31,15 +32,19 @@ namespace Natasha
                 Directory.CreateDirectory(YearPath);
             }
             
+
             DayPath = Path.Combine(YearPath, DateTime.Now.ToString("MM月dd日"));
             if (!Directory.Exists(DayPath))
             {
                 Directory.CreateDirectory(DayPath);
             }
 
-            LogQueue = new ConcurrentQueue<string>();
+
             var logFile = Path.Combine(DayPath, $"{typeof(T).Name}.log");
             LogWriter = new StreamWriter(logFile, true, Encoding.UTF8);
+
+
+            LogQueue = new ConcurrentQueue<string>();
         }
 
         public static void Show(string msg)

@@ -106,4 +106,15 @@ namespace NatashaUT.Model
     {
         public Dictionary<string, FieldCloneNormalModel[]>[] Dicts;
     }
+
+    public class FieldLinkModel
+    {
+        public LinkedList<FieldLinkModel> Nodes;
+        public string Name;
+        public int Age;
+        public FieldLinkModel()
+        {
+            Nodes = new LinkedList<FieldLinkModel>();
+        }
+    }
 }
