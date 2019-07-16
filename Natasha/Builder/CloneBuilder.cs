@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Text;
 
 namespace Natasha
@@ -19,7 +20,7 @@ namespace Natasha
         private readonly FastMethodOperator MethodHandler;
         private const string NewInstance = "NewInstance";
         private const string OldInstance = "OldInstance";
-
+        private static readonly HashSet<Type> HashTypes;
 
         public static readonly ConcurrentDictionary<Type, Delegate> CloneCache;
         static CloneBuilder() => CloneCache = new ConcurrentDictionary<Type, Delegate>();
@@ -33,7 +34,6 @@ namespace Natasha
             IncludeStatic = false;
             IncludeCanRead = true;
             IncludeCanWrite = false;
-            //CloneCache[type] = null;
         }
 
 
@@ -41,9 +41,13 @@ namespace Natasha
 
         public override void EntityHandler(Type type)
         {
-            MethodHandler.Using("Natasha");
-            CloneBuilder builder = new CloneBuilder(type);
-            builder.Create();
+            if (!HashTypes.Contains(type))
+            {
+                HashTypes.Add(type);
+                MethodHandler.Using("Natasha");
+                CloneBuilder builder = new CloneBuilder(type);
+                builder.Create();
+            }
         }
 
 
