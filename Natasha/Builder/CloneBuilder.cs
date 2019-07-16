@@ -89,6 +89,7 @@ namespace Natasha
             tempBuilder.Using(info.DeclaringTypeName);
             CloneCache[info.DeclaringType] = tempBuilder
                         .Using("Natasha")
+                        .Using(info.ElementType)
                         .ClassName("NatashaClone" + info.DeclaringAvailableName)
                         .MethodName("Clone")
                         .Param(info.DeclaringType, "oldInstance")                 //参数
@@ -118,6 +119,7 @@ namespace Natasha
             tempBuilder.Using(info.DeclaringType);
             CloneCache[info.DeclaringType] = tempBuilder
                         .Using("Natasha")
+                        .Using(info.ElementType)
                         .ClassName("NatashaClone" + info.DeclaringAvailableName)
                         .MethodName("Clone")
                         .Param(info.DeclaringType, "oldInstance")                 //参数
@@ -367,6 +369,7 @@ namespace Natasha
         public override void MemberArrayEntityHandler(BuilderInfo info)
         {
             MethodHandler.Using(info.MemberType);
+            MethodHandler.Using(info.ElementType);
             Script.Append($@"if({OldInstance}.{info.MemberName}!=null){{");
             Script.Append($"{NewInstance}.{info.MemberName} = new {info.ElementTypeName}[{OldInstance}.{info.MemberName}.Length];");
             //普通类型复制

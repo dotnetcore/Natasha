@@ -6,7 +6,7 @@ using Xunit;
 
 namespace NatashaUT
 {
-    [Trait("克隆测试","")]
+    [Trait("克隆测试", "")]
     public class DynamicCloneTest
     {
 
@@ -21,7 +21,7 @@ namespace NatashaUT
             model.Flag = CloneEnum.A;
             model.Title = false;
             model.Id = 100000;
-            
+
             var newModel = CloneOperator.Clone(model);
             Assert.Equal(model.Id, newModel.Id);
             Assert.Equal(model.Title, newModel.Title);
@@ -35,7 +35,7 @@ namespace NatashaUT
         public void NotClassArray()
         {
             FieldCloneArrayModel model = new FieldCloneArrayModel();
-            
+
             model.Name = new string[10];
             for (int i = 0; i < 10; i++)
             {
@@ -44,7 +44,7 @@ namespace NatashaUT
 
             var newModel = CloneOperator.Clone(model);
 
-           
+
             for (int i = 0; i < 10; i++)
             {
                 Assert.Equal(model.Name[i], newModel.Name[i]);
@@ -57,7 +57,7 @@ namespace NatashaUT
         public void ClassArray()
         {
             FieldCloneClassArrayModel model = new FieldCloneClassArrayModel();
-            
+
             model.Models = new FieldCloneNormalModel[10];
             for (int i = 0; i < 10; i++)
             {
@@ -66,7 +66,7 @@ namespace NatashaUT
 
             var newModel = CloneOperator.Clone(model);
 
-            
+
             for (int i = 0; i < 10; i++)
             {
                 Assert.Equal(model.Models[i].Name, newModel.Models[i].Name);
@@ -80,7 +80,7 @@ namespace NatashaUT
         public void SubClassArray()
         {
             FieldCloneSubNodeModel model = new FieldCloneSubNodeModel();
-            
+
             model.Node = new FieldCloneNormalModel() { Age = 1, Name = "111" };
 
             var newModel = CloneOperator.Clone(model);
@@ -95,7 +95,7 @@ namespace NatashaUT
         public void ClassCollectionArray()
         {
             FieldCloneClassCollectionModel model = new FieldCloneClassCollectionModel();
-          
+
             model.Nodes = new List<FieldCloneNormalModel>();
             for (int i = 0; i < 10; i++)
             {
@@ -103,7 +103,7 @@ namespace NatashaUT
             }
 
             var newModel = CloneOperator.Clone(model);
-           
+
             for (int i = 0; i < 10; i++)
             {
                 Assert.NotEqual(model.Nodes, newModel.Nodes);
@@ -267,7 +267,7 @@ namespace NatashaUT
                 model.LANodes.Add(new PropCloneNormalModel[10]);
                 for (int j = 0; j < 10; j++)
                 {
-                    model.LANodes[i][j]=new PropCloneNormalModel() { Age = j, Name = j.ToString() };
+                    model.LANodes[i][j] = new PropCloneNormalModel() { Age = j, Name = j.ToString() };
                 }
             }
 
@@ -337,14 +337,102 @@ namespace NatashaUT
         [Fact(DisplayName = "字典集合")]
         public void CloneDictionaryCollectionTest()
         {
-
+            CloneDictCollectionModel model = new CloneDictCollectionModel();
+            model.Dicts = new Dictionary<List<string>, List<FieldCloneNormalModel>>();
+            var key1 = new List<string>() { "1" };
+            var key2 = new List<string>() { "2" };
+            model.Dicts[key1] = new List<FieldCloneNormalModel>(){ new FieldCloneNormalModel
+            {
+                Age = 1000,
+                Name = "ababab",
+                Timer = DateTime.Now,
+                money = 100000,
+                Flag = CloneEnum.A,
+                Title = false,
+                Id = 100000
+            } };
+            model.Dicts[key2] = new List<FieldCloneNormalModel>(){ new FieldCloneNormalModel
+            {
+                Age = 1000,
+                Name = "ababab1",
+                Timer = DateTime.Now,
+                money = 100000,
+                Flag = CloneEnum.B,
+                Title = true,
+                Id = 0
+            } };
+            var newModel = CloneOperator.Clone(model);
+           
+            int i = 0;
+            foreach (var item in newModel.Dicts)
+            {
+                if (i == 0)
+                {
+                    key1.Add("1b");
+                    Assert.NotEqual(item.Key, key1);
+                    Assert.NotEqual(model.Dicts[key1][0], item.Value[0]);
+                    Assert.Equal(model.Dicts[key1][0].Name, item.Value[0].Name);
+                }
+                else
+                {
+                    Assert.Equal(item.Key, key2);
+                    Assert.NotEqual(model.Dicts[key2][0], item.Value[0]);
+                    Assert.Equal(model.Dicts[key2][0].Name, item.Value[0].Name);
+                }
+                i += 1;
+            }
+            Assert.NotEqual(model.Dicts, newModel.Dicts);
         }
 
 
         [Fact(DisplayName = "字典数组")]
         public void CloneDictionaryArrayTest()
         {
+            CloneDictArrayModel model = new CloneDictArrayModel();
+            model.Dicts = new Dictionary<string, FieldCloneNormalModel[]>[5];
+            for (int i = 0; i < 5; i++)
+            {
+                model.Dicts[i] = new Dictionary<string, FieldCloneNormalModel[]>();
+                for (int j = 0; j < 5; j++)
+                {
+                    model.Dicts[i][j.ToString()] = new FieldCloneNormalModel[5];
+                    for (int z = 0; z < 5; z++)
+                    {
+                        model.Dicts[i][j.ToString()][z] = new FieldCloneNormalModel
+                        {
+                            Age = 1000,
+                            Name = "ababab1",
+                            Timer = DateTime.Now,
+                            money = 100000,
+                            Flag = CloneEnum.B,
+                            Title = true,
+                            Id = 0
+                        };
+                    }
+                }
+            }
 
+            var newModel = CloneOperator.Clone(model);
+            for (int i = 0; i < 5; i++)
+            {
+                Assert.NotEqual(model.Dicts[i], newModel.Dicts[i]);
+                Assert.Equal(model.Dicts[i].Count, newModel.Dicts[i].Count);
+                for (int j = 0; j < 5; j++)
+                {
+                    Assert.NotEqual(model.Dicts[i][j.ToString()], newModel.Dicts[i][j.ToString()]);
+                    Assert.Equal(model.Dicts[i][j.ToString()].Length, newModel.Dicts[i][j.ToString()].Length);
+                    for (int z = 0; z < 5; z++)
+                    {
+                        Assert.NotEqual(model.Dicts[i][j.ToString()][z], newModel.Dicts[i][j.ToString()][z]);
+                        Assert.Equal(model.Dicts[i][j.ToString()][z].Name, newModel.Dicts[i][j.ToString()][z].Name);
+                        Assert.Equal(model.Dicts[i][j.ToString()][z].Age, newModel.Dicts[i][j.ToString()][z].Age);
+                        Assert.Equal(model.Dicts[i][j.ToString()][z].Flag, newModel.Dicts[i][j.ToString()][z].Flag);
+                        Assert.Equal(model.Dicts[i][j.ToString()][z].Id, newModel.Dicts[i][j.ToString()][z].Id);
+                        Assert.Equal(model.Dicts[i][j.ToString()][z].Timer, newModel.Dicts[i][j.ToString()][z].Timer);
+                        Assert.Equal(model.Dicts[i][j.ToString()][z].Title, newModel.Dicts[i][j.ToString()][z].Title);
+                    }
+                }
+            }
         }
     }
 }

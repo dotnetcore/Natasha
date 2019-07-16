@@ -31,7 +31,7 @@ namespace Natasha.Complier
         static ScriptComplieEngine()
         {
             //初始化路径
-            LibPath = AppDomain.CurrentDomain.BaseDirectory + "lib/";
+            LibPath =Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"lib");
 
 
             //处理目录
@@ -141,7 +141,6 @@ namespace Natasha.Complier
         {
 
             StringBuilder recoder = new StringBuilder(content);
-
             var (Tree, ClassName) = GetTreeAndClassName(content);
 
 
@@ -169,7 +168,8 @@ namespace Natasha.Complier
                     if (NScriptLog.UseLog)
                     {
                         recoder.AppendLine("\r\n\r\n------------------------------------------succeed-------------------------------------------");
-                        recoder.AppendLine($"\r\n    Lauguage :\t{compilation.Language}___{compilation.LanguageVersion}");
+                        recoder.AppendLine($"\r\n    Time :\t\t{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}");
+                        recoder.AppendLine($"\r\n    Lauguage :\t{compilation.Language} & {compilation.LanguageVersion}");
                         recoder.AppendLine($"\r\n    Target :\t\t{ClassName}");
                         recoder.AppendLine($"\r\n    Size :\t\t{stream.Length}");
                         recoder.AppendLine($"\r\n    Assembly : \t{result.FullName}");
@@ -186,7 +186,8 @@ namespace Natasha.Complier
                     if (NScriptLog.UseLog)
                     {
                         recoder.AppendLine("\r\n\r\n------------------------------------------error----------------------------------------------");
-                        recoder.AppendLine($"\r\n    Lauguage :\t{compilation.Language}___{compilation.LanguageVersion}");
+                        recoder.AppendLine($"\r\n    Time :\t\t{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}");
+                        recoder.AppendLine($"\r\n    Lauguage :\t{compilation.Language} & {compilation.LanguageVersion}");
                         recoder.AppendLine($"\r\n    Target:\t\t{ClassName}");
                         recoder.AppendLine($"\r\n    Error:\t\t共{fileResult.Diagnostics.Length}处错误！");
                     }
@@ -248,7 +249,7 @@ namespace Natasha.Complier
 
 
             //生成路径
-            string path = $"{LibPath}{ClassNames[0]}.dll";
+            string path = Path.Combine(LibPath,$"{ClassNames[0]}.dll");
 
 
             if (DynamicDlls.ContainsKey(path))
@@ -276,6 +277,64 @@ namespace Natasha.Complier
             try
             {
                 fileResult = compilation.Emit(path);
+                if (fileResult.Success)
+                {
+
+                    //为了实现动态中的动态，使用文件加载模式常驻内存
+                    AssemblyLoadContext context = AssemblyLoadContext.Default;
+                    var result = context.LoadFromAssemblyPath(path);
+                    References.Add(MetadataReference.CreateFromFile(path));
+                    for (int i = 0; i < ClassNames.Length; i += 1)
+                    {
+                        ClassMapping[ClassNames[i]] = result;
+                    }
+
+                    if (NScriptLog.UseLog)
+                    {
+                        recoder.AppendLine("\r\n\r\n------------------------------------------succeed-------------------------------------------");
+                        recoder.AppendLine($"\r\n    Time :\t\t{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}");
+                        recoder.AppendLine($"\r\n    Lauguage :\t{compilation.Language} & {compilation.LanguageVersion}");
+                        recoder.AppendLine($"\r\n    Target :\t\t{ClassNames[0]}");
+                        recoder.AppendLine($"\r\n    Path :\t\t{path}");
+                        recoder.AppendLine($"\r\n    Assembly : \t{result.FullName}");
+                        recoder.AppendLine("\r\n----------------------------------------------------------------------------------------------");
+                        NScriptLog.Succeed("Succeed : " + ClassNames[0], recoder.ToString());
+                    }
+
+
+                    DynamicDlls[path] = result;
+                    return result;
+                }
+                else
+                {
+
+                    if (NScriptLog.UseLog)
+                    {
+                        recoder.AppendLine("\r\n\r\n------------------------------------------error----------------------------------------------");
+                        recoder.AppendLine($"\r\n    Time :\t\t{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}");
+                        recoder.AppendLine($"\r\n    Lauguage :\t{compilation.Language} & {compilation.LanguageVersion}");
+                        recoder.AppendLine($"\r\n    Target:\t\t{ClassNames[0]}");
+                        recoder.AppendLine($"\r\n    Error:\t\t共{fileResult.Diagnostics.Length}处错误！");
+
+                    }
+
+                    foreach (var item in fileResult.Diagnostics)
+                    {
+                        if (NScriptLog.UseLog)
+                        {
+                            var temp = item.Location.GetLineSpan().StartLinePosition;
+                            var result = GetErrorString(content, item.Location.GetLineSpan());
+                            recoder.AppendLine($"\t\t第{temp.Line}行，第{temp.Character}个字符：       内容【{result}】  {item.GetMessage()}");
+                        }
+                        errorAction?.Invoke(item);
+                    }
+
+
+                    recoder.AppendLine("\r\n---------------------------------------------------------------------------------------------");
+                    NScriptLog.Error("Error : " + ClassNames[0], recoder.ToString());
+
+                }
+                return null;
             }
             catch (Exception ex)
             {
@@ -294,63 +353,6 @@ namespace Natasha.Complier
                 }
                 return null;
             }
-
-            if (fileResult.Success)
-            {
-                References.Add(MetadataReference.CreateFromFile(path));
-                //为了实现动态中的动态，使用文件加载模式常驻内存
-
-                AssemblyLoadContext context = AssemblyLoadContext.Default;
-                var result = context.LoadFromAssemblyPath(path);
-
-                for (int i = 0; i < ClassNames.Length; i += 1)
-                {
-                    ClassMapping[ClassNames[i]] = result;
-                }
-
-                if (NScriptLog.UseLog)
-                {
-                    recoder.AppendLine("\r\n\r\n------------------------------------------succeed-------------------------------------------");
-                    recoder.AppendLine($"\r\n    Lauguage :\t{compilation.Language}___{compilation.LanguageVersion}");
-                    recoder.AppendLine($"\r\n    Target :\t\t{ClassNames[0]}");
-                    recoder.AppendLine($"\r\n    Path :\t\t{path}");
-                    recoder.AppendLine($"\r\n    Assembly : \t{result.FullName}");
-                    recoder.AppendLine("\r\n----------------------------------------------------------------------------------------------");
-                    NScriptLog.Succeed("Succeed : " + ClassNames[0], recoder.ToString());
-                }
-
-
-                DynamicDlls[path] = result;
-                return result;
-            }
-            else
-            {
-
-                if (NScriptLog.UseLog)
-                {
-                    recoder.AppendLine("\r\n\r\n------------------------------------------error----------------------------------------------");
-                    recoder.AppendLine($"\r\n    Lauguage :\t{compilation.Language}___{compilation.LanguageVersion}");
-                    recoder.AppendLine($"\r\n    Target:\t\t{ClassNames[0]}");
-                    recoder.AppendLine($"\r\n    Error:\t\t共{fileResult.Diagnostics.Length}处错误！");
-                }
-
-                foreach (var item in fileResult.Diagnostics)
-                {
-                    if (NScriptLog.UseLog)
-                    {
-                        var temp = item.Location.GetLineSpan().StartLinePosition;
-                        var result = GetErrorString(content, item.Location.GetLineSpan());
-                        recoder.AppendLine($"\t\t第{temp.Line}行，第{temp.Character}个字符：       内容【{result}】  {item.GetMessage()}");
-                    }
-                    errorAction?.Invoke(item);
-                }
-
-
-                recoder.AppendLine("\r\n---------------------------------------------------------------------------------------------");
-                NScriptLog.Error("Error : " + ClassNames[0], recoder.ToString());
-
-            }
-            return null;
         }
 
 

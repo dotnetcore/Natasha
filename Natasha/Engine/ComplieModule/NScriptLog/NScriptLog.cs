@@ -6,7 +6,9 @@
 
 
         public static bool UseLog;
-        static NScriptLog() => UseLog = true;
+        static NScriptLog(){
+            UseLog = true;
+        }
 
 
         public static void Error(string title,string content)

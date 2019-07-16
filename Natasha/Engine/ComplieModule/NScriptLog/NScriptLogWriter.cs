@@ -12,15 +12,34 @@ namespace Natasha
     public static class NScriptLogWriter<T>
     {
 
-
         public static readonly StreamWriter LogWriter;
         public static readonly ConcurrentQueue<string> LogQueue;
-
+        public static readonly string YearPath;
+        public static readonly string DayPath;
 
         static NScriptLogWriter()
         {
+            string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log/");
+            if (!Directory.Exists(logPath))
+            {
+                Directory.CreateDirectory(logPath);
+            }
+
+            YearPath = Path.Combine(logPath, DateTime.Now.Year.ToString());
+            if (!Directory.Exists(YearPath))
+            {
+                Directory.CreateDirectory(YearPath);
+            }
+            
+            DayPath = Path.Combine(YearPath, DateTime.Now.ToString("MM月dd日"));
+            if (!Directory.Exists(DayPath))
+            {
+                Directory.CreateDirectory(DayPath);
+            }
+
             LogQueue = new ConcurrentQueue<string>();
-            LogWriter = new StreamWriter($"{typeof(T).Name}.log", true, Encoding.UTF8);
+            var logFile = Path.Combine(DayPath, $"{typeof(T).Name}.log");
+            LogWriter = new StreamWriter(logFile, true, Encoding.UTF8);
         }
 
         public static void Show(string msg)

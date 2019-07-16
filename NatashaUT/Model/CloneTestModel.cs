@@ -100,10 +100,10 @@ namespace NatashaUT.Model
     }
     public class CloneDictCollectionModel
     {
-        public Dictionary<string, List<FieldCloneNormalModel>> Dicts;
+        public Dictionary<List<string>, List<FieldCloneNormalModel>> Dicts;
     }
     public class CloneDictArrayModel
     {
-        public Dictionary<FieldCloneNormalModel, string>[] Dicts;
+        public Dictionary<string, FieldCloneNormalModel[]>[] Dicts;
     }
 }
