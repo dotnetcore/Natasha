@@ -455,7 +455,8 @@ namespace NatashaUT
             }
         }
 
-        [Fact(DisplayName = "链表节点")]
+
+        [Fact(DisplayName = "C#链表测试")]
         public void CloneLinkTest()
         {
             FieldLinkModel model = new FieldLinkModel();
@@ -472,12 +473,107 @@ namespace NatashaUT
 
 
             var newModel = CloneOperator.Clone(model);
+            newModel.Nodes  = CloneOperator.Clone(model.Nodes);
             Assert.NotEqual(model.Nodes.First, newModel.Nodes.First);
             Assert.Equal(model.Nodes.First.Value.Name, newModel.Nodes.First.Value.Name);
 
             Assert.NotEqual(model.Nodes.First.Next, newModel.Nodes.First.Next);
             Assert.Equal(model.Nodes.First.Next.Value.Name, newModel.Nodes.First.Next.Value.Name);
 
+        }
+
+        [Fact(DisplayName = "C#链表数组测试")]
+        public void CloneLinkArrayTest()
+        {
+            FieldLinkArrayModel model = new FieldLinkArrayModel
+            {
+                Nodes = new LinkedList<FieldLinkArrayModel>[5]
+            };
+
+
+            for (int i = 0; i < 5; i++)
+            {
+                model.Nodes[i] = new LinkedList<FieldLinkArrayModel>();
+                model.Nodes[i].AddLast(new FieldLinkArrayModel()
+                {
+                    Name = i.ToString(),
+                    Age = i
+                });
+                model.Nodes[i].AddLast(new FieldLinkArrayModel()
+                {
+                    Name = (i+1).ToString(),
+                    Age = i+1
+                });
+            }
+
+
+            var newModel = CloneOperator.Clone(model);
+            newModel.Nodes = CloneOperator.Clone(model.Nodes);
+
+            Assert.NotEqual(model.Nodes, newModel.Nodes);
+            Assert.Equal(model.Nodes.Length, newModel.Nodes.Length);
+
+            for (int i = 0; i < 5; i++)
+            {
+                Assert.NotEqual(model.Nodes[i], newModel.Nodes[i]);
+                Assert.NotEqual(model.Nodes[i].First, newModel.Nodes[i].First);
+                Assert.Equal(model.Nodes[i].First.Value.Name, newModel.Nodes[i].First.Value.Name);
+                Assert.NotEqual(model.Nodes[i].First.Next, newModel.Nodes[i].First.Next);
+                Assert.Equal(model.Nodes[i].First.Next.Value.Name, newModel.Nodes[i].First.Next.Value.Name);
+            }
+        }
+
+
+        [Fact(DisplayName = "自实现链表测试")]
+        public void CloneSelfTest()
+        {
+            FieldSelfLinkModel model = new FieldSelfLinkModel()
+            {
+                Name = "1",
+                Age = 1
+            };
+            model.Next = new FieldSelfLinkModel()
+            {
+                Name = "2",
+                Age = 2
+            };
+
+
+            var newModel = CloneOperator.Clone(model);
+            Assert.NotEqual(model.Next, newModel.Next);
+            Assert.Equal(model.Next.Name, newModel.Next.Name);
+        }
+
+
+        [Fact(DisplayName = "自实现链表数组测试")]
+        public void CloneArraySelfTest()
+        {
+            FieldSelfLinkArrayModel model = new FieldSelfLinkArrayModel()
+            {
+                Name = "1",
+                Age = 1
+            };
+
+
+            model.Next = new FieldSelfLinkArrayModel[5];
+            for (int i = 0; i < 5; i++)
+            {
+                model.Next[i] = new FieldSelfLinkArrayModel()
+                {
+                    Name = i.ToString(),
+                    Age = i
+                };
+            }
+            
+
+            var newModel = CloneOperator.Clone(model);
+            Assert.NotEqual(model.Next, newModel.Next);
+            for (int i = 0; i < 5; i++)
+            {
+                Assert.NotEqual(model.Next[i], newModel.Next[i]);
+                Assert.Equal(model.Next[i].Name, newModel.Next[i].Name);
+            }
+           
         }
     }
 }

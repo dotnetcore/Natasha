@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 namespace Natasha
 {
@@ -8,6 +10,12 @@ namespace Natasha
         public bool IncludeStatic;
         public bool IncludeCanWrite;
         public bool IncludeCanRead;
+        public bool UseSelfDelay;
+
+        public TypeIterator()
+        {
+            UseSelfDelay = true;
+        }
 
 
         /// <summary>
@@ -16,10 +24,10 @@ namespace Natasha
         /// <param name="type"></param>
         public virtual void EntityHandler(Type type)
         {
-            
+
         }
 
-        
+
         #region ArraySingle
         /// <summary>
         /// 一次性赋值的类型，比如int,string,枚举这类的
@@ -134,6 +142,8 @@ namespace Natasha
                 if ((!fieldInfo.IsStatic | IncludeStatic) && !fieldInfo.IsInitOnly)
                 {
                     Type fieldType = fieldInfo.FieldType;
+
+
                     if (fieldType.IsOnceType())       //普通字段
                     {
                         FieldOnceTypeHandler(fieldInfo);
@@ -147,44 +157,64 @@ namespace Natasha
                         }
                         else
                         {
-                            EntityHandler(eleType);
-                            FieldArrayEntityHandler(fieldInfo);
+                            if (!IsSelfType(eleType))
+                            {
+                                EntityHandler(eleType);
+                                FieldArrayEntityHandler(fieldInfo);
+                            }
+                            else if (eleType == CurrentType)
+                            {
+                                FieldArrayEntityHandler(fieldInfo);
+                            }
                         }
                     }
                     else if (!fieldType.IsNotPublic)
                     {
+
                         //检测集合
-                        EntityHandler(fieldType);
+
+
                         if (fieldType.GetInterface("IEnumerable") != null)
                         {
-                            if (fieldType.GetInterface("IDictionary") != null)
+                            if (!IsSelfType(fieldType))
                             {
-                                if (fieldType.IsInterface)
+                                EntityHandler(fieldType);
+
+                                if (fieldType.GetInterface("IDictionary") != null)
                                 {
-                                    FieldIDictionaryHandler(fieldInfo);
+                                    if (fieldType.IsInterface)
+                                    {
+                                        FieldIDictionaryHandler(fieldInfo);
+                                    }
+                                    else
+                                    {
+                                        FieldDictionaryHandler(fieldInfo);
+                                    }
                                 }
                                 else
                                 {
-                                    FieldDictionaryHandler(fieldInfo);
+                                    if (fieldType.IsInterface)
+                                    {
+                                        FieldICollectionHandler(fieldInfo);
+                                    }
+                                    else
+                                    {
+                                        FieldCollectionHandler(fieldInfo);
+                                    }
                                 }
-                            }
-                            else
-                            {
-                                if (fieldType.IsInterface)
-                                {
-                                    FieldICollectionHandler(fieldInfo);
-                                }
-                                else
-                                {
-                                    FieldCollectionHandler(fieldInfo);
-                                }
+
                             }
                         }
                         else
                         {
+                            if (!IsSelfType(fieldType))
+                            {
+                                EntityHandler(fieldType);
+                            }
                             FieldEntityHandler(fieldInfo);
                         }
                     }
+
                 }
             }
 
@@ -197,60 +227,77 @@ namespace Natasha
                 if ((propertyInfo.CanRead | !IncludeCanRead) && (propertyInfo.CanWrite | !IncludeCanWrite) && (!propertyInfo.GetGetMethod(true).IsStatic | IncludeStatic))
                 {
                     Type propertyType = propertyInfo.PropertyType;
-
-                    if (propertyType.IsOnceType())               //普通属性
+                    //检测集合
+                    HashSet<Type> types = new HashSet<Type>(propertyType.GetAllGenericTypes());
+                    if (!types.Contains(CurrentType) | !UseSelfDelay)
                     {
-                        PropertyOnceTypeHandler(propertyInfo);
-                    }
-                    else if (propertyType.IsArray)               //数组
-                    {
-
-                        Type eleType = propertyType.GetElementType();
-
-                        if (eleType.IsOnceType())
+                        if (propertyType.IsOnceType())               //普通属性
                         {
-                            PropertyArrayOnceTypeHandler(propertyInfo);
+                            PropertyOnceTypeHandler(propertyInfo);
                         }
-                        else
+                        else if (propertyType.IsArray)               //数组
                         {
-                            EntityHandler(eleType);
-                            PropertyArrayEntityHandler(propertyInfo);
-                        }
-                    }
-                    else if (!propertyType.IsNotPublic)
-                    {
-                        //检测集合
-                        EntityHandler(propertyType);
 
+                            Type eleType = propertyType.GetElementType();
 
-                        if (propertyType.GetInterface("IEnumerable") != null)
-                        {
-                            if (propertyType.GetInterface("IDictionary") != null)
+                            if (eleType.IsOnceType())
                             {
-                                if (propertyType.IsInterface)
+                                PropertyArrayOnceTypeHandler(propertyInfo);
+                            }
+                            else
+                            {
+                                if (!IsSelfType(eleType))
                                 {
-                                    PropertyIDictionaryHandler(propertyInfo);
+                                    EntityHandler(eleType);
+                                    PropertyArrayEntityHandler(propertyInfo);
                                 }
-                                else
+                                else if (eleType == CurrentType)
                                 {
-                                    PropertyDictionaryHandler(propertyInfo);
+                                    PropertyArrayEntityHandler(propertyInfo);
+                                }
+                            }
+                        }
+                        else if (!propertyType.IsNotPublic)
+                        {
+                            //检测集合
+                            if (propertyType.GetInterface("IEnumerable") != null)
+                            {
+                                if (!IsSelfType(propertyType))
+                                {
+                                    EntityHandler(propertyType);
+
+                                    if (propertyType.GetInterface("IDictionary") != null)
+                                    {
+                                        if (propertyType.IsInterface)
+                                        {
+                                            PropertyIDictionaryHandler(propertyInfo);
+                                        }
+                                        else
+                                        {
+                                            PropertyDictionaryHandler(propertyInfo);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (propertyType.IsInterface)
+                                        {
+                                            PropertyICollectionHandler(propertyInfo);
+                                        }
+                                        else
+                                        {
+                                            PropertyCollectionHandler(propertyInfo);
+                                        }
+                                    }
                                 }
                             }
                             else
                             {
-                                if (propertyType.IsInterface)
+                                if (!IsSelfType(propertyType))
                                 {
-                                    PropertyICollectionHandler(propertyInfo);
+                                    EntityHandler(propertyType);
                                 }
-                                else
-                                {
-                                    PropertyCollectionHandler(propertyInfo);
-                                }
+                                PropertyEntityHandler(propertyInfo);
                             }
-                        }
-                        else
-                        {
-                            PropertyEntityHandler(propertyInfo);
                         }
                     }
                 }
@@ -266,7 +313,7 @@ namespace Natasha
         /// </summary>
         /// <param name="type"></param>
         public void CollectionRouter(Type type)
-        {           
+        {
 
             if (!type.IsGenericType)
             {
@@ -529,7 +576,7 @@ namespace Natasha
             }
             else if (type.GetInterface("IEnumerable") != null)  //集合直接
             {
-                if (type.GetInterface("IDictionary")!=null)
+                if (type.GetInterface("IDictionary") != null)
                 {
                     DictionaryRouter(type);
                 }
@@ -545,6 +592,25 @@ namespace Natasha
             }
             return true;
         }
-    }    
+
+        private HashSet<Type> GetSelfTypes(Type type)
+        {
+            HashSet<Type> types = new HashSet<Type>();
+            if (type.HasElementType)
+            {
+                types.UnionWith(GetSelfTypes(type.GetElementType()));
+            }
+            else
+            {
+                types.UnionWith(type.GetAllGenericTypes());
+            }
+            return types;
+        }
+
+        public bool IsSelfType(Type type)
+        {
+            return GetSelfTypes(type).Contains(CurrentType);
+        }
+    }
 }
 

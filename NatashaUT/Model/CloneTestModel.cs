@@ -117,4 +117,25 @@ namespace NatashaUT.Model
             Nodes = new LinkedList<FieldLinkModel>();
         }
     }
+
+    public class FieldLinkArrayModel
+    {
+        public LinkedList<FieldLinkArrayModel>[] Nodes;
+        public string Name;
+        public int Age;
+    }
+
+    public class FieldSelfLinkModel
+    {
+        public FieldSelfLinkModel Next;
+        public string Name;
+        public int Age;
+    }
+
+    public class FieldSelfLinkArrayModel
+    {
+        public FieldSelfLinkArrayModel[] Next;
+        public string Name;
+        public int Age;
+    }
 }

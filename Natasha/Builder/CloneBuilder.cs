@@ -20,14 +20,17 @@ namespace Natasha
         private readonly FastMethodOperator MethodHandler;
         private const string NewInstance = "NewInstance";
         private const string OldInstance = "OldInstance";
-        private static readonly HashSet<Type> HashTypes;
 
         public static readonly ConcurrentDictionary<Type, Delegate> CloneCache;
-        static CloneBuilder() => CloneCache = new ConcurrentDictionary<Type, Delegate>();
+        static CloneBuilder()
+        {
+            CloneCache = new ConcurrentDictionary<Type, Delegate>();
+        }
 
 
 
-        public CloneBuilder(Type type=null) {
+        public CloneBuilder(Type type = null)
+        {
             CurrentType = type;
             Script = new StringBuilder();
             MethodHandler = new FastMethodOperator();
@@ -41,9 +44,8 @@ namespace Natasha
 
         public override void EntityHandler(Type type)
         {
-            if (!HashTypes.Contains(type))
+            if (!CloneCache.ContainsKey(type))
             {
-                HashTypes.Add(type);
                 MethodHandler.Using("Natasha");
                 CloneBuilder builder = new CloneBuilder(type);
                 builder.Create();
@@ -62,7 +64,6 @@ namespace Natasha
             //创建委托
             var tempBuilder = FastMethodOperator.New;
             tempBuilder.ComplierOption.UseFileComplie();
-            tempBuilder.Using(info.DeclaringType);
             CloneCache[info.DeclaringType] = tempBuilder
                         .Using("Natasha")
                         .ClassName("NatashaClone" + info.DeclaringAvailableName)
@@ -90,7 +91,6 @@ namespace Natasha
             //创建委托
             var tempBuilder = FastMethodOperator.New;
             tempBuilder.ComplierOption.UseFileComplie();
-            tempBuilder.Using(info.DeclaringTypeName);
             CloneCache[info.DeclaringType] = tempBuilder
                         .Using("Natasha")
                         .Using(info.ElementType)
@@ -120,7 +120,6 @@ namespace Natasha
             //创建委托
             var tempBuilder = FastMethodOperator.New;
             tempBuilder.ComplierOption.UseFileComplie();
-            tempBuilder.Using(info.DeclaringType);
             CloneCache[info.DeclaringType] = tempBuilder
                         .Using("Natasha")
                         .Using(info.ElementType)
@@ -154,15 +153,11 @@ namespace Natasha
 
             //创建委托
             var tempBuilder = FastMethodOperator.New;
-            tempBuilder.Using(info.DeclaringType.GetGenericArguments());
-            tempBuilder.Using("Natasha");
-            tempBuilder.Using("System.Linq");
             tempBuilder.ComplierOption.UseFileComplie();
             CloneCache[info.DeclaringType] = tempBuilder
                         .Using("Natasha")
-                        .Using(info.DeclaringType)
-                        .Using(info.DeclaringType.GetAllGenericTypes())
-                        .ClassName("NatashaClone" +info.DeclaringAvailableName)
+                        .Using("System.Linq")
+                        .ClassName("NatashaClone" + info.DeclaringAvailableName)
                         .MethodName("Clone")
                         .Param(info.DeclaringType, "oldInstance")                 //参数
                         .MethodBody(scriptBuilder.ToString())                     //方法体
@@ -191,14 +186,10 @@ namespace Natasha
 
             //创建委托
             var tempBuilder = FastMethodOperator.New;
-            tempBuilder.Using(info.DeclaringType.GetGenericArguments());
-            tempBuilder.Using("Natasha");
-            tempBuilder.Using("System.Linq");
             tempBuilder.ComplierOption.UseFileComplie();
             CloneCache[info.DeclaringType] = tempBuilder
                         .Using("Natasha")
-                        .Using(info.DeclaringType)
-                        .Using(info.DeclaringType.GetAllGenericTypes())
+                        .Using("System.Linq")
                         .ClassName("NatashaClone" + info.DeclaringAvailableName)
                         .MethodName("Clone")
                         .Param(info.DeclaringType, "oldInstance")                 //参数
@@ -240,14 +231,10 @@ namespace Natasha
 
             //创建委托
             var tempBuilder = FastMethodOperator.New;
-            tempBuilder.Using(info.DeclaringType.GetGenericArguments());
-            tempBuilder.Using("Natasha");
-            tempBuilder.Using("System.Linq");
             tempBuilder.ComplierOption.UseFileComplie();
             CloneCache[info.DeclaringType] = tempBuilder
                         .Using("Natasha")
-                        .Using(info.DeclaringType)
-                        .Using(info.DeclaringType.GetAllGenericTypes())
+                        .Using("System.Linq")
                         .ClassName("NatashaClone" + info.DeclaringAvailableName)
                         .MethodName("Clone")
                         .Param(info.DeclaringType, "oldInstance")                 //参数
@@ -262,7 +249,6 @@ namespace Natasha
         public override void MemberDictionaryHandler(BuilderInfo info)
         {
             MethodHandler.Using(info.MemberType);
-            MethodHandler.Using(info.MemberType.GetAllGenericTypes());
             Script.Append($@"if({OldInstance}.{info.MemberName}!=null){{");
             Script.Append($@"{NewInstance}.{info.MemberName} = NatashaClone{info.MemberTypeAvailableName}.Clone({OldInstance}.{info.MemberName});}}");
         }
@@ -273,7 +259,6 @@ namespace Natasha
         public override void MemberIDictionaryHandler(BuilderInfo info)
         {
             MethodHandler.Using(info.MemberType);
-            MethodHandler.Using(info.MemberType.GetAllGenericTypes());
             Script.Append($@"if({OldInstance}.{info.MemberName}!=null){{");
             Script.Append($@"{NewInstance}.{info.MemberName} = NatashaClone{info.MemberTypeAvailableName}.Clone({OldInstance}.{info.MemberName});}}");
         }
@@ -311,14 +296,10 @@ namespace Natasha
 
             //创建委托
             var tempBuilder = FastMethodOperator.New;
-            tempBuilder.Using(info.DeclaringType.GetGenericArguments());
-            tempBuilder.Using("Natasha");
-            tempBuilder.Using("System.Linq");
             tempBuilder.ComplierOption.UseFileComplie();
             CloneCache[info.DeclaringType] = tempBuilder
                         .Using("Natasha")
-                        .Using(info.DeclaringType)
-                        .Using(info.DeclaringType.GetAllGenericTypes())
+                        .Using("System.Linq")
                         .ClassName("NatashaClone" + info.DeclaringAvailableName)
                         .MethodName("Clone")
                         .Param(info.DeclaringType, "oldInstance")                 //参数
@@ -389,7 +370,6 @@ namespace Natasha
         public override void MemberICollectionHandler(BuilderInfo info)
         {
             MethodHandler.Using(info.MemberType);
-            MethodHandler.Using(info.MemberType.GetAllGenericTypes());
             Script.Append($@"if({OldInstance}.{info.MemberName}!=null){{");
             Script.Append($@"{NewInstance}.{info.MemberName} = NatashaClone{info.MemberTypeAvailableName}.Clone({OldInstance}.{info.MemberName});}}");
         }
@@ -400,7 +380,6 @@ namespace Natasha
         public override void MemberCollectionHandler(BuilderInfo info)
         {
             MethodHandler.Using(info.MemberType);
-            MethodHandler.Using(info.MemberType.GetAllGenericTypes());
             Script.Append($@"if({OldInstance}.{info.MemberName}!=null){{");
             Script.Append($@"{NewInstance}.{info.MemberName} = NatashaClone{info.MemberTypeAvailableName}.Clone({OldInstance}.{info.MemberName});}}");
         }
@@ -424,6 +403,8 @@ namespace Natasha
             {
                 return CloneCache[CurrentType];
             }
+
+
             if (TypeRouter(CurrentType))
             {
                 //创建委托
@@ -432,8 +413,8 @@ namespace Natasha
                             .ClassName("NatashaClone" + CurrentType.GetAvailableName())
                             .MethodName("Clone")
                             .Param(CurrentType, OldInstance)                //参数
-                            .MethodBody(Script.ToString())                 //方法体
-                            .Return(CurrentType)                              //返回类型
+                            .MethodBody(Script.ToString())                  //方法体
+                            .Return(CurrentType)                            //返回类型
                            .Complie();
                 return CloneCache[CurrentType] = @delegate;
             }

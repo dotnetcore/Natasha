@@ -18,8 +18,10 @@ namespace Natasha
 
         public static List<Type> GetAllGenericTypes(this Type type)
         {
-            List<Type> result = new List<Type>();
-            result.Add(type);
+            List<Type> result = new List<Type>
+            {
+                type
+            };
             if (type.IsGenericType && type.FullName != null)
             {
                 foreach (var item in type.GetGenericArguments())
