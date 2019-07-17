@@ -194,11 +194,10 @@ namespace HelloWorld
                 //Console.WriteLine("试验 DynamicOperator<>:\t" + stopwatch.Elapsed);
 
 
-
+                var tEntity = new TestB();
                 stopwatch.Restart();
                 for (int i = 0; i < 50000; i++)
                 {
-                    var tEntity = new TestB();
                     if (tEntity.Name == "111")
                     {
                         //调用动态委托赋值
@@ -211,12 +210,11 @@ namespace HelloWorld
 
 
 
+                entity = EntityOperator.Create(typeof(TestB));
+                entity.New();
                 stopwatch.Restart();
                 for (int i = 0; i < 50000; i++)
                 {
-                    entity = EntityOperator.Create(typeof(TestB));
-                    entity.New();
-
                     if (entity.Get<string>("Name") == "111")
                     {
                         //调用动态委托赋值
@@ -226,24 +224,24 @@ namespace HelloWorld
                 stopwatch.Stop();
                 Console.WriteLine("Natasha EntityOperator:\t" + stopwatch.Elapsed);
 
-
+                var instance1 = new TestB();
                 stopwatch.Restart();
                 for (int i = 0; i < 50000; i++)
                 {
-                    RunDynamic(new TestB());
+                    RunDynamic(instance1);
                 }
                 stopwatch.Stop();
                 Console.WriteLine("Dynamic :\t\t" + stopwatch.Elapsed);
 
 
+                var tempEntity = (new TestB()).Caller();
                 stopwatch.Restart();
                 for (int i = 0; i < 50000; i++)
                 {
-                    var tEntity = (new TestB()).Caller();
-                    if (tEntity.Get<string>("Name") == "111")
+                    if (tempEntity.Get<string>("Name") == "111")
                     {
                         //调用动态委托赋值
-                        tEntity.Set("Name", "222");
+                        tempEntity.Set("Name", "222");
                     }
                 }
                 stopwatch.Stop();
