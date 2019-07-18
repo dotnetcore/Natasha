@@ -194,10 +194,11 @@ namespace HelloWorld
                 //Console.WriteLine("试验 DynamicOperator<>:\t" + stopwatch.Elapsed);
 
 
-                var tEntity = new TestB();
+                
                 stopwatch.Restart();
                 for (int i = 0; i < 50000; i++)
                 {
+                    var tEntity = new TestB();
                     if (tEntity.Name == "111")
                     {
                         //调用动态委托赋值
@@ -208,13 +209,21 @@ namespace HelloWorld
                 Console.WriteLine("原生调用:\t\t" + stopwatch.Elapsed);
 
 
-
-
-                entity = EntityOperator.Create(typeof(TestB));
-                entity.New();
                 stopwatch.Restart();
                 for (int i = 0; i < 50000; i++)
                 {
+                    var instance1 = new TestB();
+                    RunDynamic(instance1);
+                }
+                stopwatch.Stop();
+                Console.WriteLine("Dynamic :\t\t" + stopwatch.Elapsed);
+
+
+                entity = EntityOperator.Create(typeof(TestB));
+                stopwatch.Restart();
+                for (int i = 0; i < 50000; i++)
+                {
+                    entity.New();
                     if (entity.Get<string>("Name") == "111")
                     {
                         //调用动态委托赋值
@@ -224,20 +233,11 @@ namespace HelloWorld
                 stopwatch.Stop();
                 Console.WriteLine("Natasha EntityOperator:\t" + stopwatch.Elapsed);
 
-                var instance1 = new TestB();
+
                 stopwatch.Restart();
                 for (int i = 0; i < 50000; i++)
                 {
-                    RunDynamic(instance1);
-                }
-                stopwatch.Stop();
-                Console.WriteLine("Dynamic :\t\t" + stopwatch.Elapsed);
-
-
-                var tempEntity = (new TestB()).Caller();
-                stopwatch.Restart();
-                for (int i = 0; i < 50000; i++)
-                {
+                    var tempEntity = (new TestB()).Caller();
                     if (tempEntity.Get<string>("Name") == "111")
                     {
                         //调用动态委托赋值
@@ -246,6 +246,19 @@ namespace HelloWorld
                 }
                 stopwatch.Stop();
                 Console.WriteLine("Natasha Extension:\t" + stopwatch.Elapsed);
+
+
+                stopwatch.Restart();
+                for (int i = 0; i < 50000; i++)
+                {
+                    var instance1 = new TestB();
+                    RunDynamic(instance1);
+                }
+                stopwatch.Stop();
+                Console.WriteLine("Dynamic :\t\t" + stopwatch.Elapsed);
+
+
+
                 Console.WriteLine("===========================");
             }
             /*
@@ -344,6 +357,38 @@ namespace HelloWorld
         }
         public string Name;
         public int Age;
+        public int Age1;
+        public int Age2;
+        public int Age3;
+        public int Age4;
+        public int Age5;
+        public int Age6;
+
+        public int Age7;
+        public int Age8;
+        public int Age9;
+        public int Age10;
+        public int Age11;
+        public int Age12;
+        public int Age13;
+        public int Age21;
+        public int Age31;
+        public int Age41;
+        public int Age51;
+        public int Age61;
+
+        public int Age71;
+        public int Age81;
+        public int Age91;
+        public int Age211;
+        public int Age311;
+        public int Age411;
+        public int Age511;
+        public int Age611;
+
+        public int Age711;
+        public int Age811;
+        public int Age911;
         public void TestMethod()
         {
 

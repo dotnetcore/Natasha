@@ -28,9 +28,9 @@ namespace Natasha
 
         public abstract T Get<T>();
 
-        public abstract void Set<T>(string name, T value);
+        public abstract void Set(string name, object value);
 
-        public abstract void Set<T>(T value);
+        public abstract void Set(object value);
 
     }
 }

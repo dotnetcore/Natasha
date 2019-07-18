@@ -51,8 +51,6 @@ namespace Natasha.Caller.Wrapper
                     memberCache[fields[i].FieldType] = new List<string>();
                 }
                 memberCache[fields[i].FieldType].Add(fields[i].Name);
-                body.AppendLine($"private static readonly Func<{type.GetDevelopName()},{fields[i].FieldType.GetDevelopName()}> CallerInnerGetter{fields[i].Name};");
-                body.AppendLine($"private static readonly Action<{type.GetDevelopName()},{fields[i].FieldType.GetDevelopName()}> CallerInnerSetter{fields[i].Name};");
             }
 
             var props = type.GetProperties();
@@ -63,40 +61,14 @@ namespace Natasha.Caller.Wrapper
                     memberCache[props[i].PropertyType] = new List<string>();
                 }
                 memberCache[props[i].PropertyType].Add(props[i].Name);
-                body.AppendLine($"private static readonly Func<{type.GetDevelopName()},{props[i].PropertyType.GetDevelopName()}> CallerInnerGetter{props[i].Name};");
-                body.AppendLine($"private static readonly Action<{type.GetDevelopName()},{props[i].PropertyType.GetDevelopName()}> CallerInnerSetter{props[i].Name};");
             }
 
 
 
-            body.AppendLine($"static {className}(){{");
-            foreach (var item in memberCache)
-            {
-                foreach (var name in item.Value)
-                {
-                    body.AppendLine($@"CallerInnerGetter{name} = FastMethodOperator
-                                                                .New
-                                                                .Using(""Natasha.Caller"")
-                                                                .Param <{type.GetDevelopName()}>(""obj"")
-                                                                .MethodBody(""return obj.{name};"")
-                                                                .Return<{item.Key.GetDevelopName()}>()
-                                                                .Complie<Func<{type.GetDevelopName()}, {item.Key.GetDevelopName()}>>();");
-                    body.AppendLine($@"CallerInnerSetter{name} = FastMethodOperator
-                                                                .New
-                                                                .Using(""Natasha.Caller"")
-                                                                .Param<{type.GetDevelopName()}>(""obj"")
-                                                                .Param<{item.Key.GetDevelopName()}>(""value"")
-                                                                .MethodBody(""obj.{name} = value;"")
-                                                                .Return()
-                                                                .Complie<Action<{type.GetDevelopName()}, {item.Key.GetDevelopName()}>>();");
-                }
-            }
-            body.Append("}");
 
 
-
-            body.AppendLine("public override T Get<T>(string name)where T : Int32,String{");
-
+            body.AppendLine("public override T Get<T>(string name){");
+            body.Append("var targetType = typeof(T);");
             int indexType = 0;
             foreach (var item in memberCache)
             {
@@ -104,7 +76,7 @@ namespace Natasha.Caller.Wrapper
                 {
                     body.Append("else ");
                 }
-                body.Append($"if(typeof(T)==typeof({item.Key.GetDevelopName()})){{");
+                body.Append($"if(targetType==typeof({item.Key.GetDevelopName()})){{");
                 int indexName = 0;
                 foreach (var name in item.Value)
                 {
@@ -113,7 +85,7 @@ namespace Natasha.Caller.Wrapper
                         body.Append("else ");
                     }
                     body.Append($"if( name == \"{name}\"){{");
-                    body.Append($"return (T)CallerInnerGetter{name}(Instance);");
+                    body.Append($"return (T)((object)Instance.{name});");
                     body.Append("}");
                     indexName++;
                 }
@@ -123,7 +95,8 @@ namespace Natasha.Caller.Wrapper
             body.Append("return default;}");
 
 
-            body.AppendLine("public override T Get<T>()where T : Int32,String{");
+            body.AppendLine("public override T Get<T>(){");
+            body.Append("var targetType = typeof(T);");
             indexType = 0;
             foreach (var item in memberCache)
             {
@@ -131,7 +104,7 @@ namespace Natasha.Caller.Wrapper
                 {
                     body.Append("else ");
                 }
-                body.Append($"if(typeof(T)==typeof({item.Key.GetDevelopName()})){{");
+                body.Append($"if(targetType==typeof({item.Key.GetDevelopName()})){{");
                 int indexName = 0;
                 foreach (var name in item.Value)
                 {
@@ -140,7 +113,7 @@ namespace Natasha.Caller.Wrapper
                         body.Append("else ");
                     }
                     body.Append($"if( _current_name == \"{name}\"){{");
-                    body.Append($"return (T)CallerInnerGetter{name}(Instance);");
+                    body.Append($"return (T)((object)Instance.{name});");
                     body.Append("}");
                     indexName++;
                 }
@@ -150,17 +123,11 @@ namespace Natasha.Caller.Wrapper
             body.Append("return default;}");
 
 
-            body.AppendLine("public override void Set<T>(string name,T value) where T : Int32,String{");
+            body.AppendLine("public override void Set(string name,object value){");
 
-            indexType = 0;
             foreach (var item in memberCache)
             {
-                if (indexType != 0)
-                {
-                    body.Append("else ");
-                }
                 int indexName = 0;
-                body.Append($"if(typeof(T)==typeof({item.Key.GetDevelopName()})){{");
                 foreach (var name in item.Value)
                 {
                     if (indexName != 0)
@@ -168,24 +135,16 @@ namespace Natasha.Caller.Wrapper
                         body.Append("else ");
                     }
                     body.Append($"if( name == \"{name}\"){{");
-                    body.Append($"CallerInnerSetter{name}(Instance,(T)value);");
+                    body.Append($"Instance.{name}=({item.Key.GetDevelopName()})value;");
                     body.Append("}");
                     indexName++;
                 }
-                body.Append("}");
-                indexType++;
             }
             body.Append("}");
 
-            body.AppendLine("public override void Set<T>(T value) where T : Int32,String{");
-            indexType = 0;
+            body.AppendLine("public override void Set(object value){");
             foreach (var item in memberCache)
             {
-                if (indexType != 0)
-                {
-                    body.Append("else ");
-                }
-                body.Append($"if(typeof(T)==typeof({item.Key.GetDevelopName()})){{");
                 int indexName = 0;
                 foreach (var name in item.Value)
                 {
@@ -194,11 +153,10 @@ namespace Natasha.Caller.Wrapper
                         body.Append("else ");
                     }
                     body.Append($"if( _current_name == \"{name}\"){{");
-                    body.Append($"CallerInnerSetter{name}(Instance,(T)value);");
+                    body.Append($"Instance.{name}=({item.Key.GetDevelopName()})value;");
                     body.Append("}");
                     indexName++;
                 }
-                body.Append("}");
             }
             body.Append("}");
 
@@ -251,16 +209,34 @@ namespace Natasha.Caller.Wrapper
                          Instance = new {type.GetDevelopName()}();
                     }}");
 
-            //body.Append($@" 
-            //        public override DynamicBase Get(string name){{
-            //             return LinkMapping[name](Instance);
-            //        }}");
 
+            body.AppendLine("public override DynamicBase Get(string name){");
+            
+            foreach (var item in memberCache)
+            {
+                int indexName = 0;
+                if (!item.Key.IsOnceType())
+                {
+                    foreach (var name in item.Value)
+                    {
+                        if (indexName != 0)
+                        {
+                            body.Append("else ");
+                        }
+                        body.Append($"if( name == \"{name}\"){{");
+                        body.Append($"   return Instance.{name}.Caller();");
+                        body.Append("}");
+                        indexName++;
+                    }
+                }
+            }
+            body.Append("return null;}");
 
 
             Type tempClass = builder
                     .Using(type)
                     .Using("System")
+                    .Using("Natasha.Caller")
                     .Using("System.Collections.Concurrent")
                     .ClassAccess(AccessTypes.Public)
                     .ClassName(className)
@@ -273,3 +249,4 @@ namespace Natasha.Caller.Wrapper
         }
     }
 }
+
