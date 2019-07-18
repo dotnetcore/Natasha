@@ -1,8 +1,7 @@
 ﻿using Natasha;
-using Natasha.Caller;
+using Natasha.Method;
 using System;
 using System.Diagnostics;
-using Natasha.Method;
 using System.Reflection.Emit;
 
 namespace Core22
@@ -86,203 +85,7 @@ namespace HelloWorld
             Type type = RuntimeComplier.GetType(text);
 
 
-            //创建动态类实例代理
-            DynamicOperator instance = new DynamicOperator(type);
-
-            if (instance["Name"].StringValue == "111")
-            {
-                //调用动态委托赋值
-                instance["Name"].StringValue = "222";
-            }
-            Console.WriteLine("===");
-            Console.WriteLine(instance["Instance"].OperatorValue["Name"].StringValue);
-            //调用动态类
-            Console.WriteLine(instance["Name"].StringValue);
-
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-            if (instance["Name"].StringValue == "111")
-            {
-                //调用动态委托赋值
-                instance["Name"].StringValue = "222";
-            }
-            stopwatch.Stop();
-            Console.WriteLine(stopwatch.Elapsed);
-
-
-            var newInstance = DynamicOperator.GetOperator(type);
-            stopwatch.Restart();
-            if (newInstance["Name"].StringValue == "111")
-            {
-                //调用动态委托赋值
-                newInstance["Name"].StringValue = "222";
-            }
-            stopwatch.Stop();
-            Console.WriteLine(stopwatch.Elapsed);
-
-
-            var entity = EntityOperator.Create(type);
-            entity.New();
-            stopwatch.Restart();
-            if (entity["Name"].Get<string>() == "111")
-            {
-                //调用动态委托赋值
-                entity["Name"].Set("222");
-            }
-            stopwatch.Stop();
-            entity.Get("Instance").Set("Name", "haha");
-            Console.WriteLine(entity.Get("Instance").Get<string>("Name"));
-            Console.WriteLine(stopwatch.Elapsed);
-
-            entity = EntityOperator.Create(type);
-            entity.New();
-            stopwatch.Restart();
-            if (entity["Name"].Get<string>() == "111")
-            {
-                //调用动态委托赋值
-                entity["Name"].Set("222");
-            }
-            stopwatch.Stop();
-            Console.WriteLine("new:" + stopwatch.Elapsed);
-
-
-            for (int j = 0; j < 20; j++)
-            {
-                Console.WriteLine("===========================");
-                //stopwatch.Restart();
-                //for (int i = 0; i < 50000; i++)
-                //{
-                //    newInstance = new DynamicOperator(type);
-
-                //    if (newInstance["Name"].StringValue == "111")
-                //    {
-                //        //调用动态委托赋值
-                //        newInstance["Name"].StringValue = "222";
-                //    }
-                //}
-                //stopwatch.Stop();
-                //Console.WriteLine("试验 DynamicOperator:\t" + stopwatch.Elapsed);
-
-                //stopwatch.Restart();
-                //for (int i = 0; i < 50000; i++)
-                //{
-                //    entity = EntityOperator.Create(type);
-                //    entity.New();
-
-                //    if (entity["Name"].Get<string>() == "111")
-                //    {
-                //        //调用动态委托赋值
-                //        entity["Name"].Set("222");
-                //    }
-                //}
-                //stopwatch.Stop();
-                //Console.WriteLine("试验 EntityOperator:\t" + stopwatch.Elapsed);
-
-
-                //stopwatch.Restart();
-                //for (int i = 0; i < 50000; i++)
-                //{
-                //    newInstance = DynamicOperator.GetOperator(type);
-
-                //    if (newInstance["Name"].StringValue == "111")
-                //    {
-                //        //调用动态委托赋值
-                //        newInstance["Name"].StringValue = "222";
-                //    }
-                //}
-                //stopwatch.Stop();
-                //Console.WriteLine("试验 DynamicOperator<>:\t" + stopwatch.Elapsed);
-
-
-                
-                stopwatch.Restart();
-                for (int i = 0; i < 50000; i++)
-                {
-                    var tEntity = new TestB();
-                    if (tEntity.Name == "111")
-                    {
-                        //调用动态委托赋值
-                        tEntity.Name = "222";
-                    }
-                }
-                stopwatch.Stop();
-                Console.WriteLine("原生调用:\t\t" + stopwatch.Elapsed);
-
-
-                stopwatch.Restart();
-                for (int i = 0; i < 50000; i++)
-                {
-                    var instance1 = new TestB();
-                    RunDynamic(instance1);
-                }
-                stopwatch.Stop();
-                Console.WriteLine("Dynamic :\t\t" + stopwatch.Elapsed);
-
-
-                entity = EntityOperator.Create(typeof(TestB));
-                stopwatch.Restart();
-                for (int i = 0; i < 50000; i++)
-                {
-                    entity.New();
-                    if (entity.Get<string>("Name") == "111")
-                    {
-                        //调用动态委托赋值
-                        entity.Set("Name", "222");
-                    }
-                }
-                stopwatch.Stop();
-                Console.WriteLine("Natasha EntityOperator:\t" + stopwatch.Elapsed);
-
-
-                stopwatch.Restart();
-                for (int i = 0; i < 50000; i++)
-                {
-                    var tempEntity = (new TestB()).Caller();
-                    if (tempEntity.Get<string>("Name") == "111")
-                    {
-                        //调用动态委托赋值
-                        tempEntity.Set("Name", "222");
-                    }
-                }
-                stopwatch.Stop();
-                Console.WriteLine("Natasha Extension:\t" + stopwatch.Elapsed);
-
-
-                stopwatch.Restart();
-                for (int i = 0; i < 50000; i++)
-                {
-                    var instance1 = new TestB();
-                    RunDynamic(instance1);
-                }
-                stopwatch.Stop();
-                Console.WriteLine("Dynamic :\t\t" + stopwatch.Elapsed);
-
-
-
-                Console.WriteLine("===========================");
-            }
-            /*
-            //创建动态类实例代理
-            DynamicOperator<TestB> instance2 = new DynamicOperator<TestB>();
-
-            if (instance2["Name"].StringValue == "111")
-            {
-                //调用动态委托赋值
-                instance2["Name"].StringValue = "222";
-            }
-            //调用动态类
-            Console.WriteLine(instance2["Name"].StringValue);
-
-            var temp = StaticEntityOperator.Create(typeof(StaticTestB));
-
-            temp.Set("Name", "Name");
-            temp.Set("Age", 1);
-
-            Console.WriteLine(temp.Get<string>("Name"));
-            Console.WriteLine(temp.Get<int>("Age"));
-            Console.WriteLine(StaticTestB.Name);
-            Console.WriteLine(StaticTestB.Age);
-            */
+         
             DynamicMethod method = new DynamicMethod("GetString", null, new Type[] { typeof(TestB), typeof(string) });
             ILGenerator il = method.GetILGenerator();
             il.Emit(OpCodes.Ldarg_0);
@@ -299,6 +102,7 @@ namespace HelloWorld
                 .Complie<Action<TestB, string>>();
 
 
+            Stopwatch stopwatch = new Stopwatch();
             stopwatch.Restart();
             for (int i = 0; i < 50000; i++)
             {
