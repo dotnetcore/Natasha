@@ -6,7 +6,7 @@
 # Natasha 
 
 [![Member project of .NET Core Community](https://img.shields.io/badge/member%20project%20of-NCC-9e20c9.svg)](https://github.com/dotnetcore)
-[![NuGet Badge](https://buildstats.info/nuget/Natasha?includePreReleases=true)](https://www.nuget.org/packages/Natasha)
+[![NuGet Badge](https://buildstats.info/nuget/DotNetCore.Natasha?includePreReleases=true)](https://www.nuget.org/packages/DotNetCore.Natasha)
 [![Gitter](https://badges.gitter.im/dotnetcore/natasha.svg)](https://gitter.im/dotnetcore/Natasha?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![Badge](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu/#/zh_CN)
 [![GitHub license](https://img.shields.io/github/license/dotnetcore/natasha.svg)](https://github.com/dotnetcore/Natasha/blob/master/LICENSE)
@@ -131,105 +131,6 @@ string result = action("xiao");              //result: "xiao is xxx;"
 <br/>  
 
 
-#### Dynamic call to normal classes:  
-
-```C#
-
-public class A
-{
-   public int Age;
-   public DateTime Time;
-   public B Outter = new B();
-}
-
-public class B
-{
-   public string Name;
-   public B()
-   {
-      Name = "Jim"
-   }
-}
-
-//the same as dynamically generating classes at run time.
-
-
-//Usage 1
-
-var handler = DynamicOperator.GetOperator(typeof(A));
-
-handler["Age"].IntValue = 100;                                    // Set Operator
-
-Console.WriteLine(handler["Time"].DateTime);                      // Get Operator
-
-handler["Outter"].OperatorValue["Name"].StringValue = "NewName"   // Link Operator
-
-
-
-//Usage 2
-
-var handler EntityOperator.Create(typeof(A));
-
-handler.New();
-
-handler.Set("Age",100);                                           // Set Operator
-
-Console.WriteLine(handler.Get<DateTime>("Time"));                 // Get Operator
-
-handler.Get("Outter")["Name"].Set("NewName");                     // Link Operator
-```
-<br/>
-<br/>  
-
-#### Dynamic call to static class:  
-
-```C#
-
-public static class A
-{
-   public static int Age;
-   public static DateTime Time;
-   public static B Outter = new B();
-}
-
-public class B
-{
-   public string Name;
-   public B()
-   {
-      Name = "Jim";
-   }
-}
-
-//the same as dynamically generating classes at run time.
-
-
-//Usage 1
-
-DynamicStaticOperator handler = typeof(A);
-
-handler["Age"].IntValue = 100;                                        // Set Operator
-
-Console.WriteLine(handler["Time"].DateTime);                          // Get Operator
-
-handler.Get["Outter"].OperatorValue["Name"].StringValue = "NewName"   // Link Operator
-
-
-//Usage 2
-
-var handler = StaticEntityOperator.Create(type);
-
-handler["Age"].Set(100);                                          // Set Operator
-
-Console.WriteLine(handler["Time"].Get<DateTime>());               // Get Operator
-
-handler.Get("Outter").Set(Name,"NewName");                        // Link Operator
-
-```
-<br/>
-<br/>  
-
-
 ### Convenient extension  
  <br/>  
  
@@ -333,6 +234,8 @@ Example:
 <br/>
 <br/>    
 
+#### Natasha Dynamic Module:  Moved to [【NCaller】](https://github.com/night-moon-studio/NCaller)
+<br/>    
 
 ---------------------  
 
