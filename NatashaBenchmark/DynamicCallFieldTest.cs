@@ -33,10 +33,10 @@ namespace NatashaBenchmark
         public CallModel NatashaModel;
         public CallModel NatashaProxyModel;
 
-        public DynamicOperator<CallModel> NatashaCaller;
-        public DynamicOperator DynamicObjectCaller;
-        public DynamicOperatorBase DynamicStrongCaller;
-        public DynamicBase DynamicEntityCaller;
+        //public DynamicOperator<CallModel> NatashaCaller;
+        //public DynamicOperator DynamicObjectCaller;
+        //public DynamicOperatorBase DynamicStrongCaller;
+        //public DynamicBase DynamicEntityCaller;
         public DynamicCallFieldTest()
         {
             Precache();
@@ -122,11 +122,11 @@ namespace NatashaBenchmark
             NatashaModel = new CallModel();
             NatashaProxyModel = new CallModel();
 
-            DynamicObjectCaller = new DynamicOperator(typeof(CallModel));
+            ////DynamicObjectCaller = new DynamicOperator(typeof(CallModel));
 
-            NatashaCaller = new DynamicOperator<CallModel>();
-            DynamicStrongCaller = DynamicOperator.GetOperator(typeof(CallModel));
-            DynamicEntityCaller = EntityOperator.Create(typeof(CallModel));
+            ////NatashaCaller = new DynamicOperator<CallModel>();
+            ////DynamicStrongCaller = DynamicOperator.GetOperator(typeof(CallModel));
+            ////DynamicEntityCaller = EntityOperator.Create(typeof(CallModel));
         }
 
         #region 字段写性能
@@ -141,145 +141,145 @@ namespace NatashaBenchmark
         {
             OriginModel.Age = "Hello";
         }
-        //[BenchmarkCategory("Write", "String"), Benchmark(Description = "NatashaProxy")]
-        public void DynamicFieldProxySetStringTest()
-        {
-            NatashaCaller["Age"].StringValue = "Hello";
-        }
-        //[BenchmarkCategory("Write", "String"), Benchmark(Description = "NatashaStrongDynamicProxy")]
-        public void DynamicStrongFieldProxySetStringTest()
-        {
-            DynamicStrongCaller["Age"].StringValue = "Hello";
-        }
-        //[BenchmarkCategory("Write", "String"), Benchmark(Description = "NatashaObjectDynamicProxy")]
-        public void DynamicObjectFieldProxySetStringTest()
-        {
-            DynamicObjectCaller["Age"].StringValue = "Hello";
-        }
-        //[BenchmarkCategory("Write", "String"), Benchmark(Description = "NatashaDirectly")]
-        public void DynamicFieldSetStringTest()
-        {
-            NatashaSetString(NatashaModel, "Hello");
-        }
+        //////[BenchmarkCategory("Write", "String"), Benchmark(Description = "NatashaProxy")]
+        ////public void DynamicFieldProxySetStringTest()
+        ////{
+        ////    NatashaCaller["Age"].StringValue = "Hello";
+        ////}
+        //////[BenchmarkCategory("Write", "String"), Benchmark(Description = "NatashaStrongDynamicProxy")]
+        ////public void DynamicStrongFieldProxySetStringTest()
+        ////{
+        ////    DynamicStrongCaller["Age"].StringValue = "Hello";
+        ////}
+        //////[BenchmarkCategory("Write", "String"), Benchmark(Description = "NatashaObjectDynamicProxy")]
+        ////public void DynamicObjectFieldProxySetStringTest()
+        ////{
+        ////    DynamicObjectCaller["Age"].StringValue = "Hello";
+        ////}
+        //////[BenchmarkCategory("Write", "String"), Benchmark(Description = "NatashaDirectly")]
+        ////public void DynamicFieldSetStringTest()
+        ////{
+        ////    NatashaSetString(NatashaModel, "Hello");
+        ////}
 
-        //[BenchmarkCategory("Write", "String"), Benchmark(Description = "DynamicEntityCaller")]
-        public void DynamicEntitySetStringTest()
-        {
-            DynamicEntityCaller.Set("Age", "Hello");
-        }
+        //////[BenchmarkCategory("Write", "String"), Benchmark(Description = "DynamicEntityCaller")]
+        ////public void DynamicEntitySetStringTest()
+        ////{
+        ////    DynamicEntityCaller.Set("Age", "Hello");
+        ////}
 
-        [BenchmarkCategory("Write", "Time"), Benchmark(Description = "Emit")]
-        public void EmitFieldSetTimeTest()
-        {
-            EmitSetDateTime(EmitModel, DateTime.Now);
-        }
+        ////[BenchmarkCategory("Write", "Time"), Benchmark(Description = "Emit")]
+        ////public void EmitFieldSetTimeTest()
+        ////{
+        ////    EmitSetDateTime(EmitModel, DateTime.Now);
+        ////}
 
-        //[BenchmarkCategory("Write", "Time"), Benchmark(Baseline = true, Description = "Origin")]
-        public void OriginFieldSetTimeTest()
-        {
-            OriginModel.CreateTime = DateTime.Now;
-        }
-        //[BenchmarkCategory("Write", "Time"), Benchmark(Description = "NatashaProxy")]
-        public void DynamicFieldProxySetTimeTest()
-        {
-            NatashaCaller["CreateTime"].DateTimeValue = DateTime.Now;
-        }
-        //[BenchmarkCategory("Write", "Time"), Benchmark(Description = "NatashaStrongDynamicProxy")]
-        public void DynamicStrongFieldProxySetTimeTest()
-        {
-            DynamicStrongCaller["CreateTime"].DateTimeValue = DateTime.Now;
-        }
-        //[BenchmarkCategory("Write", "Time"), Benchmark(Description = "NatashaObjectDynamicProxy")]
-        public void DynamicObjectFieldProxySetTimeTest()
-        {
-            DynamicObjectCaller["CreateTime"].DateTimeValue = DateTime.Now;
-        }
-        //[BenchmarkCategory("Write", "DateTime"), Benchmark(Description = "NatashaDirectly")]
-        public void DynamicFieldSetTimeTest()
-        {
-            NatashaSetDateTime(NatashaProxyModel, DateTime.Now);
-        }
-        //[BenchmarkCategory("Write", "DateTime"), Benchmark(Description = "DynamicEntityCaller")]
-        public void DynamicEntitySetTimeTest()
-        {
-            DynamicEntityCaller.Set("CreateTime", DateTime.Now);
-        }
-        #endregion
-
-
-        #region 字段读性能
-        [BenchmarkCategory("Read", "String"), Benchmark(Description = "Emit")]
-        public void EmitFieldGetStringTest()
-        {
-            string result = EmitGetString(EmitModel);
-        }
-        [BenchmarkCategory("Read", "String"), Benchmark(Baseline = true, Description = "Origin")]
-        public void OriginFieldGetStringTest()
-        {
-            string result = OriginModel.Age;
-        }
-        //[BenchmarkCategory("Read", "String"), Benchmark(Description = "NatashaProxy")]
-        public void DynamicFieldProxyGetStringTest()
-        {
-            string result = NatashaCaller["Age"].StringValue;
-        }
-        //[BenchmarkCategory("Read", "String"), Benchmark(Description = "NatashaStrongDynamicProxy")]
-        public void DynamicStrongFieldProxyGetStringTest()
-        {
-            string result = DynamicStrongCaller["Age"].StringValue;
-        }
-        //[BenchmarkCategory("Read", "String"), Benchmark(Description = "NatashaObjectDynamicProxy")]
-        public void DynamicObjectFieldProxyGetStringTest()
-        {
-            string result = DynamicObjectCaller["Age"].StringValue;
-        }
-        //[BenchmarkCategory("Read", "String"), Benchmark(Description = "NatashaDirectly")]
-        public void DynamicFieldGetStringTest()
-        {
-            string result = NatashaGetString(NatashaModel);
-        }
-        //[BenchmarkCategory("Read", "String"), Benchmark(Description = "DynamicEntityCaller")]
-        public void DynamicEntityGetStringTest()
-        {
-            DynamicEntityCaller.Get<string>("Age");
-        }
+        //////[BenchmarkCategory("Write", "Time"), Benchmark(Baseline = true, Description = "Origin")]
+        ////public void OriginFieldSetTimeTest()
+        ////{
+        ////    OriginModel.CreateTime = DateTime.Now;
+        ////}
+        //////[BenchmarkCategory("Write", "Time"), Benchmark(Description = "NatashaProxy")]
+        ////public void DynamicFieldProxySetTimeTest()
+        ////{
+        ////    NatashaCaller["CreateTime"].DateTimeValue = DateTime.Now;
+        ////}
+        //////[BenchmarkCategory("Write", "Time"), Benchmark(Description = "NatashaStrongDynamicProxy")]
+        ////public void DynamicStrongFieldProxySetTimeTest()
+        ////{
+        ////    DynamicStrongCaller["CreateTime"].DateTimeValue = DateTime.Now;
+        ////}
+        //////[BenchmarkCategory("Write", "Time"), Benchmark(Description = "NatashaObjectDynamicProxy")]
+        ////public void DynamicObjectFieldProxySetTimeTest()
+        ////{
+        ////    DynamicObjectCaller["CreateTime"].DateTimeValue = DateTime.Now;
+        ////}
+        //////[BenchmarkCategory("Write", "DateTime"), Benchmark(Description = "NatashaDirectly")]
+        ////public void DynamicFieldSetTimeTest()
+        ////{
+        ////    NatashaSetDateTime(NatashaProxyModel, DateTime.Now);
+        ////}
+        //////[BenchmarkCategory("Write", "DateTime"), Benchmark(Description = "DynamicEntityCaller")]
+        ////public void DynamicEntitySetTimeTest()
+        ////{
+        ////    DynamicEntityCaller.Set("CreateTime", DateTime.Now);
+        ////}
+        ////#endregion
 
 
-        [BenchmarkCategory("Read", "Time"), Benchmark(Description = "Emit")]
-        public void EmitFieldGetTimeTest()
-        {
-            DateTime result = EmitGetDateTime(EmitModel);
-        }
-        [BenchmarkCategory("Read", "Time"), Benchmark(Baseline = true, Description = "Origin")]
-        public void OriginFieldGetTimeTest()
-        {
-            DateTime result = OriginModel.CreateTime;
-        }
-        //[BenchmarkCategory("Read", "Time"), Benchmark(Description = "NatashaProxy")]
-        public void DynamicFieldProxyGetTimeTest()
-        {
-            DateTime result = NatashaCaller["CreateTime"].DateTimeValue;
-        }
-        //[BenchmarkCategory("Read", "Time"), Benchmark(Description = "NatashaStrongProxy")]
-        public void DynamicStrongFieldProxyGetTimeTest()
-        {
-            DateTime result = DynamicStrongCaller["CreateTime"].DateTimeValue;
-        }
-        //[BenchmarkCategory("Read", "Time"), Benchmark(Description = "NatashaObjectProxy")]
-        public void DynamicObjectFieldProxyGetTimeTest()
-        {
-            DateTime result = DynamicObjectCaller["CreateTime"].DateTimeValue;
-        }
-        //[BenchmarkCategory("Read", "Time"), Benchmark(Description = "NatashaDirectly")]
-        public void DynamicFieldGetTimeTest()
-        {
-            DateTime result = NatashaGetDateTime(NatashaModel);
-        }
-        //[BenchmarkCategory("Read", "Time"), Benchmark(Description = "DynamicEntityCaller")]
-        public void DynamicEntityGetTimeTest()
-        {
-            DynamicEntityCaller.Get<DateTime>("CreateTime");
-        }
+        ////#region 字段读性能
+        ////[BenchmarkCategory("Read", "String"), Benchmark(Description = "Emit")]
+        ////public void EmitFieldGetStringTest()
+        ////{
+        ////    string result = EmitGetString(EmitModel);
+        ////}
+        ////[BenchmarkCategory("Read", "String"), Benchmark(Baseline = true, Description = "Origin")]
+        ////public void OriginFieldGetStringTest()
+        ////{
+        ////    string result = OriginModel.Age;
+        ////}
+        //////[BenchmarkCategory("Read", "String"), Benchmark(Description = "NatashaProxy")]
+        ////public void DynamicFieldProxyGetStringTest()
+        ////{
+        ////    string result = NatashaCaller["Age"].StringValue;
+        ////}
+        //////[BenchmarkCategory("Read", "String"), Benchmark(Description = "NatashaStrongDynamicProxy")]
+        ////public void DynamicStrongFieldProxyGetStringTest()
+        ////{
+        ////    string result = DynamicStrongCaller["Age"].StringValue;
+        ////}
+        //////[BenchmarkCategory("Read", "String"), Benchmark(Description = "NatashaObjectDynamicProxy")]
+        ////public void DynamicObjectFieldProxyGetStringTest()
+        ////{
+        ////    string result = DynamicObjectCaller["Age"].StringValue;
+        ////}
+        //////[BenchmarkCategory("Read", "String"), Benchmark(Description = "NatashaDirectly")]
+        ////public void DynamicFieldGetStringTest()
+        ////{
+        ////    string result = NatashaGetString(NatashaModel);
+        ////}
+        //////[BenchmarkCategory("Read", "String"), Benchmark(Description = "DynamicEntityCaller")]
+        ////public void DynamicEntityGetStringTest()
+        ////{
+        ////    DynamicEntityCaller.Get<string>("Age");
+        ////}
+
+
+        ////[BenchmarkCategory("Read", "Time"), Benchmark(Description = "Emit")]
+        ////public void EmitFieldGetTimeTest()
+        ////{
+        ////    DateTime result = EmitGetDateTime(EmitModel);
+        ////}
+        ////[BenchmarkCategory("Read", "Time"), Benchmark(Baseline = true, Description = "Origin")]
+        ////public void OriginFieldGetTimeTest()
+        ////{
+        ////    DateTime result = OriginModel.CreateTime;
+        ////}
+        //////[BenchmarkCategory("Read", "Time"), Benchmark(Description = "NatashaProxy")]
+        ////public void DynamicFieldProxyGetTimeTest()
+        ////{
+        ////    DateTime result = NatashaCaller["CreateTime"].DateTimeValue;
+        ////}
+        //////[BenchmarkCategory("Read", "Time"), Benchmark(Description = "NatashaStrongProxy")]
+        ////public void DynamicStrongFieldProxyGetTimeTest()
+        ////{
+        ////    DateTime result = DynamicStrongCaller["CreateTime"].DateTimeValue;
+        ////}
+        //////[BenchmarkCategory("Read", "Time"), Benchmark(Description = "NatashaObjectProxy")]
+        ////public void DynamicObjectFieldProxyGetTimeTest()
+        ////{
+        ////    DateTime result = DynamicObjectCaller["CreateTime"].DateTimeValue;
+        ////}
+        //////[BenchmarkCategory("Read", "Time"), Benchmark(Description = "NatashaDirectly")]
+        ////public void DynamicFieldGetTimeTest()
+        ////{
+        ////    DateTime result = NatashaGetDateTime(NatashaModel);
+        ////}
+        //////[BenchmarkCategory("Read", "Time"), Benchmark(Description = "DynamicEntityCaller")]
+        ////public void DynamicEntityGetTimeTest()
+        ////{
+        ////    DynamicEntityCaller.Get<DateTime>("CreateTime");
+        ////}
 
         #endregion
         //[BenchmarkCategory("Read", "Time"), Benchmark(Baseline = true, Description = "Origin")]

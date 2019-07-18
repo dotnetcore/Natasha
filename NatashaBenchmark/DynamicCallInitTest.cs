@@ -17,7 +17,7 @@ namespace NatashaBenchmark
         public CallModel OriginModel;
         public CallModel NatashaModel;
 
-        public DynamicOperator<CallModel> NatasshaCaller;
+        //public DynamicOperator<CallModel> NatasshaCaller;
         public DynamicCallInitTest()
         {
             Precache();
@@ -38,7 +38,7 @@ namespace NatashaBenchmark
             OriginModel = new CallModel();
             EmitModel = EmitFunc();
             NatashaModel = NatashaFunc();
-            NatasshaCaller = NatashaModel;
+            //NatasshaCaller = NatashaModel;
         }
 
 
