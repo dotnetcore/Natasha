@@ -12,11 +12,12 @@
 - 移除自动格式化功能
 - 增强类迭代器
 - 增强深度克隆
+- 分离动态调用功能 到 NCaller 项目
 - 修复动态文件加载BUG
 - 修复克隆模块字典数组命名空间问题
 - 增加日志时间记录
 - 增加日志初始化目录功能</PackageReleaseNotes>
-    <Version>0.7.5</Version>
+    <Version>0.7.5.1</Version>
     <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
     <PackageTags>Roslyn ; IL ; Scripte ; Dynamic ; </PackageTags>
