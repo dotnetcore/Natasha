@@ -210,13 +210,11 @@ namespace HelloWorld
 
 
 
-
+                entity = EntityOperator.Create(typeof(TestB));
                 stopwatch.Restart();
                 for (int i = 0; i < 50000; i++)
                 {
-                    entity = EntityOperator.Create(typeof(TestB));
                     entity.New();
-
                     if (entity.Get<string>("Name") == "111")
                     {
                         //调用动态委托赋值
