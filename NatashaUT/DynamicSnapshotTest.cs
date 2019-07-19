@@ -15,14 +15,16 @@ namespace NatashaUT
         [Fact(DisplayName = "字段--基元类型以及结构体")]
         public void Normal()
         {
-            FieldCloneNormalModel model = new FieldCloneNormalModel();
-            model.Age = 1000;
-            model.Name = "ababab";
-            model.Timer = DateTime.Now;
-            model.money = 100000;
-            model.Flag = CloneEnum.A;
-            model.Title = false;
-            model.Id = 100000;
+            FieldCloneNormalModel model = new FieldCloneNormalModel
+            {
+                Age = 1000,
+                Name = "ababab",
+                Timer = DateTime.Now,
+                money = 100000,
+                Flag = CloneEnum.A,
+                Title = false,
+                Id = 100000
+            };
 
             SnapshotOperator.MakeSnapshot(model);
             model.Age = 1001;
@@ -48,9 +50,10 @@ namespace NatashaUT
         [Fact(DisplayName = "字段--非类数组")]
         public void NotClassArray()
         {
-            FieldCloneArrayModel model = new FieldCloneArrayModel();
-
-            model.Name = new string[10];
+            FieldCloneArrayModel model = new FieldCloneArrayModel
+            {
+                Name = new string[10]
+            };
             for (int i = 0; i < 10; i++)
             {
                 model.Name[i] = i.ToString();
@@ -76,9 +79,10 @@ namespace NatashaUT
         [Fact(DisplayName = "字段--类数组")]
         public void ClassArray()
         {
-            FieldCloneClassArrayModel model = new FieldCloneClassArrayModel();
-
-            model.Models = new FieldCloneNormalModel[10];
+            FieldCloneClassArrayModel model = new FieldCloneClassArrayModel
+            {
+                Models = new FieldCloneNormalModel[10]
+            };
             for (int i = 0; i < 10; i++)
             {
                 model.Models[i] = new FieldCloneNormalModel() { Age = i, Name = i.ToString() };
@@ -105,9 +109,10 @@ namespace NatashaUT
         [Fact(DisplayName = "字段--子节点")]
         public void SubClassArray()
         {
-            FieldCloneSubNodeModel model = new FieldCloneSubNodeModel();
-
-            model.Node = new FieldCloneNormalModel() { Age = 1, Name = "111" };
+            FieldCloneSubNodeModel model = new FieldCloneSubNodeModel
+            {
+                Node = new FieldCloneNormalModel() { Age = 1, Name = "111" }
+            };
 
             SnapshotOperator.MakeSnapshot(model);
 
@@ -126,16 +131,19 @@ namespace NatashaUT
         [Fact(DisplayName = "字段--类集合")]
         public void ClassCollectionArray()
         {
-            FieldCloneClassCollectionModel model = new FieldCloneClassCollectionModel();
+            FieldCloneClassCollectionModel model = new FieldCloneClassCollectionModel
+            {
+                Nodes = new List<FieldCloneNormalModel>()
+            };
 
-            model.Nodes = new List<FieldCloneNormalModel>();
+
             for (int i = 0; i < 10; i++)
             {
                 model.Nodes.Add(new FieldCloneNormalModel() { Age = i, Name = i.ToString() });
             }
 
-            SnapshotOperator.MakeSnapshot(model);
 
+            SnapshotOperator.MakeSnapshot(model);
             for (int i = 5; i < 10; i++)
             {
                 model.Nodes.Add(new FieldCloneNormalModel() { Age = i + 100, Name = (i + 100).ToString() });
@@ -160,13 +168,15 @@ namespace NatashaUT
         public void PropNormal()
         {
             var tempDate = DateTime.Now;
-            PropCloneNormalModel model = new PropCloneNormalModel();
-            model.Age = 1000;
-            model.Name = "ababab";
-            model.Timer = tempDate;
-            model.money = 100000;
-            model.Title = false;
-            model.Id = 100000;
+            PropCloneNormalModel model = new PropCloneNormalModel
+            {
+                Age = 1000,
+                Name = "ababab",
+                Timer = tempDate,
+                money = 100000,
+                Title = false,
+                Id = 100000
+            };
             //生成快照
             SnapshotOperator.MakeSnapshot(model);
 
@@ -197,9 +207,10 @@ namespace NatashaUT
         public void PropNotClassArray()
         {
 
-            PropCloneArrayModel model = new PropCloneArrayModel();
-
-            model.Name = new string[10];
+            PropCloneArrayModel model = new PropCloneArrayModel
+            {
+                Name = new string[10]
+            };
             for (int i = 0; i < 10; i++)
             {
                 model.Name[i] = i.ToString();
@@ -226,9 +237,10 @@ namespace NatashaUT
         [Fact(DisplayName = "属性--类数组")]
         public void PropClassArray()
         {
-            PropCloneClassArrayModel model = new PropCloneClassArrayModel();
-
-            model.Models = new PropCloneNormalModel[10];
+            PropCloneClassArrayModel model = new PropCloneClassArrayModel
+            {
+                Models = new PropCloneNormalModel[10]
+            };
             for (int i = 0; i < 10; i++)
             {
                 model.Models[i] = new PropCloneNormalModel() { Age = i, Name = i.ToString() };
@@ -256,9 +268,10 @@ namespace NatashaUT
         [Fact(DisplayName = "属性--子节点")]
         public void PropSubClassArray()
         {
-            PropCloneSubNodeModel model = new PropCloneSubNodeModel();
-
-            model.Node = new PropCloneNormalModel() { Age = 1, Name = "111" };
+            PropCloneSubNodeModel model = new PropCloneSubNodeModel
+            {
+                Node = new PropCloneNormalModel() { Age = 1, Name = "111" }
+            };
 
             SnapshotOperator.MakeSnapshot(model);
 
@@ -277,9 +290,10 @@ namespace NatashaUT
         [Fact(DisplayName = "属性--类集合")]
         public void PropClassCollectionTest()
         {
-            PropCloneClassCollectionModel model = new PropCloneClassCollectionModel();
-
-            model.Nodes = new List<PropCloneNormalModel>();
+            PropCloneClassCollectionModel model = new PropCloneClassCollectionModel
+            {
+                Nodes = new List<PropCloneNormalModel>()
+            };
             for (int i = 0; i < 10; i++)
             {
                 model.Nodes.Add(new PropCloneNormalModel() { Age = i, Name = i.ToString() });
