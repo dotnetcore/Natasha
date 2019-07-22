@@ -33,14 +33,14 @@ jobs:
     displayName: restore
     inputs:
       command: restore
-      projects: './Natasha/Natasha.csproj'
+      projects: './src/Natasha/Natasha.csproj'
 
 
   - task: DotNetCoreCLI@1
     displayName: build
     inputs:
       command: build
-      projects: './Natasha/Natasha.csproj'
+      projects: './src/Natasha/Natasha.csproj'
       arguments: '-c Release'
 
 
@@ -68,14 +68,14 @@ jobs:
     displayName: restore
     inputs:
       command: restore
-      projects: './Natasha/Natasha.csproj'
+      projects: './src/Natasha/Natasha.csproj'
 
 
   - task: DotNetCoreCLI@1
     displayName: build
     inputs:
       command: build
-      projects: './Natasha/Natasha.csproj'
+      projects: './src/Natasha/Natasha.csproj'
       arguments: '-c Release'
 
 
@@ -103,14 +103,14 @@ jobs:
     displayName: restore
     inputs:
       command: restore
-      projects: './Natasha/Natasha.csproj'
+      projects: './src/Natasha/Natasha.csproj'
 
 
   - task: DotNetCoreCLI@1
     displayName: build
     inputs:
       command: build
-      projects: './Natasha/Natasha.csproj'
+      projects: './src/Natasha/Natasha.csproj'
       arguments: '-c Release'
 
 
