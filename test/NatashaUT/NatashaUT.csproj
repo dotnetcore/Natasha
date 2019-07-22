@@ -24,8 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Natasha.Remote\Natasha.Remote.csproj" />
-    <ProjectReference Include="..\Natasha\Natasha.csproj" />
+    <ProjectReference Include="..\..\src\Natasha.Remote\Natasha.Remote.csproj" />
+    <ProjectReference Include="..\..\src\Natasha\Natasha.csproj" />
   </ItemGroup>
 
 </Project>

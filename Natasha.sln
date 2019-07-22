@@ -3,24 +3,34 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natasha", "Natasha\Natasha.csproj", "{D167177F-6761-4B1C-BC07-6D73B918AB99}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natasha", "src\Natasha\Natasha.csproj", "{D167177F-6761-4B1C-BC07-6D73B918AB99}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core20", "Core20\Core20.csproj", "{9D913DDA-8D1F-48A5-9E37-7CF9D2A6F4E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core20", "samples\Core20\Core20.csproj", "{9D913DDA-8D1F-48A5-9E37-7CF9D2A6F4E3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core21", "Core21\Core21.csproj", "{211B32A3-0428-4E9C-A298-7A419482E6C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core21", "samples\Core21\Core21.csproj", "{211B32A3-0428-4E9C-A298-7A419482E6C9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core22", "Core22\Core22.csproj", "{B8AEA201-9785-479A-BD4D-A749BC6AD40C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core22", "samples\Core22\Core22.csproj", "{B8AEA201-9785-479A-BD4D-A749BC6AD40C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NatashaUT", "NatashaUT\NatashaUT.csproj", "{FF60E6A9-93A4-4ACC-B684-4D025471CB2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NatashaUT", "test\NatashaUT\NatashaUT.csproj", "{FF60E6A9-93A4-4ACC-B684-4D025471CB2E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natasha.Remote", "Natasha.Remote\Natasha.Remote.csproj", "{65213633-9A19-4FF6-B81D-B8DA0B88EFDD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natasha.Remote", "src\Natasha.Remote\Natasha.Remote.csproj", "{65213633-9A19-4FF6-B81D-B8DA0B88EFDD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NatashaBenchmark", "NatashaBenchmark\NatashaBenchmark.csproj", "{9994C5A1-5AA6-42BC-91BE-F93922B7A4AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NatashaBenchmark", "test\NatashaBenchmark\NatashaBenchmark.csproj", "{9994C5A1-5AA6-42BC-91BE-F93922B7A4AA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{13AACED0-099F-423D-AC8A-E3067DD42A55}"
 	ProjectSection(SolutionItems) = preProject
+		.travis.yml = .travis.yml
+		appveyor.yml = appveyor.yml
+		azure-pipelines.yml = azure-pipelines.yml
 		Directory.Build.props = Directory.Build.props
+		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{508A2E20-BB12-4610-8CB2-0B07B233DE68}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{B4487ABB-27A2-4353-AB16-1A94B31E0210}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{1F267883-0864-4C1C-AE20-E2AF5457BA54}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +69,15 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D167177F-6761-4B1C-BC07-6D73B918AB99} = {508A2E20-BB12-4610-8CB2-0B07B233DE68}
+		{9D913DDA-8D1F-48A5-9E37-7CF9D2A6F4E3} = {B4487ABB-27A2-4353-AB16-1A94B31E0210}
+		{211B32A3-0428-4E9C-A298-7A419482E6C9} = {B4487ABB-27A2-4353-AB16-1A94B31E0210}
+		{B8AEA201-9785-479A-BD4D-A749BC6AD40C} = {B4487ABB-27A2-4353-AB16-1A94B31E0210}
+		{FF60E6A9-93A4-4ACC-B684-4D025471CB2E} = {1F267883-0864-4C1C-AE20-E2AF5457BA54}
+		{65213633-9A19-4FF6-B81D-B8DA0B88EFDD} = {508A2E20-BB12-4610-8CB2-0B07B233DE68}
+		{9994C5A1-5AA6-42BC-91BE-F93922B7A4AA} = {1F267883-0864-4C1C-AE20-E2AF5457BA54}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {303F4E05-93E7-40B5-8B6A-FBA8F2E87F6A}
