@@ -4,6 +4,6 @@
    <Product>Natasha</Product>
    <Company>.NET Core Community</Company>
    <Authors>NMSAzulx</Authors>
-   <Owners>NMSAzulx</Owners>
+   <Owners>NMSAzulx,ncc</Owners>
 </PropertyGroup>
 </Project>
