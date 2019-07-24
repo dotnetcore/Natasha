@@ -19,17 +19,17 @@
         {
 
             //类名即方法名
-            MethodNameScript = template.NameScript;
+            MethodNameScript = template.ClassNameScript;
 
 
             //如果是静态的使用静态初始化
-            if (template.ModifierScript=="static ")
+            if (template.ClassModifierScript=="static ")
             {
                 ModifierScript = "static ";
             }
             else
             {
-                AccessScript = template.AccessScript;
+                AccessScript = template.ClassAccessScript;
             }
 
 

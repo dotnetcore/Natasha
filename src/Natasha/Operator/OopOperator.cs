@@ -24,7 +24,7 @@ namespace Natasha
         /// <returns></returns>
         public override Delegate Compile()
         {
-            return _ctor_mapping[NameScript] = (Func<T>)(base.Compile());
+            return _ctor_mapping[ClassNameScript] = (Func<T>)(base.Compile());
         }
 
 
@@ -182,7 +182,7 @@ namespace Natasha
 
 
             //返回委托
-            return _delegate_mapping[NameScript] = CtorBuilder.NewDelegate(TargetType);
+            return _delegate_mapping[ClassNameScript] = CtorBuilder.NewDelegate(TargetType);
         }
 
 

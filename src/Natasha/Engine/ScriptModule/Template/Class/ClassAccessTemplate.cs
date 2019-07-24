@@ -8,27 +8,27 @@ namespace Natasha
     /// <typeparam name="T">LINK类型</typeparam>
     public class ClassAccessTemplate<T> : NamespaceTemplate<T>
     {
-        public string AccessScript;
+        public string ClassAccessScript;
         public T ClassAccess(MethodInfo reflectMethodInfo)
         {
-            AccessScript = AccessReverser.GetAccess(reflectMethodInfo);
+            ClassAccessScript = AccessReverser.GetAccess(reflectMethodInfo);
             return Link;
         }
         public T ClassAccess(AccessTypes enumAccess)
         {
-            AccessScript = AccessReverser.GetAccess(enumAccess);
+            ClassAccessScript = AccessReverser.GetAccess(enumAccess);
             return Link;
         }
         public T ClassAccess(string access)
         {
-            AccessScript = access;
+            ClassAccessScript = access;
             return Link;
         }
 
         public override T Builder()
         {
             base.Builder();
-            _script.Append(AccessScript);
+            _script.Append(ClassAccessScript);
             return Link;
         }
     }

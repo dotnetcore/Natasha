@@ -24,7 +24,7 @@ namespace Natasha.Builder
         {
             Builder();
             return ComplierOption.Complie(
-                NameScript, 
+                ClassNameScript, 
                 Script,
                 MethodNameScript,
                 DelegateType);
@@ -42,7 +42,7 @@ namespace Natasha.Builder
         {
             Builder();
             return (T)ComplierOption.Complie<T>(
-                NameScript,
+                ClassNameScript,
                 Script,
                 MethodNameScript);
         }

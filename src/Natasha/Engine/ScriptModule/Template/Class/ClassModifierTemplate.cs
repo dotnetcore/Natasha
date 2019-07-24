@@ -4,27 +4,27 @@ namespace Natasha
 {
     public class ClassModifierTemplate<T> : ClassAccessTemplate<T>
     {
-        public string ModifierScript;
+        public string ClassModifierScript;
         public T ClassModifier(MethodInfo reflectMethodInfo)
         {
-            ModifierScript = ModifierReverser.GetModifier(reflectMethodInfo);
+            ClassModifierScript = ModifierReverser.GetModifier(reflectMethodInfo);
             return Link;
         }
         public T ClassModifier(Modifiers enumModifier)
         {
-            ModifierScript = ModifierReverser.GetModifier(enumModifier);
+            ClassModifierScript = ModifierReverser.GetModifier(enumModifier);
             return Link;
         }
         public T ClassModifier(string modifier)
         {
-            ModifierScript = modifier + " ";
+            ClassModifierScript = modifier + " ";
             return Link;
         }
 
         public override T Builder()
         {
             base.Builder();
-            _script.Append(ModifierScript);
+            _script.Append(ClassModifierScript);
             return Link;
         }
     }

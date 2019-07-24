@@ -31,7 +31,7 @@ namespace Natasha.Complier
         static ScriptComplieEngine()
         {
             //初始化路径
-            LibPath =Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"lib");
+            LibPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "lib");
 
 
             //处理目录
@@ -103,12 +103,17 @@ namespace Natasha.Complier
             }
 
 
-            var classResult = from classNodes
-                              in node.DescendantNodes().OfType<ClassDeclarationSyntax>()
-                              select classNodes;
+            var classResult = new List<string>(from classNodes
+                               in node.DescendantNodes().OfType<ClassDeclarationSyntax>()
+                                               select classNodes.Identifier.Text);
 
 
-            return (tree, classResult.ToArray()[classIndex].Identifier.Text);
+            classResult.AddRange(from classNodes
+                             in node.DescendantNodes().OfType<StructDeclarationSyntax>()
+                                 select classNodes.Identifier.Text);
+
+
+            return (tree, classResult[classIndex]);
 
         }
 
@@ -120,9 +125,14 @@ namespace Natasha.Complier
             CompilationUnitSyntax root = tree.GetCompilationUnitRoot();
 
 
-            var result = from classNodes
+            var result = new List<string>(from classNodes
                          in root.DescendantNodes().OfType<ClassDeclarationSyntax>()
-                         select classNodes.Identifier.Text;
+                                          select classNodes.Identifier.Text);
+
+
+            result.AddRange(from classNodes
+                    in root.DescendantNodes().OfType<StructDeclarationSyntax>()
+                            select classNodes.Identifier.Text);
 
 
             return (tree, result.ToArray());
@@ -148,7 +158,7 @@ namespace Natasha.Complier
             CSharpCompilation compilation = CSharpCompilation.Create(
                 ClassName,
                 options: new CSharpCompilationOptions(
-                    outputKind:OutputKind.DynamicallyLinkedLibrary,
+                    outputKind: OutputKind.DynamicallyLinkedLibrary,
                     optimizationLevel: OptimizationLevel.Release
                     ),
                 syntaxTrees: new[] { Tree },
@@ -164,7 +174,7 @@ namespace Natasha.Complier
                     stream.Position = 0;
                     AssemblyLoadContext context = AssemblyLoadContext.Default;
                     var result = context.LoadFromStream(stream);
-                    
+
                     if (NScriptLog.UseLog)
                     {
                         recoder.AppendLine("\r\n\r\n------------------------------------------succeed-------------------------------------------");
@@ -249,7 +259,7 @@ namespace Natasha.Complier
 
 
             //生成路径
-            string path = Path.Combine(LibPath,$"{ClassNames[0]}.dll");
+            string path = Path.Combine(LibPath, $"{ClassNames[0]}.dll");
 
 
             if (DynamicDlls.ContainsKey(path))
@@ -386,7 +396,7 @@ namespace Natasha.Complier
             {
                 var arrayLines = content.Split(new string[] { "\r\n" }, StringSplitOptions.None);
                 var currentErrorLine = arrayLines[start.Line];
-                if (start.Character==0)
+                if (start.Character == 0)
                 {
                     return currentErrorLine.Substring(0, end.Character).Trim();
                 }

@@ -112,7 +112,7 @@ namespace Natasha
 
             //获取方法委托
             return AssemblyOperator
-                .Loader(assembly)[ClassTemplate.NameScript]
+                .Loader(assembly)[ClassTemplate.ClassNameScript]
                 .GetMethod(MethodTemplate.MethodNameScript)
                 .CreateDelegate(MethodTemplate.DelegateType);
         }

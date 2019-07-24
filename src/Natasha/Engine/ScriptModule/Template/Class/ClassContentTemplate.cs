@@ -4,25 +4,25 @@ namespace Natasha
 {
     public class ClassContentTemplate<T>:FieldTemplate<T>
     {
-        public StringBuilder ContentScript;
+        public StringBuilder ClassContentScript;
         public ClassContentTemplate()
         {
-            ContentScript = new StringBuilder();
+            ClassContentScript = new StringBuilder();
         }
         public T ClassBody(StringBuilder text)
         {
-            ContentScript.Append(text);
+            ClassContentScript.Append(text);
             return Link;
         }
         public T ClassBody(string text)
         {
-            ContentScript.Append(text);
+            ClassContentScript.Append(text);
             return Link;
         }
         public override T Builder()
         {
             base.Builder();
-            _script.Append(ContentScript);
+            _script.Append(ClassContentScript);
             _script.Append("}");
             if (!HiddenNamesapce)
             {
