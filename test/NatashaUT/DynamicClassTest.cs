@@ -34,6 +34,7 @@ namespace HelloWorld
 
 
 
+
         [Fact(DisplayName = "选择类")]
         public static void RunClassName1()
         {
@@ -76,6 +77,7 @@ namespace HelloWorld{
             Type type = RuntimeComplier.GetType(text,3);
             Assert.Equal("TestIndex3", type.Name);
         }
+
 
 
 
