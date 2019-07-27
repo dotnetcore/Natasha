@@ -50,6 +50,12 @@
  
  <br/>  
  
+ ### 升级日志
+ 
+ - [[2019]](https://github.com/dotnetcore/Natasha/wiki/Update2019)
+  
+ <br/>  
+ 
 ---------------------  
  <br/>  
  
