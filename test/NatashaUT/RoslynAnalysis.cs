@@ -47,11 +47,11 @@ namespace HelloWorld{
 }
 
 ";
-            var result = ScriptComplieEngine.GetTreeAndClassNames(text);
-            Assert.Equal("TestIndex1", result.ClassNames[0]);
-            Assert.Equal("TestIndex2", result.ClassNames[1]);
-            Assert.Equal("TestIndex3", result.ClassNames[2]);
-            Assert.Equal("TestIndex4", result.ClassNames[3]);
+            var (_, ClassNames, _) = ScriptComplieEngine.GetTreeAndClassNames(text);
+            Assert.Equal("TestIndex1", ClassNames[0]);
+            Assert.Equal("TestIndex2", ClassNames[1]);
+            Assert.Equal("TestIndex3", ClassNames[2]);
+            Assert.Equal("TestIndex4", ClassNames[3]);
         }
     }
 }

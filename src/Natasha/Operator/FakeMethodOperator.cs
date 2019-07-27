@@ -17,13 +17,15 @@ namespace Natasha
         {
             get { return new FakeMethodOperator(); }
         }
-      
+
 
         public FakeMethodOperator()
         {
+
             Link = this;
             HiddenNameSpace();
             ClassAccess(AccessTypes.Public);
+
         }
 
 
@@ -36,13 +38,17 @@ namespace Natasha
         /// <returns></returns>
         public FakeMethodOperator UseMethod(MethodInfo reflectMethodInfo)
         {
+
             _temp_info = reflectMethodInfo;
             return this;
+
         }
         public FakeMethodOperator UseMethod<T>(string methodName)
         {
+
             _temp_info = typeof(T).GetMethod(methodName);
             return this;
+
         }
 
 
@@ -54,20 +60,33 @@ namespace Natasha
         /// <returns></returns>
         public FakeMethodOperator MethodContent(string content)
         {
+
             if (!HashMethodName())
             {
+
                 MethodName(_temp_info);
+
             }
-            if (OnceModifierScript==string.Empty)
+
+
+            if (OnceModifierScript == string.Empty)
             {
+
                 MethodModifier(_temp_info);
+
             }
+
+
             MethodAccess(_temp_info)
             .Parameter(_temp_info)
             .MethodBody(content)
             .Return(_temp_info);
+
+
             return this;
+
         }
+
 
 
 
@@ -78,17 +97,27 @@ namespace Natasha
         /// <returns></returns>
         public FakeMethodOperator StaticMethodContent(string content)
         {
+
             if (!HashMethodName())
             {
+
                 MethodName(_temp_info);
+
             }
+
+
             ClassModifier(Modifiers.Static)
             .MethodAccess(_temp_info)
             .MethodModifier(Modifiers.Static)
             .Parameter(_temp_info)
             .MethodBody(content)
             .Return(_temp_info);
+
+
             return this;
+
         }
+
     }
+
 }

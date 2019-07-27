@@ -45,17 +45,30 @@ namespace Natasha
         {
             if (reflectMethodInfo.IsStatic)
             {
+
                 return "static ";
+
             }
+
+
             if (reflectMethodInfo.IsVirtual)
             {
+
                 return "virtual ";
+
             }
+
+
             if (reflectMethodInfo.IsAbstract)
             {
+
                 return "abstract ";
+
             }
+
+
             return "";
+
         }
 
 
@@ -68,14 +81,23 @@ namespace Natasha
         /// <returns></returns>
         public static string GetModifier(FieldInfo reflectFieldInfo)
         {
+
             if (reflectFieldInfo.IsStatic)
             {
+
                 return "static ";
+
             }
+
+
             if (reflectFieldInfo.IsInitOnly)
             {
+
                 return "readonly ";
+
             }
+
+
             return "";
         }
 
@@ -89,16 +111,27 @@ namespace Natasha
         /// <returns></returns>
         public static string GetModifier(Type info)
         {
+
             StringBuilder builder = new StringBuilder();
             if (info.IsSealed)
             {
+
                 builder.Append("sealed ");
+
             }
+
+
             if (info.IsAbstract)
             {
+
                 builder.Append("abstract ");
+
             }
+
+
             return builder.ToString();
         }
+
     }
+
 }

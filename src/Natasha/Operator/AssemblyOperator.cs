@@ -21,7 +21,9 @@ namespace Natasha
         /// <returns></returns>
         public static AssemblyOperator Loader(Assembly assembly)
         {
+
             return new AssemblyOperator(assembly);
+
         }
 
 
@@ -34,7 +36,16 @@ namespace Natasha
         /// <returns></returns>
         public Type this[string className]
         {
-            get { return _assembly.GetTypes().First(item=>item.Name==className); }
+
+            get
+            {
+
+                return _assembly
+                    .GetTypes()
+                    .First(item=>item.Name==className);
+
+            }
+
         }
     }
 }

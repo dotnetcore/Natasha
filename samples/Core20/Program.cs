@@ -14,7 +14,7 @@ namespace Core20
              *   
              *      <PreserveCompilationContext>true</PreserveCompilationContext>
              */
-          
+
 
             string text = @"namespace HelloWorld
 {
@@ -30,7 +30,7 @@ namespace Core20
 }";
             //根据脚本创建动态类
             Type type = RuntimeComplier.GetType(text);
-           
+
 
             Console.ReadKey();
         }

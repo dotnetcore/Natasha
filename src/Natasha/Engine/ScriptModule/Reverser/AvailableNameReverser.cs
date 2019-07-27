@@ -23,15 +23,25 @@ namespace Natasha
         /// <returns></returns>
         public static string GetName(Type type)
         {
+
             if (type == null)
             {
+
                 return "";
+
             }
+
+
             if (!_type_mapping.ContainsKey(type))
             {
+
                 _type_mapping[type] = GetAvailableName(type);
+
             }
+
+
             return _type_mapping[type];
+
         }
 
 
@@ -44,7 +54,11 @@ namespace Natasha
         /// <returns></returns>
         public static string GetAvailableName(Type type)
         {
+
             return type.GetDevelopName().Replace('<', '_').Replace('>', '_').Replace(',', '_').Replace("[]", "__");
+
         }
+
     }
+
 }

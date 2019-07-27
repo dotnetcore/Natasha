@@ -6,6 +6,8 @@ namespace Natasha
 {
     public static class RuntimeComplier
     {
+
+
         /// <summary>
         /// 编译脚本，生成委托
         /// </summary>
@@ -15,6 +17,7 @@ namespace Natasha
         /// <returns></returns>
         public static Delegate GetDelegate(string className, string content, string methodName, Type delegateType)
         {
+
             //获取程序集
             Assembly assembly = ScriptComplieEngine.StreamComplier(content);
 
@@ -22,7 +25,9 @@ namespace Natasha
             //判空
             if (assembly == null)
             {
+
                 return null;
+
             }
 
 
@@ -31,6 +36,7 @@ namespace Natasha
                 .Loader(assembly)[className]
                 .GetMethod(methodName)
                 .CreateDelegate(delegateType);
+
         }
 
 
@@ -45,6 +51,7 @@ namespace Natasha
         /// <returns></returns>
         public static Delegate GetDelegate<T>(string className, string content, string methodName)
         {
+
             //获取程序集
             Assembly assembly = ScriptComplieEngine.StreamComplier(content);
 
@@ -52,7 +59,9 @@ namespace Natasha
             //判空
             if (assembly == null)
             {
+
                 return null;
+
             }
 
 
@@ -61,6 +70,7 @@ namespace Natasha
                 .Loader(assembly)[className]
                 .GetMethod(methodName)
                 .CreateDelegate(typeof(T));
+
         }
 
 
@@ -86,6 +96,9 @@ namespace Natasha
 
             //获取类型
             return AssemblyOperator.Loader(assembly)[className];
+
         }
+
     }
+
 }

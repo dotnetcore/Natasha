@@ -6,7 +6,7 @@ namespace Natasha
     /// <summary>
     /// 方法脚本构造器
     /// </summary>
-    public class MethodBuilder :IComplier
+    public class MethodBuilder : IComplier
     {
 
 
@@ -16,10 +16,12 @@ namespace Natasha
 
         public MethodBuilder()
         {
+
             ClassTemplate = new ClassBuilder();
             MethodTemplate = new MethodTemplate();
+
         }
-        
+
 
 
 
@@ -28,7 +30,9 @@ namespace Natasha
         /// </summary>
         public string MethodScript
         {
+
             get { return MethodTemplate.Builder().Script; }
+
         }
 
 
@@ -41,8 +45,10 @@ namespace Natasha
         /// <returns></returns>
         public virtual MethodBuilder ResetClassTemplate(ClassBuilder classTemplate)
         {
+
             ClassTemplate = classTemplate;
             return this;
+
         }
 
 
@@ -55,8 +61,10 @@ namespace Natasha
         /// <returns></returns>
         public virtual MethodBuilder ClassAction(Action<ClassBuilder> classAction)
         {
+
             classAction(ClassTemplate);
             return this;
+
         }
 
 
@@ -69,8 +77,10 @@ namespace Natasha
         /// <returns></returns>
         public virtual MethodBuilder ResetBodyTemplate(MethodTemplate methodTemplate)
         {
+
             MethodTemplate = methodTemplate;
             return this;
+
         }
 
 
@@ -83,8 +93,10 @@ namespace Natasha
         /// <returns></returns>
         public virtual MethodBuilder MethodAction(Action<MethodTemplate> methodAction)
         {
+
             methodAction(MethodTemplate);
             return this;
+
         }
 
 
@@ -94,6 +106,7 @@ namespace Natasha
         /// <returns></returns>
         public Delegate Complie()
         {
+
             //获取程序集
             Assembly assembly = GetAssemblyByScript(
                 ClassTemplate
@@ -106,7 +119,9 @@ namespace Natasha
             //判空
             if (assembly == null)
             {
+
                 return null;
+
             }
 
 
@@ -115,7 +130,9 @@ namespace Natasha
                 .Loader(assembly)[ClassTemplate.ClassNameScript]
                 .GetMethod(MethodTemplate.MethodNameScript)
                 .CreateDelegate(MethodTemplate.DelegateType);
+
         }
 
     }
+
 }

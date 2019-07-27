@@ -15,16 +15,21 @@ namespace Natasha
         /// <returns></returns>
         public static Func<T> NewDelegate<T>(Type type=null)
         {
+
             var builder = FastMethodOperator.New;
             if (type==null)
             {
+
                 //直接使用T的类型作为初始化类型
                 type = typeof(T);
+
             }
             else
             {
+
                 //T为object，那么自动加载type的命名空间
                 builder.Using(type);
+
             }
 
 
@@ -34,6 +39,7 @@ namespace Natasha
                 .MethodBody($@"return new {type.GetDevelopName()}();")
                 .Return<T>()
                 .Complie<Func<T>>();
+
         }
 
 
@@ -46,10 +52,12 @@ namespace Natasha
         /// <returns></returns>
         public static Delegate NewDelegate(Type type)
         {
+
             return FastMethodOperator.New
                 .MethodBody($@"return new {type.GetDevelopName()}();")
                 .Return(type)
                 .Complie();
+
         }
     }
 }

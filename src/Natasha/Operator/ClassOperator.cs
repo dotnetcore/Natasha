@@ -6,6 +6,7 @@ namespace Natasha
     public static class ClassOperator
     {
 
+
         /// <summary>
         /// 根据类名获取类，前提类必须是成功编译过的
         /// </summary>
@@ -13,7 +14,11 @@ namespace Natasha
         /// <returns></returns>
         public static Type GetType(string name)
         {
-           return AssemblyOperator.Loader(ScriptComplieEngine.ClassMapping[name])[name];
+
+            return AssemblyOperator.Loader(ScriptComplieEngine.ClassMapping[name])[name];
+
         }
+
     }
+
 }

@@ -16,6 +16,7 @@ namespace Natasha
 
         static DelegateBuilder()
         {
+
             FuncMaker = new Type[9];
             FuncMaker[0] = typeof(Func<>);
             FuncMaker[1] = typeof(Func<,>);
@@ -37,6 +38,7 @@ namespace Natasha
             ActionMaker[6] = typeof(Action<,,,,,>);
             ActionMaker[7] = typeof(Action<,,,,,,>);
             ActionMaker[8] = typeof(Action<,,,,,,,>);
+
         }
 
 
@@ -50,14 +52,20 @@ namespace Natasha
         /// <returns>函数委托</returns>
         public static Type GetDelegate(Type[] parametersTypes = null, Type returnType = null)
         {
+
             if (returnType == null || returnType == typeof(void))
             {
+
                 return GetAction(parametersTypes);
+
             }
             else
             {
+
                 return GetFunc(returnType, parametersTypes);
+
             }
+
         }
 
 
@@ -71,9 +79,12 @@ namespace Natasha
         /// <returns>Func委托类型</returns>
         public static Type GetFunc(Type returnType, Type[] parametersTypes = null)
         {
+
             if (parametersTypes == null)
             {
+
                 return FuncMaker[0].MakeGenericType(returnType);
+
             }
 
 
@@ -96,13 +107,19 @@ namespace Natasha
         /// <returns>Action委托类型</returns>
         public static Type GetAction(Type[] parametersTypes = null)
         {
+
             if (parametersTypes == null || parametersTypes.Length == 0)
             {
+
                 return ActionMaker[0];
+
             }
 
-            
+
             return ActionMaker[parametersTypes.Length].MakeGenericType(parametersTypes);
+
         }
+
     }
+
 }

@@ -1,21 +1,24 @@
-﻿using Natasha.Complier;
-using System;
-using System.Reflection;
+﻿using System;
 
 namespace Natasha
 {
     /// <summary>
     /// 类构建器
     /// </summary>
-    public class ClassBuilder:ClassContentTemplate<ClassBuilder>
+    public class ClassBuilder : ClassContentTemplate<ClassBuilder>
     {
 
         public readonly ClassComplier Complier;
         public CtorTemplate CtorBuilder;
-        public ClassBuilder() {
+
+
+        public ClassBuilder()
+        {
+
             Complier = new ClassComplier();
             Link = this;
-        } 
+
+        }
 
 
 
@@ -27,8 +30,12 @@ namespace Natasha
         /// <returns></returns>
         public ClassBuilder Ctor(Action<CtorTemplate> action)
         {
+
             action(CtorBuilder = new CtorTemplate());
+
+
             return this;
+
         }
 
 
@@ -40,11 +47,17 @@ namespace Natasha
         /// <returns></returns>
         public override ClassBuilder Builder()
         {
-            if (CtorBuilder!=null)
+
+            if (CtorBuilder != null)
             {
-               ClassBody(CtorBuilder.Builder()._script);
+
+                ClassBody(CtorBuilder.Builder()._script);
+
             }
+
+
             return base.Builder();
+
         }
 
 
@@ -58,7 +71,9 @@ namespace Natasha
         /// <returns></returns>
         public Type GetType(int classIndex = 1, int namespaceIndex = 1)
         {
+
             return Complier.GetType(Builder().Script, classIndex, namespaceIndex);
+
         }
     }
 }

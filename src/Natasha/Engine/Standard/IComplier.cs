@@ -1,6 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
 using Natasha.Complier;
-using System;
 using System.Diagnostics;
 using System.Reflection;
 
@@ -14,9 +13,11 @@ namespace Natasha
         /// <param name="msg"></param>
         public virtual void SingleError(Diagnostic msg)
         {
+
 #if DEBUG
             Debug.WriteLine(msg.GetMessage());
 #endif
+
         }
 
 
@@ -30,9 +31,12 @@ namespace Natasha
         /// <returns></returns>
         public IComplier UseFileComplie(bool shut = true)
         {
+
             _useFileComplie = shut;
             return this;
+
         }
+
 
 
 
@@ -43,14 +47,20 @@ namespace Natasha
         /// <returns></returns>
         public Assembly GetAssemblyByScript(string content)
         {
+
             if (!_useFileComplie)
             {
+
                 return ScriptComplieEngine.StreamComplier(content, SingleError);
+
             }
             else
             {
+
                 return ScriptComplieEngine.FileComplier(content, SingleError);
+
             }
+
         }
     }
 }

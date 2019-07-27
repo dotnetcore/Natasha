@@ -22,12 +22,14 @@ namespace Natasha.Builder
         /// <returns></returns>
         public Delegate Complie()
         {
+
             Builder();
             return ComplierOption.Complie(
-                ClassNameScript, 
+                ClassNameScript,
                 Script,
                 MethodNameScript,
                 DelegateType);
+
         }
 
 
@@ -38,13 +40,19 @@ namespace Natasha.Builder
         /// </summary>
         /// <typeparam name="T">委托的强类型</typeparam>
         /// <returns></returns>
-        public T Complie<T>() where T:Delegate
+        public T Complie<T>() where T : Delegate
         {
+
             Builder();
+
+
             return (T)ComplierOption.Complie<T>(
                 ClassNameScript,
                 Script,
                 MethodNameScript);
+
         }
+
     }
+
 }

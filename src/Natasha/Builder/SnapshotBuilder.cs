@@ -13,8 +13,6 @@ namespace Natasha
         private readonly FastMethodOperator MethodHandler;
         private const string NewInstance = "NewInstance";
         private const string OldInstance = "OldInstance";
-
-
         public static readonly ConcurrentDictionary<Type, Delegate> SnapshotCache;
         static SnapshotBuilder()=>SnapshotCache = new ConcurrentDictionary<Type, Delegate>();
 
@@ -22,9 +20,11 @@ namespace Natasha
 
         public SnapshotBuilder(Type type = null)
         {
+
             CurrentType = type;
             Script = new StringBuilder();
             MethodHandler = new FastMethodOperator();
+
         }
 
 
@@ -32,6 +32,7 @@ namespace Natasha
 
         public override void ArrayOnceTypeHandler(BuilderInfo info)
         {
+
             StringBuilder scriptBuilder = new StringBuilder();
             scriptBuilder.Append($@"Dictionary<string,DiffModel> result = new Dictionary<string,DiffModel>();");
             scriptBuilder.Append(
@@ -48,6 +49,7 @@ namespace Natasha
                  return result;
             ");
 
+
             //创建委托
             var tempBuilder = FastMethodOperator.New;
             tempBuilder.ComplierOption.UseFileComplie();
@@ -61,6 +63,7 @@ namespace Natasha
                         .MethodBody(scriptBuilder.ToString())      
                         .Return<Dictionary<string, DiffModel>>()  
                         .Complie();
+
         }
 
 
@@ -89,6 +92,7 @@ namespace Natasha
                  return result;
             ");
 
+
             //创建委托
             var tempBuilder = FastMethodOperator.New;
             tempBuilder.ComplierOption.UseFileComplie();
@@ -102,6 +106,7 @@ namespace Natasha
                         .MethodBody(scriptBuilder.ToString())         
                         .Return<Dictionary<string, DiffModel>>()                  
                         .Complie();
+
         }
 
 
@@ -109,9 +114,11 @@ namespace Natasha
 
         public override void MemberOnceTypeHandler(BuilderInfo info)
         {
+
             Script.Append($@"if({NewInstance}.{info.MemberName}!={OldInstance}.{info.MemberName}){{
                     result.Add(""{info.MemberName}"",new DiffModel(){{ Name=""{info.MemberName}"",Value={OldInstance}.{info.MemberName} }});
             }}");
+
         }
 
 
@@ -119,7 +126,10 @@ namespace Natasha
 
         public override void MemberICollectionHandler(BuilderInfo info)
         {
+
             MethodHandler.Using(info.MemberType);
+
+
             Script.Append(
                 $@"if({NewInstance}.{info.MemberName}!={OldInstance}.{info.MemberName}){{
                     if({NewInstance}.{info.MemberName}==null || {OldInstance}.{info.MemberName}==null){{
@@ -129,6 +139,7 @@ namespace Natasha
                     }}
                 }}   
             ");
+
         }
 
 
@@ -136,7 +147,10 @@ namespace Natasha
 
         public override void MemberCollectionHandler(BuilderInfo info)
         {
+
             MethodHandler.Using(info.MemberType);
+
+
             Script.Append(
                 $@"if({NewInstance}.{info.MemberName}!={OldInstance}.{info.MemberName}){{
                     if({NewInstance}.{info.MemberName}==null || {OldInstance}.{info.MemberName}==null){{
@@ -146,6 +160,7 @@ namespace Natasha
                     }}
                 }}   
             ");
+
         }
 
 

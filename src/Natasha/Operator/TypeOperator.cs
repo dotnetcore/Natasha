@@ -10,7 +10,9 @@ namespace Natasha
         private readonly Type _type;
         public TypeOperator(Type type)
         {
+
             _type = type;
+
         }
 
 
@@ -23,7 +25,9 @@ namespace Natasha
         /// <returns></returns>
         public static TypeOperator Loader(Type type)
         {
+
             return new TypeOperator(type);
+
         }
 
 
@@ -36,7 +40,11 @@ namespace Natasha
         /// <returns></returns>
         public MemberInfo this[string memberName]
         {
+
             get { return _type.GetMember(memberName)[0]; }
+
         }
+
     }
+
 }

@@ -7,6 +7,8 @@ namespace Natasha
     /// </summary>
     public class GenericBuilder
     {
+
+
         /// <summary>
         /// 生成对应的泛型类
         /// </summary>
@@ -15,7 +17,9 @@ namespace Natasha
         /// <returns></returns>
         public static Type GetType(Type genericType, params Type[] genericParametersTypes)
         {
+
             return genericType.MakeGenericType(genericParametersTypes);
+
         }
 
 
@@ -29,7 +33,11 @@ namespace Natasha
         /// <returns></returns>
         public static Type GetType<G>(params Type[] genericParametersTypes)
         {
+
             return typeof(G).MakeGenericType(genericParametersTypes);
+
         }
+
     }
+
 }

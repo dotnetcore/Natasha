@@ -6,7 +6,7 @@ namespace Natasha.Complier
     /// <summary>
     /// 默认编译器
     /// </summary>
-    public class MethodComplier :IComplier
+    public class MethodComplier : IComplier
     {
 
         /// <summary>
@@ -16,8 +16,9 @@ namespace Natasha.Complier
         /// <param name="methodName">方法名</param>
         /// <param name="delegateType">委托类型</param>
         /// <returns></returns>
-        public Delegate Complie(string className,string content,string methodName,Type delegateType)
+        public Delegate Complie(string className, string content, string methodName, Type delegateType)
         {
+
             //获取程序集
             Assembly assembly = GetAssemblyByScript(content);
 
@@ -25,7 +26,9 @@ namespace Natasha.Complier
             //判空
             if (assembly == null)
             {
+
                 return null;
+
             }
 
 
@@ -34,7 +37,10 @@ namespace Natasha.Complier
                 .Loader(assembly)[className]
                 .GetMethod(methodName)
                 .CreateDelegate(delegateType);
+
         }
+
+
 
 
         /// <summary>
@@ -46,6 +52,7 @@ namespace Natasha.Complier
         /// <returns></returns>
         public Delegate Complie<T>(string className, string content, string methodName)
         {
+
             //获取程序集
             Assembly assembly = GetAssemblyByScript(content);
 
@@ -53,7 +60,9 @@ namespace Natasha.Complier
             //判空
             if (assembly == null)
             {
+
                 return null;
+
             }
 
 
@@ -62,6 +71,9 @@ namespace Natasha.Complier
                 .Loader(assembly)[className]
                 .GetMethod(methodName)
                 .CreateDelegate(typeof(T));
+
         }
+
     }
+
 }

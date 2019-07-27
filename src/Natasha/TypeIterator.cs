@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace Natasha
 {
     public abstract class TypeIterator
     {
+
         public Type CurrentType;
         public bool IncludeStatic;
         public bool IncludeCanWrite;
@@ -16,6 +16,8 @@ namespace Natasha
         {
             UseSelfDelay = true;
         }
+
+
 
 
         /// <summary>
@@ -108,19 +110,27 @@ namespace Natasha
         /// <param name="type"></param>
         public void ArrayRouter(Type type)
         {
+
             Type eleType = type.GetElementType();
             if (eleType.IsOnceType())
             {
+
                 //普通类型处理
                 ArrayOnceTypeHandler(type);
+
             }
             else
             {
+
                 //复杂类型交由入口处理
                 EntityHandler(eleType);
                 ArrayEntityHandler(type);
+
             }
+
         }
+
+
 
 
         /// <summary>
@@ -137,171 +147,240 @@ namespace Natasha
             var fields = type.GetFields();
             for (int i = 0; i < fields.Length; i++)
             {
+
                 var fieldInfo = fields[i];
                 //排除不能操作的类型
                 if ((!fieldInfo.IsStatic | IncludeStatic) && !fieldInfo.IsInitOnly)
                 {
+
                     Type fieldType = fieldInfo.FieldType;
-
-
                     if (fieldType.IsOnceType())       //普通字段
                     {
+
                         FieldOnceTypeHandler(fieldInfo);
+
                     }
                     else if (fieldType.IsArray)      //数组
                     {
+
                         Type eleType = fieldType.GetElementType();
                         if (eleType.IsOnceType())
                         {
+
                             FieldArrayOnceTypeHandler(fieldInfo);
+
                         }
                         else
                         {
+
                             if (!IsSelfType(eleType))
                             {
+
                                 EntityHandler(eleType);
                                 FieldArrayEntityHandler(fieldInfo);
+
                             }
                             else if (eleType == CurrentType)
                             {
+
                                 FieldArrayEntityHandler(fieldInfo);
+
                             }
+
                         }
+
                     }
                     else if (!fieldType.IsNotPublic)
                     {
 
                         //检测集合
-
-
                         if (fieldType.GetInterface("IEnumerable") != null)
                         {
+
                             if (!IsSelfType(fieldType))
                             {
+
                                 EntityHandler(fieldType);
+
 
                                 if (fieldType.GetInterface("IDictionary") != null)
                                 {
+
                                     if (fieldType.IsInterface)
                                     {
+
                                         FieldIDictionaryHandler(fieldInfo);
+
                                     }
                                     else
                                     {
+
                                         FieldDictionaryHandler(fieldInfo);
+
                                     }
+
                                 }
                                 else
                                 {
+
                                     if (fieldType.IsInterface)
                                     {
+
                                         FieldICollectionHandler(fieldInfo);
+
                                     }
                                     else
                                     {
+
                                         FieldCollectionHandler(fieldInfo);
+
                                     }
+
                                 }
 
                             }
+
                         }
                         else
                         {
+
                             if (!IsSelfType(fieldType))
                             {
+
                                 EntityHandler(fieldType);
+
                             }
                             FieldEntityHandler(fieldInfo);
                         }
+
                     }
 
                 }
+
             }
 
             //属性克隆
             var properties = type.GetProperties();
             for (int i = 0; i < properties.Length; i++)
             {
+
                 var propertyInfo = properties[i];
                 //排除不能操作的属性
                 if ((propertyInfo.CanRead | !IncludeCanRead) && (propertyInfo.CanWrite | !IncludeCanWrite) && (!propertyInfo.GetGetMethod(true).IsStatic | IncludeStatic))
                 {
+
                     Type propertyType = propertyInfo.PropertyType;
                     //检测集合
                     HashSet<Type> types = new HashSet<Type>(propertyType.GetAllGenericTypes());
                     if (!types.Contains(CurrentType) | !UseSelfDelay)
                     {
+
                         if (propertyType.IsOnceType())               //普通属性
                         {
+
                             PropertyOnceTypeHandler(propertyInfo);
+
                         }
                         else if (propertyType.IsArray)               //数组
                         {
 
                             Type eleType = propertyType.GetElementType();
-
                             if (eleType.IsOnceType())
                             {
+
                                 PropertyArrayOnceTypeHandler(propertyInfo);
+
                             }
                             else
                             {
+
                                 if (!IsSelfType(eleType))
                                 {
+
                                     EntityHandler(eleType);
                                     PropertyArrayEntityHandler(propertyInfo);
+
                                 }
                                 else if (eleType == CurrentType)
                                 {
+
                                     PropertyArrayEntityHandler(propertyInfo);
+
                                 }
+
                             }
+
                         }
                         else if (!propertyType.IsNotPublic)
                         {
+
                             //检测集合
                             if (propertyType.GetInterface("IEnumerable") != null)
                             {
+
                                 if (!IsSelfType(propertyType))
                                 {
+
                                     EntityHandler(propertyType);
+
 
                                     if (propertyType.GetInterface("IDictionary") != null)
                                     {
+
                                         if (propertyType.IsInterface)
                                         {
+
                                             PropertyIDictionaryHandler(propertyInfo);
+
                                         }
                                         else
                                         {
+
                                             PropertyDictionaryHandler(propertyInfo);
+
                                         }
+
                                     }
                                     else
                                     {
+
                                         if (propertyType.IsInterface)
                                         {
+
                                             PropertyICollectionHandler(propertyInfo);
+
                                         }
                                         else
                                         {
+
                                             PropertyCollectionHandler(propertyInfo);
+
                                         }
+
                                     }
+
                                 }
+
                             }
                             else
                             {
+
                                 if (!IsSelfType(propertyType))
                                 {
                                     EntityHandler(propertyType);
                                 }
                                 PropertyEntityHandler(propertyInfo);
+
                             }
+
                         }
+
                     }
+
                 }
+
             }
+
 
             EntityReturnHandler(type);
 
@@ -317,18 +396,24 @@ namespace Natasha
 
             if (!type.IsGenericType)
             {
+
                 Type[] args = type.GetGenericArguments();
                 EntityHandler(args[0]);
+
             }
 
 
             if (type.IsInterface)
             {
+
                 ICollectionHandler(type);
+
             }
             else
             {
+
                 CollectionHandler(type);
+
             }
         }
 
@@ -342,19 +427,25 @@ namespace Natasha
 
             if (!type.IsGenericType)
             {
+
                 Type[] args = type.GetGenericArguments();
                 EntityHandler(args[0]);
                 EntityHandler(args[1]);
+
             }
 
 
             if (type.IsInterface)
             {
+
                 IDictionaryHandler(type);
+
             }
             else
             {
+
                 DictionaryHandler(type);
+
             }
         }
 
@@ -365,7 +456,9 @@ namespace Natasha
         /// <param name="type"></param>
         public void OnceTypeRouter(Type type)
         {
+
             OnceTypeHandler(type);
+
         }
 
         #region StartAndEnd
@@ -558,59 +651,89 @@ namespace Natasha
         /// <returns></returns>
         public bool TypeRouter(Type type)
         {
+
             //无效类PASS
             if (type.FullName == null)
             {
+
                 return false;
+
             }
+
 
             if (type.IsOnceType())
             {
+
                 OnceTypeRouter(type);
                 return true;
+
             }
+
 
             if (type.IsArray)                                   //数组直接
             {
+
                 ArrayRouter(type);
+
             }
             else if (type.GetInterface("IEnumerable") != null)  //集合直接
             {
+
                 if (type.GetInterface("IDictionary") != null)
                 {
+
                     DictionaryRouter(type);
+
                 }
                 else
                 {
+
                     CollectionRouter(type);
+
                 }
             }
             else
             {
+
                 //实体类型
                 EntityRouter(type);
+
             }
+
+
             return true;
+
         }
 
         private HashSet<Type> GetSelfTypes(Type type)
         {
+
             HashSet<Type> types = new HashSet<Type>();
             if (type.HasElementType)
             {
+
                 types.UnionWith(GetSelfTypes(type.GetElementType()));
+
             }
             else
             {
+
                 types.UnionWith(type.GetAllGenericTypes());
+
             }
+
+
             return types;
+
         }
 
         public bool IsSelfType(Type type)
         {
-            return GetSelfTypes(type).Contains(CurrentType);
-        }
-    }
-}
 
+            return GetSelfTypes(type).Contains(CurrentType);
+
+        }
+
+    }
+
+}

@@ -11,18 +11,29 @@ namespace Natasha
 
         public static FastMethodOperator New
         {
-            get { return new FastMethodOperator(); }
+            get
+            {
+
+                return new FastMethodOperator();
+
+            }
         }
+
+
 
 
         public FastMethodOperator()
         {
+
             Link = this;
             HiddenNameSpace()
                 .ClassAccess(AccessTypes.Public)
                 .ClassModifier(Modifiers.Static)
                 .MethodAccess(AccessTypes.Public)
                 .MethodModifier(Modifiers.Static);
+
         }
+
     }
+
 }

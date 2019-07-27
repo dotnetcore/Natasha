@@ -15,7 +15,9 @@ namespace Natasha
 
         private readonly static ConcurrentDictionary<string, Func<T>> _ctor_mapping;
         static OopOperator() => _ctor_mapping = new ConcurrentDictionary<string, Func<T>>();
-        public OopOperator() : base(typeof(T)){}
+        public OopOperator() : base(typeof(T)) { }
+
+
 
 
         /// <summary>
@@ -24,7 +26,9 @@ namespace Natasha
         /// <returns></returns>
         public override Delegate Compile()
         {
+
             return _ctor_mapping[ClassNameScript] = (Func<T>)(base.Compile());
+
         }
 
 
@@ -37,9 +41,14 @@ namespace Natasha
         /// <returns></returns>
         public T Create(string @class)
         {
-            if (!_ctor_mapping.ContainsKey(@class)){Compile();}
+
+            if (!_ctor_mapping.ContainsKey(@class)) { Compile(); }
+
+
             return _ctor_mapping[@class]();
+
         }
+
     }
 
 
@@ -53,7 +62,7 @@ namespace Natasha
 
 
         private readonly static ConcurrentDictionary<string, Delegate> _delegate_mapping;
-        static OopOperator()=> _delegate_mapping = new ConcurrentDictionary<string, Delegate>();
+        static OopOperator() => _delegate_mapping = new ConcurrentDictionary<string, Delegate>();
 
 
         public string Result;
@@ -62,9 +71,11 @@ namespace Natasha
         private readonly Dictionary<string, string> _oop_methods_mapping;
         public OopOperator(Type oopType) : base()
         {
+
             Link = this;
             _oop_type = oopType;
             _oop_methods_mapping = new Dictionary<string, string>();
+
         }
 
 
@@ -77,8 +88,10 @@ namespace Natasha
         /// <returns></returns>
         public OopOperator Override()
         {
+
             _is_override = true;
             return this;
+
         }
 
 
@@ -91,8 +104,10 @@ namespace Natasha
         /// <returns></returns>
         public OopOperator New()
         {
+
             _is_new = true;
             return this;
+
         }
 
 
@@ -107,7 +122,9 @@ namespace Natasha
         {
             get
             {
+
                 return _oop_methods_mapping[key];
+
             }
             set
             {
@@ -116,7 +133,9 @@ namespace Natasha
                 var reflectMethodInfo = _oop_type.GetMethod(key);
                 if (reflectMethodInfo == null)
                 {
+
                     throw new Exception($"无法在{_oop_type.Name}中找到{key}函数！");
+
                 }
 
 
@@ -128,26 +147,37 @@ namespace Natasha
                 var template = FakeMethodOperator.New;
 
 
-                
+
                 if (_is_override || reflectMethodInfo.IsAbstract)
                 {
+
                     if (!_oop_type.IsInterface)
                     {
+
                         template.MethodModifier(Modifiers.Override);
                         _is_override = false;
+
                     }
-                   
+
                 }
+
+
                 if (_is_new)
                 {
+
                     template.MethodModifier(Modifiers.New);
                     _is_new = false;
+
                 }
+
 
                 template.UseMethod(reflectMethodInfo).MethodContent(value).Builder();
                 _oop_methods_mapping[key] = template.MethodScript;
+
             }
+
         }
+
 
 
 
@@ -164,7 +194,9 @@ namespace Natasha
             //填充类的内容
             foreach (var item in _oop_methods_mapping)
             {
+
                 sb.Append(item.Value);
+
             }
 
 
@@ -196,8 +228,14 @@ namespace Natasha
         /// <returns></returns>
         public T Create<T>(string @class)
         {
-            if (!_delegate_mapping.ContainsKey(@class)){Compile();}
+
+            if (!_delegate_mapping.ContainsKey(@class)) { Compile(); }
+
+
             return ((Func<T>)_delegate_mapping[@class])();
+
         }
+
     }
+
 }

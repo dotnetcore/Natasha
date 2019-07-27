@@ -5,6 +5,9 @@
     /// </summary>
     public interface IScriptBuilder<T>
     {
+
         T Builder();
+
     }
+
 }
