@@ -6,6 +6,8 @@ using Xunit;
 
 namespace NatashaUT
 {
+
+
     [Trait("克隆测试", "")]
     public class DynamicCloneTest
     {
@@ -380,7 +382,7 @@ namespace NatashaUT
                 Id = 0
             } };
             var newModel = CloneOperator.Clone(model);
-           
+
             int i = 0;
             foreach (var item in newModel.Dicts)
             {
@@ -473,7 +475,7 @@ namespace NatashaUT
 
 
             var newModel = CloneOperator.Clone(model);
-            newModel.Nodes  = CloneOperator.Clone(model.Nodes);
+            newModel.Nodes = CloneOperator.Clone(model.Nodes);
             Assert.NotEqual(model.Nodes.First, newModel.Nodes.First);
             Assert.Equal(model.Nodes.First.Value.Name, newModel.Nodes.First.Value.Name);
 
@@ -501,8 +503,8 @@ namespace NatashaUT
                 });
                 model.Nodes[i].AddLast(new FieldLinkArrayModel()
                 {
-                    Name = (i+1).ToString(),
-                    Age = i+1
+                    Name = (i + 1).ToString(),
+                    Age = i + 1
                 });
             }
 
@@ -564,7 +566,7 @@ namespace NatashaUT
                     Age = i
                 };
             }
-            
+
 
             var newModel = CloneOperator.Clone(model);
             Assert.NotEqual(model.Next, newModel.Next);
@@ -573,7 +575,7 @@ namespace NatashaUT
                 Assert.NotEqual(model.Next[i], newModel.Next[i]);
                 Assert.Equal(model.Next[i].Name, newModel.Next[i].Name);
             }
-           
+
         }
     }
 }

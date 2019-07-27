@@ -80,10 +80,10 @@ namespace Natasha
         public override void ArrayOnceTypeHandler(BuilderInfo info)
         {
             StringBuilder scriptBuilder = new StringBuilder();
-            scriptBuilder.Append(@"if(oldInstance!=null){");
-            scriptBuilder.Append($"var newInstance = new {info.ElementTypeName}[oldInstance.Length];");
+            scriptBuilder.AppendLine(@"if(oldInstance!=null){");
+            scriptBuilder.AppendLine($"var newInstance = new {info.ElementTypeName}[oldInstance.Length];");
             //普通类型复制
-            scriptBuilder.Append(
+            scriptBuilder.AppendLine(
                 $@"for (int i = 0; i < oldInstance.Length; i++){{
                     newInstance[i] = oldInstance[i];
                  }}return newInstance;}}return null;");
@@ -109,8 +109,8 @@ namespace Natasha
         public override void ArrayEntityHandler(BuilderInfo info)
         {
             StringBuilder scriptBuilder = new StringBuilder();
-            scriptBuilder.Append(@"if(oldInstance!=null){");
-            scriptBuilder.Append($"var newInstance = new {info.ElementTypeName}[oldInstance.Length];");
+            scriptBuilder.AppendLine(@"if(oldInstance!=null){");
+            scriptBuilder.AppendLine($"var newInstance = new {info.ElementTypeName}[oldInstance.Length];");
             //普通类型复制
             scriptBuilder.Append(
                 $@"for (int i = 0; i < oldInstance.Length; i+=1){{
@@ -137,18 +137,18 @@ namespace Natasha
         public override void CollectionHandler(BuilderInfo info)
         {
             StringBuilder scriptBuilder = new StringBuilder();
-            scriptBuilder.Append(@"if(oldInstance!=null){");
+            scriptBuilder.AppendLine(@"if(oldInstance!=null){");
             var type = info.DeclaringType.GetGenericArguments()[0];
             if (type.IsOnceType())
             {
-                scriptBuilder.Append($"return new {info.DeclaringTypeName}(oldInstance);");
+                scriptBuilder.AppendLine($"return new {info.DeclaringTypeName}(oldInstance);");
             }
             else
             {
                 EntityHandler(type);
-                scriptBuilder.Append($"return new {info.DeclaringTypeName}(oldInstance.Select(item => NatashaClone{type.GetAvailableName()}.Clone(item)));");
+                scriptBuilder.AppendLine($"return new {info.DeclaringTypeName}(oldInstance.Select(item => NatashaClone{type.GetAvailableName()}.Clone(item)));");
             }
-            scriptBuilder.Append("}return null;");
+            scriptBuilder.AppendLine("}return null;");
 
 
             //创建委托
@@ -171,18 +171,18 @@ namespace Natasha
         public override void ICollectionHandler(BuilderInfo info)
         {
             StringBuilder scriptBuilder = new StringBuilder();
-            scriptBuilder.Append(@"if(oldInstance!=null){");
+            scriptBuilder.AppendLine(@"if(oldInstance!=null){");
             var type = info.DeclaringType.GetGenericArguments()[0];
             if (type.IsOnceType())
             {
-                scriptBuilder.Append($"return new List<{type.GetDevelopName()}>(oldInstance);");
+                scriptBuilder.AppendLine($"return new List<{type.GetDevelopName()}>(oldInstance);");
             }
             else
             {
                 EntityHandler(type);
-                scriptBuilder.Append($"return oldInstance.Select(item => NatashaClone{type.GetAvailableName()}.Clone(item));");
+                scriptBuilder.AppendLine($"return oldInstance.Select(item => NatashaClone{type.GetAvailableName()}.Clone(item));");
             }
-            scriptBuilder.Append("}return null;");
+            scriptBuilder.AppendLine("}return null;");
 
             //创建委托
             var tempBuilder = FastMethodOperator.New;
@@ -204,10 +204,10 @@ namespace Natasha
         public override void DictionaryHandler(BuilderInfo info)
         {
             StringBuilder scriptBuilder = new StringBuilder();
-            scriptBuilder.Append(@"if(oldInstance!=null){");
+            scriptBuilder.AppendLine(@"if(oldInstance!=null){");
             var keyType = info.DeclaringType.GetGenericArguments()[0];
             var valueType = info.DeclaringType.GetGenericArguments()[1];
-            scriptBuilder.Append($"return new {info.DeclaringTypeName}(oldInstance.Select(item=>{{return KeyValuePair.Create(");
+            scriptBuilder.AppendLine($"return new {info.DeclaringTypeName}(oldInstance.Select(item=>{{return KeyValuePair.Create(");
             if (keyType.IsOnceType())
             {
                 scriptBuilder.Append($"item.Key,");
@@ -215,7 +215,7 @@ namespace Natasha
             else
             {
                 EntityHandler(keyType);
-                scriptBuilder.Append($"NatashaClone{keyType.GetAvailableName()}.Clone(item.Key),");
+                scriptBuilder.AppendLine($"NatashaClone{keyType.GetAvailableName()}.Clone(item.Key),");
             }
             if (valueType.IsOnceType())
             {
@@ -224,9 +224,9 @@ namespace Natasha
             else
             {
                 EntityHandler(valueType);
-                scriptBuilder.Append($"NatashaClone{valueType.GetAvailableName()}.Clone(item.Value)");
+                scriptBuilder.AppendLine($"NatashaClone{valueType.GetAvailableName()}.Clone(item.Value)");
             }
-            scriptBuilder.Append(");}));}return null;");
+            scriptBuilder.AppendLine(");}));}return null;");
 
 
             //创建委托
@@ -249,8 +249,8 @@ namespace Natasha
         public override void MemberDictionaryHandler(BuilderInfo info)
         {
             MethodHandler.Using(info.MemberType);
-            Script.Append($@"if({OldInstance}.{info.MemberName}!=null){{");
-            Script.Append($@"{NewInstance}.{info.MemberName} = NatashaClone{info.MemberTypeAvailableName}.Clone({OldInstance}.{info.MemberName});}}");
+            Script.AppendLine($@"if({OldInstance}.{info.MemberName}!=null){{");
+            Script.AppendLine($@"{NewInstance}.{info.MemberName} = NatashaClone{info.MemberTypeAvailableName}.Clone({OldInstance}.{info.MemberName});}}");
         }
 
 
@@ -259,8 +259,8 @@ namespace Natasha
         public override void MemberIDictionaryHandler(BuilderInfo info)
         {
             MethodHandler.Using(info.MemberType);
-            Script.Append($@"if({OldInstance}.{info.MemberName}!=null){{");
-            Script.Append($@"{NewInstance}.{info.MemberName} = NatashaClone{info.MemberTypeAvailableName}.Clone({OldInstance}.{info.MemberName});}}");
+            Script.AppendLine($@"if({OldInstance}.{info.MemberName}!=null){{");
+            Script.AppendLine($@"{NewInstance}.{info.MemberName} = NatashaClone{info.MemberTypeAvailableName}.Clone({OldInstance}.{info.MemberName});}}");
         }
 
 
@@ -269,7 +269,7 @@ namespace Natasha
         public override void IDictionaryHandler(BuilderInfo info)
         {
             StringBuilder scriptBuilder = new StringBuilder();
-            scriptBuilder.Append(@"if(oldInstance!=null){");
+            scriptBuilder.AppendLine(@"if(oldInstance!=null){");
             var keyType = info.DeclaringType.GetGenericArguments()[0];
             var valueType = info.DeclaringType.GetGenericArguments()[1];
             scriptBuilder.Append($"return oldInstance.Select(item=>{{return KeyValuePair.Create(");
@@ -280,7 +280,7 @@ namespace Natasha
             else
             {
                 EntityHandler(keyType);
-                scriptBuilder.Append($"NatashaClone{keyType.GetAvailableName()}.Clone(item.Key),");
+                scriptBuilder.AppendLine($"NatashaClone{keyType.GetAvailableName()}.Clone(item.Key),");
             }
             if (valueType.IsOnceType())
             {
@@ -289,9 +289,9 @@ namespace Natasha
             else
             {
                 EntityHandler(valueType);
-                scriptBuilder.Append($"NatashaClone{valueType.GetAvailableName()}.Clone(item.Value)");
+                scriptBuilder.AppendLine($"NatashaClone{valueType.GetAvailableName()}.Clone(item.Value)");
             }
-            scriptBuilder.Append(")});}return null;");
+            scriptBuilder.AppendLine(")});}return null;");
 
 
             //创建委托
@@ -313,8 +313,8 @@ namespace Natasha
 
         public override void EntityStartHandler(BuilderInfo info)
         {
-            Script.Append($"if({OldInstance}==null){{return null;}}");
-            Script.Append($"{info.DeclaringTypeName} {NewInstance} = new {info.DeclaringTypeName}();");
+            Script.AppendLine($"if({OldInstance}==null){{return null;}}");
+            Script.AppendLine($"{info.DeclaringTypeName} {NewInstance} = new {info.DeclaringTypeName}();");
         }
 
 
@@ -322,7 +322,7 @@ namespace Natasha
 
         public override void EntityReturnHandler(BuilderInfo info)
         {
-            Script.Append($"return {NewInstance};");
+            Script.AppendLine($"return {NewInstance};");
         }
 
 
@@ -330,7 +330,7 @@ namespace Natasha
 
         public override void MemberOnceTypeHandler(BuilderInfo info)
         {
-            Script.Append($"{NewInstance}.{info.MemberName} = {OldInstance}.{info.MemberName};");
+            Script.AppendLine($"{NewInstance}.{info.MemberName} = {OldInstance}.{info.MemberName};");
         }
 
 
@@ -339,8 +339,8 @@ namespace Natasha
         public override void MemberArrayOnceTypeHandler(BuilderInfo info)
         {
             MethodHandler.Using(info.ElementType);
-            Script.Append($@"if({OldInstance}.{info.MemberName}!=null){{");
-            Script.Append($"{NewInstance}.{info.MemberName} = new {info.ElementTypeName}[{OldInstance}.{info.MemberName}.Length];");
+            Script.AppendLine($@"if({OldInstance}.{info.MemberName}!=null){{");
+            Script.AppendLine($"{NewInstance}.{info.MemberName} = new {info.ElementTypeName}[{OldInstance}.{info.MemberName}.Length];");
             //普通类型复制
             Script.Append(
                 $@"for (int i = 0; i < {OldInstance}.{info.MemberName}.Length; i++){{
@@ -355,8 +355,8 @@ namespace Natasha
         {
             MethodHandler.Using(info.MemberType);
             MethodHandler.Using(info.ElementType);
-            Script.Append($@"if({OldInstance}.{info.MemberName}!=null){{");
-            Script.Append($"{NewInstance}.{info.MemberName} = new {info.ElementTypeName}[{OldInstance}.{info.MemberName}.Length];");
+            Script.AppendLine($@"if({OldInstance}.{info.MemberName}!=null){{");
+            Script.AppendLine($"{NewInstance}.{info.MemberName} = new {info.ElementTypeName}[{OldInstance}.{info.MemberName}.Length];");
             //普通类型复制
             Script.Append(
                 $@"for (int i = 0; i < {OldInstance}.{info.MemberName}.Length; i++){{
@@ -370,8 +370,8 @@ namespace Natasha
         public override void MemberICollectionHandler(BuilderInfo info)
         {
             MethodHandler.Using(info.MemberType);
-            Script.Append($@"if({OldInstance}.{info.MemberName}!=null){{");
-            Script.Append($@"{NewInstance}.{info.MemberName} = NatashaClone{info.MemberTypeAvailableName}.Clone({OldInstance}.{info.MemberName});}}");
+            Script.AppendLine($@"if({OldInstance}.{info.MemberName}!=null){{");
+            Script.AppendLine($@"{NewInstance}.{info.MemberName} = NatashaClone{info.MemberTypeAvailableName}.Clone({OldInstance}.{info.MemberName});}}");
         }
 
 

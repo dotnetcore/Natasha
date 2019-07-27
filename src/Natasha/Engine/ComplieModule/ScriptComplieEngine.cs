@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Emit;
+using Microsoft.CodeAnalysis.Formatting;
 using Microsoft.Extensions.DependencyModel;
 using System;
 using System.Collections.Concurrent;
@@ -15,6 +16,7 @@ using System.Threading;
 
 namespace Natasha.Complier
 {
+
     /// <summary>
     /// 核心编译引擎
     /// </summary>
@@ -26,10 +28,14 @@ namespace Natasha.Complier
         public readonly static ConcurrentDictionary<string, Assembly> ClassMapping;
         public readonly static ConcurrentDictionary<string, Assembly> DynamicDlls;
         public readonly static ConcurrentBag<PortableExecutableReference> References;
-
+        private readonly static AdhocWorkspace _workSpace;
 
         static ScriptComplieEngine()
         {
+            _workSpace = new AdhocWorkspace();
+            _workSpace.AddSolution(SolutionInfo.Create(SolutionId.CreateNewId("formatter"), VersionStamp.Default));
+
+
             //初始化路径
             LibPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "lib");
 
@@ -76,7 +82,7 @@ namespace Natasha.Complier
         /// <param name="classIndex">命名空间里的第index个类</param>
         /// <param name="namespaceIndex">第namespaceIndex个命名空间</param>
         /// <returns></returns>
-        public static (SyntaxTree Tree, string ClassName) GetTreeAndClassName(string content, int classIndex = 1, int namespaceIndex = 1)
+        public static (SyntaxTree Tree, string ClassName, string formatter) GetTreeAndClassName(string content, int classIndex = 1, int namespaceIndex = 1)
         {
             classIndex -= 1;
             namespaceIndex -= 1;
@@ -84,9 +90,11 @@ namespace Natasha.Complier
             var option = new CSharpParseOptions();
             SyntaxTree tree = CSharpSyntaxTree.ParseText(content);
             CompilationUnitSyntax root = tree.GetCompilationUnitRoot();
+            root = (CompilationUnitSyntax)Formatter.Format(root, _workSpace);
+            var formatter = root.ToString();
+
+
             var firstMember = root.Members[namespaceIndex];
-
-
             IEnumerable<SyntaxNode> result = from namespaceNodes
                          in root.DescendantNodes().OfType<NamespaceDeclarationSyntax>()
                                              select namespaceNodes;
@@ -113,16 +121,17 @@ namespace Natasha.Complier
                                  select classNodes.Identifier.Text);
 
 
-            return (tree, classResult[classIndex]);
+            return (root.SyntaxTree, classResult[classIndex], formatter);
 
         }
 
-        public static (SyntaxTree Tree, string[] ClassNames) GetTreeAndClassNames(string content)
+        public static (SyntaxTree Tree, string[] ClassNames,string formatter) GetTreeAndClassNames(string content)
         {
-
 
             SyntaxTree tree = CSharpSyntaxTree.ParseText(content);
             CompilationUnitSyntax root = tree.GetCompilationUnitRoot();
+            root = (CompilationUnitSyntax)Formatter.Format(root, _workSpace);
+            var formatter = root.ToString();
 
 
             var result = new List<string>(from classNodes
@@ -135,7 +144,7 @@ namespace Natasha.Complier
                             select classNodes.Identifier.Text);
 
 
-            return (tree, result.ToArray());
+            return (root.SyntaxTree, result.ToArray(), formatter);
         }
 
 
@@ -150,8 +159,8 @@ namespace Natasha.Complier
         public static Assembly StreamComplier(string content, Action<Diagnostic> errorAction = null)
         {
 
-            StringBuilder recoder = new StringBuilder(content);
-            var (Tree, ClassName) = GetTreeAndClassName(content);
+            var (Tree, ClassName,formatter) = GetTreeAndClassName(content);
+            StringBuilder recoder = new StringBuilder(formatter);
 
 
             //创建语言编译
@@ -208,7 +217,7 @@ namespace Natasha.Complier
                         if (NScriptLog.UseLog)
                         {
                             var temp = item.Location.GetLineSpan().StartLinePosition;
-                            var result = GetErrorString(content, item.Location.GetLineSpan());
+                            var result = GetErrorString(formatter, item.Location.GetLineSpan());
                             recoder.AppendLine($"\t\t第{temp.Line}行，第{temp.Character}个字符：       内容【{result}】  {item.GetMessage()}");
                         }
                         errorAction?.Invoke(item);
@@ -251,11 +260,9 @@ namespace Natasha.Complier
         public static Assembly FileComplier(string content, Action<Diagnostic> errorAction = null)
         {
 
-            StringBuilder recoder = new StringBuilder(content);
-
-
             //类名获取
-            var (Tree, ClassNames) = GetTreeAndClassNames(content);
+            var (Tree, ClassNames,formatter) = GetTreeAndClassNames(content);
+            StringBuilder recoder = new StringBuilder(formatter);
 
 
             //生成路径
@@ -333,7 +340,7 @@ namespace Natasha.Complier
                         if (NScriptLog.UseLog)
                         {
                             var temp = item.Location.GetLineSpan().StartLinePosition;
-                            var result = GetErrorString(content, item.Location.GetLineSpan());
+                            var result = GetErrorString(formatter, item.Location.GetLineSpan());
                             recoder.AppendLine($"\t\t第{temp.Line}行，第{temp.Character}个字符：       内容【{result}】  {item.GetMessage()}");
                         }
                         errorAction?.Invoke(item);
@@ -368,25 +375,6 @@ namespace Natasha.Complier
 
 
 
-
-        public static void AddTab(ref string content, string value)
-        {
-            content = content.Replace(value, value + "\r\n");
-        }
-        public static string LineFormat(ref string content)
-        {
-            content = content.Replace("\r\n", "");
-            AddTab(ref content, "{");
-            AddTab(ref content, "}");
-            AddTab(ref content, ";");
-            StringBuilder builder = new StringBuilder();
-            var arrayLines = content.Split(new string[] { "\r\n" }, StringSplitOptions.None);
-            for (int i = 0; i < arrayLines.Length; i++)
-            {
-                builder.AppendLine($"{i}:\t{arrayLines[i]}");
-            }
-            return builder.ToString();
-        }
         public static string GetErrorString(string content, FileLinePositionSpan linePositionSpan)
         {
             var start = linePositionSpan.StartLinePosition;
@@ -395,7 +383,7 @@ namespace Natasha.Complier
                 && start.Character == end.Character)
             {
                 var arrayLines = content.Split(new string[] { "\r\n" }, StringSplitOptions.None);
-                var currentErrorLine = arrayLines[start.Line];
+                var currentErrorLine = arrayLines[start.Line-1];
                 if (start.Character == 0)
                 {
                     return currentErrorLine.Substring(0, end.Character).Trim();
@@ -407,7 +395,7 @@ namespace Natasha.Complier
                 if (start.Line == end.Line)
                 {
                     var arrayLines = content.Split(new string[] { "\r\n" }, StringSplitOptions.None);
-                    var currentErrorLine = arrayLines[start.Line];
+                    var currentErrorLine = arrayLines[start.Line-1];
                     var endPosition = currentErrorLine.IndexOf(';', start.Character);
                     if (endPosition == -1)
                     {
@@ -419,7 +407,7 @@ namespace Natasha.Complier
                 {
                     StringBuilder builder = new StringBuilder();
                     var arrayLines = content.Split(new string[] { "\r\n" }, StringSplitOptions.None);
-                    var currentErrorLine = arrayLines[start.Line];
+                    var currentErrorLine = arrayLines[start.Line-1];
                     currentErrorLine.Substring(start.Character).Trim();
                     builder.AppendLine(currentErrorLine);
                     for (int i = start.Line + 1; i < end.Line; i += 1)

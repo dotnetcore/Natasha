@@ -72,7 +72,10 @@ namespace Natasha
                 Parameter(ParametersMappings);
             }
             StringBuilder temp = new StringBuilder();
-            temp.Append($@"{ParametersScript}{{{OnceBuilder}}}");
+            temp.Append($@"{ParametersScript}
+{{
+{OnceBuilder}
+}}");
             OnceBuilder = temp;
             return base.Builder();
         }

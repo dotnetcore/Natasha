@@ -14,16 +14,10 @@ namespace NatashaUT
         {
             //ScriptComplier.Init();
             string text = @"
- 
-namespace HelloWorld
-{
-    public class Test
-    {
-        public Test(){
+namespace  HelloWorld
+{public class Test{public Test(){
             Name=""111"";
-        }
-
-        public string Name;
+        }public string Name;
         public int Age{get;set;}
     }
 }";

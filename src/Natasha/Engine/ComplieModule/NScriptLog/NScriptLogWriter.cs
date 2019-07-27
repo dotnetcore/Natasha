@@ -12,14 +12,14 @@ namespace Natasha
     public static class NScriptLogWriter<T>
     {
 
-        public static readonly StreamWriter LogWriter;
         public static readonly ConcurrentQueue<string> LogQueue;
         public static readonly string YearPath;
         public static readonly string DayPath;
-
+        private static readonly string _logFile;
+        private static readonly object _lock;
         static NScriptLogWriter()
         {
-
+            _lock = new object();
             string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log/");
             if (!Directory.Exists(logPath))
             {
@@ -31,7 +31,7 @@ namespace Natasha
             {
                 Directory.CreateDirectory(YearPath);
             }
-            
+
 
             DayPath = Path.Combine(YearPath, DateTime.Now.ToString("MM月dd日"));
             if (!Directory.Exists(DayPath))
@@ -40,10 +40,7 @@ namespace Natasha
             }
 
 
-            var logFile = Path.Combine(DayPath, $"{typeof(T).Name}.log");
-            LogWriter = new StreamWriter(logFile, true, Encoding.UTF8);
-
-
+            _logFile = Path.Combine(DayPath, $"{typeof(T).Name}.log");
             LogQueue = new ConcurrentQueue<string>();
         }
 
@@ -58,16 +55,11 @@ namespace Natasha
             sb.AppendLine($"\r\n\r\n==================={title}===================\r\n");
             sb.AppendLine(msg);
             sb.AppendLine("==========================================================");
-            LogQueue.Enqueue(sb.ToString());
-            lock (LogWriter)
+            lock (_lock)
             {
-                while (LogQueue.Count > 0)
+                using (StreamWriter LogWriter = new StreamWriter(_logFile, true, Encoding.UTF8))
                 {
-                    if (LogQueue.TryDequeue(out string result))
-                    {
-                        LogWriter.WriteLine(result);
-                        LogWriter.Flush();
-                    }
+                    LogWriter.WriteLine(sb);
                 }
             }
         }
