@@ -22,7 +22,7 @@ namespace Natasha
         static NScriptLogWriter()
         {
             _lock = new object();
-            _logFile = Path.Combine(DayPath, $"{typeof(T).Name}.log");
+           
 
             string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log/");
             if (!Directory.Exists(logPath))
@@ -50,6 +50,7 @@ namespace Natasha
 
             }
 
+            _logFile = Path.Combine(DayPath, $"{typeof(T).Name}.log");
         }
 
 
