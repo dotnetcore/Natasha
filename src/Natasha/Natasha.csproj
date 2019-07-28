@@ -8,7 +8,7 @@
     <PackageId>DotNetCore.Natasha</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageReleaseNotes>- 编译模板区分类和结构体</PackageReleaseNotes>
-    <Version>1.0.0-preview2</Version>
+    <Version>0.8.0</Version>
     <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
     <PackageTags>Roslyn ; IL ; Scripte ; Dynamic ; </PackageTags>
@@ -16,8 +16,8 @@
     <Company>.NET Core Community</Company>
     <PackageIconUrl>https://avatars2.githubusercontent.com/u/19404084</PackageIconUrl>
     <Authors>NMSAzulX</Authors>
-    <FileVersion>1.0.0.0-preview2</FileVersion>
-    <AssemblyVersion>1.0.0.0-preview2</AssemblyVersion>
+    <FileVersion>0.8.0.0</FileVersion>
+    <AssemblyVersion>0.8.0.0</AssemblyVersion>
   </PropertyGroup>
 
 
