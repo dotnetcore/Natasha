@@ -69,7 +69,7 @@ namespace Natasha
             }
 
 
-            if (OnceModifierScript == string.Empty)
+            if (OnceModifierScript == default)
             {
 
                 MethodModifier(_temp_info);

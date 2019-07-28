@@ -33,7 +33,7 @@ namespace HelloWorld
     }
 }";
             //根据脚本创建动态类
-            Type type = RuntimeComplier.GetType(text);
+            Type type = RuntimeComplier.GetClassType(text);
             
             Console.ReadKey();
         }

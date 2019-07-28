@@ -8,7 +8,7 @@ namespace Natasha.Remote
         {
             set
             {
-                Type type = RuntimeComplier.GetType(value);
+                Type type = RuntimeComplier.GetClassType(value);
                 RemoteWritter.ComplieToRemote(type);
             }
         }

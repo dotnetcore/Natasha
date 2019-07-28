@@ -21,16 +21,19 @@ namespace Core22
 
             action();
 
-            //FakeMethodOperator.New
-            //    .UseMethod<Program>("Main")
-            //    .StaticMethodContent($@"Console.WriteLine(""Hello World!"")")
-            //    .Complie<Action<string[]>>();
 
-            Console.WriteLine(FakeMethodOperator.New
+            FakeMethodOperator.New
                .UseMethod<TestB>("TestMethod")
-               .StaticMethodContent($@"Console.WriteLine(""Hello World!"")")
-               .Builder()
-               );
+               .StaticMethodContent($@"Console.WriteLine(""Hello World!"");")
+               .Complie<Action>();
+
+
+            FakeMethodOperator.New
+                .UseMethod<TestB>("TestMethod")
+                .MethodContent($@"Console.WriteLine(""Hello World!"");")
+                .Complie<Action>(new TestA());
+
+            
 
 
             /*
@@ -82,7 +85,7 @@ namespace HelloWorld
     }
 }";
             //根据脚本创建动态类
-            Type type = RuntimeComplier.GetType(text);
+            Type type = RuntimeComplier.GetClassType(text);
 
 
          

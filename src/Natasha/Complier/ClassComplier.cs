@@ -25,22 +25,20 @@ namespace Natasha
         /// <param name="classIndex">命名空间里的第index个类</param>
         /// <param name="namespaceIndex">第namespaceIndex个命名空间</param>
         /// <returns></returns>
-        public Type GetType(string content, int classIndex = 1, int namespaceIndex = 1)
+        public Type GetClassType(string content, int classIndex = 1, int namespaceIndex = 1)
         {
 
-            //根据索引获取类名
-            string className = ScriptComplieEngine.GetTreeAndClassName(content, classIndex, namespaceIndex).ClassName;
-
-
-            //获取程序集
-            Assembly assembly = GetAssemblyByScript(content);
-
-
             //获取类型
-            return AssemblyOperator.Loader(assembly)[className];
+            return RuntimeComplier.GetClassType(content,classIndex,namespaceIndex);
 
         }
+        public Type GetStructType(string content, int classIndex = 1, int namespaceIndex = 1)
+        {
 
+            //获取类型
+            return RuntimeComplier.GetStructType(content, classIndex, namespaceIndex);
+
+        }
     }
 
 }

@@ -20,7 +20,7 @@ namespace Natasha.Builder
         /// 编译返回委托
         /// </summary>
         /// <returns></returns>
-        public Delegate Complie()
+        public Delegate Complie(object binder = null)
         {
 
             Builder();
@@ -28,7 +28,8 @@ namespace Natasha.Builder
                 ClassNameScript,
                 Script,
                 MethodNameScript,
-                DelegateType);
+                DelegateType,
+                binder);
 
         }
 
@@ -40,7 +41,7 @@ namespace Natasha.Builder
         /// </summary>
         /// <typeparam name="T">委托的强类型</typeparam>
         /// <returns></returns>
-        public T Complie<T>() where T : Delegate
+        public T Complie<T>(object binder=null) where T : Delegate
         {
 
             Builder();
@@ -49,7 +50,8 @@ namespace Natasha.Builder
             return (T)ComplierOption.Complie<T>(
                 ClassNameScript,
                 Script,
-                MethodNameScript);
+                MethodNameScript,
+                binder);
 
         }
 

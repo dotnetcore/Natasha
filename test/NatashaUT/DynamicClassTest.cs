@@ -22,7 +22,7 @@ namespace  HelloWorld
     }
 }";
             //根据脚本创建动态类
-            Type type = RuntimeComplier.GetType(text);
+            Type type = RuntimeComplier.GetClassType(text);
             Assert.Equal("Test", type.Name);
         }
 
@@ -59,6 +59,8 @@ namespace HelloWorld
 }
 
 namespace HelloWorld{
+    public struct TestStruct1{}
+    public struct TestStruct2{}
     public class TestIndex4
     {
         public string Name;
@@ -68,7 +70,7 @@ namespace HelloWorld{
 
 ";
             //根据脚本创建动态类
-            Type type = RuntimeComplier.GetType(text,3);
+            Type type = RuntimeComplier.GetClassType(text,3);
             Assert.Equal("TestIndex3", type.Name);
         }
 
@@ -105,6 +107,9 @@ namespace HelloWorld
 }
 
 namespace HelloWorld{
+
+    public struct TestStruct1{}
+    public struct TestStruct2{}
     public class TestIndex4
     {
         public string Name;
@@ -114,8 +119,10 @@ namespace HelloWorld{
 
 ";
             //根据脚本创建动态类
-            Type type = RuntimeComplier.GetType(text, 1,2);
+            Type type = RuntimeComplier.GetClassType(text, 1,2);
             Assert.Equal("TestIndex4", type.Name);
+            type = RuntimeComplier.GetStructType(text, 2, 2);
+            Assert.Equal("TestStruct2", type.Name);
         }
     }
 }

@@ -210,7 +210,7 @@ namespace Natasha
 
 
             //获取类型
-            TargetType = RuntimeComplier.GetType(Result);
+            TargetType = RuntimeComplier.GetClassType(Result);
 
 
             //返回委托

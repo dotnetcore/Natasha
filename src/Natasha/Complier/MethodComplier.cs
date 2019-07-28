@@ -16,7 +16,7 @@ namespace Natasha.Complier
         /// <param name="methodName">方法名</param>
         /// <param name="delegateType">委托类型</param>
         /// <returns></returns>
-        public Delegate Complie(string className, string content, string methodName, Type delegateType)
+        public Delegate Complie(string className, string content, string methodName, Type delegateType, object binder=null)
         {
 
             //获取程序集
@@ -36,7 +36,7 @@ namespace Natasha.Complier
             return AssemblyOperator
                 .Loader(assembly)[className]
                 .GetMethod(methodName)
-                .CreateDelegate(delegateType);
+                .CreateDelegate(delegateType, binder);
 
         }
 
@@ -50,7 +50,7 @@ namespace Natasha.Complier
         /// <param name="methodName">方法名</param>
         /// <param name="delegateType">委托类型</param>
         /// <returns></returns>
-        public Delegate Complie<T>(string className, string content, string methodName)
+        public Delegate Complie<T>(string className, string content, string methodName, object binder)
         {
 
             //获取程序集
@@ -70,7 +70,7 @@ namespace Natasha.Complier
             return AssemblyOperator
                 .Loader(assembly)[className]
                 .GetMethod(methodName)
-                .CreateDelegate(typeof(T));
+                .CreateDelegate(typeof(T), binder);
 
         }
 

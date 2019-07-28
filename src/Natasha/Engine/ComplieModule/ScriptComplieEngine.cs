@@ -83,64 +83,6 @@ namespace Natasha.Complier
         }
 
 
-
-
-        /// <summary>
-        /// 根据命名空间和类的位置获取类型
-        /// </summary>
-        /// <param name="content">脚本内容</param>
-        /// <param name="classIndex">命名空间里的第index个类</param>
-        /// <param name="namespaceIndex">第namespaceIndex个命名空间</param>
-        /// <returns></returns>
-        public static (SyntaxTree Tree, string ClassName, string formatter) GetTreeAndClassName(string content, int classIndex = 1, int namespaceIndex = 1)
-        {
-            classIndex -= 1;
-            namespaceIndex -= 1;
-
-
-            SyntaxTree tree = CSharpSyntaxTree.ParseText(content);
-            CompilationUnitSyntax root = tree.GetCompilationUnitRoot();
-
-
-            root = (CompilationUnitSyntax)Formatter.Format(root, _workSpace);
-            var formatter = root.ToString();
-
-
-            var firstMember = root.Members[namespaceIndex];
-            IEnumerable<SyntaxNode> result = from namespaceNodes
-                         in root.DescendantNodes().OfType<NamespaceDeclarationSyntax>()
-                                             select namespaceNodes;
-
-
-            SyntaxNode node = null;
-            if (result.Count() != 0)
-            {
-
-                node = result.ToArray()[namespaceIndex];
-
-            }
-            else
-            {
-
-                node = root;
-
-            }
-
-
-            var classResult = new List<string>(from classNodes
-                               in node.DescendantNodes().OfType<ClassDeclarationSyntax>()
-                                               select classNodes.Identifier.Text);
-
-
-            classResult.AddRange(from classNodes
-                             in node.DescendantNodes().OfType<StructDeclarationSyntax>()
-                                 select classNodes.Identifier.Text);
-
-
-            return (root.SyntaxTree, classResult[classIndex], formatter);
-
-        }
-
         public static (SyntaxTree Tree, string[] ClassNames, string formatter) GetTreeAndClassNames(string content)
         {
 
@@ -178,13 +120,13 @@ namespace Natasha.Complier
         public static Assembly StreamComplier(string content, Action<Diagnostic> errorAction = null)
         {
 
-            var (Tree, ClassName, formatter) = GetTreeAndClassName(content);
+            var (Tree, ClassName, formatter) = GetTreeAndClassNames(content);
             StringBuilder recoder = new StringBuilder(formatter);
 
 
             //创建语言编译
             CSharpCompilation compilation = CSharpCompilation.Create(
-                ClassName,
+                ClassName[0],
                 options: new CSharpCompilationOptions(
                     outputKind: OutputKind.DynamicallyLinkedLibrary,
                     optimizationLevel: OptimizationLevel.Release),
@@ -448,7 +390,7 @@ namespace Natasha.Complier
             {
 
                 var arrayLines = content.Split(new string[] { "\r\n" }, StringSplitOptions.None);
-                var currentErrorLine = arrayLines[start.Line - 1];
+                var currentErrorLine = arrayLines[start.Line];
 
 
                 if (start.Character == 0)

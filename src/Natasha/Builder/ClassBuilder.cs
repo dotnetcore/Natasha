@@ -72,7 +72,7 @@ namespace Natasha
         public Type GetType(int classIndex = 1, int namespaceIndex = 1)
         {
 
-            return Complier.GetType(Builder().Script, classIndex, namespaceIndex);
+            return  RuntimeComplier.GetClassType(Builder().Script, classIndex, namespaceIndex);
 
         }
     }
