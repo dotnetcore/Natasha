@@ -7,11 +7,8 @@
     <Copyright>.NET Core Community and Contributors</Copyright>
     <PackageId>DotNetCore.Natasha</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <PackageReleaseNotes>- 增加脚本格式化功能，与VS格式化同样
-- 移除并发队列，采用正常的日志写入方式
-- 类构建可通过方法切换到结构体
-- 引擎支持结构体构建</PackageReleaseNotes>
-    <Version>0.7.9</Version>
+    <PackageReleaseNotes>- 编译模板区分类和结构体</PackageReleaseNotes>
+    <Version>1.0.0-preview2</Version>
     <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
     <PackageTags>Roslyn ; IL ; Scripte ; Dynamic ; </PackageTags>
@@ -19,6 +16,8 @@
     <Company>.NET Core Community</Company>
     <PackageIconUrl>https://avatars2.githubusercontent.com/u/19404084</PackageIconUrl>
     <Authors>NMSAzulX</Authors>
+    <FileVersion>1.0.0.0-preview2</FileVersion>
+    <AssemblyVersion>1.0.0.0-preview2</AssemblyVersion>
   </PropertyGroup>
 
 
