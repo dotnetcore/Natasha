@@ -1,4 +1,5 @@
 ﻿using Natasha;
+using Natasha.Clone;
 using NatashaUT.Model;
 using System;
 using System.Collections.Generic;
@@ -319,7 +320,7 @@ namespace NatashaUT
                 }
             }
 
-            var newModel = CloneOperator.Clone(model);
+            var newModel = model.Clone();
 
             for (int i = 0; i < 5; i++)
             {
