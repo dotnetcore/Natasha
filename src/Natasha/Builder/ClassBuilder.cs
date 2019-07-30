@@ -8,14 +8,14 @@ namespace Natasha
     public class ClassBuilder : ClassContentTemplate<ClassBuilder>
     {
 
-        public readonly ClassComplier Complier;
+        public readonly ClassComplier ComplierOption;
         public CtorTemplate CtorBuilder;
 
 
         public ClassBuilder()
         {
 
-            Complier = new ClassComplier();
+            ComplierOption = new ClassComplier();
             Link = this;
 
         }
@@ -48,6 +48,8 @@ namespace Natasha
         public override ClassBuilder Builder()
         {
 
+            _script.Clear();
+
             if (CtorBuilder != null)
             {
 
@@ -71,9 +73,11 @@ namespace Natasha
         /// <returns></returns>
         public Type GetType(int classIndex = 1, int namespaceIndex = 1)
         {
-
+            
             return  RuntimeComplier.GetClassType(Builder().Script, classIndex, namespaceIndex);
 
         }
+
     }
+
 }

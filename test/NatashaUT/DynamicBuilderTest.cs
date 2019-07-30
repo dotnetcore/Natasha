@@ -24,6 +24,7 @@ namespace NatashaUT
                 .Script;
 
             Assert.Equal(@"using NatashaUT;using System;namespace TestNamespace{public static class TestUt1{public static String Name;private static Int32 _age;public static void Test(){}}}", script);
+            Assert.Equal("TestUt1", builder.GetType().Name);
         }
 
 

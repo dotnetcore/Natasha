@@ -21,6 +21,7 @@ namespace Natasha
         }
         public override T Builder()
         {
+            _script.Clear();
             base.Builder();
             _script.Append(ClassContentScript);
             _script.Append("}");

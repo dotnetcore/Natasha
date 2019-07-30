@@ -120,6 +120,7 @@ namespace Natasha.Complier
         public static Assembly StreamComplier(string content, Action<Diagnostic> errorAction = null)
         {
 
+            content = content.Trim();
             var (Tree, ClassName, formatter) = GetTreeAndClassNames(content);
             StringBuilder recoder = new StringBuilder(formatter);
 
@@ -188,7 +189,7 @@ namespace Natasha.Complier
 
                             var temp = item.Location.GetLineSpan().StartLinePosition;
                             var result = GetErrorString(formatter, item.Location.GetLineSpan());
-                            recoder.AppendLine($"\t\t第{temp.Line}行，第{temp.Character}个字符：       内容【{result}】  {item.GetMessage()}");
+                            recoder.AppendLine($"\t\t第{temp.Line + 1}行，第{temp.Character}个字符：       内容【{result}】  {item.GetMessage()}");
                         }
 
                         errorAction?.Invoke(item);
@@ -243,8 +244,9 @@ namespace Natasha.Complier
         {
 
             //类名获取
+            content = content.Trim();
             var (Tree, ClassNames, formatter) = GetTreeAndClassNames(content);
-            StringBuilder recoder = new StringBuilder(formatter);
+            StringBuilder recoder = new StringBuilder(FormatLineCode(formatter));
 
 
             //生成路径
@@ -330,7 +332,7 @@ namespace Natasha.Complier
 
                             var temp = item.Location.GetLineSpan().StartLinePosition;
                             var result = GetErrorString(formatter, item.Location.GetLineSpan());
-                            recoder.AppendLine($"\t\t第{temp.Line}行，第{temp.Character}个字符：       内容【{result}】  {item.GetMessage()}");
+                            recoder.AppendLine($"\t\t第{temp.Line + 1}行，第{temp.Character}个字符：       内容【{result}】  {item.GetMessage()}");
 
                         }
                         errorAction?.Invoke(item);
@@ -376,6 +378,20 @@ namespace Natasha.Complier
         }
 
 
+        public static string FormatLineCode(string content)
+        {
+
+            StringBuilder sb = new StringBuilder();
+            var arrayLines = content.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+            for (int i = 0; i < arrayLines.Length; i+=1)
+            {
+
+                sb.AppendLine($"{i+1}\t{arrayLines[i]}");
+
+            }
+            return sb.ToString();
+
+        }
 
 
         public static string GetErrorString(string content, FileLinePositionSpan linePositionSpan)
@@ -385,71 +401,54 @@ namespace Natasha.Complier
             var end = linePositionSpan.EndLinePosition;
 
 
-            if (start.Line == end.Line &&
-                start.Character == end.Character)
+            var arrayLines = content.Split(new string[] { "\r" }, StringSplitOptions.None);
+            var currentErrorLine = arrayLines[start.Line];
+
+
+            if (start.Line == end.Line)
             {
 
-                var arrayLines = content.Split(new string[] { "\r\n" }, StringSplitOptions.None);
-                var currentErrorLine = arrayLines[start.Line];
-
-
-                if (start.Character == 0)
-                {
-                    return currentErrorLine.Substring(0, end.Character).Trim();
-                }
-
-
-                return currentErrorLine.Substring(0, start.Character - 1).Trim();
-
-            }
-            else
-            {
-
-                if (start.Line == end.Line)
+                if (start.Character == end.Character)
                 {
 
-                    var arrayLines = content.Split(new string[] { "\r\n" }, StringSplitOptions.None);
-                    var currentErrorLine = arrayLines[start.Line - 1];
-
-
-                    var endPosition = currentErrorLine.IndexOf(';', start.Character);
-                    if (endPosition == -1)
+                    if (start.Character != 0)
                     {
-
-                        return currentErrorLine.Substring(start.Character).Replace("\r\n", "").Trim();
-
+                        return currentErrorLine.Substring(0, start.Character).Trim();
                     }
 
 
-                    return currentErrorLine.Substring(start.Character, endPosition - start.Character + 1).Replace("\r\n", "").Trim();
+                    return currentErrorLine.Substring(0, start.Character - 1).Trim();
 
                 }
                 else
                 {
 
-                    StringBuilder builder = new StringBuilder();
-                    var arrayLines = content.Split(new string[] { "\r\n" }, StringSplitOptions.None);
-                    var currentErrorLine = arrayLines[start.Line - 1];
-
-
-                    currentErrorLine.Substring(start.Character).Trim();
-                    builder.AppendLine(currentErrorLine);
-                    for (int i = start.Line + 1; i < end.Line; i += 1)
-                    {
-
-                        builder.AppendLine("\t\t\t" + arrayLines[i].Trim());
-
-                    }
-
-
-                    currentErrorLine = arrayLines[end.Line];
-                    currentErrorLine = currentErrorLine.Substring(0, end.Character).Trim();
-                    builder.AppendLine(currentErrorLine);
-
-
-                    return builder.ToString();
+                    return currentErrorLine.Substring(start.Character, end.Character - start.Character).Trim();
 
                 }
+
+
+            }
+            else
+            {
+
+                StringBuilder builder = new StringBuilder();
+                currentErrorLine.Substring(start.Character).Trim();
+                builder.AppendLine(currentErrorLine);
+                for (int i = start.Line + 1; i < end.Line; i += 1)
+                {
+
+                    builder.AppendLine("\t\t\t" + arrayLines[i].Trim());
+
+                }
+
+
+                currentErrorLine = arrayLines[end.Line];
+                currentErrorLine = currentErrorLine.Substring(0, end.Character).Trim();
+                builder.AppendLine(currentErrorLine);
+
+
+                return builder.ToString();
 
             }
 

@@ -29,13 +29,21 @@ namespace Natasha
         /// </summary>
         /// <param name="shut">开关</param>
         /// <returns></returns>
-        public IComplier UseFileComplie(bool shut = true)
+        public IComplier UseFileComplie()
         {
 
-            _useFileComplie = shut;
+            _useFileComplie = true;
             return this;
 
         }
+        public IComplier UseMemoryComplie()
+        {
+
+            _useFileComplie = false;
+            return this;
+
+        }
+
 
 
 

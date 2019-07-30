@@ -35,5 +35,17 @@
 
             return this;
         }
+
+
+
+
+        public override CtorTemplate Builder()
+        {
+
+            _script.Clear();
+            return base.Builder();
+
+        }
+
     }
 }

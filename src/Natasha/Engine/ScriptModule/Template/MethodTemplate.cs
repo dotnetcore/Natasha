@@ -7,5 +7,13 @@
     {
         public MethodTemplate() => Link = this;
 
+        public override MethodTemplate Builder()
+        {
+
+            _script.Clear();
+            return base.Builder();
+
+        }
+
     }
 }
