@@ -10,7 +10,7 @@
     <PackageReleaseNotes>- 增强日志
 - 增加类模板重编译功能
 - 修复克隆扩展类型</PackageReleaseNotes>
-    <Version>0.8.2</Version>
+    <Version>1.0.0</Version>
     <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
     <PackageTags>Roslyn ; IL ; Scripte ; Dynamic ; </PackageTags>
@@ -18,8 +18,8 @@
     <Company>.NET Core Community</Company>
     <PackageIconUrl>https://avatars2.githubusercontent.com/u/19404084</PackageIconUrl>
     <Authors>NMSAzulX</Authors>
-    <FileVersion>0.8.2.0</FileVersion>
-    <AssemblyVersion>0.8.2.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
   </PropertyGroup>
 
 
