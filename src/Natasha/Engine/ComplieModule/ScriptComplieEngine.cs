@@ -86,7 +86,7 @@ namespace Natasha.Complier
         public static (SyntaxTree Tree, string[] ClassNames, string formatter) GetTreeAndClassNames(string content)
         {
 
-            SyntaxTree tree = CSharpSyntaxTree.ParseText(content);
+            SyntaxTree tree = CSharpSyntaxTree.ParseText(content,new CSharpParseOptions(LanguageVersion.Latest));
             CompilationUnitSyntax root = tree.GetCompilationUnitRoot();
 
 
