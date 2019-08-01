@@ -44,8 +44,6 @@ Make your dynamic approach easier to write, track, and maintain.  Welcome to dis
 
 ### Publish Plan  
 
- - 2019-06-25 ： Published v0.7.1.2, Fix cross-platform calls, incorporate object types into one-time assignment types, and add class extension methods.   
- - 2019-06-26 ： Published v0.7.2.0, Upgrade to the assembly operation of Standard2.0 and specify the release mode to compile.  
  - 2019-08-01 ： Publish v1.0.0.0, The first official stable version.  
  
  <br/>  
