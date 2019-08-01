@@ -1,7 +1,8 @@
-﻿namespace Natasha
+﻿namespace Natasha.Template
 {
     public class CtorContentTemplate<T> : CtorParametersTemplate<T>
     {
+
         public string ContentScript;
         public T Body(string text)
         {
@@ -10,12 +11,18 @@
         }
 
 
+
+
         public override T Builder()
         {
+
             base.Builder();
             _script.Append(ContentScript);
             _script.Append("}");
             return Link;
+
         }
+
     }
+
 }

@@ -1,4 +1,5 @@
 ﻿using Natasha;
+using Natasha.Template;
 using Xunit;
 
 namespace NatashaUT

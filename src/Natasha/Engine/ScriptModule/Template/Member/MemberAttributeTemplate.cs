@@ -1,20 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 
-namespace Natasha
+namespace Natasha.Template
 {
     public class MemberAttributeTemplate<T> : TemplateRecoder<T>
     {
+
         public readonly StringBuilder AttributeScript;
+
 
         public T Attribute<A>(string ctorInfo=default)
         {
+
             return Attribute(typeof(A), ctorInfo);
+
         }
+
+
+
 
         public T Attribute(Type type,string ctorInfo = default)
         {
+
             UsingRecoder.Add(type);
             if (ctorInfo!=default)
             {
@@ -25,13 +32,21 @@ namespace Natasha
                 AttributeScript.AppendLine($"[{type.GetDevelopName()}]");
             }
             return Link;
+
         }
+
+
+
 
         public override T Builder()
         {
+
             base.Builder();
             _script.Append(AttributeScript);
             return Link;
+
         }
+
     }
+
 }

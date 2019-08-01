@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Natasha
+namespace Natasha.Template
 {
     public class OnceMethodParametersTemplate<T>: OnceMethodNameTemplate<T>
     {

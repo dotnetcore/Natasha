@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Natasha
+﻿namespace Natasha.Template
 {
     /// <summary>
     /// 快速构建一个方法

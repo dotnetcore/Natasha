@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
 
-namespace Natasha
+namespace Natasha.Template
 {
-    public class OnceModifierTemplate<T>: OnceAccessTemplate<T>
+    public class OnceMethodModifierTemplate<T>: OnceMethodAccessTemplate<T>
     {
         public string OnceModifierScript;
         public T MethodModifier(MethodInfo modifier)

@@ -1,4 +1,4 @@
-﻿namespace Natasha
+﻿namespace Natasha.Template
 {
     /// <summary>
     /// 初始化模板

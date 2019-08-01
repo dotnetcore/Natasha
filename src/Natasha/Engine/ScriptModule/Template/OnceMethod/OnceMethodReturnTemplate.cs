@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Natasha
+namespace Natasha.Template
 {
-    public class OnceMethodReturnTemplate<T>: OnceModifierTemplate<T>
+    public class OnceMethodReturnTemplate<T>: OnceMethodAsyncTemplate<T>
     {
         public string ReturnScript;
         public Type ReturnType;

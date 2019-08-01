@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Natasha
+namespace Natasha.Template
 {
     public class FieldTemplate<T>:InheritanceTemplate<T>
     {

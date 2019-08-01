@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Natasha
+namespace Natasha.Template
 {
     public class OnceMethodNameTemplate<T>: OnceMethodReturnTemplate<T>
     {

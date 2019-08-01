@@ -1,4 +1,5 @@
 ﻿using Natasha.Builder;
+using Natasha.Template;
 using System;
 using System.Reflection;
 
@@ -77,7 +78,9 @@ namespace Natasha
             }
 
 
+
             MethodAccess(_temp_info)
+            .Async(_temp_info)
             .Parameter(_temp_info)
             .MethodBody(content)
             .Return(_temp_info);

@@ -7,8 +7,7 @@ namespace NatashaUT
 {
     [Trait("快速构建","函数")]
     public class DynamicMethodTest
-    {
-
+    { 
 
         [Fact(DisplayName = "手动强转委托")]
         public static void RunDelegate1()
@@ -75,7 +74,7 @@ Console.WriteLine(""hello world"");
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite2"))
                 .MethodContent(@"Console.WriteLine(""hello world"");return this;")
                 .Builder();
-            Assert.Equal(@"public OopTestModel ReWrite2()
+            Assert.Equal(@"public async Task<OopTestModel> ReWrite2()
 {
 Console.WriteLine(""hello world"");return this;
 }", builder.MethodScript);
@@ -91,7 +90,7 @@ Console.WriteLine(""hello world"");return this;
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite3"))
                 .MethodContent(@"i++;temp+=i.ToString();")
                 .Builder();
-            Assert.Equal(@"public void ReWrite3(ref Int32 i,String temp)
+            Assert.Equal(@"public virtual void ReWrite3(ref Int32 i,String temp)
 {
 i++;temp+=i.ToString();
 }", builder.MethodScript);

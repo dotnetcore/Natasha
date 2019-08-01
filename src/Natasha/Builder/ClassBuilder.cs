@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Natasha.Template;
+using System;
 
 namespace Natasha
 {
