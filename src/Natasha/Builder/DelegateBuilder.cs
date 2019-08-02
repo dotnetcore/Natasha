@@ -77,10 +77,10 @@ namespace Natasha
         /// <param name="returnType">返回类型</param>
         /// <param name="parametersTypes">泛型类型</param>
         /// <returns>Func委托类型</returns>
-        public static Type GetFunc(Type returnType, Type[] parametersTypes = null)
+        public static Type GetFunc(Type returnType,params Type[] parametersTypes)
         {
 
-            if (parametersTypes == null)
+            if (parametersTypes.Length == 0)
             {
 
                 return FuncMaker[0].MakeGenericType(returnType);
@@ -105,10 +105,10 @@ namespace Natasha
         /// </summary>
         /// <param name="parametersTypes">泛型参数类型</param>
         /// <returns>Action委托类型</returns>
-        public static Type GetAction(Type[] parametersTypes = null)
+        public static Type GetAction(params Type[] parametersTypes)
         {
 
-            if (parametersTypes == null || parametersTypes.Length == 0)
+            if (parametersTypes.Length == 0)
             {
 
                 return ActionMaker[0];

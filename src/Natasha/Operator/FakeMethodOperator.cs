@@ -110,6 +110,7 @@ namespace Natasha
 
 
             ClassModifier(Modifiers.Static)
+            .Async(_temp_info)
             .MethodAccess(_temp_info)
             .MethodModifier(Modifiers.Static)
             .Parameter(_temp_info)
