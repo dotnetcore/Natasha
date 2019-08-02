@@ -56,7 +56,10 @@ namespace NatashaUT
                 .Namespace<string>()
                 .ClassAccess("")
                 .ClassName("TestUt3")
-                .Ctor(item=>item.MemberAccess("public").Param<string>("name").Body("this.Name=name;"))
+                .Ctor(item=>item
+                    .MemberAccess("public")
+                    .Param<string>("name")
+                    .Body("this.Name=name;"))
                 .ClassBody(@"public static void Test(){}")
                 .PublicStaticField<string>("Name")
                 .PrivateStaticField<int>("_age")
