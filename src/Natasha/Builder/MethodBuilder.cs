@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Natasha.Template;
+using System;
 using System.Reflection;
 
 namespace Natasha
@@ -6,19 +7,20 @@ namespace Natasha
     /// <summary>
     /// 方法脚本构造器
     /// </summary>
-    public class MethodBuilder : IComplier
+    public class MethodBuilder
     {
 
 
         public ClassBuilder ClassTemplate;
         public MethodTemplate MethodTemplate;
-
+        public ClassComplier ComplierOption;
 
         public MethodBuilder()
         {
 
             ClassTemplate = new ClassBuilder();
             MethodTemplate = new MethodTemplate();
+            ComplierOption = new ClassComplier(); 
 
         }
 
@@ -108,12 +110,10 @@ namespace Natasha
         {
 
             //获取程序集
-            Assembly assembly = GetAssemblyByScript(
-                ClassTemplate
+            Assembly assembly = ComplierOption.GetAssemblyByScript(ClassTemplate
                 .Using(MethodTemplate.UsingRecoder.Types)
                 .ClassBody(MethodTemplate.Builder()._script)
-                .Builder().Script
-                );
+                .Builder().Script);
 
 
             //判空

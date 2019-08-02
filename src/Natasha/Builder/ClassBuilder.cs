@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Natasha.Template;
+using System;
 
 namespace Natasha
 {
@@ -52,7 +53,7 @@ namespace Natasha
 
             if (CtorBuilder != null)
             {
-
+                CtorBuilder.Name(ClassNameScript);
                 ClassBody(CtorBuilder.Builder()._script);
 
             }

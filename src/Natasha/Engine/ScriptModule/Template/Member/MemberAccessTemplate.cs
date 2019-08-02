@@ -1,30 +1,59 @@
 ﻿using System.Reflection;
 
-namespace Natasha
+namespace Natasha.Template
 {
     public class MemberAccessTemplate<T> : MemberAttributeTemplate<T>
     {
-        public string AccessScript;
+
+        public string MemberAccessScript;
+
+
         public T MemberAccess(MethodInfo access)
         {
-            AccessScript = AccessReverser.GetAccess(access);
+
+            MemberAccessScript = AccessReverser.GetAccess(access);
             return Link;
+
         }
+
+
+
+
         public T MemberAccess(AccessTypes access)
         {
-            AccessScript = AccessReverser.GetAccess(access);
+
+            MemberAccessScript = AccessReverser.GetAccess(access);
             return Link;
+
         }
+
+        
+
+
         public T MemberAccess(string access)
         {
-            AccessScript = access;
+
+            MemberAccessScript = access;
+            if (!MemberAccessScript.EndsWith(" "))
+            {
+                MemberAccessScript += " ";
+            }
             return Link;
+
         }
+
+
+
+
         public override T Builder()
         {
+
             base.Builder();
-            _script.Append(AccessScript);
+            _script.Append(MemberAccessScript);
             return Link;
+
         }
+
     }
+
 }

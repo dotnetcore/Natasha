@@ -1,4 +1,4 @@
-﻿namespace Natasha
+﻿namespace Natasha.Template
 {
     public class OnceMethodContentTemplate<T> : OnceMethodParametersTemplate<T>
     {

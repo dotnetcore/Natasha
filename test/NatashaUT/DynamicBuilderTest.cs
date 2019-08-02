@@ -45,5 +45,29 @@ namespace NatashaUT
 
             Assert.Equal(@"using System;namespace TestNamespace{private abstract class TestUt2{public static String Name;private static Int32 _age;public static void Test(){}}}", script);
         }
+
+
+
+        [Fact(DisplayName = "Builder测试3")]
+        public void TestBuilder3()
+        {
+            ClassBuilder builder = new ClassBuilder();
+            var script = builder
+                .Namespace<string>()
+                .ClassAccess("")
+                .ClassName("TestUt3")
+                .Ctor(item=>item
+                    .MemberAccess("public")
+                    .Param<string>("name")
+                    .Body("this.Name=name;"))
+                .ClassBody(@"public static void Test(){}")
+                .PublicStaticField<string>("Name")
+                .PrivateStaticField<int>("_age")
+                .Builder().Script;
+
+            Assert.Equal(@"using System;namespace System{class TestUt3{public static String Name;private static Int32 _age;public static void Test(){}public TestUt3(String name){this.Name=name;}}}", script);
+        }
+
     }
+
 }

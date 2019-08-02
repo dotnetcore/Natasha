@@ -1,30 +1,60 @@
 ﻿using System.Reflection;
 
-namespace Natasha
+namespace Natasha.Template
 {
+
     public class MemberModifierTemplate<T>:MemberAccessTemplate<T>
     {
-        public string ModifierScript;
+
+        public string MemberModifierScript;
+
+
         public T MemberModifier(MethodInfo modifier)
         {
-            ModifierScript = ModifierReverser.GetModifier(modifier);
+
+            MemberModifierScript = ModifierReverser.GetModifier(modifier);
             return Link;
+
         }
+
+
+
+
         public T MemberModifier(Modifiers modifier)
         {
-            ModifierScript = ModifierReverser.GetModifier(modifier);
+
+            MemberModifierScript = ModifierReverser.GetModifier(modifier);
             return Link;
+
         }
+
+
+
+
         public T MemberModifier(string modifier)
         {
-            ModifierScript = modifier;
+
+            MemberModifierScript = modifier;
+            if (!MemberModifierScript.EndsWith(" "))
+            {
+                MemberModifierScript += " ";
+            }
             return Link;
+
         }
+
+
+
+
         public override T Builder()
         {
+
             base.Builder();
-            _script.Append(ModifierScript);
+            _script.Append(MemberModifierScript);
             return Link;
+
         }
+
     }
+
 }

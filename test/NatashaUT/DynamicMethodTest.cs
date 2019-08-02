@@ -7,8 +7,7 @@ namespace NatashaUT
 {
     [Trait("快速构建","函数")]
     public class DynamicMethodTest
-    {
-
+    { 
 
         [Fact(DisplayName = "手动强转委托")]
         public static void RunDelegate1()
@@ -27,6 +26,7 @@ namespace NatashaUT
            string result = ((Func<string, string,string>)delegateAction)("Hello", "World1!");
            Assert.Equal("Hello World1!", result);
         }
+
 
 
 
@@ -50,6 +50,7 @@ namespace NatashaUT
 
 
 
+
         [Fact(DisplayName = "函数克隆1")]
         public static void MakerCode1()
         {
@@ -67,6 +68,24 @@ Console.WriteLine(""hello world"");
 
 
 
+        [Fact(DisplayName = "函数克隆1-静态")]
+        public static void MakerStaticCode1()
+        {
+
+            var builder = FakeMethodOperator.New;
+            builder
+                .UseMethod(typeof(OopTestModel).GetMethod("ReWrite1"))
+                .StaticMethodContent(@"Console.WriteLine(""hello world"");")
+                .Builder();
+            Assert.Equal(@"public static void ReWrite1()
+{
+Console.WriteLine(""hello world"");
+}", builder.MethodScript);
+        }
+
+
+
+
         [Fact(DisplayName = "函数克隆2")]
         public static void MakerCode2()
         {
@@ -75,11 +94,29 @@ Console.WriteLine(""hello world"");
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite2"))
                 .MethodContent(@"Console.WriteLine(""hello world"");return this;")
                 .Builder();
-            Assert.Equal(@"public OopTestModel ReWrite2()
+            Assert.Equal(@"public async Task<OopTestModel> ReWrite2()
 {
 Console.WriteLine(""hello world"");return this;
 }", builder.MethodScript);
         }
+
+
+
+
+        [Fact(DisplayName = "函数克隆2-静态")]
+        public static void MakerStaticCode2()
+        {
+            var builder = FakeMethodOperator.New;
+            builder
+                .UseMethod(typeof(OopTestModel).GetMethod("ReWrite2"))
+                .StaticMethodContent(@"Console.WriteLine(""hello world"");return this;")
+                .Builder();
+            Assert.Equal(@"public static async Task<OopTestModel> ReWrite2()
+{
+Console.WriteLine(""hello world"");return this;
+}", builder.MethodScript);
+        }
+
 
 
 
@@ -91,10 +128,29 @@ Console.WriteLine(""hello world"");return this;
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite3"))
                 .MethodContent(@"i++;temp+=i.ToString();")
                 .Builder();
-            Assert.Equal(@"public void ReWrite3(ref Int32 i,String temp)
+            Assert.Equal(@"public virtual void ReWrite3(ref Int32 i,String temp)
 {
 i++;temp+=i.ToString();
 }", builder.MethodScript);
         }
+
+
+
+
+        [Fact(DisplayName = "函数克隆3-静态")]
+        public static void MakerStaticCode3()
+        {
+            var builder = FakeMethodOperator.New;
+            builder
+                .UseMethod(typeof(OopTestModel).GetMethod("ReWrite3"))
+                .StaticMethodContent(@"i++;temp+=i.ToString();")
+                .Builder();
+            Assert.Equal(@"public static void ReWrite3(ref Int32 i,String temp)
+{
+i++;temp+=i.ToString();
+}", builder.MethodScript);
+        }
+
     }
+
 }

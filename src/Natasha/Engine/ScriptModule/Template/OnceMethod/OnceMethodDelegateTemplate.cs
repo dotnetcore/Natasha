@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Natasha
+namespace Natasha.Template
 {
     public class OnceMethodDelegateTemplate<T>:OnceMethodContentTemplate<T>
     {

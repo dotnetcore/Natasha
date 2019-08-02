@@ -86,7 +86,7 @@ namespace Natasha.Complier
         public static (SyntaxTree Tree, string[] ClassNames, string formatter) GetTreeAndClassNames(string content)
         {
 
-            SyntaxTree tree = CSharpSyntaxTree.ParseText(content);
+            SyntaxTree tree = CSharpSyntaxTree.ParseText(content,new CSharpParseOptions(LanguageVersion.Latest));
             CompilationUnitSyntax root = tree.GetCompilationUnitRoot();
 
 
@@ -120,8 +120,7 @@ namespace Natasha.Complier
         public static Assembly StreamComplier(string content, Action<Diagnostic> errorAction = null)
         {
 
-            content = content.Trim();
-            var (Tree, ClassName, formatter) = GetTreeAndClassNames(content);
+            var (Tree, ClassName, formatter) = GetTreeAndClassNames(content.Trim());
             StringBuilder recoder = new StringBuilder(formatter);
 
 
@@ -244,8 +243,7 @@ namespace Natasha.Complier
         {
 
             //类名获取
-            content = content.Trim();
-            var (Tree, ClassNames, formatter) = GetTreeAndClassNames(content);
+            var (Tree, ClassNames, formatter) = GetTreeAndClassNames(content.Trim());
             StringBuilder recoder = new StringBuilder(FormatLineCode(formatter));
 
 
@@ -362,8 +360,6 @@ namespace Natasha.Complier
                         loop += 1;
 
                     }
-
-
                     NScriptLog.Warning(ClassNames[0], $"    I/O Delay :\t检测到争用，延迟{loop * 200}ms调用;\r\n");
 
 

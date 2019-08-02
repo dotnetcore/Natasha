@@ -1,4 +1,4 @@
-﻿namespace Natasha
+﻿namespace Natasha.Template
 {
     /// <summary>
     /// 初始化模板
@@ -25,11 +25,11 @@
             //如果是静态的使用静态初始化
             if (template.ClassModifierScript=="static ")
             {
-                ModifierScript = "static ";
+                MemberModifierScript = "static ";
             }
             else
             {
-                AccessScript = template.ClassAccessScript;
+                MemberAccessScript = template.ClassAccessScript;
             }
 
 

@@ -1,39 +1,57 @@
 ﻿using System.Reflection;
-using System.Text;
 
-namespace Natasha
+namespace Natasha.Template
 {
-    public class OnceAccessTemplate<T>:ClassContentTemplate<T>
+    public class OnceMethodAccessTemplate<T>: OnceMethodAttributeTemplate<T>
     {
-        public StringBuilder OnceBuilder;
-        public string MethodScript;
         public string OnceAccessScript;
 
-        public OnceAccessTemplate()
-        {
-            OnceBuilder = new StringBuilder();
-        }
+
         public T MethodAccess(MethodInfo access)
         {
+
             OnceAccessScript = AccessReverser.GetAccess(access);
             return Link;
+
         }
+
+
+
+
         public T MethodAccess(AccessTypes access)
         {
+
             OnceAccessScript = AccessReverser.GetAccess(access);
             return Link;
+
         }
+
+
+
+
         public T MethodAccess(string access)
         {
+
             OnceAccessScript = access;
+            if (OnceAccessScript.EndsWith(" "))
+            {
+                OnceAccessScript += " ";
+            }
             return Link;
+
         }
+
+
+
+
         public override T Builder()
         {
+
             OnceBuilder.Insert(0,OnceAccessScript);
-            MethodScript = OnceBuilder.ToString();
-            ClassBody(MethodScript);
             return base.Builder();
+
         }
+
     }
+
 }

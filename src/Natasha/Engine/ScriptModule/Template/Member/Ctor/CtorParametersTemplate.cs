@@ -2,39 +2,62 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
-namespace Natasha
+namespace Natasha.Template
 {
     public class CtorParametersTemplate<T>: CtorNameTemplate<T>
     {
+
         public readonly List<KeyValuePair<Type, string>> ParametersMappings;
         public readonly List<Type> ParametersTypes;
-        public string ParametersScript;
+        public string CtorParametersScript;
+
 
         public CtorParametersTemplate()
         {
+
             ParametersTypes = new List<Type>();
             ParametersMappings = new List<KeyValuePair<Type, string>>();
+
         }
+
+
+
 
         public T Parameter(MethodInfo info)
         {
+
             UsingRecoder.Add(info);
-            ParametersScript = DeclarationReverser.GetParameters(info).ToString();
+            CtorParametersScript = DeclarationReverser.GetParameters(info).ToString();
             return Link;
+
         }
+
+
+
+
         public T Parameter(string parameters)
         {
-            ParametersScript = parameters;
+
+            CtorParametersScript = parameters;
             return Link;
+
         }
+
+
+
+
         public T Parameter(IEnumerable<KeyValuePair<Type, string>> parameters)
         {
+
             UsingRecoder.Add(parameters.Select(item => item.Key));
-            ParametersScript = DeclarationReverser.GetParameters(parameters).ToString(); ;
+            CtorParametersScript = DeclarationReverser.GetParameters(parameters).ToString(); ;
             return Link;
+
         }
+
+
+
 
         /// <summary>
         /// 添加参数
@@ -44,8 +67,13 @@ namespace Natasha
         /// <returns></returns>
         public T Param<S>(string key)
         {
+
             return Param(typeof(S), key);
+
         }
+
+
+
 
         /// <summary>
         /// 添加参数
@@ -55,21 +83,29 @@ namespace Natasha
         /// <returns></returns>
         public T Param(Type type, string key)
         {
+
             ParametersTypes.Add(type);
             UsingRecoder.Add(type);
             ParametersMappings.Add(new KeyValuePair<Type, string>(type, key));
             return Link;
+
         }
+
+
+
 
         public override T Builder()
         {
-            if (ParametersScript == null)
+
+            if (CtorParametersScript == null)
             {
                 Parameter(ParametersMappings);
             }
-            _script.Append($@"{ParametersScript}{{");
+            _script.Append($@"{CtorParametersScript}{{");
             return base.Builder();
+
         }
 
     }
+
 }

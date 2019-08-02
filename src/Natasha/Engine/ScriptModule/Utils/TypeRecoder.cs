@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Natasha.Utils
+namespace Natasha.Template
 {
     public class TypeRecoder
     {

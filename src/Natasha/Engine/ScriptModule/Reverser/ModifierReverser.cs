@@ -43,6 +43,7 @@ namespace Natasha
         /// <returns></returns>
         public static string GetModifier(MethodInfo reflectMethodInfo)
         {
+
             if (reflectMethodInfo.IsStatic)
             {
 

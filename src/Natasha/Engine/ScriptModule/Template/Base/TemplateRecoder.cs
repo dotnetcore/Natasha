@@ -1,7 +1,6 @@
-﻿using Natasha.Utils;
-using System.Text;
+﻿using System.Text;
 
-namespace Natasha
+namespace Natasha.Template
 {
     /// <summary>
     /// 记录模板
@@ -13,16 +12,26 @@ namespace Natasha
         public StringBuilder _script;
         public readonly TypeRecoder UsingRecoder;
         public T Link;
+
+
         public TemplateRecoder()
         {
+
             UsingRecoder = new TypeRecoder();
             _script = new StringBuilder(200);
+
         }
+
+
+
+
 
         public string Script
         {
             get { return _script.ToString(); }
         }
+
+
 
 
         /// <summary>
@@ -33,5 +42,7 @@ namespace Natasha
         {
             return Link;
         }
+
     }
+
 }
