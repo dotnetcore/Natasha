@@ -3,10 +3,10 @@
     public class CtorContentTemplate<T> : CtorParametersTemplate<T>
     {
 
-        public string ContentScript;
+        public string CtorContentScript;
         public T Body(string text)
         {
-            ContentScript = text;
+            CtorContentScript = text;
             return Link;
         }
 
@@ -17,7 +17,7 @@
         {
 
             base.Builder();
-            _script.Append(ContentScript);
+            _script.Append(CtorContentScript);
             _script.Append("}");
             return Link;
 

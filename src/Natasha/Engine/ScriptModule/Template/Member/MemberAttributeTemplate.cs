@@ -6,7 +6,7 @@ namespace Natasha.Template
     public class MemberAttributeTemplate<T> : TemplateRecoder<T>
     {
 
-        public readonly StringBuilder AttributeScript;
+        public readonly StringBuilder MemberAttributeScript;
 
 
         public T Attribute<A>(string ctorInfo=default)
@@ -25,11 +25,11 @@ namespace Natasha.Template
             UsingRecoder.Add(type);
             if (ctorInfo!=default)
             {
-                AttributeScript.AppendLine($"[{type.GetDevelopName()}({ctorInfo})]");
+                MemberAttributeScript.AppendLine($"[{type.GetDevelopName()}({ctorInfo})]");
             }
             else
             {
-                AttributeScript.AppendLine($"[{type.GetDevelopName()}]");
+                MemberAttributeScript.AppendLine($"[{type.GetDevelopName()}]");
             }
             return Link;
 
@@ -42,7 +42,7 @@ namespace Natasha.Template
         {
 
             base.Builder();
-            _script.Append(AttributeScript);
+            _script.Append(MemberAttributeScript);
             return Link;
 
         }

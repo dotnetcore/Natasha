@@ -10,7 +10,7 @@ namespace Natasha.Template
 
         public readonly List<KeyValuePair<Type, string>> ParametersMappings;
         public readonly List<Type> ParametersTypes;
-        public string ParametersScript;
+        public string CtorParametersScript;
 
 
         public CtorParametersTemplate()
@@ -28,7 +28,7 @@ namespace Natasha.Template
         {
 
             UsingRecoder.Add(info);
-            ParametersScript = DeclarationReverser.GetParameters(info).ToString();
+            CtorParametersScript = DeclarationReverser.GetParameters(info).ToString();
             return Link;
 
         }
@@ -39,7 +39,7 @@ namespace Natasha.Template
         public T Parameter(string parameters)
         {
 
-            ParametersScript = parameters;
+            CtorParametersScript = parameters;
             return Link;
 
         }
@@ -51,7 +51,7 @@ namespace Natasha.Template
         {
 
             UsingRecoder.Add(parameters.Select(item => item.Key));
-            ParametersScript = DeclarationReverser.GetParameters(parameters).ToString(); ;
+            CtorParametersScript = DeclarationReverser.GetParameters(parameters).ToString(); ;
             return Link;
 
         }
@@ -97,11 +97,11 @@ namespace Natasha.Template
         public override T Builder()
         {
 
-            if (ParametersScript == null)
+            if (CtorParametersScript == null)
             {
                 Parameter(ParametersMappings);
             }
-            _script.Append($@"{ParametersScript}{{");
+            _script.Append($@"{CtorParametersScript}{{");
             return base.Builder();
 
         }

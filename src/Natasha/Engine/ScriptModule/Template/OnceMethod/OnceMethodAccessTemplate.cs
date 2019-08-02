@@ -33,6 +33,10 @@ namespace Natasha.Template
         {
 
             OnceAccessScript = access;
+            if (OnceAccessScript.EndsWith(" "))
+            {
+                OnceAccessScript += " ";
+            }
             return Link;
 
         }

@@ -6,13 +6,13 @@ namespace Natasha.Template
     public class MemberModifierTemplate<T>:MemberAccessTemplate<T>
     {
 
-        public string ModifierScript;
+        public string MemberModifierScript;
 
 
         public T MemberModifier(MethodInfo modifier)
         {
 
-            ModifierScript = ModifierReverser.GetModifier(modifier);
+            MemberModifierScript = ModifierReverser.GetModifier(modifier);
             return Link;
 
         }
@@ -23,7 +23,7 @@ namespace Natasha.Template
         public T MemberModifier(Modifiers modifier)
         {
 
-            ModifierScript = ModifierReverser.GetModifier(modifier);
+            MemberModifierScript = ModifierReverser.GetModifier(modifier);
             return Link;
 
         }
@@ -34,7 +34,11 @@ namespace Natasha.Template
         public T MemberModifier(string modifier)
         {
 
-            ModifierScript = modifier;
+            MemberModifierScript = modifier;
+            if (!MemberModifierScript.EndsWith(" "))
+            {
+                MemberModifierScript += " ";
+            }
             return Link;
 
         }
@@ -46,7 +50,7 @@ namespace Natasha.Template
         {
 
             base.Builder();
-            _script.Append(ModifierScript);
+            _script.Append(MemberModifierScript);
             return Link;
 
         }

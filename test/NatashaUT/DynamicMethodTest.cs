@@ -29,6 +29,7 @@ namespace NatashaUT
 
 
 
+
         [Fact(DisplayName = "自动泛型委托")]
         public static void RunDelegate2()
         {
@@ -49,6 +50,7 @@ namespace NatashaUT
 
 
 
+
         [Fact(DisplayName = "函数克隆1")]
         public static void MakerCode1()
         {
@@ -63,6 +65,24 @@ namespace NatashaUT
 Console.WriteLine(""hello world"");
 }", builder.MethodScript);
         }
+
+
+
+        [Fact(DisplayName = "函数克隆1-静态")]
+        public static void MakerStaticCode1()
+        {
+
+            var builder = FakeMethodOperator.New;
+            builder
+                .UseMethod(typeof(OopTestModel).GetMethod("ReWrite1"))
+                .StaticMethodContent(@"Console.WriteLine(""hello world"");")
+                .Builder();
+            Assert.Equal(@"public static void ReWrite1()
+{
+Console.WriteLine(""hello world"");
+}", builder.MethodScript);
+        }
+
 
 
 
@@ -82,6 +102,24 @@ Console.WriteLine(""hello world"");return this;
 
 
 
+
+        [Fact(DisplayName = "函数克隆2-静态")]
+        public static void MakerStaticCode2()
+        {
+            var builder = FakeMethodOperator.New;
+            builder
+                .UseMethod(typeof(OopTestModel).GetMethod("ReWrite2"))
+                .StaticMethodContent(@"Console.WriteLine(""hello world"");return this;")
+                .Builder();
+            Assert.Equal(@"public static async Task<OopTestModel> ReWrite2()
+{
+Console.WriteLine(""hello world"");return this;
+}", builder.MethodScript);
+        }
+
+
+
+
         [Fact(DisplayName = "函数克隆3")]
         public static void MakerCode3()
         {
@@ -95,5 +133,24 @@ Console.WriteLine(""hello world"");return this;
 i++;temp+=i.ToString();
 }", builder.MethodScript);
         }
+
+
+
+
+        [Fact(DisplayName = "函数克隆3-静态")]
+        public static void MakerStaticCode3()
+        {
+            var builder = FakeMethodOperator.New;
+            builder
+                .UseMethod(typeof(OopTestModel).GetMethod("ReWrite3"))
+                .StaticMethodContent(@"i++;temp+=i.ToString();")
+                .Builder();
+            Assert.Equal(@"public static void ReWrite3(ref Int32 i,String temp)
+{
+i++;temp+=i.ToString();
+}", builder.MethodScript);
+        }
+
     }
+
 }
