@@ -7,10 +7,13 @@
     <Copyright>.NET Core Community and Contributors</Copyright>
     <PackageId>DotNetCore.Natasha</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <PackageReleaseNotes>- 增强日志
-- 增加类模板重编译功能
-- 修复克隆扩展类型</PackageReleaseNotes>
-    <Version>1.0.0</Version>
+    <PackageReleaseNotes>- 增强初始化模板
+- 增加构建异步方法
+- 默认语言编译选项
+- 方法异步还原
+- 规范模板命名空间
+- 增加注解构建</PackageReleaseNotes>
+    <Version>1.0.4</Version>
     <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
     <PackageTags>Roslyn ; IL ; Scripte ; Dynamic ; </PackageTags>
@@ -18,8 +21,8 @@
     <Company>.NET Core Community</Company>
     <PackageIconUrl>https://avatars2.githubusercontent.com/u/19404084</PackageIconUrl>
     <Authors>NMSAzulX</Authors>
-    <FileVersion>1.0.0.0</FileVersion>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.4.0</FileVersion>
+    <AssemblyVersion>1.0.4.0</AssemblyVersion>
   </PropertyGroup>
 
 
