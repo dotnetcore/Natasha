@@ -409,7 +409,18 @@ namespace Natasha.Complier
             var end = linePositionSpan.EndLinePosition;
 
 
-            var arrayLines = content.Split(new string[] { "\r" }, StringSplitOptions.None);
+            string split;
+            if (Environment.OSVersion.Platform == PlatformID.Unix)
+            {
+                split = "\n";
+            }
+            else
+            {
+                split = "\r\n";
+            }
+
+
+            var arrayLines = content.Split(new string[] { split }, StringSplitOptions.None);
             var currentErrorLine = arrayLines[start.Line];
 
 
