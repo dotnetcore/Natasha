@@ -19,7 +19,7 @@ namespace Natasha
         {
 
             //获取程序集
-            Assembly assembly = ScriptComplieEngine.StreamComplier(content,out _);
+            Assembly assembly = ScriptComplierEngine.StreamComplier(content,out _);
 
 
             //判空
@@ -53,7 +53,7 @@ namespace Natasha
         {
 
             //获取程序集
-            Assembly assembly = ScriptComplieEngine.StreamComplier(content,out _);
+            Assembly assembly = ScriptComplierEngine.StreamComplier(content,out _);
 
 
             //判空
@@ -87,7 +87,7 @@ namespace Natasha
         {
 
             //获取程序集
-            Assembly assembly = ScriptComplieEngine.FileComplier(content, out _);
+            Assembly assembly = ScriptComplierEngine.FileComplier(content, out _);
 
             //根据索引获取类名
             string className = ScriptHelper.GetClassName(content, classIndex, namespaceIndex);
@@ -104,7 +104,7 @@ namespace Natasha
 
 
             //获取程序集
-            Assembly assembly = ScriptComplieEngine.FileComplier(content, out _);
+            Assembly assembly = ScriptComplierEngine.FileComplier(content, out _);
 
 
             //获取类型

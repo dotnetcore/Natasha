@@ -43,7 +43,7 @@ namespace HelloWorld{
 }
 
 ";
-            var (_, ClassNames, _) = ScriptComplieEngine.GetTreeAndClassNames(text);
+            var (_, ClassNames, _) = ScriptComplierEngine.GetTreeAndClassNames(text);
             Assert.Equal("TestIndex1", ClassNames[0]);
             Assert.Equal("TestIndex2", ClassNames[1]);
             Assert.Equal("TestIndex3", ClassNames[2]);

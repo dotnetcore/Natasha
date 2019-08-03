@@ -8,10 +8,10 @@ namespace Natasha
     public abstract class IComplier
     {
 
-        public readonly ComplieException Exception;
+        public readonly CompilationException Exception;
 
 
-        public IComplier() => Exception = new ComplieException();
+        public IComplier() => Exception = new CompilationException();
 
 
 
@@ -66,13 +66,13 @@ namespace Natasha
             if (!_useFileComplie)
             {
 
-                assembly = ScriptComplieEngine.StreamComplier(content, out Exception.Formatter, SingleError);
+                assembly = ScriptComplierEngine.StreamComplier(content, out Exception.Formatter, SingleError);
 
             }
             else
             {
 
-                assembly = ScriptComplieEngine.FileComplier(content, out Exception.Formatter, SingleError);
+                assembly = ScriptComplierEngine.FileComplier(content, out Exception.Formatter, SingleError);
 
             }
 

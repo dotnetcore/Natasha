@@ -15,7 +15,7 @@ namespace Natasha
         public static Type GetType(string name)
         {
 
-            return AssemblyOperator.Loader(ScriptComplieEngine.ClassMapping[name])[name];
+            return AssemblyOperator.Loader(ScriptComplierEngine.ClassMapping[name])[name];
 
         }
 

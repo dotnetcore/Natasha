@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Natasha
 {
-    public class ComplieException
+    public class CompilationException
     {
 
-        public ComplieException()
+        public CompilationException()
         {
 
             Diagnostics = new List<Diagnostic>();

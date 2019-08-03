@@ -20,7 +20,7 @@ namespace Natasha.Complier
     /// <summary>
     /// 核心编译引擎
     /// </summary>
-    public class ScriptComplieEngine
+    public class ScriptComplierEngine
     {
 
 
@@ -30,7 +30,7 @@ namespace Natasha.Complier
         public readonly static ConcurrentBag<PortableExecutableReference> References;
         private readonly static AdhocWorkspace _workSpace;
 
-        static ScriptComplieEngine()
+        static ScriptComplierEngine()
         {
 
             _workSpace = new AdhocWorkspace();
