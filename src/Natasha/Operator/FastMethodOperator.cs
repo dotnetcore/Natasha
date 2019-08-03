@@ -8,7 +8,6 @@ namespace Natasha
     public class FastMethodOperator : OnceMethodBuilder<FastMethodOperator>
     {
 
-
         public static FastMethodOperator New
         {
             get

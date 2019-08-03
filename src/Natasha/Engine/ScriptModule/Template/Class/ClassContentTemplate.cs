@@ -2,7 +2,7 @@
 
 namespace Natasha.Template
 {
-    public class ClassContentTemplate<T>:FieldTemplate<T>
+    public class ClassContentTemplate<T>: ClassMethodTemplate<T>
     {
 
         public StringBuilder ClassContentScript;

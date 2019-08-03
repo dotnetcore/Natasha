@@ -13,8 +13,8 @@ namespace Natasha.Builder
 
 
         //使用默认编译器
-        public MethodComplier ComplierOption;
-        public OnceMethodBuilder() => ComplierOption = new MethodComplier();
+        public MethodComplier Complier;
+        public OnceMethodBuilder() => Complier = new MethodComplier();
 
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace Natasha.Builder
         {
 
             Builder();
-            return ComplierOption.Complie(
+            return Complier.Complie(
                 ClassNameScript,
                 Script,
                 MethodNameScript,
@@ -48,7 +48,7 @@ namespace Natasha.Builder
             Builder();
 
 
-            return (T)ComplierOption.Complie<T>(
+            return (T)Complier.Complie<T>(
                 ClassNameScript,
                 Script,
                 MethodNameScript,

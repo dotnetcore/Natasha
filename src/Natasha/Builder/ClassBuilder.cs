@@ -9,14 +9,14 @@ namespace Natasha
     public class ClassBuilder : ClassContentTemplate<ClassBuilder>
     {
 
-        public readonly ClassComplier ComplierOption;
+        public readonly ClassComplier Complier;
         public CtorTemplate CtorBuilder;
 
 
         public ClassBuilder()
         {
 
-            ComplierOption = new ClassComplier();
+            Complier = new ClassComplier();
             Link = this;
 
         }
@@ -74,8 +74,15 @@ namespace Natasha
         /// <returns></returns>
         public Type GetType(int classIndex = 1, int namespaceIndex = 1)
         {
-            
-            return  RuntimeComplier.GetClassType(Builder().Script, classIndex, namespaceIndex);
+
+            if (IsStruct)
+            {
+                return Complier.GetStructType(Builder().Script, classIndex, namespaceIndex);
+            }
+            else
+            {
+                return Complier.GetClassType(Builder().Script, classIndex, namespaceIndex);
+            }
 
         }
 

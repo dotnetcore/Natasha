@@ -23,7 +23,7 @@ namespace NatashaUT
                         .Return<string>()
                 .Complie();
 
-           string result = ((Func<string, string,string>)delegateAction)("Hello", "World1!");
+           string result = ((Func<string, string,string>)delegateAction)?.Invoke("Hello", "World1!");
            Assert.Equal("Hello World1!", result);
         }
 
@@ -44,7 +44,7 @@ namespace NatashaUT
                         .Return<string>()
                 .Complie<Func<string, string, string>>();
 
-            string result = delegateAction("Hello", "World2!");
+            string result = delegateAction?.Invoke("Hello", "World2!");
            Assert.Equal("Hello World2!",result);
         }
 

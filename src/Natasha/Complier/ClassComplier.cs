@@ -1,6 +1,4 @@
-﻿using Natasha.Complier;
-using System;
-using System.Reflection;
+﻿using System;
 
 namespace Natasha
 {
@@ -28,17 +26,21 @@ namespace Natasha
         public Type GetClassType(string content, int classIndex = 1, int namespaceIndex = 1)
         {
 
-            //获取类型
-            return RuntimeComplier.GetClassType(content,classIndex,namespaceIndex);
+            //根据索引获取类名
+            string className = ScriptHelper.GetClassName(content, classIndex, namespaceIndex);
+            return GetTypeByScript(content, className);
 
         }
-        public Type GetStructType(string content, int classIndex = 1, int namespaceIndex = 1)
+
+        public Type GetStructType(string content, int structIndex = 1, int namespaceIndex = 1)
         {
 
-            //获取类型
-            return RuntimeComplier.GetStructType(content, classIndex, namespaceIndex);
+            //根据索引获取类名
+            string structName = ScriptHelper.GetStructName(content, structIndex, namespaceIndex);
+            return GetTypeByScript(content, structName);
 
         }
+
     }
 
 }

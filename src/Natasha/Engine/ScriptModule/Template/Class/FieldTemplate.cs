@@ -4,12 +4,12 @@ using System.Text;
 
 namespace Natasha.Template
 {
-    public class FieldTemplate<T>:InheritanceTemplate<T>
+    public class ClassFieldTemplate<T>:InheritanceTemplate<T>
     {
         public readonly StringBuilder FieldScript;
         internal readonly HashSet<string> _fieldsSet;
 
-        public FieldTemplate()
+        public ClassFieldTemplate()
         {
             FieldScript = new StringBuilder();
             _fieldsSet = new HashSet<string>();
@@ -25,7 +25,7 @@ namespace Natasha.Template
         /// <param name="type"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public T Field(string access, Type type, string name)
+        public T CreateField(string access, Type type, string name)
         {
             Using(type);
             if (!_fieldsSet.Contains(name))
@@ -49,7 +49,7 @@ namespace Natasha.Template
 
         public T PublicField(Type type, string name)
         {
-            return Field("public", type, name);
+            return CreateField("public", type, name);
         }
 
         public T PrivateField<S>(string name)
@@ -59,7 +59,7 @@ namespace Natasha.Template
 
         public T PrivateField(Type type, string name)
         {
-            return Field("private", type, name);
+            return CreateField("private", type, name);
         }
 
         public T InternalField<S>(string name)
@@ -69,7 +69,7 @@ namespace Natasha.Template
 
         public T InternalField(Type type, string name)
         {
-            return Field("internal", type, name);
+            return CreateField("internal", type, name);
         }
 
         public T ProtectedField<S>(string name)
@@ -79,7 +79,7 @@ namespace Natasha.Template
 
         public T ProtectedField(Type type, string name)
         {
-            return Field("protected", type, name);
+            return CreateField("protected", type, name);
         }
 
         public T PublicStaticField<S>(string name)
@@ -89,7 +89,7 @@ namespace Natasha.Template
 
         public T PublicStaticField(Type type, string name)
         {
-            return Field("public static", type, name);
+            return CreateField("public static", type, name);
         }
 
         public T PrivateStaticField<S>(string name)
@@ -99,7 +99,7 @@ namespace Natasha.Template
 
         public T PrivateStaticField(Type type, string name)
         {
-            return Field("private static", type, name);
+            return CreateField("private static", type, name);
         }
 
         public T InternalStaticField<S>(string name)
@@ -109,7 +109,7 @@ namespace Natasha.Template
 
         public T InternalStaticField(Type type, string name)
         {
-            return Field("internal static", type, name);
+            return CreateField("internal static", type, name);
         }
 
         public T ProtectedStaticField<S>(string name)
@@ -119,7 +119,9 @@ namespace Natasha.Template
 
         public T ProtectedStaticField(Type type, string name)
         {
-            return Field("protected static", type, name);
+            return CreateField("protected static", type, name);
         }
+
     }
+
 }

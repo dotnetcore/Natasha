@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Natasha.Complier;
 using Xunit;
-using Natasha;
-using Natasha.Complier;
 
 namespace NatashaUT
 {

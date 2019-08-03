@@ -114,13 +114,14 @@ namespace Natasha.Complier
         /// <summary>
         /// 使用内存流进行脚本编译
         /// </summary>
-        /// <param name="content">脚本内容</param>
+        /// <param name="sourceContent">脚本内容</param>
         /// <param name="errorAction">发生错误执行委托</param>
         /// <returns></returns>
-        public static Assembly StreamComplier(string content, Action<Diagnostic> errorAction = null)
+        public static Assembly StreamComplier(string sourceContent,out string formatContent, Action<Diagnostic> errorAction = null)
         {
 
-            var (Tree, ClassName, formatter) = GetTreeAndClassNames(content.Trim());
+            var (Tree, ClassName, formatter) = GetTreeAndClassNames(sourceContent.Trim());
+            formatContent = formatter;
             StringBuilder recoder = new StringBuilder(formatter);
 
 
@@ -207,7 +208,6 @@ namespace Natasha.Complier
 
             }
 
-
             return null;
 
         }
@@ -236,14 +236,15 @@ namespace Natasha.Complier
         /// <summary>
         /// 使用文件流进行脚本编译，根据类名生成dll
         /// </summary>
-        /// <param name="content">脚本内容</param>
+        /// <param name="sourceContent">脚本内容</param>
         /// <param name="errorAction">发生错误执行委托</param>
         /// <returns></returns>
-        public static Assembly FileComplier(string content, Action<Diagnostic> errorAction = null)
+        public static Assembly FileComplier(string sourceContent, out string formatContent, Action<Diagnostic> errorAction = null)
         {
 
             //类名获取
-            var (Tree, ClassNames, formatter) = GetTreeAndClassNames(content.Trim());
+            var (Tree, ClassNames, formatter) = GetTreeAndClassNames(sourceContent.Trim());
+            formatContent = formatter;
             StringBuilder recoder = new StringBuilder(FormatLineCode(formatter));
 
 
@@ -251,7 +252,7 @@ namespace Natasha.Complier
             string path = Path.Combine(LibPath, $"{ClassNames[0]}.dll");
             if (DynamicDlls.ContainsKey(path))
             {
-
+                
                 return DynamicDlls[path];
 
             }
@@ -343,7 +344,7 @@ namespace Natasha.Complier
 
                 }
 
-
+                formatContent = formatter;
                 return null;
             }
             catch (Exception ex)

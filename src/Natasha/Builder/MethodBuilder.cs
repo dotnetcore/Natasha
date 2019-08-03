@@ -13,14 +13,14 @@ namespace Natasha
 
         public ClassBuilder ClassTemplate;
         public MethodTemplate MethodTemplate;
-        public ClassComplier ComplierOption;
+        public ClassComplier Complier;
 
         public MethodBuilder()
         {
 
             ClassTemplate = new ClassBuilder();
             MethodTemplate = new MethodTemplate();
-            ComplierOption = new ClassComplier(); 
+            Complier = new ClassComplier(); 
 
         }
 
@@ -106,31 +106,28 @@ namespace Natasha
         /// 编译并返回委托
         /// </summary>
         /// <returns></returns>
-        public Delegate Complie()
+        public Delegate Complie(object binder = null)
         {
-
-            //获取程序集
-            Assembly assembly = ComplierOption.GetAssemblyByScript(ClassTemplate
+            return Complier.GetDelegateByScript(ClassTemplate
                 .Using(MethodTemplate.UsingRecoder.Types)
                 .ClassBody(MethodTemplate.Builder()._script)
-                .Builder().Script);
+                .Builder().Script,
+                ClassTemplate.ClassNameScript,
+                MethodTemplate.MethodNameScript,
+                MethodTemplate.DelegateType,
+                binder);
 
+        }
 
-            //判空
-            if (assembly == null)
-            {
-
-                return null;
-
-            }
-
-
-            //获取方法委托
-            return AssemblyOperator
-                .Loader(assembly)[ClassTemplate.ClassNameScript]
-                .GetMethod(MethodTemplate.MethodNameScript)
-                .CreateDelegate(MethodTemplate.DelegateType);
-
+        public T Complie<T>(object binder=null) where T :Delegate
+        {
+            return Complier.GetDelegateByScript<T>(ClassTemplate
+                .Using(MethodTemplate.UsingRecoder.Types)
+                .ClassBody(MethodTemplate.Builder()._script)
+                .Builder().Script,
+                ClassTemplate.ClassNameScript,
+                MethodTemplate.MethodNameScript,
+                binder);
         }
 
     }
