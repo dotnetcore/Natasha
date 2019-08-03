@@ -378,8 +378,19 @@ namespace Natasha.Complier
         public static string FormatLineCode(string content)
         {
 
+            string split;
+            if (Environment.OSVersion.Platform == PlatformID.Unix)
+            {
+                split = "\n";
+            }
+            else
+            {
+                split = "\r\n";
+            }
+
+
             StringBuilder sb = new StringBuilder();
-            var arrayLines = content.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+            var arrayLines = content.Split(new string[] { split }, StringSplitOptions.None);
             for (int i = 0; i < arrayLines.Length; i+=1)
             {
 
