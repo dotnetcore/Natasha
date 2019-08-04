@@ -46,6 +46,7 @@
 
  - 2019-08-01 ： 发布v1.0.0.0, 发布稳如老狗版，抛弃Emit农耕铲，端起Roslyn金饭碗。  
  - 2019-08-02 ： 发布v1.0.4.0，支持异步方法还原与构造，增加注解构建。
+ - 2019-08-04 ： 发布v1.1.0.0，优化编译引擎，区分OS字符，增加异常捕获。
 
  <br/>  
  
@@ -74,6 +75,27 @@
 <br/>
 <br/> 
 
+#### 异常捕获方法：
+
+```C#
+  var fastBuilder = FastMethodOperator.New;
+  fastBuilder.Complier.Exception;             //编译后异常会进入这里
+  if(fastBuilder.Complier.Exception.ErrorFlag == ComplieError.None) 
+  {
+        //编译成功！
+  }
+  
+  
+  var fakeBuilder = FakeMethodOpeartor.New;
+  fakeBuilder.Complier.Exception;
+  
+  
+  var classBuilder = New ClassBuilder();
+  classBuilder.Complier.Exception;
+  
+```  
+<br/>
+<br/> 
 
 #### 使用 FastMethodOperator 快速构建函数：  
   
