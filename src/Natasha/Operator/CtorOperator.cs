@@ -5,7 +5,7 @@ namespace Natasha
     /// <summary>
     /// 初始化操作类，生成初始化委托
     /// </summary>
-    public class CtorBuilder
+    public class CtorOperator
     {
         /// <summary>
         /// 返回初始化委托

@@ -70,12 +70,14 @@ namespace Natasha
         public Type TargetType;
         private readonly Type _oop_type;
         private readonly Dictionary<string, string> _oop_methods_mapping;
+        public ClassComplier Complier;
         public OopOperator(Type oopType) : base()
         {
 
             Link = this;
             _oop_type = oopType;
             _oop_methods_mapping = new Dictionary<string, string>();
+            Complier = new ClassComplier();
 
         }
 
@@ -211,11 +213,11 @@ namespace Natasha
 
 
             //获取类型
-            TargetType = RuntimeComplier.GetClassType(Result);
+            TargetType = Complier.GetTypeByScript(Result,ClassNameScript);
 
 
             //返回委托
-            return _delegate_mapping[ClassNameScript] = CtorBuilder.NewDelegate(TargetType);
+            return _delegate_mapping[ClassNameScript] = CtorOperator.NewDelegate(TargetType);
         }
 
 
