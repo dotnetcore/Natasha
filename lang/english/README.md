@@ -45,6 +45,8 @@ Make your dynamic approach easier to write, track, and maintain.  Welcome to dis
 ### Publish Plan  
 
  - 2019-08-01 ： Publish v1.0.0.0, The first official stable version.  
+ - 2019-08-02 ： Publish v1.0.4.0，Support asynchronous methods, support attributes.
+ - 2019-08-04 ： Publish v1.1.0.0，Optimize the compilation engine, distinguish OS characters, and increase exception capture.
  
  <br/>  
  
@@ -63,6 +65,29 @@ Make your dynamic approach easier to write, track, and maintain.  Welcome to dis
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <PreserveCompilationContext>true</PreserveCompilationContext>   <--- must.
   </PropertyGroup>
+```  
+<br/>
+<br/> 
+
+
+#### Catch exception：
+
+```C#
+  var fastBuilder = FastMethodOperator.New;
+  fastBuilder.Complier.Exception;             
+  if(fastBuilder.Complier.Exception.ErrorFlag == ComplieError.None) 
+  {
+        //Compiled successfully!
+  }
+  
+  
+  var fakeBuilder = FakeMethodOpeartor.New;
+  fakeBuilder.Complier.Exception;
+  
+  
+  var classBuilder = New ClassBuilder();
+  classBuilder.Complier.Exception;
+  
 ```  
 <br/>
 <br/> 
