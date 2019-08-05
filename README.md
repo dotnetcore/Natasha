@@ -116,19 +116,20 @@ var result = action("Hello ","World!");    //result:   "Hello World!"
 
 
 //Complie<T>方法会检测参数以及返回类型，如果其中有任何一处没有指定，那么Complie方法会使用自己默认的参数或者返回值进行填充
+//如果是Action<int> 这种带有1个参数的，请使用"arg"
+
 
 var delegateAction = FastMethodOperator.New
 
        .UseAsync()
-       
        .MethodBody(@"
                await Task.Delay(100);
                string result = arg1 +"" ""+ arg2; 
                Console.WriteLine(result);
                return result;")
+               
        .Complie<Func<string, string, Task<string>>>();
-       //如果是Action<int> 这种带有1个参数的，请使用"arg"
-        
+      
 string result = await delegateAction?.Invoke("Hello", "World2!");   //result:   "Hello World2!"
 
 
@@ -145,9 +146,12 @@ string result = await delegateAction?.Invoke("Hello", "World2!");   //result:   
 //定义一个委托
 public delegate string GetterDelegate(int value);
      
+     
+     
 //方法一     
 var action = DelegateOperator<GetterDelegate>.Create("value += 101; return value.ToString();");
 string result = action(1);              //result: "102"
+
 
 
 //方法二
