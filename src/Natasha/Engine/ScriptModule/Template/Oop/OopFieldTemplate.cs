@@ -4,15 +4,26 @@ using System.Text;
 
 namespace Natasha.Template
 {
-    public class ClassFieldTemplate<T>:InheritanceTemplate<T>
+    public class OopFieldTemplate<T>:InheritanceTemplate<T>
     {
-        public readonly StringBuilder FieldScript;
+        public readonly StringBuilder OopFieldScript;
         internal readonly HashSet<string> _fieldsSet;
 
-        public ClassFieldTemplate()
+        public OopFieldTemplate()
         {
-            FieldScript = new StringBuilder();
+            OopFieldScript = new StringBuilder();
             _fieldsSet = new HashSet<string>();
+        }
+
+
+
+        public T CreateFiled(Action<FieldNameTemplate<T>> action)
+        {
+            var handler = new FieldNameTemplate<T>();
+            action?.Invoke(handler);
+            handler.Builder();
+            OopFieldScript.Append(handler._script);
+            return Link;
         }
 
 
@@ -30,7 +41,7 @@ namespace Natasha.Template
             Using(type);
             if (!_fieldsSet.Contains(name))
             {
-                FieldScript.Append($"{access} {type.GetDevelopName()} {name};");
+                OopFieldScript.Append($"{access} {type.GetDevelopName()} {name};");
             }
             return Link;
         }
@@ -38,7 +49,7 @@ namespace Natasha.Template
         public override T Builder()
         {
             base.Builder();
-            _script.Append(FieldScript);
+            _script.Append(OopFieldScript);
             return Link;
         }
 

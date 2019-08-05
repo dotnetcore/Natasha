@@ -18,6 +18,8 @@ namespace Natasha
         }
 
 
+
+
         public static IEnumerable<T> GetNodes<T>(SyntaxNode node)
         {
 
@@ -26,6 +28,8 @@ namespace Natasha
                    select namespaceNodes;
 
         }
+
+
 
 
         /// <summary>
@@ -37,33 +41,11 @@ namespace Natasha
         /// <returns></returns>
         public static string GetClassName(string content, int classIndex = 1, int namespaceIndex = 1)
         {
-            classIndex -= 1;
-            namespaceIndex -= 1;
 
-
-            var root = GetRoot(content);
-            IEnumerable<SyntaxNode> result = GetNodes<NamespaceDeclarationSyntax>(root);
-
-
-            SyntaxNode node = null;
-            if (result.Count() != 0)
-            {
-
-                node = result.ToArray()[namespaceIndex];
-
-            }
-            else
-            {
-
-                node = root;
-
-            }
-
-
-            var classNodes = GetNodes<ClassDeclarationSyntax>(node);
-            return classNodes.ToArray()[classIndex].Identifier.Text;
+            return GetDataStructString<ClassDeclarationSyntax>(content, classIndex, namespaceIndex);
 
         }
+
 
 
 
@@ -76,7 +58,34 @@ namespace Natasha
         /// <returns></returns>
         public static string GetStructName(string content, int structIndex = 1, int namespaceIndex = 1)
         {
-            structIndex -= 1;
+            
+            return GetDataStructString<StructDeclarationSyntax>(content, structIndex, namespaceIndex);
+
+        }
+
+
+
+
+        /// <summary>
+        /// 根据命名空间和结构体的位置获取类型
+        /// </summary>
+        /// <param name="content">脚本内容</param>
+        /// <param name="interfaceIndex">命名空间里的第index个类</param>
+        /// <param name="namespaceIndex">第namespaceIndex个命名空间</param>
+        /// <returns></returns>
+        public static string GetInterfaceName(string content, int interfaceIndex = 1, int namespaceIndex = 1)
+        {
+
+            return GetDataStructString<InterfaceDeclarationSyntax>(content, interfaceIndex, namespaceIndex);
+
+        }
+
+
+
+
+        public static string GetDataStructString<T>(string content, int index = 1, int namespaceIndex = 1) where T : TypeDeclarationSyntax
+        {
+            index -= 1;
             namespaceIndex -= 1;
 
 
@@ -85,7 +94,7 @@ namespace Natasha
 
 
 
-            SyntaxNode node = null;
+            SyntaxNode node;
             if (result.Count() != 0)
             {
 
@@ -100,10 +109,10 @@ namespace Natasha
             }
 
 
-            var structNodes = GetNodes<StructDeclarationSyntax>(node);
-            return structNodes.ToArray()[structIndex].Identifier.Text;
-
+            var nodes = GetNodes<T>(node);
+            return nodes.ToArray()[index].Identifier.Text;
         }
 
     }
+
 }

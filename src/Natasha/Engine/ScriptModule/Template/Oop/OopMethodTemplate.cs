@@ -4,12 +4,12 @@ using System.Text;
 namespace Natasha.Template
 {
 
-    public class ClassMethodTemplate<T>:ClassFieldTemplate<T>
+    public class OopMethodTemplate<T>:OopFieldTemplate<T>
     {
 
-        public readonly StringBuilder ClassMethodScript;
+        public readonly StringBuilder OopMethodScript;
 
-        public ClassMethodTemplate() => ClassMethodScript = new StringBuilder();
+        public OopMethodTemplate() => OopMethodScript = new StringBuilder();
 
 
 
@@ -19,7 +19,7 @@ namespace Natasha.Template
             var handler = new MethodDelegateTemplate<T>();
             action?.Invoke(handler);
             handler.Builder();
-            ClassMethodScript.Append(handler._script);
+            OopMethodScript.Append(handler._script);
             return Link;
         }
 
@@ -29,7 +29,7 @@ namespace Natasha.Template
         public override T Builder()
         {
             base.Builder();
-            _script.Append(ClassMethodScript);
+            _script.Append(OopMethodScript);
             return Link;
         }
 

@@ -26,8 +26,8 @@ namespace Natasha
 
             Link = this;
             HiddenNameSpace()
-                .ClassAccess(AccessTypes.Public)
-                .ClassModifier(Modifiers.Static)
+                .OopAccess(AccessTypes.Public)
+                .OopModifier(Modifiers.Static)
                 .MethodAccess(AccessTypes.Public)
                 .MethodModifier(Modifiers.Static);
 

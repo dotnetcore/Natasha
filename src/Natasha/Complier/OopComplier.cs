@@ -2,11 +2,11 @@
 
 namespace Natasha
 {
-    public class ClassComplier : IComplier
+    public class OopComplier : IComplier
     {
 
 
-        public ClassComplier()
+        public OopComplier()
         {
 
             UseFileComplie();
@@ -26,18 +26,26 @@ namespace Natasha
         public Type GetClassType(string content, int classIndex = 1, int namespaceIndex = 1)
         {
 
-            //根据索引获取类名
             string className = ScriptHelper.GetClassName(content, classIndex, namespaceIndex);
             return GetTypeByScript(content, className);
 
         }
 
+
         public Type GetStructType(string content, int structIndex = 1, int namespaceIndex = 1)
         {
 
-            //根据索引获取类名
             string structName = ScriptHelper.GetStructName(content, structIndex, namespaceIndex);
             return GetTypeByScript(content, structName);
+
+        }
+
+
+        public Type GetInterfaceType(string content, int interfaceIndex = 1, int namespaceIndex = 1)
+        {
+
+            string interfaceName = ScriptHelper.GetInterfaceName(content, interfaceIndex, namespaceIndex);
+            return GetTypeByScript(content, interfaceName);
 
         }
 

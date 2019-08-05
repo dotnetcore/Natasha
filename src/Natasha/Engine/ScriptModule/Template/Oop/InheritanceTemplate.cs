@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Natasha.Template
 {
-    public class InheritanceTemplate<T> : ClassNameTemplate<T>
+    public class InheritanceTemplate<T> : OopNameTemplate<T>
     {
 
         public readonly StringBuilder Inheritances;

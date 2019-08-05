@@ -28,7 +28,7 @@ namespace Natasha
         public override Delegate Compile()
         {
 
-            return _ctor_mapping[ClassNameScript] = (Func<T>)(base.Compile());
+            return _ctor_mapping[OopNameScript] = (Func<T>)(base.Compile());
 
         }
 
@@ -58,7 +58,7 @@ namespace Natasha
     /// <summary>
     /// 类构建器
     /// </summary>
-    public class OopOperator : ClassContentTemplate<OopOperator>
+    public class OopOperator : OopContentTemplate<OopOperator>
     {
 
 
@@ -70,14 +70,14 @@ namespace Natasha
         public Type TargetType;
         private readonly Type _oop_type;
         private readonly Dictionary<string, string> _oop_methods_mapping;
-        public ClassComplier Complier;
+        public OopComplier Complier;
         public OopOperator(Type oopType) : base()
         {
 
             Link = this;
             _oop_type = oopType;
             _oop_methods_mapping = new Dictionary<string, string>();
-            Complier = new ClassComplier();
+            Complier = new OopComplier();
 
         }
 
@@ -206,18 +206,18 @@ namespace Natasha
             //生成整类脚本
             Result = Using(_oop_type)
                 .Namespace("NatashaInterface")
-                .ClassAccess(AccessTypes.Public)
+                .OopAccess(AccessTypes.Public)
                 .Inheritance(_oop_type)
-                .ClassBody(sb.ToString())
+                .OopBody(sb.ToString())
                 .Builder().Script;
 
 
             //获取类型
-            TargetType = Complier.GetTypeByScript(Result,ClassNameScript);
+            TargetType = Complier.GetTypeByScript(Result,OopNameScript);
 
 
             //返回委托
-            return _delegate_mapping[ClassNameScript] = CtorOperator.NewDelegate(TargetType);
+            return _delegate_mapping[OopNameScript] = CtorOperator.NewDelegate(TargetType);
         }
 
 

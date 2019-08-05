@@ -11,16 +11,16 @@ namespace Natasha
     {
 
 
-        public ClassBuilder ClassTemplate;
+        public OopBuilder ClassTemplate;
         public MethodTemplate MethodTemplate;
-        public ClassComplier Complier;
+        public OopComplier Complier;
 
         public MethodBuilder()
         {
 
-            ClassTemplate = new ClassBuilder();
+            ClassTemplate = new OopBuilder();
             MethodTemplate = new MethodTemplate();
-            Complier = new ClassComplier(); 
+            Complier = new OopComplier(); 
 
         }
 
@@ -45,7 +45,7 @@ namespace Natasha
         /// </summary>
         /// <param name="classTemplate">新的类型模板</param>
         /// <returns></returns>
-        public virtual MethodBuilder ResetClassTemplate(ClassBuilder classTemplate)
+        public virtual MethodBuilder ResetClassTemplate(OopBuilder classTemplate)
         {
 
             ClassTemplate = classTemplate;
@@ -61,7 +61,7 @@ namespace Natasha
         /// </summary>
         /// <param name="classAction">类模板委托</param>
         /// <returns></returns>
-        public virtual MethodBuilder ClassAction(Action<ClassBuilder> classAction)
+        public virtual MethodBuilder ClassAction(Action<OopBuilder> classAction)
         {
 
             classAction(ClassTemplate);
@@ -110,9 +110,9 @@ namespace Natasha
         {
             return Complier.GetDelegateByScript(ClassTemplate
                 .Using(MethodTemplate.UsingRecoder.Types)
-                .ClassBody(MethodTemplate.Builder()._script)
+                .OopBody(MethodTemplate.Builder()._script)
                 .Builder().Script,
-                ClassTemplate.ClassNameScript,
+                ClassTemplate.OopNameScript,
                 MethodTemplate.MethodNameScript,
                 MethodTemplate.DelegateType,
                 binder);
@@ -123,9 +123,9 @@ namespace Natasha
         {
             return Complier.GetDelegateByScript<T>(ClassTemplate
                 .Using(MethodTemplate.UsingRecoder.Types)
-                .ClassBody(MethodTemplate.Builder()._script)
+                .OopBody(MethodTemplate.Builder()._script)
                 .Builder().Script,
-                ClassTemplate.ClassNameScript,
+                ClassTemplate.OopNameScript,
                 MethodTemplate.MethodNameScript,
                 binder);
         }

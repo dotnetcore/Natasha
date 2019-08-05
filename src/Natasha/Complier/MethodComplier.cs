@@ -22,7 +22,7 @@ namespace Natasha.Complier
         /// <param name="methodName">方法名</param>
         /// <param name="delegateType">委托类型</param>
         /// <returns></returns>
-        public Delegate Complie(string className, string content, string methodName, Type delegateType, object binder=null)
+        public Delegate Complie(string className, string content, string methodName, Type delegateType, object binder = null)
         {
 
             return GetDelegateByScript(content, className, methodName, delegateType, binder);
@@ -39,7 +39,7 @@ namespace Natasha.Complier
         /// <param name="methodName">方法名</param>
         /// <param name="delegateType">委托类型</param>
         /// <returns></returns>
-        public Delegate Complie<T>(string className, string content, string methodName, object binder) where T : Delegate
+        public Delegate Complie<T>(string className, string content, string methodName, object binder = null) where T : Delegate
         {
 
             return GetDelegateByScript<T>(content, className, methodName, binder);

@@ -56,7 +56,7 @@ namespace Natasha
             tempBuilder.Using(info.ElementType).Using(info.DeclaringType).Using(typeof(HashSet<>)); ;
             SnapshotCache[info.ElementType] = tempBuilder
                         .Using("Natasha")
-                        .ClassName("NatashaSnapshot" + info.DeclaringAvailableName)
+                        .OopName("NatashaSnapshot" + info.DeclaringAvailableName)
                         .MethodName("Compare")
                         .Param(info.ElementType, OldInstance)
                         .Param(info.ElementType, NewInstance)
@@ -99,7 +99,7 @@ namespace Natasha
             tempBuilder.Using(info.ElementType).Using(info.DeclaringTypeName).Using(typeof(HashSet<>)); ;
             SnapshotCache[info.ElementType] = tempBuilder
                         .Using("Natasha")
-                        .ClassName("NatashaSnapshot" + info.DeclaringAvailableName)
+                        .OopName("NatashaSnapshot" + info.DeclaringAvailableName)
                         .MethodName("Compare")
                         .Param(info.ElementType, OldInstance)
                         .Param(info.ElementType, NewInstance)
@@ -205,7 +205,7 @@ namespace Natasha
             tempBuilder.Using(info.DeclaringType).Using(typeof(HashSet<>)); ;
             SnapshotCache[info.DeclaringType] = tempBuilder
                         .Using("Natasha")
-                        .ClassName("NatashaSnapshot" + info.DeclaringAvailableName)
+                        .OopName("NatashaSnapshot" + info.DeclaringAvailableName)
                         .MethodName("Compare")
                         .Param(info.DeclaringType, OldInstance)
                         .Param(info.DeclaringType, NewInstance)
@@ -239,7 +239,7 @@ namespace Natasha
             tempBuilder.Using(info.DeclaringType).Using(typeof(HashSet<>)); ;
             SnapshotCache[info.DeclaringType] = tempBuilder
                         .Using("Natasha")
-                        .ClassName("NatashaSnapshot" + info.DeclaringAvailableName)
+                        .OopName("NatashaSnapshot" + info.DeclaringAvailableName)
                         .MethodName("Compare")
                         .Param(info.DeclaringType, OldInstance)
                         .Param(info.DeclaringType, NewInstance)
@@ -342,7 +342,7 @@ namespace Natasha
             //创建委托
             MethodHandler.Complier.UseFileComplie();
             var @delegate = MethodHandler
-                        .ClassName("NatashaSnapshot" + CurrentType.GetAvailableName())
+                        .OopName("NatashaSnapshot" + CurrentType.GetAvailableName())
                         .MethodName("Compare")
                         .Param(CurrentType, NewInstance)
                         .Param(CurrentType, OldInstance)

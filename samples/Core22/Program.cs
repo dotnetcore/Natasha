@@ -45,7 +45,7 @@ namespace Core22
              */
 
             OopOperator<TestAbstract> abstractBuilder = new OopOperator<TestAbstract>();
-            abstractBuilder.ClassName("UTestClass");
+            abstractBuilder.OopName("UTestClass");
             abstractBuilder["GetName"] = "return Name;";
             abstractBuilder["GetAge"] = "return Age;";
             abstractBuilder.Compile();

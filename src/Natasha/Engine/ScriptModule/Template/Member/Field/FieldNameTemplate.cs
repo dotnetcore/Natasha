@@ -3,18 +3,16 @@ using System.Reflection;
 
 namespace Natasha.Template
 {
-    public class FieldNameTemplate<T>: MemberModifierTemplate<T>
+    public class FieldNameTemplate<T>: FieldTypeTemplate<T>
     {
 
-        public string FieldName;
+        public string FieldNameScript;
 
 
-
-
-        public T Name(string name)
+        public T FieldName(string name)
         {
 
-            FieldName = name;
+            FieldNameScript = name;
             return Link;
 
         }
@@ -22,31 +20,10 @@ namespace Natasha.Template
 
 
 
-        public T Name(Type type)
+        public T FieldName(MemberInfo info)
         {
 
-            FieldName = type.GetDevelopName();
-            return Link;
-
-        }
-
-
-
-
-        public T Name<S>()
-        {
-
-            return Name(typeof(S));
-
-        }
-
-
-
-
-        public T Name(MemberInfo info)
-        {
-
-            FieldName = info.Name;
+            FieldNameScript = info.Name;
             return Link;
 
         }
@@ -58,7 +35,8 @@ namespace Natasha.Template
         {
 
             base.Builder();
-            _script.Append(FieldName);
+            _script.Append(FieldNameScript);
+            _script.Append(';');
             return Link;
 
         }

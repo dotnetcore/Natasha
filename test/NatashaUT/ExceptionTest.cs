@@ -14,18 +14,17 @@ namespace NatashaUT
         [Fact(DisplayName = "类构造-程序集异常")]
         public void Test1()
         {
-            ClassBuilder builder = new ClassBuilder();
-            var script = builder
+            OopBuilder builder = new OopBuilder();
+            builder
                 .Using<DynamicBuilderTest>()
                 .Namespace("TestNamespace")
-                .ClassAccess(AccessTypes.Public)
-                .ClassModifier(Modifiers.Static)
-                .ClassName("TestExceptionUt1")
-                .ClassBody(@"public static void 1 Test(){}")
+                .OopAccess(AccessTypes.Public)
+                .OopModifier(Modifiers.Static)
+                .OopName("TestExceptionUt1")
+                .OopBody(@"public static void 1 Test(){}")
                 .PublicStaticField<string>("Name")
                 .PrivateStaticField<int>("_age")
-                .Builder()
-                .Script;
+                .Builder();
             var type = builder.GetType();
             Assert.Null(type);
             Assert.Equal(ComplieError.Assembly, builder.Complier.Exception.ErrorFlag);
@@ -37,21 +36,20 @@ namespace NatashaUT
         [Fact(DisplayName = "结构体构造-程序集异常")]
         public void Test2()
         {
-            ClassBuilder builder = new ClassBuilder();
-            var script = builder
+            OopBuilder builder = new OopBuilder();
+            builder
                 .Using<DynamicBuilderTest>()
                 .Namespace("TestNamespace")
                 .ChangeToStruct()
-                .ClassAccess(AccessTypes.Public)
-                .ClassModifier(Modifiers.Static)
-                .ClassName("TestExceptionUt2")
-                .ClassBody(@"public static void 1 Test(){}")
+                .OopAccess(AccessTypes.Public)
+                .OopModifier(Modifiers.Static)
+                .OopName("TestExceptionUt2")
+                .OopBody(@"public static void 1 Test(){}")
                 .PublicStaticField<string>("Name")
                 .PrivateStaticField<int>("_age")
-                .Builder()
-                .Script;
+                .Builder();
             var type = builder.GetType();
-            Assert.True(builder.IsStruct);
+            Assert.Equal(OopType.Struct ,builder.OopTypeEnum);
             Assert.Null(type);
             Assert.Equal(ComplieError.Assembly, builder.Complier.Exception.ErrorFlag);
         }

@@ -15,21 +15,17 @@
         /// <typeparam name="T"></typeparam>
         /// <param name="template"></param>
         /// <returns></returns>
-        public CtorTemplate UseTemplate<T>(ClassContentTemplate<T> template)
+        public CtorTemplate UseTemplate<T>(OopContentTemplate<T> template)
         {
 
             //类名即方法名
-            MethodNameScript = template.ClassNameScript;
+            MethodNameScript = template.OopNameScript;
 
 
             //如果是静态的使用静态初始化
-            if (template.ClassModifierScript=="static ")
+            if (template.OopModifierScript=="static ")
             {
                 MemberModifierScript = "static ";
-            }
-            else
-            {
-                MemberAccessScript = template.ClassAccessScript;
             }
 
 

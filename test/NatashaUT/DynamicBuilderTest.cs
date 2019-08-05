@@ -3,21 +3,21 @@ using Xunit;
 
 namespace NatashaUT
 {
-    [Trait("快速构建", "类")]
+    [Trait("快速构建", "类/结构体/接口")]
     public class DynamicBuilderTest
     {
 
         [Fact(DisplayName = "Builder测试1")]
         public void TestBuilder1()
         {
-            ClassBuilder builder = new ClassBuilder();
+            OopBuilder builder = new OopBuilder();
             var script = builder
                 .Using<DynamicBuilderTest>()
                 .Namespace("TestNamespace")
-                .ClassAccess(AccessTypes.Public)
-                .ClassModifier(Modifiers.Static)
-                .ClassName("TestUt1")
-                .ClassBody(@"public static void Test(){}")
+                .OopAccess(AccessTypes.Public)
+                .OopModifier(Modifiers.Static)
+                .OopName("TestUt1")
+                .OopBody(@"public static void Test(){}")
                 .PublicStaticField<string>("Name")
                 .PrivateStaticField<int>("_age")
                 .Builder()
@@ -32,18 +32,18 @@ namespace NatashaUT
         [Fact(DisplayName = "Builder测试2")]
         public void TestBuilder2()
         {
-            ClassBuilder builder = new ClassBuilder();
+            OopBuilder builder = new OopBuilder();
             var script = builder
                 .Namespace("TestNamespace")
-                .ClassAccess(AccessTypes.Private)
-                .ClassModifier(Modifiers.Abstract)
-                .ClassName("TestUt2")
-                .ClassBody(@"public static void Test(){}")
+                .ChangeToStruct()
+                .OopAccess(AccessTypes.Private)
+                .OopName("TestUt2")
+                .OopBody(@"public static void Test(){}")
                 .PublicStaticField<string>("Name")
                 .PrivateStaticField<int>("_age")
                 .Builder().Script;
 
-            Assert.Equal(@"using System;namespace TestNamespace{private abstract class TestUt2{public static String Name;private static Int32 _age;public static void Test(){}}}", script);
+            Assert.Equal(@"using System;namespace TestNamespace{private struct TestUt2{public static String Name;private static Int32 _age;public static void Test(){}}}", script);
         }
 
 
@@ -51,21 +51,22 @@ namespace NatashaUT
         [Fact(DisplayName = "Builder测试3")]
         public void TestBuilder3()
         {
-            ClassBuilder builder = new ClassBuilder();
+            OopBuilder builder = new OopBuilder();
             var script = builder
                 .Namespace<string>()
-                .ClassAccess("")
-                .ClassName("TestUt3")
+                .OopAccess("")
+                .OopName("TestUt3")
+                .ChangeToInterface()
                 .Ctor(item=>item
                     .MemberAccess("public")
                     .Param<string>("name")
                     .Body("this.Name=name;"))
-                .ClassBody(@"public static void Test(){}")
+                .OopBody(@"public static void Test(){}")
                 .PublicStaticField<string>("Name")
                 .PrivateStaticField<int>("_age")
                 .Builder().Script;
 
-            Assert.Equal(@"using System;namespace System{class TestUt3{public static String Name;private static Int32 _age;public static void Test(){}public TestUt3(String name){this.Name=name;}}}", script);
+            Assert.Equal(@"using System;namespace System{interface TestUt3{public static String Name;private static Int32 _age;public static void Test(){}public TestUt3(String name){this.Name=name;}}}", script);
         }
 
     }

@@ -2,21 +2,21 @@
 
 namespace Natasha.Template
 {
-    public class ClassContentTemplate<T>: ClassMethodTemplate<T>
+    public class OopContentTemplate<T>: OopMethodTemplate<T>
     {
 
-        public StringBuilder ClassContentScript;
+        public StringBuilder OopContentScript;
 
 
-        public ClassContentTemplate() => ClassContentScript = new StringBuilder();
+        public OopContentTemplate() => OopContentScript = new StringBuilder();
 
 
 
 
-        public T ClassBody(StringBuilder text)
+        public T OopBody(StringBuilder text)
         {
 
-            ClassContentScript.Append(text);
+            OopContentScript.Append(text);
             return Link;
 
         }
@@ -24,10 +24,10 @@ namespace Natasha.Template
 
 
 
-        public T ClassBody(string text)
+        public T OopBody(string text)
         {
 
-            ClassContentScript.Append(text);
+            OopContentScript.Append(text);
             return Link;
 
         }
@@ -40,7 +40,7 @@ namespace Natasha.Template
 
             _script.Clear();
             base.Builder();
-            _script.Append(ClassContentScript);
+            _script.Append(OopContentScript);
             _script.Append("}");
 
             if (!HiddenNamesapce)

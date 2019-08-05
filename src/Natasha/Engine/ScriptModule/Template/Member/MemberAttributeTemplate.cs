@@ -8,18 +8,33 @@ namespace Natasha.Template
 
         public readonly StringBuilder MemberAttributeScript;
 
+        public MemberAttributeTemplate() => MemberAttributeScript = new StringBuilder();
 
-        public T Attribute<A>(string ctorInfo=default)
+
+
+
+        public T MemberAttribute(string attrInfo = default)
         {
 
-            return Attribute(typeof(A), ctorInfo);
+            MemberAttributeScript.AppendLine(attrInfo);
+            return Link;
 
         }
 
 
 
 
-        public T Attribute(Type type,string ctorInfo = default)
+        public T MemberAttribute<A>(string ctorInfo=default)
+        {
+
+            return MemberAttribute(typeof(A), ctorInfo);
+
+        }
+
+
+
+
+        public T MemberAttribute(Type type,string ctorInfo = default)
         {
 
             UsingRecoder.Add(type);
