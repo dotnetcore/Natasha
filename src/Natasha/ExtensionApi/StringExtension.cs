@@ -12,5 +12,11 @@ namespace Natasha.Method
         {
             return DelegateOperator<T>.Create(instance, types);
         }
+        public static FastMethodOperator FastOperator(this string instance, params Type[] types)
+        {
+            var builder = FastMethodOperator.New;
+            builder.UsingRecoder.Add(types);
+            return builder.MethodBody(instance);
+        }
     }
 }

@@ -2,6 +2,7 @@
 using NatashaUT.Model;
 using System;
 using Xunit;
+using Natasha.Method;
 
 namespace NatashaUT
 {
@@ -30,6 +31,26 @@ namespace NatashaUT
 
 
 
+        [Fact(DisplayName = "扩展强转委托")]
+        public static void RunDelegate3()
+        {
+            var delegateAction = @"
+                            string result = str1 +"" ""+ str2;
+                            Console.WriteLine(result);
+                            return result;"
+                        .FastOperator()
+                        .Param<string>("str1")
+                        .Param<string>("str2")
+                        .Return<string>()
+                .Complie();
+
+            string result = ((Func<string, string, string>)delegateAction)?.Invoke("Hello", "World1!");
+            Assert.Equal("Hello World1!", result);
+        }
+
+
+
+
         [Fact(DisplayName = "自动泛型委托")]
         public static void RunDelegate2()
         {
@@ -46,6 +67,26 @@ namespace NatashaUT
 
             string result = delegateAction?.Invoke("Hello", "World2!");
            Assert.Equal("Hello World2!",result);
+        }
+
+
+
+
+        [Fact(DisplayName = "扩展泛型委托")]
+        public static void RunDelegate4()
+        {
+            var delegateAction = @"
+                            string result = str1 +"" ""+ str2;
+                            Console.WriteLine(result);
+                            return result;"
+                        .FastOperator()
+                        .Param<string>("str1")
+                        .Param<string>("str2")
+                        .Return<string>()
+                .Complie<Func<string, string, string>>();
+
+            string result = delegateAction?.Invoke("Hello", "World2!");
+            Assert.Equal("Hello World2!", result);
         }
 
 
