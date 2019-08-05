@@ -103,13 +103,14 @@
   
 ```C#
 var action = FastMethodOperator.New
+             .UseAsync()
              .Param<string>("str1")
              .Param(typeof(string),"str2")
              .MethodBody("return str1+str2;")
-             .Return<string>()
-             .Complie<Func<string,string,string>>();
+             .Return<Task<string>>()
+             .Complie<Func<string,string,Task<string>>>();
                     
-string result = action("Hello ","World!");    //result:   "Hello World!"
+await action("Hello ","World!");    //result:   "Hello World!"
 ```
 <br/>
 <br/>  
