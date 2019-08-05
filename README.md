@@ -47,6 +47,7 @@
  - 2019-08-01 ： 发布v1.0.0.0, 发布稳如老狗版，抛弃Emit农耕铲，端起Roslyn金饭碗。  
  - 2019-08-02 ： 发布v1.0.4.0，支持异步方法还原与构造，增加注解构建。
  - 2019-08-04 ： 发布v1.1.0.0，优化编译引擎，区分OS字符，增加异常捕获。
+ - 2019-08-05 ： 发布v1.2.0.0，支持类/结构体/接口的编译，支持字段模板，增加string扩展。
 
  <br/>  
  
@@ -105,10 +106,33 @@ var action = FastMethodOperator.New
              .Param<string>("str1")
              .Param(typeof(string),"str2")
              .MethodBody("return str1+str2;")
-             .Return<string>()
+             .Return<Task<string>>()
              .Complie<Func<string,string,string>>();
                     
-string result = action("Hello ","World!");    //result:   "Hello World!"
+var result = action("Hello ","World!");    //result:   "Hello World!"
+
+
+//增强实现与异步支持
+
+
+//Complie<T>方法会检测参数以及返回类型，如果其中有任何一处没有指定，那么Complie方法会使用自己默认的参数或者返回值进行填充
+var delegateAction = FastMethodOperator.New
+
+       .UseAsync()
+       .MethodBody(@"
+               await Task.Delay(100);
+               string result = arg1 +"" ""+ arg2;  //如果是Action<int> 这种带有1个参数的，请使用"arg".
+               Console.WriteLine(result);
+               return result;")
+
+       .Complie<Func<string, string, Task<string>>>();
+
+string result = await delegateAction?.Invoke("Hello", "World2!");   //result:   "Hello World2!"
+
+
+//另外如果想使用异步方法，请使用UseAsync方法,或者AsyncFrom<Class>(methodName)这两种方法。
+//返回的参数需要您指定Task<>,以便运行时异步调用，记得外面那层方法要有async关键字哦。
+
 ```
 <br/>
 <br/>  

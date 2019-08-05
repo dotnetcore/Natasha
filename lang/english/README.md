@@ -47,6 +47,7 @@ Make your dynamic approach easier to write, track, and maintain.  Welcome to dis
  - 2019-08-01 ： Publish v1.0.0.0, The first official stable version.  
  - 2019-08-02 ： Publish v1.0.4.0，Support asynchronous methods, support attributes.
  - 2019-08-04 ： Publish v1.1.0.0，Optimize the compilation engine, distinguish OS characters, and increase exception capture.
+ - 2019-08-05 ： Publish v1.2.0.0，Support for compiling class/interface/struct, add FieldTemplate, add string extension method.  
  
  <br/>  
  
@@ -105,6 +106,32 @@ var action = FastMethodOperator.New
              .Complie<Func<string,string,string>>();
                     
 string result = action("Hello ","World!");    //result:   "Hello World!"
+
+
+
+
+//Enhanced implementation and asynchronous support
+
+
+//Complie<T> ： This method detects the parameters and the return type, and if any of them is not specified, the Complie method populates it with its own default parameter or return value
+
+var delegateAction = FastMethodOperator.New
+
+       .UseAsync()
+       .MethodBody(@"
+               await Task.Delay(100);
+               string result = arg1 +"" ""+ arg2;  //If it is a Action < int > with 1 parameter, use "arg".
+               Console.WriteLine(result);
+               return result;")
+
+       .Complie<Func<string, string, Task<string>>>();
+
+string result = await delegateAction?.Invoke("Hello", "World2!");   //result:   "Hello World2!"
+
+
+//If you want to use asynchronous methods, use either the UseAsync method or the AsyncFrom<Class>(methodName) method.
+//The returned parameter requires you to specify Task < >. Remember that the outer layer method should have the async keyword.
+
 ```
 <br/>
 <br/>  
