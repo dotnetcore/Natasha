@@ -210,7 +210,18 @@ Example:
         var action = typeof(AddOne).Create("return value + 1;");
         var result = action(9);
         //result : 10
+
+
+        //use string exntesion method.
+         @"string result = str1 +"" ""+ str2;
+           Console.WriteLine(result);
+           return result;".FastOperator()
+               .Param<string>("str1")
+               .Param<string>("str2")
+               .Return<string>()
+               .Complie<Func<string, string, string>>()
 ```
+
 <br/>
 <br/>    
  
