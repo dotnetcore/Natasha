@@ -18,18 +18,18 @@ namespace Natasha.Template
             ParametersMappings = new List<KeyValuePair<Type, string>>();
         }
 
-        public T Parameter(MethodInfo info)
+        public T Param(MethodInfo info)
         {
             UsingRecoder.Add(info);
             ParametersScript = DeclarationReverser.GetParameters(info).ToString();
             return Link;
         }
-        public T Parameter(string parameters)
+        public T Param(string parameters)
         {
             ParametersScript = parameters;
             return Link;
         }
-        public T Parameter(IEnumerable<KeyValuePair<Type, string>> parameters)
+        public T Param(IEnumerable<KeyValuePair<Type, string>> parameters)
         {
             UsingRecoder.Add(parameters.Select(item => item.Key));
             ParametersScript = DeclarationReverser.GetParameters(parameters).ToString(); ;
@@ -69,7 +69,7 @@ namespace Natasha.Template
         {
             if (ParametersScript == null)
             {
-                Parameter(ParametersMappings);
+                Param(ParametersMappings);
             }
             StringBuilder temp = new StringBuilder();
             temp.Append($@"{ParametersScript}

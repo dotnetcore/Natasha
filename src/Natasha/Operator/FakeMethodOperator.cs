@@ -79,8 +79,8 @@ namespace Natasha
 
 
             MethodAccess(_temp_info)
-            .Async(_temp_info)
-            .Parameter(_temp_info)
+            .AsyncFrom(_temp_info)
+            .Param(_temp_info)
             .MethodBody(content)
             .Return(_temp_info);
 
@@ -109,10 +109,10 @@ namespace Natasha
 
 
             OopModifier(Modifiers.Static)
-            .Async(_temp_info)
+            .AsyncFrom(_temp_info)
             .MethodAccess(_temp_info)
             .MethodModifier(Modifiers.Static)
-            .Parameter(_temp_info)
+            .Param(_temp_info)
             .MethodBody(content)
             .Return(_temp_info);
 

@@ -33,6 +33,31 @@ namespace Natasha
 
         }
 
+
+
+        public override T Complie<T>(object binder = null)
+        {
+
+            var method = typeof(T).GetMethod("Invoke");
+            if (ParametersScript == default)
+            {
+
+                
+                Param(method);
+
+            }
+
+
+            if (ReturnScript == default)
+            {
+
+                Return(method.ReturnType);
+
+            }
+            return base.Complie<T>(binder);
+
+        }
+
     }
 
 }

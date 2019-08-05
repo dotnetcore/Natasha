@@ -18,10 +18,22 @@ namespace Natasha.Template
 
 
 
-        public T Async(MethodInfo info)
+        public T AsyncFrom(MethodInfo info)
         {
 
             OnceAsyncScript = AsyncReverser.GetAsync(info);
+            return Link;
+
+        }
+
+
+
+
+        public T AsyncFrom<S>(string info)
+        {
+
+            var method = typeof(S).GetMethod(info);
+            OnceAsyncScript = AsyncReverser.GetAsync(method);
             return Link;
 
         }
