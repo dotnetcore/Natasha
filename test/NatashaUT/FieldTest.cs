@@ -23,12 +23,11 @@ namespace NatashaUT
                 .Builder().Script;
             if (Environment.OSVersion.Platform == PlatformID.Unix)
             {
-                Assert.Equal(@"[Test]\npublic static String Name;", result);
+                Assert.Equal("[Test]\npublic static String Name;", result);
             }
             else
             {
-                Assert.Equal(@"[Test]
-public static String Name;", result);
+                Assert.Equal("[Test]\r\npublic static String Name;", result);
             }
             
         }
@@ -48,12 +47,11 @@ public static String Name;", result);
                 .Builder().Script;
             if (Environment.OSVersion.Platform == PlatformID.Unix)
             {
-                Assert.Equal(@"[Test][Test1]\npublic static Int32 Age;", result);
+                Assert.Equal("[Test][Test1]\npublic static Int32 Age;", result);
             }
             else
             {
-                Assert.Equal(@"[Test][Test1]
-public static Int32 Age;", result);
+                Assert.Equal("[Test][Test1]\r\npublic static Int32 Age;", result);
             }
             
         }
@@ -73,12 +71,11 @@ public static Int32 Age;", result);
                 .Builder().Script;
             if (Environment.OSVersion.Platform == PlatformID.Unix)
             {
-                Assert.Equal(@"[Test]\npublic String Name;", result);
+                Assert.Equal("[Test]\npublic String Name;", result);
             }
             else
             {
-                Assert.Equal(@"[Test]
-public String Name;", result);
+                Assert.Equal("[Test]\r\npublic String Name;", result);
             }
             
         }
@@ -98,12 +95,11 @@ public String Name;", result);
 
             if (Environment.OSVersion.Platform == PlatformID.Unix)
             {
-                Assert.Equal(@"[ClassDataAttribute]\npublic String Name;", result);
+                Assert.Equal("[ClassDataAttribute]\npublic String Name;", result);
             }
             else
             {
-                Assert.Equal(@"[ClassDataAttribute]
-public String Name;", result);
+                Assert.Equal("[ClassDataAttribute]\r\npublic String Name;", result);
             }
             
         }
