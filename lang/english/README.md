@@ -47,6 +47,7 @@ Make your dynamic approach easier to write, track, and maintain.  Welcome to dis
  - 2019-08-01 ： Publish v1.0.0.0, The first official stable version.  
  - 2019-08-02 ： Publish v1.0.4.0，Support asynchronous methods, support attributes.
  - 2019-08-04 ： Publish v1.1.0.0，Optimize the compilation engine, distinguish OS characters, and increase exception capture.
+ - 2019-08-05 ： Publish v1.2.0.0，Support for compiling class/interface/struct, add FieldTemplate, add string extension method.  
  
  <br/>  
  
