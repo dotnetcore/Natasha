@@ -39,7 +39,7 @@ namespace Natasha
         {
 
             var method = typeof(T).GetMethod("Invoke");
-            if (ParametersScript == default)
+            if (ParametersMappings.Count == 0)
             {
 
                 

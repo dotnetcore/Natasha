@@ -9,6 +9,7 @@ namespace Natasha.Template
     public class OnceMethodParametersTemplate<T>: OnceMethodNameTemplate<T>
     {
         public readonly List<KeyValuePair<Type, string>> ParametersMappings;
+        private MethodInfo _methodInfo;
         public readonly List<Type> ParametersTypes;
         public string ParametersScript;
 
@@ -18,23 +19,48 @@ namespace Natasha.Template
             ParametersMappings = new List<KeyValuePair<Type, string>>();
         }
 
+
+
+
         public T Param(MethodInfo info)
         {
-            UsingRecoder.Add(info);
-            ParametersScript = DeclarationReverser.GetParameters(info).ToString();
+            _methodInfo = info;
+            var parameters = info.GetParameters();
+            for (int i = 0; i < parameters.Length; i+=1)
+            {
+                Param(parameters[i].ParameterType, parameters[i].Name);
+            }
             return Link;
+
         }
+
+
+
+
         public T Param(string parameters)
         {
             ParametersScript = parameters;
             return Link;
         }
-        public T Param(IEnumerable<KeyValuePair<Type, string>> parameters)
+
+
+
+
+        internal void GetParams(IEnumerable<KeyValuePair<Type, string>> parameters)
         {
-            UsingRecoder.Add(parameters.Select(item => item.Key));
-            ParametersScript = DeclarationReverser.GetParameters(parameters).ToString(); ;
-            return Link;
+            if (_methodInfo==null)
+            {
+                ParametersScript = DeclarationReverser.GetParameters(parameters).ToString();
+            }
+            else
+            {
+                ParametersScript = DeclarationReverser.GetParameters(_methodInfo).ToString();
+            }
+            
         }
+
+
+
 
         /// <summary>
         /// 添加参数
@@ -46,6 +72,9 @@ namespace Natasha.Template
         {
             return Param(typeof(S), key);
         }
+
+
+
 
         /// <summary>
         /// 添加参数
@@ -69,7 +98,7 @@ namespace Natasha.Template
         {
             if (ParametersScript == null)
             {
-                Param(ParametersMappings);
+                GetParams(ParametersMappings);
             }
             StringBuilder temp = new StringBuilder();
             temp.Append($@"{ParametersScript}
