@@ -1,5 +1,6 @@
 ﻿using Natasha;
 using Natasha.Builder;
+using System;
 using Xunit;
 
 namespace NatashaUT
@@ -20,9 +21,16 @@ namespace NatashaUT
                 .FieldName("Name")
                 .FieldType<string>()
                 .Builder().Script;
-
-            Assert.Equal(@"[Test]
+            if (Environment.OSVersion.Platform == PlatformID.Unix)
+            {
+                Assert.Equal(@"[Test]\npublic static String Name;", result);
+            }
+            else
+            {
+                Assert.Equal(@"[Test]
 public static String Name;", result);
+            }
+            
         }
 
 
@@ -38,9 +46,16 @@ public static String Name;", result);
                 .FieldName("Age")
                 .FieldType(typeof(int))
                 .Builder().Script;
-
-            Assert.Equal(@"[Test][Test1]
+            if (Environment.OSVersion.Platform == PlatformID.Unix)
+            {
+                Assert.Equal(@"[Test][Test1]\npublic static Int32 Age;", result);
+            }
+            else
+            {
+                Assert.Equal(@"[Test][Test1]
 public static Int32 Age;", result);
+            }
+            
         }
 
 
@@ -56,9 +71,16 @@ public static Int32 Age;", result);
                 .FieldName("Name")
                 .FieldType<string>()
                 .Builder().Script;
-
-            Assert.Equal(@"[Test]
+            if (Environment.OSVersion.Platform == PlatformID.Unix)
+            {
+                Assert.Equal(@"[Test]\npublic String Name;", result);
+            }
+            else
+            {
+                Assert.Equal(@"[Test]
 public String Name;", result);
+            }
+            
         }
 
 
@@ -74,8 +96,16 @@ public String Name;", result);
                 .FieldType<string>()
                 .Builder().Script;
 
-            Assert.Equal(@"[ClassDataAttribute]
+            if (Environment.OSVersion.Platform == PlatformID.Unix)
+            {
+                Assert.Equal(@"[ClassDataAttribute]\npublic String Name;", result);
+            }
+            else
+            {
+                Assert.Equal(@"[ClassDataAttribute]
 public String Name;", result);
+            }
+            
         }
 
     }
