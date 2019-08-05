@@ -1,8 +1,8 @@
-## Natasha  封装规约
+# Natasha  封装规约
 
 <br/>
 
-## 1、一个完整的Operator
+## 一个完整的Operator
 
 完整的Operator包括三部分：
 
@@ -13,7 +13,7 @@
 <br/>
 
 
-### 脚本构建器（Builder）  
+## 脚本构建器（Builder）  
 
 Builder分为两部分 模板与编译器
  
