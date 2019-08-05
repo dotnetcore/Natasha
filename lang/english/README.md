@@ -114,18 +114,18 @@ string result = action("Hello ","World!");    //result:   "Hello World!"
 
 
 //Complie<T> ： This method detects the parameters and the return type, and if any of them is not specified, the Complie method populates it with its own default parameter or return value
-
+//If it is a Action < int > with 1 parameter, use "arg".
 var delegateAction = FastMethodOperator.New
 
        .UseAsync()
        .MethodBody(@"
                await Task.Delay(100);
-               string result = arg1 +"" ""+ arg2;  //If it is a Action < int > with 1 parameter, use "arg".
+               string result = arg1 +"" ""+ arg2;  
                Console.WriteLine(result);
                return result;")
 
        .Complie<Func<string, string, Task<string>>>();
-
+  
 string result = await delegateAction?.Invoke("Hello", "World2!");   //result:   "Hello World2!"
 
 
@@ -139,12 +139,16 @@ string result = await delegateAction?.Invoke("Hello", "World2!");   //result:   
 #### Fast implementation of delegation using DelegateOperator：  
 
 ```C# 
+
 //Define a delegate
 public delegate string GetterDelegate(int value);
+     
+     
      
 //Usage 1    
 var action = DelegateOperator<GetterDelegate>.Create("value += 101; return value.ToString();");
 string result = action(1);              //result: "102"
+
 
 
 //Usage 2
