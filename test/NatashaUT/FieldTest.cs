@@ -21,7 +21,8 @@ namespace NatashaUT
                 .FieldType<string>()
                 .Builder().Script;
 
-            Assert.Equal(@"[Test]\r\npublic static String Name;", result);
+            Assert.Equal(@"[Test]
+public static String Name;", result);
         }
 
 
@@ -38,7 +39,8 @@ namespace NatashaUT
                 .FieldType(typeof(int))
                 .Builder().Script;
 
-            Assert.Equal(@"[Test][Test1]\r\npublic static Int32 Age;", result);
+            Assert.Equal(@"[Test][Test1]
+public static Int32 Age;", result);
         }
 
 
@@ -55,7 +57,8 @@ namespace NatashaUT
                 .FieldType<string>()
                 .Builder().Script;
 
-            Assert.Equal(@"[Test]\r\npublic String Name;", result);
+            Assert.Equal(@"[Test]
+public String Name;", result);
         }
 
 
@@ -71,7 +74,8 @@ namespace NatashaUT
                 .FieldType<string>()
                 .Builder().Script;
 
-            Assert.Equal(@"[ClassDataAttribute]\r\npublic String Name;", result);
+            Assert.Equal(@"[ClassDataAttribute]
+public String Name;", result);
         }
 
     }
