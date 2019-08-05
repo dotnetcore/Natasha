@@ -106,6 +106,32 @@ var action = FastMethodOperator.New
              .Complie<Func<string,string,string>>();
                     
 string result = action("Hello ","World!");    //result:   "Hello World!"
+
+
+
+
+//Enhanced implementation and asynchronous support
+
+
+//Complie<T> ： This method detects the parameters and the return type, and if any of them is not specified, the Complie method populates it with its own default parameter or return value
+
+var delegateAction = FastMethodOperator.New
+
+       .UseAsync()
+       .MethodBody(@"
+               await Task.Delay(100);
+               string result = arg1 +"" ""+ arg2;  //If it is a Action < int > with 1 parameter, use "arg".
+               Console.WriteLine(result);
+               return result;")
+
+       .Complie<Func<string, string, Task<string>>>();
+
+string result = await delegateAction?.Invoke("Hello", "World2!");   //result:   "Hello World2!"
+
+
+//If you want to use asynchronous methods, use either the UseAsync method or the AsyncFrom<Class>(methodName) method.
+//The returned parameter requires you to specify Task < >. Remember that the outer layer method should have the async keyword.
+
 ```
 <br/>
 <br/>  
