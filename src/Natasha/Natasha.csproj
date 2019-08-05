@@ -7,12 +7,13 @@
     <Copyright>.NET Core Community and Contributors</Copyright>
     <PackageId>DotNetCore.Natasha</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <PackageReleaseNotes>- 区分OS分隔符
-- 增加异常捕获
-- 优化引擎结构
-- 增强编译器的实现
-- 改ComplierOption为Complier</PackageReleaseNotes>
-    <Version>1.1.0</Version>
+    <PackageReleaseNotes>- 增加字符串扩展方法，FastOperator.
+- 修改Class操作为Oop操作，例如ClassBuilder -&gt; OopBuilder。
+- 优化模板结构。
+- Oop模板支持类、结构体、接口多种构建方式。
+- 增加字段模板。
+- FastMethodOperator的Complie&lt;&gt;方法增加智能参数/返回值检测/补齐。</PackageReleaseNotes>
+    <Version>1.2.0</Version>
     <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
     <PackageTags>Roslyn ; IL ; Scripte ; Dynamic ; </PackageTags>
@@ -20,8 +21,8 @@
     <Company>.NET Core Community</Company>
     <PackageIconUrl>https://avatars2.githubusercontent.com/u/19404084</PackageIconUrl>
     <Authors>NMSAzulX</Authors>
-    <FileVersion>1.1.0.0</FileVersion>
-    <AssemblyVersion>1.1.0.0</AssemblyVersion>
+    <FileVersion>1.2.0.0</FileVersion>
+    <AssemblyVersion>1.2.0.0</AssemblyVersion>
   </PropertyGroup>
 
 
