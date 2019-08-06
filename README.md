@@ -108,6 +108,29 @@ Teng(359768998@qq.com)
 
 ```C#
 
+//dll 中的内容：
+using System;
+
+namespace ClassLibrary1
+{
+    public class Class1
+    {
+        public void Show1()
+        {
+            Console.WriteLine("RunShow1");
+        }
+
+        public static void Show2()
+        {
+            Console.WriteLine("RunShow2");
+        }
+    }
+}
+
+```
+
+```C#
+
 string text = @"
     using System;
     using System.Collections;
@@ -129,7 +152,7 @@ string text = @"
             public override string ToString(){
 
                 Class1 a = new Class1();
-               a.Show1();
+                a.Show1();
                 Class1.Show2();
                 return ""11"";
 
