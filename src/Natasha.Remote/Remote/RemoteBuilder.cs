@@ -8,7 +8,8 @@ namespace Natasha.Remote
         {
             set
             {
-                Type type = RuntimeComplier.GetClassType(value);
+                OopComplier oop = new OopComplier();
+                Type type = oop.GetClassType(value);
                 RemoteWritter.ComplieToRemote(type);
             }
         }

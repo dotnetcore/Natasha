@@ -19,6 +19,7 @@ namespace Core21
 using System.Collections;
 using System.Linq;
 using System.Text;
+using ClassLibrary1;
  
 namespace HelloWorld
 {
@@ -30,11 +31,23 @@ namespace HelloWorld
 
         public string Name;
         public int Age{get;set;}
+
+        public override string ToString(){
+
+            Class1 a = new Class1();
+            a.Show1();
+            Class1.Show2();
+            return ""11"";
+
+        }
     }
 }";
             //根据脚本创建动态类
-            Type type = RuntimeComplier.GetClassType(text);
-            
+            OopComplier oop = new OopComplier();
+            oop.LoadFile(@"D:\Project\IlTest\ClassLibrary1\bin\Debug\netstandard2.0\ClassLibrary1.dll");
+            Type type = oop.GetClassType(text);
+            var a = Activator.CreateInstance(type);
+            Console.WriteLine(a.ToString());
             Console.ReadKey();
         }
     }

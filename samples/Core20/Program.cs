@@ -29,7 +29,8 @@ namespace Core20
     }
 }";
             //根据脚本创建动态类
-            Type type = RuntimeComplier.GetClassType(text);
+            OopComplier oop = new OopComplier();
+            Type type = oop.GetClassType(text);
 
 
             Console.ReadKey();

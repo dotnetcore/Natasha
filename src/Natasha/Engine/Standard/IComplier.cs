@@ -206,6 +206,27 @@ namespace Natasha
 
         }
 
+
+
+        public void LoadFile(string path)
+        {
+
+            try
+            {
+
+                ScriptComplierEngine.LoadFile(path);
+
+            }
+            catch (Exception e)
+            {
+
+                Exception.Message = e.Message;
+                Exception.ErrorFlag = ComplieError.Assembly;
+
+            }
+            
+        }
+
     }
 
 }

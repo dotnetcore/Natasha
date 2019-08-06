@@ -84,8 +84,9 @@ namespace HelloWorld
          public string Name=""1"";
     }
 }";
+            OopComplier oop = new OopComplier();
             //根据脚本创建动态类
-            Type type = RuntimeComplier.GetClassType(text);
+            Type type = oop.GetClassType(text);
 
 
          
@@ -143,6 +144,12 @@ namespace HelloWorld
             }
             stopwatch.Stop();
             Console.WriteLine("Emit:\t" + stopwatch.Elapsed);
+
+
+
+
+
+
 
             Console.ReadKey();
         }
