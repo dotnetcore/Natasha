@@ -63,6 +63,12 @@ Teng(359768998@qq.com)
   
  <br/>  
  
+ ### 微信群  
+ 
+![微信](https://github.com/dotnetcore/Natasha/blob/master/Image/WeChart.png)
+ 
+  <br/>  
+ 
 ---------------------  
  <br/>  
  
