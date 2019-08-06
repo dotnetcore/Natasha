@@ -2,6 +2,7 @@
 using System;
 using Xunit;
 
+
 namespace NatashaUT
 {
     [Trait("快速构建","完整类")]
@@ -87,7 +88,7 @@ namespace HelloWorld{
 using System.Collections;
 using System.Linq;
 using System.Text;
- 
+using System.Collections.Generic;
 namespace HelloWorld
 {
     public class TestIndex1
@@ -99,6 +100,7 @@ namespace HelloWorld
     {
         public string Name;
         public int Age{get;set;}
+        public List<object> ooo;
     }
 
     public class TestIndex3

@@ -437,13 +437,7 @@ namespace Natasha.Complier
                 if (start.Character == end.Character)
                 {
 
-                    if (start.Character != 0)
-                    {
-                        return currentErrorLine.Substring(0, start.Character).Trim();
-                    }
-
-
-                    return currentErrorLine.Substring(0, start.Character - 1).Trim();
+                    return currentErrorLine.Substring(0, start.Character).Trim();
 
                 }
                 else
