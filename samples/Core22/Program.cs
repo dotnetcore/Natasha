@@ -89,7 +89,6 @@ namespace HelloWorld
             Type type = oop.GetClassType(text);
 
 
-         
             DynamicMethod method = new DynamicMethod("GetString", null, new Type[] { typeof(TestB), typeof(string) });
             ILGenerator il = method.GetILGenerator();
             il.Emit(OpCodes.Ldarg_0);

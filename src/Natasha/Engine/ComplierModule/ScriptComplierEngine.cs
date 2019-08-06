@@ -80,11 +80,16 @@ namespace Natasha.Complier
         public static void LoadFile(string path)
         {
 
-            AssemblyLoadContext context = AssemblyLoadContext.Default;
-            var result = context.LoadFromAssemblyPath(path);
-            References.Add(MetadataReference.CreateFromFile(path));
-            DynamicDlls[path] = result;
+            if (!DynamicDlls.ContainsKey(path))
+            {
 
+                AssemblyLoadContext context = AssemblyLoadContext.Default;
+                var result = context.LoadFromAssemblyPath(path);
+                References.Add(MetadataReference.CreateFromFile(path));
+                DynamicDlls[path] = result;
+
+            }
+            
         }
 
 
