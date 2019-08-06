@@ -77,6 +77,82 @@ Teng(359768998@qq.com)
 <br/> 
 
 
+#### Mixed compilation of Script and Dll
+
+```C#
+
+//.dll content：
+using System;
+
+namespace ClassLibrary1
+{
+    public class Class1
+    {
+        public void Show1()
+        {
+            Console.WriteLine("RunShow1");
+        }
+
+        public static void Show2()
+        {
+            Console.WriteLine("RunShow2");
+        }
+    }
+}
+
+```
+
+```C#
+
+string text = @"
+    using System;
+    using System.Collections;
+    using System.Linq;
+    using System.Text;
+    using ClassLibrary1;
+ 
+    namespace HelloWorld
+    {
+       public class Test
+       {
+            public Test(){
+               Name=""111"";
+            }
+
+           public string Name;
+           public int Age{get;set;}
+
+            public override string ToString(){
+
+                Class1 a = new Class1();
+                a.Show1();
+                Class1.Show2();
+                return ""11"";
+
+            }
+       }
+    }";
+    
+//Class1 included ClassLibrary1.dll
+
+
+//add dll files/ complie
+OopComplier oop = new OopComplier();
+oop.LoadFile(@"D:\Project\IlTest\ClassLibrary1\bin\Debug\netstandard2.0\ClassLibrary1.dll");
+Type type = oop.GetClassType(text);
+
+
+//call
+var a = Activator.CreateInstance(type);
+Console.WriteLine(a.ToString());
+
+```
+
+<br/>
+<br/> 
+
+
+
 #### Catch exception：
 
 ```C#
