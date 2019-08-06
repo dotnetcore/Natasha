@@ -41,7 +41,7 @@
 
 <br/>    
 
-### Wiki审核：
+### Wiki审核
 
 Teng(359768998@qq.com)
 
