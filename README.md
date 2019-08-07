@@ -84,6 +84,8 @@ Teng(359768998@qq.com)
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <PreserveCompilationContext>true</PreserveCompilationContext>   <--- 一定要加上这句话
   </PropertyGroup>
+  
+  //如果是web发布，还要加上 <MvcRazorExcludeRefAssembliesFromPublish>false</MvcRazorExcludeRefAssembliesFromPublish>
 ```  
 <br/>
 <br/> 
