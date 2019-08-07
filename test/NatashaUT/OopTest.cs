@@ -5,7 +5,7 @@ using Xunit;
 namespace NatashaUT
 {
     [Trait("快速构建", "类/结构体/接口")]
-    public class DynamicBuilderTest
+    public class OopTest
     {
 
         [Fact(DisplayName = "Builder测试1")]
@@ -13,7 +13,7 @@ namespace NatashaUT
         {
             OopOperator builder = new OopOperator();
             var script = builder
-                .Using<DynamicBuilderTest>()
+                .Using<OopTest>()
                 .Namespace("TestNamespace")
                 .OopAccess(AccessTypes.Public)
                 .OopModifier(Modifiers.Static)

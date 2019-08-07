@@ -17,7 +17,7 @@ namespace NatashaUT
         {
             OopOperator builder = new OopOperator();
             builder
-                .Using<DynamicBuilderTest>()
+                .Using<OopTest>()
                 .Namespace("TestNamespace")
                 .OopAccess(AccessTypes.Public)
                 .OopModifier(Modifiers.Static)
@@ -39,7 +39,7 @@ namespace NatashaUT
         {
             OopOperator builder = new OopOperator();
             builder
-                .Using<DynamicBuilderTest>()
+                .Using<OopTest>()
                 .Namespace("TestNamespace")
                 .ChangeToStruct()
                 .OopAccess(AccessTypes.Public)

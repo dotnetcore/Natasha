@@ -8,7 +8,7 @@ namespace NatashaUT
 {
     
     [Trait("快速构建","代理")]
-    public class DynamicInterfaceTest
+    public class ProxyTest
     {
         [Fact(DisplayName = "接口动态实现")]
         public void InterfaceSet()
