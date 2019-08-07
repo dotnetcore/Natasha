@@ -44,7 +44,7 @@ namespace Core22
              *      <PreserveCompilationContext>true</PreserveCompilationContext>
              */
 
-            OopOperator<TestAbstract> abstractBuilder = new OopOperator<TestAbstract>();
+            ProxyOperator<TestAbstract> abstractBuilder = new ProxyOperator<TestAbstract>();
             abstractBuilder.OopName("UTestClass");
             abstractBuilder["GetName"] = "return Name;";
             abstractBuilder["GetAge"] = "return Age;";

@@ -10,13 +10,17 @@ namespace Natasha
     /// 运行时类型动态构建器
     /// </summary>
     /// <typeparam name="T">运行时类型</typeparam>
-    public class OopOperator<T> : OopOperator
+    public class ProxyOperator<T> : ProxyOperator
     {
 
 
         private readonly static ConcurrentDictionary<string, Func<T>> _ctor_mapping;
-        static OopOperator() => _ctor_mapping = new ConcurrentDictionary<string, Func<T>>();
-        public OopOperator() : base(typeof(T)) { }
+        static ProxyOperator() => _ctor_mapping = new ConcurrentDictionary<string, Func<T>>();
+
+
+
+
+        public ProxyOperator() : base(typeof(T)) { }
 
 
 
@@ -58,60 +62,33 @@ namespace Natasha
     /// <summary>
     /// 类构建器
     /// </summary>
-    public class OopOperator : OopContentTemplate<OopOperator>
+    public class ProxyOperator : OopBuilder<ProxyOperator>
     {
 
 
         private readonly static ConcurrentDictionary<string, Delegate> _delegate_mapping;
-        static OopOperator() => _delegate_mapping = new ConcurrentDictionary<string, Delegate>();
+        static ProxyOperator() => _delegate_mapping = new ConcurrentDictionary<string, Delegate>();
 
 
         public string Result;
         public Type TargetType;
         private readonly Type _oop_type;
         private readonly Dictionary<string, string> _oop_methods_mapping;
-        public OopComplier Complier;
-        public OopOperator(Type oopType) : base()
+
+        public ProxyOperator(Type oopType) : base()
         {
 
             Link = this;
             _oop_type = oopType;
             _oop_methods_mapping = new Dictionary<string, string>();
-            Complier = new OopComplier();
+
+            Using(_oop_type)
+               .Namespace("NatashaProxy")
+               .OopAccess(AccessTypes.Public)
+               .Inheritance(_oop_type);
 
         }
 
-
-
-
-        private bool _is_override;
-        /// <summary>
-        /// 重写函数
-        /// </summary>
-        /// <returns></returns>
-        public OopOperator Override()
-        {
-
-            _is_override = true;
-            return this;
-
-        }
-
-
-
-
-        private bool _is_new;
-        /// <summary>
-        /// 覆盖函数
-        /// </summary>
-        /// <returns></returns>
-        public OopOperator New()
-        {
-
-            _is_new = true;
-            return this;
-
-        }
 
 
 
@@ -149,27 +126,21 @@ namespace Natasha
                 //使用伪造函数模板
                 var template = FakeMethodOperator.New;
 
-
-
-                if (_is_override || reflectMethodInfo.IsAbstract)
+                if (!_oop_type.IsInterface)
                 {
 
-                    if (!_oop_type.IsInterface)
+                    if (reflectMethodInfo.IsAbstract || reflectMethodInfo.IsVirtual)
                     {
 
                         template.MethodModifier(Modifiers.Override);
-                        _is_override = false;
 
                     }
+                    else
+                    {
 
-                }
+                        template.MethodModifier(Modifiers.New);
 
-
-                if (_is_new)
-                {
-
-                    template.MethodModifier(Modifiers.New);
-                    _is_new = false;
+                    }
 
                 }
 
@@ -192,9 +163,6 @@ namespace Natasha
         {
 
             StringBuilder sb = new StringBuilder();
-
-
-            //填充类的内容
             foreach (var item in _oop_methods_mapping)
             {
 
@@ -204,20 +172,15 @@ namespace Natasha
 
 
             //生成整类脚本
-            Result = Using(_oop_type)
-                .Namespace("NatashaInterface")
-                .OopAccess(AccessTypes.Public)
-                .Inheritance(_oop_type)
-                .OopBody(sb.ToString())
-                .Builder().Script;
+            OopBody(sb.ToString());
 
 
             //获取类型
-            TargetType = Complier.GetTypeByScript(Result,OopNameScript);
+            TargetType = GetType();
 
 
             //返回委托
-            return _delegate_mapping[OopNameScript] = CtorOperator.NewDelegate(TargetType);
+            return CtorOperator.NewDelegate(TargetType);
         }
 
 
@@ -232,9 +195,7 @@ namespace Natasha
         public T Create<T>(string @class)
         {
 
-            if (!_delegate_mapping.ContainsKey(@class)) { Compile(); }
-
-
+            if (!_delegate_mapping.ContainsKey(@class)) { _delegate_mapping[OopNameScript] = Compile(); }
             return ((Func<T>)_delegate_mapping[@class])();
 
         }
