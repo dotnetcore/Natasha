@@ -74,6 +74,7 @@ Teng(359768998@qq.com)
  
 
 ### 使用方法(User Api)：  
+
  <br/>  
  
 #### 首先编辑您的工程文件：
@@ -156,14 +157,8 @@ string text = @"
     {
        public class Test
        {
-            public Test(){
-               Name=""111"";
-            }
-
-           public string Name;
-           public int Age{get;set;}
-
-            public override string ToString(){
+            public override string ToString()
+            {
 
                 Class1 a = new Class1();
                 a.Show1();
