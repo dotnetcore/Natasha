@@ -3,7 +3,7 @@ using Natasha.Template;
 using System;
 using System.Reflection;
 
-namespace Natasha
+namespace Natasha.Operator
 {
     /// <summary>
     /// 根据现有反射方法伪造一个方法，内容自己定

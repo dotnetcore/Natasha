@@ -1,7 +1,7 @@
 ﻿using Natasha.Complier;
 using System;
 
-namespace Natasha
+namespace Natasha.Operator
 {
     public static class ClassOperator
     {

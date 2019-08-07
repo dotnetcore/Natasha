@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Natasha.Operator;
 
-namespace Natasha.Clone
+namespace Natasha.CloneExtension
 {
     public static class CloneExtension
     {

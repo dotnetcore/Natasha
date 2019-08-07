@@ -1,6 +1,7 @@
-﻿using System;
+﻿using Natasha.Builder;
+using System;
 
-namespace Natasha
+namespace Natasha.Operator
 {
     /// <summary>
     /// 深度克隆

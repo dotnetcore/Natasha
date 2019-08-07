@@ -1,5 +1,6 @@
 ﻿using BenchmarkDotNet.Attributes;
 using Natasha;
+using Natasha.Operator;
 using NatashaBenchmark.Model;
 using System;
 using System.Reflection;

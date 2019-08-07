@@ -1,4 +1,5 @@
 ﻿using Natasha;
+using Natasha.Operator;
 using NatashaUT.Model;
 using System;
 using System.Collections.Generic;

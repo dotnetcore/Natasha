@@ -1,6 +1,6 @@
 ﻿using Natasha.Builder;
 
-namespace Natasha
+namespace Natasha.Operator
 {
     /// <summary>
     /// 快速创建一个动态方法

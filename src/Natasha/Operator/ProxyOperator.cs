@@ -1,10 +1,10 @@
-﻿using Natasha.Template;
+﻿using Natasha.Builder;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Natasha
+namespace Natasha.Operator
 {
     /// <summary>
     /// 运行时类型动态构建器

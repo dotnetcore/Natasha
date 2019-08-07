@@ -1,5 +1,6 @@
 ﻿using Natasha;
-using Natasha.Clone;
+using Natasha.CloneExtension;
+using Natasha.Operator;
 using NatashaUT.Model;
 using System;
 using System.Collections.Generic;

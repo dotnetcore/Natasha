@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Natasha.Builder;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
-namespace Natasha
+namespace Natasha.Operator
 {
     public static class SnapshotOperator<T>
     {

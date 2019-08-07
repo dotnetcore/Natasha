@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Natasha.Operator;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Natasha
+namespace Natasha.Builder
 {
     public class SnapshotBuilder : TypeIterator
     {
@@ -55,7 +56,7 @@ namespace Natasha
             tempBuilder.Complier.UseFileComplie();
             tempBuilder.Using(info.ElementType).Using(info.DeclaringType).Using(typeof(HashSet<>)); ;
             SnapshotCache[info.ElementType] = tempBuilder
-                        .Using("Natasha")
+                        .Using("Natasha.Operator")
                         .OopName("NatashaSnapshot" + info.DeclaringAvailableName)
                         .MethodName("Compare")
                         .Param(info.ElementType, OldInstance)
@@ -98,7 +99,7 @@ namespace Natasha
             tempBuilder.Complier.UseFileComplie();
             tempBuilder.Using(info.ElementType).Using(info.DeclaringTypeName).Using(typeof(HashSet<>)); ;
             SnapshotCache[info.ElementType] = tempBuilder
-                        .Using("Natasha")
+                        .Using("Natasha.Operator")
                         .OopName("NatashaSnapshot" + info.DeclaringAvailableName)
                         .MethodName("Compare")
                         .Param(info.ElementType, OldInstance)
@@ -204,7 +205,7 @@ namespace Natasha
             tempBuilder.Complier.UseFileComplie();
             tempBuilder.Using(info.DeclaringType).Using(typeof(HashSet<>)); ;
             SnapshotCache[info.DeclaringType] = tempBuilder
-                        .Using("Natasha")
+                        .Using("Natasha.Operator")
                         .OopName("NatashaSnapshot" + info.DeclaringAvailableName)
                         .MethodName("Compare")
                         .Param(info.DeclaringType, OldInstance)
@@ -238,7 +239,7 @@ namespace Natasha
             tempBuilder.Complier.UseFileComplie();
             tempBuilder.Using(info.DeclaringType).Using(typeof(HashSet<>)); ;
             SnapshotCache[info.DeclaringType] = tempBuilder
-                        .Using("Natasha")
+                        .Using("Natasha.Operator")
                         .OopName("NatashaSnapshot" + info.DeclaringAvailableName)
                         .MethodName("Compare")
                         .Param(info.DeclaringType, OldInstance)
@@ -328,7 +329,7 @@ namespace Natasha
 
         public override void EntityHandler(Type type)
         {
-            MethodHandler.Using("Natasha");
+            MethodHandler.Using("Natasha.Operator");
             SnapshotBuilder builder = new SnapshotBuilder(type);
             builder.Create();
         }

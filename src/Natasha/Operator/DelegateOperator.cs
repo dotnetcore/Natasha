@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Natasha
+namespace Natasha.Operator
 {
     public static class DelegateOperator<T> where T : Delegate
     {

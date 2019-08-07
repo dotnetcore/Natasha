@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Natasha.Operator;
+using System.Collections.Generic;
 
 namespace Natasha
 {

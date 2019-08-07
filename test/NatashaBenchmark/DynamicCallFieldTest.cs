@@ -3,6 +3,7 @@ using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Mathematics;
 using BenchmarkDotNet.Order;
 using Natasha;
+using Natasha.Operator;
 using NatashaBenchmark.Model;
 using System;
 using System.Reflection.Emit;
@@ -79,24 +80,24 @@ namespace NatashaBenchmark
             EmitSetDateTime = (Action<CallModel, DateTime>)(method.CreateDelegate(typeof(Action<CallModel, DateTime>)));
 
 
-            NatashaGetString = Natasha
-                .FastMethodOperator
+            NatashaGetString = 
+                FastMethodOperator
                 .New
                 .Param<CallModel>("obj")
                 .MethodBody("return obj.Age;")
                 .Return<string>()
                 .Complie<Func<CallModel, string>>();
 
-            NatashaGetDateTime = Natasha
-                 .FastMethodOperator
+            NatashaGetDateTime = 
+                 FastMethodOperator
                 .New
                 .Param<CallModel>("obj")
                 .MethodBody("return obj.CreateTime;")
                 .Return<DateTime>()
                 .Complie<Func<CallModel, DateTime>>();
 
-            NatashaSetString = Natasha
-                .FastMethodOperator
+            NatashaSetString = 
+                FastMethodOperator
                 .New
                 .Param<CallModel>("obj")
                 .Param<string>("str")
@@ -104,8 +105,8 @@ namespace NatashaBenchmark
                 .Return()
                 .Complie<Action<CallModel, string>>();
 
-            NatashaSetDateTime = Natasha
-                .FastMethodOperator
+            NatashaSetDateTime = 
+                FastMethodOperator
                 .New
                 .Param<CallModel>("obj")
                 .Param<DateTime>("time")

@@ -2,7 +2,8 @@
 using NatashaUT.Model;
 using System;
 using Xunit;
-using Natasha.Method;
+using Natasha.MethodExtension;
+using Natasha.Operator;
 
 namespace NatashaUT
 {

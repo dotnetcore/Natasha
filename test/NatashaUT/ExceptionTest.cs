@@ -1,4 +1,5 @@
 ﻿using Natasha;
+using Natasha.Operator;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,7 +15,7 @@ namespace NatashaUT
         [Fact(DisplayName = "类构造-程序集异常")]
         public void Test1()
         {
-            OopBuilder builder = new OopBuilder();
+            OopOperator builder = new OopOperator();
             builder
                 .Using<DynamicBuilderTest>()
                 .Namespace("TestNamespace")
@@ -36,7 +37,7 @@ namespace NatashaUT
         [Fact(DisplayName = "结构体构造-程序集异常")]
         public void Test2()
         {
-            OopBuilder builder = new OopBuilder();
+            OopOperator builder = new OopOperator();
             builder
                 .Using<DynamicBuilderTest>()
                 .Namespace("TestNamespace")

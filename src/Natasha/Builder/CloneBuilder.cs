@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Natasha.Operator;
+using System;
 using System.Collections.Concurrent;
 using System.Text;
 
-namespace Natasha
+namespace Natasha.Builder
 {
     public class CloneBuilder<T>
     {
@@ -56,7 +57,7 @@ namespace Natasha
             if (!CloneCache.ContainsKey(type))
             {
 
-                MethodHandler.Using("Natasha");
+                MethodHandler.Using("Natasha.Operator");
                 CloneBuilder builder = new CloneBuilder(type);
                 builder.Create();
 
@@ -78,7 +79,7 @@ namespace Natasha
             var tempBuilder = FastMethodOperator.New;
             tempBuilder.Complier.UseFileComplie();
             CloneCache[info.DeclaringType] = tempBuilder
-                        .Using("Natasha")
+                        .Using("Natasha.Operator")
                         .OopName("NatashaClone" + info.DeclaringAvailableName)
                         .MethodName("Clone")
                         .Param(info.DeclaringType, "oldInstance")                 //参数
@@ -107,7 +108,7 @@ namespace Natasha
             var tempBuilder = FastMethodOperator.New;
             tempBuilder.Complier.UseFileComplie();
             CloneCache[info.DeclaringType] = tempBuilder
-                        .Using("Natasha")
+                        .Using("Natasha.Operator")
                         .Using(info.ElementType)
                         .OopName("NatashaClone" + info.DeclaringAvailableName)
                         .MethodName("Clone")
@@ -138,7 +139,7 @@ namespace Natasha
             var tempBuilder = FastMethodOperator.New;
             tempBuilder.Complier.UseFileComplie();
             CloneCache[info.DeclaringType] = tempBuilder
-                        .Using("Natasha")
+                        .Using("Natasha.Operator")
                         .Using(info.ElementType)
                         .OopName("NatashaClone" + info.DeclaringAvailableName)
                         .MethodName("Clone")
@@ -180,7 +181,7 @@ namespace Natasha
             var tempBuilder = FastMethodOperator.New;
             tempBuilder.Complier.UseFileComplie();
             CloneCache[info.DeclaringType] = tempBuilder
-                        .Using("Natasha")
+                        .Using("Natasha.Operator")
                         .Using("System.Linq")
                         .OopName("NatashaClone" + info.DeclaringAvailableName)
                         .MethodName("Clone")
@@ -221,7 +222,7 @@ namespace Natasha
             var tempBuilder = FastMethodOperator.New;
             tempBuilder.Complier.UseFileComplie();
             CloneCache[info.DeclaringType] = tempBuilder
-                        .Using("Natasha")
+                        .Using("Natasha.Operator")
                         .Using("System.Linq")
                         .OopName("NatashaClone" + info.DeclaringAvailableName)
                         .MethodName("Clone")
@@ -280,7 +281,7 @@ namespace Natasha
             var tempBuilder = FastMethodOperator.New;
             tempBuilder.Complier.UseFileComplie();
             CloneCache[info.DeclaringType] = tempBuilder
-                        .Using("Natasha")
+                        .Using("Natasha.Operator")
                         .Using("System.Linq")
                         .OopName("NatashaClone" + info.DeclaringAvailableName)
                         .MethodName("Clone")
@@ -363,7 +364,7 @@ namespace Natasha
             var tempBuilder = FastMethodOperator.New;
             tempBuilder.Complier.UseFileComplie();
             CloneCache[info.DeclaringType] = tempBuilder
-                        .Using("Natasha")
+                        .Using("Natasha.Operator")
                         .Using("System.Linq")
                         .OopName("NatashaClone" + info.DeclaringAvailableName)
                         .MethodName("Clone")
@@ -478,7 +479,7 @@ namespace Natasha
         public override void MemberEntityHandler(BuilderInfo info)
         {
 
-            MethodHandler.Using("Natasha");
+            MethodHandler.Using("Natasha.Operator");
 
 
             Script.Append($"if({OldInstance}.{info.MemberName}!=null){{");

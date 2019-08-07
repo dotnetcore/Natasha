@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Natasha
+namespace Natasha.Operator
 {
     /// <summary>
     /// 初始化操作类，生成初始化委托

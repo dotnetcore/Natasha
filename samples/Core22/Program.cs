@@ -1,5 +1,6 @@
 ﻿using Natasha;
-using Natasha.Method;
+using Natasha.MethodExtension;
+using Natasha.Operator;
 using System;
 using System.Diagnostics;
 using System.Reflection.Emit;

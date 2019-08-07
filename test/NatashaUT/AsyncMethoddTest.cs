@@ -1,4 +1,5 @@
 ﻿using Natasha;
+using Natasha.Operator;
 using System;
 using System.Threading.Tasks;
 using Xunit;
@@ -58,18 +59,19 @@ namespace NatashaUT
         [Fact(DisplayName = "自动泛型异步委托1")]
         public static async void RunAsyncDelegate3()
         {
-            var delegateAction = FastMethodOperator.New
 
-                .UseAsync()
-                .MethodBody(@"
+            var delegateAction = NewMethod.Create<Func<string, string, Task<string>>>(builder => builder
+                    .UseAsync()
+                    .MethodBody(@"
                             string result = arg1 +"" ""+ arg2;
                             Console.WriteLine(result);
                             return result;")
+                    );
 
-                .Complie<Func<string, string, Task<string>>>();
-
-            string result =await delegateAction?.Invoke("Hello", "World2!");
+            string result =await delegateAction.Method("Hello", "World2!");
             Assert.Equal("Hello World2!", result);
+
+
         }
 
 

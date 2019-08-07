@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Natasha
+namespace Natasha.Builder
 {
     /// <summary>
     /// 委托构建器，动态构建Func和Action委托

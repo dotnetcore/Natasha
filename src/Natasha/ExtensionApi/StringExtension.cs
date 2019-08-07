@@ -1,6 +1,7 @@
-﻿using System;
+﻿using Natasha.Operator;
+using System;
 
-namespace Natasha.Method
+namespace Natasha.MethodExtension
 {
     public static class StringExtension
     {

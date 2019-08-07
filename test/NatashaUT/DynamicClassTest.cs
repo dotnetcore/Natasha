@@ -1,4 +1,5 @@
 ﻿using Natasha;
+using Natasha.Complier;
 using System;
 using Xunit;
 

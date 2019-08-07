@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Natasha.Operator;
+using System.Collections.Generic;
 
-namespace Natasha.Snapshot
+namespace Natasha.SnapshotExtension
 {
     public static class SnapshotExtension
     {
