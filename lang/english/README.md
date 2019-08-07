@@ -68,12 +68,16 @@ Teng(359768998@qq.com)
 #### First edit your project file *.csproj：
 
 ```C#
+
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <PreserveCompilationContext>true</PreserveCompilationContext>   <--- must.
+    <PreserveCompilationContext>true</PreserveCompilationContext>   <--- Must.
+    <MvcRazorExcludeRefAssembliesFromPublish>false</MvcRazorExcludeRefAssembliesFromPublish> <---- WEB Publish Must.
   </PropertyGroup>
+  
 ```  
+
 <br/>
 <br/> 
 
