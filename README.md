@@ -79,20 +79,23 @@ Teng(359768998@qq.com)
 #### 首先编辑您的工程文件：
 
 ```C#
+
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <PreserveCompilationContext>true</PreserveCompilationContext>   <--- 一定要加上这句话
+    <MvcRazorExcludeRefAssembliesFromPublish>false</MvcRazorExcludeRefAssembliesFromPublish> <---- WEB发布一定要加
   </PropertyGroup>
-  
-  //如果是web发布，还要加上 <MvcRazorExcludeRefAssembliesFromPublish>false</MvcRazorExcludeRefAssembliesFromPublish>
+ 
 ```  
+
 <br/>
 <br/> 
 
 #### 异常捕获方法：
 
 ```C#
+
   var fastBuilder = FastMethodOperator.New;
   fastBuilder.Complier.Exception;             //编译后异常会进入这里
   if(fastBuilder.Complier.Exception.ErrorFlag == ComplieError.None) 
