@@ -28,22 +28,22 @@ namespace Natasha.Complier
         public readonly static ConcurrentDictionary<string, Assembly> DynamicDlls;
         public readonly static ConcurrentBag<PortableExecutableReference> References;
         private readonly static AdhocWorkspace _workSpace;
-        public readonly static string SplitChar;
+        //public readonly static string SplitChar;
 
         static ScriptComplierEngine()
         {
 
-            if (Environment.OSVersion.Platform == PlatformID.Unix)
-            {
-                SplitChar = "\n";
-            }
-            else
-            {
-                SplitChar = "\r\n";
-            }
+            //if (Environment.OSVersion.Platform == PlatformID.Unix)
+            //{
+            //    SplitChar = "\n";
+            //}
+            //else
+            //{
+            //    SplitChar = "\r\n";
+            //}
 
 
-            _workSpace = new AdhocWorkspace();
+           _workSpace = new AdhocWorkspace();
             _workSpace.AddSolution(SolutionInfo.Create(SolutionId.CreateNewId("formatter"), VersionStamp.Default));
 
 
@@ -153,7 +153,7 @@ namespace Natasha.Complier
 
             var (Tree, ClassName, formatter) = GetTreeAndClassNames(sourceContent.Trim());
             formatContent = formatter;
-            StringBuilder recoder = new StringBuilder(formatter);
+            StringBuilder recoder = new StringBuilder(FormatLineCode(formatter));
 
 
             //创建语言编译
@@ -416,7 +416,7 @@ namespace Natasha.Complier
         {
 
             StringBuilder sb = new StringBuilder();
-            var arrayLines = content.Split(new string[] { SplitChar }, StringSplitOptions.None);
+            var arrayLines = content.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
             for (int i = 0; i < arrayLines.Length; i+=1)
             {
 
@@ -437,7 +437,7 @@ namespace Natasha.Complier
             var end = linePositionSpan.EndLinePosition;
 
 
-            var arrayLines = content.Split(new string[] { SplitChar }, StringSplitOptions.None);
+            var arrayLines = content.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
             var currentErrorLine = arrayLines[start.Line];
 
 
