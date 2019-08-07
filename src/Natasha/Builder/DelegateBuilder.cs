@@ -8,15 +8,11 @@ namespace Natasha
     /// </summary>
     public class DelegateBuilder
     {
-
-
-        public readonly static Type[] FuncMaker;
-        public readonly static Type[] ActionMaker;
-
+        private static readonly Type[] FuncMaker;
+        private static readonly Type[] ActionMaker;
 
         static DelegateBuilder()
         {
-
             FuncMaker = new Type[9];
             FuncMaker[0] = typeof(Func<>);
             FuncMaker[1] = typeof(Func<,>);
@@ -38,11 +34,7 @@ namespace Natasha
             ActionMaker[6] = typeof(Action<,,,,,>);
             ActionMaker[7] = typeof(Action<,,,,,,>);
             ActionMaker[8] = typeof(Action<,,,,,,,>);
-
         }
-
-
-
 
         /// <summary>
         /// 获取函数委托
@@ -52,24 +44,13 @@ namespace Natasha
         /// <returns>函数委托</returns>
         public static Type GetDelegate(Type[] parametersTypes = null, Type returnType = null)
         {
-
             if (returnType == null || returnType == typeof(void))
             {
-
                 return GetAction(parametersTypes);
-
-            }
-            else
-            {
-
-                return GetFunc(returnType, parametersTypes);
-
             }
 
+            return GetFunc(returnType, parametersTypes);
         }
-
-
-
 
         /// <summary>
         /// 根据类型动态生成Func委托
@@ -77,28 +58,19 @@ namespace Natasha
         /// <param name="returnType">返回类型</param>
         /// <param name="parametersTypes">泛型类型</param>
         /// <returns>Func委托类型</returns>
-        public static Type GetFunc(Type returnType,params Type[] parametersTypes)
+        public static Type GetFunc(Type returnType, params Type[] parametersTypes)
         {
-
             if (parametersTypes.Length == 0)
             {
-
                 return FuncMaker[0].MakeGenericType(returnType);
-
             }
 
-
-            List<Type> list = new List<Type>();
+            var list = new List<Type>();
             list.AddRange(parametersTypes);
             list.Add(returnType);
 
-
             return FuncMaker[parametersTypes.Length].MakeGenericType(list.ToArray());
-
         }
-
-
-
 
         /// <summary>
         /// 根据类型动态生成Action委托
@@ -107,19 +79,12 @@ namespace Natasha
         /// <returns>Action委托类型</returns>
         public static Type GetAction(params Type[] parametersTypes)
         {
-
-            if (parametersTypes.Length == 0)
+            if (parametersTypes == null || parametersTypes.Length == 0)
             {
-
                 return ActionMaker[0];
-
             }
 
-
             return ActionMaker[parametersTypes.Length].MakeGenericType(parametersTypes);
-
         }
-
     }
-
 }
