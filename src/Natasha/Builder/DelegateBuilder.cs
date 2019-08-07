@@ -60,7 +60,7 @@ namespace Natasha
         /// <returns>Func委托类型</returns>
         public static Type GetFunc(Type returnType, params Type[] parametersTypes)
         {
-            if (parametersTypes.Length == 0)
+            if (parametersTypes == null || parametersTypes.Length == 0)
             {
                 return FuncMaker[0].MakeGenericType(returnType);
             }
