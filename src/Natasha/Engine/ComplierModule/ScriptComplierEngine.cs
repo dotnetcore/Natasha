@@ -23,7 +23,6 @@ namespace Natasha.Complier
     public class ScriptComplierEngine
     {
 
-
         public readonly static string LibPath;
         public readonly static ConcurrentDictionary<string, Assembly> ClassMapping;
         public readonly static ConcurrentDictionary<string, Assembly> DynamicDlls;
