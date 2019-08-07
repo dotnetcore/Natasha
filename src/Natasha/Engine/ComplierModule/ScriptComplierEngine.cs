@@ -463,18 +463,18 @@ namespace Natasha.Complier
             {
 
                 StringBuilder builder = new StringBuilder();
-                currentErrorLine.Substring(start.Character).Trim();
+                currentErrorLine.Substring(start.Character);
                 builder.AppendLine(currentErrorLine);
-                for (int i = start.Line + 1; i < end.Line; i += 1)
+                for (int i = start.Line ; i < end.Line - 1; i += 1)
                 {
 
-                    builder.AppendLine("\t\t\t" + arrayLines[i].Trim());
+                    builder.AppendLine("\t\t\t" + arrayLines[i]);
 
                 }
 
 
                 currentErrorLine = arrayLines[end.Line];
-                currentErrorLine = currentErrorLine.Substring(0, end.Character).Trim();
+                currentErrorLine = currentErrorLine.Substring(0, end.Character);
                 builder.AppendLine(currentErrorLine);
 
 
