@@ -98,18 +98,20 @@ Teng(359768998@qq.com)
 
   var fastBuilder = FastMethodOperator.New;
   fastBuilder.Complier.Exception;             //编译后异常会进入这里
-  if(fastBuilder.Complier.Exception.ErrorFlag == ComplieError.None) 
-  {
-        //编译成功！
-  }
-  
+
   
   var fakeBuilder = FakeMethodOpeartor.New;
   fakeBuilder.Complier.Exception;
   
   
-  var classBuilder = New ClassBuilder();
-  classBuilder.Complier.Exception;
+  var oopBuilder = new OopBuilder();
+  oopBuilder.Complier.Exception;
+  
+  
+  if(builder.Complier.Exception.ErrorFlag == ComplieError.None) 
+  {
+        //编译成功！
+  }
   
 ```  
 
