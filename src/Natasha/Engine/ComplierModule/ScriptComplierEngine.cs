@@ -63,8 +63,7 @@ namespace Natasha.Complier
 
 
             //程序集缓存
-            DependencyContext.Load(Assembly.GetEntryAssembly());
-            AppDomain.CurrentDomain.GetAssemblies().Select(item => DependencyContext.Load(item));
+            //AppDomain.CurrentDomain.GetAssemblies().Select(item => DependencyContext.Load(item));
             var _ref = DependencyContext.Default.CompileLibraries
                                 .SelectMany(cl => cl.ResolveReferencePaths())
                                 .Select(asm => MetadataReference.CreateFromFile(asm));
