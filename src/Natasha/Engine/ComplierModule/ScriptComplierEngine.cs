@@ -113,6 +113,8 @@ namespace Natasha.Complier
         }
 
 
+
+
         public static (SyntaxTree Tree, string[] ClassNames, string formatter) GetTreeAndClassNames(string content)
         {
 
@@ -275,7 +277,12 @@ namespace Natasha.Complier
             //类名获取
             var (Tree, ClassNames, formatter) = GetTreeAndClassNames(sourceContent.Trim());
             formatContent = formatter;
-            StringBuilder recoder = new StringBuilder(FormatLineCode(formatter));
+
+
+            if (ClassMapping.ContainsKey(ClassNames[0]))
+            {
+                return ClassMapping[ClassNames[0]];
+            }
 
 
             //生成路径
@@ -303,6 +310,7 @@ namespace Natasha.Complier
             try
             {
 
+                StringBuilder recoder = new StringBuilder(FormatLineCode(formatter));
                 fileResult = compilation.Emit(path);
                 if (fileResult.Success)
                 {
@@ -419,6 +427,8 @@ namespace Natasha.Complier
             return sb.ToString();
 
         }
+
+
 
 
         public static string GetErrorString(string content, FileLinePositionSpan linePositionSpan)
