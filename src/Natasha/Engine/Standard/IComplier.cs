@@ -2,6 +2,7 @@
 using Natasha.Complier;
 using Natasha.Operator;
 using System;
+using System.Linq;
 using System.Reflection;
 
 namespace Natasha
@@ -110,7 +111,7 @@ namespace Natasha
                 return null;
             }
 
-            var type = AssemblyOperator.Loader(assembly)[typeName];
+            var type = assembly.GetTypes().First(item => item.Name == typeName);
             if (type == null)
             {
 

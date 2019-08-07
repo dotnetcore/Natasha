@@ -1,47 +1,21 @@
-﻿using System;
-using System.Reflection;
+﻿using Natasha.Complier;
+using System;
+using System.Linq;
 
 namespace Natasha.Operator
 {
-    public class TypeOperator
+    public static class TypeOperator
     {
 
 
-        private readonly Type _type;
-        public TypeOperator(Type type)
-        {
-
-            _type = type;
-
-        }
-
-
-
-
         /// <summary>
-        /// 静态加类型
+        /// 根据类名获取类，前提类必须是成功编译过的
         /// </summary>
-        /// <param name="type">类型</param>
+        /// <param name="name"></param>
         /// <returns></returns>
-        public static TypeOperator Loader(Type type)
+        public static Type GetType(string name)
         {
-
-            return new TypeOperator(type);
-
-        }
-
-
-
-
-        /// <summary>
-        /// 根据索引值获取程序集中的类
-        /// </summary>
-        /// <param name="className">成员名</param>
-        /// <returns></returns>
-        public MemberInfo this[string memberName]
-        {
-
-            get { return _type.GetMember(memberName)[0]; }
+            return ScriptComplierEngine.ClassMapping[name].GetTypes().First(item => item.Name == name);
 
         }
 
