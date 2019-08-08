@@ -96,12 +96,12 @@ namespace Natasha.Builder
         {
 
             StringBuilder scriptBuilder = new StringBuilder();
-            scriptBuilder.AppendLine(@"if(oldInstance!=null){");
+            scriptBuilder.AppendLine(@"if(oldInstance!=default){");
             scriptBuilder.AppendLine($"var newInstance = new {info.ElementTypeName}[oldInstance.Length];");
             scriptBuilder.AppendLine(
                 $@"for (int i = 0; i < oldInstance.Length; i++){{
                     newInstance[i] = oldInstance[i];
-                 }}return newInstance;}}return null;");
+                 }}return newInstance;}}return default;");
 
 
             //创建委托
@@ -127,12 +127,12 @@ namespace Natasha.Builder
         {
 
             StringBuilder scriptBuilder = new StringBuilder();
-            scriptBuilder.AppendLine(@"if(oldInstance!=null){");
+            scriptBuilder.AppendLine(@"if(oldInstance!=default){");
             scriptBuilder.AppendLine($"var newInstance = new {info.ElementTypeName}[oldInstance.Length];");
             scriptBuilder.Append(
                 $@"for (int i = 0; i < oldInstance.Length; i+=1){{
                     newInstance[i] =  NatashaClone{info.ElementTypeAvailableName}.Clone(oldInstance[i]);
-                 }}return newInstance;}}return null;");
+                 }}return newInstance;}}return default;");
 
 
             //创建委托
@@ -157,7 +157,7 @@ namespace Natasha.Builder
         {
 
             StringBuilder scriptBuilder = new StringBuilder();
-            scriptBuilder.AppendLine(@"if(oldInstance!=null){");
+            scriptBuilder.AppendLine(@"if(oldInstance!=default){");
 
 
             var type = info.DeclaringType.GetGenericArguments()[0];
@@ -174,7 +174,7 @@ namespace Natasha.Builder
                 scriptBuilder.AppendLine($"return new {info.DeclaringTypeName}(oldInstance.Select(item => NatashaClone{type.GetAvailableName()}.Clone(item)));");
 
             }
-            scriptBuilder.AppendLine("}return null;");
+            scriptBuilder.AppendLine("}return default;");
 
 
             //创建委托
@@ -198,7 +198,7 @@ namespace Natasha.Builder
         {
 
             StringBuilder scriptBuilder = new StringBuilder();
-            scriptBuilder.AppendLine(@"if(oldInstance!=null){");
+            scriptBuilder.AppendLine(@"if(oldInstance!=default){");
 
 
             var type = info.DeclaringType.GetGenericArguments()[0];
@@ -215,7 +215,7 @@ namespace Natasha.Builder
                 scriptBuilder.AppendLine($"return oldInstance.Select(item => NatashaClone{type.GetAvailableName()}.Clone(item));");
 
             }
-            scriptBuilder.AppendLine("}return null;");
+            scriptBuilder.AppendLine("}return default;");
 
 
             //创建委托
@@ -240,7 +240,7 @@ namespace Natasha.Builder
         {
 
             StringBuilder scriptBuilder = new StringBuilder();
-            scriptBuilder.AppendLine(@"if(oldInstance!=null){");
+            scriptBuilder.AppendLine(@"if(oldInstance!=default){");
             scriptBuilder.AppendLine($"return new {info.DeclaringTypeName}(oldInstance.Select(item=>{{return KeyValuePair.Create(");
 
 
@@ -274,7 +274,7 @@ namespace Natasha.Builder
                 scriptBuilder.AppendLine($"NatashaClone{valueType.GetAvailableName()}.Clone(item.Value)");
 
             }
-            scriptBuilder.AppendLine(");}));}return null;");
+            scriptBuilder.AppendLine(");}));}return default;");
 
 
             //创建委托
@@ -299,7 +299,7 @@ namespace Natasha.Builder
         {
 
             MethodHandler.Using(info.MemberType);
-            Script.AppendLine($@"if({OldInstance}.{info.MemberName}!=null){{");
+            Script.AppendLine($@"if({OldInstance}.{info.MemberName}!=default){{");
             Script.AppendLine($@"{NewInstance}.{info.MemberName} = NatashaClone{info.MemberTypeAvailableName}.Clone({OldInstance}.{info.MemberName});}}");
 
         }
@@ -311,7 +311,7 @@ namespace Natasha.Builder
         {
 
             MethodHandler.Using(info.MemberType);
-            Script.AppendLine($@"if({OldInstance}.{info.MemberName}!=null){{");
+            Script.AppendLine($@"if({OldInstance}.{info.MemberName}!=default){{");
             Script.AppendLine($@"{NewInstance}.{info.MemberName} = NatashaClone{info.MemberTypeAvailableName}.Clone({OldInstance}.{info.MemberName});}}");
 
         }
@@ -323,7 +323,7 @@ namespace Natasha.Builder
         {
 
             StringBuilder scriptBuilder = new StringBuilder();
-            scriptBuilder.AppendLine(@"if(oldInstance!=null){");
+            scriptBuilder.AppendLine(@"if(oldInstance!=default){");
             scriptBuilder.Append($"return oldInstance.Select(item=>{{return KeyValuePair.Create(");
 
 
@@ -357,7 +357,7 @@ namespace Natasha.Builder
                 scriptBuilder.AppendLine($"NatashaClone{valueType.GetAvailableName()}.Clone(item.Value)");
 
             }
-            scriptBuilder.AppendLine(")});}return null;");
+            scriptBuilder.AppendLine(")});}return default;");
 
 
             //创建委托
@@ -381,7 +381,7 @@ namespace Natasha.Builder
         public override void EntityStartHandler(BuilderInfo info)
         {
 
-            Script.AppendLine($"if({OldInstance}==null){{return null;}}");
+            Script.AppendLine($"if({OldInstance}==default){{return default;}}");
             Script.AppendLine($"{info.DeclaringTypeName} {NewInstance} = new {info.DeclaringTypeName}();");
 
         }
@@ -392,7 +392,7 @@ namespace Natasha.Builder
         public override void SelfTypeHandler(BuilderInfo info)
         {
 
-            Script.AppendLine($"if({OldInstance}.{info.MemberName}!=null){{");
+            Script.AppendLine($"if({OldInstance}.{info.MemberName}!=default){{");
             Script.AppendLine($"{NewInstance}.{info.MemberName} = CloneOperator.Clone({OldInstance}.{info.MemberName});");
             Script.AppendLine($"}}");
 
@@ -427,7 +427,7 @@ namespace Natasha.Builder
             MethodHandler.Using(info.ElementType);
 
 
-            Script.AppendLine($@"if({OldInstance}.{info.MemberName}!=null){{");
+            Script.AppendLine($@"if({OldInstance}.{info.MemberName}!=default){{");
             Script.AppendLine($"{NewInstance}.{info.MemberName} = new {info.ElementTypeName}[{OldInstance}.{info.MemberName}.Length];");
             //普通类型复制
             Script.Append(
@@ -447,7 +447,7 @@ namespace Natasha.Builder
             MethodHandler.Using(info.ElementType);
 
 
-            Script.AppendLine($@"if({OldInstance}.{info.MemberName}!=null){{");
+            Script.AppendLine($@"if({OldInstance}.{info.MemberName}!=default){{");
             Script.AppendLine($"{NewInstance}.{info.MemberName} = new {info.ElementTypeName}[{OldInstance}.{info.MemberName}.Length];");
             //普通类型复制
             Script.Append(
@@ -466,7 +466,7 @@ namespace Natasha.Builder
             MethodHandler.Using(info.MemberType);
 
 
-            Script.AppendLine($@"if({OldInstance}.{info.MemberName}!=null){{");
+            Script.AppendLine($@"if({OldInstance}.{info.MemberName}!=default){{");
             Script.AppendLine($@"{NewInstance}.{info.MemberName} = NatashaClone{info.MemberTypeAvailableName}.Clone({OldInstance}.{info.MemberName});}}");
 
         }
@@ -480,7 +480,7 @@ namespace Natasha.Builder
             MethodHandler.Using(info.MemberType);
 
 
-            Script.Append($@"if({OldInstance}.{info.MemberName}!=null){{");
+            Script.Append($@"if({OldInstance}.{info.MemberName}!=default){{");
             Script.Append($@"{NewInstance}.{info.MemberName} = NatashaClone{info.MemberTypeAvailableName}.Clone({OldInstance}.{info.MemberName});}}");
 
         }
@@ -494,7 +494,7 @@ namespace Natasha.Builder
             MethodHandler.Using("Natasha.Operator");
 
 
-            Script.Append($"if({OldInstance}.{info.MemberName}!=null){{");
+            Script.Append($"if({OldInstance}.{info.MemberName}!=default){{");
             Script.Append($"{NewInstance}.{info.MemberName} = NatashaClone{info.MemberTypeName}.Clone({OldInstance}.{info.MemberName});}}");
 
         }

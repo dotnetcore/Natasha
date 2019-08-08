@@ -38,7 +38,7 @@ namespace Natasha.Builder
             scriptBuilder.Append($@"Dictionary<string,DiffModel> result = new Dictionary<string,DiffModel>();");
             scriptBuilder.Append(
                 $@"if({NewInstance}!={OldInstance}){{
-                    if({NewInstance}==null || {OldInstance}==null){{
+                    if({NewInstance}==default || {OldInstance}==default){{
                         result.Add(""different"",new DiffModel(){{ Name=""different"",Value={OldInstance}}});
                     }}else{{
                         HashSet<{info.ElementTypeName}> compareNew = new HashSet<{info.ElementTypeName}>({NewInstance});
@@ -76,7 +76,7 @@ namespace Natasha.Builder
             scriptBuilder.Append($@"Dictionary<string,DiffModel> result = new Dictionary<string,DiffModel>();");
             scriptBuilder.Append(
                 $@"if({NewInstance}!={OldInstance}){{
-                    if({NewInstance}==null || {OldInstance}==null){{
+                    if({NewInstance}==default || {OldInstance}==default){{
                         result.Add(""different"",new DiffModel(){{ Name=""different"",Value={OldInstance}}});
                     }}else{{
                         HashSet<{info.ElementTypeName}> compareOld = new HashSet<{info.ElementTypeName}>({OldInstance});
@@ -133,7 +133,7 @@ namespace Natasha.Builder
 
             Script.Append(
                 $@"if({NewInstance}.{info.MemberName}!={OldInstance}.{info.MemberName}){{
-                    if({NewInstance}.{info.MemberName}==null || {OldInstance}.{info.MemberName}==null){{
+                    if({NewInstance}.{info.MemberName}==default || {OldInstance}.{info.MemberName}==default){{
                         result.Add(""{info.MemberName}"",new DiffModel(){{ Name=""{info.MemberName}"",Value={OldInstance}.{info.MemberName}}});
                     }}else{{
                          result.Add(""{info.MemberName}"",new DiffModel(){{ Name=""{info.MemberName}"",Value={NewInstance}.{info.MemberName}.SnapshotExtension({OldInstance}.{info.MemberName})}});
@@ -154,7 +154,7 @@ namespace Natasha.Builder
 
             Script.Append(
                 $@"if({NewInstance}.{info.MemberName}!={OldInstance}.{info.MemberName}){{
-                    if({NewInstance}.{info.MemberName}==null || {OldInstance}.{info.MemberName}==null){{
+                    if({NewInstance}.{info.MemberName}==default || {OldInstance}.{info.MemberName}==default){{
                         result.Add(""{info.MemberName}"",new DiffModel(){{ Name=""{info.MemberName}"",Value={OldInstance}.{info.MemberName}}});
                     }}else{{
                         result.Add(""{info.MemberName}"",new DiffModel(){{ Name=""{info.MemberName}"",Value={NewInstance}.{info.MemberName}.SnapshotExtension({OldInstance}.{info.MemberName})}});
@@ -172,7 +172,7 @@ namespace Natasha.Builder
             MethodHandler.Using(info.MemberType);
             Script.Append(
                 $@"if({NewInstance}.{info.MemberName}!={OldInstance}.{info.MemberName}){{
-                    if({NewInstance}.{info.MemberName}==null || {OldInstance}.{info.MemberName}==null){{
+                    if({NewInstance}.{info.MemberName}==default || {OldInstance}.{info.MemberName}==default){{
                         result.Add(""{info.MemberName}"",new DiffModel(){{ Name=""{info.MemberName}"",Value={OldInstance}.{info.MemberName}}});
                     }}else{{
                         result.Add(""{info.MemberName}"",new DiffModel(){{ Name=""{info.MemberName}"",Value=NatashaSnapshot{info.MemberTypeAvailableName}.Compare({NewInstance}.{info.MemberName},{OldInstance}.{info.MemberName})}});
@@ -190,7 +190,7 @@ namespace Natasha.Builder
             scriptBuilder.Append($@"Dictionary<string,DiffModel> result = new Dictionary<string,DiffModel>();");
             scriptBuilder.Append(
                 $@"if({NewInstance}!={OldInstance}){{
-                    if({NewInstance}==null || {OldInstance}==null){{
+                    if({NewInstance}==default || {OldInstance}==default){{
                         result.Add(""different"",new DiffModel(){{ Name=""different"",Value={OldInstance}}});
                     }}else{{
                        
@@ -224,7 +224,7 @@ namespace Natasha.Builder
             scriptBuilder.Append($@"Dictionary<string,DiffModel> result = new Dictionary<string,DiffModel>();");
             scriptBuilder.Append(
                 $@"if({NewInstance}!={OldInstance}){{
-                    if({NewInstance}==null || {OldInstance}==null){{
+                    if({NewInstance}==default || {OldInstance}==default){{
                         result.Add(""different"",new DiffModel(){{ Name=""different"",Value={OldInstance}}});
                     }}else{{
                        
@@ -259,7 +259,7 @@ namespace Natasha.Builder
             MethodHandler.Using(typeof(HashSet<>));
             Script.Append(
                 $@"if({NewInstance}.{info.MemberName}!={OldInstance}.{info.MemberName}){{
-                    if({NewInstance}.{info.MemberName}==null || {OldInstance}.{info.MemberName}==null){{
+                    if({NewInstance}.{info.MemberName}==default || {OldInstance}.{info.MemberName}==default){{
                         result.Add(""{info.MemberName}"",new DiffModel(){{ Name=""{info.MemberName}"",Value={OldInstance}.{info.MemberName}}});
                     }}else{{
                         HashSet<{info.ElementTypeName}> compareOld = new HashSet<{info.ElementTypeName}>({OldInstance}.{info.MemberName});
@@ -284,7 +284,7 @@ namespace Natasha.Builder
             MethodHandler.Using(typeof(HashSet<>));
             Script.Append(
                 $@"if({NewInstance}.{info.MemberName}!={OldInstance}.{info.MemberName}){{
-                    if({NewInstance}.{info.MemberName}==null || {OldInstance}.{info.MemberName}==null){{
+                    if({NewInstance}.{info.MemberName}== default || {OldInstance}.{info.MemberName}==default){{
                         result.Add(""{info.MemberName}"",new DiffModel(){{ Name=""{info.MemberName}"",Value={OldInstance}.{info.MemberName}}});
                     }}else{{
                         HashSet<{info.ElementTypeName}> compareNew = new HashSet<{info.ElementTypeName}>({NewInstance}.{info.MemberName});
