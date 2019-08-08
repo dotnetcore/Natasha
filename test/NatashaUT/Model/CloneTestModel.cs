@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace NatashaUT.Model
 {
-    public struct FieldCloneNormalModel
+    public class FieldCloneNormalModel
     {
         public const int Const=100;
         public readonly int ReadOnly;
