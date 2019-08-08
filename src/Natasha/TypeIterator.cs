@@ -104,6 +104,12 @@ namespace Natasha
         }
 
 
+        public virtual void SelfTypeHandler(BuilderInfo info)
+        {
+
+        }
+
+
         /// <summary>
         /// 数组分配方法，数组类型会被拆分，例如：class[]或者int[]
         /// </summary>
@@ -186,6 +192,12 @@ namespace Natasha
                                 FieldArrayEntityHandler(fieldInfo);
 
                             }
+                            else
+                            {
+
+                                SelfTypeHandler(fieldInfo);
+
+                            }
 
                         }
 
@@ -239,6 +251,10 @@ namespace Natasha
                                 }
 
                             }
+                            else
+                            {
+                                SelfTypeHandler(fieldInfo);
+                            }
 
                         }
                         else
@@ -248,6 +264,12 @@ namespace Natasha
                             {
 
                                 EntityHandler(fieldType);
+
+                            }
+                            else
+                            {
+
+                                SelfTypeHandler(fieldInfo);
 
                             }
                             FieldEntityHandler(fieldInfo);
@@ -307,6 +329,12 @@ namespace Natasha
                                     PropertyArrayEntityHandler(propertyInfo);
 
                                 }
+                                else
+                                {
+
+                                    SelfTypeHandler(propertyInfo);
+
+                                }
 
                             }
 
@@ -360,6 +388,12 @@ namespace Natasha
                                     }
 
                                 }
+                                else
+                                {
+
+                                    SelfTypeHandler(propertyInfo);
+
+                                }
 
                             }
                             else
@@ -367,7 +401,15 @@ namespace Natasha
 
                                 if (!IsSelfType(propertyType))
                                 {
+
                                     EntityHandler(propertyType);
+
+                                }
+                                else
+                                {
+
+                                    SelfTypeHandler(propertyInfo);
+
                                 }
                                 PropertyEntityHandler(propertyInfo);
 

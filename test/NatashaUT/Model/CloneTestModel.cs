@@ -3,12 +3,8 @@ using System.Collections.Generic;
 
 namespace NatashaUT.Model
 {
-    public class FieldCloneNormalModel
+    public struct FieldCloneNormalModel
     {
-        public FieldCloneNormalModel()
-        {
-            ReadOnly = 1000;
-        }
         public const int Const=100;
         public readonly int ReadOnly;
         public CloneEnum Flag;

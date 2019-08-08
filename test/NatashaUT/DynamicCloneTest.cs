@@ -113,13 +113,14 @@ namespace NatashaUT
             }
 
             var newModel = CloneOperator.Clone(model);
-
             for (int i = 0; i < 10; i++)
             {
-                Assert.NotEqual(model.Nodes, newModel.Nodes);
                 Assert.Equal(model.Nodes[i].Name, newModel.Nodes[i].Name);
                 Assert.Equal(model.Nodes[i].Age, newModel.Nodes[i].Age);
+                Assert.NotEqual(i-1, newModel.Nodes[i].Age);
             }
+            model.Nodes.Clear();
+            Assert.NotEqual(model.Nodes.Count, newModel.Nodes.Count);
         }
 
 
@@ -392,18 +393,21 @@ namespace NatashaUT
                 {
                     key1.Add("1b");
                     Assert.NotEqual(item.Key, key1);
-                    Assert.NotEqual(model.Dicts[key1][0], item.Value[0]);
                     Assert.Equal(model.Dicts[key1][0].Name, item.Value[0].Name);
+                    model.Dicts[key1].Clear();
+                    Assert.NotEqual(model.Dicts[key1].Count, item.Value.Count);
                 }
                 else
                 {
                     Assert.Equal(item.Key, key2);
-                    Assert.NotEqual(model.Dicts[key2][0], item.Value[0]);
                     Assert.Equal(model.Dicts[key2][0].Name, item.Value[0].Name);
+                    model.Dicts[key2].Clear();
+                    Assert.NotEqual(model.Dicts[key2].Count, item.Value.Count);
+
                 }
                 i += 1;
             }
-            Assert.NotEqual(model.Dicts, newModel.Dicts);
+            Assert.NotSame(model.Dicts, newModel.Dicts);
         }
 
 
@@ -439,15 +443,15 @@ namespace NatashaUT
             var newModel = CloneOperator.Clone(model);
             for (int i = 0; i < 5; i++)
             {
-                Assert.NotEqual(model.Dicts[i], newModel.Dicts[i]);
+
                 Assert.Equal(model.Dicts[i].Count, newModel.Dicts[i].Count);
                 for (int j = 0; j < 5; j++)
                 {
-                    Assert.NotEqual(model.Dicts[i][j.ToString()], newModel.Dicts[i][j.ToString()]);
+  
                     Assert.Equal(model.Dicts[i][j.ToString()].Length, newModel.Dicts[i][j.ToString()].Length);
                     for (int z = 0; z < 5; z++)
                     {
-                        Assert.NotEqual(model.Dicts[i][j.ToString()][z], newModel.Dicts[i][j.ToString()][z]);
+                        
                         Assert.Equal(model.Dicts[i][j.ToString()][z].Name, newModel.Dicts[i][j.ToString()][z].Name);
                         Assert.Equal(model.Dicts[i][j.ToString()][z].Age, newModel.Dicts[i][j.ToString()][z].Age);
                         Assert.Equal(model.Dicts[i][j.ToString()][z].Flag, newModel.Dicts[i][j.ToString()][z].Flag);
@@ -455,8 +459,15 @@ namespace NatashaUT
                         Assert.Equal(model.Dicts[i][j.ToString()][z].Timer, newModel.Dicts[i][j.ToString()][z].Timer);
                         Assert.Equal(model.Dicts[i][j.ToString()][z].Title, newModel.Dicts[i][j.ToString()][z].Title);
                     }
+                    model.Dicts[i][j.ToString()] = new FieldCloneNormalModel[0];
+                    Assert.NotEqual(model.Dicts[i][j.ToString()].Length, newModel.Dicts[i][j.ToString()].Length);
                 }
+
+                model.Dicts[i].Clear();
+                Assert.NotSame(model.Dicts[i], newModel.Dicts[i]);
+                Assert.NotEqual(model.Dicts[i].Count, newModel.Dicts[i].Count);
             }
+
         }
 
 
@@ -477,7 +488,7 @@ namespace NatashaUT
 
 
             var newModel = CloneOperator.Clone(model);
-            newModel.Nodes = CloneOperator.Clone(model.Nodes);
+  
             Assert.NotEqual(model.Nodes.First, newModel.Nodes.First);
             Assert.Equal(model.Nodes.First.Value.Name, newModel.Nodes.First.Value.Name);
 
@@ -512,8 +523,8 @@ namespace NatashaUT
 
 
             var newModel = CloneOperator.Clone(model);
-            newModel.Nodes = CloneOperator.Clone(model.Nodes);
 
+            Assert.NotNull(newModel.Nodes);
             Assert.NotEqual(model.Nodes, newModel.Nodes);
             Assert.Equal(model.Nodes.Length, newModel.Nodes.Length);
 

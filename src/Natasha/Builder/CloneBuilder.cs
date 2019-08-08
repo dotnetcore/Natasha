@@ -389,6 +389,18 @@ namespace Natasha.Builder
 
 
 
+        public override void SelfTypeHandler(BuilderInfo info)
+        {
+
+            Script.AppendLine($"if({OldInstance}.{info.MemberName}!=null){{");
+            Script.AppendLine($"{NewInstance}.{info.MemberName} = CloneOperator.Clone({OldInstance}.{info.MemberName});");
+            Script.AppendLine($"}}");
+
+        }
+
+
+
+
         public override void EntityReturnHandler(BuilderInfo info)
         {
 
@@ -507,6 +519,7 @@ namespace Natasha.Builder
                 //创建委托
                 MethodHandler.Complier.UseFileComplie();
                 var @delegate = MethodHandler
+                            .Using("Natasha.Operator")
                             .OopName("NatashaClone" + CurrentType.GetAvailableName())
                             .MethodName("Clone")
                             .Param(CurrentType, OldInstance)                //参数
