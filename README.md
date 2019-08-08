@@ -60,6 +60,7 @@ WeihanLi
  - 2019-08-04 ： 发布v1.1.0.0，优化编译引擎，区分OS字符，增加异常捕获。
  - 2019-08-05 ： 发布v1.2.0.0，支持类/结构体/接口的编译，支持字段模板，增加string扩展。
  - 2019-08-06 ： 发布v1.2.1.0，废弃RuntimeComplier,改用OopComplier，支持脚本和DLL文件混合编译。
+ - 2019-08-07 ： 发布v1.3.0.0，增加NewClass\NewStruct\NewInterface静态操作类,增加NewMethod静态操作类。
 
  <br/>  
  
