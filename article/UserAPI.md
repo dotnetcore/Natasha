@@ -80,63 +80,7 @@
 
 <br/>  
 
-- **FakeMethodOperator/FastMethodOperator/DelegateOperator**  : [参见首页ReadMe](https://github.com/dotnetcore/Natasha/)  
-
-<br/>  
-
-- **ProxyOperator**  : [参见UT测试](https://github.com/dotnetcore/Natasha/blob/master/test/NatashaUT/ProxyTest.cs)  
-
-<br/>  
-
-
-- **OopOperator** : [参见UT测试](https://github.com/dotnetcore/Natasha/blob/master/test/NatashaUT/OopTest.cs)  
-
-<br/>  
-
-
-- **OopComplier** : [参见UT测试](https://github.com/dotnetcore/Natasha/blob/master/test/NatashaUT/OopComplierTest.cs)    
-
-
-<br/>  
-
-- **CloneOperator**    
-
-> 使用该方法可以实现深度克隆
-
-```C#
-
- var copyInstance = CloneOperator.Clone(instance);
-
-```  
-
-<br/>  
-
-- **SnapshotOperator**    
-
-> 使用该方法可以实现快照功能
-
-```C#
-
- SnapshotOperator.MakeSnapshot(instance);
- //
- //do sth
- //
- var diff = SnapshotOperator.Compare(instance);
-
-```  
-
-<br/>  
-
-- **CtorOperator**    
-
-> 当您知道一个类，并想将它的初始化操作放在委托里。
-
-```C#
-
- var func = CtorOperator.NewDelegate(typeof(Foo));
- Foo instance = func();
-
-```  
+- **Operator**  : [参见Operator页](https://github.com/dotnetcore/Natasha/blob/master/article/Operator.md)  
 
 <br/>  
 
