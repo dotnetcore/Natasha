@@ -2,7 +2,7 @@
 
 namespace Natasha.Template
 {
-    public class MethodAsyncTemplate<T> : MemberModifierTemplate<T>
+    public class MethodAsyncTemplate<T> : MethodUnsafeTemplate<T>
     {
 
         public string MethodAsyncScript;

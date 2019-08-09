@@ -161,10 +161,11 @@ namespace Natasha.Complier
                 ClassName[0],
                 options: new CSharpCompilationOptions(
                     outputKind: OutputKind.DynamicallyLinkedLibrary,
-                    optimizationLevel: OptimizationLevel.Release),
+                    optimizationLevel: OptimizationLevel.Release,
+                    allowUnsafe: true),
                 syntaxTrees: new[] { Tree },
                 references: References);
-
+            
 
             //编译并生成程序集
             using (MemoryStream stream = new MemoryStream())
@@ -299,7 +300,8 @@ namespace Natasha.Complier
                 ClassNames[0],
                 options: new CSharpCompilationOptions(
                     outputKind: OutputKind.DynamicallyLinkedLibrary,
-                    optimizationLevel: OptimizationLevel.Release),
+                    optimizationLevel: OptimizationLevel.Release,
+                     allowUnsafe: true),
                 syntaxTrees: new[] { Tree },
                 references: References);
 

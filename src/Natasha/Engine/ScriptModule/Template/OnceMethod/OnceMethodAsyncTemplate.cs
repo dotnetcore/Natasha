@@ -2,7 +2,7 @@
 
 namespace Natasha.Template
 {
-    public class OnceMethodAsyncTemplate<T> : OnceMethodModifierTemplate<T>
+    public class OnceMethodAsyncTemplate<T> : OnceMethodUnsafeTemplate<T>
     {
 
         public string OnceAsyncScript;

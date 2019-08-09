@@ -25,7 +25,7 @@ namespace NatashaUT
                         .Return<string>()
                 .Complie();
 
-           string result = ((Func<string, string,string>)delegateAction)?.Invoke("Hello", "World1!");
+           string result = ((Func<string, string, string>)delegateAction)?.Invoke("Hello", "World1!");
            Assert.Equal("Hello World1!", result);
         }
 
