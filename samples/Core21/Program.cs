@@ -40,6 +40,36 @@ namespace HelloWorld
             return ""11"";
 
         }
+
+        public static int Get(int temp){
+
+            switch (temp)
+            {
+                case 100:
+                    temp = 1;
+                    break;
+                case 200:
+                    temp = 333;
+                    break;
+                case 300:
+                    temp = 645;
+                    break;
+                case 400:
+                    temp = 1412;
+                    break;
+                case 500:
+                    temp = 653;
+                    break;
+                case 600:
+                    temp = 2988;
+                    break;
+
+                default:
+                    temp = 2019;
+                    break;
+            }
+            return temp;
+        }
     }
 }";
             //根据脚本创建动态类
