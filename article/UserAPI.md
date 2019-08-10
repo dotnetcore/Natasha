@@ -16,8 +16,8 @@
 | FakeMethodOperator | 仿造MethodInfo创建方法 | Natasha.Operator | 静态/实例化 |
 | FastMethodOperator | 快速创建方法 | Natasha.Operator | 静态/实例化 |
 | DelegateOperator | 快速实现委托 | Natasha.Operator | 静态 |
-| ProxyOperator | 动态实现操作 | Natasha.Operator | 实例化 |
-| OopOperator | 动态实现类/接口/结构体 | Natasha.Operator | 实例化 |
+| ProxyOperator | 动态实现接口/抽象类/虚方法 | Natasha.Operator | 实例化 |
+| OopOperator | 动态构建类/接口/结构体 | Natasha.Operator | 实例化 |
 | SnapshotOperator | 快照操作 | Natasha.Operator | 静态 |
 | CloneOperator | 克隆操作 | Natasha.Operator | 静态 |
 | CtorOperator | 动态初始化 | Natasha.Operator | 静态 |
