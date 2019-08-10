@@ -1,5 +1,6 @@
 ﻿using Natasha;
 using System;
+using Natasha.MethodExtension;
 
 namespace Core20
 {
@@ -32,6 +33,9 @@ namespace Core20
             OopComplier oop = new OopComplier();
             Type type = oop.GetClassType(text);
 
+
+            var func = "return arg;".Create<Func<string, string>>();
+            Console.WriteLine(func("111"));
 
             Console.ReadKey();
         }

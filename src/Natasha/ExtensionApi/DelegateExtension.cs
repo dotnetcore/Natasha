@@ -1,7 +1,7 @@
 ﻿using Natasha.Operator;
 using System;
 
-namespace Natasha.MethodExtension
+namespace Natasha.DelegateExtension
 {
     public static class DelegateExtension
     {
