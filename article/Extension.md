@@ -42,7 +42,7 @@ Example:
 
 Example:  
 
-        Using : Natasha.Method; 
+        Using : Natasha.MethodExtension; 
         public delegate int AddOne(int value);
         
         
@@ -74,7 +74,7 @@ Example:
 
 Example:  
 
-        Using : Natasha.Clone; 
+        Using : Natasha.CloneExtension; 
         var instance = new ClassA();
         var result = instance.Clone();
 ```
@@ -87,7 +87,7 @@ Example:
 
 Example:  
 
-        Using : Natasha.Snapshot; 
+        Using : Natasha.SnapshotExtension; 
         var instance = new ClassA();
         
         instance.MakeSnapshot();
