@@ -8,6 +8,8 @@
 
 | 类名 | 作用 | 命名空间 | 操作类型 |
 |:---:|:---:|:---:|:---:|
+| NAction | 快速创建动态的Action委托 | Natasha | 静态 | 
+| NFunc | 快速创建动态的Func委托 | Natasha | 静态 |
 | OopComplier | 编译整个字符串 | Natasha | 实例化 |
 | NewMethod | 创建委托 | Natasha | 静态 |
 | NewClass | 创建类| Natasha | 静态 |
@@ -26,6 +28,30 @@
 <br/>  
 
 ## API用法展示
+
+<br/>  
+
+- **NFunc/NAction**  
+
+```C#
+
+//NFunc 和 NAction 支持：
+
+// 普通方法：      Delegate
+// 异步方法：      AsyncDelegate
+// 非安全方法：    UnsafeDelegate
+// 非安全异步方法： UnsafeAsyncDelegate
+
+var action = NFunc<string, string, Task<string>>.UnsafeAsyncDelegate(@"
+                            string result = arg1 +"" ""+ arg2;
+                            Console.WriteLine(result);
+                            return result;");
+
+string result = await action("Hello", "World1!");
+//result = "Hello World1!"
+  
+```  
+
 
 <br/>  
 
