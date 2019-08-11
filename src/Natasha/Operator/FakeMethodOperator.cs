@@ -77,9 +77,16 @@ namespace Natasha.Operator
             }
 
 
+            if (OnceAsyncScript == default)
+            {
+
+                AsyncFrom(_temp_info);
+
+            }
+
+
 
             MethodAccess(_temp_info)
-            .AsyncFrom(_temp_info)
             .Param(_temp_info)
             .MethodBody(content)
             .Return(_temp_info);
@@ -108,8 +115,23 @@ namespace Natasha.Operator
             }
 
 
+            if (OnceModifierScript == default)
+            {
+
+                MethodModifier(_temp_info);
+
+            }
+
+
+            if (OnceAsyncScript == default)
+            {
+
+                AsyncFrom(_temp_info);
+
+            }
+
+
             OopModifier(Modifiers.Static)
-            .AsyncFrom(_temp_info)
             .MethodAccess(_temp_info)
             .MethodModifier(Modifiers.Static)
             .Param(_temp_info)

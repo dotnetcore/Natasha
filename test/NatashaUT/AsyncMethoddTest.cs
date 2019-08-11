@@ -56,6 +56,36 @@ namespace NatashaUT
 
 
 
+        [Fact(DisplayName = "NFunc异步委托")]
+        public static async void RunAsyncDelegate5()
+        {
+            var action = NFunc<string, string, Task<string>>.AsyncDelegate(@"
+                            string result = arg1 +"" ""+ arg2;
+                            Console.WriteLine(result);
+                            return result;");
+
+            string result = await action("Hello", "World1!");
+            Assert.Equal("Hello World1!", result);
+        }
+
+
+
+
+        [Fact(DisplayName = "NFunc非安全异步委托")]
+        public static async void RunAsyncDelegate6()
+        {
+            var action = NFunc<string, string, Task<string>>.UnsafeAsyncDelegate(@"
+                            string result = arg1 +"" ""+ arg2;
+                            Console.WriteLine(result);
+                            return result;");
+
+            string result = await action("Hello", "World1!");
+            Assert.Equal("Hello World1!", result);
+        }
+
+
+
+
         [Fact(DisplayName = "自动泛型异步委托1")]
         public static async void RunAsyncDelegate3()
         {

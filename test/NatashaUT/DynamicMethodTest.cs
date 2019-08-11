@@ -4,6 +4,7 @@ using System;
 using Xunit;
 using Natasha.MethodExtension;
 using Natasha.Operator;
+using System.Threading.Tasks;
 
 namespace NatashaUT
 {
@@ -46,6 +47,21 @@ namespace NatashaUT
                 .Complie();
 
             string result = ((Func<string, string, string>)delegateAction)?.Invoke("Hello", "World1!");
+            Assert.Equal("Hello World1!", result);
+        }
+
+
+
+
+        [Fact(DisplayName = "NFunc委托")]
+        public static void RunDelegate5()
+        {
+            var action = NFunc<string, string, string>.UnsafeDelegate(@"
+                            string result = arg1 +"" ""+ arg2;
+                            Console.WriteLine(result);
+                            return result;");
+
+            string result = action("Hello", "World1!");
             Assert.Equal("Hello World1!", result);
         }
 

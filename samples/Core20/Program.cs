@@ -34,7 +34,7 @@ namespace Core20
             Type type = oop.GetClassType(text);
 
 
-            var func = "return arg;".Create<Func<string, string>>();
+            var func = "return arg;".Delegate<Func<string, string>>();
             Console.WriteLine(func("111"));
 
             Console.ReadKey();

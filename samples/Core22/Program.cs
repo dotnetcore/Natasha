@@ -52,9 +52,9 @@ namespace Core22
             abstractBuilder.Compile();
             var test = abstractBuilder.Create("UTestClass");
 
-            var delegate2 = DelegateOperator<GetterDelegate>.Create("return value.ToString();");
+            var delegate2 = DelegateOperator<GetterDelegate>.Delegate("return value.ToString();");
             Console.WriteLine(delegate2(1));
-            var delegate3 = "return value.ToString();".Create<GetterDelegate>();
+            var delegate3 = "return value.ToString();".Delegate<GetterDelegate>();
             var delegateConvt = FastMethodOperator.New
                 .Param<string>("value")
                 .MethodBody($@"return value==""true"" || value==""mama"";")
