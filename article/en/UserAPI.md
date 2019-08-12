@@ -38,8 +38,8 @@
 //NFunc and NAction：
 
 // general method：      Delegate
-// async method：      AsyncDelegate
-// unsafe method：    UnsafeDelegate
+// async method：        AsyncDelegate
+// unsafe method：       UnsafeDelegate
 // unsafe async method： UnsafeAsyncDelegate
 
 var action = NFunc<string, string, Task<string>>.UnsafeAsyncDelegate(@"
