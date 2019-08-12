@@ -1,33 +1,33 @@
-# API详情  
+# API Details  
 
 <br/>  
 
-## API速查表  
+## API Quick look-up table  
 
 <br/>  
 
-| 类名 | 作用 | 命名空间 | 操作类型 |
+| ClassName | Description | NameSpace | OperatorType |
 |:---:|:---:|:---:|:---:|
-| NAction | 快速创建动态的Action委托 | Natasha | 静态 | 
-| NFunc | 快速创建动态的Func委托 | Natasha | 静态 |
-| OopComplier | 编译整个字符串 | Natasha | 实例化 |
-| NewMethod | 创建委托 | Natasha | 静态 |
-| NewClass | 创建类| Natasha | 静态 |
-| NewStruct | 创建结构体| Natasha | 静态 |
-| NewInterface | 创建接口 | Natasha | 静态 |
-| FakeMethodOperator | 仿造MethodInfo创建方法 | Natasha.Operator | 静态/实例化 |
-| FastMethodOperator | 快速创建方法 | Natasha.Operator | 静态/实例化 |
-| DelegateOperator | 快速实现委托 | Natasha.Operator | 静态 |
-| ProxyOperator | 动态实现接口/抽象类/虚方法 | Natasha.Operator | 实例化 |
-| OopOperator | 动态构建类/接口/结构体 | Natasha.Operator | 实例化 |
-| SnapshotOperator | 快照操作 | Natasha.Operator | 静态 |
-| CloneOperator | 克隆操作 | Natasha.Operator | 静态 |
-| CtorOperator | 动态初始化 | Natasha.Operator | 静态 |
+| NAction | Implementing Action delegation | Natasha | static | 
+| NFunc | Implementing Func delegation | Natasha | static |
+| OopComplier | Compile the entire string | Natasha | instantiation |
+| NewMethod | Quickly implement a delegate | Natasha | static |
+| NewClass | Create a class| Natasha | static |
+| NewStruct | Create a struct| Natasha | static |
+| NewInterface | Create an interface | Natasha | static |
+| FakeMethodOperator | Forge MethodInfo and create a method | Natasha.Operator | static/instantiation |
+| FastMethodOperator | Quickly create a method | Natasha.Operator | static/instantiation |
+| DelegateOperator | Implement a delegate | Natasha.Operator | static |
+| ProxyOperator | Dynamic implementation of interfaces / abstract classes / virtual methods | Natasha.Operator | instantiation |
+| OopOperator | Dynamically build classes / interfaces / structures | Natasha.Operator | instantiation |
+| SnapshotOperator | Snapshot operation | Natasha.Operator | static |
+| CloneOperator | Clone operation | Natasha.Operator | static |
+| CtorOperator | Dynamic initialization | Natasha.Operator | static |
 
 
 <br/>  
 
-## API用法展示
+## API Usage display
 
 <br/>  
 
@@ -35,12 +35,12 @@
 
 ```C#
 
-//NFunc 和 NAction 支持：
+//NFunc and NAction：
 
-// 普通方法：      Delegate
-// 异步方法：      AsyncDelegate
-// 非安全方法：    UnsafeDelegate
-// 非安全异步方法： UnsafeAsyncDelegate
+// general method：      Delegate
+// async method：      AsyncDelegate
+// unsafe method：    UnsafeDelegate
+// unsafe async method： UnsafeAsyncDelegate
 
 var action = NFunc<string, string, Task<string>>.UnsafeAsyncDelegate(@"
                             string result = arg1 +"" ""+ arg2;
@@ -106,7 +106,7 @@ string result = await action("Hello", "World1!");
 
 <br/>  
 
-- **Operator**  : [参见Operator页](https://github.com/dotnetcore/Natasha/blob/master/article/Operator.md)  
+- **Operator**  : [See Operator page](https://github.com/dotnetcore/Natasha/blob/master/article/Operator.md)  
 
 <br/>  
 
