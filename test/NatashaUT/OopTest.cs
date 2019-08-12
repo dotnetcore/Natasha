@@ -58,7 +58,7 @@ namespace NatashaUT
                 .OopName("TestUt3")
                 .ChangeToInterface()
                 .Ctor(item=>item
-                    .MemberAccess("public")
+                    .MemberModifier(Modifiers.Static)
                     .Param<string>("name")
                     .Body("this.Name=name;"))
                 .OopBody(@"public static void Test(){}")
@@ -66,7 +66,7 @@ namespace NatashaUT
                 .PrivateStaticField<int>("_age")
                 .Builder().Script;
 
-            Assert.Equal(@"using System;namespace System{interface TestUt3{public static String Name;private static Int32 _age;public static void Test(){}public TestUt3(String name){this.Name=name;}}}", script);
+            Assert.Equal(@"using System;namespace System{interface TestUt3{public static String Name;private static Int32 _age;public static void Test(){}static TestUt3(String name){this.Name=name;}}}", script);
         }
 
     }
