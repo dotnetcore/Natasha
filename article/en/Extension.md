@@ -1,8 +1,8 @@
-# 方便的扩展  
+# Convenient Extension  
  <br/>  
  
 
-#### 使用Natasha的类扩展:  
+#### Using Class-Extensions in Natasha:  
 
 ```C#
 
@@ -36,7 +36,7 @@ Example:
 <br/>
 <br/>    
 
-#### 使用Natasha的方法扩展:  
+#### Using Method-Extensions in Natasha:  
 
 ```C#
 
@@ -56,7 +56,7 @@ Example:
         //result : 10
         
         
-        //使用方法扩展快速动态构建委托
+        //Use method extension to quickly and dynamically build delegates
          @"string result = str1 +"" ""+ str2;
            Console.WriteLine(result);
            return result;".FastOperator()
@@ -68,7 +68,7 @@ Example:
 <br/>
 <br/>    
  
- #### 使用Natasha的克隆扩展:  
+ #### Using Clone-Extensions in Natasha:  
 
 ```C#
 
@@ -81,7 +81,7 @@ Example:
 <br/>
 <br/>    
  
-  #### 使用Natasha的快照扩展:  
+  #### Using Snapshot-Extensions in Natasha:  
 
 ```C#
 
