@@ -72,7 +72,14 @@ WeihanLi
  
 
 ### User Api：  
+
  <br/>  
+ 
+ > More new reference documentation：https://github.com/dotnetcore/Natasha/tree/master/article/en
+
+
+<br/>    
+
  
 #### First edit your project file *.csproj：
 
