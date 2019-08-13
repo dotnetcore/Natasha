@@ -1,0 +1,83 @@
+site_name: Natasha
+site_url: http://natasha.dotnetcore.xyz
+repo_name: 'GitHub'
+repo_url: 'https://github.com/dotnetcore/Natasha'
+
+docs_dir: docs/en
+site_dir: site
+
+theme:
+     name: 'material'
+     palette:
+       primary: 'indigo'
+       accent: 'indigo'
+     font:
+        text: 'Roboto'        
+     feature:
+       tabs: true 
+     custom_dir: "docs/resources"
+      
+plugins:
+  - search:
+      lang: ['en']
+ 
+nav:
+    - 'FlubuCore': 'index.md'
+    - 'Getting started': 'getting-started.md'
+    - 'Development specification': 'development-specification.md'
+    - 'API Table':'api-table.md'
+        - 'API samples': 'api-samples.md'
+        - 'API extension samples': 'extensions-samples.md'
+    - 'Build an oop type': 'oop.md'
+        - 'Class':'oop-class.md'
+        - 'Struct':'oop-struct.md'
+        - 'Interface':'oop-interface.md'
+        - 'Dynamic Implement':'oop-proxy.md'
+    - 'Build a method': 'method.md'
+        - 'Layer1':'method-operator.md'
+            - 'Faster Builder':'fast-method-operator.md'
+            - 'Faker Builder':'fake-method-operator.md'
+            - 'Delegate Builder':'delegate-method-operator.md'
+        - 'Layer2':'new-handler.md'
+            - 'Wrapper Faster-Builder':'new-method.md'
+        - 'Layer3':'func-action.md'
+            - 'Fake func method':'nfunc.md'
+            - 'Fake action method':'naction.md'
+    
+    - 'Cache Exception': 'exception.md'
+    - 'String Complie': 'string-complie.md'    
+    - 'Update Log' : 'update-log.md'
+        - '2019' : 'update-2019-log.md'
+
+  
+
+markdown_extensions:
+  - markdown.extensions.admonition
+  - markdown.extensions.codehilite:
+      guess_lang: false
+      linenums: true
+  - markdown.extensions.def_list
+  - markdown.extensions.footnotes
+  - markdown.extensions.meta
+  - markdown.extensions.toc:
+      permalink: true
+  - pymdownx.arithmatex
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:pymdownx.emoji.to_svg
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      repo_url_shorthand: true
+      user: dotnetcore
+      repo: Natasha
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
