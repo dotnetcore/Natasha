@@ -4,8 +4,8 @@
 
 
  - [Natasha](./zh/index.md)
- - '入门': 'getting-started.md'
- - '开发规范': 'development-specification.md'
+ - [入门](./zh/getting-started.md)
+ - [开发规范](./zh/development-specification.md)
  - 'API速查表':'api/index.md'
   - 'API速查案例': 'api/api-samples.md'
   - 'API扩展案例': 'api/extensions-samples.md'
