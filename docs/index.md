@@ -6,7 +6,6 @@
 
 <br/>
 
- - [Natasha](./zh/index.md)
  - [开始入门](./zh/getting-started.md)
  - [开发规范](./zh/development-specification.md)  
  
