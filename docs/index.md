@@ -27,15 +27,18 @@
 
  - [快速创建动态方法](./zh/method/index.md)  
  
-   - [第一层操作类](./zh/method/layer1.md)
+   - [第一层操作类](./zh/method/layer1.md)  
+   
      - [快速构建](./zh/method/fast-method.md)
      - [伪造构建](./zh/method/fake-method.md)
      - [委托构建](./zh/method/delegate-method.md)  
      
-   - [第二层操作类](./zh/method/layer2.md)
+   - [第二层操作类](./zh/method/layer2.md)  
+   
      - [快速构建的包装](./zh/method/new-method.md)  
      
-   - [第三层操作类](./zh/method/layer3.md)
+   - [第三层操作类](./zh/method/layer3.md)  
+   
      - [伪func方法](./zh/method/nfunc-method.md)
      - [伪action方法](./zh/method/naction-method.md)    
      
@@ -44,6 +47,7 @@
  - [异常捕获](./zh/exception.md)
  - [整串编译](./zh/string-complie.md)  
  
- - [更新日志](./zh/log/index.md)
+ - [更新日志](./zh/log/index.md)  
+ 
    - [2019](./zh/log/2019.md)
 
