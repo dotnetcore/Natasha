@@ -3,7 +3,7 @@
 ## Natasha是一款非常方便的动态编译库。
 
 
- - 'Natasha': 'index.md'
+ - [Natasha](./zh/index.md)
  - '入门': 'getting-started.md'
  - '开发规范': 'development-specification.md'
  - 'API速查表':'api/index.md'
