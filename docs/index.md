@@ -9,8 +9,6 @@
  - [开始入门](./zh/getting-started.md)
  - [开发规范](./zh/development-specification.md)  
  
-<br/>
-
  - [API速查表](./zh/api/index.md)  
  
    - [API速查案例](./zh/api/api-samples.md)
@@ -39,8 +37,10 @@
      
    - [第三层操作类](./zh/method/layer3.md)
      - [伪func方法](./zh/method/nfunc-method.md)
-     - [伪action方法](./zh/method/naction-method.md)  
+     - [伪action方法](./zh/method/naction-method.md)    
      
+  <br/>
+   
  - [异常捕获](./zh/exception.md)
  - [整串编译](./zh/string-complie.md)  
  
