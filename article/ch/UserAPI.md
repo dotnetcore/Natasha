@@ -106,7 +106,7 @@ string result = await action("Hello", "World1!");
 
 <br/>  
 
-- **Operator**  : [参见Operator页](https://github.com/dotnetcore/Natasha/blob/master/article/Operator.md)  
+- **Operator**  : [参见Operator页](https://github.com/dotnetcore/Natasha/blob/master/article/ch/Operator.md)  
 
 <br/>  
 
