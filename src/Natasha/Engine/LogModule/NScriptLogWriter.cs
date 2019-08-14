@@ -15,8 +15,6 @@ namespace Natasha
     public static class NScriptLogWriter<T>
     {
 
-        public static readonly string YearPath;
-        public static readonly string DayPath;
         private static readonly string _logFile;
         private static readonly object _lock;
         static NScriptLogWriter()
@@ -33,7 +31,7 @@ namespace Natasha
             }
 
 
-            YearPath = Path.Combine(logPath, DateTime.Now.Year.ToString());
+            var YearPath = Path.Combine(logPath, DateTime.Now.Year.ToString());
             if (!Directory.Exists(YearPath))
             {
 
@@ -42,7 +40,7 @@ namespace Natasha
             }
 
 
-            DayPath = Path.Combine(YearPath, DateTime.Now.ToString("MM月dd日"));
+            var DayPath = Path.Combine(YearPath, DateTime.Now.ToString("MM月dd日"));
             if (!Directory.Exists(DayPath))
             {
 
@@ -50,7 +48,17 @@ namespace Natasha
 
             }
 
-            _logFile = Path.Combine(DayPath, $"{typeof(T).Name}.log");
+
+            var HoursPath = Path.Combine(DayPath, DateTime.Now.ToString("HH时mm分"));
+            if (!Directory.Exists(HoursPath))
+            {
+
+                Directory.CreateDirectory(HoursPath);
+
+            }
+
+
+            _logFile = Path.Combine(HoursPath, $"{typeof(T).Name}.log");
         }
 
 
