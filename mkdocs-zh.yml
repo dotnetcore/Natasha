@@ -1,7 +1,7 @@
 site_name: Natasha
 site_url: https://natasha.dotnetcore.xyz
 repo_name: 'GitHub'
-repo_url: 'https://github.com/dotnetcore/Natasha'
+repo_url: https://github.com/dotnetcore/Natasha
 
 docs_dir: docs/zh
 site_dir: site
