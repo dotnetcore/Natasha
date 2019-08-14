@@ -49,6 +49,33 @@ nav:
     - 'Update Log' : 'update-log.md'
         - '2019' : 'update-2019-log.md'
 
+nav:
+    - 'Natasha': 'index.md'
+    - 'Getting started': 'getting-started.md'
+    - 'Development specification': 'development-specification.md'
+    - 'API Table':'api/index.md'
+        - 'API samples': 'api/api-samples.md'
+        - 'API extension samples': 'api/extensions-samples.md'
+    - 'Build an oop type': 'oop/index.md'
+        - 'Class':'oop/class.md'
+        - 'Struct':'oop/struct.md'
+        - 'Interface':'oop/interface.md'
+        - 'Dynamic Implement':'oop/proxy.md'
+    - 'Build a method': 'method/index.md'
+        - 'Layer1':'method/layer1.md'
+            - 'Faster Builder':'method/fast-method.md'
+            - 'Faker Builder':'method/fake-method.md'
+            - 'Delegate Builder':'method/delegate-method.md'
+        - 'Layer2':'method/layer2.md'
+            - 'Wrapper Faster-Builder':'method/new-method.md'
+        - 'Layer3':'method/layer3.md'
+            - 'Fake func method':'method/nfunc-method.md'
+            - 'Fake action method':'method/naction-method.md'
+    
+    - 'Cache Exception': 'exception.md'
+    - 'String Complie': 'string-complie.md'    
+    - 'Update Log' : 'log/index.md'
+        - '2019' : 'log/2019.md'
   
 
 markdown_extensions:
