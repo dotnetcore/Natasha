@@ -28,6 +28,7 @@ skip_commits:
     - .gitignore
     - azure-pipelines.yml
     - lang/*
+    - article/*
 
 for:
 -
