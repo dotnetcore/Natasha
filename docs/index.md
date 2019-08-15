@@ -37,9 +37,9 @@
    - [第三层操作类](./zh/method/layer3.md)  
    
      - [伪func方法](./zh/method/nfunc-method.md)
-     - [伪action方法](./zh/method/naction-method.md)    
-     
-   
+     - [伪action方法](./zh/method/naction-method.md)   
+  
+  
  - [异常捕获](./zh/exception.md)
  - [整串编译](./zh/string-complie.md)  
  
