@@ -1,3 +1,8 @@
+<p align="center">
+ <a href="https://natasha.dotnetcore.xyz/"> 返回 </a> |  <a href="https://natasha.dotnetcore.xyz/en/getting-started.html">English</a>
+</p>  
+
+
 ## 简介
 
 Natasha 支持您在运行时进行脚本交互，创建动态方法，典型场景例如类型映射，远程调用。
