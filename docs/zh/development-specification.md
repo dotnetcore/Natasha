@@ -2,7 +2,11 @@
  <a href="https://natasha.dotnetcore.xyz/"> 返回 </a> |  <a href="https://natasha.dotnetcore.xyz/en/development-specification.html">English</a>
 </p>  
 
-# Natasha  封装规约
+
+## Natasha  封装规约
+
+Natasha有自己的封装规则，这可以让封装者思路更加清晰，并让作品更加容易维护。
+
 
 <br/>
 
