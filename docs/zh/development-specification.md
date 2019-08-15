@@ -1,9 +1,6 @@
 <p align="center">
  <a href="https://natasha.dotnetcore.xyz/"> 返回 </a> |  <a href="https://natasha.dotnetcore.xyz/en/development-specification.html">English</a>
-</p>
-
-
-------------------
+</p>  
 
 # Natasha  封装规约
 
