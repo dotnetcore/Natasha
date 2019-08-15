@@ -1,3 +1,3 @@
-# 欢迎使用Natasha 
-
-## Natasha是一款非常方便的动态编译库。
+<p align="center">
+ <a href="https://natasha.dotnetcore.xyz/"> Back </a> |  <a href="https://natasha.dotnetcore.xyz/"> 中文 </a>
+</p>  

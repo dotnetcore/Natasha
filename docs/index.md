@@ -1,6 +1,6 @@
-# 欢迎使用Natasha
-
-<br/>
+<p align="center">
+ <a href="https://natasha.dotnetcore.xyz/"> 返回 </a> |  <a href="https://natasha.dotnetcore.xyz/en/index.html"> English </a>
+</p>  
 
 ## Natasha是一款非常方便的动态编译库。
 
