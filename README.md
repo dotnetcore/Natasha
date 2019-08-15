@@ -74,7 +74,7 @@ WeihanLi
  
  ### 微信群  
  
-![微信](https://github.com/dotnetcore/Natasha/blob/master/Image/WeChart.png)
+![微信](https://github.com/dotnetcore/Natasha/blob/master/Image/WeChart.jpg)
  
   <br/>  
  
