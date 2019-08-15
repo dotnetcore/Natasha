@@ -29,9 +29,13 @@ Emit和表达式树的使用场景，Natasha均适用。
 
 ## 安装
 
-如果您的项目是.NetCore项目，那么您可以使用Natasha.  
-您可以使用命令 `Install-Package DotNetCore.Natasha -Version 1.3.4`   
-或者在 VS IDE 中搜索 `DotNetCore.Natasha` 均可。
+如果您的项目是.NetCore项目，那么您可以使用Natasha.    
+
+ - 命令  
+ `Install-Package DotNetCore.Natasha -Version 1.3.4`  
+ 
+ - nuget  
+  `DotNetCore.Natasha`  
 
 
 <br/>  
@@ -62,14 +66,21 @@ Emit和表达式树的使用场景，Natasha均适用。
 
 ##  第一个HelloWorld
 
-```C#  
-var action = NAction.Delegate("Console.WriteLine(""Hello World!"");",typeof(Console));
-action();
-```  
+```C#
 
-或者  
+//你需要准备一个字符串
+string script = "Console.WriteLine(""Hello World!"");
 
-```C#  
-var action = "Console.WriteLine(""Hello World!"");".Delegate<Action>(typeof(Console));
+
+//然后像这样用
+var action = NAction.Delegate(script,typeof(Console));
 action();
+
+
+//或者这样
+var action = script.Delegate<Action>(typeof(Console));
+action();
+
 ```
+
+<br/>  
