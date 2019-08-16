@@ -71,4 +71,36 @@ Natasha的模板都是写活的，Builder都十分的灵活，因此您可以不
 
 例如：
 `Operator.OopAccess(AccessTypes.Internal); `这将覆盖原有的OopAccess函数功能。
+
  
+<br/> 
+
+## 案例
+ 
+```C#
+
+ var script =  FastMethodOperator.New
+               .Param<string>("str1")
+               .Param<string>("str2")
+               .MethodBody(@"
+                   string result = str1 +"" ""+ str2;
+                   Console.WriteLine(result);
+                   return result;")
+               .Return<string>()
+               .Builder()
+               .MethodScript;
+
+            
+/*可以看到生成的代码：
+public static string NatashaDynamicMethod(String str1, String str2)
+{
+     string result = str1 +" "+ str2;
+     Console.WriteLine(result);
+     return result;
+}*/
+            
+```
+
+您还可以在. 之后找到UseAsync/UseUnsafe等方法，它们可以让您定制更加丰富的功能。
+这里有个有趣的地方，如果您去看过Natasha的CI过程的测试会发现，日志中有很多“Hello World”,
+这些就是在动态方法中输出的hello world,在测试的时候被输出出来了。
