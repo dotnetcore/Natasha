@@ -19,7 +19,7 @@ namespace Natasha.Template
             var handler = new MethodDelegateTemplate<T>();
             action?.Invoke(handler);
             handler.Builder();
-            OopMethodScript.Append(handler._script);
+            OopMethodScript.AppendLine(handler._script.ToString());
             return Link;
         }
 
