@@ -10,6 +10,25 @@ Natasha为此提供了极其方便的方法构建操作类，使用原生C#代�
 
 <br/>
 
+## 原理
+
+大多数的方法构造操作类都是以一个目标为基准：
+```C#
+
+using xxx;
+public static class xxx 
+{
+    public static xx Invoke(xxx)
+    {
+       xxxxxxxxx
+    }
+}
+
+```
+Natasha会反射元数据并生成委托返回给用户。
+
+<br/>
+
 ## 操作类封装
 
 Natasha 从三种封装深度对方法操作类进行了封装。  
@@ -17,4 +36,5 @@ Natasha 从三种封装深度对方法操作类进行了封装。
 - 第一层：Operator 原始操作类，最为灵活。
 - 第二层：NewMethod Operator的包装方法，以静态和委托的方式来构建一个动态方法。
 - 第三层：NFunc/NAction Operator的包装方法，以静态的方式模拟Func/Action类构建一个动态方法。
+
 
