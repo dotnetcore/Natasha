@@ -6,4 +6,4 @@
 
 日志按年份维度划分，
 
-- [2019](https://natasha.dotnetcore.xyz/en/update/2019.html)
+- [2019](https://natasha.dotnetcore.xyz/zh/update/2019.html)
