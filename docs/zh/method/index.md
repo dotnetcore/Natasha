@@ -18,7 +18,7 @@ Natasha为此提供了极其方便的方法构建操作类，使用原生C#代�
 using xxx;
 public static class xxx 
 {
-    public static xx Invoke(xxx)
+    public static xx NatashaDynamicMethod(xxx)
     {
        xxxxxxxxx
     }
