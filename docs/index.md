@@ -43,7 +43,7 @@
  - [异常捕获](./zh/exception.md)
  - [整串编译](./zh/string-complie.md)  
  
- - [更新日志](./zh/log/index.md)  
+ - [更新日志](./zh/update/index.md)  
  
-   - [2019](./zh/log/2019.md)
+   - [2019](./zh/update/2019.md)
 
