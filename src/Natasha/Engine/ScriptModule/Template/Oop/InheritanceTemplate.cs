@@ -111,7 +111,7 @@ namespace Natasha.Template
         {
 
             base.Builder();
-            _script.Append($@"{Inheritances}{{");
+            _script.AppendLine($"{Inheritances}{{");
             return Link;
 
         }

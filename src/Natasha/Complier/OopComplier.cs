@@ -49,6 +49,15 @@ namespace Natasha
 
         }
 
+
+        public Type GetEnumType(string content, int enumIndex = 1, int namespaceIndex = 1)
+        {
+
+            string interfaceName = ScriptHelper.GetEnumName(content, enumIndex, namespaceIndex);
+            return GetTypeByScript(content, interfaceName);
+
+        }
+
     }
 
 }

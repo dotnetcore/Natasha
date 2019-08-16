@@ -85,6 +85,10 @@ namespace Natasha.Builder
                 case OopType.Interface:
 
                     return Complier.GetInterfaceType(Script, classIndex, namespaceIndex);
+
+                case OopType.Enum:
+
+                    return Complier.GetEnumType(Script, classIndex, namespaceIndex);
             }
 
             return null;

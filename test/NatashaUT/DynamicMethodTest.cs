@@ -1,10 +1,9 @@
 ﻿using Natasha;
+using Natasha.MethodExtension;
+using Natasha.Operator;
 using NatashaUT.Model;
 using System;
 using Xunit;
-using Natasha.MethodExtension;
-using Natasha.Operator;
-using System.Threading.Tasks;
 
 namespace NatashaUT
 {

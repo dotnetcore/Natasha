@@ -53,7 +53,7 @@ namespace Natasha
         /// 根据命名空间和结构体的位置获取类型
         /// </summary>
         /// <param name="content">脚本内容</param>
-        /// <param name="structIndex">命名空间里的第index个类</param>
+        /// <param name="structIndex">命名空间里的第index个结构体</param>
         /// <param name="namespaceIndex">第namespaceIndex个命名空间</param>
         /// <returns></returns>
         public static string GetStructName(string content, int structIndex = 1, int namespaceIndex = 1)
@@ -67,10 +67,10 @@ namespace Natasha
 
 
         /// <summary>
-        /// 根据命名空间和结构体的位置获取类型
+        /// 根据命名空间和接口的位置获取类型
         /// </summary>
         /// <param name="content">脚本内容</param>
-        /// <param name="interfaceIndex">命名空间里的第index个类</param>
+        /// <param name="interfaceIndex">命名空间里的第index个接口</param>
         /// <param name="namespaceIndex">第namespaceIndex个命名空间</param>
         /// <returns></returns>
         public static string GetInterfaceName(string content, int interfaceIndex = 1, int namespaceIndex = 1)
@@ -83,7 +83,24 @@ namespace Natasha
 
 
 
-        public static string GetDataStructString<T>(string content, int index = 1, int namespaceIndex = 1) where T : TypeDeclarationSyntax
+        /// <summary>
+        /// 根据命名空间和枚举的位置获取类型
+        /// </summary>
+        /// <param name="content">脚本内容</param>
+        /// <param name="enumIndex">命名空间里的第index个枚举</param>
+        /// <param name="namespaceIndex">第namespaceIndex个命名空间</param>
+        /// <returns></returns>
+        public static string GetEnumName(string content, int enumIndex = 1, int namespaceIndex = 1)
+        {
+
+            return GetDataStructString<EnumDeclarationSyntax>(content, enumIndex, namespaceIndex);
+
+        }
+
+
+
+
+        public static string GetDataStructString<T>(string content, int index = 1, int namespaceIndex = 1) where T : BaseTypeDeclarationSyntax
         {
             index -= 1;
             namespaceIndex -= 1;

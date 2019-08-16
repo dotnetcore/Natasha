@@ -34,7 +34,7 @@ namespace Natasha.Template
                 {
 
                     _usings.Add(type);
-                    UsingScript.Append($"using {type};");
+                    UsingScript.AppendLine($"using {type};");
 
                 }
 

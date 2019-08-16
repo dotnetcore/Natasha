@@ -40,7 +40,7 @@ namespace Natasha.Template
 
             _script.Clear();
             base.Builder();
-            _script.Append(OopContentScript);
+            _script.AppendLine(OopContentScript.ToString());
             _script.Append("}");
 
             if (!HiddenNamesapce)

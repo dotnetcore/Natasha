@@ -41,7 +41,7 @@ namespace Natasha.Template
             Using(type);
             if (!_fieldsSet.Contains(name))
             {
-                OopFieldScript.Append($"{access} {type.GetDevelopName()} {name};");
+                OopFieldScript.AppendLine($"{access} {type.GetDevelopName()} {name};");
             }
             return Link;
         }
@@ -131,6 +131,30 @@ namespace Natasha.Template
         public T ProtectedStaticField(Type type, string name)
         {
             return CreateField("protected static", type, name);
+        }
+
+        public T EnumField(string name, int value)
+        {
+
+            if (OopFieldScript.Length>0)
+            {
+                OopFieldScript.AppendLine(",");
+            }
+            OopFieldScript.Append($"{name}={value}");
+            return Link;
+
+        }
+
+        public T EnumField(string name)
+        {
+
+            if (OopFieldScript.Length > 0)
+            {
+                OopFieldScript.AppendLine(",");
+            }
+            OopFieldScript.Append(name);
+            return Link;
+
         }
 
     }

@@ -50,6 +50,18 @@
 
 
 
+        public T ChangeToEnum()
+        {
+
+            OopTypeScript = "enum ";
+            OopTypeEnum = OopType.Enum;
+            return Link;
+
+        }
+
+
+
+
         public override T Builder()
         {
 
@@ -63,6 +75,9 @@
 
 }
 
+
+
+
 namespace Natasha
 {
     public enum OopType
@@ -70,7 +85,8 @@ namespace Natasha
 
         Class,
         Struct,
-        Interface
+        Interface,
+        Enum
 
     }
 }

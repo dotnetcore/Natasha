@@ -74,7 +74,7 @@ namespace Natasha.Template
             base.Builder();
             if (!HiddenNamesapce)
             {
-                _script.Append($@"namespace {NamespaceScript}{{");
+                _script.AppendLine($"namespace {NamespaceScript}{{");
             }
             return Link;
 

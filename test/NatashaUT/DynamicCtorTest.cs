@@ -18,7 +18,8 @@ namespace NatashaUT
                 .Body("this.connection = initString;")
                 .Builder().Script;
 
-            Assert.Equal("public Test(String initString){this.connection = initString;}", result);
+            Assert.Equal(@"public Test(String initString){
+this.connection = initString;}", result);
         }
 
 
@@ -32,7 +33,8 @@ namespace NatashaUT
                 .Body("this.connection = initString;")
                 .Builder().Script;
 
-            Assert.Equal("private Test(){this.connection = initString;}", result);
+            Assert.Equal(@"private Test(){
+this.connection = initString;}", result);
         }
 
 
@@ -46,7 +48,8 @@ namespace NatashaUT
                 .Body("this.connection = initString;")
                 .Builder().Script;
 
-            Assert.Equal("static Test(){this.connection = initString;}", result);
+            Assert.Equal(@"static Test(){
+this.connection = initString;}", result);
         }
     }
 }

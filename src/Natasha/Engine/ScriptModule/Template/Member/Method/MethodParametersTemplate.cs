@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace Natasha.Template
 {
@@ -104,7 +103,7 @@ namespace Natasha.Template
                 Parameter(ParametersMappings);
             }
             base.Builder();
-            _script.Append($"{ParametersScript}{{");
+            _script.AppendLine($"{ParametersScript}{{");
             return Link;
 
         }
