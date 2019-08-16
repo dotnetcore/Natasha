@@ -15,9 +15,7 @@ namespace NatashaUT
             var script = builder
                 .Using<OopTest>()
                 .Namespace("TestNamespace")
-                .OopAccess(AccessTypes.Public)
-                .OopModifier(Modifiers.Static)
-                .OopName("TestUt1")
+                .OopAccess(AccessTypes.Public).OopModifier(Modifiers.Static).OopName("TestUt1")
                 .OopBody(@"public static void Test(){}")
                 .PublicStaticField<string>("Name")
                 .PrivateStaticField<int>("_age")
@@ -43,8 +41,7 @@ public static void Test(){}
         {
             var result = NewStruct.Create(builder => builder
                 .Namespace("TestNamespace")
-                .OopAccess(AccessTypes.Private)
-                .OopName("TestUt2")
+                .OopAccess(AccessTypes.Private).OopName("TestUt2")
                 .OopBody(@"public static void Test(){}")
                 .PublicStaticField<string>("Name")
                 .PrivateStaticField<int>("_age")
@@ -99,10 +96,8 @@ this.Name=name;}
         {
             OopOperator builder = new OopOperator();
             var script = builder
-                .HiddenNameSpace()
-                .ChangeToEnum()
-                .OopAccess(AccessTypes.Public)
-                .OopName("EnumUT1")
+                .HiddenNameSpace().ChangeToEnum()
+                .OopAccess(AccessTypes.Public).OopName("EnumUT1")
                 .EnumField("Apple")
                 .EnumField("Orange")
                 .EnumField("Banana")
@@ -122,10 +117,8 @@ Banana
         {
             OopOperator builder = new OopOperator();
             var script = builder
-                .HiddenNameSpace()
-                .ChangeToEnum()
-                .OopAccess(AccessTypes.Public)
-                .OopName("EnumUT1")
+                .HiddenNameSpace().ChangeToEnum()
+                .OopAccess(AccessTypes.Public).OopName("EnumUT1")
                 .EnumField("Apple",1)
                 .EnumField("Orange",2)
                 .EnumField("Banana",4)
