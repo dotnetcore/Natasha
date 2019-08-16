@@ -164,8 +164,7 @@ Console.WriteLine(""hello world"");return this;
         [Fact(DisplayName = "函数克隆2-静态")]
         public static void MakerStaticCode2()
         {
-            var builder = FakeMethodOperator.New;
-            builder
+            var builder = FakeMethodOperator.New
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite2"))
                 .StaticMethodContent(@"Console.WriteLine(""hello world"");return this;")
                 .Builder();
