@@ -46,6 +46,11 @@ namespace Natasha.Builder
 
             _script.Clear();
 
+
+#if NETCOREAPP3_0
+            Complier.Context = Domain;
+#endif
+
             if (CtorBuilder != null)
             {
                 CtorBuilder.Name(OopNameScript);

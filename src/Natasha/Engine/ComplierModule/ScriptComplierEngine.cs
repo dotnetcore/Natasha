@@ -28,20 +28,9 @@ namespace Natasha.Complier
         public readonly static ConcurrentDictionary<string, Assembly> DynamicDlls;
         public readonly static ConcurrentBag<PortableExecutableReference> References;
         private readonly static AdhocWorkspace _workSpace;
-        //public readonly static string SplitChar;
 
         static ScriptComplierEngine()
         {
-
-            //if (Environment.OSVersion.Platform == PlatformID.Unix)
-            //{
-            //    SplitChar = "\n";
-            //}
-            //else
-            //{
-            //    SplitChar = "\r\n";
-            //}
-
 
            _workSpace = new AdhocWorkspace();
             _workSpace.AddSolution(SolutionInfo.Create(SolutionId.CreateNewId("formatter"), VersionStamp.Default));
@@ -148,7 +137,7 @@ namespace Natasha.Complier
         /// <param name="sourceContent">脚本内容</param>
         /// <param name="errorAction">发生错误执行委托</param>
         /// <returns></returns>
-        public static Assembly StreamComplier(string sourceContent,out string formatContent, Action<Diagnostic> errorAction = null)
+        public static Assembly StreamComplier(string sourceContent,out string formatContent, AssemblyLoadContext context, Action<Diagnostic> errorAction = null)
         {
 
             var (Tree, ClassName, formatter) = GetTreeAndClassNames(sourceContent.Trim());
@@ -176,9 +165,17 @@ namespace Natasha.Complier
                 {
 
                     stream.Position = 0;
-                    AssemblyLoadContext context = AssemblyLoadContext.Default;
-                    var result = context.LoadFromStream(stream);
+#if NETCOREAPP3_0
+                    context ??= AssemblyLoadContext.Default;
+#else
+                    if (context==null)
+                    {
+                        context = AssemblyLoadContext.Default;
+                    }
+#endif
 
+                    var result = context.LoadFromStream(stream);
+                    context = null;
 
                     if (NScriptLog.UseLog)
                     {
@@ -271,8 +268,19 @@ namespace Natasha.Complier
         /// <param name="sourceContent">脚本内容</param>
         /// <param name="errorAction">发生错误执行委托</param>
         /// <returns></returns>
-        public static Assembly FileComplier(string sourceContent, out string formatContent, Action<Diagnostic> errorAction = null)
+        public static Assembly FileComplier(string sourceContent, out string formatContent, AssemblyLoadContext context, Action<Diagnostic> errorAction = null)
         {
+
+#if NETCOREAPP3_0
+            context ??= AssemblyLoadContext.Default;
+#else
+                    if (context == null)
+                    {
+                        context = AssemblyLoadContext.Default;
+                    }
+#endif
+            bool isDefaultContext = context == AssemblyLoadContext.Default;
+
 
             //类名获取
             var (Tree, ClassNames, formatter) = GetTreeAndClassNames(sourceContent.Trim());
@@ -287,12 +295,16 @@ namespace Natasha.Complier
 
             //生成路径
             string path = Path.Combine(LibPath, $"{ClassNames[0]}.dll");
-            if (DynamicDlls.ContainsKey(path))
+            if (isDefaultContext)
             {
-                
-                return DynamicDlls[path];
+                if (DynamicDlls.ContainsKey(path))
+                {
 
+                    return DynamicDlls[path];
+
+                }
             }
+            
 
 
             //创建语言编译
@@ -317,17 +329,19 @@ namespace Natasha.Complier
                 {
 
                     //为了实现动态中的动态，使用文件加载模式常驻内存
-                    AssemblyLoadContext context = AssemblyLoadContext.Default;
                     var result = context.LoadFromAssemblyPath(path);
-                    References.Add(MetadataReference.CreateFromFile(path));
-
-
-                    for (int i = 0; i < ClassNames.Length; i += 1)
+                    if (isDefaultContext)
                     {
+                        References.Add(MetadataReference.CreateFromFile(path));
+                        for (int i = 0; i < ClassNames.Length; i += 1)
+                        {
 
-                        ClassMapping[ClassNames[i]] = result;
+                            ClassMapping[ClassNames[i]] = result;
 
+                        }
+                        DynamicDlls[path] = result;
                     }
+                    
 
                     if (NScriptLog.UseLog)
                     {
@@ -343,8 +357,7 @@ namespace Natasha.Complier
 
                     }
 
-
-                    DynamicDlls[path] = result;
+                    
                     return result;
 
                 }
@@ -391,19 +404,25 @@ namespace Natasha.Complier
 
                 if (ex is IOException)
                 {
-
-                    int loop = 0;
-                    while (!DynamicDlls.ContainsKey(path))
+                    if (!Directory.Exists(LibPath))
                     {
-
-                        Thread.Sleep(200);
-                        loop += 1;
-
+                        throw new Exception($"{LibPath}路径不存在，请重新运行程序！");
                     }
-                    NScriptLog.Warning(ClassNames[0], $"    I/O Delay :\t检测到争用，延迟{loop * 200}ms调用;\r\n");
 
+                    if (isDefaultContext)
+                    {
+                        int loop = 0;
+                        while (!DynamicDlls.ContainsKey(path))
+                        {
 
-                    return DynamicDlls[path];
+                            Thread.Sleep(200);
+                            loop += 1;
+
+                        }
+                        NScriptLog.Warning(ClassNames[0], $"    I/O Delay :\t检测到争用，延迟{loop * 200}ms调用;\r\n");
+                        return DynamicDlls[path];
+                    }
+                    
                 }
 
 
