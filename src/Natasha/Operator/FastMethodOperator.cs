@@ -42,7 +42,6 @@ namespace Natasha.Operator
             if (ParametersMappings.Count == 0)
             {
 
-                
                 Param(method);
 
             }

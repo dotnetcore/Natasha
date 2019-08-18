@@ -8,10 +8,12 @@ namespace Natasha.Template
 {
     public class OnceMethodParametersTemplate<T>: OnceMethodNameTemplate<T>
     {
-        public readonly List<KeyValuePair<Type, string>> ParametersMappings;
+       
         private MethodInfo _methodInfo;
-        public readonly List<Type> ParametersTypes;
         public string ParametersScript;
+        public readonly List<Type> ParametersTypes;
+        public readonly List<KeyValuePair<Type, string>> ParametersMappings;
+
 
         public OnceMethodParametersTemplate()
         {
@@ -24,6 +26,7 @@ namespace Natasha.Template
 
         public T Param(MethodInfo info)
         {
+
             _methodInfo = info;
             var parameters = info.GetParameters();
             for (int i = 0; i < parameters.Length; i+=1)
@@ -84,15 +87,23 @@ namespace Natasha.Template
         /// <returns></returns>
         public T Param(Type type, string key)
         {
+
             ParametersTypes.Add(type);
+            UsingRecoder.Add(type);
+
+
             if (type!=null && type.IsGenericType)
             {
                 UsingRecoder.Add(type.GetAllGenericTypes());
             }
-            UsingRecoder.Add(type);
+            
             ParametersMappings.Add(new KeyValuePair<Type, string>(type, key));
             return Link;
+
         }
+
+
+
 
         public override T Builder()
         {

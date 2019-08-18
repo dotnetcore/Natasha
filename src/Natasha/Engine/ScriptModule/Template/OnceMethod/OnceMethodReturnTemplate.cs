@@ -5,8 +5,11 @@ namespace Natasha.Template
 {
     public class OnceMethodReturnTemplate<T>: OnceMethodAsyncTemplate<T>
     {
+
         public string ReturnScript;
         public Type ReturnType;
+
+
         /// <summary>
         /// 设置返回类型
         /// </summary>
@@ -17,25 +20,43 @@ namespace Natasha.Template
         {
             return Return(typeof(S));
         }
+
+
+
+
         public T Return(MethodInfo info)
         {
             return Return(info.ReturnType);
         }
+
+
+
+
         public T Return(Type type = null)
         {
+
             if (type == null)
             {
                 type = typeof(void);
             }
+
+
             ReturnType = type;
+            UsingRecoder.Add(type);
+
+
             if (type.IsGenericType)
             {
                 UsingRecoder.Add(type.GetAllGenericTypes());
             }
-            UsingRecoder.Add(type);
+
+
             ReturnScript = type.GetDevelopName()+" ";
             return Link;
         }
+
+
+
 
         public override T Builder()
         {
