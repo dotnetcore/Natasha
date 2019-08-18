@@ -104,7 +104,7 @@ this.Name=name;}
                 .EnumField("Banana")
                 .Builder().Script;
 
-            Assert.Equal($"public enum EnumUT1{{{Environment.NewLine}Apple,{Environment.NewLine}Orange,{Environment.NewLine}Banana}}", script);
+            Assert.Equal($"public enum EnumUT1{{{Environment.NewLine}Apple,{Environment.NewLine}Orange,{Environment.NewLine}Banana{Environment.NewLine}}}", script);
         }
 
 
@@ -121,7 +121,7 @@ this.Name=name;}
                 .EnumField("Banana",4)
                 .Builder().Script;
 
-            Assert.Equal($"public enum EnumUT1{{{Environment.NewLine}Apple=1,{Environment.NewLine}Orange=2,{Environment.NewLine}Banana=4}}", script);
+            Assert.Equal($"public enum EnumUT1{{{Environment.NewLine}Apple=1,{Environment.NewLine}Orange=2,{Environment.NewLine}Banana=4{Environment.NewLine}}}", script);
         }
 
     }
