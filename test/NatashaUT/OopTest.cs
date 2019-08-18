@@ -1,5 +1,6 @@
 ﻿using Natasha;
 using Natasha.Operator;
+using System;
 using Xunit;
 
 namespace NatashaUT
@@ -46,7 +47,7 @@ public static void Test(){}
                 .PublicStaticField<string>("Name")
                 .PrivateStaticField<int>("_age")
              );
-            
+
 
             Assert.Equal(@"using System;
 namespace TestNamespace{
@@ -69,7 +70,7 @@ public static void Test(){}
                 .OopAccess("")
                 .OopName("TestUt3")
                 .ChangeToInterface()
-                .Ctor(item=>item
+                .Ctor(item => item
                     .MemberModifier(Modifiers.Static)
                     .Param<string>("name")
                     .Body("this.Name=name;"))
@@ -103,11 +104,7 @@ this.Name=name;}
                 .EnumField("Banana")
                 .Builder().Script;
 
-            Assert.Equal(@"public enum EnumUT1{
-Apple,
-Orange,
-Banana
-}", script);
+            Assert.Equal($"public enum EnumUT1{{{Environment.NewLine}Apple,{Environment.NewLine}Orange,{Environment.NewLine}Banana}}", script);
         }
 
 
@@ -124,11 +121,7 @@ Banana
                 .EnumField("Banana",4)
                 .Builder().Script;
 
-            Assert.Equal(@"public enum EnumUT1{
-Apple=1,
-Orange=2,
-Banana=4
-}", script);
+            Assert.Equal($"public enum EnumUT1{{{Environment.NewLine}Apple=1,{Environment.NewLine}Orange=2,{Environment.NewLine}Banana=4}}", script);
         }
 
     }

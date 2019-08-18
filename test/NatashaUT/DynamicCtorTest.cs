@@ -1,5 +1,6 @@
 ﻿using Natasha;
 using Natasha.Template;
+using System;
 using Xunit;
 
 namespace NatashaUT
@@ -18,8 +19,7 @@ namespace NatashaUT
                 .Body("this.connection = initString;")
                 .Builder().Script;
 
-            Assert.Equal(@"public Test(String initString){
-this.connection = initString;}", result);
+            Assert.Equal($"public Test(String initString){{{Environment.NewLine}this.connection = initString;}}", result);
         }
 
 
@@ -33,8 +33,7 @@ this.connection = initString;}", result);
                 .Body("this.connection = initString;")
                 .Builder().Script;
 
-            Assert.Equal(@"private Test(){
-this.connection = initString;}", result);
+            Assert.Equal($"private Test(){{{Environment.NewLine}this.connection = initString;}}", result);
         }
 
 
@@ -48,8 +47,7 @@ this.connection = initString;}", result);
                 .Body("this.connection = initString;")
                 .Builder().Script;
 
-            Assert.Equal(@"static Test(){
-this.connection = initString;}", result);
+            Assert.Equal($"static Test(){{{Environment.NewLine}this.connection = initString;}}", result);
         }
     }
 }
