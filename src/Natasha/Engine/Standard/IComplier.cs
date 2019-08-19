@@ -1,9 +1,9 @@
 ﻿using Microsoft.CodeAnalysis;
 using Natasha.Complier;
-using Natasha.Operator;
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Loader;
 
 namespace Natasha
 {
@@ -11,7 +11,7 @@ namespace Natasha
     {
 
         public readonly CompilationException Exception;
-
+        internal AssemblyLoadContext Context;
 
         public IComplier() => Exception = new CompilationException();
 
@@ -68,13 +68,13 @@ namespace Natasha
             if (!_useFileComplie)
             {
 
-                assembly = ScriptComplierEngine.StreamComplier(content, out Exception.Formatter, SingleError);
+                assembly = ScriptComplierEngine.StreamComplier(content, out Exception.Formatter, Context, SingleError);
 
             }
             else
             {
 
-                assembly = ScriptComplierEngine.FileComplier(content, out Exception.Formatter, SingleError);
+                assembly = ScriptComplierEngine.FileComplier(content, out Exception.Formatter, Context, SingleError);
 
             }
 

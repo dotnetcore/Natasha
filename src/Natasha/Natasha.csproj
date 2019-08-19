@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netcoreapp3.0;</TargetFrameworks>
     <Product>Natasha</Product>
     <Description>使用roslyn方案打造高性能动态代码，包括动态构建，深度克隆，实体快照等。（Use Roslyn to create efficient dynamic code. Including dynamic build, deep clone, entity snapshot, and so on.）</Description>
     <Copyright>.NET Core Community and Contributors</Copyright>
@@ -33,5 +33,14 @@
     </PackageReference>
   </ItemGroup>
 
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="3.0.0-preview8-28405-07" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="3.3.0-beta2-final" />
+    <PackageReference Include="Microsoft.Net.Compilers.Toolset" Version="3.3.0-beta2-final">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
 
 </Project>

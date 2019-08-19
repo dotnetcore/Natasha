@@ -25,6 +25,13 @@ namespace Natasha.Builder
         {
 
             Builder();
+
+
+#if NETCOREAPP3_0
+            Complier.Context = Domain;
+#endif
+
+
             return Complier.Complie(
                 OopNameScript,
                 Script,
@@ -46,6 +53,11 @@ namespace Natasha.Builder
         {
 
             Builder();
+
+
+#if NETCOREAPP3_0
+            Complier.Context = Domain;
+#endif
 
 
             return Complier.Complie<T>(
