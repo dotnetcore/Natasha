@@ -3,16 +3,11 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 
-namespace Natasha
+namespace Natasha.Log
 {
-    public class NWarning { }
-    public class NError { }
-    public class NSucceed { }
 
 
-
-
-    public static class NScriptLogWriter<T>
+    public static class NWriter<T>
     {
 
         private static readonly string _logFile;
@@ -20,7 +15,7 @@ namespace Natasha
         public static bool Enabled;
 
 
-        static NScriptLogWriter()
+        static NWriter()
         {
 
             Enabled = true;
@@ -76,21 +71,18 @@ namespace Natasha
 
         }
 
-        public static void Recoder(string title, string msg)
+        public static void Recoder(StringBuilder buffer)
         {
             if (Enabled)
             {
-                StringBuilder sb = new StringBuilder();
-                sb.AppendLine($"\r\n\r\n==================={title}===================\r\n");
-                sb.AppendLine(msg);
-                sb.AppendLine("==========================================================");
+                
                 lock (_lock)
                 {
 
                     using (StreamWriter LogWriter = new StreamWriter(_logFile, true, Encoding.UTF8))
                     {
 
-                        LogWriter.WriteLine(sb);
+                        LogWriter.WriteLine(buffer);
 
                     }
 

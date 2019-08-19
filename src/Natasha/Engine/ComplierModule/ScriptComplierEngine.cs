@@ -3,15 +3,12 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Emit;
 using Microsoft.CodeAnalysis.Formatting;
-using Microsoft.Extensions.DependencyModel;
+using Natasha.Log;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Loader;
-using System.Text;
 using System.Threading;
 
 namespace Natasha.Complier
@@ -23,94 +20,31 @@ namespace Natasha.Complier
     public class ScriptComplierEngine
     {
 
-        public readonly static string LibPath;
-        public readonly static ConcurrentDictionary<string, Assembly> ClassMapping;
-        public readonly static ConcurrentDictionary<string, Assembly> DynamicDlls;
-        public readonly static ConcurrentBag<PortableExecutableReference> References;
         private readonly static AdhocWorkspace _workSpace;
 
         static ScriptComplierEngine()
         {
 
-            //初始化路径
-            LibPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "lib");
-            if (Directory.Exists(LibPath))
-            {
-
-                Directory.Delete(LibPath, true);
-
-            }
-            Directory.CreateDirectory(LibPath);
-
-
             _workSpace = new AdhocWorkspace();
             _workSpace.AddSolution(SolutionInfo.Create(SolutionId.CreateNewId("formatter"), VersionStamp.Default));
 
-
-            
-            //程序集缓存
-            //AppDomain.CurrentDomain.GetAssemblies().Select(item => DependencyContext.Load(item));
-            var _ref = DependencyContext.Default.CompileLibraries
-                                .SelectMany(cl => cl.ResolveReferencePaths())
-                                .Select(asm => MetadataReference.CreateFromFile(asm));
-
-
-            DynamicDlls = new ConcurrentDictionary<string, Assembly>();
-            References = new ConcurrentBag<PortableExecutableReference>(_ref);
-            ClassMapping = new ConcurrentDictionary<string, Assembly>();
-            NScriptLogWriter<NSucceed>.Enabled = false;
-            NScriptLogWriter<NWarning>.Enabled = false;
+            NSucceed.Enabled = false;
+            NWarning.Enabled = false;
 
         }
 
 
 
 
-        public static void LoadFile(string path)
+        public static (SyntaxTree Tree, string[] ClassNames, string formatter, IEnumerable<Diagnostic> errors) GetTreeInfo(string content)
         {
 
-            if (!DynamicDlls.ContainsKey(path))
-            {
-
-                AssemblyLoadContext context = AssemblyLoadContext.Default;
-                var result = context.LoadFromAssemblyPath(path);
-                References.Add(MetadataReference.CreateFromFile(path));
-                DynamicDlls[path] = result;
-
-            }
-            
-        }
-
-
-
-
-        /// <summary>
-        /// 初始化目录
-        /// </summary>
-        public static void Init()
-        {
-
-            if (Directory.Exists(LibPath))
-            {
-
-                Directory.Delete(LibPath, true);
-
-            }
-            Directory.CreateDirectory(LibPath);
-
-        }
-
-
-
-
-        public static (SyntaxTree Tree, string[] ClassNames, string formatter) GetTreeAndClassNames(string content)
-        {
-
-            SyntaxTree tree = CSharpSyntaxTree.ParseText(content,new CSharpParseOptions(LanguageVersion.Latest));
+            SyntaxTree tree = CSharpSyntaxTree.ParseText(content, new CSharpParseOptions(LanguageVersion.Latest));
             CompilationUnitSyntax root = tree.GetCompilationUnitRoot();
 
 
             root = (CompilationUnitSyntax)Formatter.Format(root, _workSpace);
+            var errors = root.GetDiagnostics();
             var formatter = root.ToString();
 
 
@@ -118,13 +52,20 @@ namespace Natasha.Complier
                          in root.DescendantNodes().OfType<ClassDeclarationSyntax>()
                                           select classNodes.Identifier.Text);
 
-
             result.AddRange(from classNodes
                     in root.DescendantNodes().OfType<StructDeclarationSyntax>()
                             select classNodes.Identifier.Text);
 
+            result.AddRange(from classNodes
+                    in root.DescendantNodes().OfType<InterfaceDeclarationSyntax>()
+                            select classNodes.Identifier.Text);
 
-            return (root.SyntaxTree, result.ToArray(), formatter);
+            result.AddRange(from classNodes
+                    in root.DescendantNodes().OfType<EnumDeclarationSyntax>()
+                            select classNodes.Identifier.Text);
+
+
+            return (root.SyntaxTree, result.ToArray(), formatter, errors);
 
         }
 
@@ -137,24 +78,29 @@ namespace Natasha.Complier
         /// <param name="sourceContent">脚本内容</param>
         /// <param name="errorAction">发生错误执行委托</param>
         /// <returns></returns>
-        public static Assembly StreamComplier(string sourceContent,out string formatContent, AssemblyLoadContext context, Action<Diagnostic> errorAction = null)
+        public static Assembly StreamComplier(string sourceContent, AssemblyDomain domain, out string formatContent, ref List<Diagnostic> diagnostics)
         {
 
-            var (Tree, ClassName, formatter) = GetTreeAndClassNames(sourceContent.Trim());
+            var (Tree, ClassNames, formatter, errors) = GetTreeInfo(sourceContent.Trim());
             formatContent = formatter;
-            StringBuilder recoder = new StringBuilder(FormatLineCode(formatter));
+            diagnostics.AddRange(errors);
+            if (diagnostics.Count()!=0)
+            {
 
+                return null;
+
+            }
 
             //创建语言编译
             CSharpCompilation compilation = CSharpCompilation.Create(
-                ClassName[0],
+                ClassNames[0],
                 options: new CSharpCompilationOptions(
                     outputKind: OutputKind.DynamicallyLinkedLibrary,
                     optimizationLevel: OptimizationLevel.Release,
                     allowUnsafe: true),
                 syntaxTrees: new[] { Tree },
-                references: References);
-            
+                references: domain.References);
+
 
             //编译并生成程序集
             using (MemoryStream stream = new MemoryStream())
@@ -165,29 +111,15 @@ namespace Natasha.Complier
                 {
 
                     stream.Position = 0;
-#if NETCOREAPP3_0
-                    context ??= AssemblyLoadContext.Default;
-#else
-                    if (context==null)
-                    {
-                        context = AssemblyLoadContext.Default;
-                    }
-#endif
+                    var result = domain.LoadFromStream(stream);
 
-                    var result = context.LoadFromStream(stream);
-                    context = null;
 
-                    if (NScriptLog.UseLog)
+                    if (NSucceed.Enabled)
                     {
 
-                        recoder.AppendLine("\r\n\r\n------------------------------------------succeed-------------------------------------------");
-                        recoder.AppendLine($"\r\n    Time :\t\t{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}");
-                        recoder.AppendLine($"\r\n    Lauguage :\t{compilation.Language} & {compilation.LanguageVersion}");
-                        recoder.AppendLine($"\r\n    Target :\t\t{ClassName}");
-                        recoder.AppendLine($"\r\n    Size :\t\t{stream.Length}");
-                        recoder.AppendLine($"\r\n    Assembly : \t{result.FullName}");
-                        recoder.AppendLine("\r\n----------------------------------------------------------------------------------------------");
-                        NScriptLog.Succeed("Succeed : " + ClassName, recoder.ToString());
+                        NSucceed logSucceed = new NSucceed();
+                        logSucceed.WrapperCode(formatter);
+                        logSucceed.Handler(compilation, result);
 
                     }
 
@@ -198,40 +130,18 @@ namespace Natasha.Complier
                 else
                 {
 
-                    if (NScriptLog.UseLog)
-                    {
 
-                        recoder.AppendLine("\r\n\r\n------------------------------------------error----------------------------------------------");
-                        recoder.AppendLine($"\r\n    Time :\t\t{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}");
-                        recoder.AppendLine($"\r\n    Lauguage :\t{compilation.Language} & {compilation.LanguageVersion}");
-                        recoder.AppendLine($"\r\n    Target:\t\t{ClassName}");
-                        recoder.AppendLine($"\r\n    Error:\t\t共{fileResult.Diagnostics.Length}处错误！");
-
-                    }
-
+                    diagnostics.AddRange(fileResult.Diagnostics);
                     //错误处理
-                    foreach (var item in fileResult.Diagnostics)
+                    if (NError.Enabled)
                     {
 
-                        if (NScriptLog.UseLog)
-                        {
-
-                            var temp = item.Location.GetLineSpan().StartLinePosition;
-                            var result = GetErrorString(formatter, item.Location.GetLineSpan());
-                            recoder.AppendLine($"\t\t第{temp.Line + 1}行，第{temp.Character}个字符：       内容【{result}】  {item.GetMessage()}");
-                        }
-
-                        errorAction?.Invoke(item);
+                        NError logError = new NError();
+                        logError.WrapperCode(formatter);
+                        logError.Handler(compilation, fileResult.Diagnostics);
+                        logError.Write();
                     }
 
-
-                    if (NScriptLog.UseLog)
-                    {
-
-                        recoder.AppendLine("\r\n---------------------------------------------------------------------------------------------");
-                        NScriptLog.Error("Error : " + ClassName, recoder.ToString());
-
-                    }
 
                 }
 
@@ -244,20 +154,7 @@ namespace Natasha.Complier
 
 
 
-        public static Assembly GetDynamicAssembly(string className)
-        {
 
-            if (ClassMapping.ContainsKey(className))
-            {
-
-                return ClassMapping[className];
-
-            }
-
-
-            return null;
-
-        }
 
 
 
@@ -268,43 +165,40 @@ namespace Natasha.Complier
         /// <param name="sourceContent">脚本内容</param>
         /// <param name="errorAction">发生错误执行委托</param>
         /// <returns></returns>
-        public static Assembly FileComplier(string sourceContent, out string formatContent, AssemblyLoadContext context, Action<Diagnostic> errorAction = null)
+        public static Assembly FileComplier(string sourceContent, AssemblyDomain domain, out string formatContent, ref List<Diagnostic> diagnostics)
         {
-
-#if NETCOREAPP3_0
-            context ??= AssemblyLoadContext.Default;
-#else
-                    if (context == null)
-                    {
-                        context = AssemblyLoadContext.Default;
-                    }
-#endif
-            bool isDefaultContext = context == AssemblyLoadContext.Default;
 
 
             //类名获取
-            var (Tree, ClassNames, formatter) = GetTreeAndClassNames(sourceContent.Trim());
+            var (Tree, ClassNames, formatter, errors) = GetTreeInfo(sourceContent.Trim());
             formatContent = formatter;
-
-
-            if (ClassMapping.ContainsKey(ClassNames[0]))
+            diagnostics.AddRange(errors);
+            if (diagnostics.Count() != 0)
             {
-                return ClassMapping[ClassNames[0]];
+
+                return null;
+
+            }
+
+
+            if (domain.ClassMapping.ContainsKey(ClassNames[0]))
+            {
+
+                return domain.ClassMapping[ClassNames[0]];
+
             }
 
 
             //生成路径
-            string path = Path.Combine(LibPath, $"{ClassNames[0]}.dll");
-            if (isDefaultContext)
+            string path = Path.Combine(domain.LibPath, $"{ClassNames[0]}.dll");
+            if (domain.DynamicDlls.ContainsKey(path))
             {
-                if (DynamicDlls.ContainsKey(path))
-                {
 
-                    return DynamicDlls[path];
+                return domain.DynamicDlls[path];
 
-                }
             }
-            
+
+
 
 
             //创建语言编译
@@ -315,7 +209,7 @@ namespace Natasha.Complier
                     optimizationLevel: OptimizationLevel.Release,
                      allowUnsafe: true),
                 syntaxTrees: new[] { Tree },
-                references: References);
+                references: domain.References);
 
 
             EmitResult fileResult;
@@ -323,76 +217,39 @@ namespace Natasha.Complier
             try
             {
 
-                StringBuilder recoder = new StringBuilder(FormatLineCode(formatter));
                 fileResult = compilation.Emit(path);
                 if (fileResult.Success)
                 {
 
                     //为了实现动态中的动态，使用文件加载模式常驻内存
-                    var result = context.LoadFromAssemblyPath(path);
-                    if (isDefaultContext)
-                    {
-                        References.Add(MetadataReference.CreateFromFile(path));
-                        for (int i = 0; i < ClassNames.Length; i += 1)
-                        {
+                    var result = domain.LoadFromAssemblyPath(path);
+                    domain.CacheAssembly(result);
 
-                            ClassMapping[ClassNames[i]] = result;
 
-                        }
-                        DynamicDlls[path] = result;
-                    }
-                    
 
-                    if (NScriptLog.UseLog)
+                    if (NSucceed.Enabled)
                     {
 
-                        recoder.AppendLine("\r\n\r\n------------------------------------------succeed-------------------------------------------");
-                        recoder.AppendLine($"\r\n    Time :\t\t{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}");
-                        recoder.AppendLine($"\r\n    Lauguage :\t{compilation.Language} & {compilation.LanguageVersion}");
-                        recoder.AppendLine($"\r\n    Target :\t\t{ClassNames[0]}");
-                        recoder.AppendLine($"\r\n    Path :\t\t{path}");
-                        recoder.AppendLine($"\r\n    Assembly : \t{result.FullName}");
-                        recoder.AppendLine("\r\n----------------------------------------------------------------------------------------------");
-                        NScriptLog.Succeed("Succeed : " + ClassNames[0], recoder.ToString());
+                        NSucceed logSucceed = new NSucceed();
+                        logSucceed.WrapperCode(formatter);
+                        logSucceed.Handler(compilation, result);
 
                     }
-
-                    
                     return result;
 
                 }
                 else
                 {
 
-                    if (NScriptLog.UseLog)
+                    diagnostics.AddRange(fileResult.Diagnostics);
+                    if (NError.Enabled)
                     {
 
-                        recoder.AppendLine("\r\n\r\n------------------------------------------error----------------------------------------------");
-                        recoder.AppendLine($"\r\n    Time :\t\t{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}");
-                        recoder.AppendLine($"\r\n    Lauguage :\t{compilation.Language} & {compilation.LanguageVersion}");
-                        recoder.AppendLine($"\r\n    Target:\t\t{ClassNames[0]}");
-                        recoder.AppendLine($"\r\n    Error:\t\t共{fileResult.Diagnostics.Length}处错误！");
-
+                        NError logError = new NError();
+                        logError.WrapperCode(formatter);
+                        logError.Handler(compilation, fileResult.Diagnostics);
+                        logError.Write();
                     }
-
-                    foreach (var item in fileResult.Diagnostics)
-                    {
-
-                        if (NScriptLog.UseLog)
-                        {
-
-                            var temp = item.Location.GetLineSpan().StartLinePosition;
-                            var result = GetErrorString(formatter, item.Location.GetLineSpan());
-                            recoder.AppendLine($"\t\t第{temp.Line + 1}行，第{temp.Character}个字符：       内容【{result}】  {item.GetMessage()}");
-
-                        }
-                        errorAction?.Invoke(item);
-
-                    }
-
-
-                    recoder.AppendLine("\r\n---------------------------------------------------------------------------------------------");
-                    NScriptLog.Error("Error : " + ClassNames[0], recoder.ToString());
 
                 }
 
@@ -404,25 +261,42 @@ namespace Natasha.Complier
 
                 if (ex is IOException)
                 {
-                    if (!Directory.Exists(LibPath))
+                    if (!Directory.Exists(domain.LibPath))
                     {
-                        throw new Exception($"{LibPath}路径不存在，请重新运行程序！");
+
+                        if (NWarning.Enabled)
+                        {
+                            NWarning warning = new NWarning();
+                            warning.WrapperTitle(ClassNames[0]);
+                            warning.Handler($"{domain.LibPath}路径不存在，请重新运行程序！");
+                            warning.Write();
+                        }
+                        throw new Exception($"{domain.LibPath}路径不存在，请重新运行程序！");
+
                     }
 
-                    if (isDefaultContext)
-                    {
                         int loop = 0;
-                        while (!DynamicDlls.ContainsKey(path))
+                        while (!domain.DynamicDlls.ContainsKey(path))
                         {
 
                             Thread.Sleep(200);
                             loop += 1;
 
                         }
-                        NScriptLog.Warning(ClassNames[0], $"    I/O Delay :\t检测到争用，延迟{loop * 200}ms调用;\r\n");
-                        return DynamicDlls[path];
-                    }
-                    
+
+
+                        if (NWarning.Enabled)
+                        {
+                            NWarning warning = new NWarning();
+                            warning.WrapperTitle(ClassNames[0]);
+                            warning.Handler($"    I/O Delay :\t检测到争用，延迟{loop * 200}ms调用;\r\n");
+                            warning.Write();
+                        }
+
+
+                        return domain.DynamicDlls[path];
+
+
                 }
 
 
@@ -432,78 +306,6 @@ namespace Natasha.Complier
 
         }
 
-
-        public static string FormatLineCode(string content)
-        {
-
-            StringBuilder sb = new StringBuilder();
-            var arrayLines = content.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-            for (int i = 0; i < arrayLines.Length; i+=1)
-            {
-
-                sb.AppendLine($"{i+1}\t{arrayLines[i]}");
-
-            }
-            return sb.ToString();
-
-        }
-
-
-
-
-        public static string GetErrorString(string content, FileLinePositionSpan linePositionSpan)
-        {
-
-            var start = linePositionSpan.StartLinePosition;
-            var end = linePositionSpan.EndLinePosition;
-
-
-            var arrayLines = content.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-            var currentErrorLine = arrayLines[start.Line];
-
-
-            if (start.Line == end.Line)
-            {
-
-                if (start.Character == end.Character)
-                {
-
-                    return currentErrorLine.Substring(0, currentErrorLine.Length).Trim();
-
-                }
-                else
-                {
-
-                    return currentErrorLine.Substring(start.Character, end.Character - start.Character).Trim();
-
-                }
-
-
-            }
-            else
-            {
-
-                StringBuilder builder = new StringBuilder();
-                currentErrorLine.Substring(start.Character);
-                builder.AppendLine(currentErrorLine);
-                for (int i = start.Line ; i < end.Line - 1; i += 1)
-                {
-
-                    builder.AppendLine("\t\t\t" + arrayLines[i]);
-
-                }
-
-
-                currentErrorLine = arrayLines[end.Line];
-                currentErrorLine = currentErrorLine.Substring(0, end.Character);
-                builder.AppendLine(currentErrorLine);
-
-
-                return builder.ToString();
-
-            }
-
-        }
-
     }
+
 }

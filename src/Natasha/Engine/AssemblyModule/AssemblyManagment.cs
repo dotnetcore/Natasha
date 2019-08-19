@@ -4,20 +4,26 @@ using System.Collections.Concurrent;
 namespace Natasha
 {
 
-#if NETCOREAPP3_0
     public class AssemblyManagment
     {
 
         public static ConcurrentDictionary<string, WeakReference> Cache;
-        static AssemblyManagment() => Cache = new ConcurrentDictionary<string, WeakReference>();
+        public readonly static AssemblyDomain Default;
+        static AssemblyManagment()
+        {
+
+            Cache = new ConcurrentDictionary<string, WeakReference>();
+            Default = Create("Default");
+
+        }
+        
 
 
 
 
         public static AssemblyDomain Create(string key)
         {
-            var instance = new AssemblyDomain();
-            instance.Name = key;
+            var instance = new AssemblyDomain(key);
             Add(key, instance);
             return instance;
         }
@@ -78,16 +84,29 @@ namespace Natasha
 
         public static bool IsDelete(string key)
         {
+
             if (Cache.ContainsKey(key))
             {
                 return !Cache[key].IsAlive;
             }
-            return false;
+            return true;
+
         }
 
 
 
+
+        public static AssemblyDomain Get(string key)
+        {
+
+            if (Cache.ContainsKey(key))
+            {
+                return (AssemblyDomain)Cache[key].Target;
+            }
+            return null;
+
+        }
+
     }
-#endif
 
 }

@@ -23,6 +23,8 @@ namespace NatashaUT
                 .Builder()
                 .Script;
 
+
+            Assert.Equal("TestUt1", builder.GetType().Name);
             Assert.Equal(@"using NatashaUT;
 using System;
 namespace TestNamespace{
@@ -31,7 +33,7 @@ public static String Name;
 private static Int32 _age;
 public static void Test(){}
 }}", script);
-            Assert.Equal("TestUt1", builder.GetType().Name);
+            
         }
 
 

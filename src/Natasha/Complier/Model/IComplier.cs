@@ -3,7 +3,6 @@ using Natasha.Complier;
 using System;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Loader;
 
 namespace Natasha
 {
@@ -11,7 +10,7 @@ namespace Natasha
     {
 
         public readonly CompilationException Exception;
-        internal AssemblyLoadContext Context;
+        public AssemblyDomain Domain;
 
         public IComplier() => Exception = new CompilationException();
 
@@ -63,18 +62,24 @@ namespace Natasha
         public Assembly GetAssemblyByScript(string content)
         {
 
+            if (Domain == null)
+            {
+                Domain = AssemblyManagment.Default;
+            }
+
+
             Exception.Source = content;
             Assembly assembly;
             if (!_useFileComplie)
             {
 
-                assembly = ScriptComplierEngine.StreamComplier(content, out Exception.Formatter, Context, SingleError);
+                assembly = ScriptComplierEngine.StreamComplier(content, Domain, out Exception.Formatter, ref Exception.Diagnostics);
 
             }
             else
             {
 
-                assembly = ScriptComplierEngine.FileComplier(content, out Exception.Formatter, Context, SingleError);
+                assembly = ScriptComplierEngine.FileComplier(content, Domain, out Exception.Formatter, ref Exception.Diagnostics);
 
             }
 
@@ -208,26 +213,6 @@ namespace Natasha
 
         }
 
-
-
-        public void LoadFile(string path)
-        {
-
-            try
-            {
-
-                ScriptComplierEngine.LoadFile(path);
-
-            }
-            catch (Exception e)
-            {
-
-                Exception.Message = e.Message;
-                Exception.ErrorFlag = ComplieError.Assembly;
-
-            }
-            
-        }
 
     }
 
