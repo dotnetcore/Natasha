@@ -33,25 +33,8 @@ namespace Natasha.Complier
         static ScriptComplierEngine()
         {
 
-            //if (Environment.OSVersion.Platform == PlatformID.Unix)
-            //{
-            //    SplitChar = "\n";
-            //}
-            //else
-            //{
-            //    SplitChar = "\r\n";
-            //}
-
-
-           _workSpace = new AdhocWorkspace();
-            _workSpace.AddSolution(SolutionInfo.Create(SolutionId.CreateNewId("formatter"), VersionStamp.Default));
-
-
             //初始化路径
             LibPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "lib");
-
-
-            //处理目录
             if (Directory.Exists(LibPath))
             {
 
@@ -61,6 +44,11 @@ namespace Natasha.Complier
             Directory.CreateDirectory(LibPath);
 
 
+            _workSpace = new AdhocWorkspace();
+            _workSpace.AddSolution(SolutionInfo.Create(SolutionId.CreateNewId("formatter"), VersionStamp.Default));
+
+
+            
             //程序集缓存
             //AppDomain.CurrentDomain.GetAssemblies().Select(item => DependencyContext.Load(item));
             var _ref = DependencyContext.Default.CompileLibraries
@@ -71,6 +59,8 @@ namespace Natasha.Complier
             DynamicDlls = new ConcurrentDictionary<string, Assembly>();
             References = new ConcurrentBag<PortableExecutableReference>(_ref);
             ClassMapping = new ConcurrentDictionary<string, Assembly>();
+            NScriptLogWriter<NSucceed>.Enabled = false;
+            NScriptLogWriter<NWarning>.Enabled = false;
 
         }
 

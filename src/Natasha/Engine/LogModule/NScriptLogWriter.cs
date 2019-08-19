@@ -17,8 +17,13 @@ namespace Natasha
 
         private static readonly string _logFile;
         private static readonly object _lock;
+        public static bool Enabled;
+
+
         static NScriptLogWriter()
         {
+
+            Enabled = true;
             _lock = new object();
            
 
@@ -73,21 +78,23 @@ namespace Natasha
 
         public static void Recoder(string title, string msg)
         {
-
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine($"\r\n\r\n==================={title}===================\r\n");
-            sb.AppendLine(msg);
-            sb.AppendLine("==========================================================");
-            lock (_lock)
+            if (Enabled)
             {
-
-                using (StreamWriter LogWriter = new StreamWriter(_logFile, true, Encoding.UTF8))
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine($"\r\n\r\n==================={title}===================\r\n");
+                sb.AppendLine(msg);
+                sb.AppendLine("==========================================================");
+                lock (_lock)
                 {
 
-                    LogWriter.WriteLine(sb);
+                    using (StreamWriter LogWriter = new StreamWriter(_logFile, true, Encoding.UTF8))
+                    {
+
+                        LogWriter.WriteLine(sb);
+
+                    }
 
                 }
-
             }
 
         }
