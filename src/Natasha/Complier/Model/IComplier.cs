@@ -1,10 +1,9 @@
 ﻿using Microsoft.CodeAnalysis;
-using Natasha.Complier;
 using System;
 using System.Linq;
 using System.Reflection;
 
-namespace Natasha
+namespace Natasha.Complier
 {
     public abstract class IComplier
     {
@@ -139,13 +138,19 @@ namespace Natasha
         /// <param name="typeName">类型名称</param>
         /// <param name="methodName">方法名</param>
         /// <returns></returns>
-        public MethodInfo GetMethodByScript(string content, string typeName, string methodName)
+        public MethodInfo GetMethodByScript(string content, string typeName, string methodName = null)
         {
 
             var type = GetTypeByScript(content, typeName);
             if (type == null)
             {
                 return null;
+            }
+
+
+            if (methodName == null)
+            {
+                methodName = ScriptHelper.GetMethodName(content);
             }
 
 

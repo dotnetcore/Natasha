@@ -100,6 +100,23 @@ namespace Natasha
 
 
 
+        /// <summary>
+        /// 根据命名空间和枚举的位置获取类型
+        /// </summary>
+        /// <param name="content">脚本内容</param>
+        /// <param name="enumIndex">命名空间里的第index个枚举</param>
+        /// <param name="namespaceIndex">第namespaceIndex个命名空间</param>
+        /// <returns></returns>
+        public static string GetMethodName(string content, int enumIndex = 1, int namespaceIndex = 1)
+        {
+
+            return GetDataMethodString<MethodDeclarationSyntax>(content, enumIndex, namespaceIndex);
+
+        }
+
+
+
+
         public static string GetDataStructString<T>(string content, int index = 1, int namespaceIndex = 1) where T : BaseTypeDeclarationSyntax
         {
             index -= 1;
@@ -127,6 +144,39 @@ namespace Natasha
 
 
             var nodes = GetNodes<T>(node);
+            return nodes.ToArray()[index].Identifier.Text;
+        }
+
+
+
+
+        public static string GetDataMethodString<T>(string content, int index = 1, int namespaceIndex = 1)
+        {
+            index -= 1;
+            namespaceIndex -= 1;
+
+
+            var root = GetRoot(content);
+            IEnumerable<SyntaxNode> result = GetNodes<NamespaceDeclarationSyntax>(root);
+
+
+
+            SyntaxNode node;
+            if (result.Count() != 0)
+            {
+
+                node = result.ToArray()[namespaceIndex];
+
+            }
+            else
+            {
+
+                node = root;
+
+            }
+
+
+            var nodes = GetNodes<MethodDeclarationSyntax>(node);
             return nodes.ToArray()[index].Identifier.Text;
         }
 
