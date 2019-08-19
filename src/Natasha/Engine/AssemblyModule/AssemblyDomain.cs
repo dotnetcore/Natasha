@@ -14,6 +14,7 @@ namespace Natasha
 
         public readonly ConcurrentBag<Assembly> Assemblys;
         public readonly ConcurrentBag<string> Paths;
+        public string Name;
 
 
         private readonly AssemblyDependencyResolver _resolver;

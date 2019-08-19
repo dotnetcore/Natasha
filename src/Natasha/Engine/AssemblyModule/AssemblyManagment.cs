@@ -17,6 +17,7 @@ namespace Natasha
         public static AssemblyDomain Create(string key)
         {
             var instance = new AssemblyDomain();
+            instance.Name = key;
             Add(key, instance);
             return instance;
         }
