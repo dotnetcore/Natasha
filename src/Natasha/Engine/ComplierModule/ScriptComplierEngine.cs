@@ -226,7 +226,6 @@ namespace Natasha.Complier
                     domain.CacheAssembly(result);
 
 
-
                     if (NSucceed.Enabled)
                     {
 

@@ -1,4 +1,5 @@
 ﻿using Natasha;
+using Natasha.Operator;
 using System;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -32,11 +33,11 @@ namespace Core30
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
                 Thread.Sleep(500);
-                if (i==10)
+                if (i==8)
                 {
-                    Console.WriteLine("\t计数为10，删除静态引用！");
+                    Console.WriteLine($"\t计数为{i}，删除静态引用！");
                     action = null;
-                    AssemblyManagment.Get("TempDomain").Dispose();
+                    //AssemblyManagment.Get("TempDomain").Dispose();
                     //AssemblyManagment.Get("TempDomain").Unload();
 
 
@@ -59,18 +60,16 @@ namespace Core30
             var domain = AssemblyManagment.Create("TempDomain");
             domain.Unloading += Domain_Unloading;
 
-
-            var temp = NewMethod.Create<Action>(builder =>
+            var builder = domain.Execute<FastMethodOperator>(builder =>
             {
-                 builder.Complier.UseFileComplie(); 
-                 builder
-                 .InDomain(domain)
-                 .MethodBody(@"Console.WriteLine(""\t动态功能输出：Hello World!"");");
+                builder.Complier.UseFileComplie();
+                return builder.MethodBody(@"Console.WriteLine(""\t动态功能输出：Hello World!"");");
             });
 
 
-            action = temp.Method;
-            temp.Method();
+            //action = temp.Method;
+            builder.Complie<Action>()();
+            //temp.Method = null;
         }
 
         private static void B_Unloading(System.Runtime.Loader.AssemblyLoadContext obj)

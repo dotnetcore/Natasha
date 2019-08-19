@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.DependencyModel;
+using Natasha.Template;
 using System;
 using System.Collections.Concurrent;
 using System.IO;
@@ -75,13 +76,13 @@ namespace Natasha
 
         public void Dispose()
         {
+
             this.Clear();
 #if NETCOREAPP3_0
             //this.Unload();
 #endif
             GC.Collect();
             GC.WaitForPendingFinalizers();
-            //Directory.Delete(LibPath, true);
             
         }
 
@@ -106,16 +107,16 @@ namespace Natasha
         {
 
 #if NETCOREAPP3_0
-            //string assemblyPath = _resolver.ResolveAssemblyToPath(assemblyName);
+            string assemblyPath = _resolver.ResolveAssemblyToPath(assemblyName);
 
-            //if (assemblyPath != null)
-            //{
+            if (assemblyPath != null)
+            {
 
-            //    Assembly assembly = LoadFromAssemblyPath(assemblyPath);
-            //    CacheAssembly(assembly);
-            //    return assembly;
+                Assembly assembly = LoadFromAssemblyPath(assemblyPath);
+                CacheAssembly(assembly);
+                return assembly;
 
-            //}
+            }
 #endif
             return null;
 
@@ -212,6 +213,17 @@ namespace Natasha
             return ClassMapping[name].GetTypes().First(item => item.Name == name);
 
         }
+
+
+
+#if NETCOREAPP3_0
+        public T Execute<T>(Func<T,T> action) where T: TemplateRecoder<T>, new()
+        {
+
+            return action?.Invoke(new T()).InDomain(this);
+
+        }
+#endif
 
     }
 
