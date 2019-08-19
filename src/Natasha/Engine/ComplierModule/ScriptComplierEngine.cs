@@ -84,7 +84,7 @@ namespace Natasha.Complier
             var (Tree, ClassNames, formatter, errors) = GetTreeInfo(sourceContent.Trim());
             formatContent = formatter;
             diagnostics.AddRange(errors);
-            if (diagnostics.Count()!=0)
+            if (diagnostics.Count() != 0)
             {
 
                 return null;
@@ -253,14 +253,15 @@ namespace Natasha.Complier
 
                 }
 
-                formatContent = formatter;
                 return null;
+
             }
             catch (Exception ex)
             {
 
                 if (ex is IOException)
                 {
+
                     if (!Directory.Exists(domain.LibPath))
                     {
 
@@ -275,26 +276,26 @@ namespace Natasha.Complier
 
                     }
 
-                        int loop = 0;
-                        while (!domain.DynamicDlls.ContainsKey(path))
-                        {
+                    int loop = 0;
+                    while (!domain.DynamicDlls.ContainsKey(path))
+                    {
 
-                            Thread.Sleep(200);
-                            loop += 1;
+                        Thread.Sleep(200);
+                        loop += 1;
 
-                        }
-
-
-                        if (NWarning.Enabled)
-                        {
-                            NWarning warning = new NWarning();
-                            warning.WrapperTitle(ClassNames[0]);
-                            warning.Handler($"    I/O Delay :\t检测到争用，延迟{loop * 200}ms调用;\r\n");
-                            warning.Write();
-                        }
+                    }
 
 
-                        return domain.DynamicDlls[path];
+                    if (NWarning.Enabled)
+                    {
+                        NWarning warning = new NWarning();
+                        warning.WrapperTitle(ClassNames[0]);
+                        warning.Handler($"    I/O Delay :\t检测到争用，延迟{loop * 200}ms调用;\r\n");
+                        warning.Write();
+                    }
+
+
+                    return domain.DynamicDlls[path];
 
 
                 }

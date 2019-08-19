@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.2;</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.2;netcoreapp3.0;</TargetFrameworks>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -13,6 +13,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="BenchmarkTests.cs" />
+    <Compile Remove="CopyTests.cs" />
+    <Compile Remove="DynamicCloneTest.cs" />
+    <Compile Remove="DynamicSnapshotTest.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />

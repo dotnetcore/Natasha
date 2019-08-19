@@ -15,9 +15,9 @@ namespace Natasha
 
         public readonly ConcurrentDictionary<string, Assembly> ClassMapping;
         public readonly ConcurrentDictionary<string, Assembly> DynamicDlls;
-        public readonly ConcurrentBag<PortableExecutableReference> References;
+        public readonly ConcurrentQueue<PortableExecutableReference> References;
         public readonly string LibPath;
-        public readonly string Name;
+        public readonly string KeyName;
 
 
 #if NETCOREAPP3_0
@@ -29,12 +29,12 @@ namespace Natasha
 
         public AssemblyDomain(string name)
 #if NETCOREAPP3_0
-            : base(isCollectible:true)
+            : base(isCollectible: true)
 #endif
 
         {
 
-            Name = name;
+            KeyName = name;
             LibPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NatashaLib", name);
             if (Directory.Exists(LibPath))
             {
@@ -44,20 +44,32 @@ namespace Natasha
             }
             Directory.CreateDirectory(LibPath);
 
+
 #if NETCOREAPP3_0
             _resolver = new AssemblyDependencyResolver(LibPath);
 #endif
 
+
             ClassMapping = new ConcurrentDictionary<string, Assembly>();
-            DynamicDlls = new  ConcurrentDictionary<string, Assembly>();
+            DynamicDlls = new ConcurrentDictionary<string, Assembly>();
+
 
             var _ref = DependencyContext.Default.CompileLibraries
                                 .SelectMany(cl => cl.ResolveReferencePaths())
                                 .Select(asm => MetadataReference.CreateFromFile(asm));
-            References = new ConcurrentBag<PortableExecutableReference>(_ref);
-           
+            References = new ConcurrentQueue<PortableExecutableReference>(_ref);
+            this.Unloading += AssemblyDomain_Unloading;
 
         }
+
+
+
+
+        private void AssemblyDomain_Unloading(AssemblyLoadContext obj)
+        {
+            //throw new NotImplementedException();
+        }
+
 
 
 
@@ -65,10 +77,12 @@ namespace Natasha
         {
             this.Clear();
 #if NETCOREAPP3_0
-            this.Unload();
+            //this.Unload();
 #endif
             GC.Collect();
             GC.WaitForPendingFinalizers();
+            //Directory.Delete(LibPath, true);
+            
         }
 
 
@@ -76,12 +90,13 @@ namespace Natasha
 
         private void Clear()
         {
+
 #if NETCOREAPP3_0
             References.Clear();
 #endif
             ClassMapping.Clear();
             DynamicDlls.Clear();
-            Directory.Delete(LibPath, true);
+
         }
 
 
@@ -89,19 +104,21 @@ namespace Natasha
 
         protected override Assembly Load(AssemblyName assemblyName)
         {
+
 #if NETCOREAPP3_0
-            string assemblyPath = _resolver.ResolveAssemblyToPath(assemblyName);
+            //string assemblyPath = _resolver.ResolveAssemblyToPath(assemblyName);
 
-            if (assemblyPath != null)
-            {
+            //if (assemblyPath != null)
+            //{
 
-                Assembly assembly = LoadFromAssemblyPath(assemblyPath);
-                CacheAssembly(assembly);
-                return assembly;
+            //    Assembly assembly = LoadFromAssemblyPath(assemblyPath);
+            //    CacheAssembly(assembly);
+            //    return assembly;
 
-            }
+            //}
 #endif
             return null;
+
         }
 
 
@@ -120,27 +137,33 @@ namespace Natasha
 #endif
 
             return IntPtr.Zero;
+
         }
 
 
 
 
 
-            public void CacheAssembly(Assembly assembly)
+        public void CacheAssembly(Assembly assembly)
         {
 
-            assembly.ExportedTypes.Select(item =>
+            var types = assembly.GetTypes();
+            for (int i = 0; i < types.Length; i++)
             {
-                ClassMapping[item.Name] = assembly;
-                return item;
-            });
+
+                ClassMapping[types[i].Name] = assembly;
+
+            }
+
 
             if (!DynamicDlls.ContainsKey(assembly.Location))
             {
+
                 DynamicDlls[assembly.Location] = assembly;
-                References.Add(MetadataReference.CreateFromFile(assembly.Location));
+                References.Enqueue(MetadataReference.CreateFromFile(assembly.Location));
+
             }
-          
+
         }
 
 
@@ -185,6 +208,7 @@ namespace Natasha
         /// <returns></returns>
         public Type GetType(string name)
         {
+
             return ClassMapping[name].GetTypes().First(item => item.Name == name);
 
         }

@@ -28,7 +28,7 @@ namespace Natasha.Builder
 
 
 #if NETCOREAPP3_0
-            Complier.Context = Domain;
+            Complier.Domain = Domain;
 #endif
 
 
@@ -56,7 +56,7 @@ namespace Natasha.Builder
 
 
 #if NETCOREAPP3_0
-            Complier.Context = Domain;
+            Complier.Domain = Domain;
 #endif
 
 

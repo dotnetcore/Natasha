@@ -36,6 +36,10 @@ namespace Core30
                 {
                     Console.WriteLine("\t计数为10，删除静态引用！");
                     action = null;
+                    AssemblyManagment.Get("TempDomain").Dispose();
+                    //AssemblyManagment.Get("TempDomain").Unload();
+
+
                 }
                 
             }
@@ -54,20 +58,19 @@ namespace Core30
         {
             var domain = AssemblyManagment.Create("TempDomain");
             domain.Unloading += Domain_Unloading;
-            // using (domain)
-            //{
+
+
             var temp = NewMethod.Create<Action>(builder =>
             {
-                    //builder.Complier.UseFileComplie(); 
-                    builder
+                 builder.Complier.UseFileComplie(); 
+                 builder
                  .InDomain(domain)
                  .MethodBody(@"Console.WriteLine(""\t动态功能输出：Hello World!"");");
             });
 
+
             action = temp.Method;
-            //////action();
             temp.Method();
-            // }
         }
 
         private static void B_Unloading(System.Runtime.Loader.AssemblyLoadContext obj)

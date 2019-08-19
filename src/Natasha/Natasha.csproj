@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netcoreapp3.0;</TargetFrameworks>
     <Product>Natasha</Product>
     <Description>使用roslyn方案打造高性能动态代码，包括动态构建，深度克隆，实体快照等。（Use Roslyn to create efficient dynamic code. Including dynamic build, deep clone, entity snapshot, and so on.）</Description>
     <Copyright>.NET Core Community and Contributors</Copyright>
