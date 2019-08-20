@@ -28,30 +28,6 @@ namespace Natasha.Complier
 
 
 
-        protected bool _useFileComplie;
-        /// <summary>
-        /// 是否启用文件编译，默认不启用
-        /// </summary>
-        /// <param name="shut">开关</param>
-        /// <returns></returns>
-        public IComplier UseFileComplie()
-        {
-
-            _useFileComplie = true;
-            return this;
-
-        }
-        public IComplier UseMemoryComplie()
-        {
-
-            _useFileComplie = false;
-            return this;
-
-        }
-
-
-
-
 
         /// <summary>
         /// 获取编译后的程序集
@@ -68,23 +44,11 @@ namespace Natasha.Complier
 
 
             Exception.Source = content;
-            Assembly assembly;
-            if (!_useFileComplie)
-            {
-
-                assembly = ScriptComplierEngine.StreamComplier(content, Domain, out Exception.Formatter, ref Exception.Diagnostics);
-
-            }
-            else
-            {
-
-                assembly = ScriptComplierEngine.FileComplier(content, Domain, out Exception.Formatter, ref Exception.Diagnostics);
-
-            }
+            Assembly assembly = ScriptComplierEngine.StreamComplier(content, Domain, out Exception.Formatter, ref Exception.Diagnostics);
 
 
             //判空
-            if (assembly == default)
+            if (assembly == default || assembly == null)
             {
 
                 Exception.ErrorFlag = ComplieError.Assembly;
