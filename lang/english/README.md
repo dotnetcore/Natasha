@@ -63,8 +63,10 @@ WeihanLi
  - 2019-08-04 ： Release v1.1.0.0，Optimize the compilation engine, distinguish OS characters, and increase exception capture.
  - 2019-08-05 ： Release v1.2.0.0，Support for compiling class/interface/struct, add FieldTemplate, add string extension method.  
  - 2019-08-06 ： Release v1.2.1.0，Scrap RuntimeComplier and switch to OopComplier. Mixed compilation of scripts and DLL files is supported.
- - 2019-08-09 ： Release v1.3.2.0，Support  for compiling `unsafe` Method. MethodTemplate/OnceMethodTempalte add `UseUnsafe` Method.  
- - 2019-08-11 ： Release v1.3.4.0，Add NFunc/NAction Method, implement a delegate quickly。  
+ - 2019-08-09 ： Release v1.3.2.0，Support for compiling `unsafe` Method. MethodTemplate/OnceMethodTempalte add `UseUnsafe` Method.  
+ - 2019-08-11 ： Release v1.3.4.0，Add NFunc/NAction Method, implement a delegate quickly. 
+ - 2019-08-16 ： Release v1.3.6.0，Support for compiling enum type, log has added one folder names 'hh:mm'.  
+ 
  <br/>  
  
 ---------------------  
