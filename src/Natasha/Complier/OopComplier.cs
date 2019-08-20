@@ -7,16 +7,6 @@ namespace Natasha
     {
 
 
-        public OopComplier()
-        {
-
-            UseFileComplie();
-
-        }
-
-
-
-
         /// <summary>
         /// 根据命名空间和类的位置获取类型
         /// </summary>

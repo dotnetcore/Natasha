@@ -23,8 +23,6 @@ namespace NatashaUT
                 .Builder()
                 .Script;
 
-
-            Assert.Equal("TestUt1", builder.GetType().Name);
             Assert.Equal(@"using NatashaUT;
 using System;
 namespace TestNamespace{

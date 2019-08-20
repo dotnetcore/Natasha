@@ -33,14 +33,11 @@ namespace Core30
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
                 Thread.Sleep(500);
-                if (i==8)
+                if (i==6)
                 {
                     Console.WriteLine($"\t计数为{i}，删除静态引用！");
+                    //千万别再这里调用 AssemblyManagment.Get("TempDomain").Dispose();
                     action = null;
-                    //AssemblyManagment.Get("TempDomain").Dispose();
-                    //AssemblyManagment.Get("TempDomain").Unload();
-
-
                 }
                 
             }
@@ -60,16 +57,16 @@ namespace Core30
             var domain = AssemblyManagment.Create("TempDomain");
             domain.Unloading += Domain_Unloading;
 
-            var builder = domain.Execute<FastMethodOperator>(builder =>
+            var temp = domain.Execute<FastMethodOperator>(builder =>
             {
-                builder.Complier.UseFileComplie();
-                return builder.MethodBody(@"Console.WriteLine(""\t动态功能输出：Hello World!"");");
+                return builder
+                //.MethodAttribute<MethodImplAttribute>("MethodImplOptions.NoInlining")
+                .MethodBody(@"Console.WriteLine(""\t动态功能输出：Hello World!"");");
             });
 
-
-            //action = temp.Method;
-            builder.Complie<Action>()();
-            //temp.Method = null;
+            action = temp.Complie<Action>();
+            action();
+            AssemblyManagment.Get("TempDomain").Dispose();
         }
 
         private static void B_Unloading(System.Runtime.Loader.AssemblyLoadContext obj)

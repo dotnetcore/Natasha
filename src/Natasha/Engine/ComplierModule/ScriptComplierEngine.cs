@@ -1,15 +1,12 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Emit;
 using Microsoft.CodeAnalysis.Formatting;
 using Natasha.Log;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading;
 
 namespace Natasha.Complier
 {
@@ -48,21 +45,21 @@ namespace Natasha.Complier
             var formatter = root.ToString();
 
 
-            var result = new List<string>(from classNodes
+            var result = new List<string>(from typeNodes
                          in root.DescendantNodes().OfType<ClassDeclarationSyntax>()
-                                          select classNodes.Identifier.Text);
+                                          select typeNodes.Identifier.Text);
 
-            result.AddRange(from classNodes
+            result.AddRange(from typeNodes
                     in root.DescendantNodes().OfType<StructDeclarationSyntax>()
-                            select classNodes.Identifier.Text);
+                            select typeNodes.Identifier.Text);
 
-            result.AddRange(from classNodes
+            result.AddRange(from typeNodes
                     in root.DescendantNodes().OfType<InterfaceDeclarationSyntax>()
-                            select classNodes.Identifier.Text);
+                            select typeNodes.Identifier.Text);
 
-            result.AddRange(from classNodes
+            result.AddRange(from typeNodes
                     in root.DescendantNodes().OfType<EnumDeclarationSyntax>()
-                            select classNodes.Identifier.Text);
+                            select typeNodes.Identifier.Text);
 
 
             return (root.SyntaxTree, result.ToArray(), formatter, errors);
@@ -81,228 +78,82 @@ namespace Natasha.Complier
         public static Assembly StreamComplier(string sourceContent, AssemblyDomain domain, out string formatContent, ref List<Diagnostic> diagnostics)
         {
 
-            var (Tree, ClassNames, formatter, errors) = GetTreeInfo(sourceContent.Trim());
-            formatContent = formatter;
-            diagnostics.AddRange(errors);
-            if (diagnostics.Count() != 0)
+            lock (domain)
             {
 
-                return null;
-
-            }
-
-            //创建语言编译
-            CSharpCompilation compilation = CSharpCompilation.Create(
-                ClassNames[0],
-                options: new CSharpCompilationOptions(
-                    outputKind: OutputKind.DynamicallyLinkedLibrary,
-                    optimizationLevel: OptimizationLevel.Release,
-                    allowUnsafe: true),
-                syntaxTrees: new[] { Tree },
-                references: domain.References);
-
-
-            //编译并生成程序集
-            using (MemoryStream stream = new MemoryStream())
-            {
-
-                var fileResult = compilation.Emit(stream);
-                if (fileResult.Success)
+                var (tree, typeNames, formatter, errors) = GetTreeInfo(sourceContent.Trim());
+                formatContent = formatter;
+                diagnostics.AddRange(errors);
+                if (diagnostics.Count() != 0)
                 {
 
-                    stream.Position = 0;
-                    var result = domain.LoadFromStream(stream);
-
-
-                    if (NSucceed.Enabled)
-                    {
-
-                        NSucceed logSucceed = new NSucceed();
-                        logSucceed.WrapperCode(formatter);
-                        logSucceed.Handler(compilation, result);
-
-                    }
-
-
-                    return result;
-
-                }
-                else
-                {
-
-
-                    diagnostics.AddRange(fileResult.Diagnostics);
-                    //错误处理
-                    if (NError.Enabled)
-                    {
-
-                        NError logError = new NError();
-                        logError.WrapperCode(formatter);
-                        logError.Handler(compilation, fileResult.Diagnostics);
-                        logError.Write();
-                    }
-
+                    return null;
 
                 }
 
-            }
 
-            return null;
-
-        }
-
-
-
-
-
-
-
-
-
-        /// <summary>
-        /// 使用文件流进行脚本编译，根据类名生成dll
-        /// </summary>
-        /// <param name="sourceContent">脚本内容</param>
-        /// <param name="errorAction">发生错误执行委托</param>
-        /// <returns></returns>
-        public static Assembly FileComplier(string sourceContent, AssemblyDomain domain, out string formatContent, ref List<Diagnostic> diagnostics)
-        {
-
-
-            //类名获取
-            var (Tree, ClassNames, formatter, errors) = GetTreeInfo(sourceContent.Trim());
-            formatContent = formatter;
-            diagnostics.AddRange(errors);
-            if (diagnostics.Count() != 0)
-            {
-
-                return null;
-
-            }
-
-
-            if (domain.ClassMapping.ContainsKey(ClassNames[0]))
-            {
-
-                return domain.ClassMapping[ClassNames[0]];
-
-            }
-
-
-            //生成路径
-            string path = Path.Combine(domain.LibPath, $"{ClassNames[0]}.dll");
-            if (domain.DynamicDlls.ContainsKey(path))
-            {
-
-                return domain.DynamicDlls[path];
-
-            }
-
-
-
-
-            //创建语言编译
-            CSharpCompilation compilation = CSharpCompilation.Create(
-                ClassNames[0],
-                options: new CSharpCompilationOptions(
-                    outputKind: OutputKind.DynamicallyLinkedLibrary,
-                    optimizationLevel: OptimizationLevel.Release,
-                     allowUnsafe: true),
-                syntaxTrees: new[] { Tree },
-                references: domain.References);
-
-
-            EmitResult fileResult;
-            //编译到文件
-            try
-            {
-
-                fileResult = compilation.Emit(path);
-                if (fileResult.Success)
+                if (domain.ClassMapping.ContainsKey(typeNames[0]))
                 {
 
-                    //为了实现动态中的动态，使用文件加载模式常驻内存
-                    var result = domain.LoadFromAssemblyPath(path);
-                    domain.CacheAssembly(result);
-
-
-                    if (NSucceed.Enabled)
-                    {
-
-                        NSucceed logSucceed = new NSucceed();
-                        logSucceed.WrapperCode(formatter);
-                        logSucceed.Handler(compilation, result);
-
-                    }
-                    return result;
-
-                }
-                else
-                {
-
-                    diagnostics.AddRange(fileResult.Diagnostics);
-                    if (NError.Enabled)
-                    {
-
-                        NError logError = new NError();
-                        logError.WrapperCode(formatter);
-                        logError.Handler(compilation, fileResult.Diagnostics);
-                        logError.Write();
-                    }
+                    return domain.ClassMapping[typeNames[0]];
 
                 }
 
-                return null;
 
-            }
-            catch (Exception ex)
-            {
+                //创建语言编译
+                CSharpCompilation compilation = CSharpCompilation.Create(
+                                   typeNames[0],
+                                   options: new CSharpCompilationOptions(
+                                       outputKind: OutputKind.DynamicallyLinkedLibrary,
+                                       optimizationLevel: OptimizationLevel.Release,
+                                       allowUnsafe: true),
+                                   syntaxTrees: new[] { tree },
+                                   references: domain.References);
 
-                if (ex is IOException)
+
+                //编译并生成程序集
+                using (MemoryStream stream = new MemoryStream())
                 {
 
-                    if (!Directory.Exists(domain.LibPath))
+                    var fileResult = compilation.Emit(stream);
+                    if (fileResult.Success)
                     {
 
-                        if (NWarning.Enabled)
+                        stream.Position = 0;
+                        var result = domain.LoadFromStream(stream);
+                        domain.CacheAssembly(result, stream);
+
+
+                        if (NSucceed.Enabled)
                         {
-                            NWarning warning = new NWarning();
-                            warning.WrapperTitle(ClassNames[0]);
-                            warning.Handler($"{domain.LibPath}路径不存在，请重新运行程序！");
-                            warning.Write();
+
+                            NSucceed logSucceed = new NSucceed();
+                            logSucceed.WrapperCode(formatter);
+                            logSucceed.Handler(compilation, result);
+
                         }
-                        throw new Exception($"{domain.LibPath}路径不存在，请重新运行程序！");
+                        return result;
 
                     }
-
-                    int loop = 0;
-                    while (!domain.DynamicDlls.ContainsKey(path))
+                    else
                     {
 
-                        Thread.Sleep(200);
-                        loop += 1;
+                        diagnostics.AddRange(fileResult.Diagnostics);
+                        if (NError.Enabled)
+                        {
+
+                            NError logError = new NError();
+                            logError.WrapperCode(formatter);
+                            logError.Handler(compilation, fileResult.Diagnostics);
+                            logError.Write();
+                        }
 
                     }
-
-
-                    if (NWarning.Enabled)
-                    {
-                        NWarning warning = new NWarning();
-                        warning.WrapperTitle(ClassNames[0]);
-                        warning.Handler($"    I/O Delay :\t检测到争用，延迟{loop * 200}ms调用;\r\n");
-                        warning.Write();
-                    }
-
-
-                    return domain.DynamicDlls[path];
-
 
                 }
 
-
-                return null;
-
             }
+            return null;
 
         }
 

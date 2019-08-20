@@ -18,7 +18,6 @@ namespace Natasha
         public readonly ConcurrentDictionary<string, Assembly> DynamicDlls;
         public readonly ConcurrentQueue<PortableExecutableReference> References;
         public readonly string LibPath;
-        public readonly string KeyName;
 
 
 #if NETCOREAPP3_0
@@ -28,15 +27,14 @@ namespace Natasha
 
 
 
-        public AssemblyDomain(string name)
+        public AssemblyDomain(string key)
 #if NETCOREAPP3_0
-            : base(isCollectible: true)
+            : base(isCollectible: true,name:key)
 #endif
 
         {
 
-            KeyName = name;
-            LibPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NatashaLib", name);
+            LibPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NatashaLib", key);
             if (Directory.Exists(LibPath))
             {
 
@@ -49,7 +47,6 @@ namespace Natasha
 #if NETCOREAPP3_0
             _resolver = new AssemblyDependencyResolver(LibPath);
 #endif
-
 
             ClassMapping = new ConcurrentDictionary<string, Assembly>();
             DynamicDlls = new ConcurrentDictionary<string, Assembly>();
@@ -77,21 +74,6 @@ namespace Natasha
         public void Dispose()
         {
 
-            this.Clear();
-#if NETCOREAPP3_0
-            //this.Unload();
-#endif
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            
-        }
-
-
-
-
-        private void Clear()
-        {
-
 #if NETCOREAPP3_0
             References.Clear();
 #endif
@@ -112,9 +94,7 @@ namespace Natasha
             if (assemblyPath != null)
             {
 
-                Assembly assembly = LoadFromAssemblyPath(assemblyPath);
-                CacheAssembly(assembly);
-                return assembly;
+                return LoadFromAssemblyPath(assemblyPath);
 
             }
 #endif
@@ -144,8 +124,7 @@ namespace Natasha
 
 
 
-
-        public void CacheAssembly(Assembly assembly)
+        public void CacheAssembly(Assembly assembly,Stream stream = null)
         {
 
             var types = assembly.GetTypes();
@@ -156,12 +135,11 @@ namespace Natasha
 
             }
 
-
-            if (!DynamicDlls.ContainsKey(assembly.Location))
+            if (stream != null)
             {
 
-                DynamicDlls[assembly.Location] = assembly;
-                References.Enqueue(MetadataReference.CreateFromFile(assembly.Location));
+                stream.Position = 0;
+                References.Enqueue(MetadataReference.CreateFromStream(stream));
 
             }
 
@@ -176,8 +154,10 @@ namespace Natasha
             if (!DynamicDlls.ContainsKey(path))
             {
 
-                var result = LoadFromAssemblyPath(path);
-                CacheAssembly(result);
+                using (FileStream stream = new FileStream(path, FileMode.Open))
+                {
+                    CacheAssembly(LoadFromStream(stream), stream);
+                }
 
             }
 

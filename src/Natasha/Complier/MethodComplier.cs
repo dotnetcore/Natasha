@@ -8,13 +8,6 @@ namespace Natasha.Complier
     public class MethodComplier : IComplier
     {
 
-        public MethodComplier()
-        {
-            UseMemoryComplie();
-        }
-
-
-
         /// <summary>
         /// 编译脚本，生成委托
         /// </summary>
