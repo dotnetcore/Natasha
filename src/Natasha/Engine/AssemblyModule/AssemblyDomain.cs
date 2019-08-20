@@ -124,7 +124,6 @@ namespace Natasha
 
 
 
-
         public void CacheAssembly(Assembly assembly,Stream stream = null)
         {
 
@@ -141,7 +140,6 @@ namespace Natasha
 
                 stream.Position = 0;
                 References.Enqueue(MetadataReference.CreateFromStream(stream));
-                stream.Dispose();
 
             }
 
@@ -155,9 +153,11 @@ namespace Natasha
 
             if (!DynamicDlls.ContainsKey(path))
             {
-                FileStream stream = new FileStream(path, FileMode.Open);
-                var result = LoadFromStream(stream);
-                CacheAssembly(result, stream);
+
+                using (FileStream stream = new FileStream(path, FileMode.Open))
+                {
+                    CacheAssembly(LoadFromStream(stream), stream);
+                }
 
             }
 
