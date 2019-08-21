@@ -1,5 +1,6 @@
 ﻿using Natasha;
 using System;
+using System.Collections.Generic;
 
 namespace Core21
 {
@@ -73,7 +74,7 @@ namespace HelloWorld
     }
 }";
             //根据脚本创建动态类
-            var domain =  AssemblyManagment.Create("Default");
+            var domain = AssemblyManagment.Create("Default");
             domain.LoadFile(@"D:\Project\IlTest\ClassLibrary1\bin\Debug\netstandard2.0\ClassLibrary1.dll");
 
             OopComplier oop = new OopComplier();
@@ -81,6 +82,12 @@ namespace HelloWorld
             Type type = oop.GetClassType(text);
             var a = Activator.CreateInstance(type);
             Console.WriteLine(a.ToString());
+
+            Console.WriteLine(typeof(List<int>[]).GetDevelopName());
+            Console.WriteLine(typeof(List<int>[,]).GetDevelopName());
+            Console.WriteLine(typeof(int[,]).GetDevelopName());
+            Console.WriteLine(typeof(int[][]).GetDevelopName());
+            Console.WriteLine(typeof(int[][,,,]).GetDevelopName());
             Console.ReadKey();
         }
     }

@@ -1,8 +1,5 @@
 ﻿using Natasha;
 using Natasha.Operator;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace NatashaUT
@@ -28,7 +25,7 @@ namespace NatashaUT
                 .Builder();
             var type = builder.GetType();
             Assert.Null(type);
-            Assert.Equal(ComplieError.Assembly, builder.Complier.Exception.ErrorFlag);
+            Assert.Equal(ComplieError.Syntax, builder.Complier.Exception.ErrorFlag);
         }
 
 
@@ -52,7 +49,7 @@ namespace NatashaUT
             var type = builder.GetType();
             Assert.Equal(OopType.Struct ,builder.OopTypeEnum);
             Assert.Null(type);
-            Assert.Equal(ComplieError.Assembly, builder.Complier.Exception.ErrorFlag);
+            Assert.Equal(ComplieError.Syntax, builder.Complier.Exception.ErrorFlag);
         }
 
 
@@ -73,7 +70,7 @@ namespace NatashaUT
                .Complie();
 
             Assert.Null(delegateAction);
-            Assert.Equal(ComplieError.Assembly, builder.Complier.Exception.ErrorFlag);
+            Assert.Equal(ComplieError.Syntax, builder.Complier.Exception.ErrorFlag);
         }
 
     }
