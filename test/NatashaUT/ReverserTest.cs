@@ -42,13 +42,14 @@ namespace NatashaUT
         [Fact(DisplayName = "多维数组解析")]
         public void TestType()
         {
-
+           
             Assert.Equal("List<Int32>[]", typeof(List<int>[]).GetDevelopName());
             Assert.Equal("List<Int32>[,]", typeof(List<int>[,]).GetDevelopName());
             Assert.Equal("List<Int32>[,][][,,,,]", typeof(List<int>[,][][,,,,]).GetDevelopName());
             Assert.Equal("Int32[,]", typeof(int[,]).GetDevelopName());
             Assert.Equal("Int32[][]", typeof(int[][]).GetDevelopName());
             Assert.Equal("Int32[][,,,]", typeof(int[][,,,]).GetDevelopName());
+            Assert.Equal("Dictionary<Int32[][,,,],String[,,,][]>[]", typeof(Dictionary<int[][,,,], string[,,,][]>[]).GetDevelopName());
 
         }
 
