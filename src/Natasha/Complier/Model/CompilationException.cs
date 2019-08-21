@@ -40,7 +40,8 @@ namespace Natasha
         Assembly,
         Type,
         Method,
-        Delegate
+        Delegate,
+        Syntax
     }
 
 }

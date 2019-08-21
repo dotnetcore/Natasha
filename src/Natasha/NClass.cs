@@ -8,6 +8,7 @@ namespace Natasha
         public NClass()
         {
 
+            OopAccess(AccessTypes.Public);
             ChangeToClass();
             Link = this;
 

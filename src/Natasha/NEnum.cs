@@ -8,6 +8,7 @@ namespace Natasha
         public NEnum()
         {
 
+            OopAccess(AccessTypes.Public);
             ChangeToEnum();
             Link = this;
 

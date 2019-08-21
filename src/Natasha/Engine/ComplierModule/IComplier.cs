@@ -1,11 +1,13 @@
 ﻿using Microsoft.CodeAnalysis;
+using Natasha.Log;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
 namespace Natasha.Complier
 {
-    public abstract class IComplier
+    public  abstract partial class IComplier
     {
 
         public readonly CompilationException Exception;
@@ -28,6 +30,35 @@ namespace Natasha.Complier
 
 
 
+        /// <summary>
+        /// 语法树结果检测
+        /// </summary>
+        /// <param name="source">原脚本字符串</param>
+        /// <param name="formart">格式化后的脚本字符串</param>
+        /// <param name="errors">错误信息集合</param>
+        /// <returns></returns>
+        public bool CheckSyntax(string source, string formart, IEnumerable<Diagnostic> errors)
+        {
+
+            Exception.Source = source;
+            Exception.Formatter = formart;
+            Exception.Diagnostics.AddRange(errors);
+
+
+            if (Exception.Diagnostics.Count != 0)
+            {
+
+                Exception.ErrorFlag = ComplieError.Syntax;
+                Exception.Message = "语法错误,请仔细检查脚本代码！";
+                return false;
+
+            }
+            return true;
+
+        }
+
+
+
 
         /// <summary>
         /// 获取编译后的程序集
@@ -43,20 +74,52 @@ namespace Natasha.Complier
             }
 
 
-            Exception.Source = content;
-            Assembly assembly = ScriptComplierEngine.StreamComplier(content, Domain, out Exception.Formatter, ref Exception.Diagnostics);
+            Assembly assembly =null ;
+           var treeResult = GetTreeInfo(content);
 
-
-            //判空
-            if (assembly == default || assembly == null)
+            if (CheckSyntax(content, treeResult.Formatter, treeResult.Errors))
             {
+                if (Exception.Diagnostics.Count != 0)
+                {
 
-                Exception.ErrorFlag = ComplieError.Assembly;
-                Exception.Message = "发生错误,无法生成程序集！";
+                    Exception.ErrorFlag = ComplieError.Syntax;
+                    Exception.Message = "发生错误,无法生成程序集！";
 
+                }
+                else
+                {
+
+                    var result = StreamComplier(treeResult.TypeNames[0], treeResult.Tree, Domain);
+                    assembly = result.Assembly;
+                    if (assembly == default || assembly == null)
+                    {
+
+                        Exception.Diagnostics.AddRange(result.Errors);
+                        Exception.ErrorFlag = ComplieError.Assembly;
+                        Exception.Message = "发生错误,无法生成程序集！";
+
+
+                        if (NError.Enabled)
+                        {
+
+                            NError logError = new NError();
+                            logError.WrapperCode(Exception.Formatter);
+                            logError.Handler(result.Compilation, Exception.Diagnostics);
+                            logError.Write();
+                        }
+
+                    }
+                    else if (NSucceed.Enabled)
+                    {
+
+                        NSucceed logSucceed = new NSucceed();
+                        logSucceed.WrapperCode(Exception.Formatter);
+                        logSucceed.Handler(result.Compilation, assembly);
+
+                    }
+
+                }
             }
-
-
             return assembly;
 
         }
@@ -183,6 +246,9 @@ namespace Natasha.Complier
         }
 
 
+
+
+       
     }
 
 }

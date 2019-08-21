@@ -4,22 +4,19 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Formatting;
 using Natasha.Log;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 
 namespace Natasha.Complier
 {
-
-    /// <summary>
-    /// 核心编译引擎
-    /// </summary>
-    public class ScriptComplierEngine
+    public abstract partial class IComplier
     {
 
         private readonly static AdhocWorkspace _workSpace;
 
-        static ScriptComplierEngine()
+        static IComplier()
         {
 
             _workSpace = new AdhocWorkspace();
@@ -33,7 +30,7 @@ namespace Natasha.Complier
 
 
 
-        public static (SyntaxTree Tree, string[] ClassNames, string formatter, IEnumerable<Diagnostic> errors) GetTreeInfo(string content)
+        public static (SyntaxTree Tree, string[] TypeNames, string Formatter, IEnumerable<Diagnostic> Errors) GetTreeInfo(string content)
         {
 
             SyntaxTree tree = CSharpSyntaxTree.ParseText(content, new CSharpParseOptions(LanguageVersion.Latest));
@@ -68,41 +65,30 @@ namespace Natasha.Complier
 
 
 
-
         /// <summary>
         /// 使用内存流进行脚本编译
         /// </summary>
         /// <param name="sourceContent">脚本内容</param>
         /// <param name="errorAction">发生错误执行委托</param>
         /// <returns></returns>
-        public static Assembly StreamComplier(string sourceContent, AssemblyDomain domain, out string formatContent, ref List<Diagnostic> diagnostics)
+        public static (Assembly Assembly, ImmutableArray<Diagnostic> Errors, CSharpCompilation Compilation) StreamComplier(string name, SyntaxTree tree, AssemblyDomain domain)
         {
 
             lock (domain)
             {
 
-                var (tree, typeNames, formatter, errors) = GetTreeInfo(sourceContent.Trim());
-                formatContent = formatter;
-                diagnostics.AddRange(errors);
-                if (diagnostics.Count() != 0)
+
+                if (domain.ClassMapping.ContainsKey(name))
                 {
 
-                    return null;
-
-                }
-
-
-                if (domain.ClassMapping.ContainsKey(typeNames[0]))
-                {
-
-                    return domain.ClassMapping[typeNames[0]];
+                    return (domain.ClassMapping[name], default, null);
 
                 }
 
 
                 //创建语言编译
                 CSharpCompilation compilation = CSharpCompilation.Create(
-                                   typeNames[0],
+                                  name,
                                    options: new CSharpCompilationOptions(
                                        outputKind: OutputKind.DynamicallyLinkedLibrary,
                                        optimizationLevel: OptimizationLevel.Release,
@@ -122,41 +108,18 @@ namespace Natasha.Complier
                         stream.Position = 0;
                         var result = domain.LoadFromStream(stream);
                         domain.CacheAssembly(result, stream);
-
-
-                        if (NSucceed.Enabled)
-                        {
-
-                            NSucceed logSucceed = new NSucceed();
-                            logSucceed.WrapperCode(formatter);
-                            logSucceed.Handler(compilation, result);
-
-                        }
-                        return result;
-
+                        return (result, default, compilation);
                     }
                     else
                     {
-
-                        diagnostics.AddRange(fileResult.Diagnostics);
-                        if (NError.Enabled)
-                        {
-
-                            NError logError = new NError();
-                            logError.WrapperCode(formatter);
-                            logError.Handler(compilation, fileResult.Diagnostics);
-                            logError.Write();
-                        }
-
+						return (null, fileResult.Diagnostics, compilation);
                     }
 
                 }
 
             }
-            return null;
 
         }
 
     }
-
 }

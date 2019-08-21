@@ -10,7 +10,7 @@ namespace Natasha
         {
 
             OopOperator builder = new OopOperator();
-            builder.ChangeToEnum();
+            builder.OopAccess(AccessTypes.Public).ChangeToEnum();
             action(builder);
             var result = builder.GetType(classIndex, namespaceIndex);
             return (builder.Complier.Exception, result);

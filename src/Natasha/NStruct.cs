@@ -8,6 +8,7 @@ namespace Natasha
         public NStruct()
         {
 
+            OopAccess(AccessTypes.Public);
             ChangeToStruct();
             Link = this;
 
