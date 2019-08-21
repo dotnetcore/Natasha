@@ -63,7 +63,7 @@ namespace Natasha
         {
 
             //后缀
-            string Suffix = string.Empty;
+            StringBuilder Suffix = new StringBuilder();
 
 
             //数组判别
@@ -72,8 +72,21 @@ namespace Natasha
 
                 if (type.IsArray)
                 {
-
-                    Suffix = "[]";
+                    var ctor = type.GetConstructors()[0];
+                    int count = ctor.GetParameters().Length;
+                    if (count == 1)
+                    {
+                        Suffix.Append("[]");
+                    }
+                    else
+                    {
+                        Suffix.Append("[");
+                        for (int i = 0; i < count - 1; i++)
+                        {
+                            Suffix.Append(",");
+                        }
+                        Suffix.Append("]");
+                    }
 
                 }
                 type = type.GetElementType();

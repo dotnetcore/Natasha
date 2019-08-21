@@ -23,13 +23,13 @@ namespace NatashaUT
         public List<string> List;
     }
 ";
-            var result = ScriptComplierEngine.GetTreeInfo(str);
-            foreach (var item in result.errors)
+            var result = IComplier.GetTreeInfo(str);
+            foreach (var item in result.Errors)
             {
                 var aa = item.GetMessage();
             }
-            Assert.Equal(0, result.errors.Count());
-            Assert.Empty(result.errors);
+            Assert.Equal(0, result.Errors.Count());
+            Assert.Empty(result.Errors);
         }
     }
 }
