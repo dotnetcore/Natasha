@@ -8,12 +8,10 @@ namespace Natasha
     {
 
         public static ConcurrentDictionary<string, WeakReference> Cache;
-        public readonly static AssemblyDomain Default;
         static AssemblyManagment()
         {
 
             Cache = new ConcurrentDictionary<string, WeakReference>();
-            Default = Create("Default");
 
         }
         
@@ -24,21 +22,7 @@ namespace Natasha
         public static AssemblyDomain Create(string key)
         {
 
-            var instance = new AssemblyDomain(key);
-            Add(key, instance);
-            return instance;
-
-        }
-
-
-
-
-        public static AssemblyDomain Create(string key, string path)
-        {
-
-            var instance = new AssemblyDomain(path);
-            Add(key, instance);
-            return instance;
+            return new AssemblyDomain(key);
 
         }
 

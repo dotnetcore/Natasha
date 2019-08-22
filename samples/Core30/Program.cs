@@ -55,12 +55,11 @@ namespace Core30
         public static void Show()
         {
 
-            var domain = AssemblyManagment.Create("TempDomain");
+            //默认共享域
             NStruct nStruct = new NStruct();
             nStruct
-                .InDomain(domain)
-                .Namespace("StructDomainNamespace")
-                .OopName("SturctDomain")
+                .Namespace("Core30")
+                .OopName("Test")
                 .Ctor(builder => builder
                     .MemberAccess(AccessTypes.Public)
                     .Param<string>("name")
@@ -71,13 +70,70 @@ namespace Core30
 
 
             var domain1 = AssemblyManagment.Create("MethodTempDomain");
+            nStruct = new NStruct();
+            nStruct
+                .InDomain(domain1)
+                .Namespace("Core30")
+                .OopName("Test")
+                .Ctor(builder => builder
+                    .MemberAccess(AccessTypes.Public)
+                    .Param<string>("name")
+                    .Body(@"Name=name+""1"";"))
+                .PublicField<string>("Name");
+           var type1 = nStruct.GetType();
+
+
+            nStruct = new NStruct();
+            nStruct
+                .InDomain(domain1)
+                .Namespace("Core30")
+                .OopName("Test")
+                .Ctor(builder => builder
+                    .MemberAccess(AccessTypes.Public)
+                    .Param<string>("name")
+                    .Body(@"Name=name+""2"";"))
+                .PublicField<string>("Name");
+            var type3 = nStruct.GetType();
+
+
+            nStruct = new NStruct();
+            nStruct
+                .InDomain(domain1)
+                .Namespace("Core30")
+                .OopName("Test")
+                .Ctor(builder => builder
+                    .MemberAccess(AccessTypes.Public)
+                    .Param<string>("name")
+                    .Body(@"Name=name+""3"";"))
+                .PublicField<string>("Name");
+            var type4 = nStruct.GetType();
+
+
+            //nStruct = new NStruct();
+            //nStruct
+            //    .InDomain(domain1)
+            //    .Namespace("Core30")
+            //    .OopName("Test")
+            //    .Ctor(builder => builder
+            //        .MemberAccess(AccessTypes.Public)
+            //        .Param<string>("name")
+            //        .Body(@"Name=name+""1"";"))
+            //    .PublicField<string>("Name");
+            //var type2 = nStruct.GetType();
+
+
+
             var temp = domain1.Execute<FastMethodOperator>(builder =>
             {
                 return builder
+                .Using<Test>()
                 .Using(type)
+                .Using(type1)
+                .Using(type3)
+                .Using(type4)
                 //.MethodAttribute<MethodImplAttribute>("MethodImplOptions.NoInlining")
                 .MethodBody(@"
-SturctDomain obj = new SturctDomain(""Hello World!"");
+Test obj = new Test(""Hello World!"");
 Console.WriteLine(obj.Name);"
 );
             });

@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyModel;
 using Natasha.Template;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -14,11 +15,11 @@ namespace Natasha
     public class AssemblyDomain : AssemblyLoadContext, IDisposable
     {
 
-        public readonly ConcurrentDictionary<string, Assembly> ClassMapping;
-        public readonly ConcurrentDictionary<string, Assembly> DynamicDlls;
-        public readonly ConcurrentQueue<PortableExecutableReference> References;
-        public readonly string LibPath;
-
+        public readonly ConcurrentDictionary<string, Assembly> TypeMapping;
+        public readonly ConcurrentDictionary<string, Assembly> OutfileMapping;
+        public readonly ConcurrentDictionary<string, PortableExecutableReference> NameMapping;
+        public readonly HashSet<PortableExecutableReference> NewReferences;
+        public bool CanCover;
 
 
 
@@ -29,24 +30,25 @@ namespace Natasha
 
         {
 
-            LibPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NatashaLib", key);
-            if (Directory.Exists(LibPath))
+            TypeMapping = new ConcurrentDictionary<string, Assembly>();
+            OutfileMapping = new ConcurrentDictionary<string, Assembly>();
+            NameMapping = new ConcurrentDictionary<string, PortableExecutableReference>();
+            CanCover = true;
+
+            if (key == "Default")
             {
-
-                Directory.Delete(LibPath, true);
-
-            }
-            Directory.CreateDirectory(LibPath);
-
-
-            ClassMapping = new ConcurrentDictionary<string, Assembly>();
-            DynamicDlls = new ConcurrentDictionary<string, Assembly>();
-
-
-            var _ref = DependencyContext.Default.CompileLibraries
+                var _ref = DependencyContext.Default.CompileLibraries
                                 .SelectMany(cl => cl.ResolveReferencePaths())
                                 .Select(asm => MetadataReference.CreateFromFile(asm));
-            References = new ConcurrentQueue<PortableExecutableReference>(_ref);
+
+                NewReferences = new HashSet<PortableExecutableReference>(_ref);
+            }
+            else
+            {
+                NewReferences = new HashSet<PortableExecutableReference>();
+            }
+
+
             this.Unloading += AssemblyDomain_Unloading;
 
         }
@@ -62,14 +64,26 @@ namespace Natasha
 
 
 
+        public void RemoveReference(string name)
+        {
+            if (NameMapping.ContainsKey(name))
+            {
+                NewReferences.Remove(NameMapping[name]);
+            }
+            
+        }
+
+
+
+
         public void Dispose()
         {
 
 #if NETCOREAPP3_0
-            References.Clear();
+            NewReferences.Clear();
 #endif
-            ClassMapping.Clear();
-            DynamicDlls.Clear();
+            TypeMapping.Clear();
+            OutfileMapping.Clear();
 
         }
 
@@ -101,18 +115,20 @@ namespace Natasha
         {
 
             var types = assembly.GetTypes();
+            stream.Position = 0;
+            var metadata = MetadataReference.CreateFromStream(stream);
             for (int i = 0; i < types.Length; i++)
             {
 
-                ClassMapping[types[i].Name] = assembly;
+                TypeMapping[types[i].Name] = assembly;
+                NameMapping[types[i].Name] = metadata;
 
             }
 
             if (stream != null)
             {
 
-                stream.Position = 0;
-                References.Enqueue(MetadataReference.CreateFromStream(stream));
+                NewReferences.Add(metadata);
 
             }
 
@@ -124,7 +140,7 @@ namespace Natasha
         public void LoadFile(string path)
         {
 
-            if (!DynamicDlls.ContainsKey(path))
+            if (!OutfileMapping.ContainsKey(path))
             {
 
                 using (FileStream stream = new FileStream(path, FileMode.Open))
@@ -142,10 +158,10 @@ namespace Natasha
         public Assembly GetDynamicAssembly(string className)
         {
 
-            if (ClassMapping.ContainsKey(className))
+            if (TypeMapping.ContainsKey(className))
             {
 
-                return ClassMapping[className];
+                return TypeMapping[className];
 
             }
             return null;
@@ -163,7 +179,7 @@ namespace Natasha
         public Type GetType(string name)
         {
 
-            return ClassMapping[name].GetTypes().First(item => item.Name == name);
+            return TypeMapping[name].GetTypes().First(item => item.Name == name);
 
         }
 

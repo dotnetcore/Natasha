@@ -67,14 +67,8 @@ namespace Natasha.Complier
         public Assembly GetAssemblyByScript(string content)
         {
 
-            if (Domain == null)
-            {
-                Domain = AssemblyManagment.Default;
-            }
-
-
             Assembly assembly =null ;
-           var treeResult = GetTreeInfo(content);
+            var treeResult = GetTreeInfo(content);
 
             if (CheckSyntax(treeResult.Formatter, treeResult.Errors))
             {
