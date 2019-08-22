@@ -10,55 +10,84 @@ namespace Natasha.Log
     public static class NWriter<T>
     {
 
-        private static readonly string _logFile;
+        private static string _logPath;
         private static readonly object _lock;
-        public static bool Enabled;
+        private static Func<string> _log_name;
+        private static Func<string> _log_folder;
+        public static int FolderDeepth
+        {
+
+            set
+            {
+                string suffix = typeof(T).Name + ".log";
+                _logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, suffix);
+                if (!Directory.Exists(_logPath))
+                {
+
+                    Directory.CreateDirectory(_logPath);
+
+                }
+
+                if (value == 1)
+                {
+
+                    _log_name = () => DateTime.Now.ToString("yyyy-MM-dd")+ suffix;
+                    _log_folder = () => default;
+
+                }
+
+
+                if (value == 2)
+                {
+
+                    _log_name = () => DateTime.Now.ToString("MM-dd") + suffix;
+                    _log_folder = () =>
+                    {
+                        var temp = Path.Combine(_logPath, DateTime.Now.ToString("yyyy"));
+                        if (!Directory.Exists(temp))
+                        {
+
+                            Directory.CreateDirectory(temp);
+
+                        }
+                        return temp;
+                    };
+                    
+
+                }
+
+
+                if (value == 3)
+                {
+
+                    _log_name = () => DateTime.Now.ToString("dd") + suffix;
+                    _log_folder = () =>
+                    {
+                        var temp = Path.Combine(_logPath, DateTime.Now.ToString("yyyy-MM"));
+                        if (!Directory.Exists(temp))
+                        {
+
+                            Directory.CreateDirectory(temp);
+
+                        }
+                        return temp;
+                    };
+
+                }
+                
+            }
+
+        }
+
+
 
 
         static NWriter()
         {
 
-            Enabled = true;
+            FolderDeepth = 3;   //日志定位到 ‘月/日’文件夹
             _lock = new object();
-           
 
-            string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log/");
-            if (!Directory.Exists(logPath))
-            {
-
-                Directory.CreateDirectory(logPath);
-
-            }
-
-
-            var YearPath = Path.Combine(logPath, DateTime.Now.Year.ToString());
-            if (!Directory.Exists(YearPath))
-            {
-
-                Directory.CreateDirectory(YearPath);
-
-            }
-
-
-            var DayPath = Path.Combine(YearPath, DateTime.Now.ToString("MM月dd日"));
-            if (!Directory.Exists(DayPath))
-            {
-
-                Directory.CreateDirectory(DayPath);
-
-            }
-
-
-            var HoursPath = Path.Combine(DayPath, DateTime.Now.ToString("HH时mm分"));
-            if (!Directory.Exists(HoursPath))
-            {
-
-                Directory.CreateDirectory(HoursPath);
-
-            }
-
-
-            _logFile = Path.Combine(HoursPath, $"{typeof(T).Name}.log");
         }
 
 
@@ -73,20 +102,17 @@ namespace Natasha.Log
 
         public static void Recoder(StringBuilder buffer)
         {
-            if (Enabled)
+
+            lock (_lock)
             {
-                
-                lock (_lock)
+                var filePath = Path.Combine(_log_folder(), _log_name());
+                using (StreamWriter LogWriter = new StreamWriter(filePath, true, Encoding.UTF8))
                 {
 
-                    using (StreamWriter LogWriter = new StreamWriter(_logFile, true, Encoding.UTF8))
-                    {
-
-                        LogWriter.WriteLine(buffer);
-
-                    }
+                    LogWriter.WriteLine(buffer);
 
                 }
+
             }
 
         }

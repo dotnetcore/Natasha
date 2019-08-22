@@ -23,9 +23,11 @@ namespace Natasha
 
         public static AssemblyDomain Create(string key)
         {
+
             var instance = new AssemblyDomain(key);
             Add(key, instance);
             return instance;
+
         }
 
 
@@ -33,9 +35,11 @@ namespace Natasha
 
         public static AssemblyDomain Create(string key, string path)
         {
+
             var instance = new AssemblyDomain(path);
             Add(key, instance);
             return instance;
+
         }
 
 
@@ -77,6 +81,7 @@ namespace Natasha
             }
 
             throw new Exception($"Can't find key : {key}!");
+
         }
 
 

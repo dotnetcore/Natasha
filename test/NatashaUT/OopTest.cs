@@ -50,12 +50,15 @@ public static void Test(){}
 
 
             Assert.Equal(@"using System;
-namespace TestNamespace{
-private struct TestUt2{
-public static String Name;
-private static Int32 _age;
-public static void Test(){}
-}}", result.Exception.Source);
+namespace TestNamespace
+{
+    private struct TestUt2
+    {
+        public static String Name;
+        private static Int32 _age;
+        public static void Test() { }
+    }
+}", result.Exception.Formatter);
         }
 
 

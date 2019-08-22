@@ -15,8 +15,8 @@ namespace Natasha
         }
 
 
-        //脚本字符串
-        public string Source;
+        //编译日志
+        public string Log;
 
         //错误信息
         public string Message;
