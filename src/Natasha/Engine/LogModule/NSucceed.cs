@@ -31,7 +31,6 @@ namespace Natasha.Log
             Buffer.AppendLine($"\r\n    Time :\t\t{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}");
             Buffer.AppendLine($"\r\n    Lauguage :\t{compilation.Language} & {compilation.LanguageVersion}");
             Buffer.AppendLine($"\r\n    Target :\t\t{compilation.AssemblyName}");
-            Buffer.AppendLine($"\r\n    Path :\t\t{assembly.Location}");
             Buffer.AppendLine($"\r\n    Assembly : \t{assembly.FullName}");
             Buffer.AppendLine("\r\n----------------------------------------------------------------------------------------------");
             WrapperTitle("Succeed : " + compilation.AssemblyName);
