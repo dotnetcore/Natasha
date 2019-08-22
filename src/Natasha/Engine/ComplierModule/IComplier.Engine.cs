@@ -22,8 +22,8 @@ namespace Natasha.Complier
             _workSpace = new AdhocWorkspace();
             _workSpace.AddSolution(SolutionInfo.Create(SolutionId.CreateNewId("formatter"), VersionStamp.Default));
 
-            NSucceed.Enabled = false;
-            NWarning.Enabled = false;
+            //NSucceed.Enabled = false;
+            //NWarning.Enabled = false;
 
         }
 
