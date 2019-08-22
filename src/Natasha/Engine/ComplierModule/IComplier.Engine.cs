@@ -22,8 +22,8 @@ namespace Natasha.Complier
             _workSpace = new AdhocWorkspace();
             _workSpace.AddSolution(SolutionInfo.Create(SolutionId.CreateNewId("formatter"), VersionStamp.Default));
 
-            NSucceed.Enabled = false;
-            NWarning.Enabled = false;
+            //NSucceed.Enabled = false;
+            //NWarning.Enabled = false;
 
         }
 
@@ -38,7 +38,6 @@ namespace Natasha.Complier
 
 
             root = (CompilationUnitSyntax)Formatter.Format(root, _workSpace);
-            var errors = root.GetDiagnostics();
             var formatter = root.ToString();
 
 
@@ -59,7 +58,7 @@ namespace Natasha.Complier
                             select typeNodes.Identifier.Text);
 
 
-            return (root.SyntaxTree, result.ToArray(), formatter, errors);
+            return (root.SyntaxTree, result.ToArray(), formatter, root.GetDiagnostics());
 
         }
 
