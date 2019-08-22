@@ -54,19 +54,35 @@ namespace Core30
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void Show()
         {
-            var domain = AssemblyManagment.Create("TempDomain");
-            domain.Unloading += Domain_Unloading;
 
-            var temp = domain.Execute<FastMethodOperator>(builder =>
+            var domain = AssemblyManagment.Create("TempDomain");
+            NStruct nStruct = new NStruct();
+            nStruct
+                .InDomain(domain)
+                .Namespace("StructDomainNamespace")
+                .OopName("SturctDomain")
+                .Ctor(builder => builder
+                    .MemberAccess(AccessTypes.Public)
+                    .Param<string>("name")
+                    .Body("Name=name;"))
+                .PublicField<string>("Name");
+            var type = nStruct.GetType();
+
+
+
+            var domain1 = AssemblyManagment.Create("MethodTempDomain");
+            var temp = domain1.Execute<FastMethodOperator>(builder =>
             {
                 return builder
+                .Using(type)
                 //.MethodAttribute<MethodImplAttribute>("MethodImplOptions.NoInlining")
-                .MethodBody(@"Console.WriteLine(""\t动态功能输出：Hello World!"");");
+                .MethodBody(@"
+SturctDomain obj = new SturctDomain(""Hello World!"");
+Console.WriteLine(obj.Name);"
+);
             });
-
             action = temp.Complie<Action>();
             action();
-            AssemblyManagment.Get("TempDomain").Dispose();
         }
 
         private static void B_Unloading(System.Runtime.Loader.AssemblyLoadContext obj)
