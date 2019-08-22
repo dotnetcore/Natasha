@@ -20,11 +20,6 @@ namespace Natasha
         public readonly string LibPath;
 
 
-#if NETCOREAPP3_0
-        private readonly AssemblyDependencyResolver _resolver;
-#endif
-
-
 
 
         public AssemblyDomain(string key)
@@ -43,10 +38,6 @@ namespace Natasha
             }
             Directory.CreateDirectory(LibPath);
 
-
-#if NETCOREAPP3_0
-            _resolver = new AssemblyDependencyResolver(LibPath);
-#endif
 
             ClassMapping = new ConcurrentDictionary<string, Assembly>();
             DynamicDlls = new ConcurrentDictionary<string, Assembly>();
@@ -88,16 +79,6 @@ namespace Natasha
         protected override Assembly Load(AssemblyName assemblyName)
         {
 
-#if NETCOREAPP3_0
-            string assemblyPath = _resolver.ResolveAssemblyToPath(assemblyName);
-
-            if (assemblyPath != null)
-            {
-
-                return LoadFromAssemblyPath(assemblyPath);
-
-            }
-#endif
             return null;
 
         }
@@ -108,14 +89,6 @@ namespace Natasha
 
         protected override IntPtr LoadUnmanagedDll(string unmanagedDllName)
         {
-
-#if NETCOREAPP3_0
-            string libraryPath = _resolver.ResolveUnmanagedDllToPath(unmanagedDllName);
-            if (libraryPath != null)
-            {
-                return LoadUnmanagedDllFromPath(libraryPath);
-            }
-#endif
 
             return IntPtr.Zero;
 
