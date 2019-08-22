@@ -19,8 +19,8 @@ namespace Natasha.Log
 
             set
             {
-                string suffix = typeof(T).Name + ".log";
-                _logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, suffix);
+                string suffix = "-"+typeof(T).Name + ".log";
+                _logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"log");
                 if (!Directory.Exists(_logPath))
                 {
 

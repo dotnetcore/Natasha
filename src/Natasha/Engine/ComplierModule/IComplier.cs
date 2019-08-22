@@ -90,34 +90,37 @@ namespace Natasha.Complier
 
                     var result = StreamComplier(treeResult.TypeNames[0], treeResult.Tree, Domain);
                     assembly = result.Assembly;
-                    if (assembly == default || assembly == null)
+                    if (result.Compilation!=null)
                     {
+                        if (assembly == default || assembly == null)
+                        {
 
-                        Exception.Diagnostics.AddRange(result.Errors);
-                        Exception.ErrorFlag = ComplieError.Assembly;
-                        Exception.Message = "发生错误,无法生成程序集！";
-
-
-                        NError logError = new NError();
-                        logError.WrapperCode(Exception.Formatter);
-                        logError.Handler(result.Compilation, Exception.Diagnostics);
+                            Exception.Diagnostics.AddRange(result.Errors);
+                            Exception.ErrorFlag = ComplieError.Assembly;
+                            Exception.Message = "发生错误,无法生成程序集！";
 
 
-                        Exception.Log = logError.Buffer.ToString();
-                        if (NError.Enabled){logError.Write(); }
-
-                    }
-                    else
-                    {
-
-                        NSucceed logSucceed = new NSucceed();
-                        logSucceed.WrapperCode(Exception.Formatter);
-                        logSucceed.Handler(result.Compilation, assembly);
+                            NError logError = new NError();
+                            logError.WrapperCode(Exception.Formatter);
+                            logError.Handler(result.Compilation, Exception.Diagnostics);
 
 
-                        Exception.Log = logSucceed.Buffer.ToString();
-                        if (NSucceed.Enabled) {logSucceed.Write(); }
+                            Exception.Log = logError.Buffer.ToString();
+                            if (NError.Enabled) { logError.Write(); }
 
+                        }
+                        else
+                        {
+
+                            NSucceed logSucceed = new NSucceed();
+                            logSucceed.WrapperCode(Exception.Formatter);
+                            logSucceed.Handler(result.Compilation, assembly);
+
+
+                            Exception.Log = logSucceed.Buffer.ToString();
+                            if (NSucceed.Enabled) { logSucceed.Write(); }
+
+                        }
                     }
 
                 }
