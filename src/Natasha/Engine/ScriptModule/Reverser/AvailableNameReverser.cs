@@ -55,7 +55,7 @@ namespace Natasha
         public static string GetAvailableName(Type type)
         {
 
-            return type.GetDevelopName().Replace('<', '_').Replace('>', '_').Replace(',', '_').Replace("[]", "__");
+            return type.GetDevelopName().Replace('<', '_').Replace('>', '_').Replace(',', '_').Replace("[", "@").Replace("]", "@");
 
         }
 

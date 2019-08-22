@@ -37,10 +37,9 @@ namespace Natasha.Complier
         /// <param name="formart">格式化后的脚本字符串</param>
         /// <param name="errors">错误信息集合</param>
         /// <returns></returns>
-        public bool CheckSyntax(string source, string formart, IEnumerable<Diagnostic> errors)
+        public bool CheckSyntax(string formart, IEnumerable<Diagnostic> errors)
         {
 
-            Exception.Source = source;
             Exception.Formatter = formart;
             Exception.Diagnostics.AddRange(errors);
 
@@ -77,7 +76,7 @@ namespace Natasha.Complier
             Assembly assembly =null ;
            var treeResult = GetTreeInfo(content);
 
-            if (CheckSyntax(content, treeResult.Formatter, treeResult.Errors))
+            if (CheckSyntax(treeResult.Formatter, treeResult.Errors))
             {
                 if (Exception.Diagnostics.Count != 0)
                 {
@@ -91,31 +90,37 @@ namespace Natasha.Complier
 
                     var result = StreamComplier(treeResult.TypeNames[0], treeResult.Tree, Domain);
                     assembly = result.Assembly;
-                    if (assembly == default || assembly == null)
+                    if (result.Compilation!=null)
                     {
-
-                        Exception.Diagnostics.AddRange(result.Errors);
-                        Exception.ErrorFlag = ComplieError.Assembly;
-                        Exception.Message = "发生错误,无法生成程序集！";
-
-
-                        if (NError.Enabled)
+                        if (assembly == default || assembly == null)
                         {
+
+                            Exception.Diagnostics.AddRange(result.Errors);
+                            Exception.ErrorFlag = ComplieError.Assembly;
+                            Exception.Message = "发生错误,无法生成程序集！";
+
 
                             NError logError = new NError();
                             logError.WrapperCode(Exception.Formatter);
                             logError.Handler(result.Compilation, Exception.Diagnostics);
-                            logError.Write();
+
+
+                            Exception.Log = logError.Buffer.ToString();
+                            if (NError.Enabled) { logError.Write(); }
+
                         }
+                        else
+                        {
 
-                    }
-                    else if (NSucceed.Enabled)
-                    {
+                            NSucceed logSucceed = new NSucceed();
+                            logSucceed.WrapperCode(Exception.Formatter);
+                            logSucceed.Handler(result.Compilation, assembly);
 
-                        NSucceed logSucceed = new NSucceed();
-                        logSucceed.WrapperCode(Exception.Formatter);
-                        logSucceed.Handler(result.Compilation, assembly);
 
+                            Exception.Log = logSucceed.Buffer.ToString();
+                            if (NSucceed.Enabled) { logSucceed.Write(); }
+
+                        }
                     }
 
                 }
