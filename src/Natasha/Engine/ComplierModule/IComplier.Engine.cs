@@ -63,8 +63,9 @@ namespace Natasha.Complier
 
                 }
 
-                references = new HashSet<PortableExecutableReference>(_default.References);
+
                 //检测自定义域是否有新引用，有则加上
+                references = new HashSet<PortableExecutableReference>(_default.References);
                 if (!isDefaultDomain && domain.References.Count > 0)
                 {
                     references.UnionWith(domain.References);
