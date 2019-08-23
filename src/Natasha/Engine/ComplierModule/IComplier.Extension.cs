@@ -19,11 +19,13 @@ namespace Natasha.Complier
             out IEnumerable<Diagnostic> errors)
         {
 
+            text = text.Trim();
             tree = CSharpSyntaxTree.ParseText(text, new CSharpParseOptions(LanguageVersion.Latest));
             CompilationUnitSyntax root = tree.GetCompilationUnitRoot();
 
 
             root = (CompilationUnitSyntax)Formatter.Format(root, IComplier._workSpace);
+            tree = root.SyntaxTree;
             formatter = root.ToString();
             errors = root.GetDiagnostics();
 

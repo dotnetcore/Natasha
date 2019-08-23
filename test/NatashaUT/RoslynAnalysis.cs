@@ -43,7 +43,7 @@ namespace HelloWorld{
 }
 
 ";
-            var (_, typeNames, _,_) = text;
+            var (tree, typeNames, formatter, errors) = text;
             Assert.Equal("TestIndex1", typeNames[0]);
             Assert.Equal("TestIndex2", typeNames[1]);
             Assert.Equal("TestIndex3", typeNames[2]);

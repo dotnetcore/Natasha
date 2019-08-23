@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Core30
 {
-    public class Test
+    public class Test1
     {
-        public Test(string name) {
+        public Test1(string name) {
             Name = name+"abcde";
         }
 

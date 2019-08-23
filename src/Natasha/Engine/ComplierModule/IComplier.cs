@@ -96,7 +96,7 @@ namespace Natasha.Complier
 
 
                             NError logError = new NError();
-                            logError.WrapperCode(Exception.Formatter);
+                            logError.WrapperCode(formartter);
                             logError.Handler(result.Compilation, Exception.Diagnostics);
 
 

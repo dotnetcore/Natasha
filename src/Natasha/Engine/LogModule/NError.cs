@@ -3,8 +3,6 @@ using Microsoft.CodeAnalysis.CSharp;
 using Natasha.Log.Model;
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Reflection;
 using System.Text;
 
 namespace Natasha.Log

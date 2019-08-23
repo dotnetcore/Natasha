@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using static System.Runtime.Loader.AssemblyLoadContext;
 
 namespace Natasha
 {
@@ -14,7 +15,7 @@ namespace Natasha
             Cache = new ConcurrentDictionary<string, WeakReference>();
 
         }
-        
+
 
 
 
@@ -29,13 +30,26 @@ namespace Natasha
 
 
 #if NETCOREAPP3_0
-         public static void Lock(string key)
+        public static ContextualReflectionScope Lock(string key)
         {
 
             if (Cache.ContainsKey(key))
             {
-                //return ((AssemblyDomain)(Cache[key].Target)).en
+                return ((AssemblyDomain)(Cache[key].Target)).EnterContextualReflection();
             }
+            return Default.EnterContextualReflection();
+
+        }
+        public static ContextualReflectionScope Lock(AssemblyDomain domain)
+        {
+
+            return domain.EnterContextualReflection();
+
+        }
+        public static ContextualReflectionScope CreateAndLock(string key)
+        {
+
+            return Lock(Create(key));
 
         }
 #endif
@@ -60,10 +74,10 @@ namespace Natasha
             else
             {
 
-                Cache[key] = new WeakReference(domain, trackResurrection:true);
+                Cache[key] = new WeakReference(domain, trackResurrection: true);
 
             }
-            
+
         }
 
 
@@ -74,7 +88,7 @@ namespace Natasha
 
             if (Cache.ContainsKey(key))
             {
-                Cache.TryRemove(key,out var result);
+                Cache.TryRemove(key, out var result);
                 return result;
 
             }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.DependencyModel;
+using Natasha.Template;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -24,12 +25,13 @@ namespace Natasha
 
         public AssemblyDomain(string key)
 #if NETCOREAPP3_0
-            : base(isCollectible: true,name:key)
+            : base(isCollectible: true, name: key)
 #endif
 
         {
 
 
+            AssemblyManagment.Add(key, this);
             TypeMapping = new ConcurrentDictionary<string, Assembly>();
             OutfileMapping = new ConcurrentDictionary<string, Assembly>();
             NameMapping = new ConcurrentDictionary<string, PortableExecutableReference>();
@@ -76,7 +78,7 @@ namespace Natasha
             }
 
             return false;
-            
+
         }
 
 
@@ -99,7 +101,7 @@ namespace Natasha
                 {
                     TypeMapping.TryRemove(item.Name, out Assembly result);
                 }
-               
+
                 return true;
 
             }
@@ -115,7 +117,7 @@ namespace Natasha
         {
 
 #if NETCOREAPP3_0
-            NewReferences.Clear();
+            References.Clear();
 #endif
             TypeMapping.Clear();
             OutfileMapping.Clear();
@@ -151,10 +153,10 @@ namespace Natasha
         /// </summary>
         /// <param name="assembly">新程序集</param>
         /// <param name="stream">程序集流</param>
-        public void CacheAssembly(Assembly assembly,Stream stream = null)
+        public void CacheAssembly(Assembly assembly, Stream stream = null)
         {
 
-            if (stream !=null)
+            if (stream != null)
             {
 
                 //生成引用表
@@ -189,7 +191,7 @@ namespace Natasha
         /// <param name="path">dll文件路径</param>
         /// <param name="isCover">是否覆盖原有的同路径的dll</param>
         /// <returns></returns>
-        public Assembly LoadFile(string path, bool  isCover = false)
+        public Assembly LoadFile(string path, bool isCover = false)
         {
 
             Assembly assembly = default;
@@ -206,7 +208,7 @@ namespace Natasha
             }
             else if (isCover)
             {
-                
+
                 //覆盖引用表，使用新的程序集
                 using (FileStream stream = new FileStream(path, FileMode.Open))
                 {
@@ -255,13 +257,13 @@ namespace Natasha
 
             }
             return null;
-            
+
         }
 
 
 
 #if NETCOREAPP3_0
-        public T Execute<T>(Func<T,T> action) where T: TemplateRecoder<T>, new()
+        public T Execute<T>(Func<T, T> action) where T : TemplateRecoder<T>, new()
         {
 
             return action?.Invoke(new T()).InDomain(this);

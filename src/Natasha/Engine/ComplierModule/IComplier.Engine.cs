@@ -1,12 +1,9 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Formatting;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 
@@ -37,9 +34,13 @@ namespace Natasha.Complier
         public static (Assembly Assembly, ImmutableArray<Diagnostic> Errors, CSharpCompilation Compilation) StreamComplier(string name, SyntaxTree tree, AssemblyDomain domain)
         {
 
-            HashSet<PortableExecutableReference> references;
             bool isDefaultDomain = domain == default;
+#if NETCOREAPP3_0
+            domain = (isDefaultDomain && AssemblyLoadContext.CurrentContextualReflectionContext == null) ? _default : (AssemblyDomain)(AssemblyLoadContext.CurrentContextualReflectionContext);
+#else
             domain = isDefaultDomain ? _default : domain;
+#endif
+
 
 
             lock (domain)
@@ -53,7 +54,6 @@ namespace Natasha.Complier
                     {
 
                         domain.RemoveReferenceByClassName(name);
-                        _default.RemoveReferenceByClassName(name);
 
                     }
                     else
@@ -65,7 +65,7 @@ namespace Natasha.Complier
 
 
                 //检测自定义域是否有新引用，有则加上
-                references = new HashSet<PortableExecutableReference>(_default.References);
+                var references = new HashSet<PortableExecutableReference>(_default.References);
                 if (!isDefaultDomain && domain.References.Count > 0)
                 {
                     references.UnionWith(domain.References);
@@ -96,9 +96,13 @@ namespace Natasha.Complier
 
 
                         //获取程序集
-                        Assembly result = isDefaultDomain ? 
+                        Assembly result = isDefaultDomain ?
                             AssemblyLoadContext.Default.LoadFromStream(stream) :
+#if NETCOREAPP3_0
+                            AssemblyLoadContext.CurrentContextualReflectionContext.LoadFromStream(stream);
+#else
                             domain.LoadFromStream(stream);
+#endif
 
 
                         domain.CacheAssembly(result, stream);
