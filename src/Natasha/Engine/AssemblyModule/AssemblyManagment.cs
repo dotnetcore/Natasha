@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using static System.Runtime.Loader.AssemblyLoadContext;
 
 namespace Natasha
 {
@@ -8,15 +9,13 @@ namespace Natasha
     {
 
         public static ConcurrentDictionary<string, WeakReference> Cache;
-        public readonly static AssemblyDomain Default;
         static AssemblyManagment()
         {
 
             Cache = new ConcurrentDictionary<string, WeakReference>();
-            Default = Create("Default");
 
         }
-        
+
 
 
 
@@ -24,23 +23,37 @@ namespace Natasha
         public static AssemblyDomain Create(string key)
         {
 
-            var instance = new AssemblyDomain(key);
-            Add(key, instance);
-            return instance;
+            return new AssemblyDomain(key);
 
         }
 
 
 
-
-        public static AssemblyDomain Create(string key, string path)
+#if NETCOREAPP3_0
+        public static ContextualReflectionScope Lock(string key)
         {
 
-            var instance = new AssemblyDomain(path);
-            Add(key, instance);
-            return instance;
+            if (Cache.ContainsKey(key))
+            {
+                return ((AssemblyDomain)(Cache[key].Target)).EnterContextualReflection();
+            }
+            return Default.EnterContextualReflection();
 
         }
+        public static ContextualReflectionScope Lock(AssemblyDomain domain)
+        {
+
+            return domain.EnterContextualReflection();
+
+        }
+        public static ContextualReflectionScope CreateAndLock(string key)
+        {
+
+            return Lock(Create(key));
+
+        }
+#endif
+
 
 
 
@@ -61,10 +74,10 @@ namespace Natasha
             else
             {
 
-                Cache[key] = new WeakReference(domain, trackResurrection:true);
+                Cache[key] = new WeakReference(domain, trackResurrection: true);
 
             }
-            
+
         }
 
 
@@ -75,7 +88,7 @@ namespace Natasha
 
             if (Cache.ContainsKey(key))
             {
-                Cache.TryRemove(key,out var result);
+                Cache.TryRemove(key, out var result);
                 return result;
 
             }

@@ -7,12 +7,12 @@ namespace Natasha
     /// <summary>
     /// 类名反解器
     /// </summary>
-    public static class ClassNameReverser
+    public static class TypeNameReverser
     {
 
 
         public readonly static ConcurrentDictionary<Type, string> _type_mapping;
-        static ClassNameReverser() => _type_mapping = new ConcurrentDictionary<Type, string>();
+        static TypeNameReverser() => _type_mapping = new ConcurrentDictionary<Type, string>();
 
 
 

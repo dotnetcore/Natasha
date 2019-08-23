@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyModel;
 using Natasha.Template;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -14,48 +15,43 @@ namespace Natasha
     public class AssemblyDomain : AssemblyLoadContext, IDisposable
     {
 
-        public readonly ConcurrentDictionary<string, Assembly> ClassMapping;
-        public readonly ConcurrentDictionary<string, Assembly> DynamicDlls;
-        public readonly ConcurrentQueue<PortableExecutableReference> References;
-        public readonly string LibPath;
-
-
-#if NETCOREAPP3_0
-        private readonly AssemblyDependencyResolver _resolver;
-#endif
-
+        public readonly ConcurrentDictionary<string, Assembly> TypeMapping;
+        public readonly ConcurrentDictionary<string, Assembly> OutfileMapping;
+        public readonly ConcurrentDictionary<string, PortableExecutableReference> NameMapping;
+        public readonly HashSet<PortableExecutableReference> References;
+        public bool CanCover;
 
 
 
         public AssemblyDomain(string key)
 #if NETCOREAPP3_0
-            : base(isCollectible: true,name:key)
+            : base(isCollectible: true, name: key)
 #endif
 
         {
 
-            LibPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NatashaLib", key);
-            if (Directory.Exists(LibPath))
+
+            AssemblyManagment.Add(key, this);
+            TypeMapping = new ConcurrentDictionary<string, Assembly>();
+            OutfileMapping = new ConcurrentDictionary<string, Assembly>();
+            NameMapping = new ConcurrentDictionary<string, PortableExecutableReference>();
+            CanCover = true;
+
+
+            if (key == "Default")
             {
-
-                Directory.Delete(LibPath, true);
-
-            }
-            Directory.CreateDirectory(LibPath);
-
-
-#if NETCOREAPP3_0
-            _resolver = new AssemblyDependencyResolver(LibPath);
-#endif
-
-            ClassMapping = new ConcurrentDictionary<string, Assembly>();
-            DynamicDlls = new ConcurrentDictionary<string, Assembly>();
-
-
-            var _ref = DependencyContext.Default.CompileLibraries
+                var _ref = DependencyContext.Default.CompileLibraries
                                 .SelectMany(cl => cl.ResolveReferencePaths())
                                 .Select(asm => MetadataReference.CreateFromFile(asm));
-            References = new ConcurrentQueue<PortableExecutableReference>(_ref);
+
+                References = new HashSet<PortableExecutableReference>(_ref);
+            }
+            else
+            {
+                References = new HashSet<PortableExecutableReference>();
+            }
+
+
             this.Unloading += AssemblyDomain_Unloading;
 
         }
@@ -71,14 +67,60 @@ namespace Natasha
 
 
 
+        public bool RemoveReferenceByClassName(string name)
+        {
+
+            if (TypeMapping.ContainsKey(name))
+            {
+
+                return RemoveReferenceByAssembly(TypeMapping[name]);
+
+            }
+
+            return false;
+
+        }
+
+
+
+
+        public bool RemoveReferenceByAssembly(Assembly assembly)
+        {
+
+            if (assembly == default)
+            {
+                throw new NullReferenceException("This method can't be passed a null instance.");
+            }
+
+
+            if (NameMapping.ContainsKey(assembly.FullName))
+            {
+
+                References.Remove(NameMapping[assembly.FullName]);
+                foreach (var item in assembly.GetTypes())
+                {
+                    TypeMapping.TryRemove(item.Name, out Assembly result);
+                }
+
+                return true;
+
+            }
+
+            return false;
+
+        }
+
+
+
+
         public void Dispose()
         {
 
 #if NETCOREAPP3_0
             References.Clear();
 #endif
-            ClassMapping.Clear();
-            DynamicDlls.Clear();
+            TypeMapping.Clear();
+            OutfileMapping.Clear();
 
         }
 
@@ -88,16 +130,6 @@ namespace Natasha
         protected override Assembly Load(AssemblyName assemblyName)
         {
 
-#if NETCOREAPP3_0
-            string assemblyPath = _resolver.ResolveAssemblyToPath(assemblyName);
-
-            if (assemblyPath != null)
-            {
-
-                return LoadFromAssemblyPath(assemblyPath);
-
-            }
-#endif
             return null;
 
         }
@@ -109,14 +141,6 @@ namespace Natasha
         protected override IntPtr LoadUnmanagedDll(string unmanagedDllName)
         {
 
-#if NETCOREAPP3_0
-            string libraryPath = _resolver.ResolveUnmanagedDllToPath(unmanagedDllName);
-            if (libraryPath != null)
-            {
-                return LoadUnmanagedDllFromPath(libraryPath);
-            }
-#endif
-
             return IntPtr.Zero;
 
         }
@@ -124,39 +148,34 @@ namespace Natasha
 
 
 
-        public void CacheAssembly(Assembly assembly,Stream stream = null)
+        /// <summary>
+        /// 缓存表的原子操作，缓存程序集，并写入引用表
+        /// </summary>
+        /// <param name="assembly">新程序集</param>
+        /// <param name="stream">程序集流</param>
+        public void CacheAssembly(Assembly assembly, Stream stream = null)
         {
-
-            var types = assembly.GetTypes();
-            for (int i = 0; i < types.Length; i++)
-            {
-
-                ClassMapping[types[i].Name] = assembly;
-
-            }
 
             if (stream != null)
             {
 
+                //生成引用表
                 stream.Position = 0;
-                References.Enqueue(MetadataReference.CreateFromStream(stream));
-
-            }
-
-        }
+                var metadata = MetadataReference.CreateFromStream(stream);
 
 
+                //添加引用表
+                NameMapping[assembly.FullName] = metadata;
+                References.Add(metadata);
 
 
-        public void LoadFile(string path)
-        {
-
-            if (!DynamicDlls.ContainsKey(path))
-            {
-
-                using (FileStream stream = new FileStream(path, FileMode.Open))
+                //添加类型-程序集映射
+                var types = assembly.GetTypes();
+                for (int i = 0; i < types.Length; i++)
                 {
-                    CacheAssembly(LoadFromStream(stream), stream);
+
+                    TypeMapping[types[i].Name] = assembly;
+
                 }
 
             }
@@ -166,13 +185,54 @@ namespace Natasha
 
 
 
+        /// <summary>
+        /// 使用外部文件加载程序集
+        /// </summary>
+        /// <param name="path">dll文件路径</param>
+        /// <param name="isCover">是否覆盖原有的同路径的dll</param>
+        /// <returns></returns>
+        public Assembly LoadFile(string path, bool isCover = false)
+        {
+
+            Assembly assembly = default;
+            if (!OutfileMapping.ContainsKey(path))
+            {
+
+                //缓存中没有加载该路劲的文件
+                using (FileStream stream = new FileStream(path, FileMode.Open))
+                {
+                    assembly = LoadFromStream(stream);
+                    CacheAssembly(LoadFromStream(stream), stream);
+                }
+
+            }
+            else if (isCover)
+            {
+
+                //覆盖引用表，使用新的程序集
+                using (FileStream stream = new FileStream(path, FileMode.Open))
+                {
+                    assembly = LoadFromStream(stream);
+                    RemoveReferenceByAssembly(assembly);
+                    CacheAssembly(assembly, stream);
+                }
+
+            }
+
+            return assembly;
+
+        }
+
+
+
+
         public Assembly GetDynamicAssembly(string className)
         {
 
-            if (ClassMapping.ContainsKey(className))
+            if (TypeMapping.ContainsKey(className))
             {
 
-                return ClassMapping[className];
+                return TypeMapping[className];
 
             }
             return null;
@@ -190,14 +250,20 @@ namespace Natasha
         public Type GetType(string name)
         {
 
-            return ClassMapping[name].GetTypes().First(item => item.Name == name);
+            if (TypeMapping.ContainsKey(name))
+            {
+
+                return TypeMapping[name].GetTypes().First(item => item.Name == name);
+
+            }
+            return null;
 
         }
 
 
 
 #if NETCOREAPP3_0
-        public T Execute<T>(Func<T,T> action) where T: TemplateRecoder<T>, new()
+        public T Execute<T>(Func<T, T> action) where T : TemplateRecoder<T>, new()
         {
 
             return action?.Invoke(new T()).InDomain(this);

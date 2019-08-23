@@ -1,64 +1,25 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Formatting;
-using Natasha.Log;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
-using System.Linq;
 using System.Reflection;
+using System.Runtime.Loader;
 
 namespace Natasha.Complier
 {
     public abstract partial class IComplier
     {
 
-        private readonly static AdhocWorkspace _workSpace;
-
+        internal readonly static AdhocWorkspace _workSpace;
+        private readonly static AssemblyDomain _default;
         static IComplier()
         {
 
             _workSpace = new AdhocWorkspace();
             _workSpace.AddSolution(SolutionInfo.Create(SolutionId.CreateNewId("formatter"), VersionStamp.Default));
-
-            //NSucceed.Enabled = false;
-            //NWarning.Enabled = false;
-
-        }
-
-
-
-
-        public static (SyntaxTree Tree, string[] TypeNames, string Formatter, IEnumerable<Diagnostic> Errors) GetTreeInfo(string content)
-        {
-
-            SyntaxTree tree = CSharpSyntaxTree.ParseText(content, new CSharpParseOptions(LanguageVersion.Latest));
-            CompilationUnitSyntax root = tree.GetCompilationUnitRoot();
-
-
-            root = (CompilationUnitSyntax)Formatter.Format(root, _workSpace);
-            var formatter = root.ToString();
-
-
-            var result = new List<string>(from typeNodes
-                         in root.DescendantNodes().OfType<ClassDeclarationSyntax>()
-                                          select typeNodes.Identifier.Text);
-
-            result.AddRange(from typeNodes
-                    in root.DescendantNodes().OfType<StructDeclarationSyntax>()
-                            select typeNodes.Identifier.Text);
-
-            result.AddRange(from typeNodes
-                    in root.DescendantNodes().OfType<InterfaceDeclarationSyntax>()
-                            select typeNodes.Identifier.Text);
-
-            result.AddRange(from typeNodes
-                    in root.DescendantNodes().OfType<EnumDeclarationSyntax>()
-                            select typeNodes.Identifier.Text);
-
-
-            return (root.SyntaxTree, result.ToArray(), formatter, root.GetDiagnostics());
+            _default = new AssemblyDomain("Default");
 
         }
 
@@ -73,27 +34,53 @@ namespace Natasha.Complier
         public static (Assembly Assembly, ImmutableArray<Diagnostic> Errors, CSharpCompilation Compilation) StreamComplier(string name, SyntaxTree tree, AssemblyDomain domain)
         {
 
+            bool isDefaultDomain = domain == default;
+#if NETCOREAPP3_0
+            domain = (isDefaultDomain && AssemblyLoadContext.CurrentContextualReflectionContext == null) ? _default : (AssemblyDomain)(AssemblyLoadContext.CurrentContextualReflectionContext);
+#else
+            domain = isDefaultDomain ? _default : domain;
+#endif
+
+
+
             lock (domain)
             {
 
-
-                if (domain.ClassMapping.ContainsKey(name))
+                //首先检测缓存是否已经有此类型
+                if (domain.TypeMapping.ContainsKey(name))
                 {
 
-                    return (domain.ClassMapping[name], default, null);
+                    if (domain.CanCover)
+                    {
 
+                        domain.RemoveReferenceByClassName(name);
+
+                    }
+                    else
+                    {
+                        return (domain.TypeMapping[name], default, null);
+                    }
+
+                }
+
+
+                //检测自定义域是否有新引用，有则加上
+                var references = new HashSet<PortableExecutableReference>(_default.References);
+                if (!isDefaultDomain && domain.References.Count > 0)
+                {
+                    references.UnionWith(domain.References);
                 }
 
 
                 //创建语言编译
                 CSharpCompilation compilation = CSharpCompilation.Create(
-                                  name,
+                                  name + Guid.NewGuid().ToString("N"),
                                    options: new CSharpCompilationOptions(
                                        outputKind: OutputKind.DynamicallyLinkedLibrary,
                                        optimizationLevel: OptimizationLevel.Release,
                                        allowUnsafe: true),
                                    syntaxTrees: new[] { tree },
-                                   references: domain.References);
+                                   references: references);
 
 
                 //编译并生成程序集
@@ -104,14 +91,29 @@ namespace Natasha.Complier
                     if (fileResult.Success)
                     {
 
+                        //重置流位置
                         stream.Position = 0;
-                        var result = domain.LoadFromStream(stream);
+
+
+                        //获取程序集
+                        Assembly result = isDefaultDomain ?
+                            AssemblyLoadContext.Default.LoadFromStream(stream) :
+#if NETCOREAPP3_0
+                            AssemblyLoadContext.CurrentContextualReflectionContext.LoadFromStream(stream);
+#else
+                            domain.LoadFromStream(stream);
+#endif
+
+
                         domain.CacheAssembly(result, stream);
                         return (result, default, compilation);
+
                     }
                     else
                     {
-						return (null, fileResult.Diagnostics, compilation);
+
+                        return (null, fileResult.Diagnostics, compilation);
+
                     }
 
                 }
