@@ -173,14 +173,18 @@ namespace Natasha
 
 
 
-        public void LoadFile(string path, bool  isCover = false)
+        public Assembly LoadFile(string path, bool  isCover = false)
         {
+
+            Assembly assembly = default;
+           
 
             if (!OutfileMapping.ContainsKey(path))
             {
 
                 using (FileStream stream = new FileStream(path, FileMode.Open))
                 {
+                    assembly = LoadFromStream(stream);
                     CacheAssembly(LoadFromStream(stream), stream);
                 }
 
@@ -190,13 +194,14 @@ namespace Natasha
                 
                 using (FileStream stream = new FileStream(path, FileMode.Open))
                 {
-                    var assembly = LoadFromStream(stream);
+                    assembly = LoadFromStream(stream);
                     RemoveReferenceByAssembly(assembly);
                     CacheAssembly(assembly, stream);
                 }
 
             }
 
+            return assembly;
 
         }
 
