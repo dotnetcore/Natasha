@@ -17,7 +17,7 @@ namespace Natasha
         public readonly ConcurrentDictionary<string, Assembly> TypeMapping;
         public readonly ConcurrentDictionary<string, Assembly> OutfileMapping;
         public readonly ConcurrentDictionary<string, PortableExecutableReference> NameMapping;
-        public readonly HashSet<PortableExecutableReference> NewReferences;
+        public readonly HashSet<PortableExecutableReference> References;
         public bool CanCover;
 
 
@@ -40,11 +40,11 @@ namespace Natasha
                                 .SelectMany(cl => cl.ResolveReferencePaths())
                                 .Select(asm => MetadataReference.CreateFromFile(asm));
 
-                NewReferences = new HashSet<PortableExecutableReference>(_ref);
+                References = new HashSet<PortableExecutableReference>(_ref);
             }
             else
             {
-                NewReferences = new HashSet<PortableExecutableReference>();
+                References = new HashSet<PortableExecutableReference>();
             }
 
 
@@ -92,7 +92,7 @@ namespace Natasha
             if (NameMapping.ContainsKey(assembly.FullName))
             {
 
-                NewReferences.Remove(NameMapping[assembly.FullName]);
+                References.Remove(NameMapping[assembly.FullName]);
                 foreach (var item in assembly.GetTypes())
                 {
                     TypeMapping.TryRemove(item.Name, out Assembly result);
@@ -162,7 +162,7 @@ namespace Natasha
             if (stream != null)
             {
 
-                NewReferences.Add(metadata);
+                References.Add(metadata);
 
             }
 
