@@ -45,7 +45,7 @@ namespace Natasha
 
         public static string GetDevelopName(this Type type)
         {
-            return ClassNameReverser.GetName(type);
+            return TypeNameReverser.GetName(type);
         }
 
         public static Type With(this Type type,params Type[] types)
