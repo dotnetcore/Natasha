@@ -146,25 +146,31 @@ namespace Natasha
 
 
 
+        /// <summary>
+        /// 缓存程序集，并写入引用表
+        /// </summary>
+        /// <param name="assembly">新程序集</param>
+        /// <param name="stream">程序集流</param>
         public void CacheAssembly(Assembly assembly,Stream stream = null)
         {
 
-            var types = assembly.GetTypes();
-            stream.Position = 0;
-            var metadata = MetadataReference.CreateFromStream(stream);
-            NameMapping[assembly.FullName] = metadata;
-            for (int i = 0; i < types.Length; i++)
+            if (stream !=null)
             {
 
-                TypeMapping[types[i].Name] = assembly;
-
-            }
-
-
-            if (stream != null)
-            {
-
+                stream.Position = 0;
+                var metadata = MetadataReference.CreateFromStream(stream);
+                NameMapping[assembly.FullName] = metadata;
                 References.Add(metadata);
+
+
+                var types = assembly.GetTypes();
+                for (int i = 0; i < types.Length; i++)
+                {
+
+                    //类型缓存
+                    TypeMapping[types[i].Name] = assembly;
+
+                }
 
             }
 
@@ -173,6 +179,12 @@ namespace Natasha
 
 
 
+        /// <summary>
+        /// 使用外部文件加载程序集
+        /// </summary>
+        /// <param name="path">dll文件路径</param>
+        /// <param name="isCover">是否覆盖原有的同路径的dll</param>
+        /// <returns></returns>
         public Assembly LoadFile(string path, bool  isCover = false)
         {
 
@@ -182,6 +194,7 @@ namespace Natasha
             if (!OutfileMapping.ContainsKey(path))
             {
 
+                //缓存中没有加载该路劲的文件
                 using (FileStream stream = new FileStream(path, FileMode.Open))
                 {
                     assembly = LoadFromStream(stream);
@@ -192,6 +205,7 @@ namespace Natasha
             else if (isCover)
             {
                 
+                //覆盖引用表，使用新的程序集
                 using (FileStream stream = new FileStream(path, FileMode.Open))
                 {
                     assembly = LoadFromStream(stream);
