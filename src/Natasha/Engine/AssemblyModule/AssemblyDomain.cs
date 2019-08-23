@@ -147,7 +147,7 @@ namespace Natasha
 
 
         /// <summary>
-        /// 缓存程序集，并写入引用表
+        /// 缓存表的原子操作，缓存程序集，并写入引用表
         /// </summary>
         /// <param name="assembly">新程序集</param>
         /// <param name="stream">程序集流</param>
@@ -189,8 +189,6 @@ namespace Natasha
         {
 
             Assembly assembly = default;
-           
-
             if (!OutfileMapping.ContainsKey(path))
             {
 
@@ -246,8 +244,14 @@ namespace Natasha
         public Type GetType(string name)
         {
 
-            return TypeMapping[name].GetTypes().First(item => item.Name == name);
+            if (TypeMapping.ContainsKey(name))
+            {
 
+                return TypeMapping[name].GetTypes().First(item => item.Name == name);
+
+            }
+            return null;
+            
         }
 
 
