@@ -87,8 +87,8 @@ namespace Natasha.Complier
                     if (domain.CanCover)
                     {
 
-                        domain.RemoveReference(name);
-                        _default.RemoveReference(name);
+                        domain.RemoveReferenceByClassName(name);
+                        _default.RemoveReferenceByClassName(name);
 
                     }
                     else
@@ -104,9 +104,6 @@ namespace Natasha.Complier
                 {
                     references.UnionWith(domain.NewReferences);
                 }
-
-
-
 
 
                 //创建语言编译

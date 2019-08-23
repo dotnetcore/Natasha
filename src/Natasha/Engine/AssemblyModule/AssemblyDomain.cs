@@ -1,6 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.DependencyModel;
-using Natasha.Template;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -64,13 +63,47 @@ namespace Natasha
 
 
 
-        public void RemoveReference(string name)
+        public bool RemoveReferenceByClassName(string name)
         {
-            if (NameMapping.ContainsKey(name))
+
+            if (TypeMapping.ContainsKey(name))
             {
-                NewReferences.Remove(NameMapping[name]);
+
+                return RemoveReferenceByClassName(TypeMapping[name]);
+
             }
+
+            return false;
             
+        }
+
+
+
+
+        public bool RemoveReferenceByClassName(Assembly assembly)
+        {
+
+            if (assembly == default)
+            {
+                throw new NullReferenceException("This method can't be passed a null instance.");
+            }
+
+
+            if (NameMapping.ContainsKey(assembly.FullName))
+            {
+
+                NewReferences.Remove(NameMapping[assembly.FullName]);
+                foreach (var item in assembly.GetTypes())
+                {
+                    TypeMapping.TryRemove(item.Name, out Assembly result);
+                }
+               
+                return true;
+
+            }
+
+            return false;
+
         }
 
 
@@ -117,13 +150,14 @@ namespace Natasha
             var types = assembly.GetTypes();
             stream.Position = 0;
             var metadata = MetadataReference.CreateFromStream(stream);
+            NameMapping[assembly.FullName] = metadata;
             for (int i = 0; i < types.Length; i++)
             {
 
                 TypeMapping[types[i].Name] = assembly;
-                NameMapping[types[i].Name] = metadata;
 
             }
+
 
             if (stream != null)
             {
@@ -137,7 +171,7 @@ namespace Natasha
 
 
 
-        public void LoadFile(string path)
+        public void LoadFile(string path, bool  isCover = false)
         {
 
             if (!OutfileMapping.ContainsKey(path))
@@ -149,6 +183,17 @@ namespace Natasha
                 }
 
             }
+            else if (isCover)
+            {
+                
+                using (FileStream stream = new FileStream(path, FileMode.Open))
+                {
+                    var assembly = LoadFromStream(stream);
+                    CacheAssembly(assembly, stream);
+                }
+
+            }
+
 
         }
 
