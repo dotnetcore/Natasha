@@ -157,17 +157,21 @@ namespace Natasha
             if (stream !=null)
             {
 
+                //生成引用表
                 stream.Position = 0;
                 var metadata = MetadataReference.CreateFromStream(stream);
+
+
+                //添加引用表
                 NameMapping[assembly.FullName] = metadata;
                 References.Add(metadata);
 
 
+                //添加类型-程序集映射
                 var types = assembly.GetTypes();
                 for (int i = 0; i < types.Length; i++)
                 {
 
-                    //类型缓存
                     TypeMapping[types[i].Name] = assembly;
 
                 }
