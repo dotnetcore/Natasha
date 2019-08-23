@@ -29,10 +29,12 @@ namespace Natasha
 
         {
 
+
             TypeMapping = new ConcurrentDictionary<string, Assembly>();
             OutfileMapping = new ConcurrentDictionary<string, Assembly>();
             NameMapping = new ConcurrentDictionary<string, PortableExecutableReference>();
             CanCover = true;
+
 
             if (key == "Default")
             {
@@ -69,7 +71,7 @@ namespace Natasha
             if (TypeMapping.ContainsKey(name))
             {
 
-                return RemoveReferenceByClassName(TypeMapping[name]);
+                return RemoveReferenceByAssembly(TypeMapping[name]);
 
             }
 
@@ -80,7 +82,7 @@ namespace Natasha
 
 
 
-        public bool RemoveReferenceByClassName(Assembly assembly)
+        public bool RemoveReferenceByAssembly(Assembly assembly)
         {
 
             if (assembly == default)
@@ -189,6 +191,7 @@ namespace Natasha
                 using (FileStream stream = new FileStream(path, FileMode.Open))
                 {
                     var assembly = LoadFromStream(stream);
+                    RemoveReferenceByAssembly(assembly);
                     CacheAssembly(assembly, stream);
                 }
 

@@ -28,6 +28,21 @@ namespace Natasha
 
 
 
+#if NETCOREAPP3_0
+         public static void Lock(string key)
+        {
+
+            if (Cache.ContainsKey(key))
+            {
+                //return ((AssemblyDomain)(Cache[key].Target)).en
+            }
+
+        }
+#endif
+
+
+
+
 
         public static void Add(string key, AssemblyDomain domain)
         {
