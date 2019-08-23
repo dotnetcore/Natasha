@@ -15,7 +15,7 @@ namespace Natasha.Complier
     public abstract partial class IComplier
     {
 
-        private readonly static AdhocWorkspace _workSpace;
+        internal readonly static AdhocWorkspace _workSpace;
         private readonly static AssemblyDomain _default;
         static IComplier()
         {

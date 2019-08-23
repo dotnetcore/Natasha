@@ -68,9 +68,10 @@ namespace Natasha.Complier
         {
 
             Assembly assembly =null ;
-            var treeResult = GetTreeInfo(content);
 
-            if (CheckSyntax(treeResult.Formatter, treeResult.Errors))
+            var (tree, _typeNames, formartter ,errors_) = content;
+
+            if (CheckSyntax(formartter, errors_))
             {
                 if (Exception.Diagnostics.Count != 0)
                 {
@@ -82,7 +83,7 @@ namespace Natasha.Complier
                 else
                 {
 
-                    var result = StreamComplier(treeResult.TypeNames[0], treeResult.Tree, Domain);
+                    var result = StreamComplier(_typeNames[0], tree, Domain);
                     assembly = result.Assembly;
                     if (result.Compilation!=null)
                     {
