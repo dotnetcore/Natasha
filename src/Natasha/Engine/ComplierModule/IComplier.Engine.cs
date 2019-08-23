@@ -28,41 +28,6 @@ namespace Natasha.Complier
 
 
 
-
-        public static (SyntaxTree Tree, string[] TypeNames, string Formatter, IEnumerable<Diagnostic> Errors) GetTreeInfo(string content)
-        {
-
-            SyntaxTree tree = CSharpSyntaxTree.ParseText(content, new CSharpParseOptions(LanguageVersion.Latest));
-            CompilationUnitSyntax root = tree.GetCompilationUnitRoot();
-
-
-            root = (CompilationUnitSyntax)Formatter.Format(root, _workSpace);
-            var formatter = root.ToString();
-
-
-            var result = new List<string>(from typeNodes
-                         in root.DescendantNodes().OfType<ClassDeclarationSyntax>()
-                                          select typeNodes.Identifier.Text);
-
-            result.AddRange(from typeNodes
-                    in root.DescendantNodes().OfType<StructDeclarationSyntax>()
-                            select typeNodes.Identifier.Text);
-
-            result.AddRange(from typeNodes
-                    in root.DescendantNodes().OfType<InterfaceDeclarationSyntax>()
-                            select typeNodes.Identifier.Text);
-
-            result.AddRange(from typeNodes
-                    in root.DescendantNodes().OfType<EnumDeclarationSyntax>()
-                            select typeNodes.Identifier.Text);
-
-
-            return (root.SyntaxTree, result.ToArray(), formatter, root.GetDiagnostics());
-
-        }
-
-
-
         /// <summary>
         /// 使用内存流进行脚本编译
         /// </summary>

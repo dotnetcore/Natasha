@@ -43,11 +43,11 @@ namespace HelloWorld{
 }
 
 ";
-            var (_, ClassNames, _,_) = IComplier.GetTreeInfo(text);
-            Assert.Equal("TestIndex1", ClassNames[0]);
-            Assert.Equal("TestIndex2", ClassNames[1]);
-            Assert.Equal("TestIndex3", ClassNames[2]);
-            Assert.Equal("TestIndex4", ClassNames[3]);
+            var (_, typeNames, _,_) = text;
+            Assert.Equal("TestIndex1", typeNames[0]);
+            Assert.Equal("TestIndex2", typeNames[1]);
+            Assert.Equal("TestIndex3", typeNames[2]);
+            Assert.Equal("TestIndex4", typeNames[3]);
         }
     }
 }
