@@ -3,7 +3,7 @@ using System;
 
 namespace Natasha
 {
-    public class NFunc<T>
+    public static class NFunc<T>
     {
 
         public static Func<T> Delegate(string content, params Type[] usings)

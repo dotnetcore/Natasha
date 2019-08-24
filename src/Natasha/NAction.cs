@@ -4,7 +4,7 @@ using System;
 namespace Natasha
 {
 
-    public class NAction
+    public static class NAction
     {
 
         public static Action Delegate(string content, params Type[] usings)
