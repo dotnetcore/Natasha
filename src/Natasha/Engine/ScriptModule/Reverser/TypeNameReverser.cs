@@ -11,12 +11,6 @@ namespace Natasha
     {
 
 
-        public readonly static ConcurrentDictionary<Type, string> _type_mapping;
-        static TypeNameReverser() => _type_mapping = new ConcurrentDictionary<Type, string>();
-
-
-
-
         /// <summary>
         /// 获取类名，检查缓存
         /// </summary>
@@ -37,17 +31,7 @@ namespace Natasha
                 return "";
 
             }
-
-
-            if (!_type_mapping.ContainsKey(type))
-            {
-
-                _type_mapping[type] = Reverser(type);
-
-            }
-
-
-            return _type_mapping[type];
+            return Reverser(type);
 
         }
 

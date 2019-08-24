@@ -10,11 +10,6 @@ namespace Natasha
     {
 
 
-        public readonly static ConcurrentDictionary<Type, string> _type_mapping;
-        static AvailableNameReverser() => _type_mapping = new ConcurrentDictionary<Type, string>();
-
-
-
 
         /// <summary>
         /// 根据类型获取可用名，检查缓存
@@ -31,16 +26,7 @@ namespace Natasha
 
             }
 
-
-            if (!_type_mapping.ContainsKey(type))
-            {
-
-                _type_mapping[type] = GetAvailableName(type);
-
-            }
-
-
-            return _type_mapping[type];
+            return GetAvailableName(type);
 
         }
 

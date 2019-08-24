@@ -2,6 +2,7 @@
 using Natasha.Operator;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Xunit;
 
@@ -12,6 +13,23 @@ namespace NatashaUT
     {
         [Fact(DisplayName = "多程序集协作")]
         public void Test1()
+        {
+            //ForTest1();
+            Assert.Equal("HelloTest", ForTest1());
+#if NETCOREAPP3_0
+            for (int i = 0; i < 10; i++)
+            {
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            }
+            Assert.True(AssemblyManagment.IsDelete("SingleDomainAsmTest1"));
+#endif
+
+        }
+
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        internal string ForTest1()
         {
             var domain = AssemblyManagment.Create("SingleDomainAsmTest1");
             var assembly = domain.CreateAssembly("AsmTest1");
@@ -42,18 +60,19 @@ namespace NatashaUT
                 .EnumField("Test")
                 .EnumField("Test1")
                 .EnumField("Test2", 1);
+
             var result = assembly.Complier();
             var type = assembly.GetType("ClassAsm");
-
 
             var builder = FastMethodOperator.New;
             builder.Complier.Domain = domain;
             var @delegate = builder.Using(type).MethodBody(@"
-ClassAsm obj = new ClassAsm();
-return obj.ShowMethod(""Hello"");
-").Complie<Func<string, string>>();
+            ClassAsm obj = new ClassAsm();
+            return obj.ShowMethod(""Hello"");
+            ").Complie<Func<string, string>>();
+            AssemblyManagment.Get("SingleDomainAsmTest1").Dispose();
+            return @delegate("hello");
 
-            Assert.Equal("HelloTest", @delegate("hello"));
 
         }
 
@@ -144,6 +163,16 @@ return obj.ShowMethod(""Hello"");
 ").Complie<Func<string, string>>();
 
             Assert.Equal("HelloTest1", @delegate("hello"));
+#if NETCOREAPP3_0
+            domain.Dispose();
+            for (int i = 0; i < 10; i++)
+            {
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            }
+
+            Assert.True(AssemblyManagment.IsDelete("SingleDomainAsmTest1"));
+#endif
 
         }
     }
