@@ -14,6 +14,9 @@
    - [API速查案例](./zh/api/api-samples.md)
    - [API扩展案例](./zh/api/extensions-samples.md)  
    
+ - [程序域操作](./zh/domain/index.md)  
+ - [程序集操作](./zh/assembly/index.md)  
+   
  - [面向对象的构建](./zh/oop/index.md)  
  
    - [类](./zh/oop/class.md)
