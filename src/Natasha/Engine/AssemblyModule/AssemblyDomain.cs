@@ -171,6 +171,7 @@ namespace Natasha
 #endif
             TypeCache.Clear();
             OutfileMapping.Clear();
+            AssemblyMappings.Clear();
 
         }
 

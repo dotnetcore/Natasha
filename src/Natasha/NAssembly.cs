@@ -12,7 +12,7 @@ namespace Natasha
         public Assembly Assembly;
         private readonly HashSet<IScript> _builderCache;
         public readonly AssemblyComplier Options;
-        public readonly ConcurrentDictionary<string, Type> TypeCache;
+        public ConcurrentDictionary<string, Type> TypeCache;
 
 
         public NAssembly(string name) : this()
