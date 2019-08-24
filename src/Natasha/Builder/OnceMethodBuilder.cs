@@ -13,8 +13,8 @@ namespace Natasha.Builder
 
 
         //使用默认编译器
-        public MethodComplier Complier;
-        public OnceMethodBuilder() => Complier = new MethodComplier();
+        public readonly AssemblyComplier Complier;
+        public OnceMethodBuilder() => Complier = new AssemblyComplier();
 
 
         /// <summary>
@@ -24,17 +24,9 @@ namespace Natasha.Builder
         public virtual Delegate Complie(object binder = null)
         {
 
-            Builder();
-
-
-#if NETCOREAPP3_0
-            Complier.Domain = Domain;
-#endif
-
-
-            return Complier.Complie(
+            Complier.Add(this);
+            return Complier.GetDelegate(
                 OopNameScript,
-                Script,
                 MethodNameScript,
                 DelegateType,
                 binder);
@@ -52,17 +44,9 @@ namespace Natasha.Builder
         public virtual T Complie<T>(object binder=null) where T : Delegate
         {
 
-            Builder();
-
-
-#if NETCOREAPP3_0
-            Complier.Domain = Domain;
-#endif
-
-
-            return Complier.Complie<T>(
+            Complier.Add(this);
+            return Complier.GetDelegate<T>(
                 OopNameScript,
-                Script,
                 MethodNameScript,
                 binder);
 

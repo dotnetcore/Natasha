@@ -2,7 +2,7 @@
 
 namespace Natasha.Template
 {
-    public class OopContentTemplate<T>: OopMethodTemplate<T>
+    public class OopContentTemplate<T>: OopFieldTemplate<T>
     {
 
         public StringBuilder OopContentScript;
@@ -38,7 +38,6 @@ namespace Natasha.Template
         public override T Builder()
         {
 
-            _script.Clear();
             base.Builder();
             _script.AppendLine(OopContentScript.ToString());
             _script.Append("}");

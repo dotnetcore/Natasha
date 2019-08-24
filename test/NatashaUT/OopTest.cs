@@ -20,7 +20,6 @@ namespace NatashaUT
                 .OopBody(@"public static void Test(){}")
                 .PublicStaticField<string>("Name")
                 .PrivateStaticField<int>("_age")
-                .Builder()
                 .Script;
 
             Assert.Equal(@"using NatashaUT;
@@ -40,14 +39,14 @@ public static void Test(){}
         [Fact(DisplayName = "Builder测试2")]
         public void TestBuilder2()
         {
-            var result = NewStruct.Create(builder => builder
+            NAssembly assembly = new NAssembly();
+            assembly.CreateStruct()
                 .Namespace("TestNamespace")
                 .OopAccess(AccessTypes.Private).OopName("TestUt2")
                 .OopBody(@"public static void Test(){}")
                 .PublicStaticField<string>("Name")
-                .PrivateStaticField<int>("_age")
-             );
-
+                .PrivateStaticField<int>("_age");
+            var result = assembly.Check();
 
             Assert.Equal(@"using System;
 namespace TestNamespace
@@ -58,7 +57,7 @@ namespace TestNamespace
         private static Int32 _age;
         public static void Test() { }
     }
-}", result.Exception.Formatter);
+}", result[0].Formatter);
         }
 
 
@@ -80,7 +79,7 @@ namespace TestNamespace
                 .OopBody(@"public static void Test(){}")
                 .PublicStaticField<string>("Name")
                 .PrivateStaticField<int>("_age")
-                .Builder().Script;
+                .Script;
 
             Assert.Equal(@"using System;
 namespace System{
@@ -105,7 +104,7 @@ this.Name=name;}
                 .EnumField("Apple")
                 .EnumField("Orange")
                 .EnumField("Banana")
-                .Builder().Script;
+                .Script;
 
             Assert.Equal($"public enum EnumUT1{{{Environment.NewLine}Apple,{Environment.NewLine}Orange,{Environment.NewLine}Banana{Environment.NewLine}}}", script);
         }
@@ -122,7 +121,7 @@ this.Name=name;}
                 .EnumField("Apple",1)
                 .EnumField("Orange",2)
                 .EnumField("Banana",4)
-                .Builder().Script;
+                .Script;
 
             Assert.Equal($"public enum EnumUT1{{{Environment.NewLine}Apple=1,{Environment.NewLine}Orange=2,{Environment.NewLine}Banana=4{Environment.NewLine}}}", script);
         }

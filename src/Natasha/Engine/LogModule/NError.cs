@@ -12,8 +12,16 @@ namespace Natasha.Log
     {
 
         public static bool Enabled;
-
         static NError() => Enabled = true;
+
+
+        public Dictionary<string, List<Diagnostic>> Errors;
+        public NError()
+        {
+            Errors = new Dictionary<string, List<Diagnostic>>();
+        }
+
+
 
 
         public override void  Write()
@@ -27,26 +35,41 @@ namespace Natasha.Log
         public void Handler(CSharpCompilation compilation, List<Diagnostic> diagnostics)
         {
 
-            Buffer.AppendLine("\r\n\r\n------------------------------------------error----------------------------------------------");
-            Buffer.AppendLine($"\r\n    Time :\t\t{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}");
-            Buffer.AppendLine($"\r\n    Lauguage :\t{compilation.Language} & {compilation.LanguageVersion}");
-            Buffer.AppendLine($"\r\n    Target:\t\t{compilation.AssemblyName}");
-            Buffer.AppendLine($"\r\n    Error:\t\t共{diagnostics.Count}处错误！");
-
-
             foreach (var item in diagnostics)
             {
-
-                    var temp = item.Location.GetLineSpan().StartLinePosition;
-                    var result = GetErrorString(FormartCode, item.Location.GetLineSpan());
-                    Buffer.AppendLine($"\t\t第{temp.Line + 1}行，第{temp.Character}个字符：       内容【{result}】  {item.GetMessage()}");
-
+                string str = item.Location.SourceTree.ToString();
+                if (!Errors.ContainsKey(str))
+                {
+                    Errors[str] = new List<Diagnostic>();
+                }
+                Errors[str].Add(item);
             }
 
+            Buffer.AppendLine($"\r\n\r\n========================Error : {compilation.AssemblyName}========================\r\n");
+            foreach (var item in Errors)
+            {
+                Buffer.AppendLine();
+                Buffer.Append(WrapperCode(item.Key));
+                Buffer.AppendLine("\r\n\r\n-----------------------------------------------error---------------------------------------------------");
+                Buffer.AppendLine($"\r\n    Time :\t\t{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}");
+                Buffer.AppendLine($"\r\n    Lauguage :\t{compilation.Language} & {compilation.LanguageVersion}");
+                Buffer.AppendLine($"\r\n    Target:\t\t{compilation.AssemblyName}");
+                Buffer.AppendLine($"\r\n    Error:\t\t共{item.Value.Count}处错误！");
 
-            Buffer.AppendLine("\r\n---------------------------------------------------------------------------------------------");
-            WrapperTitle("Error : " + compilation.AssemblyName);
 
+                foreach (var error in item.Value)
+                {
+
+                    var temp = error.Location.GetLineSpan().StartLinePosition;
+                    var result = GetErrorString(item.Key, error.Location.GetLineSpan());
+                    Buffer.AppendLine($"\t\t第{temp.Line + 1}行，第{temp.Character}个字符：       内容【{result}】  {error.GetMessage()}");
+
+                }
+
+
+                Buffer.AppendLine("\r\n====================================================================\r\n");
+                
+            }
         }
 
 
