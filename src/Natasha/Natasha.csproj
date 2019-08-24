@@ -3,14 +3,27 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netcoreapp3.0;</TargetFrameworks>
     <Product>Natasha</Product>
-    <Description>使用roslyn方案打造高性能动态代码，包括动态构建，深度克隆，实体快照等。（Use Roslyn to create efficient dynamic code. Including dynamic build, deep clone, entity snapshot, and so on.）</Description>
+    <Description>使用roslyn方案打造高性能动态代码，包括动态构建。（Use Roslyn to create efficient dynamic code. Including dynamic build, and so on.）</Description>
     <Copyright>.NET Core Community and Contributors</Copyright>
     <PackageId>DotNetCore.Natasha</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <PackageReleaseNotes>- 增加NFunc/NAction方法
-- 日志再分一级
-- 增加枚举构建和编译操作</PackageReleaseNotes>
-    <Version>1.3.6</Version>
+    <PackageReleaseNotes>支持共享域/自定义域协作。
+支持动态类型覆盖。
+支持程序域锁操作。
+修复可用名反解器。
+日志传递给编译器的Exception字段。
+优化日志深度和写入规则。
+重构引擎，并入IComplier抽象类中。
+增加NClass/NEnum/NInterface/NStruct操作类。
+所有包装类默认使用公有访问级别。
+增加多维数组反解。
+增加锯齿数组反解。
+统一采用流加载模式。
+Dispose方法解决程序集上下文卸载的问题。
+引擎加锁模式解决并发重复加载程序集问题。
+Core3.0版本兼容。
+增加Core3.0版本的程序集管理，支持编译环境隔离。</PackageReleaseNotes>
+    <Version>2.0.0-alpha.1</Version>
     <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
     <PackageTags>Roslyn ; IL ; Scripte ; Dynamic ; </PackageTags>
@@ -18,8 +31,8 @@
     <Company>.NET Core Community</Company>
     <PackageIconUrl>https://avatars2.githubusercontent.com/u/19404084</PackageIconUrl>
     <Authors>NMSAzulX</Authors>
-    <FileVersion>1.3.6.0</FileVersion>
-    <AssemblyVersion>1.3.6.0</AssemblyVersion>
+    <FileVersion>2.0.0.0</FileVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
   </PropertyGroup>
 
 
