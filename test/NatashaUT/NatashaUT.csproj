@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2;netcoreapp3.0;</TargetFramework>
+    <TargetFrameworks>netcoreapp2.2;netcoreapp3.0;</TargetFrameworks>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -18,7 +18,6 @@
 
   
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Natasha.Remote\Natasha.Remote.csproj" />
     <ProjectReference Include="..\..\src\Natasha\Natasha.csproj" />
   </ItemGroup>
 
