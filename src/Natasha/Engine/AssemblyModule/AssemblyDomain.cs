@@ -1,6 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.DependencyModel;
-using Natasha.AssemblyModule.Model;
 using Natasha.Template;
 using System;
 using System.Collections.Concurrent;
@@ -16,20 +15,11 @@ namespace Natasha
     public class AssemblyDomain : AssemblyLoadContext, IDisposable
     {
 
-        public readonly ConcurrentDictionary<Assembly, AssemblyUnitInfo> AssemblyMappings;
+        public readonly ConcurrentDictionary<string, Assembly> TypeMapping;
         public readonly ConcurrentDictionary<string, Assembly> OutfileMapping;
-        public readonly HashSet<PortableExecutableReference> ReferencesCache;
-        public readonly HashSet<Type> TypeCache;
+        public readonly ConcurrentDictionary<string, PortableExecutableReference> NameMapping;
+        public readonly HashSet<PortableExecutableReference> References;
         public bool CanCover;
-
-
-
-
-        public int Count
-        {
-            get { return ReferencesCache.Count; }
-        }
-
 
 
 
@@ -39,13 +29,12 @@ namespace Natasha
 #endif
 
         {
-#if NETCOREAPP3_0
-            _resolver = new AssemblyDependencyResolver(AppDomain.CurrentDomain.BaseDirectory);
-#endif
+
+
             AssemblyManagment.Add(key, this);
-            TypeCache = new HashSet<Type>();
+            TypeMapping = new ConcurrentDictionary<string, Assembly>();
             OutfileMapping = new ConcurrentDictionary<string, Assembly>();
-            AssemblyMappings = new ConcurrentDictionary<Assembly, AssemblyUnitInfo>();
+            NameMapping = new ConcurrentDictionary<string, PortableExecutableReference>();
             CanCover = true;
 
 
@@ -55,32 +44,16 @@ namespace Natasha
                                 .SelectMany(cl => cl.ResolveReferencePaths())
                                 .Select(asm => MetadataReference.CreateFromFile(asm));
 
-                ReferencesCache = new HashSet<PortableExecutableReference>(_ref);
+                References = new HashSet<PortableExecutableReference>(_ref);
             }
             else
             {
-                ReferencesCache = new HashSet<PortableExecutableReference>();
+                References = new HashSet<PortableExecutableReference>();
             }
 
 
             this.Unloading += AssemblyDomain_Unloading;
 
-        }
-
-
-
-
-
-        /// <summary>
-        /// 创建一个程序集编译器
-        /// </summary>
-        /// <param name="name">程序集名字</param>
-        /// <returns></returns>
-        public NAssembly CreateAssembly(string name = default)
-        {
-            NAssembly result = new NAssembly(name);
-            result.Options.Domain = this;
-            return result;
         }
 
 
@@ -94,39 +67,16 @@ namespace Natasha
 
 
 
-        public bool RemoveDll(string path)
-        {
-            if (path == default)
-            {
-                throw new NullReferenceException("Path is null! This method can't be passed a null instance.");
-            }
-
-
-            if (OutfileMapping.ContainsKey(path))
-            {
-
-                OutfileMapping.TryRemove(path, out var _);
-                return RemoveAssembly(OutfileMapping[path]);
-
-            }
-            return false;
-
-        }
-
-
-        public bool RemoveType(Type type)
+        public bool RemoveReferenceByClassName(string name)
         {
 
-            if (type == default)
+            if (TypeMapping.ContainsKey(name))
             {
-                throw new NullReferenceException("Type is null! This method can't be passed a null instance.");
+
+                return RemoveReferenceByAssembly(TypeMapping[name]);
+
             }
 
-
-            if (TypeCache.Contains(type))
-            {
-                return RemoveAssembly(type.Assembly);
-            }
             return false;
 
         }
@@ -134,24 +84,24 @@ namespace Natasha
 
 
 
-        public bool RemoveAssembly(Assembly assembly)
+        public bool RemoveReferenceByAssembly(Assembly assembly)
         {
 
             if (assembly == default)
             {
-                throw new NullReferenceException("Assembly is null!  This method can't be passed a null instance.");
+                throw new NullReferenceException("This method can't be passed a null instance.");
             }
 
 
-            if (AssemblyMappings.ContainsKey(assembly))
+            if (NameMapping.ContainsKey(assembly.FullName))
             {
 
-                var info = AssemblyMappings[assembly];
-                ReferencesCache.Remove(info.Reference);
+                References.Remove(NameMapping[assembly.FullName]);
                 foreach (var item in assembly.GetTypes())
                 {
-                    TypeCache.Remove(item);
+                    TypeMapping.TryRemove(item.Name, out Assembly result);
                 }
+
                 return true;
 
             }
@@ -167,29 +117,19 @@ namespace Natasha
         {
 
 #if NETCOREAPP3_0
-            ReferencesCache.Clear();
+            References.Clear();
 #endif
-            TypeCache.Clear();
+            TypeMapping.Clear();
             OutfileMapping.Clear();
 
         }
 
 
-#if NETCOREAPP3_0
-        private AssemblyDependencyResolver _resolver;
-#endif
+
 
         protected override Assembly Load(AssemblyName assemblyName)
         {
 
-#if NETCOREAPP3_0
-            string assemblyPath = _resolver.ResolveAssemblyToPath(assemblyName);
-            if (assemblyPath != null)
-            {
-                return LoadFromAssemblyPath(assemblyPath);
-            }
-
-#endif
             return null;
 
         }
@@ -200,44 +140,45 @@ namespace Natasha
 
         protected override IntPtr LoadUnmanagedDll(string unmanagedDllName)
         {
-#if NETCOREAPP3_0
-            string libraryPath = _resolver.ResolveUnmanagedDllToPath(unmanagedDllName);
-            if (libraryPath != null)
-            {
-                return LoadUnmanagedDllFromPath(libraryPath);
-            }
-#endif
+
             return IntPtr.Zero;
 
         }
 
 
 
+
         /// <summary>
         /// 缓存表的原子操作，缓存程序集，并写入引用表
         /// </summary>
+        /// <param name="assembly">新程序集</param>
         /// <param name="stream">程序集流</param>
-        public Assembly Handler(Stream stream = null)
+        public void CacheAssembly(Assembly assembly, Stream stream = null)
         {
 
             if (stream != null)
             {
 
-                return Handler(new AssemblyUnitInfo(this, stream));
+                //生成引用表
+                stream.Position = 0;
+                var metadata = MetadataReference.CreateFromStream(stream);
+
+
+                //添加引用表
+                NameMapping[assembly.FullName] = metadata;
+                References.Add(metadata);
+
+
+                //添加类型-程序集映射
+                var types = assembly.GetTypes();
+                for (int i = 0; i < types.Length; i++)
+                {
+
+                    TypeMapping[types[i].Name] = assembly;
+
+                }
 
             }
-            return default;
-
-        }
-
-        public Assembly Handler(AssemblyUnitInfo info)
-        {
-
-            Assembly result = info.Assembly;
-            AssemblyMappings[result] = info;
-            TypeCache.UnionWith(result.GetTypes());
-            ReferencesCache.Add(info.Reference);
-            return result;
 
         }
 
@@ -253,16 +194,82 @@ namespace Natasha
         public Assembly LoadFile(string path, bool isCover = false)
         {
 
-#if NETCOREAPP3_0
-            _resolver = new AssemblyDependencyResolver(path);
-#endif
-            if (isCover)
+            Assembly assembly = default;
+            if (!OutfileMapping.ContainsKey(path))
             {
-                RemoveDll(path);
+
+                //缓存中没有加载该路劲的文件
+                using (FileStream stream = new FileStream(path, FileMode.Open))
+                {
+                    assembly = LoadFromStream(stream);
+                    CacheAssembly(LoadFromStream(stream), stream);
+                }
+
             }
-            return Handler(new AssemblyUnitInfo(this, path));
+            else if (isCover)
+            {
+
+                //覆盖引用表，使用新的程序集
+                using (FileStream stream = new FileStream(path, FileMode.Open))
+                {
+                    assembly = LoadFromStream(stream);
+                    RemoveReferenceByAssembly(assembly);
+                    CacheAssembly(assembly, stream);
+                }
+
+            }
+
+            return assembly;
 
         }
+
+
+
+
+        public Assembly GetDynamicAssembly(string className)
+        {
+
+            if (TypeMapping.ContainsKey(className))
+            {
+
+                return TypeMapping[className];
+
+            }
+            return null;
+
+        }
+
+
+
+
+        /// <summary>
+        /// 根据类名获取类，前提类必须是成功编译过的
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public Type GetType(string name)
+        {
+
+            if (TypeMapping.ContainsKey(name))
+            {
+
+                return TypeMapping[name].GetTypes().First(item => item.Name == name);
+
+            }
+            return null;
+
+        }
+
+
+
+#if NETCOREAPP3_0
+        public T Execute<T>(Func<T, T> action) where T : TemplateRecoder<T>, new()
+        {
+
+            return action?.Invoke(new T()).InDomain(this);
+
+        }
+#endif
 
     }
 

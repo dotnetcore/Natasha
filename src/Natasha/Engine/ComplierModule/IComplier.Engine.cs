@@ -1,14 +1,29 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using Natasha.Complier.Model;
+using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Reflection;
+using System.Runtime.Loader;
 
 namespace Natasha.Complier
 {
     public abstract partial class IComplier
     {
+
+        internal readonly static AdhocWorkspace _workSpace;
+        private readonly static AssemblyDomain _default;
+        static IComplier()
+        {
+
+            _workSpace = new AdhocWorkspace();
+            _workSpace.AddSolution(SolutionInfo.Create(SolutionId.CreateNewId("formatter"), VersionStamp.Default));
+            _default = new AssemblyDomain("Default");
+
+        }
+
+
 
         /// <summary>
         /// 使用内存流进行脚本编译
@@ -16,39 +31,90 @@ namespace Natasha.Complier
         /// <param name="sourceContent">脚本内容</param>
         /// <param name="errorAction">发生错误执行委托</param>
         /// <returns></returns>
-        public static (Assembly Assembly, ImmutableArray<Diagnostic> Errors, CSharpCompilation Compilation) StreamComplier(ComplierModel model)
+        public static (Assembly Assembly, ImmutableArray<Diagnostic> Errors, CSharpCompilation Compilation) StreamComplier(string name, SyntaxTree tree, AssemblyDomain domain)
         {
 
-            var domain = model.Domain;
+            bool isDefaultDomain = domain == default;
+#if NETCOREAPP3_0
+            domain = (isDefaultDomain && AssemblyLoadContext.CurrentContextualReflectionContext == null) ? _default : (AssemblyDomain)(AssemblyLoadContext.CurrentContextualReflectionContext);
+#else
+            domain = isDefaultDomain ? _default : domain;
+#endif
+
+
+
             lock (domain)
             {
+
+                //首先检测缓存是否已经有此类型
+                if (domain.TypeMapping.ContainsKey(name))
+                {
+
+                    if (domain.CanCover)
+                    {
+
+                        domain.RemoveReferenceByClassName(name);
+
+                    }
+                    else
+                    {
+                        return (domain.TypeMapping[name], default, null);
+                    }
+
+                }
+
+
+                //检测自定义域是否有新引用，有则加上
+                var references = new HashSet<PortableExecutableReference>(_default.References);
+                if (!isDefaultDomain && domain.References.Count > 0)
+                {
+                    references.UnionWith(domain.References);
+                }
 
 
                 //创建语言编译
                 CSharpCompilation compilation = CSharpCompilation.Create(
-                                  model.AssemblyName,
+                                  name + Guid.NewGuid().ToString("N"),
                                    options: new CSharpCompilationOptions(
                                        outputKind: OutputKind.DynamicallyLinkedLibrary,
                                        optimizationLevel: OptimizationLevel.Release,
                                        allowUnsafe: true),
-                                   syntaxTrees: model.Trees ,
-                                   references: model.References);
+                                   syntaxTrees: new[] { tree },
+                                   references: references);
 
 
                 //编译并生成程序集
-                MemoryStream stream = new MemoryStream();
-                var fileResult = compilation.Emit(stream);
-                if (fileResult.Success)
+                using (MemoryStream stream = new MemoryStream())
                 {
 
-                    return (domain.Handler(stream), default, compilation);
+                    var fileResult = compilation.Emit(stream);
+                    if (fileResult.Success)
+                    {
 
-                }
-                else
-                {
+                        //重置流位置
+                        stream.Position = 0;
 
-                    stream.Dispose();
-                    return (null, fileResult.Diagnostics, compilation);
+
+                        //获取程序集
+                        Assembly result = isDefaultDomain ?
+                            AssemblyLoadContext.Default.LoadFromStream(stream) :
+#if NETCOREAPP3_0
+                            AssemblyLoadContext.CurrentContextualReflectionContext.LoadFromStream(stream);
+#else
+                            domain.LoadFromStream(stream);
+#endif
+
+
+                        domain.CacheAssembly(result, stream);
+                        return (result, default, compilation);
+
+                    }
+                    else
+                    {
+
+                        return (null, fileResult.Diagnostics, compilation);
+
+                    }
 
                 }
 

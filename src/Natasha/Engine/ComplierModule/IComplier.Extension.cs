@@ -11,19 +11,10 @@ namespace Natasha.Complier
     public static class IComplierExtension
     {
 
-        private readonly static AdhocWorkspace _workSpace;
-        static IComplierExtension()
-        {
-
-            _workSpace = new AdhocWorkspace();
-            _workSpace.AddSolution(SolutionInfo.Create(SolutionId.CreateNewId("formatter"), VersionStamp.Default));
-
-        }
-
-
         public static void Deconstruct(
             this string text,
             out SyntaxTree tree, 
+            out string[] typeNames, 
             out string formatter, 
             out IEnumerable<Diagnostic> errors)
         {
@@ -33,10 +24,30 @@ namespace Natasha.Complier
             CompilationUnitSyntax root = tree.GetCompilationUnitRoot();
 
 
-            root = (CompilationUnitSyntax)Formatter.Format(root, _workSpace);
+            root = (CompilationUnitSyntax)Formatter.Format(root, IComplier._workSpace);
             tree = root.SyntaxTree;
             formatter = root.ToString();
             errors = root.GetDiagnostics();
+
+
+            var result = new List<string>(from typeNodes
+                         in root.DescendantNodes().OfType<ClassDeclarationSyntax>()
+                                          select typeNodes.Identifier.Text);
+
+            result.AddRange(from typeNodes
+                    in root.DescendantNodes().OfType<StructDeclarationSyntax>()
+                            select typeNodes.Identifier.Text);
+
+            result.AddRange(from typeNodes
+                    in root.DescendantNodes().OfType<InterfaceDeclarationSyntax>()
+                            select typeNodes.Identifier.Text);
+
+            result.AddRange(from typeNodes
+                    in root.DescendantNodes().OfType<EnumDeclarationSyntax>()
+                            select typeNodes.Identifier.Text);
+
+
+            typeNames = result.ToArray();
 
         }
 

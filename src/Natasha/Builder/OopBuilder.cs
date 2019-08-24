@@ -7,14 +7,14 @@ namespace Natasha.Builder
     public class OopBuilder<T> : OopContentTemplate<T>
     {
 
-        public readonly AssemblyComplier Complier;
-        public CtorBuilder CtorBuilder;
+        public readonly OopComplier Complier;
+        public CtorTemplate CtorBuilder;
 
 
         public OopBuilder()
         {
 
-            Complier = new AssemblyComplier();
+            Complier = new OopComplier();
 
         }
 
@@ -26,22 +26,12 @@ namespace Natasha.Builder
         /// </summary>
         /// <param name="action">构建委托</param>
         /// <returns></returns>
-        public T Ctor(Action<CtorBuilder> action)
+        public T Ctor(Action<CtorTemplate> action)
         {
 
-            action(CtorBuilder = new CtorBuilder());
+            action(CtorBuilder = new CtorTemplate());
             return Link;
 
-        }
-
-
-
-        public T Method(Action<MethodBuilder> action)
-        {
-            var handler = new MethodBuilder();
-            action?.Invoke(handler);
-            OopBody(handler.Script);
-            return Link;
         }
 
 
@@ -54,10 +44,17 @@ namespace Natasha.Builder
         public override T Builder()
         {
 
+            _script.Clear();
+
+
+#if NETCOREAPP3_0
+            Complier.Domain = Domain;
+#endif
+
             if (CtorBuilder != null)
             {
                 CtorBuilder.Name(OopNameScript);
-                OopBody(CtorBuilder.Script);
+                OopBody(CtorBuilder.Builder()._script);
 
             }
 
@@ -78,34 +75,30 @@ namespace Natasha.Builder
         public Type GetType(int classIndex = 1, int namespaceIndex = 1)
         {
 
-            Complier.Add(this);
-            string name=default;
+            Builder();
             switch (OopTypeEnum)
             {
 
                 case OopType.Class:
 
-                    name = ScriptHelper.GetClassName(Script, classIndex, namespaceIndex);
-                    break;
+                    return Complier.GetClassType(Script, classIndex, namespaceIndex);
 
                 case OopType.Struct:
 
-                    name = ScriptHelper.GetStructName(Script, classIndex, namespaceIndex);
-                    break;
+                    return Complier.GetStructType(Script, classIndex, namespaceIndex);
 
                 case OopType.Interface:
 
-                    name = ScriptHelper.GetInterfaceName(Script, classIndex, namespaceIndex);
-                    break;
+                    return Complier.GetInterfaceType(Script, classIndex, namespaceIndex);
 
                 case OopType.Enum:
 
-                    name = ScriptHelper.GetEnumName(Script, classIndex, namespaceIndex);
-                    break;
+                    return Complier.GetEnumType(Script, classIndex, namespaceIndex);
             }
 
-            return Complier.GetType(name);
+            return null;
         }
+
 
     }
 

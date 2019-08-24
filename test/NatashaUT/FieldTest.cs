@@ -20,7 +20,7 @@ namespace NatashaUT
                 .MemberModifier(Modifiers.Static)
                 .FieldName("Name")
                 .FieldType<string>()
-                .Script;
+                .Builder().Script;
 
                 Assert.Equal($"[Test]{Environment.NewLine}public static String Name;", result);
 
@@ -38,7 +38,7 @@ namespace NatashaUT
                 .MemberModifier(Modifiers.Static)
                 .FieldName("Age")
                 .FieldType(typeof(int))
-                .Script;
+                .Builder().Script;
 
                 Assert.Equal($"[Test][Test1]{Environment.NewLine}public static Int32 Age;", result);
 
@@ -57,7 +57,7 @@ namespace NatashaUT
                 .MemberAccess("public")
                 .FieldName("Name")
                 .FieldType<string>()
-                .Script;
+                .Builder().Script;
 
                 Assert.Equal($"[Test]{Environment.NewLine}public String Name;", result);
 
@@ -75,7 +75,7 @@ namespace NatashaUT
                 .MemberAccess("public")
                 .FieldName("Name")
                 .FieldType<string>()
-                .Script;
+                .Builder().Script;
 
 
                 Assert.Equal($"[ClassDataAttribute]{Environment.NewLine}public String Name;", result);

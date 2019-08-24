@@ -1,13 +1,11 @@
-﻿using Natasha.Template;
-
-namespace Natasha.Builder
+﻿namespace Natasha.Template
 {
     /// <summary>
     /// 初始化模板
     /// </summary>
-    public class CtorBuilder : MethodBodyTemplate<CtorBuilder>
+    public class CtorTemplate: MethodBodyTemplate<CtorTemplate>
     {
-        public CtorBuilder() => Link = this;
+        public CtorTemplate() => Link = this;
 
 
 
@@ -17,7 +15,7 @@ namespace Natasha.Builder
         /// <typeparam name="T"></typeparam>
         /// <param name="template"></param>
         /// <returns></returns>
-        public CtorBuilder UseTemplate<T>(OopContentTemplate<T> template)
+        public CtorTemplate UseTemplate<T>(OopContentTemplate<T> template)
         {
 
             //类名即方法名
@@ -25,13 +23,24 @@ namespace Natasha.Builder
 
 
             //如果是静态的使用静态初始化
-            if (template.OopModifierScript == "static ")
+            if (template.OopModifierScript=="static ")
             {
                 MemberModifierScript = "static ";
             }
 
 
             return this;
+        }
+
+
+
+
+        public override CtorTemplate Builder()
+        {
+
+            _script.Clear();
+            return base.Builder();
+
         }
 
     }
