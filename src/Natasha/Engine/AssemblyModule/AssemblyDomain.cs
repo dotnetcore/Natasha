@@ -23,6 +23,15 @@ namespace Natasha
 
 
 
+
+        public int Count
+        {
+            get { return References.Count; }
+        }
+
+
+
+
         public AssemblyDomain(string key)
 #if NETCOREAPP3_0
             : base(isCollectible: true, name: key)

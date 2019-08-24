@@ -34,10 +34,24 @@ namespace Natasha.Complier
         public static (Assembly Assembly, ImmutableArray<Diagnostic> Errors, CSharpCompilation Compilation) StreamComplier(string name, SyntaxTree tree, AssemblyDomain domain)
         {
 
-            bool isDefaultDomain = domain == default;
+
 #if NETCOREAPP3_0
-            domain = (isDefaultDomain && AssemblyLoadContext.CurrentContextualReflectionContext == null) ? _default : (AssemblyDomain)(AssemblyLoadContext.CurrentContextualReflectionContext);
+            bool isDefaultDomain = domain == default && AssemblyLoadContext.CurrentContextualReflectionContext == default;
+            if (isDefaultDomain)
+            {
+
+                domain = _default;
+
+            }
+            else if (domain == default && AssemblyLoadContext.CurrentContextualReflectionContext != null)
+            {
+
+                domain = (AssemblyDomain)(AssemblyLoadContext.CurrentContextualReflectionContext);
+
+            }
+
 #else
+            bool isDefaultDomain = domain == default;
             domain = isDefaultDomain ? _default : domain;
 #endif
 
@@ -98,11 +112,8 @@ namespace Natasha.Complier
                         //获取程序集
                         Assembly result = isDefaultDomain ?
                             AssemblyLoadContext.Default.LoadFromStream(stream) :
-#if NETCOREAPP3_0
-                            AssemblyLoadContext.CurrentContextualReflectionContext.LoadFromStream(stream);
-#else
                             domain.LoadFromStream(stream);
-#endif
+
 
 
                         domain.CacheAssembly(result, stream);

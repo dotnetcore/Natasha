@@ -12,6 +12,8 @@ namespace Core30
         public static Action action;
         static void Main(string[] args)
         {
+            Show();
+            Console.WriteLine(AssemblyManagment.Count("TempDomain"));
 
             NStruct nStruct1 = new NStruct();
             nStruct1
@@ -23,7 +25,7 @@ namespace Core30
                     .Body("Name=name;"))
                 .PublicField<string>("Name");
             var typ1e = nStruct1.GetType();
-
+            Console.WriteLine(AssemblyManagment.Count("Default"));
 
 
             var domain2 = AssemblyManagment.Create("TempDomain2");
@@ -40,8 +42,19 @@ namespace Core30
                         .Body("Name=name;"))
                     .PublicField<string>("Name");
                 var type = nStruct.GetType();
-            }
 
+                nStruct = new NStruct();
+                nStruct
+                    .Namespace("Core30")
+                    .OopName("Test1")
+                    .Ctor(builder => builder
+                        .MemberAccess(AccessTypes.Public)
+                        .Param<string>("name")
+                        .Body("Name=name;"))
+                    .PublicField<string>("Name");
+                type = nStruct.GetType();
+            }
+            Console.WriteLine(AssemblyManagment.Count("TempDomain2"));
 
             using (AssemblyManagment.CreateAndLock("TempDomain3"))
             {
@@ -57,7 +70,7 @@ namespace Core30
                     .PublicField<string>("Name");
                 var type = nStruct.GetType();
             }
-
+            Console.WriteLine(AssemblyManagment.Count("TempDomain3"));
 
             //ShowQ();
             //Thread.Sleep(2000);
@@ -272,7 +285,7 @@ Console.WriteLine(obj.Name);"
 );
             });
             action = temp.Complie<Action>();
-            AssemblyManagment.Get("TempDomain").Dispose();
+            //AssemblyManagment.Get("TempDomain").Dispose();
         }
 
         private static void B_Unloading(System.Runtime.Loader.AssemblyLoadContext obj)
