@@ -125,6 +125,14 @@ namespace Natasha
 
         }
 
+
+
+
+        public static int Count(string key)
+        {
+            return ((AssemblyDomain)(Cache[key].Target)).Count;
+        }
+
     }
 
 }

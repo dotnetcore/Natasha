@@ -1,59 +1,37 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using Natasha.Complier.Model;
 using Natasha.Log;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
 namespace Natasha.Complier
 {
-    public  abstract partial class IComplier
+    public abstract partial class IComplier
     {
 
         public readonly CompilationException Exception;
-        public AssemblyDomain Domain;
-
-        public IComplier() => Exception = new CompilationException();
+        public readonly ComplierModel ComplierInfos;
 
 
-
-
-        /// <summary>
-        /// 编译时错误提示处理
-        /// </summary>
-        /// <param name="msg"></param>
-        public virtual void SingleError(Diagnostic msg)
+        public IComplier()
         {
-            Exception.Diagnostics.Add(msg);
+            Exception = new CompilationException();
+            ComplierInfos = new ComplierModel();
         }
 
 
 
 
-        /// <summary>
-        /// 语法树结果检测
-        /// </summary>
-        /// <param name="source">原脚本字符串</param>
-        /// <param name="formart">格式化后的脚本字符串</param>
-        /// <param name="errors">错误信息集合</param>
-        /// <returns></returns>
-        public bool CheckSyntax(string formart, IEnumerable<Diagnostic> errors)
+        public string Name
         {
-
-            Exception.Formatter = formart;
-            Exception.Diagnostics.AddRange(errors);
-
-
-            if (Exception.Diagnostics.Count != 0)
+            get
             {
-
-                Exception.ErrorFlag = ComplieError.Syntax;
-                Exception.Message = "语法错误,请仔细检查脚本代码！";
-                return false;
-
+                return ComplierInfos.AssemblyName;
             }
-            return true;
-
+            set
+            {
+                ComplierInfos.AssemblyName = value;
+            }
         }
 
 
@@ -62,61 +40,51 @@ namespace Natasha.Complier
         /// <summary>
         /// 获取编译后的程序集
         /// </summary>
-        /// <param name="content">脚本内容</param>
         /// <returns></returns>
-        public Assembly GetAssemblyByScript(string content)
+        public Assembly GetAssembly()
         {
 
-            Assembly assembly =null ;
-
-            var (tree, _typeNames, formartter ,errors_) = content;
-
-            if (CheckSyntax(formartter, errors_))
+            if (ComplierInfos.Trees.Count == 0)
             {
-                if (Exception.Diagnostics.Count != 0)
+                return null;
+            }
+
+
+            if (Name == default)
+            {
+                Name = Guid.NewGuid().ToString("N");
+            }
+
+            
+            var result = StreamComplier(ComplierInfos);
+            Assembly assembly = result.Assembly;
+            if (result.Compilation != null)
+            {
+                if (assembly == default || assembly == null)
                 {
 
-                    Exception.ErrorFlag = ComplieError.Syntax;
+                    Exception.Diagnostics.AddRange(result.Errors);
+                    Exception.ErrorFlag = ComplieError.Assembly;
                     Exception.Message = "发生错误,无法生成程序集！";
+
+
+                    NError logError = new NError();
+                    logError.Handler(result.Compilation, Exception.Diagnostics);
+
+
+                    Exception.Log = logError.Buffer.ToString();
+                    if (NError.Enabled) { logError.Write(); }
 
                 }
                 else
                 {
 
-                    var result = StreamComplier(_typeNames[0], tree, Domain);
-                    assembly = result.Assembly;
-                    if (result.Compilation!=null)
-                    {
-                        if (assembly == default || assembly == null)
-                        {
+                    NSucceed logSucceed = new NSucceed();
+                    logSucceed.Handler(result.Compilation);
+                    Exception.ErrorFlag = ComplieError.None;
 
-                            Exception.Diagnostics.AddRange(result.Errors);
-                            Exception.ErrorFlag = ComplieError.Assembly;
-                            Exception.Message = "发生错误,无法生成程序集！";
-
-
-                            NError logError = new NError();
-                            logError.WrapperCode(formartter);
-                            logError.Handler(result.Compilation, Exception.Diagnostics);
-
-
-                            Exception.Log = logError.Buffer.ToString();
-                            if (NError.Enabled) { logError.Write(); }
-
-                        }
-                        else
-                        {
-
-                            NSucceed logSucceed = new NSucceed();
-                            logSucceed.WrapperCode(Exception.Formatter);
-                            logSucceed.Handler(result.Compilation, assembly);
-
-
-                            Exception.Log = logSucceed.Buffer.ToString();
-                            if (NSucceed.Enabled) { logSucceed.Write(); }
-
-                        }
-                    }
+                    Exception.Log = logSucceed.Buffer.ToString();
+                    if (NSucceed.Enabled) { logSucceed.Write(); }
 
                 }
             }
@@ -130,17 +98,17 @@ namespace Natasha.Complier
         /// <summary>
         /// 获取编译后的类型
         /// </summary>
-        /// <param name="content">脚本内容</param>
         /// <param name="typeName">类型名称</param>
         /// <returns></returns>
-        public Type GetTypeByScript(string content, string typeName)
+        public Type GetType(string typeName)
         {
-            Assembly assembly = GetAssemblyByScript(content);
 
+            Assembly assembly = GetAssembly();
             if (assembly == null)
             {
                 return null;
             }
+
 
             var type = assembly.GetTypes().First(item => item.Name == typeName);
             if (type == null)
@@ -150,6 +118,7 @@ namespace Natasha.Complier
                 Exception.Message = $"发生错误,无法从程序集{assembly.FullName}中获取类型{typeName}！";
 
             }
+
 
             return type;
 
@@ -161,23 +130,16 @@ namespace Natasha.Complier
         /// <summary>
         /// 获取编译后的方法元数据
         /// </summary>
-        /// <param name="content">脚本内容</param>
         /// <param name="typeName">类型名称</param>
         /// <param name="methodName">方法名</param>
         /// <returns></returns>
-        public MethodInfo GetMethodByScript(string content, string typeName, string methodName = null)
+        public MethodInfo GetMethod(string typeName, string methodName = null)
         {
 
-            var type = GetTypeByScript(content, typeName);
+            var type = GetType(typeName);
             if (type == null)
             {
                 return null;
-            }
-
-
-            if (methodName == null)
-            {
-                methodName = ScriptHelper.GetMethodName(content);
             }
 
 
@@ -202,15 +164,14 @@ namespace Natasha.Complier
         /// <summary>
         /// 获取编译后的委托
         /// </summary>
-        /// <param name="content">脚本内容</param>
         /// <param name="typeName">类型名称</param>
         /// <param name="methodName">方法名</param>
         /// <param name="delegateType">委托类型</param>
         /// <returns></returns>
-        public Delegate GetDelegateByScript(string content, string typeName, string methodName, Type delegateType, object binder = null)
+        public Delegate GetDelegate(string typeName, string methodName, Type delegateType, object binder = null)
         {
 
-            var info = GetMethodByScript(content, typeName, methodName);
+            var info = GetMethod(typeName, methodName);
             if (info == null)
             {
                 return null;
@@ -237,18 +198,14 @@ namespace Natasha.Complier
 
         }
 
-
-        public T GetDelegateByScript<T>(string content, string typeName, string methodName, object binder = null) where T : Delegate
+        public T GetDelegate<T>(string typeName, string methodName, object binder = null) where T : Delegate
         {
 
-            return (T)GetDelegateByScript(content, typeName, methodName, typeof(T));
+            return (T)GetDelegate(typeName, methodName, typeof(T));
 
         }
 
 
-
-
-       
     }
 
 }

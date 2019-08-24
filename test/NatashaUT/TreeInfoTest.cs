@@ -21,7 +21,7 @@ namespace NatashaUT
         public List<string> List;
     }
 ";
-            var (_,_,_,errors) = str;
+            var (_,_,errors) = str;
             foreach (var item in errors)
             {
                 var aa = item.GetMessage();

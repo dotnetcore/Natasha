@@ -11,9 +11,6 @@ namespace Natasha.Template
 
         public StringBuilder _script;
         public readonly TypeRecoder UsingRecoder;
-#if NETCOREAPP3_0
-        public AssemblyDomain Domain;
-#endif
         public T Link;
 
 
@@ -27,24 +24,10 @@ namespace Natasha.Template
 
 
 
-#if NETCOREAPP3_0
-        public T InDomain(AssemblyDomain domain)
-        {
-
-            Domain = domain;
-            return Link;
-
-        }
-
-#endif
-
-
-
-
 
         public string Script
         {
-            get { return _script.ToString(); }
+            get { _script.Clear(); Builder();  return _script.ToString(); }
         }
 
 

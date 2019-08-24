@@ -30,8 +30,9 @@ namespace Core20
     }
 }";
             //根据脚本创建动态类
-            OopComplier oop = new OopComplier();
-            Type type = oop.GetClassType(text);
+            AssemblyComplier oop = new AssemblyComplier("test");
+            oop.Add(text);
+            Type type = oop.GetType("Test");
 
 
             var func = "return arg;".Delegate<Func<string, string>>();
