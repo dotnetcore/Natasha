@@ -12,6 +12,7 @@ namespace Core30
         public static Action action;
         static void Main(string[] args)
         {
+            NAssembly nAssembly = new NAssembly("a");
             Show();
             Console.WriteLine(AssemblyManagment.Count("TempDomain"));
 
@@ -111,7 +112,7 @@ namespace Core30
                 nStruct
                     .Namespace("Core301")
                     .OopName($"Test{i}")
-                    .InDomain(domain1)
+                    
                     .Ctor(builder => builder
                         .MemberAccess(AccessTypes.Public)
                         .Param<string>("name")
@@ -138,7 +139,7 @@ namespace Core30
                 nStruct
                     .Namespace("Core30")
                     .OopName($"Test{i}")
-                    .InDomain(domain1)
+
                     .Ctor(builder => builder
                         .MemberAccess(AccessTypes.Public)
                         .Param<string>("name")
@@ -204,35 +205,35 @@ namespace Core30
 
             //默认共享域
             NStruct nStruct = new NStruct();
-            nStruct
-                .Namespace("Core30")
-                .OopName("Test")
-                .Ctor(builder => builder
-                    .MemberAccess(AccessTypes.Public)
-                    .Param<string>("name")
-                    .Body("Name=name;"))
-                .PublicField<string>("Name");
-            var type = nStruct.GetType();
+            //nStruct
+            //    .Namespace("Core30")
+            //    .OopName("Test")
+            //    .Ctor(builder => builder
+            //        .MemberAccess(AccessTypes.Public)
+            //        .Param<string>("name")
+            //        .Body("Name=name;"))
+            //    .PublicField<string>("Name");
+            //var type = nStruct.GetType();
 
 
 
             var domain1 = AssemblyManagment.Create("TempDomain");
             nStruct = new NStruct();
             nStruct
-                .InDomain(domain1)
+ 
                 .Namespace("Core30")
-                .OopName("Test")
+                .OopName("Test1")
                 .Ctor(builder => builder
                     .MemberAccess(AccessTypes.Public)
                     .Param<string>("name")
                     .Body(@"Name=name+""1"";"))
                 .PublicField<string>("Name");
            var type1 = nStruct.GetType();
-
+            domain1.RemoveType(type1);
 
             nStruct = new NStruct();
             nStruct
-                .InDomain(domain1)
+
                 .Namespace("Core30")
                 .OopName("Test")
                 .Ctor(builder => builder
@@ -245,7 +246,7 @@ namespace Core30
 
             nStruct = new NStruct();
             nStruct
-                .InDomain(domain1)
+
                 .Namespace("Core30")
                 .OopName("Test")
                 .Ctor(builder => builder
@@ -254,7 +255,7 @@ namespace Core30
                     .Body(@"Name=name+""3"";"))
                 .PublicField<string>("Name");
             var type4 = nStruct.GetType();
-
+            domain1.RemoveType(type3);
 
             //nStruct = new NStruct();
             //nStruct
@@ -270,9 +271,8 @@ namespace Core30
 
 
 
-            var temp = domain1.Execute<FastMethodOperator>(builder =>
-            {
-                return builder
+            var temp = FastMethodOperator.New
+          
                 //.Using<Test>()
                 //.Using(type)
                 .Using(type1)
@@ -283,8 +283,8 @@ namespace Core30
 Test obj = new Test(""Hello World!"");
 Console.WriteLine(obj.Name);"
 );
-            });
             action = temp.Complie<Action>();
+            action();
             //AssemblyManagment.Get("TempDomain").Dispose();
         }
 

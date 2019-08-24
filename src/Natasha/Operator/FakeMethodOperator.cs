@@ -11,7 +11,7 @@ namespace Natasha.Operator
     public class FakeMethodOperator : OnceMethodBuilder<FakeMethodOperator>
     {
 
-        public Action<MethodTemplate> Action;
+        public Action<MethodBuilder> Action;
         private MethodInfo _temp_info;
         public static FakeMethodOperator New
         {

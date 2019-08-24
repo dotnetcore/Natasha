@@ -63,32 +63,7 @@ namespace Core22
 
             Console.WriteLine(delegateConvt("mama"));
 
-            string text = @"using System;
-using System.Collections;
-using System.Linq;
-using System.Text;
- 
-namespace HelloWorld
-{
-    public class Test
-    {
-        public Test(){
-            Name=""111"";
-            Instance = new Test1();
-        }
-
-        public string Name;
-        public int Age{get;set;}
-        public Test1 Instance;
-    }
-    public class Test1{
-         public string Name=""1"";
-    }
-}";
-            OopComplier oop = new OopComplier();
-            //根据脚本创建动态类
-            Type type = oop.GetClassType(text);
-
+           
 
             DynamicMethod method = new DynamicMethod("GetString", null, new Type[] { typeof(TestB), typeof(string) });
             ILGenerator il = method.GetILGenerator();

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Microsoft.CodeAnalysis;
+using Natasha.Complier.Model;
+using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace Natasha.Log.Model
@@ -18,37 +21,40 @@ namespace Natasha.Log.Model
         /// <summary>
         /// 为代码增加行号
         /// </summary>
-        /// <param name="formartCode">代码内容</param>
+        /// <param name="model">代码内容</param>
         /// <returns></returns>
-        public void WrapperCode(string formartCode)
+        public StringBuilder WrapperCode(IEnumerable<SyntaxTree> trees)
         {
 
-            FormartCode = formartCode;
-            var arrayLines = formartCode.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+            StringBuilder builder = new StringBuilder();
+            foreach (var item in trees)
+            {
+                builder.AppendLine(item.ToString());
+            }
+
+
+            var arrayLines = builder.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
             for (int i = 0; i < arrayLines.Length; i += 1)
             {
 
                 Buffer.AppendLine($"{i + 1}\t{arrayLines[i]}");
 
             }
+            return builder;
 
         }
-
-
-
-
-        /// <summary>
-        /// 为日志封装一个包裹层，并显示有标题
-        /// </summary>
-        /// <param name="title"></param>
-        public void WrapperTitle(string title)
+        public StringBuilder WrapperCode(string code)
         {
 
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine($"\r\n\r\n==================={title}===================\r\n");
-            sb.Append(Buffer);
-            sb.AppendLine("\r\n==========================================================");
-            Buffer = sb;
+            StringBuilder builder = new StringBuilder();
+            var arrayLines = code.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+            for (int i = 0; i < arrayLines.Length; i += 1)
+            {
+
+                Buffer.AppendLine($"{i + 1}\t{arrayLines[i]}");
+
+            }
+            return builder;
 
         }
 

@@ -24,8 +24,9 @@ namespace HelloWorld
     }
 }";
             //根据脚本创建动态类
-            OopComplier oop = new OopComplier();
-            Type type = oop.GetClassType(text);
+            AssemblyComplier oop = new AssemblyComplier();
+            oop.Add(text);
+            Type type = oop.GetType("Test");
             Assert.Equal("Test", type.Name);
         }
 
@@ -73,8 +74,9 @@ namespace HelloWorld{
 
 ";
             //根据脚本创建动态类
-            OopComplier oop = new OopComplier();
-            Type type = oop.GetClassType(text,3);
+            AssemblyComplier oop = new AssemblyComplier();
+            oop.Add(text);
+            Type type = oop.GetType("TestIndex3");
             Assert.Equal("TestIndex3", type.Name);
         }
 
@@ -124,11 +126,8 @@ namespace HelloWorld{
 
 ";
             //根据脚本创建动态类
-            OopComplier oop = new OopComplier();
-            Type type = oop.GetClassType(text,1,2);
-            Assert.Equal("TestIndex4", type.Name);
-            type = oop.GetStructType(text, 2, 2);
-            Assert.Equal("TestStruct2", type.Name);
+            Assert.Equal("TestIndex4", ScriptHelper.GetClassName(text, 1, 2));
+            Assert.Equal("TestStruct2", ScriptHelper.GetStructName(text, 2, 2));
         }
     }
 }
