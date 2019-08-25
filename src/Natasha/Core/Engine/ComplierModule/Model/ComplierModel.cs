@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
+using Natasha.Log;
 using System.Collections.Generic;
 using System.Runtime.Loader;
 namespace Natasha.Complier.Model
@@ -97,6 +98,9 @@ namespace Natasha.Complier.Model
 
                 exception.ErrorFlag = ComplieError.Syntax;
                 exception.Message = "语法错误,请仔细检查脚本代码！";
+                NError log = new NError();
+                log.Handler(exception.Diagnostics);
+                log.Write();
 
             }
             else

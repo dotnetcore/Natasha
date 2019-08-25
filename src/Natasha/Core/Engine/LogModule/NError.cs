@@ -24,7 +24,7 @@ namespace Natasha.Log
 
 
 
-        public override void  Write()
+        public override void Write()
         {
             NWriter<NError>.Recoder(Buffer);
         }
@@ -68,14 +68,41 @@ namespace Natasha.Log
 
 
                 Buffer.AppendLine("\r\n====================================================================\r\n");
-                
+
             }
         }
 
 
 
 
-        internal  string GetErrorString(string content, FileLinePositionSpan linePositionSpan)
+        public void Handler(List<Diagnostic> diagnostics)
+        {
+
+            string formartCode = diagnostics[0].Location.SourceTree.ToString();
+            Buffer.AppendLine($"\r\n\r\n========================Error : 语法错误 ========================\r\n");
+            Buffer.AppendLine();
+            Buffer.Append(WrapperCode(formartCode));
+            Buffer.AppendLine("\r\n\r\n-----------------------------------------------error---------------------------------------------------");
+            Buffer.AppendLine($"\r\n    Time :\t\t{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}");
+            Buffer.AppendLine($"\r\n    Error:\t\t共{diagnostics.Count}处错误！");
+
+
+            foreach (var error in diagnostics)
+            {
+
+                var temp = error.Location.GetLineSpan().StartLinePosition;
+                var result = GetErrorString(formartCode, error.Location.GetLineSpan());
+                Buffer.AppendLine($"\t\t第{temp.Line + 1}行，第{temp.Character}个字符：       内容【{result}】  {error.GetMessage()}");
+
+            }
+            Buffer.AppendLine("\r\n====================================================================\r\n");
+
+        }
+
+
+
+
+        internal string GetErrorString(string content, FileLinePositionSpan linePositionSpan)
         {
 
             var start = linePositionSpan.StartLinePosition;

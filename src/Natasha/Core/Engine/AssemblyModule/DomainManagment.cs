@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Runtime.Loader;
 using static System.Runtime.Loader.AssemblyLoadContext;
 
 namespace Natasha
 {
 
-    public class AssemblyManagment
+    public class DomainManagment
     {
 
         public static ConcurrentDictionary<string, WeakReference> Cache;
-        static AssemblyManagment()
+        static DomainManagment()
         {
 
             Cache = new ConcurrentDictionary<string, WeakReference>();
@@ -51,6 +52,10 @@ namespace Natasha
 
             return Lock(Create(key));
 
+        }
+        public static AssemblyDomain CurrentDomain
+        {
+            get { return (AssemblyDomain)CurrentContextualReflectionContext; }
         }
 #endif
 

@@ -28,7 +28,10 @@ namespace Natasha.Template
         public T OopName(string name)
         {
 
-            OopNameScript = name;
+            if (name!=default)
+            {
+                OopNameScript = name;
+            }
             return Link;
 
         }

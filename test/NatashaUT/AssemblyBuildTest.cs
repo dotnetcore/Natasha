@@ -22,7 +22,7 @@ namespace NatashaUT
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
             }
-            Assert.True(AssemblyManagment.IsDeleted("SingleDomainAsmTest1"));
+            Assert.True(DomainManagment.IsDeleted("SingleDomainAsmTest1"));
 #endif
 
         }
@@ -31,7 +31,7 @@ namespace NatashaUT
         [MethodImpl(MethodImplOptions.NoInlining)]
         internal string ForTest1()
         {
-            var domain = AssemblyManagment.Create("SingleDomainAsmTest1");
+            var domain = DomainManagment.Create("SingleDomainAsmTest1");
             var assembly = domain.CreateAssembly("AsmTest1");
 
             var @interface = assembly
@@ -70,7 +70,7 @@ namespace NatashaUT
             ClassAsm obj = new ClassAsm();
             return obj.ShowMethod(""Hello"");
             ").Complie<Func<string, string>>();
-            AssemblyManagment.Get("SingleDomainAsmTest1").Dispose();
+            DomainManagment.Get("SingleDomainAsmTest1").Dispose();
             return @delegate("hello");
 
 
@@ -82,7 +82,7 @@ namespace NatashaUT
         [Fact(DisplayName = "多程序集覆盖")]
         public void Test2()
         {
-            var domain = AssemblyManagment.Create("SingleDomainAsmTest2");
+            var domain = DomainManagment.Create("SingleDomainAsmTest2");
             var assembly = domain.CreateAssembly("AsmTest1");
 
             var @interface = assembly
@@ -171,9 +171,68 @@ return obj.ShowMethod(""Hello"");
                 GC.WaitForPendingFinalizers();
             }
 
-            Assert.True(AssemblyManagment.IsDeleted("SingleDomainAsmTest1"));
+            Assert.True(DomainManagment.IsDeleted("SingleDomainAsmTest1"));
 #endif
 
         }
+
+#if NETCOREAPP3_0
+        [Fact(DisplayName = "域锁与管理")]
+        public void Test3()
+        {
+            using (DomainManagment.CreateAndLock("CDomain1"))
+            {
+                var domain = DomainManagment.CurrentDomain;
+                Assert.Equal("CDomain1", domain.Name);
+            }
+        }
+
+        [Fact(DisplayName = "HelloWorldTest")]
+        public void TestHelloWorld()
+        {
+
+            using (DomainManagment.CreateAndLock("MyDomain"))
+            {
+
+                var domain = DomainManagment.CurrentDomain;
+                var assembly = domain.CreateAssembly("MyAssembly");
+
+
+                //创建一个接口
+                assembly
+                    .CreateInterface("InterfaceTest")
+                    .Using("System")
+                    .OopAccess(AccessTypes.Public)
+                    .OopBody("string ShowMethod(string str);");
+
+
+                //创建一个类并实现​接口
+                assembly
+                   .CreateClass("TestClass​")
+                   .Using("System")
+                   .OopAccess(AccessTypes.Public)
+                   .Inheritance("InterfaceTest")
+                   .Method(method => method
+                     .MemberAccess(AccessTypes.Public)
+                     .Name("ShowMethod")
+                     .Param<string>("str")
+                     .Body("return str+\" World!\";")
+                     .Return<string>());
+
+                var result = assembly.Complier();
+                var type = assembly.GetType("TestClass");
+
+                //单独创建一个程序集​方法
+               var func = FastMethodOperator.New​
+                  .Using(type)
+                  .MethodBody(@"
+TestClass obj = new TestClass​();
+return obj.ShowMethod(arg);")
+                  .Complie<Func<string, string>>();
+                Assert.Equal("Hello World!", func("Hello"));
+            }
+            
+        }
+#endif
     }
 }

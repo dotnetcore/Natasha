@@ -41,7 +41,7 @@ namespace Natasha
 #if NETCOREAPP3_0
             _resolver = new AssemblyDependencyResolver(AppDomain.CurrentDomain.BaseDirectory);
 #endif
-            AssemblyManagment.Add(key, this);
+            DomainManagment.Add(key, this);
             TypeCache = new HashSet<Type>();
             OutfileMapping = new ConcurrentDictionary<string, Assembly>();
             AssemblyMappings = new ConcurrentDictionary<Assembly, AssemblyUnitInfo>();
