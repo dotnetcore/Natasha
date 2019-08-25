@@ -22,7 +22,7 @@ namespace NatashaUT
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
             }
-            Assert.True(AssemblyManagment.IsDelete("SingleDomainAsmTest1"));
+            Assert.True(AssemblyManagment.IsDeleted("SingleDomainAsmTest1"));
 #endif
 
         }
@@ -171,7 +171,7 @@ return obj.ShowMethod(""Hello"");
                 GC.WaitForPendingFinalizers();
             }
 
-            Assert.True(AssemblyManagment.IsDelete("SingleDomainAsmTest1"));
+            Assert.True(AssemblyManagment.IsDeleted("SingleDomainAsmTest1"));
 #endif
 
         }

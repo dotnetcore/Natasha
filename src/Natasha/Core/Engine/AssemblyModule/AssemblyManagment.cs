@@ -64,7 +64,6 @@ namespace Natasha
             if (Cache.ContainsKey(key))
             {
 
-                ((AssemblyDomain)(Cache[key].Target)).Dispose();
                 if (!Cache[key].IsAlive)
                 {
                     Cache[key] = new WeakReference(domain);
@@ -88,7 +87,12 @@ namespace Natasha
 
             if (Cache.ContainsKey(key))
             {
+
                 Cache.TryRemove(key, out var result);
+                if (result != default)
+                {
+                    ((AssemblyDomain)(result.Target)).Dispose();
+                }
                 return result;
 
             }
@@ -100,7 +104,7 @@ namespace Natasha
 
 
 
-        public static bool IsDelete(string key)
+        public static bool IsDeleted(string key)
         {
 
             if (Cache.ContainsKey(key))
