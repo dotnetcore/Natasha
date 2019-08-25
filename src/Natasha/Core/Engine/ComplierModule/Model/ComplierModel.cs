@@ -86,8 +86,10 @@ namespace Natasha.Complier.Model
 
         public CompilationException Add(string content)
         {
+
             CompilationException exception = new CompilationException();
             var (tree, formartter, errors) = content;
+
 
             exception.Formatter = formartter;
             exception.Diagnostics.AddRange(errors);
@@ -101,11 +103,14 @@ namespace Natasha.Complier.Model
                 NError log = new NError();
                 log.Handler(exception.Diagnostics);
                 log.Write();
+                exception.Log = log.Buffer.ToString();
 
             }
             else
             {
+
                 Trees.Add(tree);
+
             }
             Exceptions.Add(exception);
             return exception;
