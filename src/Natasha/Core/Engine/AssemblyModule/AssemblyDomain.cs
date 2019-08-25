@@ -1,7 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.DependencyModel;
 using Natasha.AssemblyModule.Model;
-using Natasha.Template;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
