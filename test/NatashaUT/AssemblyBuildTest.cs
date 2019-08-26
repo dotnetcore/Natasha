@@ -163,7 +163,7 @@ return obj.ShowMethod(""Hello"");
 ").Complie<Func<string, string>>();
 
             Assert.Equal("HelloTest1", @delegate("hello"));
-#if !NETSTANDARD2_0
+#if !NETCOREAPP2_2
             domain.Dispose();
             for (int i = 0; i < 10; i++)
             {
