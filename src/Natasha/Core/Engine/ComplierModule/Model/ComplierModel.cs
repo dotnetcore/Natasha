@@ -41,7 +41,7 @@ namespace Natasha.Complier.Model
             {
                 References.Clear();
                 References.AddRange(_default.ReferencesCache);
-#if NETCOREAPP3_0
+#if  !NETSTANDARD2_0
                 bool isDefaultDomain = _domain == default && AssemblyLoadContext.CurrentContextualReflectionContext == default;
                 if (isDefaultDomain)
                 {

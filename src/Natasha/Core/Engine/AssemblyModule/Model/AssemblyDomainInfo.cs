@@ -24,7 +24,6 @@ namespace Natasha.AssemblyModule.Model
         {
 
             stream.Position = 0;
-#if NETCOREAPP3_0
             if (context.Name == "Default")
             {
                 Assembly = AssemblyLoadContext.Default.LoadFromStream(stream);
@@ -33,9 +32,6 @@ namespace Natasha.AssemblyModule.Model
             {
                 Assembly = context.LoadFromStream(stream);
             }
-#else
-            Assembly = context.LoadFromStream(stream);
-#endif
 
 
             stream.Position = 0;

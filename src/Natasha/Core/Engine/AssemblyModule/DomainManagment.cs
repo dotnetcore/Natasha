@@ -30,7 +30,7 @@ namespace Natasha
 
 
 
-#if NETCOREAPP3_0
+#if  !NETSTANDARD2_0
         public static ContextualReflectionScope Lock(string key)
         {
 

@@ -16,7 +16,7 @@ namespace NatashaUT
         {
             //ForTest1();
             Assert.Equal("HelloTest", ForTest1());
-#if NETCOREAPP3_0
+#if !NETCOREAPP2_2
             for (int i = 0; i < 10; i++)
             {
                 GC.Collect();
@@ -163,7 +163,7 @@ return obj.ShowMethod(""Hello"");
 ").Complie<Func<string, string>>();
 
             Assert.Equal("HelloTest1", @delegate("hello"));
-#if NETCOREAPP3_0
+#if !NETSTANDARD2_0
             domain.Dispose();
             for (int i = 0; i < 10; i++)
             {
@@ -176,7 +176,7 @@ return obj.ShowMethod(""Hello"");
 
         }
 
-#if NETCOREAPP3_0
+#if !NETCOREAPP2_2
         [Fact(DisplayName = "域锁与管理")]
         public void Test3()
         {
