@@ -90,7 +90,7 @@ namespace Core30
         {
             Thread.Sleep(5000);
             TestMemoery();
-            for (int i = 0; (!AssemblyManagment.IsDelete("TempDomain1")) && (i < 15); i++)
+            for (int i = 0; (!DomainManagment.IsDeleted("TempDomain1")) && (i < 15); i++)
             {
                 Console.WriteLine($"\t第{i}次！");
                 GC.Collect();
@@ -99,13 +99,13 @@ namespace Core30
 
             }
             //Testt();
-            Console.WriteLine(AssemblyManagment.IsDelete("TempDomain1") ? "回收成功！" : "回收失败！");
+            Console.WriteLine(DomainManagment.IsDeleted("TempDomain1") ? "回收成功！" : "回收失败！");
         }
         public static void TestMemoery()
         {
             Console.WriteLine("Memory1");
             List<Type> list = new List<Type>();
-            var domain1 = AssemblyManagment.Create("TempDomain1");
+            var domain1 = DomainManagment.Create("TempDomain1");
             for (int i = 0; i < 500; i += 1)
             {
                 Console.WriteLine("new");
@@ -125,13 +125,13 @@ namespace Core30
                  .PublicField<string>("Name4");
                 list.Add(nStruct.GetType());
             }
-            AssemblyManagment.Get("TempDomain1").Dispose();
+            DomainManagment.Get("TempDomain1").Dispose();
         }
 
         public static void TestMemoery2()
         {
             Console.WriteLine("Memory2");
-            var domain1 = AssemblyManagment.Create("TempDomain2");
+            var domain1 = DomainManagment.Create("TempDomain2");
             for (int i = 0; i < 10; i += 1)
             {
                 Thread.Sleep(5000);
@@ -152,8 +152,8 @@ namespace Core30
                  .PublicField<string>("Name4");
                 var type = nStruct.GetType();
             }
-            AssemblyManagment.Get("TempDomain2").Dispose();
-            AssemblyManagment.Get("TempDomain2").Unload();
+            DomainManagment.Get("TempDomain2").Dispose();
+            DomainManagment.Get("TempDomain2").Unload();
         }
 
         public static void Testt()
@@ -169,12 +169,12 @@ namespace Core30
             Console.WriteLine();
             Console.WriteLine();
             Console.Write("第一次检测：");
-            Console.WriteLine(AssemblyManagment.IsDelete("TempDomain") ? "回收成功！" : "回收失败！");
+            Console.WriteLine(DomainManagment.IsDeleted("TempDomain") ? "回收成功！" : "回收失败！");
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine("启用GC回收方法！");
 
-            for (int i = 0; (!AssemblyManagment.IsDelete("TempDomain")) && (i < 15); i++)
+            for (int i = 0; (!DomainManagment.IsDeleted("TempDomain")) && (i < 15); i++)
             {
                 Console.WriteLine($"\t第{i}次！");
                 GC.Collect();
@@ -192,7 +192,7 @@ namespace Core30
             Console.WriteLine();
             //Console.WriteLine(!a.IsAlive? "回收成功！":"回收失败！");
             Console.Write("第二次检测：");
-            Console.WriteLine(AssemblyManagment.IsDelete("TempDomain") ? "回收成功！" : "回收失败！");
+            Console.WriteLine(DomainManagment.IsDeleted("TempDomain") ? "回收成功！" : "回收失败！");
 
             action?.Invoke();
         }
@@ -218,7 +218,7 @@ namespace Core30
 
 
 
-            var domain1 = AssemblyManagment.Create("TempDomain");
+            var domain1 = DomainManagment.Create("TempDomain");
            // nStruct = new NStruct();
            // nStruct
  
@@ -287,7 +287,7 @@ Console.WriteLine(obj.Name);"
 );
             action = temp.Complie<Action>();
             action();
-            AssemblyManagment.Get("TempDomain").Dispose();
+            DomainManagment.Get("TempDomain").Dispose();
         }
 
         private static void B_Unloading(System.Runtime.Loader.AssemblyLoadContext obj)

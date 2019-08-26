@@ -8,18 +8,32 @@ namespace Natasha
     /// </summary>
     public class BuilderInfo
     {
+
         public Type DeclaringType;
         public string DeclaringTypeName;
         public string DeclaringAvailableName;
+
 
         public Type MemberType;
         public string MemberTypeName;
         public string MemberTypeAvailableName;
         public string MemberName;
-       
+
+
         public Type ElementType;
         public string ElementTypeName;
         public string ElementTypeAvailableName;
+
+
+        public Type ArrayBaseType;
+        public string ArrayBaseTypeName;
+        public string ArrayBaseTypeAvaliableName;
+
+
+        public int ArrayLayer;
+        public int ArrayDimensions;
+
+
         public bool IsStatic;
 
 
@@ -29,79 +43,130 @@ namespace Natasha
         {
             if (info.MemberType == MemberTypes.Field)
             {
-                var tempInfo = (FieldInfo)(info);
 
+                var tempInfo = (FieldInfo)(info);
                 var instance = new BuilderInfo
                 {
-                    DeclaringType = tempInfo.DeclaringType,
-                    DeclaringTypeName = tempInfo.DeclaringType.GetDevelopName(),
-                    DeclaringAvailableName = tempInfo.DeclaringType.GetAvailableName(),
-
 
                     MemberName = tempInfo.Name,
                     MemberType = tempInfo.FieldType,
                     MemberTypeName = tempInfo.FieldType.GetDevelopName(),
                     MemberTypeAvailableName = tempInfo.FieldType.GetAvailableName(),
 
-
-                    ElementType = tempInfo.FieldType.HasElementType ? tempInfo.FieldType.GetElementType() : tempInfo.FieldType
                 };
-                instance.ElementTypeName = instance.ElementType.GetDevelopName();
-                instance.ElementTypeAvailableName = instance.ElementType.GetAvailableName();
 
-                instance.IsStatic = tempInfo.IsStatic;
 
-                if (instance.IsStatic)
+                HandlerDeclaringType(instance, tempInfo.DeclaringType);
+                HandlerArrayType(instance, tempInfo.FieldType);
+
+
+                if (tempInfo.IsStatic)
                 {
-                    instance.StaticName = $"{instance.DeclaringTypeName}.{tempInfo.Name}";
+
+                    instance.IsStatic = true;
+                    instance.StaticName = $"{instance.DeclaringTypeName}";
+
                 }
                 return instance;
+
             }
             else if (info.MemberType == MemberTypes.Property)
             {
-                var tempInfo = (PropertyInfo)(info);
 
+                var tempInfo = (PropertyInfo)(info);
                 var instance = new BuilderInfo
                 {
-                    DeclaringType = tempInfo.DeclaringType,
-                    DeclaringTypeName = tempInfo.DeclaringType.GetDevelopName(),
-                    DeclaringAvailableName = tempInfo.DeclaringType.GetAvailableName(),
-
 
                     MemberName = tempInfo.Name,
                     MemberType = tempInfo.PropertyType,
                     MemberTypeName = tempInfo.PropertyType.GetDevelopName(),
                     MemberTypeAvailableName = tempInfo.PropertyType.GetAvailableName(),
 
-
-                    ElementType = tempInfo.PropertyType.HasElementType ? tempInfo.PropertyType.GetElementType() : tempInfo.PropertyType
                 };
-                instance.ElementTypeName = instance.ElementType.GetDevelopName();
-                instance.ElementTypeAvailableName = instance.ElementType.GetAvailableName();
 
-                instance.IsStatic = tempInfo.GetGetMethod(true).IsStatic;
 
-                if (instance.IsStatic)
+                HandlerDeclaringType(instance, tempInfo.DeclaringType);
+                HandlerArrayType(instance, tempInfo.PropertyType);
+
+
+                if (tempInfo.GetGetMethod(true).IsStatic)
                 {
-                    instance.StaticName = $"{instance.DeclaringTypeName}.{tempInfo.Name}";
+
+                    instance.IsStatic = true;
+                    instance.StaticName = $"{instance.DeclaringTypeName}";
+
                 }
                 return instance;
+
             }
+
             return null;
         }
 
+
+
+
         public static implicit operator BuilderInfo(Type type)
         {
-            var instance = new BuilderInfo
-            {
-                DeclaringType = type,
-                DeclaringTypeName = type.GetDevelopName(),
-                DeclaringAvailableName = type.GetAvailableName(),
-                ElementType = type.HasElementType ? type.GetElementType() : type
-            };
-            instance.ElementTypeName = instance.ElementType.GetDevelopName();
-            instance.ElementTypeAvailableName = instance.ElementType.GetAvailableName();
+
+            var instance = new BuilderInfo();
+            HandlerDeclaringType(instance, type);
+            HandlerArrayType(instance, type);
             return instance;
+
         }
+
+
+
+
+        public static BuilderInfo HandlerArrayType(BuilderInfo instance, Type type)
+        {
+
+            if (type.IsArray)
+            {
+
+                Type temp = type;
+                instance.ElementType = type.GetElementType();
+                instance.ElementTypeName = instance.ElementType.GetDevelopName();
+                instance.ElementTypeAvailableName = instance.ElementType.GetAvailableName();
+
+
+                int count = 0;
+                while (temp.HasElementType)
+                {
+
+                    count++;
+                    temp = temp.GetElementType();
+
+                }
+                instance.ArrayLayer = count;
+                instance.ArrayBaseType = temp;
+                instance.ArrayBaseTypeName = instance.ArrayBaseType.GetDevelopName();
+                instance.ArrayBaseTypeAvaliableName = instance.ArrayBaseType.GetAvailableName();
+
+
+                var ctor = type.GetConstructors()[0];
+                instance.ArrayDimensions = ctor.GetParameters().Length;
+
+
+            }
+
+            return instance;
+
+        }
+
+
+
+
+        public static BuilderInfo HandlerDeclaringType(BuilderInfo instance, Type type)
+        {
+
+            instance.DeclaringType = type;
+            instance.DeclaringTypeName = type.GetDevelopName();
+            instance.DeclaringAvailableName = type.GetAvailableName();
+            return instance;
+
+        }
+
     }
 }

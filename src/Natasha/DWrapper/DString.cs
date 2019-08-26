@@ -10,7 +10,7 @@ namespace Natasha
     {
 
 
-#if NETCOREAPP3_0
+#if !NETSTANDARD2_0
         public static void Deconstruct(
             this string path,
             out Assembly Assembly,

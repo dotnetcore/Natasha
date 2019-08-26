@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Runtime.Loader;
 using static System.Runtime.Loader.AssemblyLoadContext;
 
 namespace Natasha
 {
 
-    public class AssemblyManagment
+    public class DomainManagment
     {
 
         public static ConcurrentDictionary<string, WeakReference> Cache;
-        static AssemblyManagment()
+        static DomainManagment()
         {
 
             Cache = new ConcurrentDictionary<string, WeakReference>();
@@ -29,7 +30,7 @@ namespace Natasha
 
 
 
-#if NETCOREAPP3_0
+#if  !NETSTANDARD2_0
         public static ContextualReflectionScope Lock(string key)
         {
 
@@ -52,6 +53,10 @@ namespace Natasha
             return Lock(Create(key));
 
         }
+        public static AssemblyDomain CurrentDomain
+        {
+            get { return (AssemblyDomain)CurrentContextualReflectionContext; }
+        }
 #endif
 
 
@@ -64,7 +69,6 @@ namespace Natasha
             if (Cache.ContainsKey(key))
             {
 
-                ((AssemblyDomain)(Cache[key].Target)).Dispose();
                 if (!Cache[key].IsAlive)
                 {
                     Cache[key] = new WeakReference(domain);
@@ -88,7 +92,12 @@ namespace Natasha
 
             if (Cache.ContainsKey(key))
             {
+
                 Cache.TryRemove(key, out var result);
+                if (result != default)
+                {
+                    ((AssemblyDomain)(result.Target)).Dispose();
+                }
                 return result;
 
             }
@@ -100,7 +109,7 @@ namespace Natasha
 
 
 
-        public static bool IsDelete(string key)
+        public static bool IsDeleted(string key)
         {
 
             if (Cache.ContainsKey(key))

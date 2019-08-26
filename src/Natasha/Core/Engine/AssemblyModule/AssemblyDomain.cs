@@ -1,7 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.DependencyModel;
 using Natasha.AssemblyModule.Model;
-using Natasha.Template;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -21,7 +20,9 @@ namespace Natasha
         public readonly HashSet<PortableExecutableReference> ReferencesCache;
         public readonly HashSet<Type> TypeCache;
         public bool CanCover;
-
+#if NETSTANDARD2_0
+        public string Name;
+#endif
 
 
 
@@ -34,15 +35,18 @@ namespace Natasha
 
 
         public AssemblyDomain(string key)
-#if NETCOREAPP3_0
+#if  !NETSTANDARD2_0
             : base(isCollectible: true, name: key)
 #endif
 
         {
-#if NETCOREAPP3_0
+#if !NETSTANDARD2_0
             _resolver = new AssemblyDependencyResolver(AppDomain.CurrentDomain.BaseDirectory);
+#else
+            Name = key;
 #endif
-            AssemblyManagment.Add(key, this);
+
+            DomainManagment.Add(key, this);
             TypeCache = new HashSet<Type>();
             OutfileMapping = new ConcurrentDictionary<string, Assembly>();
             AssemblyMappings = new ConcurrentDictionary<Assembly, AssemblyUnitInfo>();
@@ -166,7 +170,7 @@ namespace Natasha
         public void Dispose()
         {
 
-#if NETCOREAPP3_0
+#if  !NETSTANDARD2_0
             ReferencesCache.Clear();
 #endif
             TypeCache.Clear();
@@ -176,14 +180,15 @@ namespace Natasha
         }
 
 
-#if NETCOREAPP3_0
+#if  !NETSTANDARD2_0
         private AssemblyDependencyResolver _resolver;
 #endif
 
         protected override Assembly Load(AssemblyName assemblyName)
         {
 
-#if NETCOREAPP3_0
+#if  !NETSTANDARD2_0
+
             string assemblyPath = _resolver.ResolveAssemblyToPath(assemblyName);
             if (assemblyPath != null)
             {
@@ -201,7 +206,7 @@ namespace Natasha
 
         protected override IntPtr LoadUnmanagedDll(string unmanagedDllName)
         {
-#if NETCOREAPP3_0
+#if !NETSTANDARD2_0
             string libraryPath = _resolver.ResolveUnmanagedDllToPath(unmanagedDllName);
             if (libraryPath != null)
             {
@@ -254,7 +259,7 @@ namespace Natasha
         public Assembly LoadFile(string path, bool isCover = false)
         {
 
-#if NETCOREAPP3_0
+#if !NETSTANDARD2_0
             _resolver = new AssemblyDependencyResolver(path);
 #endif
             if (isCover)

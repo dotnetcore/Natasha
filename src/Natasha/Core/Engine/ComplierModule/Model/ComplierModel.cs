@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
+using Natasha.Log;
 using System.Collections.Generic;
 using System.Runtime.Loader;
 namespace Natasha.Complier.Model
@@ -40,7 +41,7 @@ namespace Natasha.Complier.Model
             {
                 References.Clear();
                 References.AddRange(_default.ReferencesCache);
-#if NETCOREAPP3_0
+#if  !NETSTANDARD2_0
                 bool isDefaultDomain = _domain == default && AssemblyLoadContext.CurrentContextualReflectionContext == default;
                 if (isDefaultDomain)
                 {
@@ -85,8 +86,10 @@ namespace Natasha.Complier.Model
 
         public CompilationException Add(string content)
         {
+
             CompilationException exception = new CompilationException();
             var (tree, formartter, errors) = content;
+
 
             exception.Formatter = formartter;
             exception.Diagnostics.AddRange(errors);
@@ -97,11 +100,17 @@ namespace Natasha.Complier.Model
 
                 exception.ErrorFlag = ComplieError.Syntax;
                 exception.Message = "语法错误,请仔细检查脚本代码！";
+                NError log = new NError();
+                log.Handler(exception.Diagnostics);
+                log.Write();
+                exception.Log = log.Buffer.ToString();
 
             }
             else
             {
+
                 Trees.Add(tree);
+
             }
             Exceptions.Add(exception);
             return exception;

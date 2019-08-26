@@ -43,6 +43,24 @@ namespace Natasha
 
 
 
+        /// <summary>
+        /// 直接添加一个合法的类/接口/结构体/枚举
+        /// </summary>
+        /// <param name="script">脚本代码</param>
+        /// <returns></returns>
+        public CompilationException AddScript(string script)
+        {
+            return Options.Add(script);
+        }
+
+
+
+
+        /// <summary>
+        /// 创建一个类Operator，命名空间默认是程序集命
+        /// </summary>
+        /// <param name="name">类名</param>
+        /// <returns></returns>
         public OopOperator CreateClass(string name = default)
         {
             var @operator = new OopOperator().OopName(name).Namespace(Options.Name).ChangeToClass();
@@ -54,6 +72,11 @@ namespace Natasha
 
 
 
+        /// <summary>
+        /// 创建一个枚举Operator，命名空间默认是程序集命
+        /// </summary>
+        /// <param name="name">枚举名</param>
+        /// <returns></returns>
         public OopOperator CreateEnum(string name = default)
         {
 
@@ -66,6 +89,11 @@ namespace Natasha
 
 
 
+        /// <summary>
+        /// 创建一个接口Operator，命名空间默认是程序集命
+        /// </summary>
+        /// <param name="name">接口名</param>
+        /// <returns></returns>
         public OopOperator CreateInterface(string name = default)
         {
 
@@ -78,6 +106,11 @@ namespace Natasha
 
 
 
+        /// <summary>
+        /// 创建一个结构体Operator，命名空间默认是程序集命
+        /// </summary>
+        /// <param name="name">结构体名</param>
+        /// <returns></returns>
         public OopOperator CreateStruct(string name = default)
         {
 
@@ -89,6 +122,11 @@ namespace Natasha
 
 
 
+        /// <summary>
+        /// 创建一个FastMethodOperator
+        /// </summary>
+        /// <param name="name">类名</param>
+        /// <returns></returns>
         public FastMethodOperator CreateFastMethod(string name = default)
         {
 
@@ -101,6 +139,11 @@ namespace Natasha
 
 
 
+        /// <summary>
+        /// 创建一个FakeMethodOperator
+        /// </summary>
+        /// <param name="name">类名</param>
+        /// <returns></returns>
         public FakeMethodOperator CreateFakeMethod(string name = default)
         {
 
@@ -113,6 +156,10 @@ namespace Natasha
 
 
 
+        /// <summary>
+        /// 进行语法检查
+        /// </summary>
+        /// <returns></returns>
         public List<CompilationException> Check()
         {
 
@@ -127,6 +174,10 @@ namespace Natasha
 
 
 
+        /// <summary>
+        /// 对整个程序集进行编译
+        /// </summary>
+        /// <returns></returns>
         public Assembly Complier()
         {
 
@@ -143,6 +194,12 @@ namespace Natasha
 
 
 
+
+        /// <summary>
+        /// 从编译后的缓存中获取类型
+        /// </summary>
+        /// <param name="name">类名</param>
+        /// <returns></returns>
         public Type GetType(string name)
         {
 
