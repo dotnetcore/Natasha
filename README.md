@@ -55,11 +55,6 @@ WeihanLi
 
 ### 发布日志  
 
- - 2019-08-01 ： 发布v1.0.0.0，发布稳如老狗版，抛弃Emit农耕铲，端起Roslyn金饭碗。  
- - 2019-08-02 ： 发布v1.0.4.0，支持异步方法还原与构造，增加注解构建。
- - 2019-08-04 ： 发布v1.1.0.0，优化编译引擎，区分OS字符，增加异常捕获。
- - 2019-08-05 ： 发布v1.2.0.0，支持类/结构体/接口的编译，支持字段模板，增加string扩展。
- - 2019-08-06 ： 发布v1.2.1.0，废弃RuntimeComplier,改用OopComplier，支持脚本和DLL文件混合编译。
  - 2019-08-07 ： 发布v1.3.0.0，增加NewClass\NewStruct\NewInterface静态操作类,增加NewMethod静态操作类。
  - 2019-08-09 ： 发布v1.3.2.0，支持非安全方法编译,函数支持Unsafe方法。
  - 2019-08-11 ： 发布v1.3.4.0，增加NFunc/NAction方法, 可快速动态构建方法。  
@@ -70,7 +65,7 @@ WeihanLi
  
  ### 升级日志
  
- - [[2019]](https://github.com/dotnetcore/Natasha/wiki/Update2019)
+ - [[2019]](https://github.com/dotnetcore/Natasha/blob/master/docs/zh/update/2019.md)
   
  <br/>  
  
@@ -89,7 +84,7 @@ WeihanLi
 
  <br/>  
  
- > 更多更新的参考文档：https://github.com/dotnetcore/Natasha/tree/master/article/ch
+ > 更多更新的参考文档：https://natasha.dotnetcore.xyz/
 
 
 <br/>    
@@ -111,99 +106,6 @@ WeihanLi
 <br/>
 <br/> 
 
-#### 异常捕获方法：
-
-```C#
-
-  var fastBuilder = FastMethodOperator.New;
-  fastBuilder.Complier.Exception;             //编译后异常会进入这里
-
-  
-  var fakeBuilder = FakeMethodOpeartor.New;
-  fakeBuilder.Complier.Exception;
-  
-  
-  var oopBuilder = new OopBuilder();
-  oopBuilder.Complier.Exception;
-  
-  
-  if(builder.Complier.Exception.ErrorFlag == ComplieError.None) 
-  {
-        //编译成功！
-  }
-  
-```  
-
-<br/>
-<br/> 
-
-#### 脚本与DLL混合编译
-
-```C#
-
-//dll 中的内容：
-using System;
-
-namespace ClassLibrary1
-{
-    public class Class1
-    {
-        public void Show1()
-        {
-            Console.WriteLine("RunShow1");
-        }
-
-        public static void Show2()
-        {
-            Console.WriteLine("RunShow2");
-        }
-    }
-}
-
-```
-
-```C#
-
-string text = @"
-    using System;
-    using System.Collections;
-    using System.Linq;
-    using System.Text;
-    using ClassLibrary1;
- 
-    namespace HelloWorld
-    {
-       public class Test
-       {
-            public override string ToString()
-            {
-
-                Class1 a = new Class1();
-                a.Show1();
-                Class1.Show2();
-                return ""11"";
-
-            }
-       }
-    }";
-    
-//Class1 来自于 ClassLibrary1.dll
-
-
-//添加/编译
-OopComplier oop = new OopComplier();
-oop.LoadFile(@"D:\Project\IlTest\ClassLibrary1\bin\Debug\netstandard2.0\ClassLibrary1.dll");
-Type type = oop.GetClassType(text);
-
-
-//调用
-var a = Activator.CreateInstance(type);
-Console.WriteLine(a.ToString());
-
-```
-
-<br/>
-<br/> 
 
   #### Natasha的动态调用模块:  已移至[【NCaller】](https://github.com/night-moon-studio/NCaller)
 
