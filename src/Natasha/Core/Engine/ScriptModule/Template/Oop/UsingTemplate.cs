@@ -47,6 +47,25 @@ namespace Natasha.Template
 
 
         /// <summary>
+        /// 从程序集里获取引用
+        /// </summary>
+        /// <param name="assembly">程序集</param>
+        /// <returns></returns>
+        public T Using(Assembly assembly)
+        {
+
+            if (assembly != default)
+            {
+                Using(assembly.GetTypes());
+            }
+            return Link;
+
+        }
+
+
+
+
+        /// <summary>
         /// 设置命名空间
         /// </summary>
         /// <param name="namespaces">命名空间</param>

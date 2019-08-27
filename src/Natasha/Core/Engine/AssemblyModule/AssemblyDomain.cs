@@ -172,10 +172,12 @@ namespace Natasha
 
 #if  !NETSTANDARD2_0
             ReferencesCache.Clear();
+            _resolver = null;
 #endif
             TypeCache.Clear();
             OutfileMapping.Clear();
             AssemblyMappings.Clear();
+            
 
         }
 

@@ -6,6 +6,24 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Lib\ClassLibrary1.deps.json" />
+    <None Remove="Lib\ClassLibrary1.dll" />
+    <None Remove="Lib\ClassLibrary2.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Lib\ClassLibrary1.deps.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\ClassLibrary1.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\ClassLibrary2.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
   
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />

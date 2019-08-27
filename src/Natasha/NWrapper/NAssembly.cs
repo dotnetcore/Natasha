@@ -57,6 +57,19 @@ namespace Natasha
 
 
         /// <summary>
+        /// 添加一个带有代码的文件
+        /// </summary>
+        /// <param name="path">代码文件路径</param>
+        /// <returns></returns>
+        public CompilationException AddFile(string path)
+        {
+            return Options.AddFile(path);
+        }
+
+
+
+
+        /// <summary>
         /// 创建一个类Operator，命名空间默认是程序集命
         /// </summary>
         /// <param name="name">类名</param>
