@@ -10,16 +10,40 @@
     <None Remove="Lib\ClassLibrary1.deps.json" />
     <None Remove="Lib\ClassLibrary1.dll" />
     <None Remove="Lib\ClassLibrary2.dll" />
+    <None Remove="Lib\Json\ClassLibrary6.deps.json" />
+    <None Remove="Lib\Json\ClassLibrary6.dll" />
+    <None Remove="Lib\Json\ClassLibrary6.pdb" />
+    <None Remove="Lib\Static\ClassLibrary5.deps.json" />
+    <None Remove="Lib\Static\ClassLibrary5.dll" />
+    <None Remove="Lib\Static\ClassLibrary5.pdb" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Lib\ClassLibrary1.deps.json">
+    <Content Include="Lib\Json\ClassLibrary6.deps.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Lib\ClassLibrary1.dll">
+    <Content Include="Lib\Json\ClassLibrary6.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Lib\ClassLibrary2.dll">
+    <Content Include="Lib\Json\ClassLibrary6.pdb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\Sql\ClassLibrary1.deps.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\Sql\ClassLibrary1.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\Sql\ClassLibrary2.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\Static\ClassLibrary5.deps.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\Static\ClassLibrary5.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\Static\ClassLibrary5.pdb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
