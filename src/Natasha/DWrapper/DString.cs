@@ -39,13 +39,15 @@ namespace Natasha
 
         public static void Deconstruct(
            this string script,
-           out Type[] Type,
+           out Assembly Assembly,
+           out Type[] Types,
            out CompilationException Error)
         {
 
             AssemblyComplier assembly = new AssemblyComplier();
             assembly.Add(script);
-            Type = assembly.GetAssembly().GetTypes();
+            Assembly = assembly.GetAssembly();
+            Types = Assembly.GetTypes();
             Error = assembly.Exception;
 
         }
