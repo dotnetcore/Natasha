@@ -1,0 +1,36 @@
+language: csharp
+solution: Natasha.sln
+dist: xenial
+dotnet: 2.2.300
+mono: none
+
+branches:
+  only:
+  - master
+
+os:
+  - linux
+  - osx
+
+osx_image: xcode9.1
+
+before_install:
+
+#env:
+  #global:
+    #- DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+    #- DOTNET_CLI_TELEMETRY_OPTOUT: 1
+
+
+install:
+
+#- nuget install xunit.runner.console -Version 2.4.1 -OutputDirectory testrunner
+# - sudo nuget install xunit.runner.console -OutputDirectory testrunner -Source https://api.nuget.org/v3/index.json
+
+script:
+ - dotnet restore
+ - dotnet build -c Release
+ - dotnet test
+#- xbuild /p:Configuration=Release Natasha.sln
+# - dotnet ./testrunner/xunit.runner.console.2.4.1/tools/xunit.console.exe ./NatashaUT/bin/Release/netcoreapp2.2/NatashaUT.dll
+# - dotnet ./testrunner/xunit.runner.console*/tools/xunit.console.dll ./NatashaUT/bin/Release/netcoreapp2.2/NatashaUT.dll

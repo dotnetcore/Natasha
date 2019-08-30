@@ -15,8 +15,7 @@
    - [API扩展案例](./zh/api/extensions-samples.md)  
    
  - [程序域操作](./zh/domain/index.md)  
- - [程序域插件](./zh/domain/plugin.md)  
- - [程序域程序集操作](./zh/domain/assembly.md)  
+ - [程序集操作](./zh/assembly/index.md)  
    
  - [面向对象的构建](./zh/oop/index.md)  
  
