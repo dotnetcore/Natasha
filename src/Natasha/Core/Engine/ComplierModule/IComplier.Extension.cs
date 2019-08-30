@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Formatting;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Natasha.Complier
@@ -12,11 +13,13 @@ namespace Natasha.Complier
     {
 
         private readonly static AdhocWorkspace _workSpace;
+        private readonly static CSharpParseOptions _options;
         static IComplierExtension()
         {
 
             _workSpace = new AdhocWorkspace();
             _workSpace.AddSolution(SolutionInfo.Create(SolutionId.CreateNewId("formatter"), VersionStamp.Default));
+            _options = new CSharpParseOptions(LanguageVersion.Latest);
 
         }
 
@@ -28,12 +31,8 @@ namespace Natasha.Complier
             out IEnumerable<Diagnostic> errors)
         {
 
-            text = text.Trim();
-            tree = CSharpSyntaxTree.ParseText(text, new CSharpParseOptions(LanguageVersion.Latest));
-            CompilationUnitSyntax root = tree.GetCompilationUnitRoot();
-
-
-            root = (CompilationUnitSyntax)Formatter.Format(root, _workSpace);
+            tree = CSharpSyntaxTree.ParseText(text.Trim(), _options);
+            SyntaxNode root = Formatter.Format(tree.GetCompilationUnitRoot(), _workSpace);
             tree = root.SyntaxTree;
             formatter = root.ToString();
             errors = root.GetDiagnostics();
