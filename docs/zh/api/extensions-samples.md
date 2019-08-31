@@ -25,7 +25,7 @@ Example:
         //result: true
         
         
-        typeof(Dictionary<string,List<int>>).IsOnceType();         
+        typeof(Dictionary<string,List<int>>).IsSimpleType();         
         //result: false
         
         
@@ -67,36 +67,3 @@ Example:
 ```
 <br/>
 <br/>    
- 
- #### 使用Natasha的克隆扩展:  
-
-```C#
-
-Example:  
-
-        Using : Natasha.CloneExtension; 
-        var instance = new ClassA();
-        var result = instance.Clone();
-```
-<br/>
-<br/>    
- 
-  #### 使用Natasha的快照扩展:  
-
-```C#
-
-Example:  
-
-        Using : Natasha.SnapshotExtension; 
-        var instance = new ClassA();
-        
-        instance.MakeSnapshot();
-        
-        // ********
-        //  do sth
-        // ********
-        
-        var result = instance.Compare();
-```
-
-<br/>

@@ -82,8 +82,7 @@ WeihanLi
 
  <br/>  
  
- > 更多更新的参考文档：https://github.com/dotnetcore/Natasha/tree/master/article/ch
-
+ > 更多更新的参考文档：https://natasha.dotnetcore.xyz/  
 
 <br/>    
 
