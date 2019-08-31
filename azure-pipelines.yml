@@ -28,8 +28,7 @@ jobs:
   - task: DotNetCoreInstaller@0
     displayName: install
     inputs:
-      version: '2.2.401'
-      version: '3.0.100 - preview8'
+      versions: '2.2.401', '3.0.100-preview8'
 
 
   - task: DotNetCoreCLI@1
@@ -64,8 +63,7 @@ jobs:
   - task: DotNetCoreInstaller@0
     displayName: install
     inputs:
-      version: '2.2.401'
-      version: '3.0.100 - preview8'
+      versions: '2.2.401', '3.0.100-preview8'
 
 
   - task: DotNetCoreCLI@1
@@ -100,8 +98,7 @@ jobs:
   - task: DotNetCoreInstaller@0
     displayName: install
     inputs:
-      version: '2.2.401'
-      version: '3.0.100 - preview8'
+      versions: '2.2.401', '3.0.100-preview8'
 
 
   - task: DotNetCoreCLI@1
