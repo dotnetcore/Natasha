@@ -19,7 +19,7 @@ trigger:
 jobs:
     
 
-- job: Linux
+- job: Linux_Core2
   pool:
     vmImage: 'ubuntu-16.04'
 
@@ -28,7 +28,7 @@ jobs:
   - task: DotNetCoreInstaller@0
     displayName: install
     inputs:
-      versions: '2.2.401', '3.0.100-preview8'
+      version: '2.2.401'
 
 
   - task: DotNetCoreCLI@1
@@ -54,7 +54,7 @@ jobs:
 
 
 
-- job: macOS
+- job: macOS_Core2
   pool:
     vmImage: 'macOS-10.14'
 
@@ -63,7 +63,7 @@ jobs:
   - task: DotNetCoreInstaller@0
     displayName: install
     inputs:
-      versions: '2.2.401', '3.0.100-preview8'
+      version: '2.2.401'
 
 
   - task: DotNetCoreCLI@1
@@ -89,7 +89,7 @@ jobs:
 
 
 
-- job: Windows
+- job: Windows_Core2
   pool:
     vmImage: 'windows-2019'
 
@@ -98,7 +98,110 @@ jobs:
   - task: DotNetCoreInstaller@0
     displayName: install
     inputs:
-      versions: '2.2.401', '3.0.100-preview8'
+      version: '2.2.401'
+
+
+  - task: DotNetCoreCLI@1
+    displayName: restore
+    inputs:
+      command: restore
+      projects: './src/Natasha/Natasha.csproj'
+
+
+  - task: DotNetCoreCLI@1
+    displayName: build
+    inputs:
+      command: build
+      projects: './src/Natasha/Natasha.csproj'
+      arguments: '-c Release'
+
+
+  - task: DotNetCoreCLI@2
+    displayName: test
+    inputs:
+      command: test
+
+
+- job: Linux_Core3
+  pool:
+    vmImage: 'ubuntu-16.04'
+
+  
+  steps:
+  - task: DotNetCoreInstaller@0
+    displayName: install
+    inputs:
+      version: '3.0.100-preview8'
+
+
+  - task: DotNetCoreCLI@1
+    displayName: restore
+    inputs:
+      command: restore
+      projects: './src/Natasha/Natasha.csproj'
+
+
+  - task: DotNetCoreCLI@1
+    displayName: build
+    inputs:
+      command: build
+      projects: './src/Natasha/Natasha.csproj'
+      arguments: '-c Release'
+
+
+  - task: DotNetCoreCLI@2
+    displayName: test
+    inputs:
+      command: test
+
+
+
+
+- job: macOS_Core3
+  pool:
+    vmImage: 'macOS-10.14'
+
+
+  steps:
+  - task: DotNetCoreInstaller@0
+    displayName: install
+    inputs:
+      version: '3.0.100-preview8'
+
+
+  - task: DotNetCoreCLI@1
+    displayName: restore
+    inputs:
+      command: restore
+      projects: './src/Natasha/Natasha.csproj'
+
+
+  - task: DotNetCoreCLI@1
+    displayName: build
+    inputs:
+      command: build
+      projects: './src/Natasha/Natasha.csproj'
+      arguments: '-c Release'
+
+
+  - task: DotNetCoreCLI@2
+    displayName: test
+    inputs:
+      command: test
+
+
+
+
+- job: Windows_Core3
+  pool:
+    vmImage: 'windows-2019'
+
+
+  steps:
+  - task: DotNetCoreInstaller@0
+    displayName: install
+    inputs:
+      version: '3.0.100-preview8'
 
 
   - task: DotNetCoreCLI@1
