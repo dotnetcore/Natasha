@@ -35,20 +35,20 @@ var script = NEnum
     .EnumField("Apple")
     .EnumField("Orange",2)
     .EnumField("Banana")
-    .Builder().Script;
+    .GetType();
 
+```
 
+或  
 
-/* result: 
-namespace aaa
-{
-    public enum EnumUT1
-    {
-        Apple,
-        Orange=2,
-        Banana
-    }
-}  
-*/
+```C#
+
+var script = NewEnum(builder=>builder
+    .Namespace("aaa")
+    .OopAccess(AccessTypes.Public).OopName("EnumUT1")
+    .EnumField("Apple")
+    .EnumField("Orange",2)
+    .EnumField("Banana")
+    );
    
 ```
