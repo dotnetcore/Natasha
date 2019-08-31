@@ -30,7 +30,7 @@ namespace Natasha.Template
 
 
 
-        public T ClassModifier(string modifier)
+        public T OopModifier(string modifier)
         {
 
             OopModifierScript = modifier + " ";
