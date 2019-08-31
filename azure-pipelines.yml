@@ -32,7 +32,7 @@ jobs:
   - task: DotNetCoreInstaller@1
     displayName: 'install core3'
     inputs:
-      version: '3.0.100-preview8'
+      version: '3.0.0-preview8'
 
 
   - task: DotNetCoreCLI@1
@@ -71,7 +71,7 @@ jobs:
   - task: DotNetCoreInstaller@1
     displayName: 'install core3'
     inputs:
-      version: '3.0.100-preview8'
+      version: '3.0.0-preview8'
 
 
   - task: DotNetCoreCLI@1
@@ -110,7 +110,7 @@ jobs:
   - task: DotNetCoreInstaller@1
     displayName: 'install core3'
     inputs:
-      version: '3.0.100-preview8'
+      version: '3.0.0-preview8'
 
 
   - task: DotNetCoreCLI@1
@@ -132,37 +132,3 @@ jobs:
     displayName: test
     inputs:
       command: test
-
-
-- job: Linux_Core3
-  pool:
-    vmImage: 'ubuntu-16.04'
-
-  
-  steps:
-  - task: DotNetCoreInstaller@0
-    displayName: install
-    inputs:
-      version: '3.0.100-preview8'
-
-
-  - task: DotNetCoreCLI@1
-    displayName: restore
-    inputs:
-      command: restore
-      projects: './src/Natasha/Natasha.csproj'
-
-
-  - task: DotNetCoreCLI@1
-    displayName: build
-    inputs:
-      command: build
-      projects: './src/Natasha/Natasha.csproj'
-      arguments: '-c Release'
-
-
-  - task: DotNetCoreCLI@2
-    displayName: test
-    inputs:
-      command: test
-
