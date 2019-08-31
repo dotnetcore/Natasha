@@ -7,7 +7,7 @@ NAction静态方法，可以动态构建出Action系列的委托。
 
 ```C#
 var action = NAction.Delegate("Console.WriteLine(11);");
-var action1 = NAction<T>.Delegate("Console.WriteLine(arg);");
-var action2 = NAction<T,S>.Delegate("Console.WriteLine(arg1);Console.WriteLine(arg2);");
+var action1 = NAction<int>.Delegate("Console.WriteLine(arg);");
+var action2 = NAction<int,string>.Delegate("Console.WriteLine(arg1);Console.WriteLine(arg2);");
 .....
 ```
