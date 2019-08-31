@@ -55,6 +55,8 @@ WeihanLi
 
 ### 发布日志  
 
+ - 2019-08-07 ： 发布v1.3.0.0，增加NewClass\NewStruct\NewInterface静态操作类,增加NewMethod静态操作类。
+ - 2019-08-09 ： 发布v1.3.2.0，支持非安全方法编译,函数支持Unsafe方法。
  - 2019-08-11 ： 发布v1.3.4.0，增加NFunc/NAction方法, 可快速动态构建方法。  
  - 2019-08-16 ： 发布v1.3.6.0，添加枚举构建及编译方法, 日志添加一级 “时分” 目录。 
  - 2019-09-01 ： 发布v2.0.0.0，支持共享域协作，支持创建、卸载、锁域操作，支持多程序集合并编译、覆盖编译，支持外部文件热加载，封装字符串解构操作。  
@@ -101,104 +103,11 @@ WeihanLi
 ```  
 
 <br/>
-<br/> 
-
-#### 异常捕获方法：
-
-```C#
-
-  var fastBuilder = FastMethodOperator.New;
-  fastBuilder.Complier.Exception;             //编译后异常会进入这里
-
-  
-  var fakeBuilder = FakeMethodOpeartor.New;
-  fakeBuilder.Complier.Exception;
-  
-  
-  var oopBuilder = new OopBuilder();
-  oopBuilder.Complier.Exception;
-  
-  
-  if(builder.Complier.Exception.ErrorFlag == ComplieError.None) 
-  {
-        //编译成功！
-  }
-  
-```  
-
-<br/>
-<br/> 
-
-#### 脚本与DLL混合编译
-
-```C#
-
-//dll 中的内容：
-using System;
-
-namespace ClassLibrary1
-{
-    public class Class1
-    {
-        public void Show1()
-        {
-            Console.WriteLine("RunShow1");
-        }
-
-        public static void Show2()
-        {
-            Console.WriteLine("RunShow2");
-        }
-    }
-}
-
-```
-
-```C#
-
-string text = @"
-    using System;
-    using System.Collections;
-    using System.Linq;
-    using System.Text;
-    using ClassLibrary1;
- 
-    namespace HelloWorld
-    {
-       public class Test
-       {
-            public override string ToString()
-            {
-
-                Class1 a = new Class1();
-                a.Show1();
-                Class1.Show2();
-                return ""11"";
-
-            }
-       }
-    }";
-    
-//Class1 来自于 ClassLibrary1.dll
-
-
-//添加/编译
-OopComplier oop = new OopComplier();
-oop.LoadFile(@"D:\Project\IlTest\ClassLibrary1\bin\Debug\netstandard2.0\ClassLibrary1.dll");
-Type type = oop.GetClassType(text);
-
-
-//调用
-var a = Activator.CreateInstance(type);
-Console.WriteLine(a.ToString());
-
-```
-
-<br/>
-<br/> 
+<br/>  
 
   #### Natasha的动态调用模块:  已移至[【NCaller】](https://github.com/night-moon-studio/NCaller)
-
+  #### Natasha的动态调用模块:  已移至[【DeepClone】](https://github.com/night-moon-studio/DeepClone)  
+  
 <br/>
 <br/>    
 
