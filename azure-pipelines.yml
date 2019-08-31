@@ -32,7 +32,7 @@ jobs:
   - task: DotNetCoreInstaller@1
     displayName: 'install core3'
     inputs:
-      version: '3.0.0-preview8'
+      version: '3.0.0'
 
 
   - task: DotNetCoreCLI@1
@@ -71,7 +71,7 @@ jobs:
   - task: DotNetCoreInstaller@1
     displayName: 'install core3'
     inputs:
-      version: '3.0.0-preview8'
+      version: '3.0.0'
 
 
   - task: DotNetCoreCLI@1
@@ -110,7 +110,7 @@ jobs:
   - task: DotNetCoreInstaller@1
     displayName: 'install core3'
     inputs:
-      version: '3.0.0-preview8'
+      version: '3.0.0'
 
 
   - task: DotNetCoreCLI@1
