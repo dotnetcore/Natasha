@@ -26,9 +26,13 @@ jobs:
   
   steps:
   - task: DotNetCoreInstaller@0
-    displayName: install
+    displayName: 'install core2'
     inputs:
       version: '2.2.401'
+  - task: DotNetCoreInstaller@1
+    displayName: 'install core3'
+    inputs:
+      version: '3.0.100-preview8'
 
 
   - task: DotNetCoreCLI@1
@@ -61,9 +65,13 @@ jobs:
 
   steps:
   - task: DotNetCoreInstaller@0
-    displayName: install
+    displayName: 'install core2'
     inputs:
       version: '2.2.401'
+  - task: DotNetCoreInstaller@1
+    displayName: 'install core3'
+    inputs:
+      version: '3.0.100-preview8'
 
 
   - task: DotNetCoreCLI@1
@@ -96,9 +104,13 @@ jobs:
 
   steps:
   - task: DotNetCoreInstaller@0
-    displayName: install
+    displayName: 'install core2'
     inputs:
       version: '2.2.401'
+  - task: DotNetCoreInstaller@1
+    displayName: 'install core3'
+    inputs:
+      version: '3.0.100-preview8'
 
 
   - task: DotNetCoreCLI@1
