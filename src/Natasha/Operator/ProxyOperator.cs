@@ -48,8 +48,6 @@ namespace Natasha.Operator
         {
 
             if (!_ctor_mapping.ContainsKey(@class)) { Compile(); }
-
-
             return _ctor_mapping[@class]();
 
         }
