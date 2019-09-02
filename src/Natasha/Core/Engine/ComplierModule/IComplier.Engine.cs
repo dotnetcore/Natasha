@@ -37,8 +37,8 @@ namespace Natasha.Complier
 
                 //编译并生成程序集
                 MemoryStream stream = new MemoryStream();
-                var fileResult = compilation.Emit(stream);
-                if (fileResult.Success)
+                var complieResult = compilation.Emit(stream);
+                if (complieResult.Success)
                 {
 
                     return (domain.Handler(stream), default, compilation);
@@ -48,7 +48,7 @@ namespace Natasha.Complier
                 {
 
                     stream.Dispose();
-                    return (null, fileResult.Diagnostics, compilation);
+                    return (null, complieResult.Diagnostics, compilation);
 
                 }
 
