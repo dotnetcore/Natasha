@@ -64,14 +64,12 @@ namespace Natasha.Complier
                 {
 
                     Exception.Diagnostics.AddRange(result.Errors);
-                    Exception.ErrorFlag = ComplieError.Assembly;
+                    Exception.ErrorFlag = ComplieError.Complie;
                     Exception.Message = "发生错误,无法生成程序集！";
 
 
                     NError logError = new NError();
                     logError.Handler(result.Compilation, Exception.Diagnostics);
-
-
                     Exception.Log = logError.Buffer.ToString();
                     if (NError.Enabled) { logError.Write(); }
 
@@ -82,7 +80,6 @@ namespace Natasha.Complier
                     NSucceed logSucceed = new NSucceed();
                     logSucceed.Handler(result.Compilation);
                     Exception.ErrorFlag = ComplieError.None;
-
                     Exception.Log = logSucceed.Buffer.ToString();
                     if (NSucceed.Enabled) { logSucceed.Write(); }
 

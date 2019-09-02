@@ -5,6 +5,7 @@
     /// </summary>
     public enum Modifiers
     {
+        None,
         Static,
         Virtual,
         New,
