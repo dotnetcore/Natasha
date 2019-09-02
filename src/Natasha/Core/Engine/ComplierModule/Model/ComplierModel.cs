@@ -66,6 +66,7 @@ namespace Natasha.Complier.Model
             {
 
                 _domain = value;
+
             }
 
         }
