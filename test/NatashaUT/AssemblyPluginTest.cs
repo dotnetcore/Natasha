@@ -29,7 +29,7 @@ namespace NatashaUT
         }
 
 
-        [Fact(DisplayName = "不可回收：MySql插件")]
+        [Fact(DisplayName = "可回收：MySql插件")]
         public void Test1()
         {
 
@@ -39,7 +39,7 @@ namespace NatashaUT
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
             }
-            Assert.False(DomainManagment.IsDeleted("TempDomain11"));
+            Assert.True(DomainManagment.IsDeleted("TempDomain11"));
 
         }
 
@@ -55,7 +55,18 @@ namespace NatashaUT
                 var assemebly = domain.LoadFile(path);
                 var action = FastMethodOperator.New
                    .Using(assemebly)
-                   .MethodBody(@"Class1 a = new Class1();return  a.Show();")
+                   //.Using("MySql.Data.MySqlClient")
+                   .MethodBody(@"
+try{
+//MySqlConnection conn = new MySqlConnection("""");
+//conn.Open();
+}
+catch{
+Class1 a = new Class1();
+return  a.Show();
+}
+return false;")
+
                    .Complie<Func<bool>>();
                 result = action();
                 domain.Dispose();

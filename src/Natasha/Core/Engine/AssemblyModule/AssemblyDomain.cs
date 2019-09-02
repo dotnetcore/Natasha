@@ -190,13 +190,11 @@ namespace Natasha
         {
 
 #if  !NETSTANDARD2_0
-
             string assemblyPath = _resolver.ResolveAssemblyToPath(assemblyName);
             if (assemblyPath != null)
             {
-                return LoadFromAssemblyPath(assemblyPath);
+                return Handler(assemblyPath);
             }
-
 #endif
             return null;
 
@@ -221,10 +219,12 @@ namespace Natasha
 
 
 
+
         /// <summary>
         /// 缓存表的原子操作，缓存程序集，并写入引用表
         /// </summary>
         /// <param name="stream">程序集流</param>
+        /// <returns></returns>
         public Assembly Handler(Stream stream = null)
         {
 
@@ -238,12 +238,28 @@ namespace Natasha
 
         }
 
+        public Assembly Handler(string path)
+        {
+
+            if (path != default)
+            {
+
+                return Handler(new AssemblyUnitInfo(this, path));
+
+            }
+            return default;
+
+        }
+
         public Assembly Handler(AssemblyUnitInfo info)
         {
 
             Assembly result = info.Assembly;
-            AssemblyMappings[result] = info;
-            TypeCache.UnionWith(result.GetTypes());
+            if (result!=default)
+            {
+                AssemblyMappings[result] = info;
+                TypeCache.UnionWith(result.GetTypes());
+            }
             ReferencesCache.Add(info.Reference);
             return result;
 
@@ -257,6 +273,7 @@ namespace Natasha
         /// </summary>
         /// <param name="path">dll文件路径</param>
         /// <param name="isCover">是否覆盖原有的同路径的dll</param>
+        /// <param name="isLoad">是否加载程序集</param>
         /// <returns></returns>
         public Assembly LoadFile(string path, bool isCover = false)
         {
@@ -268,6 +285,7 @@ namespace Natasha
             {
                 RemoveDll(path);
             }
+           
             return Handler(new AssemblyUnitInfo(this, path));
 
         }
