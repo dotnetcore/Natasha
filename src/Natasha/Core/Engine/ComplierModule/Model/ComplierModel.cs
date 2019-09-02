@@ -7,17 +7,6 @@ namespace Natasha.Complier.Model
     public class ComplierModel
     {
 
-        private readonly static AssemblyDomain _default;
-        static ComplierModel()
-        {
-
-            _default = new AssemblyDomain("Default");
-
-        }
-
-
-
-
         public string AssemblyName;
         public List<SyntaxTree> Trees;
         private AssemblyDomain _domain;
@@ -40,13 +29,13 @@ namespace Natasha.Complier.Model
             get
             {
                 References.Clear();
-                References.AddRange(_default.ReferencesCache);
+                References.AddRange(DomainManagment.Default.ReferencesCache);
 #if  !NETSTANDARD2_0
                 bool isDefaultDomain = _domain == default && AssemblyLoadContext.CurrentContextualReflectionContext == default;
                 if (isDefaultDomain)
                 {
 
-                    _domain = _default;
+                    _domain = DomainManagment.Default;
 
                 }
                 else if (_domain == default && AssemblyLoadContext.CurrentContextualReflectionContext != null)
@@ -70,7 +59,7 @@ namespace Natasha.Complier.Model
                     References.AddRange(_domain.ReferencesCache);
 
                 }
-                return isDefaultDomain ? _default : _domain;
+                return isDefaultDomain ? DomainManagment.Default : _domain;
 #endif
             }
             set

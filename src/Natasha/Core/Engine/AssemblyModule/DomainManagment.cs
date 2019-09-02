@@ -8,12 +8,13 @@ namespace Natasha
 
     public class DomainManagment
     {
-
+        public readonly static AssemblyDomain Default;
         public static ConcurrentDictionary<string, WeakReference> Cache;
         static DomainManagment()
         {
 
             Cache = new ConcurrentDictionary<string, WeakReference>();
+            Default = new AssemblyDomain("Default");
 
         }
 
@@ -55,7 +56,12 @@ namespace Natasha
         }
         public static AssemblyDomain CurrentDomain
         {
-            get { return (AssemblyDomain)CurrentContextualReflectionContext; }
+            get 
+            {
+                return CurrentContextualReflectionContext==default?
+                    Default:
+                    (AssemblyDomain)CurrentContextualReflectionContext; 
+            }
         }
 #endif
 
