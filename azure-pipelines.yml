@@ -19,7 +19,7 @@ trigger:
 jobs:
     
 
-- job: Linux_Core2
+- job: Linux
   pool:
     vmImage: 'ubuntu-16.04'
 
@@ -62,7 +62,7 @@ jobs:
 
 
 
-- job: macOS_Core2
+- job: macOS
   pool:
     vmImage: 'macOS-10.14'
 
@@ -103,7 +103,7 @@ jobs:
 
 
 
-- job: Windows_Core2
+- job: Windows
   pool:
     vmImage: 'windows-2019'
 
