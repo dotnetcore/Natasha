@@ -41,7 +41,8 @@ namespace Natasha
         Type,
         Method,
         Delegate,
-        Syntax
+        Syntax,
+        Complie
     }
 
 }
