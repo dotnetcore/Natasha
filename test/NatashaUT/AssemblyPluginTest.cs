@@ -15,7 +15,7 @@ namespace NatashaUT
     {
 #if !NETCOREAPP2_2
 
-        [Fact(DisplayName = "可回收：解构插件")]
+        [Fact(DisplayName = "解构插件")]
         public void Test4()
         {
             using (DomainManagment.CreateAndLock("TempDomain14"))
@@ -29,7 +29,7 @@ namespace NatashaUT
         }
 
 
-        [Fact(DisplayName = "可回收：MySql插件")]
+        [Fact(DisplayName = "不可回收：MySql插件")]
         public void Test1()
         {
 
@@ -39,7 +39,7 @@ namespace NatashaUT
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
             }
-            Assert.True(DomainManagment.IsDeleted("TempDomain11"));
+            Assert.False(DomainManagment.IsDeleted("TempDomain11"));
 
         }
 
@@ -60,17 +60,17 @@ namespace NatashaUT
 try{
 //MySqlConnection conn = new MySqlConnection("""");
 //conn.Open();
-}
-catch{
 Class1 a = new Class1();
 return  a.Show();
+}
+catch{
+
 }
 return false;")
 
                    .Complie<Func<bool>>();
                 result = action();
                 domain.Dispose();
-                domain.Unload();
             }
             return result;
         }
