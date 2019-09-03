@@ -19,6 +19,8 @@ namespace Natasha.Complier.Model
             Trees = new List<SyntaxTree>();
             References = new List<PortableExecutableReference>();
             Exceptions = new List<CompilationException>();
+            _domain = DomainManagment.Default;
+            References.AddRange(_domain.ReferencesCache);
         }
 
 
@@ -28,44 +30,37 @@ namespace Natasha.Complier.Model
         {
             get
             {
-                References.Clear();
-                References.AddRange(DomainManagment.Default.ReferencesCache);
-#if  !NETSTANDARD2_0
-                bool isDefaultDomain = _domain == default && AssemblyLoadContext.CurrentContextualReflectionContext == default;
-                if (isDefaultDomain)
+
+#if !NETSTANDARD2_0
+                if (AssemblyLoadContext.CurrentContextualReflectionContext != default) 
                 {
 
-                    _domain = DomainManagment.Default;
-
+                    _domain = (AssemblyDomain)AssemblyLoadContext.CurrentContextualReflectionContext;
+                
                 }
-                else if (_domain == default && AssemblyLoadContext.CurrentContextualReflectionContext != null)
-                {
 
-                    _domain = (AssemblyDomain)(AssemblyLoadContext.CurrentContextualReflectionContext);
 
-                }
-                if (!isDefaultDomain)
+                if( _domain != DomainManagment.Default)
                 {
 
                     References.AddRange(_domain.ReferencesCache);
 
                 }
-                return _domain;
 #else
-                bool isDefaultDomain = _domain == default;
-                if (!isDefaultDomain)
+                if ( _domain != DomainManagment.Default)
                 {
 
                     References.AddRange(_domain.ReferencesCache);
 
                 }
-                return isDefaultDomain ? DomainManagment.Default : _domain;
 #endif
+                return _domain;
             }
             set
             {
 
                 _domain = value;
+
             }
 
         }

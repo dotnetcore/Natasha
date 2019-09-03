@@ -15,7 +15,7 @@ namespace NatashaUT
     {
 #if !NETCOREAPP2_2
 
-        [Fact(DisplayName = "可回收：解构插件")]
+        [Fact(DisplayName = "解构插件")]
         public void Test4()
         {
             using (DomainManagment.CreateAndLock("TempDomain14"))
@@ -55,11 +55,22 @@ namespace NatashaUT
                 var assemebly = domain.LoadFile(path);
                 var action = FastMethodOperator.New
                    .Using(assemebly)
-                   .MethodBody(@"Class1 a = new Class1();return  a.Show();")
+                   //.Using("MySql.Data.MySqlClient")
+                   .MethodBody(@"
+try{
+//MySqlConnection conn = new MySqlConnection("""");
+//conn.Open();
+Class1 a = new Class1();
+return  a.Show();
+}
+catch{
+
+}
+return false;")
+
                    .Complie<Func<bool>>();
                 result = action();
                 domain.Dispose();
-                domain.Unload();
             }
             return result;
         }
