@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.Loader;
 namespace Natasha.Complier.Model
 {
-    public class ComplierModel
+    public class ComplierOption
     {
 
         public string AssemblyName;
@@ -14,7 +14,7 @@ namespace Natasha.Complier.Model
         public List<CompilationException> Exceptions;
 
 
-        public ComplierModel()
+        public ComplierOption()
         {
             Trees = new List<SyntaxTree>();
             References = new List<PortableExecutableReference>();

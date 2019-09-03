@@ -10,13 +10,13 @@ namespace Natasha.Complier
     {
 
         public readonly CompilationException Exception;
-        public readonly ComplierModel ComplierInfos;
+        public readonly ComplierOption ComplierInfos;
 
 
         public IComplier()
         {
             Exception = new CompilationException();
-            ComplierInfos = new ComplierModel();
+            ComplierInfos = new ComplierOption();
         }
 
 
