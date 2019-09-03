@@ -8,6 +8,7 @@ namespace Natasha
 
     public class DomainManagment
     {
+
         public readonly static AssemblyDomain Default;
         public static ConcurrentDictionary<string, WeakReference> Cache;
         static DomainManagment()
