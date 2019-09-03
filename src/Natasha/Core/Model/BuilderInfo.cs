@@ -6,7 +6,7 @@ namespace Natasha
     /// <summary>
     /// 构建信息
     /// </summary>
-    public class BuilderInfo
+    public class NBuildInfo
     {
 
         public Type DeclaringType;
@@ -39,13 +39,13 @@ namespace Natasha
 
         public string StaticName;
 
-        public static implicit operator BuilderInfo(MemberInfo info)
+        public static implicit operator NBuildInfo(MemberInfo info)
         {
             if (info.MemberType == MemberTypes.Field)
             {
 
                 var tempInfo = (FieldInfo)(info);
-                var instance = new BuilderInfo
+                var instance = new NBuildInfo
                 {
 
                     MemberName = tempInfo.Name,
@@ -74,7 +74,7 @@ namespace Natasha
             {
 
                 var tempInfo = (PropertyInfo)(info);
-                var instance = new BuilderInfo
+                var instance = new NBuildInfo
                 {
 
                     MemberName = tempInfo.Name,
@@ -106,10 +106,10 @@ namespace Natasha
 
 
 
-        public static implicit operator BuilderInfo(Type type)
+        public static implicit operator NBuildInfo(Type type)
         {
 
-            var instance = new BuilderInfo();
+            var instance = new NBuildInfo();
             HandlerDeclaringType(instance, type);
             HandlerArrayType(instance, type);
             return instance;
@@ -119,7 +119,7 @@ namespace Natasha
 
 
 
-        public static BuilderInfo HandlerArrayType(BuilderInfo instance, Type type)
+        public static NBuildInfo HandlerArrayType(NBuildInfo instance, Type type)
         {
 
             if (type.IsArray)
@@ -158,7 +158,7 @@ namespace Natasha
 
 
 
-        public static BuilderInfo HandlerDeclaringType(BuilderInfo instance, Type type)
+        public static NBuildInfo HandlerDeclaringType(NBuildInfo instance, Type type)
         {
 
             instance.DeclaringType = type;

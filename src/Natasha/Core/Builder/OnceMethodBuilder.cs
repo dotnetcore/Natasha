@@ -8,7 +8,7 @@ namespace Natasha.Builder
     /// 一次性方法构建器
     /// </summary>
     /// <typeparam name="TBuilder"></typeparam>
-    public class OnceMethodBuilder<TBuilder> : OnceMethodTemplate<TBuilder>
+    public class OnceMethodBuilder<TBuilder> : OnceMethodDelegateTemplate<TBuilder>
     {
 
 
