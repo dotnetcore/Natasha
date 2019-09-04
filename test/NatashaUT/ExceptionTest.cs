@@ -50,6 +50,7 @@ namespace NatashaUT
             Assert.Equal(OopType.Struct ,builder.OopTypeEnum);
             Assert.Null(type);
             Assert.Equal(ComplieError.Syntax, builder.Complier.ComplieException.ErrorFlag);
+            Assert.Equal(ComplieError.Syntax, builder.Complier.SyntaxExceptions[0].ErrorFlag);
         }
 
 
@@ -71,6 +72,7 @@ namespace NatashaUT
 
             Assert.Null(delegateAction);
             Assert.Equal(ComplieError.Syntax, builder.Complier.ComplieException.ErrorFlag);
+            Assert.Equal(ComplieError.Syntax, builder.Complier.SyntaxExceptions[0].ErrorFlag);
         }
 
     }
