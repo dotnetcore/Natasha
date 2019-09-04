@@ -13,6 +13,7 @@ namespace Natasha
         private readonly HashSet<IScript> _builderCache;
         public readonly AssemblyComplier Options;
         public ConcurrentDictionary<string, Type> TypeCache;
+        private bool HasChecked;
 
 
         public NAssembly(string name) : this()
@@ -29,6 +30,7 @@ namespace Natasha
             _builderCache = new HashSet<IScript>();
             TypeCache = new ConcurrentDictionary<string, Type>();
             Options = new AssemblyComplier();
+            HasChecked = false;
 
         }
 
@@ -130,6 +132,7 @@ namespace Natasha
             var @operator = new OopOperator().OopName(name).Namespace(Options.Name).ChangeToStruct();
             _builderCache.Add(@operator);
             return @operator;
+
         }
 
 
@@ -176,6 +179,7 @@ namespace Natasha
         public List<CompilationException> Check()
         {
 
+            HasChecked = true;
             foreach (var item in _builderCache)
             {
                 Options.Add(item);
@@ -194,14 +198,19 @@ namespace Natasha
         public Assembly Complier()
         {
 
-            Check();
+            if (!HasChecked)
+            {
+                Check();
+            }
+
+
             Assembly = Options.GetAssembly();
             var types = Assembly.GetTypes();
             foreach (var item in types)
             {
                 TypeCache[item.GetDevelopName()] = item;
             }
-            return Assembly;
+            return Assembly,;
 
         }
 
