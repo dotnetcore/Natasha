@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using System.Collections.Generic;
+using System.Runtime.Loader;
 
 namespace Natasha.Complier
 {
