@@ -13,7 +13,7 @@ namespace Natasha
             builder.OopAccess(AccessTypes.Public).ChangeToClass();
             action(builder);
             var result = builder.GetType(classIndex, namespaceIndex);
-            return (builder.Complier.Exception, result);
+            return (builder.Complier.ComplieException, result);
 
         }
 

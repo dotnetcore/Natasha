@@ -19,7 +19,7 @@ namespace Natasha
         public NAssembly(string name) : this()
         {
 
-            Options.Name = name;
+            Options .AssemblyName = name;
 
         }
 
@@ -78,7 +78,7 @@ namespace Natasha
         /// <returns></returns>
         public OopOperator CreateClass(string name = default)
         {
-            var @operator = new OopOperator().OopName(name).Namespace(Options.Name).ChangeToClass();
+            var @operator = new OopOperator().OopName(name).Namespace(Options.AssemblyName).ChangeToClass();
             _builderCache.Add(@operator);
             return @operator;
 
@@ -95,7 +95,7 @@ namespace Natasha
         public OopOperator CreateEnum(string name = default)
         {
 
-            var @operator = new OopOperator().OopName(name).Namespace(Options.Name).ChangeToEnum();
+            var @operator = new OopOperator().OopName(name).Namespace(Options.AssemblyName).ChangeToEnum();
             _builderCache.Add(@operator);
             return @operator;
 
@@ -112,7 +112,7 @@ namespace Natasha
         public OopOperator CreateInterface(string name = default)
         {
 
-            var @operator = new OopOperator().OopName(name).Namespace(Options.Name).ChangeToInterface();
+            var @operator = new OopOperator().OopName(name).Namespace(Options.AssemblyName).ChangeToInterface();
             _builderCache.Add(@operator);
             return @operator;
 
@@ -129,7 +129,7 @@ namespace Natasha
         public OopOperator CreateStruct(string name = default)
         {
 
-            var @operator = new OopOperator().OopName(name).Namespace(Options.Name).ChangeToStruct();
+            var @operator = new OopOperator().OopName(name).Namespace(Options.AssemblyName).ChangeToStruct();
             _builderCache.Add(@operator);
             return @operator;
 
@@ -184,7 +184,7 @@ namespace Natasha
             {
                 Options.Add(item);
             }
-            return Options.ComplierInfos.Exceptions;
+            return Options.SyntaxInfos.SyntaxExceptions;
 
         }
 
@@ -210,7 +210,7 @@ namespace Natasha
             {
                 TypeCache[item.GetDevelopName()] = item;
             }
-            return Assembly,;
+            return Assembly;
 
         }
 

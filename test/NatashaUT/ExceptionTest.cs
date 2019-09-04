@@ -25,7 +25,7 @@ namespace NatashaUT
                 .Builder();
             var type = builder.GetType();
             Assert.Null(type);
-            Assert.Equal(ComplieError.Syntax, builder.Complier.Exception.ErrorFlag);
+            Assert.Equal(ComplieError.Syntax, builder.Complier.ComplieException.ErrorFlag);
         }
 
 
@@ -49,7 +49,7 @@ namespace NatashaUT
             var type = builder.GetType();
             Assert.Equal(OopType.Struct ,builder.OopTypeEnum);
             Assert.Null(type);
-            Assert.Equal(ComplieError.Syntax, builder.Complier.Exception.ErrorFlag);
+            Assert.Equal(ComplieError.Syntax, builder.Complier.ComplieException.ErrorFlag);
         }
 
 
@@ -70,7 +70,7 @@ namespace NatashaUT
                .Complie();
 
             Assert.Null(delegateAction);
-            Assert.Equal(ComplieError.Syntax, builder.Complier.Exception.ErrorFlag);
+            Assert.Equal(ComplieError.Syntax, builder.Complier.ComplieException.ErrorFlag);
         }
 
     }
