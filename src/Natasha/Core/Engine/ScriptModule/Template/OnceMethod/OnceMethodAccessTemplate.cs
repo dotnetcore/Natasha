@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 
 namespace Natasha.Template
 {
@@ -17,13 +18,36 @@ namespace Natasha.Template
 
 
 
-
         public T MethodAccess(AccessTypes access)
         {
 
             OnceAccessScript = AccessReverser.GetAccess(access);
             return Link;
 
+        }
+
+
+
+
+        public T PublicMember
+        {
+            get { OnceAccessScript = "public "; return Link; }
+        }
+        public T PrivateMember
+        {
+            get { OnceAccessScript = "private "; return Link; }
+        }
+        public T ProtectedMember
+        {
+            get { OnceAccessScript = "protected "; return Link; }
+        }
+        public T InternalMember
+        {
+            get { OnceAccessScript = "internal "; return Link; }
+        }
+        public T ProtectedInternalMember
+        {
+            get { OnceAccessScript = "protected internal "; return Link; }
         }
 
 

@@ -5,21 +5,13 @@ namespace Natasha
 {
     public class AssemblyComplier : IComplier
     {
-        public AssemblyComplier() { }
-        public AssemblyComplier(string name) { Name = name; }
+
+        public AssemblyComplier() {}
+        public AssemblyComplier(string name) { AssemblyName = name; }
 
 
 
-
-        public AssemblyDomain Domain
-        {
-
-            get { return ComplierInfos.Domain; }
-            set { ComplierInfos.Domain = value; }
-
-        }
-
-
+        
 
         /// <summary>
         /// 添加一段代码
@@ -29,8 +21,8 @@ namespace Natasha
         public CompilationException Add(string text)
         {
 
-            var info = ComplierInfos.Add(text);
-            Exception.ErrorFlag = info.ErrorFlag;
+            var info = SyntaxInfos.Add(text);
+            ComplieException.ErrorFlag = info.ErrorFlag;
             return info;
 
         }
@@ -46,8 +38,8 @@ namespace Natasha
         public CompilationException Add(IScript template)
         {
 
-            var info = ComplierInfos.Add(template.Script);
-            Exception.ErrorFlag = info.ErrorFlag;
+            var info = SyntaxInfos.Add(template.Script);
+            ComplieException.ErrorFlag = info.ErrorFlag;
             return info;
 
         }

@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 
 namespace Natasha.Template
 {
@@ -23,6 +24,30 @@ namespace Natasha.Template
             OnceModifierScript = ModifierReverser.GetModifier(modifier);
             return Link;
 
+        }
+
+
+
+
+        public T StaticMember
+        {
+            get { OnceModifierScript = "static "; return Link; }
+        }
+        public T AbstractMember
+        {
+            get { OnceModifierScript = "abstract "; return Link; }
+        }
+        public T NewMember
+        {
+            get { OnceModifierScript = "new "; return Link; }
+        }
+        public T VirtualMember
+        {
+            get { OnceModifierScript = "virtual "; return Link; }
+        }
+        public T OverrideMember
+        {
+            get { OnceModifierScript = "override "; return Link; }
         }
 
 

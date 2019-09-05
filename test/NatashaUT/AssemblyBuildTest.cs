@@ -35,17 +35,17 @@ namespace NatashaUT
             var @interface = assembly
                 .CreateInterface("IAsmT1")
                 .Using("System")
-                .OopAccess(AccessTypes.Public)
+                .Public
                 .OopBody("string ShowMethod(string str);");
 
 
             var @class = assembly
                 .CreateClass("ClassAsm")
                 .Using("System")
-                .OopAccess(AccessTypes.Public)
+                .Public
                 .Inheritance("IAsmT1")
                 .Method(method => method
-                    .MemberAccess(AccessTypes.Public)
+                    .PublicMember
                     .Name("ShowMethod")
                     .Param<string>("str")
                     .Body("return str+AsmEnum.Test.ToString();")
@@ -54,7 +54,7 @@ namespace NatashaUT
 
             var @enum = assembly
                 .CreateEnum("AsmEnum")
-                .OopAccess(AccessTypes.Public)
+                .Public
                 .EnumField("Test")
                 .EnumField("Test1")
                 .EnumField("Test2", 1);
@@ -86,17 +86,17 @@ namespace NatashaUT
             var @interface = assembly
                 .CreateInterface("IAsmT1")
                 .Using("System")
-                .OopAccess(AccessTypes.Public)
+                .Public
                 .OopBody("string ShowMethod(string str);");
 
 
             var @class = assembly
                 .CreateClass("ClassAsm")
                 .Using("System")
-                .OopAccess(AccessTypes.Public)
+                .Public
                 .Inheritance("IAsmT1")
                 .Method(method => method
-                    .MemberAccess(AccessTypes.Public)
+                    .PublicMember
                     .Name("ShowMethod")
                     .Param<string>("str")
                     .Body("return str+AsmEnum.Test.ToString();")
@@ -106,7 +106,7 @@ namespace NatashaUT
 
             var @enum = assembly
                .CreateEnum("AsmEnum")
-               .OopAccess(AccessTypes.Public)
+               .Public
                .EnumField("Test")
                .EnumField("Test1")
                .EnumField("Test2", 1);
@@ -121,17 +121,17 @@ namespace NatashaUT
             @interface = assembly
                 .CreateInterface("IAsmT1")
                 .Using("System")
-                .OopAccess(AccessTypes.Public)
+                .Public
                 .OopBody("string ShowMethod(string str);");
 
 
             @class = assembly
                 .CreateClass("ClassAsm")
                 .Using("System")
-                .OopAccess(AccessTypes.Public)
+                .Public
                 .Inheritance("IAsmT1")
                 .Method(method => method
-                    .MemberAccess(AccessTypes.Public)
+                    .PublicMember
                     .Name("ShowMethod")
                     .Param<string>("str")
                     .Body("return str+AsmEnum.Test.ToString()+\"1\";")
@@ -141,7 +141,7 @@ namespace NatashaUT
 
             @enum = assembly
                .CreateEnum("AsmEnum")
-               .OopAccess(AccessTypes.Public)
+               .Public
                .EnumField("Test")
                .EnumField("Test1")
                .EnumField("Test2", 1);
@@ -238,7 +238,7 @@ public class Test{}
                 assembly
                     .CreateInterface("InterfaceTest")
                     .Using("System")
-                    .OopAccess(AccessTypes.Public)
+                    .Public
                     .OopBody("string ShowMethod(string str);");
 
 
@@ -246,10 +246,10 @@ public class Test{}
                 assembly
                    .CreateClass("TestClass​")
                    .Using("System")
-                   .OopAccess(AccessTypes.Public)
+                   .Public
                    .Inheritance("InterfaceTest")
                    .Method(method => method
-                     .MemberAccess(AccessTypes.Public)
+                     .PublicMember
                      .Name("ShowMethod")
                      .Param<string>("str")
                      .Body("return str+\" World!\";")

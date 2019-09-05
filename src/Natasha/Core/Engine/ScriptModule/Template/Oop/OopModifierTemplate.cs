@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 
 namespace Natasha.Template
 {
@@ -18,13 +19,35 @@ namespace Natasha.Template
 
 
 
-
         public T OopModifier(Modifiers enumModifier)
         {
 
             OopModifierScript = ModifierReverser.GetModifier(enumModifier);
             return Link;
 
+        }
+
+
+
+        public T Sealed
+        {
+            get { OopModifierScript = "sealed ";return Link; }
+        }
+        public T Static
+        {
+            get { OopModifierScript = "static "; return Link; }
+        }
+        public T Abstract
+        {
+            get { OopModifierScript = "abstract "; return Link; }
+        }
+        public T Partial
+        {
+            get { OopModifierScript = "partial "; return Link; }
+        }
+        public T PartialAbstract
+        {
+            get { OopModifierScript = "partial abstract "; return Link; }
         }
 
 

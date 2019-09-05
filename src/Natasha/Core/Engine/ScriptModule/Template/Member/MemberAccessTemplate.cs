@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 
 namespace Natasha.Template
 {
@@ -27,7 +28,31 @@ namespace Natasha.Template
 
         }
 
-        
+
+
+
+        public T PublicMember
+        {
+            get { MemberAccessScript = "public "; return Link; }
+        }
+        public T PrivateMember
+        {
+            get { MemberAccessScript = "private "; return Link; }
+        }
+        public T ProtectedMember
+        {
+            get { MemberAccessScript = "protected "; return Link; }
+        }
+        public T InternalMember
+        {
+            get { MemberAccessScript = "internal "; return Link; }
+        }
+        public T ProtectedInternalMember
+        {
+            get { MemberAccessScript = "protected internal "; return Link; }
+        }
+
+
 
 
         public T MemberAccess(string access)

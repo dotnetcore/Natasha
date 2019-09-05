@@ -16,8 +16,8 @@ namespace NatashaUT
             FieldBuilder template = new FieldBuilder();
             var result = template
                 .MemberAttribute("[Test]")
-                .MemberAccess("public")
-                .MemberModifier(Modifiers.Static)
+                .PublicMember
+                .StaticMember
                 .FieldName("Name")
                 .FieldType<string>()
                 .Script;
@@ -34,8 +34,8 @@ namespace NatashaUT
             FieldBuilder template = new FieldBuilder();
             var result = template
                 .MemberAttribute("[Test][Test1]")
-                .MemberAccess(AccessTypes.Public)
-                .MemberModifier(Modifiers.Static)
+                .PublicMember
+                .StaticMember
                 .FieldName("Age")
                 .FieldType(typeof(int))
                 .Script;
@@ -54,7 +54,7 @@ namespace NatashaUT
             FieldBuilder template = new FieldBuilder();
             var result = template
                 .MemberAttribute("[Test]")
-                .MemberAccess("public")
+                .PublicMember
                 .FieldName("Name")
                 .FieldType<string>()
                 .Script;
@@ -72,7 +72,7 @@ namespace NatashaUT
             FieldBuilder template = new FieldBuilder();
             var result = template
                 .MemberAttribute<ClassDataAttribute>()
-                .MemberAccess("public")
+                .PublicMember
                 .FieldName("Name")
                 .FieldType<string>()
                 .Script;

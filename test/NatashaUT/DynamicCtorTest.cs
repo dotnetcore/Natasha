@@ -15,7 +15,7 @@ namespace NatashaUT
         {
             CtorBuilder ctor = new CtorBuilder();
             string result = ctor.Name("Test")
-                .MemberAccess(AccessTypes.Public)
+                .PublicMember
                 .Param<string>("initString")
                 .Body("this.connection = initString;")
                 .Script;
@@ -30,7 +30,7 @@ namespace NatashaUT
         {
             CtorBuilder ctor = new CtorBuilder();
             string result = ctor.Name("Test")
-                .MemberAccess(AccessTypes.Private)
+                .PrivateMember
                 .Body("this.connection = initString;")
                 .Script;
 
@@ -44,7 +44,7 @@ namespace NatashaUT
         {
             CtorBuilder ctor = new CtorBuilder();
             string result = ctor.Name("Test")
-                .MemberModifier(Modifiers.Static)
+                .StaticMember
                 .Body("this.connection = initString;")
                 .Script;
 

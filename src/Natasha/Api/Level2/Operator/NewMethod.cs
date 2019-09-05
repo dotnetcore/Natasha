@@ -12,7 +12,7 @@ namespace Natasha
             FastMethodOperator builder = new FastMethodOperator();
             action(builder);
             var result = builder.Complie();
-            return (builder.Complier.Exception, result);
+            return (builder.Complier.ComplieException, result);
 
         }
 
@@ -24,7 +24,7 @@ namespace Natasha
             FastMethodOperator builder = new FastMethodOperator();
             action(builder);
             var result = builder.Complie<T>();
-            return (builder.Complier.Exception, result);
+            return (builder.Complier.ComplieException, result);
 
         }
 

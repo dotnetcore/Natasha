@@ -8,9 +8,8 @@ namespace Natasha
         public NInterface()
         {
 
-            OopAccess(AccessTypes.Public);
-            ChangeToInterface();
             Link = this;
+            Public.ChangeToInterface();
 
         }
 

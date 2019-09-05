@@ -13,12 +13,13 @@ namespace Natasha
         private readonly HashSet<IScript> _builderCache;
         public readonly AssemblyComplier Options;
         public ConcurrentDictionary<string, Type> TypeCache;
+        private bool HasChecked;
 
 
         public NAssembly(string name) : this()
         {
 
-            Options.Name = name;
+            Options .AssemblyName = name;
 
         }
 
@@ -29,6 +30,7 @@ namespace Natasha
             _builderCache = new HashSet<IScript>();
             TypeCache = new ConcurrentDictionary<string, Type>();
             Options = new AssemblyComplier();
+            HasChecked = false;
 
         }
 
@@ -76,7 +78,7 @@ namespace Natasha
         /// <returns></returns>
         public OopOperator CreateClass(string name = default)
         {
-            var @operator = new OopOperator().OopName(name).Namespace(Options.Name).ChangeToClass();
+            var @operator = new OopOperator().OopName(name).Namespace(Options.AssemblyName).ChangeToClass();
             _builderCache.Add(@operator);
             return @operator;
 
@@ -93,7 +95,7 @@ namespace Natasha
         public OopOperator CreateEnum(string name = default)
         {
 
-            var @operator = new OopOperator().OopName(name).Namespace(Options.Name).ChangeToEnum();
+            var @operator = new OopOperator().OopName(name).Namespace(Options.AssemblyName).ChangeToEnum();
             _builderCache.Add(@operator);
             return @operator;
 
@@ -110,7 +112,7 @@ namespace Natasha
         public OopOperator CreateInterface(string name = default)
         {
 
-            var @operator = new OopOperator().OopName(name).Namespace(Options.Name).ChangeToInterface();
+            var @operator = new OopOperator().OopName(name).Namespace(Options.AssemblyName).ChangeToInterface();
             _builderCache.Add(@operator);
             return @operator;
 
@@ -127,9 +129,10 @@ namespace Natasha
         public OopOperator CreateStruct(string name = default)
         {
 
-            var @operator = new OopOperator().OopName(name).Namespace(Options.Name).ChangeToStruct();
+            var @operator = new OopOperator().OopName(name).Namespace(Options.AssemblyName).ChangeToStruct();
             _builderCache.Add(@operator);
             return @operator;
+
         }
 
 
@@ -176,11 +179,12 @@ namespace Natasha
         public List<CompilationException> Check()
         {
 
+            HasChecked = true;
             foreach (var item in _builderCache)
             {
                 Options.Add(item);
             }
-            return Options.ComplierInfos.Exceptions;
+            return Options.SyntaxInfos.SyntaxExceptions;
 
         }
 
@@ -194,7 +198,12 @@ namespace Natasha
         public Assembly Complier()
         {
 
-            Check();
+            if (!HasChecked)
+            {
+                Check();
+            }
+
+
             Assembly = Options.GetAssembly();
             var types = Assembly.GetTypes();
             foreach (var item in types)
