@@ -11,7 +11,7 @@ namespace NatashaUT
     {
 
 
-        [Fact(DisplayName = "动态类生成测试")]
+        [Fact(DisplayName = "动态类生成测试1")]
         public static void RunClassName0()
         {
             //ScriptComplier.Init();
@@ -26,6 +26,29 @@ namespace HelloWorld
             //根据脚本创建动态类
             AssemblyComplier oop = new AssemblyComplier();
             oop.Add(text);
+            Type type = oop.GetType("Test");
+            Assert.Equal("Test", type.Name);
+        }
+
+
+
+
+        [Fact(DisplayName = "动态类生成测试2")]
+        public static void RunClassName4()
+        {
+            //ScriptComplier.Init();
+            string text = @"
+namespace HelloWorld
+{public class Test{public Test(){
+            Name=""111"";
+        }public string Name;
+        public int Age{get;set;}
+    }
+}";
+            //根据脚本创建动态类
+            var oop = new NAssembly();
+            oop.AddScript(text);
+            oop.Complier();
             Type type = oop.GetType("Test");
             Assert.Equal("Test", type.Name);
         }
