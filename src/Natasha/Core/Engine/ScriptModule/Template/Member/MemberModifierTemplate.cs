@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 
 namespace Natasha.Template
 {
@@ -26,6 +27,26 @@ namespace Natasha.Template
             MemberModifierScript = ModifierReverser.GetModifier(modifier);
             return Link;
 
+        }
+
+
+
+
+        public T StaticMember
+        {
+            get { MemberModifierScript = "static "; return Link; }
+        }
+        public T AbstractMember
+        {
+            get { MemberModifierScript = "abstract "; return Link; }
+        }
+        public T NewMember
+        {
+            get { MemberModifierScript = "new "; return Link; }
+        }
+        public T VirtualMember
+        {
+            get { MemberModifierScript = "virtual "; return Link; }
         }
 
 

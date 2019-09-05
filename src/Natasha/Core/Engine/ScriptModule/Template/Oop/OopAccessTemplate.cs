@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 
 namespace Natasha.Template
 {
@@ -22,7 +23,7 @@ namespace Natasha.Template
 
 
 
-
+        [Obsolete("该方法已过时，请使用Public/Pirvate...属性")]
         public T OopAccess(AccessTypes enumAccess)
         {
 
@@ -40,6 +41,30 @@ namespace Natasha.Template
             OopAccessScript = access;
             return Link;
 
+        }
+
+
+
+
+        public T Public
+        {
+            get { OopAccessScript = "public "; return Link; }
+        }
+        public T Private
+        {
+            get { OopAccessScript = "private "; return Link; }
+        }
+        public T Protected
+        {
+            get { OopAccessScript = "protected "; return Link; }
+        }
+        public T Internal
+        {
+            get { OopAccessScript = "internal "; return Link; }
+        }
+        public T ProtectedInternal
+        {
+            get { OopAccessScript = "protected internal "; return Link; }
         }
 
 

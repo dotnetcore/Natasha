@@ -25,11 +25,11 @@ namespace Natasha.Operator
         {
 
             Link = this;
-            HiddenNameSpace()
-                .OopAccess(AccessTypes.Public)
-                .OopModifier(Modifiers.Static)
-                .MethodAccess(AccessTypes.Public)
-                .MethodModifier(Modifiers.Static);
+            Public
+                .Static
+                .PublicMember
+                .StaticMember
+                .HiddenNameSpace();
 
         }
 

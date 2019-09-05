@@ -23,8 +23,7 @@ namespace Natasha.Operator
         {
 
             Link = this;
-            HiddenNameSpace();
-            OopAccess(AccessTypes.Public);
+            Public.HiddenNameSpace();
 
         }
 
@@ -131,9 +130,8 @@ namespace Natasha.Operator
             }
 
 
-            OopModifier(Modifiers.Static)
+            Static.StaticMember
             .MethodAccess(_temp_info)
-            .MethodModifier(Modifiers.Static)
             .Param(_temp_info)
             .MethodBody(content)
             .Return(_temp_info);

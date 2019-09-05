@@ -14,10 +14,10 @@ namespace NatashaUT
         {
             OopOperator builder = new OopOperator();
             builder
+                .Public
+                .Static
                 .Using<OopTest>()
                 .Namespace("TestNamespace")
-                .OopAccess(AccessTypes.Public)
-                .OopModifier(Modifiers.Static)
                 .OopName("TestExceptionUt1")
                 .OopBody(@"public static void 1 Test(){}")
                 .PublicStaticField<string>("Name")
@@ -36,11 +36,11 @@ namespace NatashaUT
         {
             OopOperator builder = new OopOperator();
             builder
+                .Public
+                .Static
                 .Using<OopTest>()
                 .Namespace("TestNamespace")
                 .ChangeToStruct()
-                .OopAccess(AccessTypes.Public)
-                .OopModifier(Modifiers.Static)
                 .OopName("TestExceptionUt2")
                 .OopBody(@"public static void 1 Test(){}")
                 .PublicStaticField<string>("Name")
