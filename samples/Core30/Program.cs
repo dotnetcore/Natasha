@@ -21,7 +21,7 @@ namespace Core30
            //     .Namespace("Core30")
            //     .OopName("Test")
            //     .Ctor(builder => builder
-           //         .MemberAccess(AccessTypes.Public)
+           //         .PublicMember
            //         .Param<string>("name")
            //         .Body("Name=name;"))
            //     .PublicField<string>("Name");
@@ -38,7 +38,7 @@ namespace Core30
            //         .Namespace("Core30")
            //         .OopName("Test")
            //         .Ctor(builder => builder
-           //             .MemberAccess(AccessTypes.Public)
+           //             .PublicMember
            //             .Param<string>("name")
            //             .Body("Name=name;"))
            //         .PublicField<string>("Name");
@@ -49,7 +49,7 @@ namespace Core30
            //         .Namespace("Core30")
            //         .OopName("Test1")
            //         .Ctor(builder => builder
-           //             .MemberAccess(AccessTypes.Public)
+           //             .PublicMember
            //             .Param<string>("name")
            //             .Body("Name=name;"))
            //         .PublicField<string>("Name");
@@ -65,7 +65,7 @@ namespace Core30
            //         .Namespace("Core30")
            //         .OopName("Test")
            //         .Ctor(builder => builder
-           //             .MemberAccess(AccessTypes.Public)
+           //             .PublicMember
            //             .Param<string>("name")
            //             .Body("Name=name;"))
            //         .PublicField<string>("Name");
@@ -115,7 +115,7 @@ namespace Core30
                     .OopName($"Test{i}")
                     
                     .Ctor(builder => builder
-                        .MemberAccess(AccessTypes.Public)
+                        .PublicMember
                         .Param<string>("name")
                         .Body("Name=name;"))
                     .PublicField<string>("Name")
@@ -142,7 +142,7 @@ namespace Core30
                     .OopName($"Test{i}")
 
                     .Ctor(builder => builder
-                        .MemberAccess(AccessTypes.Public)
+                        .PublicMember
                         .Param<string>("name")
                         .Body("Name=name;"))
                     .PublicField<string>("Name")
@@ -210,7 +210,7 @@ namespace Core30
             //    .Namespace("Core30")
             //    .OopName("Test")
             //    .Ctor(builder => builder
-            //        .MemberAccess(AccessTypes.Public)
+            //        .PublicMember
             //        .Param<string>("name")
             //        .Body("Name=name;"))
             //    .PublicField<string>("Name");
@@ -225,7 +225,7 @@ namespace Core30
            //     .Namespace("Core30")
            //     .OopName("Test1")
            //     .Ctor(builder => builder
-           //         .MemberAccess(AccessTypes.Public)
+           //         .PublicMember
            //         .Param<string>("name")
            //         .Body(@"Name=name+""1"";"))
            //     .PublicField<string>("Name");
@@ -238,7 +238,7 @@ namespace Core30
            //     .Namespace("Core30")
            //     .OopName("Test")
            //     .Ctor(builder => builder
-           //         .MemberAccess(AccessTypes.Public)
+           //         .PublicMember
            //         .Param<string>("name")
            //         .Body(@"Name=name+""2"";"))
            //     .PublicField<string>("Name");
@@ -253,7 +253,7 @@ namespace Core30
                 .Namespace("Core30")
                 .OopName("Test")
                 .Ctor(builder => builder
-                    .MemberAccess(AccessTypes.Public)
+                    .PublicMember
                     .Param<string>("name")
                     .Body(@"Name=name+""3"";"))
                 .PublicField<string>("Name");
@@ -266,7 +266,7 @@ namespace Core30
             //    .Namespace("Core30")
             //    .OopName("Test")
             //    .Ctor(builder => builder
-            //        .MemberAccess(AccessTypes.Public)
+            //        .PublicMember
             //        .Param<string>("name")
             //        .Body(@"Name=name+""1"";"))
             //    .PublicField<string>("Name");

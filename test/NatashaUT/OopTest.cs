@@ -14,9 +14,10 @@ namespace NatashaUT
         {
             OopOperator builder = new OopOperator();
             var script = builder
+                .Public.Static
                 .Using<OopTest>()
                 .Namespace("TestNamespace")
-                .OopAccess(AccessTypes.Public).OopModifier(Modifiers.Static).OopName("TestUt1")
+                .OopName("TestUt1")
                 .OopBody(@"public static void Test(){}")
                 .PublicStaticField<string>("Name")
                 .PrivateStaticField<int>("_age")
@@ -42,7 +43,7 @@ public static void Test(){}
             NAssembly assembly = new NAssembly();
             assembly.CreateStruct()
                 .Namespace("TestNamespace")
-                .OopAccess(AccessTypes.Private).OopName("TestUt2")
+                .Private.OopName("TestUt2")
                 .OopBody(@"public static void Test(){}")
                 .PublicStaticField<string>("Name")
                 .PrivateStaticField<int>("_age");
@@ -69,11 +70,10 @@ namespace TestNamespace
             OopOperator builder = new OopOperator();
             var script = builder
                 .Namespace<string>()
-                .OopAccess("")
                 .OopName("TestUt3")
                 .ChangeToInterface()
                 .Ctor(item => item
-                    .MemberModifier(Modifiers.Static)
+                    .StaticMember
                     .Param<string>("name")
                     .Body("this.Name=name;"))
                 .OopBody(@"public static void Test(){}")
@@ -100,7 +100,7 @@ this.Name=name;}
             OopOperator builder = new OopOperator();
             var script = builder
                 .HiddenNameSpace().ChangeToEnum()
-                .OopAccess(AccessTypes.Public).OopName("EnumUT1")
+                .Public.OopName("EnumUT1")
                 .EnumField("Apple")
                 .EnumField("Orange")
                 .EnumField("Banana")
@@ -117,7 +117,7 @@ this.Name=name;}
             OopOperator builder = new OopOperator();
             var script = builder
                 .HiddenNameSpace().ChangeToEnum()
-                .OopAccess(AccessTypes.Public).OopName("EnumUT1")
+                .Public.OopName("EnumUT1")
                 .EnumField("Apple",1)
                 .EnumField("Orange",2)
                 .EnumField("Banana",4)

@@ -1,6 +1,8 @@
-﻿using Natasha.Complier.Model;
+﻿using Microsoft.CodeAnalysis;
+using Natasha.Complier.Model;
 using Natasha.Log;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -9,30 +11,26 @@ namespace Natasha.Complier
     public abstract partial class IComplier
     {
 
-        public readonly CompilationException Exception;
-        public readonly ComplierOption ComplierInfos;
+        public readonly List<CompilationException> SyntaxExceptions;
+        public readonly CompilationException ComplieException;
+        public string AssemblyName;
 
 
         public IComplier()
         {
-            Exception = new CompilationException();
-            ComplierInfos = new ComplierOption();
+
+            ComplieException = new CompilationException();
+            _domain = DomainManagment.Default;
+            References = new List<PortableExecutableReference>(_domain.ReferencesCache);
+            SyntaxInfos = new SyntaxOption();
+            SyntaxExceptions = SyntaxInfos.SyntaxExceptions;
+
         }
 
 
 
 
-        public string Name
-        {
-            get
-            {
-                return ComplierInfos.AssemblyName;
-            }
-            set
-            {
-                ComplierInfos.AssemblyName = value;
-            }
-        }
+        
 
 
 
@@ -44,33 +42,34 @@ namespace Natasha.Complier
         public Assembly GetAssembly()
         {
 
-            if (ComplierInfos.Trees.Count == 0)
+            if (SyntaxInfos.Trees.Count == 0)
             {
                 return null;
             }
 
 
-            if (Name == default)
+            if (AssemblyName == default)
             {
-                Name = Guid.NewGuid().ToString("N");
+                AssemblyName = Guid.NewGuid().ToString("N");
             }
 
             
-            var result = StreamComplier(ComplierInfos);
+            var result = StreamComplier();
             Assembly assembly = result.Assembly;
             if (result.Compilation != null)
             {
+
                 if (assembly == default || assembly == null)
                 {
 
-                    Exception.Diagnostics.AddRange(result.Errors);
-                    Exception.ErrorFlag = ComplieError.Complie;
-                    Exception.Message = "发生错误,无法生成程序集！";
+                    ComplieException.Diagnostics.AddRange(result.Errors);
+                    ComplieException.ErrorFlag = ComplieError.Complie;
+                    ComplieException.Message = "发生错误,无法生成程序集！";
 
 
                     NError logError = new NError();
-                    logError.Handler(result.Compilation, Exception.Diagnostics);
-                    Exception.Log = logError.Buffer.ToString();
+                    logError.Handler(result.Compilation, ComplieException.Diagnostics);
+                    ComplieException.Log = logError.Buffer.ToString();
                     if (NError.Enabled) { logError.Write(); }
 
                 }
@@ -79,11 +78,12 @@ namespace Natasha.Complier
 
                     NSucceed logSucceed = new NSucceed();
                     logSucceed.Handler(result.Compilation);
-                    Exception.ErrorFlag = ComplieError.None;
-                    Exception.Log = logSucceed.Buffer.ToString();
+                    ComplieException.ErrorFlag = ComplieError.None;
+                    ComplieException.Log = logSucceed.Buffer.ToString();
                     if (NSucceed.Enabled) { logSucceed.Write(); }
 
                 }
+
             }
             return assembly;
 
@@ -111,8 +111,8 @@ namespace Natasha.Complier
             if (type == null)
             {
 
-                Exception.ErrorFlag = ComplieError.Type;
-                Exception.Message = $"发生错误,无法从程序集{assembly.FullName}中获取类型{typeName}！";
+                ComplieException.ErrorFlag = ComplieError.Type;
+                ComplieException.Message = $"发生错误,无法从程序集{assembly.FullName}中获取类型{typeName}！";
 
             }
 
@@ -144,8 +144,8 @@ namespace Natasha.Complier
             if (info == null)
             {
 
-                Exception.ErrorFlag = ComplieError.Method;
-                Exception.Message = $"发生错误,无法从类型{typeName}中找到{methodName}方法！";
+                ComplieException.ErrorFlag = ComplieError.Method;
+                ComplieException.Message = $"发生错误,无法从类型{typeName}中找到{methodName}方法！";
 
 
             }
@@ -185,8 +185,8 @@ namespace Natasha.Complier
             catch (Exception ex)
             {
 
-                Exception.ErrorFlag = ComplieError.Delegate;
-                Exception.Message = $"发生错误,无法从方法{methodName}创建{delegateType.GetDevelopName()}委托！";
+                ComplieException.ErrorFlag = ComplieError.Delegate;
+                ComplieException.Message = $"发生错误,无法从方法{methodName}创建{delegateType.GetDevelopName()}委托！";
 
             }
 

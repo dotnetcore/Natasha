@@ -48,7 +48,7 @@ namespace Natasha
             assembly.Add(script);
             Assembly = assembly.GetAssembly();
             Types = Assembly.GetTypes();
-            Error = assembly.Exception;
+            Error = assembly.ComplieException;
 
         }
 #endif

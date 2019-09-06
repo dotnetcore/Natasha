@@ -7,7 +7,7 @@ namespace Natasha.Builder
     public class OopBuilder<T> : OopContentTemplate<T>
     {
 
-        public readonly AssemblyComplier Complier;
+        public  readonly AssemblyComplier Complier;
         public CtorBuilder CtorBuilder;
 
 

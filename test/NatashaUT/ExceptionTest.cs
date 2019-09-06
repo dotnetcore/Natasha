@@ -14,10 +14,10 @@ namespace NatashaUT
         {
             OopOperator builder = new OopOperator();
             builder
+                .Public
+                .Static
                 .Using<OopTest>()
                 .Namespace("TestNamespace")
-                .OopAccess(AccessTypes.Public)
-                .OopModifier(Modifiers.Static)
                 .OopName("TestExceptionUt1")
                 .OopBody(@"public static void 1 Test(){}")
                 .PublicStaticField<string>("Name")
@@ -25,7 +25,7 @@ namespace NatashaUT
                 .Builder();
             var type = builder.GetType();
             Assert.Null(type);
-            Assert.Equal(ComplieError.Syntax, builder.Complier.Exception.ErrorFlag);
+            Assert.Equal(ComplieError.Syntax, builder.Complier.ComplieException.ErrorFlag);
         }
 
 
@@ -36,11 +36,11 @@ namespace NatashaUT
         {
             OopOperator builder = new OopOperator();
             builder
+                .Public
+                .Static
                 .Using<OopTest>()
                 .Namespace("TestNamespace")
                 .ChangeToStruct()
-                .OopAccess(AccessTypes.Public)
-                .OopModifier(Modifiers.Static)
                 .OopName("TestExceptionUt2")
                 .OopBody(@"public static void 1 Test(){}")
                 .PublicStaticField<string>("Name")
@@ -49,7 +49,8 @@ namespace NatashaUT
             var type = builder.GetType();
             Assert.Equal(OopType.Struct ,builder.OopTypeEnum);
             Assert.Null(type);
-            Assert.Equal(ComplieError.Syntax, builder.Complier.Exception.ErrorFlag);
+            Assert.Equal(ComplieError.Syntax, builder.Complier.ComplieException.ErrorFlag);
+            Assert.Equal(ComplieError.Syntax, builder.Complier.SyntaxExceptions[0].ErrorFlag);
         }
 
 
@@ -70,7 +71,8 @@ namespace NatashaUT
                .Complie();
 
             Assert.Null(delegateAction);
-            Assert.Equal(ComplieError.Syntax, builder.Complier.Exception.ErrorFlag);
+            Assert.Equal(ComplieError.Syntax, builder.Complier.ComplieException.ErrorFlag);
+            Assert.Equal(ComplieError.Syntax, builder.Complier.SyntaxExceptions[0].ErrorFlag);
         }
 
     }

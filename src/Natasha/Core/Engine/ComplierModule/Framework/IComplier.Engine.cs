@@ -1,12 +1,12 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using Natasha.Complier.Model;
 using System.Collections.Immutable;
 using System.IO;
 using System.Reflection;
 
 namespace Natasha.Complier
 {
+
     public abstract partial class IComplier
     {
 
@@ -16,23 +16,21 @@ namespace Natasha.Complier
         /// <param name="sourceContent">脚本内容</param>
         /// <param name="errorAction">发生错误执行委托</param>
         /// <returns></returns>
-        public static (Assembly Assembly, ImmutableArray<Diagnostic> Errors, CSharpCompilation Compilation) StreamComplier(ComplierOption model)
+        public  (Assembly Assembly, ImmutableArray<Diagnostic> Errors, CSharpCompilation Compilation) StreamComplier()
         {
 
-            var domain = model.Domain;
-            lock (domain)
+            lock (Domain)
             {
-
 
                 //创建语言编译
                 CSharpCompilation compilation = CSharpCompilation.Create(
-                                  model.AssemblyName,
+                                   AssemblyName,
                                    options: new CSharpCompilationOptions(
                                        outputKind: OutputKind.DynamicallyLinkedLibrary,
                                        optimizationLevel: OptimizationLevel.Release,
                                        allowUnsafe: true),
-                                   syntaxTrees: model.Trees ,
-                                   references: model.References);
+                                   syntaxTrees: SyntaxInfos.Trees ,
+                                   references: References);
 
 
                 //编译并生成程序集
@@ -41,7 +39,7 @@ namespace Natasha.Complier
                 if (complieResult.Success)
                 {
 
-                    return (domain.Handler(stream), default, compilation);
+                    return (_domain.Handler(stream), default, compilation);
 
                 }
                 else
@@ -57,4 +55,5 @@ namespace Natasha.Complier
         }
 
     }
+
 }

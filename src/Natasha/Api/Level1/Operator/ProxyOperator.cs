@@ -82,7 +82,7 @@ namespace Natasha.Operator
 
             Using(_oop_type)
                .Namespace("NatashaProxy")
-               .OopAccess(AccessTypes.Public)
+               .Public
                .Inheritance(_oop_type);
 
         }
@@ -127,18 +127,7 @@ namespace Natasha.Operator
                 if (!_oop_type.IsInterface)
                 {
 
-                    if (reflectMethodInfo.IsAbstract || reflectMethodInfo.IsVirtual)
-                    {
-
-                        template.MethodModifier(Modifiers.Override);
-
-                    }
-                    else
-                    {
-
-                        template.MethodModifier(Modifiers.New);
-
-                    }
+                    _= (reflectMethodInfo.IsAbstract || reflectMethodInfo.IsVirtual)? template.OverrideMember : template.NewMember;
 
                 }
 
