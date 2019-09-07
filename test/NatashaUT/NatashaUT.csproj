@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="File\TestFileModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="File\TextFile1.txt" />
     <None Remove="Lib\ClassLibrary1.deps.json" />
     <None Remove="Lib\ClassLibrary1.dll" />
     <None Remove="Lib\ClassLibrary2.dll" />
@@ -19,6 +24,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="File\TestFileModel.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="File\TextFile1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Lib\Json\ClassLibrary6.deps.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
