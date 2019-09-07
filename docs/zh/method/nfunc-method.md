@@ -11,7 +11,9 @@ var func2 = NFunc<int,string>.Delegate("return arg.ToString();");
 var func3 = NFunc<int,int,string>.Delegate("return (arg1+arg2).ToString();");
 .....
 ```  
-
+ 
+ <br/>  
+ 
 NFunc的第二个参数是命名空间，可以直接扔一个Assembly,或者精确的传Type,或者直接写String.
 
 ```C#
@@ -19,7 +21,9 @@ NFunc的第二个参数是命名空间，可以直接扔一个Assembly,或者精
 method(script, "System", assembly, tyypeof(Console)); 
 
 ```  
-
+ 
+ <br/>  
+ 
 由于是可变参数，所以你可以传多种多个  
 
 ```C#  
