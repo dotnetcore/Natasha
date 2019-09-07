@@ -5,7 +5,7 @@ namespace Natasha.Operator
     public static class DelegateOperator<T> where T : Delegate
     {
 
-        public static T Delegate(string content, params string[] usings)
+        public static T Delegate(string content, params NamespaceConverter[] usings)
         {
 
             var method = typeof(T).GetMethod("Invoke");
@@ -21,7 +21,7 @@ namespace Natasha.Operator
 
 
 
-        public static T AsyncDelegate(string content, params string[] usings)
+        public static T AsyncDelegate(string content, params NamespaceConverter[] usings)
         {
 
             var method = typeof(T).GetMethod("Invoke");
@@ -38,7 +38,7 @@ namespace Natasha.Operator
 
 
 
-        public static T UnsafeDelegate(string content, params string[] usings)
+        public static T UnsafeDelegate(string content, params NamespaceConverter[] usings)
         {
 
             var method = typeof(T).GetMethod("Invoke");
@@ -55,7 +55,7 @@ namespace Natasha.Operator
 
 
 
-        public static T UnsafeAsyncDelegate(string content, params string[] usings)
+        public static T UnsafeAsyncDelegate(string content, params NamespaceConverter[] usings)
         {
 
             var method = typeof(T).GetMethod("Invoke");

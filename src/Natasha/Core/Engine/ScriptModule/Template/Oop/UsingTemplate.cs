@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Natasha.Template
 {
-    public class UsingTemplate<T>: TemplateRecoder<T>
+    public class UsingTemplate<T> : TemplateRecoder<T>
     {
 
         public readonly StringBuilder UsingScript;
@@ -20,7 +20,54 @@ namespace Natasha.Template
             _usings = new HashSet<string>();
             _usingTypes = new HashSet<Type>();
         }
-       
+
+
+
+        public T Using(NamespaceConverter converter)
+        {
+
+            if (converter.NamespaceAssembly != default)
+            {
+
+                Using(converter.NamespaceAssembly);
+
+            }
+            else if (converter.NamespaceType != default)
+            {
+
+                Using(converter.NamespaceType);
+
+            }
+            else
+            {
+
+                Using(converter.NamespaceString);
+
+            }
+            return Link;
+
+        }
+
+
+
+        public T Using(NamespaceConverter[] converters)
+        {
+
+            if (converters != default)
+            {
+
+                for (int i = 0; i < converters.Length; i++)
+                {
+
+                    Using(converters[i]);
+
+                }
+
+            }
+            return Link;
+
+        }
+
 
 
 
@@ -133,7 +180,7 @@ namespace Natasha.Template
         public T Using(Type type)
         {
 
-            if (type!=null && !_usingTypes.Contains(type))
+            if (type != null && !_usingTypes.Contains(type))
             {
 
                 _usingTypes.Add(type);
