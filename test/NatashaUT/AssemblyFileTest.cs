@@ -30,6 +30,7 @@ namespace NatashaUT
             Assert.NotNull(type);
             Assert.Equal("TestFileModel", type.Name);
 
+
             var @delegate = NFunc<string>.Delegate("return new TestFileModel().Name;", result);
             Assert.Equal("aaa",@delegate());
         }
