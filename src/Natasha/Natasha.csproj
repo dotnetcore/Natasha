@@ -7,6 +7,7 @@
     <Copyright>.NET Core Community and Contributors</Copyright>
     <PackageId>DotNetCore.Natasha</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+<<<<<<< Updated upstream
     <PackageReleaseNotes>支持程序集合并编译操作
 支持共享域/自定义域协作。
 支持动态类型覆盖。
@@ -25,6 +26,10 @@ Dispose方法解决程序集上下文卸载的问题。
 Core3.0版本兼容。
 增加Core3.0版本的程序集管理，支持编译环境隔离。</PackageReleaseNotes>
     <Version>2.0.0-alpha.7</Version>
+=======
+    <PackageReleaseNotes>增加若干API，支持DelegateOperator方法参数多种类型</PackageReleaseNotes>
+    <Version>2.0.0-alpha.9</Version>
+>>>>>>> Stashed changes
     <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
     <PackageTags>Roslyn ; IL ; Scripte ; Dynamic ; </PackageTags>
