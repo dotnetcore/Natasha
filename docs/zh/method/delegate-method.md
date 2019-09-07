@@ -8,7 +8,9 @@
  ```C#
  var action = DelegateOpeartor<Func<string>>.Delegate("return \"1\";");
  action(); //结果是1
- ```
+ ```  
+ 
+ <br/>  
  
  同时还有几个方法：
  ```C#
@@ -19,6 +21,8 @@ DelegateOpeartor<T>.UnsafeDelegate
 //异步非托管方法
 DelegateOpeartor<T>.UnsafeAsyncDelegate
  ```  
+  
+ <br/>  
  
 DelegateOperator<T>.[Method]的第二个参数是命名空间，可以直接扔一个Assembly,或者精确的传Type,或者直接写String.
 
@@ -27,7 +31,9 @@ DelegateOperator<T>.[Method]的第二个参数是命名空间，可以直接扔�
 method(script, "System", assembly, tyypeof(Console)); 
 
 ```  
-
+ 
+ <br/>  
+ 
 由于是可变参数，所以你可以传多种多个  
 
 ```C#  
