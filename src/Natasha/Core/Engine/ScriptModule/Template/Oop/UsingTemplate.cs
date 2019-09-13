@@ -184,7 +184,7 @@ namespace Natasha.Template
             {
 
                 _usingTypes.Add(type);
-                Using(type.GetAllGenericTypes());
+                Using(type.GetAllTypes());
                 return Using(type.Namespace);
 
             }
