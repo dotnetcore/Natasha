@@ -90,13 +90,6 @@ namespace Natasha.Template
 
             ParametersTypes.Add(type);
             UsingRecoder.Add(type);
-
-
-            if (type!=null && type.IsGenericType)
-            {
-                UsingRecoder.Add(type.GetAllGenericTypes());
-            }
-            
             ParametersMappings.Add(new KeyValuePair<Type, string>(type, key));
             return Link;
 

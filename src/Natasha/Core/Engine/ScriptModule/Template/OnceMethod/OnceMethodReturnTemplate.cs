@@ -45,12 +45,6 @@ namespace Natasha.Template
             UsingRecoder.Add(type);
 
 
-            if (type.IsGenericType)
-            {
-                UsingRecoder.Add(type.GetAllGenericTypes());
-            }
-
-
             ReturnScript = type.GetDevelopName()+" ";
             return Link;
         }

@@ -24,26 +24,34 @@ namespace Natasha
         }
 
 
-        public static List<Type> GetAllGenericTypes(this Type type)
+        public static HashSet<Type> GetAllTypes(this Type type)
         {
-            List<Type> result = new List<Type>
+            HashSet<Type> result = new HashSet<Type> { type };
+
+
+            var temp = type;
+            while (temp.HasElementType)
             {
-                type
-            };
-            if (type.IsGenericType && type.FullName != null)
+                temp = temp.GetElementType();
+            }
+
+
+            result.Add(temp);
+            if (temp.IsGenericType && temp.FullName != null)
             {
-                foreach (var item in type.GetGenericArguments())
+                foreach (var item in temp.GetGenericArguments())
                 {
-                    result.AddRange(item.GetAllGenericTypes());
+                    result.UnionWith(item.GetAllTypes());
                 }
             }
             return result;
+
         }
 
 
-        public static List<Type> GetAllGenericTypes<T>()
+        public static HashSet<Type> GetAllTypes<T>()
         {
-            return typeof(T).GetAllGenericTypes();
+            return typeof(T).GetAllTypes();
         }
 
 
