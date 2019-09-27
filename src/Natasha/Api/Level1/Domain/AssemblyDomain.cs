@@ -61,6 +61,7 @@ namespace Natasha
                                 .Select(asm => MetadataReference.CreateFromFile(asm));
 
                 ReferencesCache = new LinkedList<PortableExecutableReference>(_ref);
+                Default.Resolving += Default_Resolving;
             }
             else
             {
@@ -205,7 +206,10 @@ namespace Natasha
 
         }
 
-
+        private Assembly Default_Resolving(AssemblyLoadContext arg1, AssemblyName arg2)
+        {
+            return Load(arg2);
+        }
 
 
 
@@ -281,7 +285,6 @@ namespace Natasha
         /// </summary>
         /// <param name="path">dll文件路径</param>
         /// <param name="isCover">是否覆盖原有的同路径的dll</param>
-        /// <param name="isLoad">是否加载程序集</param>
         /// <returns></returns>
         public Assembly LoadFile(string path, bool isCover = false)
         {

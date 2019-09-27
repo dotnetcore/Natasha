@@ -26,7 +26,9 @@ namespace Natasha.AssemblyModule.Model
             stream.Position = 0;
             if (context.Name == "Default")
             {
+
                 Assembly = AssemblyLoadContext.Default.LoadFromStream(stream);
+
             }
             else
             {
@@ -40,6 +42,8 @@ namespace Natasha.AssemblyModule.Model
             stream.Dispose();
 
         }
+
+
 
 
         public override int GetHashCode()
