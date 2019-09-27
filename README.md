@@ -96,10 +96,16 @@ WeihanLi
 ```C#
 
   <PropertyGroup>
+  
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <PreserveCompilationContext>true</PreserveCompilationContext>   <--- 一定要加上这句话
-    <MvcRazorExcludeRefAssembliesFromPublish>false</MvcRazorExcludeRefAssembliesFromPublish> <---- WEB发布一定要加
+    
+    //一定要加上这句话
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+    
+    //WEB发布要加
+    <MvcRazorExcludeRefAssembliesFromPublish>false</MvcRazorExcludeRefAssembliesFromPublish>
+    
   </PropertyGroup>
  
 ```  
