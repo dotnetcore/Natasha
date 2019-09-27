@@ -12,7 +12,7 @@ namespace Natasha.AssemblyModule.Model
     {
 
         public readonly Guid Id;
-        public readonly PortableExecutableReference Reference;
+        public readonly LinkedListNode<PortableExecutableReference> Reference;
         public readonly Assembly Assembly;
 
         public AssemblyUnitInfo(AssemblyDomain context ,string path):this(context, new FileStream(path, FileMode.Open))
@@ -35,7 +35,7 @@ namespace Natasha.AssemblyModule.Model
 
 
             stream.Position = 0;
-            Reference = MetadataReference.CreateFromStream(stream);
+            Reference =new LinkedListNode<PortableExecutableReference>(MetadataReference.CreateFromStream(stream));
             Id = Assembly.ManifestModule.ModuleVersionId;
             stream.Dispose();
 

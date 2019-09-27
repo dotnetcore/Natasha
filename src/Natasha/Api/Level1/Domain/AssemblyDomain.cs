@@ -17,9 +17,10 @@ namespace Natasha
 
         public readonly ConcurrentDictionary<Assembly, AssemblyUnitInfo> AssemblyMappings;
         public readonly ConcurrentDictionary<string, Assembly> OutfileMapping;
-        public readonly HashSet<PortableExecutableReference> ReferencesCache;
+        public readonly LinkedList<PortableExecutableReference> ReferencesCache;
         public readonly HashSet<Type> TypeCache;
         public bool CanCover;
+        public readonly object ObjLock;
 #if NETSTANDARD2_0
         public string Name;
 #endif
@@ -51,7 +52,7 @@ namespace Natasha
             OutfileMapping = new ConcurrentDictionary<string, Assembly>();
             AssemblyMappings = new ConcurrentDictionary<Assembly, AssemblyUnitInfo>();
             CanCover = true;
-
+            ObjLock = new object();
 
             if (key == "Default")
             {
@@ -59,11 +60,11 @@ namespace Natasha
                                 .SelectMany(cl => cl.ResolveReferencePaths())
                                 .Select(asm => MetadataReference.CreateFromFile(asm));
 
-                ReferencesCache = new HashSet<PortableExecutableReference>(_ref);
+                ReferencesCache = new LinkedList<PortableExecutableReference>(_ref);
             }
             else
             {
-                ReferencesCache = new HashSet<PortableExecutableReference>();
+                ReferencesCache = new LinkedList<PortableExecutableReference>();
             }
 
 
@@ -109,8 +110,9 @@ namespace Natasha
             if (OutfileMapping.ContainsKey(path))
             {
 
-                OutfileMapping.TryRemove(path, out var _);
-                return RemoveAssembly(OutfileMapping[path]);
+                bool result = RemoveAssembly(OutfileMapping[path]);
+                while (!OutfileMapping.TryRemove(path, out var _)) { }
+                return result;
 
             }
             return false;
@@ -126,10 +128,12 @@ namespace Natasha
                 throw new NullReferenceException("Type is null! This method can't be passed a null instance.");
             }
 
-
-            if (TypeCache.Contains(type))
+            lock (ObjLock)
             {
-                return RemoveAssembly(type.Assembly);
+                if (TypeCache.Contains(type))
+                {
+                    return RemoveAssembly(type.Assembly);
+                }
             }
             return false;
 
@@ -146,18 +150,20 @@ namespace Natasha
                 throw new NullReferenceException("Assembly is null!  This method can't be passed a null instance.");
             }
 
-
-            if (AssemblyMappings.ContainsKey(assembly))
+            lock (ObjLock)
             {
-
-                var info = AssemblyMappings[assembly];
-                ReferencesCache.Remove(info.Reference);
-                foreach (var item in assembly.GetTypes())
+                if (AssemblyMappings.ContainsKey(assembly))
                 {
-                    TypeCache.Remove(item);
-                }
-                return true;
 
+                    var info = AssemblyMappings[assembly];
+                    ReferencesCache.Remove(info.Reference);
+                    foreach (var item in assembly.GetTypes())
+                    {
+                        TypeCache.Remove(item);
+                    }
+                    return true;
+
+                }
             }
 
             return false;
@@ -171,13 +177,12 @@ namespace Natasha
         {
 
 #if  !NETSTANDARD2_0
-            ReferencesCache.Clear();
             _resolver = null;
 #endif
+            ReferencesCache.Clear();
             TypeCache.Clear();
             OutfileMapping.Clear();
             AssemblyMappings.Clear();
-            
 
         }
 
@@ -254,14 +259,17 @@ namespace Natasha
         public Assembly Handler(AssemblyUnitInfo info)
         {
 
-            Assembly result = info.Assembly;
-            if (result!=default)
+            lock (ObjLock)
             {
-                AssemblyMappings[result] = info;
-                TypeCache.UnionWith(result.GetTypes());
+                Assembly result = info.Assembly;
+                if (result != default)
+                {
+                    AssemblyMappings[result] = info;
+                    TypeCache.UnionWith(result.GetTypes());
+                }
+                ReferencesCache.AddLast(info.Reference);
+                return result;
             }
-            ReferencesCache.Add(info.Reference);
-            return result;
 
         }
 
@@ -285,8 +293,10 @@ namespace Natasha
             {
                 RemoveDll(path);
             }
-           
-            return Handler(new AssemblyUnitInfo(this, path));
+
+            var result = Handler(new AssemblyUnitInfo(this, path));
+            OutfileMapping[path] = result;
+            return result;
 
         }
 
