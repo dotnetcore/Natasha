@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Reflection;
 using System.Runtime.Loader;
 using static System.Runtime.Loader.AssemblyLoadContext;
 
@@ -18,7 +19,6 @@ namespace Natasha
             Default = new AssemblyDomain("Default");
 
         }
-
 
 
 
