@@ -54,7 +54,9 @@ namespace Natasha
             DomainPath = Path.Combine(IComplier.CurrentPath, key);
             if (!Directory.Exists(DomainPath))
             {
+
                 Directory.CreateDirectory(DomainPath);
+
             }
 
 
@@ -62,24 +64,30 @@ namespace Natasha
             TypeCache = new HashSet<Type>();
             OutfileMapping = new ConcurrentDictionary<string, Assembly>();
             AssemblyMappings = new ConcurrentDictionary<Assembly, AssemblyUnitInfo>();
-            
+
 
             if (key == "Default")
             {
+
                 var _ref = DependencyContext.Default.CompileLibraries
                                 .SelectMany(cl => cl.ResolveReferencePaths())
                                 .Select(asm => MetadataReference.CreateFromFile(asm));
 
                 ReferencesCache = new LinkedList<PortableExecutableReference>(_ref);
                 Default.Resolving += Default_Resolving;
+#if !NETSTANDARD2_0
+                Default.ResolvingUnmanagedDll += Default_ResolvingUnmanagedDll;
+#endif
+
             }
             else
             {
+
                 ReferencesCache = new LinkedList<PortableExecutableReference>();
+
             }
 
         }
-
 
 
 
@@ -160,7 +168,7 @@ namespace Natasha
 
                     if (OutfileMapping.ContainsKey(assembly.Location))
                     {
-                        OutfileMapping.TryRemove(assembly.Location,out var _);
+                        OutfileMapping.TryRemove(assembly.Location, out var _);
                     }
 
 
@@ -217,13 +225,16 @@ namespace Natasha
 
         private Assembly Default_Resolving(AssemblyLoadContext arg1, AssemblyName arg2)
         {
+
             return Load(arg2);
+
         }
 
 
 
         protected override IntPtr LoadUnmanagedDll(string unmanagedDllName)
         {
+
 #if !NETSTANDARD2_0
             string libraryPath = _resolver.ResolveUnmanagedDllToPath(unmanagedDllName);
             if (libraryPath != null)
@@ -232,6 +243,13 @@ namespace Natasha
             }
 #endif
             return IntPtr.Zero;
+
+        }
+
+        private IntPtr Default_ResolvingUnmanagedDll(Assembly arg1, string arg2)
+        {
+
+            return LoadUnmanagedDll(arg2);
 
         }
 
@@ -301,10 +319,8 @@ namespace Natasha
 #if !NETSTANDARD2_0
             _resolver = new AssemblyDependencyResolver(path);
 #endif
-            if (isCover)
-            {
-                RemoveDll(path);
-            }
+            if (isCover) { RemoveDll(path); }
+
 
             var result = Handler(new AssemblyUnitInfo(this, path));
             OutfileMapping[path] = result;
@@ -317,10 +333,8 @@ namespace Natasha
 #if !NETSTANDARD2_0
             _resolver = new AssemblyDependencyResolver(path);
 #endif
-            if (isCover)
-            {
-                RemoveDll(path);
-            }
+            if (isCover) { RemoveDll(path); }
+
 
             var result = Handler(new AssemblyUnitInfo(this, new FileStream(path, FileMode.Open)));
             OutfileMapping[path] = result;
