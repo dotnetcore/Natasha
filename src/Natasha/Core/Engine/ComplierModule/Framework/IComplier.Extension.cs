@@ -11,6 +11,7 @@ namespace Natasha.Complier
 
         private readonly static AdhocWorkspace _workSpace;
         private readonly static CSharpParseOptions _options;
+        
         static IComplierExtension()
         {
 

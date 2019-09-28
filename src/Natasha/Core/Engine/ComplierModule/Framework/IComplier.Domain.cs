@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.Loader;
 
 namespace Natasha.Complier
@@ -42,6 +43,7 @@ namespace Natasha.Complier
 
                 }
 #endif
+               
                 return _domain;
 
             }

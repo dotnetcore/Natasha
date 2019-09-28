@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.DependencyModel;
 using Natasha.AssemblyModule.Model;
+using Natasha.Complier;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -19,8 +20,8 @@ namespace Natasha
         public readonly ConcurrentDictionary<string, Assembly> OutfileMapping;
         public readonly LinkedList<PortableExecutableReference> ReferencesCache;
         public readonly HashSet<Type> TypeCache;
-        public bool CanCover;
         public readonly object ObjLock;
+        public readonly string DomainPath;
 #if NETSTANDARD2_0
         public string Name;
 #endif
@@ -36,6 +37,7 @@ namespace Natasha
 
 
         public AssemblyDomain(string key)
+
 #if  !NETSTANDARD2_0
             : base(isCollectible: true, name: key)
 #endif
@@ -46,13 +48,21 @@ namespace Natasha
 #else
             Name = key;
 #endif
+            ObjLock = new object();
+
+
+            DomainPath = Path.Combine(IComplier.CurrentPath, key);
+            if (!Directory.Exists(DomainPath))
+            {
+                Directory.CreateDirectory(DomainPath);
+            }
+
 
             DomainManagment.Add(key, this);
             TypeCache = new HashSet<Type>();
             OutfileMapping = new ConcurrentDictionary<string, Assembly>();
             AssemblyMappings = new ConcurrentDictionary<Assembly, AssemblyUnitInfo>();
-            CanCover = true;
-            ObjLock = new object();
+            
 
             if (key == "Default")
             {
@@ -67,9 +77,6 @@ namespace Natasha
             {
                 ReferencesCache = new LinkedList<PortableExecutableReference>();
             }
-
-
-            this.Unloading += AssemblyDomain_Unloading;
 
         }
 
@@ -87,14 +94,6 @@ namespace Natasha
             NAssembly result = new NAssembly(name);
             result.Options.Domain = this;
             return result;
-        }
-
-
-
-
-        private void AssemblyDomain_Unloading(AssemblyLoadContext obj)
-        {
-            //throw new NotImplementedException();
         }
 
 
@@ -119,6 +118,8 @@ namespace Natasha
             return false;
 
         }
+
+
 
 
         public bool RemoveType(Type type)
@@ -153,8 +154,15 @@ namespace Natasha
 
             lock (ObjLock)
             {
+
                 if (AssemblyMappings.ContainsKey(assembly))
                 {
+
+                    if (OutfileMapping.ContainsKey(assembly.Location))
+                    {
+                        OutfileMapping.TryRemove(assembly.Location,out var _);
+                    }
+
 
                     var info = AssemblyMappings[assembly];
                     ReferencesCache.Remove(info.Reference);
@@ -165,6 +173,7 @@ namespace Natasha
                     return true;
 
                 }
+
             }
 
             return false;
@@ -302,7 +311,22 @@ namespace Natasha
             return result;
 
         }
+        public Assembly LoadStream(string path, bool isCover = false)
+        {
 
+#if !NETSTANDARD2_0
+            _resolver = new AssemblyDependencyResolver(path);
+#endif
+            if (isCover)
+            {
+                RemoveDll(path);
+            }
+
+            var result = Handler(new AssemblyUnitInfo(this, new FileStream(path, FileMode.Open)));
+            OutfileMapping[path] = result;
+            return result;
+
+        }
     }
 
 }
