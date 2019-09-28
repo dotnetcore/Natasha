@@ -15,10 +15,31 @@ namespace Natasha.AssemblyModule.Model
         public readonly LinkedListNode<PortableExecutableReference> Reference;
         public readonly Assembly Assembly;
 
-        public AssemblyUnitInfo(AssemblyDomain context ,string path):this(context, new FileStream(path, FileMode.Open))
+
+        public AssemblyUnitInfo(AssemblyDomain context ,string path)
         {
-           
+
+            if (context.Name == "Default")
+            {
+
+                Assembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(path);
+
+            }
+            else
+            {
+
+                Assembly = context.LoadFromAssemblyPath(path);
+
+            }
+
+
+            Reference = new LinkedListNode<PortableExecutableReference>(MetadataReference.CreateFromFile(path));
+            Id = Assembly.ManifestModule.ModuleVersionId;
+
         }
+
+
+
 
         public AssemblyUnitInfo(AssemblyDomain context, Stream stream)
         {

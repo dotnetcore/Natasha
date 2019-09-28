@@ -34,19 +34,47 @@ namespace Natasha.Complier
 
 
                 //编译并生成程序集
-                MemoryStream stream = new MemoryStream();
-                var complieResult = compilation.Emit(stream);
-                if (complieResult.Success)
+                if (!ComplieInFile)
                 {
 
-                    return (_domain.Handler(stream), default, compilation);
+                    MemoryStream stream = new MemoryStream();
+                    var complieResult = compilation.Emit(stream);
+                    if (complieResult.Success)
+                    {
+
+                        return (_domain.Handler(stream), default, compilation);
+
+                    }
+                    else
+                    {
+
+                        stream.Dispose();
+                        return (null, complieResult.Diagnostics, compilation);
+
+                    }
 
                 }
                 else
                 {
 
-                    stream.Dispose();
-                    return (null, complieResult.Diagnostics, compilation);
+                    
+                    var path = Path.Combine(_domain.DomainPath, AssemblyName);
+                    var dll = path + ".dll";
+
+
+                    var complieResult = compilation.Emit(dll, path + ".pdb");
+                    if (complieResult.Success)
+                    {
+
+                        return (_domain.Handler(dll), default, compilation);
+
+                    }
+                    else
+                    {
+
+                        return (null, complieResult.Diagnostics, compilation);
+
+                    }
 
                 }
 

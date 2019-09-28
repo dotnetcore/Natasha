@@ -3,6 +3,7 @@ using Natasha.Complier.Model;
 using Natasha.Log;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 
@@ -14,7 +15,19 @@ namespace Natasha.Complier
         public readonly List<CompilationException> SyntaxExceptions;
         public readonly CompilationException ComplieException;
         public string AssemblyName;
+        public bool ComplieInFile;
+        public readonly static string CurrentPath;
 
+        static IComplier()
+        {
+
+            CurrentPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "dynamiclib");
+            if (!Directory.Exists(CurrentPath))
+            {
+                Directory.CreateDirectory(CurrentPath);
+            }
+            
+        }
 
         public IComplier()
         {
@@ -24,6 +37,7 @@ namespace Natasha.Complier
             References = new List<PortableExecutableReference>(_domain.ReferencesCache);
             SyntaxInfos = new SyntaxOption();
             SyntaxExceptions = SyntaxInfos.SyntaxExceptions;
+            ComplieInFile = true;
 
         }
 
