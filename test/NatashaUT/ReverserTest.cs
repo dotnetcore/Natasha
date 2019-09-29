@@ -54,5 +54,16 @@ namespace NatashaUT
         }
 
 
+
+
+        [Fact(DisplayName = "内部类解析")]
+        public void TestInnerType()
+        {
+
+            Assert.Equal("OopTestModel.InnerClass", typeof(OopTestModel.InnerClass).GetDevelopName());
+
+        }
+
+
     }
 }

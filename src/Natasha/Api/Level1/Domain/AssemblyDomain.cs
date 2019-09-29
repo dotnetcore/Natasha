@@ -119,7 +119,6 @@ namespace Natasha
             {
 
                 bool result = RemoveAssembly(OutfileMapping[path]);
-                while (!OutfileMapping.TryRemove(path, out var _)) { }
                 return result;
 
             }
@@ -140,10 +139,12 @@ namespace Natasha
 
             lock (ObjLock)
             {
+
                 if (TypeCache.Contains(type))
                 {
                     return RemoveAssembly(type.Assembly);
                 }
+
             }
             return false;
 
@@ -168,7 +169,7 @@ namespace Natasha
 
                     if (OutfileMapping.ContainsKey(assembly.Location))
                     {
-                        OutfileMapping.TryRemove(assembly.Location, out var _);
+                        while (!OutfileMapping.TryRemove(assembly.Location, out var _)) { };
                     }
 
 
