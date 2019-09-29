@@ -93,7 +93,7 @@ namespace Natasha
 
 
         /// <summary>
-        /// 创建一个程序集编译器
+        /// 创建一个程序集编译类
         /// </summary>
         /// <param name="name">程序集名字</param>
         /// <returns></returns>
