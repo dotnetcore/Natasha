@@ -6,7 +6,7 @@ using Xunit;
 namespace NatashaUT
 {
     [Trait("快速构建", "类/结构体/接口/枚举")]
-    public class OopTest
+    public class OopBuildTest
     {
 
         [Fact(DisplayName = "Builder测试1")]
@@ -15,7 +15,7 @@ namespace NatashaUT
             OopOperator builder = new OopOperator();
             var script = builder
                 .Public.Static
-                .Using<OopTest>()
+                .Using<OopBuildTest>()
                 .Namespace("TestNamespace")
                 .OopName("TestUt1")
                 .OopBody(@"public static void Test(){}")

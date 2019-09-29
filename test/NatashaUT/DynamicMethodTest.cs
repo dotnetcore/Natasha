@@ -31,6 +31,24 @@ namespace NatashaUT
 
 
 
+        [Fact(DisplayName = "内部类委托")]
+        public static void RunInnerDelegate()
+        {
+            var delegateAction = FastMethodOperator
+                .New
+                        .MethodBody(@"
+                           OopTestModel.InnerClass a = new OopTestModel.InnerClass();
+                            a.Name =""abc"";
+                            return a;")
+                        .Return<OopTestModel.InnerClass>()
+                .Complie();
+
+            var result = ((Func<OopTestModel.InnerClass>)delegateAction)?.Invoke();
+            Assert.Equal("abc", result.Name);
+        }
+
+
+
 
         [Fact(DisplayName = "扩展强转委托")]
         public static void RunDelegate3()

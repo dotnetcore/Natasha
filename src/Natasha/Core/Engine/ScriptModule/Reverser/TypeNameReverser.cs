@@ -45,6 +45,13 @@ namespace Natasha
         /// <returns></returns>
         internal static string Reverser(Type type)
         {
+            string fatherString = default;
+            //外部类处理
+            if (type.DeclaringType!=null)
+            {
+                fatherString = Reverser(type.DeclaringType)+".";
+            }
+
 
             //后缀
             StringBuilder Suffix = new StringBuilder();
@@ -101,7 +108,7 @@ namespace Natasha
                 }
                 result.Append('>');
                 result.Append(Suffix);
-                return result.ToString();
+                return fatherString+result.ToString();
 
             }
             else
@@ -114,7 +121,7 @@ namespace Natasha
                     return "void";
 
                 }
-                return type.Name + Suffix;
+                return fatherString+type.Name + Suffix;
 
             }
         }

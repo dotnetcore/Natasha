@@ -2,7 +2,7 @@
 
 namespace NatashaUT.Model
 {
-    class OopTestModel
+    public class OopTestModel
     {
 
         public void ReWrite1()
@@ -18,6 +18,14 @@ namespace NatashaUT.Model
         {
 
         }
+
+        public class InnerClass 
+        {
+
+            public string Name;
+
+        }
+
 
     }
 }
