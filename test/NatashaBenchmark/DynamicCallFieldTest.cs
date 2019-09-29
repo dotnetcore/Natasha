@@ -142,11 +142,11 @@ namespace NatashaBenchmark
         {
             OriginModel.Age = "Hello";
         }
-        //////[BenchmarkCategory("Write", "String"), Benchmark(Description = "NatashaProxy")]
-        ////public void DynamicFieldProxySetStringTest()
-        ////{
-        ////    NatashaCaller["Age"].StringValue = "Hello";
-        ////}
+        [BenchmarkCategory("Write", "String"), Benchmark(Description = "NatashaProxy")]
+        public void DynamicFieldProxySetStringTest()
+        {
+            NatashaSetString(OriginModel, "Hello");
+        }
         //////[BenchmarkCategory("Write", "String"), Benchmark(Description = "NatashaStrongDynamicProxy")]
         ////public void DynamicStrongFieldProxySetStringTest()
         ////{

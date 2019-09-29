@@ -35,19 +35,36 @@ namespace Natasha.Log
         public void Handler(CSharpCompilation compilation, List<Diagnostic> diagnostics)
         {
 
+            Buffer.AppendLine($"\r\n\r\n========================Error : {compilation.AssemblyName}========================\r\n");
+            List<string> others = new List<string>();
             foreach (var item in diagnostics)
             {
-                string str = item.Location.SourceTree.ToString();
-                if (!Errors.ContainsKey(str))
+              
+                if (item.Location== Location.None)
                 {
-                    Errors[str] = new List<Diagnostic>();
+
+                    others.Add(item.ToString());
+
                 }
-                Errors[str].Add(item);
+                else
+                {
+
+                    string str = item.Location.SourceTree.ToString();
+                    if (!Errors.ContainsKey(str))
+                    {
+                        Errors[str] = new List<Diagnostic>();
+                    }
+                    Errors[str].Add(item);
+
+                }
+               
+
             }
 
-            Buffer.AppendLine($"\r\n\r\n========================Error : {compilation.AssemblyName}========================\r\n");
+           
             foreach (var item in Errors)
             {
+
                 Buffer.AppendLine();
                 Buffer.Append(WrapperCode(item.Key));
                 Buffer.AppendLine("\r\n\r\n-----------------------------------------------error---------------------------------------------------");
@@ -66,10 +83,20 @@ namespace Natasha.Log
 
                 }
 
+                if (others.Count>0)
+                {
+                    Buffer.AppendLine("\r\n-----------------------------------------------其他信息-----------------------------------------------");
+                    foreach (var message in others)
+                    {
+                        Buffer.AppendLine($"\r\n    Message :\t{message}");
+                    }
+                }
+
 
                 Buffer.AppendLine("\r\n====================================================================\r\n");
 
             }
+
         }
 
 
