@@ -33,7 +33,7 @@ namespace NatashaUT
         public void Test1()
         {
 
-            Assert.False(GetResult1());
+            Assert.Equal("Unable to connect to any of the specified MySQL hosts.",GetResult1());
             for (int i = 0; i < 6; i++)
             {
                 GC.Collect();
@@ -44,9 +44,9 @@ namespace NatashaUT
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public bool GetResult1()
+        public string GetResult1()
         {
-            bool result=false;
+            string result;
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib","Sql", "ClassLibrary1.dll");
             using (DomainManagment.CreateAndLock("TempDomain11"))
             {
@@ -66,9 +66,9 @@ return  a.Show();
 catch{
 
 }
-return false;")
+return default;").Return<string>()
 
-                   .Complie<Func<bool>>();
+                   .Complie<Func<string>>();
                 result = action();
                 domain.Dispose();
             }
