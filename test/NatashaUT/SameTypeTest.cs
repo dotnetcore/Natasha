@@ -37,8 +37,8 @@ namespace NatashaUT
                 var type2 = assembly.GetType("Class1");
 
 
-                string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Sql", "ClassLibrary1.dll");
-                var result1= domain.LoadFile(path);
+                string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Repeate", "ClassLibrary1.dll");
+                var result1= domain.LoadStream(path);
                 var type1 = result1.GetTypes().First(item => item.Name == "Class1");
 
 
@@ -196,7 +196,7 @@ namespace NatashaUT
 
 
                     string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Repeate", "ClassLibrary1.dll");
-                    result1 = domain.LoadFile(path);
+                    result1 = domain.LoadStream(path);
                     var type1 = result1.GetTypes().First(item => item.Name == "Class1");
 
 
