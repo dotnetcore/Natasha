@@ -65,10 +65,10 @@ for:
 
     
   before_build:
-  - sh: dotnet restore
+  - sh: dotnet tool install --global FlubuCore.GlobalTool --version 4.2.3
   
   build_script:
-  - sh: dotnet build -c Release
+  - sh: flubu Rebuild
   
   test_script:
   - ps: dotnet test

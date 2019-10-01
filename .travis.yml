@@ -1,7 +1,7 @@
 language: csharp
 solution: Natasha.sln
 dist: xenial
-dotnet: 2.2.300
+dotnet: 3.0.100
 mono: none
 
 branches:
@@ -13,24 +13,9 @@ os:
   - osx
 
 osx_image: xcode9.1
-
-before_install:
-
-#env:
-  #global:
-    #- DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
-    #- DOTNET_CLI_TELEMETRY_OPTOUT: 1
-
-
-install:
-
-#- nuget install xunit.runner.console -Version 2.4.1 -OutputDirectory testrunner
-# - sudo nuget install xunit.runner.console -OutputDirectory testrunner -Source https://api.nuget.org/v3/index.json
+before-script:
 
 script:
- - dotnet restore
- - dotnet build -c Release
- - dotnet test
-#- xbuild /p:Configuration=Release Natasha.sln
-# - dotnet ./testrunner/xunit.runner.console.2.4.1/tools/xunit.console.exe ./NatashaUT/bin/Release/netcoreapp2.2/NatashaUT.dll
-# - dotnet ./testrunner/xunit.runner.console*/tools/xunit.console.dll ./NatashaUT/bin/Release/netcoreapp2.2/NatashaUT.dll
+ - export PATH="$PATH:$HOME/.dotnet/tools"
+ - dotnet tool install --global FlubuCore.GlobalTool --version 4.2.3
+ - flubu Rebuild.Server -apiKey=$Nuget_Api_Key
