@@ -32,8 +32,8 @@ namespace Build
 
             var runTests = context.CreateTarget("Run.Tests")
                 .SetDescription("Run's all Natasha's tests.")
-                .AddCoreTask(x => x.Test().Project("test/NatashaUT/NatashaUT.csproj").NoBuild())
-                .AddCoreTask(x => x.Test().Project("test/NatashaBenchmark/NatashaBenchmark.csproj").NoBuild());
+                .AddCoreTask(x => x.Test().Project("test/NatashaUT/NatashaUT.csproj").NoBuild());
+                //.AddCoreTask(x => x.Test().Project("test/NatashaBenchmark/NatashaBenchmark.csproj").NoBuild());
 
            var nugetPublish = context.CreateTarget("Nuget.Publish")
                 .SetDescription("Packs and publishes nuget package.")
