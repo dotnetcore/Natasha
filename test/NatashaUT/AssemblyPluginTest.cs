@@ -137,7 +137,7 @@ return false;")
             {
 
                 var domain = DomainManagment.CurrentDomain;
-                var assemebly = domain.LoadFile(path);
+                var assemebly = domain.LoadStream(path);
                 var action = FastMethodOperator.New
                    .Using(assemebly)
                    .MethodBody(@"Class1 obj = new Class1(); return obj.Get();")
