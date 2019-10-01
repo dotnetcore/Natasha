@@ -72,7 +72,6 @@ return false;")
                 result = action();
                 domain.Dispose();
             }
-            DomainManagment.CurrentDomain.Unload();
             return result;
         }
 
