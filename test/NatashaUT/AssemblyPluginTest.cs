@@ -52,14 +52,11 @@ namespace NatashaUT
             {
 
                 var domain = DomainManagment.CurrentDomain;
-                var assemebly = domain.LoadFile(path);
+                var assemebly = domain.LoadStream(path);
                 var action = FastMethodOperator.New
                    .Using(assemebly)
-                   //.Using("MySql.Data.MySqlClient")
                    .MethodBody(@"
 try{
-//MySqlConnection conn = new MySqlConnection("""");
-//conn.Open();
 Class1 a = new Class1();
 return  a.Show();
 }
