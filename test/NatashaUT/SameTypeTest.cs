@@ -195,7 +195,7 @@ namespace NatashaUT
                     //domain.RemoveAssembly(result2);
 
 
-                    string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Sql", "ClassLibrary1.dll");
+                    string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Repeate", "ClassLibrary1.dll");
                     result1 = domain.LoadFile(path);
                     var type1 = result1.GetTypes().First(item => item.Name == "Class1");
 
