@@ -37,7 +37,6 @@ namespace Natasha.Complier
             References = new List<PortableExecutableReference>(_domain.ReferencesCache);
             SyntaxInfos = new SyntaxOption();
             SyntaxExceptions = SyntaxInfos.SyntaxExceptions;
-            ComplieInFile = true;
 
         }
 
