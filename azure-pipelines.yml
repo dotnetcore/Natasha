@@ -53,7 +53,7 @@ jobs:
   - task: DotNetCoreCLI@2
     displayName: test
     inputs:
-      command: test
+      command: test ./test/NatashaUT
 
 
 
@@ -90,7 +90,7 @@ jobs:
   - task: DotNetCoreCLI@2
     displayName: test
     inputs:
-      command: test
+      command: test ./test/NatashaUT
 
 
 
@@ -127,4 +127,4 @@ jobs:
   - task: DotNetCoreCLI@2
     displayName: test
     inputs:
-      command: test
+      command: test ./test/NatashaUT

@@ -1,4 +1,4 @@
-version: 1.0.0.{build}
+version: 2.0.0.{build}
 image:
 - Ubuntu1804
 - Visual Studio 2019
@@ -71,4 +71,4 @@ for:
   - sh: flubu Rebuild
   
   test_script:
-  - ps: dotnet test
+  - ps: dotnet test ./test/NatashaUT
