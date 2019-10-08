@@ -73,10 +73,10 @@ WeihanLi
   
  <br/>  
  
- ### 微信群  
+ ### 生态微信群  
  
- <img src="https://github.com/dotnetcore/Natasha/blob/master/Image/WeChart.jpg" height="450" width="250" alt="Natasha生态群"/>
-
+为防止广告骚扰，微信群已关闭，进群请发送您的微信号到 2765968624@qq.com 并说明进群原因。
+ 
  
   <br/>  
  
