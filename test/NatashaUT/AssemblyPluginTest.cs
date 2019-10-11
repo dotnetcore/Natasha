@@ -64,6 +64,7 @@ Class1 a = new Class1();
 return  a.Show();
 }
 catch(Exception e){
+    Console.WriteLine(e.Message);  
     return e.Message;
 }
 return default;").Return<string>()
