@@ -48,6 +48,7 @@ namespace NatashaUT
         {
             string result;
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib","Sql", "ClassLibrary1.dll");
+            Assert.True(File.Exists(path));
             using (DomainManagment.CreateAndLock("TempDomain11"))
             {
 
@@ -97,6 +98,7 @@ return default;").Return<string>()
         {
             string result;
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Static", "ClassLibrary5.dll");
+            Assert.True(File.Exists(path));
             using (DomainManagment.CreateAndLock("TempDomain12"))
             {
 
@@ -134,6 +136,7 @@ return default;").Return<string>()
         {
             string result;
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Json", "ClassLibrary6.dll");
+            Assert.True(File.Exists(path));
             using (DomainManagment.CreateAndLock("TempDomain13"))
             {
 
