@@ -68,4 +68,17 @@
     <ProjectReference Include="..\..\src\Natasha\Natasha.csproj" />
   </ItemGroup>
 
+  
+  <ItemGroup>
+    <None Update="Lib\Repeate\ClassLibrary1.deps.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Lib\Repeate\ClassLibrary1.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Lib\Repeate\ClassLibrary2.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
