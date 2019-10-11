@@ -29,7 +29,7 @@ namespace NatashaUT
         }
 
 
-        [Fact(DisplayName = "不可回收：MySql插件")]
+        //[Fact(DisplayName = "不可回收：MySql插件")]
         public void Test1()
         {
 
