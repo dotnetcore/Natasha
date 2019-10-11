@@ -48,12 +48,13 @@ namespace NatashaUT
         {
             string result;
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib","Sql", "ClassLibrary1.dll");
+            Console.WriteLine(path);
             Assert.True(File.Exists(path));
             using (DomainManagment.CreateAndLock("TempDomain11"))
             {
 
                 var domain = DomainManagment.CurrentDomain;
-                var assemebly = domain.LoadStream(path);
+                var assemebly = domain.LoadFile(path);
                 var action = FastMethodOperator.New
                    .Using(assemebly)
                    //.Using("MySql.Data.MySqlClient")
