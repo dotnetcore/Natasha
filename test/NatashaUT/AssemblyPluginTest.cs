@@ -63,8 +63,8 @@ try{
 Class1 a = new Class1();
 return  a.Show();
 }
-catch{
-    //return 1;
+catch(Exception e){
+    return e.Message;
 }
 return default;").Return<string>()
 
