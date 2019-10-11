@@ -20,7 +20,7 @@ namespace Natasha
             if (File.Exists(path))
             {
                 var domain = (AssemblyDomain)(AssemblyLoadContext.CurrentContextualReflectionContext);
-                Assembly = domain.LoadFile(path);
+                Assembly = domain.LoadStream(path);
                 TypeCache = new ConcurrentDictionary<string, Type>();
                 foreach (var item in Assembly.GetTypes())
                 {

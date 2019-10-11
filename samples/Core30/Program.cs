@@ -2,6 +2,7 @@
 using Natasha.Operator;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading;
 
@@ -12,74 +13,100 @@ namespace Core30
         public static Action action;
         static void Main(string[] args)
         {
-           // NAssembly nAssembly = new NAssembly("a");
-           //// Show();
-           //// Console.WriteLine(AssemblyManagment.Count("TempDomain"));
+            // NAssembly nAssembly = new NAssembly("a");
+            //// Show();
+            //// Console.WriteLine(AssemblyManagment.Count("TempDomain"));
 
-           // NStruct nStruct1 = new NStruct();
-           // nStruct1
-           //     .Namespace("Core30")
-           //     .OopName("Test")
-           //     .Ctor(builder => builder
-           //         .PublicMember
-           //         .Param<string>("name")
-           //         .Body("Name=name;"))
-           //     .PublicField<string>("Name");
-           // var typ1e = nStruct1.GetType();
-           // Console.WriteLine(AssemblyManagment.Count("Default"));
+            // NStruct nStruct1 = new NStruct();
+            // nStruct1
+            //     .Namespace("Core30")
+            //     .OopName("Test")
+            //     .Ctor(builder => builder
+            //         .PublicMember
+            //         .Param<string>("name")
+            //         .Body("Name=name;"))
+            //     .PublicField<string>("Name");
+            // var typ1e = nStruct1.GetType();
+            // Console.WriteLine(AssemblyManagment.Count("Default"));
 
 
-           // var domain2 = AssemblyManagment.Create("TempDomain2");
-           // using (AssemblyManagment.Lock("TempDomain2"))
-           // {
-           //     //do sth
-           //     NStruct nStruct = new NStruct();
-           //     nStruct
-           //         .Namespace("Core30")
-           //         .OopName("Test")
-           //         .Ctor(builder => builder
-           //             .PublicMember
-           //             .Param<string>("name")
-           //             .Body("Name=name;"))
-           //         .PublicField<string>("Name");
-           //     var type = nStruct.GetType();
+            // var domain2 = AssemblyManagment.Create("TempDomain2");
+            // using (AssemblyManagment.Lock("TempDomain2"))
+            // {
+            //     //do sth
+            //     NStruct nStruct = new NStruct();
+            //     nStruct
+            //         .Namespace("Core30")
+            //         .OopName("Test")
+            //         .Ctor(builder => builder
+            //             .PublicMember
+            //             .Param<string>("name")
+            //             .Body("Name=name;"))
+            //         .PublicField<string>("Name");
+            //     var type = nStruct.GetType();
 
-           //     nStruct = new NStruct();
-           //     nStruct
-           //         .Namespace("Core30")
-           //         .OopName("Test1")
-           //         .Ctor(builder => builder
-           //             .PublicMember
-           //             .Param<string>("name")
-           //             .Body("Name=name;"))
-           //         .PublicField<string>("Name");
-           //     type = nStruct.GetType();
-           // }
-           // Console.WriteLine(AssemblyManagment.Count("TempDomain2"));
+            //     nStruct = new NStruct();
+            //     nStruct
+            //         .Namespace("Core30")
+            //         .OopName("Test1")
+            //         .Ctor(builder => builder
+            //             .PublicMember
+            //             .Param<string>("name")
+            //             .Body("Name=name;"))
+            //         .PublicField<string>("Name");
+            //     type = nStruct.GetType();
+            // }
+            // Console.WriteLine(AssemblyManagment.Count("TempDomain2"));
 
-           // using (AssemblyManagment.CreateAndLock("TempDomain3"))
-           // {
-           //     //do sth
-           //     NStruct nStruct = new NStruct();
-           //     nStruct
-           //         .Namespace("Core30")
-           //         .OopName("Test")
-           //         .Ctor(builder => builder
-           //             .PublicMember
-           //             .Param<string>("name")
-           //             .Body("Name=name;"))
-           //         .PublicField<string>("Name");
-           //     var type = nStruct.GetType();
-           // }
-           // Console.WriteLine(AssemblyManagment.Count("TempDomain3"));
+            // using (AssemblyManagment.CreateAndLock("TempDomain3"))
+            // {
+            //     //do sth
+            //     NStruct nStruct = new NStruct();
+            //     nStruct
+            //         .Namespace("Core30")
+            //         .OopName("Test")
+            //         .Ctor(builder => builder
+            //             .PublicMember
+            //             .Param<string>("name")
+            //             .Body("Name=name;"))
+            //         .PublicField<string>("Name");
+            //     var type = nStruct.GetType();
+            // }
+            // Console.WriteLine(AssemblyManagment.Count("TempDomain3"));
 
             //ShowQ();
             //Thread.Sleep(2000);
             //Testqq();
             //Thread.Sleep(2000);
             //TestMemoery2();
-            Testt();
-            Console.ReadKey();
+            //Testt();
+
+            string result;
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Sql", "ClassLibrary1.dll");
+            using (DomainManagment.CreateAndLock("TempDomain11"))
+            {
+
+                var domain = DomainManagment.CurrentDomain;
+                var assemebly = domain.LoadStream(path);
+                var action = FastMethodOperator.New
+                   .Using(assemebly)
+                   .MethodBody(@"
+try{
+//MySqlConnection conn = new MySqlConnection("""");
+//conn.Open();
+Class1 a = new Class1();
+return  a.Show();
+}
+catch(Exception e){
+    return e.Message;
+}
+return default;").Return<string>()
+
+                   .Complie<Func<string>>();
+                result = action();
+                Console.WriteLine(result);
+            }
+                Console.ReadKey();
         }
 
         public static void ShowQ()

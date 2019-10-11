@@ -217,7 +217,9 @@ namespace Natasha
             string assemblyPath = _resolver.ResolveAssemblyToPath(assemblyName);
             if (assemblyPath != null)
             {
-                return Handler(assemblyPath);
+
+                return Handler(new FileStream(assemblyPath, FileMode.Open));
+
             }
 #endif
             return null;
