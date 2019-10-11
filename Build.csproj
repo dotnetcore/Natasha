@@ -40,10 +40,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FlubuCore" Version="4.2.1" />
+    <PackageReference Include="FlubuCore" Version="4.2.7" />
   </ItemGroup>
   <ItemGroup>
-    <DotNetCliToolReference Include="dotnet-flubu" Version="4.2.1" />
+    <DotNetCliToolReference Include="dotnet-flubu" Version="4.2.7" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="output\" />
