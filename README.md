@@ -26,8 +26,8 @@
 |--------- |------------- |
 | Document | [![wiki](https://img.shields.io/badge/wiki-ch-blue.svg)](https://github.com/dotnetcore/Natasha/wiki) |
 | Lang | ![Complie](https://img.shields.io/badge/script-csharp-green.svg)|
-| Rumtime | ![standard](https://img.shields.io/badge/platform-standard2.0-blue.svg) | 
-| OS | ![Windows](https://img.shields.io/badge/os-windows-black.svg) ![linux](https://img.shields.io/badge/os-linux-black.svg) ![mac](https://img.shields.io/badge/os-mac-black.svg)|   
+| OS | ![Windows](https://img.shields.io/badge/os-windows-black.svg) ![linux](https://img.shields.io/badge/os-linux-black.svg) ![mac](https://img.shields.io/badge/os-mac-black.svg)|
+| Rumtime | ![standard](https://img.shields.io/badge/platform-standard2.0-blue.svg) ![standard](https://img.shields.io/badge/platform-netcore3.0-blue.svg) | 
 
 <br/>  
 
@@ -64,6 +64,7 @@ WeihanLi
  - 2019-09-01 ： 发布v2.0.0.0，支持共享域协作，支持创建、卸载、锁域操作，支持多程序集合并编译、覆盖编译，支持外部文件热加载，封装字符串解构操作。  
  - 2019-09-27 ： 发布v2.0.0.2，修复默认域的插件加载操作，增加域内并发控制，使用链表方式存储引用表。  
  - 2019-10-01 ： 发布v2.0.2.0，在流的基础上，恢复文件方式的编译、加载, 增强错误日志处理，增强反解器（内部类部分）。
+ - 2019-10-12 ： 发布v2.0.2.1，修复插件依赖加载。  
  
  <br/>  
  
