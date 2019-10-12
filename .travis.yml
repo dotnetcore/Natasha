@@ -2,6 +2,7 @@ language: csharp
 solution: Natasha.sln
 dist: xenial
 dotnet: 3.0.100
+dotnet: 2.2.401
 mono: none
 
 branches:
