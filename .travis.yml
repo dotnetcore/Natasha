@@ -17,5 +17,5 @@ before-script:
 
 script:
  - export PATH="$PATH:$HOME/.dotnet/tools"
- - dotnet tool install --global FlubuCore.GlobalTool --version 4.2.7
+ - dotnet tool install --global FlubuCore.GlobalTool --version 4.2.8
  - flubu Rebuild.Server -apiKey=${Nuget_Api_Key}
