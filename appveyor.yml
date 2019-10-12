@@ -65,7 +65,7 @@ for:
 
     
   before_build:
-  - sh: dotnet tool install --global FlubuCore.GlobalTool --version 4.2.3
+  - sh: dotnet tool install --global FlubuCore.GlobalTool --version 4.2.8
   
   build_script:
   - sh: flubu Rebuild
