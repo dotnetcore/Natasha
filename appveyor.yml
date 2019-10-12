@@ -41,12 +41,12 @@ for:
   #- ps: cd c:\projects\xxx
                 
   before_build:
-  - ps: dotnet restore
+  - ps: dotnet restore Natasha.sln
   - ps: choco install opencover.portable
   - ps: choco install codecov
 
   build_script:
-  - ps: dotnet build -c Release
+  - ps: dotnet build Natasha.sln -c Release
   
 
   test_script:
@@ -69,6 +69,3 @@ for:
   
   build_script:
   - sh: flubu Rebuild
-  
-  test_script:
-  - ps: dotnet test ./test/NatashaUT
