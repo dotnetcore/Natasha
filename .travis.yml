@@ -16,5 +16,6 @@ osx_image: xcode9.1
 before-script:
 
 script:
- - dotnet restore Build.csproj
- - dotnet flubu Rebuild.Server -apiKey=${Nuget_Api_Key}
+ - export PATH="$PATH:$HOME/.dotnet/tools"
+ - dotnet tool install --global FlubuCore.GlobalTool --version 4.2.8
+ - flubu Rebuild.Server -apiKey=${Nuget_Api_Key}
