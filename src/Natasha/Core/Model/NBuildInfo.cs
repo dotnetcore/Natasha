@@ -43,6 +43,8 @@ namespace Natasha
 
         public bool IsStatic;
         public bool IsNew;
+        public bool CanRead;
+        public bool CanWrite;
 
 
         public string StaticName;
@@ -61,7 +63,9 @@ namespace Natasha
                     MemberType = tempInfo.FieldType,
                     MemberTypeName = tempInfo.FieldType.GetDevelopName(),
                     MemberTypeAvailableName = tempInfo.FieldType.GetAvailableName(),
-                    IsNew = tempInfo.DeclaringType != tempInfo.ReflectedType
+                    IsNew = tempInfo.DeclaringType != tempInfo.ReflectedType,
+                    CanRead = true,
+                    CanWrite = !tempInfo.IsInitOnly
 
                 };
 
@@ -91,8 +95,10 @@ namespace Natasha
                     MemberType = tempInfo.PropertyType,
                     MemberTypeName = tempInfo.PropertyType.GetDevelopName(),
                     MemberTypeAvailableName = tempInfo.PropertyType.GetAvailableName(),
-                    IsNew = tempInfo.DeclaringType != tempInfo.ReflectedType
-
+                    IsNew = tempInfo.DeclaringType != tempInfo.ReflectedType,
+                    CanRead = tempInfo.CanRead,
+                    CanWrite = tempInfo.CanWrite
+                    
                 };
 
 
