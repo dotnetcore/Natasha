@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace Natasha
@@ -9,9 +11,14 @@ namespace Natasha
     public class NBuildInfo
     {
 
-        public Type DeclaringType;
-        public string DeclaringTypeName;
-        public string DeclaringAvailableName;
+        public Type FatherType;
+        public string FatherTypeName;
+        public string FatherAvailableName;
+
+
+        public Type CurrentType;
+        public string CurrentTypeName;
+        public string CurrentTypeAvailableName;
 
 
         public Type MemberType;
@@ -35,9 +42,11 @@ namespace Natasha
 
 
         public bool IsStatic;
+        public bool IsNew;
 
 
         public string StaticName;
+
 
         public static implicit operator NBuildInfo(MemberInfo info)
         {
@@ -52,11 +61,12 @@ namespace Natasha
                     MemberType = tempInfo.FieldType,
                     MemberTypeName = tempInfo.FieldType.GetDevelopName(),
                     MemberTypeAvailableName = tempInfo.FieldType.GetAvailableName(),
+                    IsNew = tempInfo.DeclaringType != tempInfo.ReflectedType
 
                 };
 
 
-                HandlerDeclaringType(instance, tempInfo.DeclaringType);
+                HandlerDeclaringType(instance, tempInfo.ReflectedType);
                 HandlerArrayType(instance, tempInfo.FieldType);
 
 
@@ -64,7 +74,7 @@ namespace Natasha
                 {
 
                     instance.IsStatic = true;
-                    instance.StaticName = $"{instance.DeclaringTypeName}";
+                    instance.StaticName = $"{instance.CurrentTypeName}";
 
                 }
                 return instance;
@@ -81,11 +91,12 @@ namespace Natasha
                     MemberType = tempInfo.PropertyType,
                     MemberTypeName = tempInfo.PropertyType.GetDevelopName(),
                     MemberTypeAvailableName = tempInfo.PropertyType.GetAvailableName(),
+                    IsNew = tempInfo.DeclaringType != tempInfo.ReflectedType
 
                 };
 
 
-                HandlerDeclaringType(instance, tempInfo.DeclaringType);
+                HandlerDeclaringType(instance, tempInfo.ReflectedType);
                 HandlerArrayType(instance, tempInfo.PropertyType);
 
 
@@ -93,7 +104,7 @@ namespace Natasha
                 {
 
                     instance.IsStatic = true;
-                    instance.StaticName = $"{instance.DeclaringTypeName}";
+                    instance.StaticName = $"{instance.CurrentTypeName}";
 
                 }
                 return instance;
@@ -161,12 +172,59 @@ namespace Natasha
         public static NBuildInfo HandlerDeclaringType(NBuildInfo instance, Type type)
         {
 
-            instance.DeclaringType = type;
-            instance.DeclaringTypeName = type.GetDevelopName();
-            instance.DeclaringAvailableName = type.GetAvailableName();
+            instance.CurrentType = type;
+            instance.CurrentTypeName = type.GetDevelopName();
+            instance.CurrentTypeAvailableName = type.GetAvailableName();
+
+            instance.FatherType = type.BaseType;
+            instance.FatherTypeName = type.BaseType.GetDevelopName();
+            instance.FatherAvailableName = type.BaseType.GetAvailableName();
             return instance;
 
         }
 
+
+
+
+        public static IDictionary<string,NBuildInfo> GetInfos<T>()
+        {
+
+            return GetInfos(typeof(T));
+
+        }
+
+
+
+
+        public static IDictionary<string, NBuildInfo> GetInfos(Type type)
+        {
+
+            if (type==default)
+            {
+                return default;
+            }
+
+
+            Dictionary<string, NBuildInfo> cache = new Dictionary<string, NBuildInfo>();
+            var members = type.GetMembers();
+            for (int i = 0; i < members.Length; i+=1)
+            {
+
+                var member = members[i];
+                if (
+                        !cache.ContainsKey(member.Name) 
+                        || 
+                        member.ReflectedType == member.DeclaringType
+                    )
+                {
+                    cache[member.Name] = member;
+                }
+
+            }
+            return cache;
+
+        }
+
     }
+
 }
