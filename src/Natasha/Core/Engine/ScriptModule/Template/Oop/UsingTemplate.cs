@@ -38,10 +38,28 @@ namespace Natasha.Template
                 Using(converter.NamespaceType);
 
             }
-            else
+            else if (converter.NamespaceString != default)
             {
 
                 Using(converter.NamespaceString);
+
+            }
+            else if (converter.NamespaceAssemblys !=default)
+            {
+
+                Using(converter.NamespaceAssemblys);
+
+            }
+            else if (converter.NamespaceStrings != default)
+            {
+
+                Using(converter.NamespaceStrings);
+
+            }
+            else if (converter.NamespaceTypes != default)
+            {
+
+                Using(converter.NamespaceTypes);
 
             }
             return Link;
@@ -118,6 +136,27 @@ namespace Natasha.Template
         /// <param name="namespaces">命名空间</param>
         /// <returns></returns>
         public T Using(params string[] namespaces)
+        {
+
+            for (int i = 0; i < namespaces.Length; i++)
+            {
+
+                Using(namespaces[i]);
+
+            }
+            return Link;
+
+        }
+
+
+
+
+        /// <summary>
+        /// 设置命名空间
+        /// </summary>
+        /// <param name="namespaces">命名空间</param>
+        /// <returns></returns>
+        public T Using(params Assembly[] namespaces)
         {
 
             for (int i = 0; i < namespaces.Length; i++)
