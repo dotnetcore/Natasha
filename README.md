@@ -66,7 +66,7 @@ WeihanLi
  - 2019-10-01 ： 发布v2.0.2.0，在流的基础上，恢复文件方式的编译、加载, 增强错误日志处理，增强反解器（内部类部分）。
  - 2019-10-12 ： 发布v2.0.2.1，修复插件依赖加载。  
  - 2019-10-15 ： 发布v2.0.4.0，增强构建信息操作类。 
- 
+ - 2019-10-20 ： 发布v2.0.5.0，增强NAction/NFunc/DelegateOperator等封装类的传参类型，支持string/string[]/Type/Type[]/Assembly/Asssembly[], 增强Natasha的Using方法解析。 
  <br/>  
  
  ### 升级日志
