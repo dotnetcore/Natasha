@@ -223,7 +223,13 @@ namespace Natasha
                         member.ReflectedType == member.DeclaringType
                     )
                 {
-                    cache[member.Name] = member;
+
+                    var tempBuilder = member;
+                    if (tempBuilder!=null)
+                    {
+                        cache[member.Name] = member;
+                    }
+                    
                 }
 
             }
