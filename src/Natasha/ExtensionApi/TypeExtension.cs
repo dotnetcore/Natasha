@@ -8,7 +8,13 @@ namespace Natasha
 
         public static bool IsSimpleType(this Type type)
         {
-            return type.IsValueType || type == typeof(string) || type == typeof(Delegate) || type == typeof(MulticastDelegate) || type == typeof(Type);
+            return type.IsValueType || 
+                type == typeof(string) || 
+                type.IsSubclassOf(typeof(Delegate)) || 
+                type == typeof(Delegate) ||
+                type.IsSubclassOf(typeof(MulticastDelegate)) ||
+                type == typeof(MulticastDelegate) || 
+                type == typeof(Type);
         }
 
 
