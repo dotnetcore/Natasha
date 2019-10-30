@@ -127,11 +127,11 @@ WeihanLi
 ---------------------  
 
 
-- **测试计划（等待下一版本bechmark）**：
+- **性能测试**：
       
-     - [x]  **动态函数性能测试（对照组： emit, origin）**  
+     - [x]  **动态调用性能测试（对照组： emit, origin）**  
      ![字段性能测试1](https://github.com/dotnetcore/Natasha/blob/docs/Image/Natasha%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%951.png)
-     - [ ]  **动态调用性能测试（对照组： 动态直接调用，动态代理调用，emit, origin）**  
+     - [ ]  **动态初始化性能测试（对照组： emit, origin）**  
      - [ ]  **动态克隆性能测试（对照组： origin）**
      - [ ]  **远程动态封装函数性能测试（对照组： 动态函数，emit, origin）**
 
