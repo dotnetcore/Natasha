@@ -43,6 +43,17 @@
 
 <br/>    
 
+ ### 性能测试
+      
+   - [x]  **动态调用性能测试（对照组： emit, origin）**  
+     ![字段性能测试1](https://github.com/dotnetcore/Natasha/blob/docs/Image/Natasha%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%951.png)
+   - [ ]  **动态初始化性能测试（对照组： emit, origin）**  
+   - [ ]  **动态克隆性能测试（对照组： origin）**
+   - [ ]  **远程动态封装函数性能测试（对照组： 动态函数，emit, origin）**
+
+
+<br/>    
+
 ### Wiki审核
 
 Teng(359768998@qq.com)
@@ -69,12 +80,15 @@ WeihanLi
  - 2019-10-20 ： 发布v2.0.5.0，增强NAction/NFunc/DelegateOperator等封装类的传参类型，支持string/string[]/Type/Type[]/Assembly/Asssembly[], 增强Natasha的Using方法解析。 
  <br/>  
  
+ 
  ### 升级日志
  
  - [[2019]](https://github.com/dotnetcore/Natasha/blob/master/docs/zh/update/2019.md)
   
  <br/>  
  
+ 
+
  ### 生态微信群  
  
 为防止广告骚扰，微信群已关闭，进群请发送您的微信号到 2765968624@qq.com 并说明进群原因。
@@ -83,8 +97,7 @@ WeihanLi
   <br/>  
  
 ---------------------  
- <br/>  
- 
+
 
 ### 使用方法(User Api)：  
 
@@ -126,16 +139,6 @@ WeihanLi
 
 ---------------------  
 
-
-- **性能测试**：
-      
-     - [x]  **动态调用性能测试（对照组： emit, origin）**  
-     ![字段性能测试1](https://github.com/dotnetcore/Natasha/blob/docs/Image/Natasha%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%951.png)
-     - [ ]  **动态初始化性能测试（对照组： emit, origin）**  
-     - [ ]  **动态克隆性能测试（对照组： origin）**
-     - [ ]  **远程动态封装函数性能测试（对照组： 动态函数，emit, origin）**
-
----------------------  
 
 ## License
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdotnetcore%2FNatasha.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fdotnetcore%2FNatasha?ref=badge_large)          
