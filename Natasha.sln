@@ -33,9 +33,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core30", "samples\Core30\Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Build", "src\Build\Build.csproj", "{12CA103E-9E5E-4079-8F24-1B1067C1D20C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnloadTest20", "UnloadTest20\UnloadTest20.csproj", "{13F80608-84B1-417B-9DC6-361352AB9F32}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnloadTest20", "test\UnloadTest20\UnloadTest20.csproj", "{13F80608-84B1-417B-9DC6-361352AB9F32}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnloadTest30", "UnloadTest30\UnloadTest30.csproj", "{C26276A5-25E9-4212-A1FE-807E5B570195}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnloadTest30", "test\UnloadTest30\UnloadTest30.csproj", "{C26276A5-25E9-4212-A1FE-807E5B570195}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
