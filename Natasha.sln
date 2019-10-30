@@ -34,9 +34,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core30", "samples\Core30\Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Build", "src\Build\Build.csproj", "{12CA103E-9E5E-4079-8F24-1B1067C1D20C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnloadTest20", "test\UnloadTest20\UnloadTest20.csproj", "{13F80608-84B1-417B-9DC6-361352AB9F32}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnloadTest20", "test\UnloadTest20\UnloadTest20.csproj", "{13F80608-84B1-417B-9DC6-361352AB9F32}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnloadTest30", "test\UnloadTest30\UnloadTest30.csproj", "{C26276A5-25E9-4212-A1FE-807E5B570195}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnloadTest30", "test\UnloadTest30\UnloadTest30.csproj", "{C26276A5-25E9-4212-A1FE-807E5B570195}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NatashaBenchmark", "test\NatashaBenchmark\NatashaBenchmark.csproj", "{AB7A1326-26BC-46E1-A9B1-32DEFE2E8443}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -80,6 +82,10 @@ Global
 		{C26276A5-25E9-4212-A1FE-807E5B570195}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C26276A5-25E9-4212-A1FE-807E5B570195}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C26276A5-25E9-4212-A1FE-807E5B570195}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB7A1326-26BC-46E1-A9B1-32DEFE2E8443}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB7A1326-26BC-46E1-A9B1-32DEFE2E8443}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB7A1326-26BC-46E1-A9B1-32DEFE2E8443}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB7A1326-26BC-46E1-A9B1-32DEFE2E8443}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -94,6 +100,7 @@ Global
 		{12CA103E-9E5E-4079-8F24-1B1067C1D20C} = {508A2E20-BB12-4610-8CB2-0B07B233DE68}
 		{13F80608-84B1-417B-9DC6-361352AB9F32} = {1F267883-0864-4C1C-AE20-E2AF5457BA54}
 		{C26276A5-25E9-4212-A1FE-807E5B570195} = {1F267883-0864-4C1C-AE20-E2AF5457BA54}
+		{AB7A1326-26BC-46E1-A9B1-32DEFE2E8443} = {1F267883-0864-4C1C-AE20-E2AF5457BA54}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3004E730-B231-40FA-B75C-58D7DDE17679}
