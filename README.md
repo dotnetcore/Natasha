@@ -43,6 +43,17 @@
 
 <br/>    
 
+ ### 性能测试
+      
+   - [x]  **动态调用性能测试（对照组： emit, origin）**  
+     ![字段性能测试1](https://github.com/dotnetcore/Natasha/blob/docs/Image/Natasha%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%951.png)
+   - [ ]  **动态初始化性能测试（对照组： emit, origin）**  
+   - [ ]  **动态克隆性能测试（对照组： origin）**
+   - [ ]  **远程动态封装函数性能测试（对照组： 动态函数，emit, origin）**
+
+
+<br/>    
+
 ### Wiki审核
 
 Teng(359768998@qq.com)
@@ -57,17 +68,14 @@ WeihanLi
 
 ### 发布日志  
 
- - 2019-08-07 ： 发布v1.3.0.0，增加NewClass\NewStruct\NewInterface静态操作类,增加NewMethod静态操作类。
- - 2019-08-09 ： 发布v1.3.2.0，支持非安全方法编译,函数支持Unsafe方法。
- - 2019-08-11 ： 发布v1.3.4.0，增加NFunc/NAction方法, 可快速动态构建方法。  
- - 2019-08-16 ： 发布v1.3.6.0，添加枚举构建及编译方法, 日志添加一级 “时分” 目录。 
- - 2019-09-01 ： 发布v2.0.0.0，支持共享域协作，支持创建、卸载、锁域操作，支持多程序集合并编译、覆盖编译，支持外部文件热加载，封装字符串解构操作。  
  - 2019-09-27 ： 发布v2.0.0.2，修复默认域的插件加载操作，增加域内并发控制，使用链表方式存储引用表。  
  - 2019-10-01 ： 发布v2.0.2.0，在流的基础上，恢复文件方式的编译、加载, 增强错误日志处理，增强反解器（内部类部分）。
  - 2019-10-12 ： 发布v2.0.2.1，修复插件依赖加载。  
  - 2019-10-15 ： 发布v2.0.4.0，增强构建信息操作类。 
  - 2019-10-20 ： 发布v2.0.5.0，增强NAction/NFunc/DelegateOperator等封装类的传参类型，支持string/string[]/Type/Type[]/Assembly/Asssembly[], 增强Natasha的Using方法解析。 
+ 
  <br/>  
+ 
  
  ### 升级日志
  
@@ -75,6 +83,8 @@ WeihanLi
   
  <br/>  
  
+ 
+
  ### 生态微信群  
  
 为防止广告骚扰，微信群已关闭，进群请发送您的微信号到 2765968624@qq.com 并说明进群原因。
@@ -83,8 +93,7 @@ WeihanLi
   <br/>  
  
 ---------------------  
- <br/>  
- 
+
 
 ### 使用方法(User Api)：  
 
@@ -126,15 +135,6 @@ WeihanLi
 
 ---------------------  
 
-
-- **测试计划（等待下一版本bechmark）**：
-      
-     - [ ]  **动态函数性能测试（对照组： emit, origin）**  
-     - [ ]  **动态调用性能测试（对照组： 动态直接调用，动态代理调用，emit, origin）**  
-     - [ ]  **动态克隆性能测试（对照组： origin）**
-     - [ ]  **远程动态封装函数性能测试（对照组： 动态函数，emit, origin）**
-
----------------------  
 
 ## License
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdotnetcore%2FNatasha.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fdotnetcore%2FNatasha?ref=badge_large)          
