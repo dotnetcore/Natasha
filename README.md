@@ -46,10 +46,10 @@
  ### 性能测试
       
    - [x]  **动态调用性能测试（对照组： emit, origin）**  
-     ![字段性能测试1](https://github.com/dotnetcore/Natasha/blob/docs/Image/Natasha%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%951.png)
-   - [ ]  **动态初始化性能测试（对照组： emit, origin）**  
-   - [ ]  **动态克隆性能测试（对照组： origin）**
-   - [ ]  **远程动态封装函数性能测试（对照组： 动态函数，emit, origin）**
+     ![字段性能测试](https://github.com/dotnetcore/Natasha/blob/docs/Image/Natasha%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%951.png)
+   - [x]  **动态初始化性能测试（对照组： emit, origin）**  
+     ![初始化性能测试](https://github.com/dotnetcore/Natasha/blob/docs/Image/Natasha%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%952.png)
+
 
 
 <br/>    
