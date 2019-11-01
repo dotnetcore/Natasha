@@ -9,7 +9,7 @@ namespace NatashaBenchmark
         {
             //为兼容多版本测试，请使用命令行功能。
             //BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args);
-            BenchmarkRunner.Run<DynamicCallFieldTest>();
+            BenchmarkRunner.Run<DynamicCallInitTest>();
             //DynamicCallFieldTest a = new DynamicCallFieldTest();
             Console.ReadKey();
         }

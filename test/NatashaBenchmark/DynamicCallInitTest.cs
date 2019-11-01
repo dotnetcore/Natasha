@@ -54,6 +54,11 @@ namespace NatashaBenchmark
         {
             CallModel model = new CallModel();
         }
+        [Benchmark( Description = "Activator")]
+        public void ActivatorTest()
+        {
+            CallModel model = Activator.CreateInstance<CallModel>();
+        }
         [Benchmark(Description = "NatashaInitor")]
         public void DynamicInitTest()
         {
