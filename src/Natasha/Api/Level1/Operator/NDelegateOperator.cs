@@ -2,7 +2,7 @@
 
 namespace Natasha.Operator
 {
-    public static class DelegateOperator<T> where T : Delegate
+    public static class NDelegateOperator<T> where T : Delegate
     {
 
         public static T Delegate(string content, params NamespaceConverter[] usings)
@@ -10,7 +10,7 @@ namespace Natasha.Operator
 
             var method = typeof(T).GetMethod("Invoke");
             return FakeMethodOperator
-                .New
+                .MainDomain
                 .UseMethod(method)
                 .Using(usings)
                 .StaticMethodContent(content)
@@ -26,7 +26,7 @@ namespace Natasha.Operator
 
             var method = typeof(T).GetMethod("Invoke");
             return FakeMethodOperator
-                .New
+                .MainDomain
                 .UseMethod(method)
                 .UseAsync()
                 .Using(usings)
@@ -43,7 +43,7 @@ namespace Natasha.Operator
 
             var method = typeof(T).GetMethod("Invoke");
             return FakeMethodOperator
-                .New
+                .RandomDomain
                 .UseMethod(method)
                 .UseUnsafe()
                 .Using(usings)
@@ -60,7 +60,7 @@ namespace Natasha.Operator
 
             var method = typeof(T).GetMethod("Invoke");
             return FakeMethodOperator
-                .New
+                .RandomDomain
                 .UseMethod(method)
                 .UseUnsafe()
                 .UseAsync()

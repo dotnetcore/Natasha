@@ -62,7 +62,7 @@ namespace NatashaUT
             var result = assembly.Complier();
             var type = assembly.GetType("ClassAsm");
 
-            var builder = FastMethodOperator.New;
+            var builder = FastMethodOperator.MainDomain;
             builder.Complier.Domain = domain;
             var @delegate = builder.Using(type).MethodBody(@"
             ClassAsm obj = new ClassAsm();
@@ -153,7 +153,7 @@ namespace NatashaUT
 
 
 
-            var builder = FastMethodOperator.New;
+            var builder = FastMethodOperator.MainDomain;
             builder.Complier.Domain = domain;
             var @delegate = builder.Using(type).MethodBody(@"
 ClassAsm obj = new ClassAsm();
@@ -259,7 +259,7 @@ public class Test{}
                 var type = assembly.GetType("TestClass");
 
                 //单独创建一个程序集​方法
-               var func = FastMethodOperator.New​
+               var func = FastMethodOperator.MainDomain
                   .Using(type)
                   .MethodBody(@"
 TestClass obj = new TestClass​();

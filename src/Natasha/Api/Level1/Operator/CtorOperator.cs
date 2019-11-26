@@ -16,7 +16,7 @@ namespace Natasha.Operator
         public static Func<T> NewDelegate<T>(Type type=null)
         {
 
-            var builder = FastMethodOperator.New;
+            var builder = FastMethodOperator.MainDomain;
             if (type==null)
             {
 
@@ -53,7 +53,7 @@ namespace Natasha.Operator
         public static Delegate NewDelegate(Type type)
         {
 
-            return FastMethodOperator.New
+            return FastMethodOperator.MainDomain
                 .MethodBody($@"return new {type.GetDevelopName()}();")
                 .Return(type)
                 .Complie();

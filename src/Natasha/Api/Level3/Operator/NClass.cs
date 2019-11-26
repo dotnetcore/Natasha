@@ -1,4 +1,5 @@
 ﻿using Natasha.Builder;
+using System;
 
 namespace Natasha
 {

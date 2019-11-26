@@ -1,4 +1,5 @@
 ﻿using Natasha.Builder;
+using System;
 
 namespace Natasha.Operator
 {
@@ -8,7 +9,7 @@ namespace Natasha.Operator
     public class FastMethodOperator : OnceMethodBuilder<FastMethodOperator>
     {
 
-        public static FastMethodOperator New
+        public static FastMethodOperator MainDomain
         {
             get
             {
@@ -16,6 +17,20 @@ namespace Natasha.Operator
                 return new FastMethodOperator();
 
             }
+        }
+
+
+        public static FastMethodOperator RandomDomain
+        {
+
+            get
+            {
+                var result = new FastMethodOperator();
+                result.Complier.Domain = DomainManagment.Create("N" + Guid.NewGuid().ToString("N"));
+                result.Complier.Domain.GCCount = 3;
+                return result;
+            }
+
         }
 
 

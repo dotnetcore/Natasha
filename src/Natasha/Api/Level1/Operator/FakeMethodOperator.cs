@@ -13,10 +13,27 @@ namespace Natasha.Operator
 
         public Action<MethodBuilder> Action;
         private MethodInfo _temp_info;
-        public static FakeMethodOperator New
+        public static FakeMethodOperator MainDomain
         {
             get { return new FakeMethodOperator(); }
         }
+
+
+        public static FakeMethodOperator RandomDomain
+        {
+
+            get 
+            {
+                var result = new FakeMethodOperator();
+                result.Complier.Domain = DomainManagment.Create("N" + Guid.NewGuid().ToString("N"));
+                result.Complier.Domain.GCCount = 3;
+                return result;
+            }
+
+        }
+
+
+
 
 
         public FakeMethodOperator()

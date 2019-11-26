@@ -20,6 +20,21 @@ namespace Natasha.Builder
 
 
 
+        /// <summary>
+        /// 使用随机域
+        /// </summary>
+        /// <returns></returns>
+        public T UseRandomDomain()
+        {
+
+            Complier.Domain = DomainManagment.Create("N" + Guid.NewGuid().ToString("N"));
+            Complier.Domain.GCCount = 3;
+            return Link;
+
+        }
+
+
+
 
         /// <summary>
         /// 初始化器构建

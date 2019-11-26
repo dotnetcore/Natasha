@@ -22,6 +22,7 @@ namespace Natasha
         public readonly HashSet<Type> TypeCache;
         public readonly object ObjLock;
         public readonly string DomainPath;
+        public int GCCount;
 #if NETSTANDARD2_0
         public string Name;
 #endif
@@ -58,7 +59,6 @@ namespace Natasha
                 Directory.CreateDirectory(DomainPath);
 
             }
-
 
             DomainManagment.Add(key, this);
             TypeCache = new HashSet<Type>();

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Reflection;
-using System.Runtime.Loader;
 using static System.Runtime.Loader.AssemblyLoadContext;
 
 namespace Natasha
@@ -12,6 +10,7 @@ namespace Natasha
 
         public readonly static AssemblyDomain Default;
         public static ConcurrentDictionary<string, WeakReference> Cache;
+
         static DomainManagment()
         {
 
@@ -26,9 +25,29 @@ namespace Natasha
         public static AssemblyDomain Create(string key)
         {
 
+            foreach (var item in Cache)
+            {
+
+                var domain = (AssemblyDomain)(item.Value.Target);
+                if (!item.Value.IsAlive)
+                {
+                    Cache.TryRemove(item.Key,out _);
+                }
+                else if (domain.GCCount > 1)
+                {
+                    domain.GCCount -= 1;
+                    
+                }
+                else if (domain.GCCount == 1)
+                {
+                    domain.Dispose();
+                }
+
+            }
             return new AssemblyDomain(key);
 
         }
+
 
 
 

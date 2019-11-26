@@ -8,23 +8,23 @@ namespace Natasha.MethodExtension
 
         public static T Delegate<T>(this string instance,params NamespaceConverter[] types) where T : Delegate
         {
-            return DelegateOperator<T>.Delegate(instance, types);
+            return NDelegateOperator<T>.Delegate(instance, types);
         }
         public static T AsyncDelegate<T>(this string instance, params NamespaceConverter[] types) where T : Delegate
         {
-            return DelegateOperator<T>.AsyncDelegate(instance, types);
+            return NDelegateOperator<T>.AsyncDelegate(instance, types);
         }
         public static T UnsafeDelegate<T>(this string instance, params NamespaceConverter[] types) where T : Delegate
         {
-            return DelegateOperator<T>.UnsafeDelegate(instance, types);
+            return NDelegateOperator<T>.UnsafeDelegate(instance, types);
         }
         public static T UnsafeAsyncDelegate<T>(this string instance, params NamespaceConverter[] types) where T : Delegate
         {
-            return DelegateOperator<T>.UnsafeAsyncDelegate(instance, types);
+            return NDelegateOperator<T>.UnsafeAsyncDelegate(instance, types);
         }
         public static FastMethodOperator FastOperator(this string instance, params NamespaceConverter[] types)
         {
-            var builder = FastMethodOperator.New;
+            var builder = FastMethodOperator.MainDomain;
             builder.Using(types);
             return builder.MethodBody(instance);
         }

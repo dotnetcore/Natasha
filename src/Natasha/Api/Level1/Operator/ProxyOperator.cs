@@ -122,7 +122,7 @@ namespace Natasha.Operator
 
 
                 //使用伪造函数模板
-                var template = FakeMethodOperator.New;
+                var template = FakeMethodOperator.MainDomain;
 
                 if (!_oop_type.IsInterface)
                 {

@@ -22,6 +22,12 @@ namespace Natasha.Complier
             lock (Domain)
             {
 
+                if (_domain != DomainManagment.Default)
+                {
+
+                    References.AddRange(_domain.ReferencesCache);
+
+                }
                 //创建语言编译
                 CSharpCompilation compilation = CSharpCompilation.Create(
                                    AssemblyName,

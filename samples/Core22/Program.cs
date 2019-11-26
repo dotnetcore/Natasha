@@ -15,7 +15,7 @@ namespace Core22
             {
                 throw new ArgumentNullException(nameof(args));
             }
-            var action = FastMethodOperator.New
+            var action = FastMethodOperator.MainDomain
                 .MethodBody("return 1+1;")
                 .Return<int>()
                 .Complie<Func<int>>();
@@ -23,13 +23,13 @@ namespace Core22
             action();
 
 
-            FakeMethodOperator.New
+            FakeMethodOperator.MainDomain
                .UseMethod<TestB>("TestMethod")
                .StaticMethodContent($@"Console.WriteLine(""Hello World!"");")
                .Complie<Action>();
 
 
-            FakeMethodOperator.New
+            FakeMethodOperator.MainDomain
                 .UseMethod<TestB>("TestMethod")
                 .MethodContent($@"Console.WriteLine(""Hello World!"");")
                 .Complie<Action>(new TestA());
@@ -52,10 +52,10 @@ namespace Core22
             abstractBuilder.Compile();
             var test = abstractBuilder.Create("UTestClass");
 
-            var delegate2 = DelegateOperator<GetterDelegate>.Delegate("return value.ToString();");
+            var delegate2 = NDelegateOperator<GetterDelegate>.Delegate("return value.ToString();");
             Console.WriteLine(delegate2(1));
             var delegate3 = "return value.ToString();".Delegate<GetterDelegate>();
-            var delegateConvt = FastMethodOperator.New
+            var delegateConvt = FastMethodOperator.MainDomain
                 .Param<string>("value")
                 .MethodBody($@"return value==""true"" || value==""mama"";")
                 .Return<bool>()
@@ -73,7 +73,7 @@ namespace Core22
             il.Emit(OpCodes.Ret);
             var emitAction = (Action<TestB, string>)(method.CreateDelegate(typeof(Action<TestB, string>)));
 
-            var roslynAction = FastMethodOperator.New
+            var roslynAction = FastMethodOperator.MainDomain
                 .Param<TestB>("instance")
                 .Param<string>("value")
                 .MethodBody("instance.Name = value;")

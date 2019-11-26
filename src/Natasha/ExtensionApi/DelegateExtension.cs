@@ -14,7 +14,7 @@ namespace Natasha.DelegateExtension
         {
             var method = instance.GetMethod("Invoke");
             return FakeMethodOperator
-                .New
+                .MainDomain
                 .UseMethod(method)
                 .Using(usings)
                 .StaticMethodContent(content)
