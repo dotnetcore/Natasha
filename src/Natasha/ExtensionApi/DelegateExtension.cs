@@ -7,7 +7,7 @@ namespace Natasha.DelegateExtension
     {
         public static T Create<T>(this T instance,string content,params NamespaceConverter[] usings) where T: Delegate
         {
-            return instance = DelegateOperator<T>.Delegate(content, usings);
+            return instance = NDelegateOperator<T>.Delegate(content, usings);
         }
 
         public static Delegate Create(this Type instance, string content, params NamespaceConverter[] usings)

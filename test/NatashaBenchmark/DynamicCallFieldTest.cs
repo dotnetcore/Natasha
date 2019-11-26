@@ -100,7 +100,7 @@ namespace NatashaBenchmark
             NatashaSetString(OriginModel, OriginModel.Age);
            OriginSetString = (item, value) => item.Age = value;
 
-            NatashaSetDateTime = DelegateOperator<ValueDelegate >.Delegate("model.CreateTime=value;");
+            NatashaSetDateTime = NDelegateOperator<ValueDelegate >.Delegate("model.CreateTime=value;");
             NatashaSetDateTime(OriginModel, OriginModel.CreateTime);
             OriginSetDateTime = OriginDateTime;
 

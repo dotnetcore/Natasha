@@ -2,7 +2,7 @@
 
 namespace Natasha.Operator
 {
-    public static class DelegateOperator<T> where T : Delegate
+    public static class RDelegateOperator<T> where T : Delegate
     {
 
         public static T Delegate(string content, params NamespaceConverter[] usings)
