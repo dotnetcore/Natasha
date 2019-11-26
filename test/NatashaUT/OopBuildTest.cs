@@ -18,11 +18,11 @@ namespace NatashaUT
                 .Using<OopBuildTest>()
                 .Namespace("TestNamespace")
                 .OopName("TestUt1")
-                .OopBody(@"public static void Test(){}")
+                .OopBody("public static void Test(){}")
                 .PublicStaticField<string>("Name")
                 .PrivateStaticField<int>("_age")
                 .Script;
-            Assert.Equal(@$"using NatashaUT;{Environment.NewLine}using System;{Environment.NewLine}namespace TestNamespace{{{Environment.NewLine}public static class TestUt1{{{Environment.NewLine}public static String Name;{Environment.NewLine}private static Int32 _age;{Environment.NewLine}public static void Test(){{}}{Environment.NewLine}}}}}", script);
+            Assert.Equal($@"using NatashaUT;{Environment.NewLine}using System;{Environment.NewLine}namespace TestNamespace{{{Environment.NewLine}public static class TestUt1{{{Environment.NewLine}public static String Name;{Environment.NewLine}private static Int32 _age;{Environment.NewLine}public static void Test(){{}}{Environment.NewLine}}}}}", script);
             
         }
 
@@ -36,11 +36,11 @@ namespace NatashaUT
             assembly.CreateStruct()
                 .Namespace("TestNamespace")
                 .Private.OopName("TestUt2")
-                .OopBody(@"public static void Test(){}")
+                .OopBody("public static void Test(){}")
                 .PublicStaticField<string>("Name")
                 .PrivateStaticField<int>("_age");
             var result = assembly.Check();
-            Assert.Equal(@$"using System;{Environment.NewLine}namespace TestNamespace{Environment.NewLine}{{{Environment.NewLine}    private struct TestUt2{Environment.NewLine}    {{{Environment.NewLine}        public static String Name;{Environment.NewLine}        private static Int32 _age;{Environment.NewLine}        public static void Test() {{ }}{Environment.NewLine}    }}{Environment.NewLine}}}", result[0].Formatter);
+            Assert.Equal($@"using System;{Environment.NewLine}namespace TestNamespace{Environment.NewLine}{{{Environment.NewLine}    private struct TestUt2{Environment.NewLine}    {{{Environment.NewLine}        public static String Name;{Environment.NewLine}        private static Int32 _age;{Environment.NewLine}        public static void Test() {{ }}{Environment.NewLine}    }}{Environment.NewLine}}}", result[0].Formatter);
         }
 
 
@@ -58,12 +58,12 @@ namespace NatashaUT
                     .StaticMember
                     .Param<string>("name")
                     .Body("this.Name=name;"))
-                .OopBody(@"public static void Test(){}")
+                .OopBody("public static void Test(){}")
                 .PublicStaticField<string>("Name")
                 .PrivateStaticField<int>("_age")
                 .Script;
 
-            Assert.Equal(@$"using System;{Environment.NewLine}namespace System{{{Environment.NewLine}interface TestUt3{{{Environment.NewLine}public static String Name;{Environment.NewLine}private static Int32 _age;{Environment.NewLine}public static void Test(){{}}static TestUt3(String name){{{Environment.NewLine}this.Name=name;}}{Environment.NewLine}}}}}", script);
+            Assert.Equal($@"using System;{Environment.NewLine}namespace System{{{Environment.NewLine}interface TestUt3{{{Environment.NewLine}public static String Name;{Environment.NewLine}private static Int32 _age;{Environment.NewLine}public static void Test(){{}}static TestUt3(String name){{{Environment.NewLine}this.Name=name;}}{Environment.NewLine}}}}}", script);
         }
 
 
