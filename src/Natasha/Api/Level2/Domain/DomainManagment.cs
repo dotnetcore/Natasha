@@ -10,13 +10,14 @@ namespace Natasha
 
         public readonly static AssemblyDomain Default;
         public static ConcurrentDictionary<string, WeakReference> Cache;
+        public static int ConcurrentCount;
 
         static DomainManagment()
         {
 
             Cache = new ConcurrentDictionary<string, WeakReference>();
             Default = new AssemblyDomain("Default");
-
+            ConcurrentCount = 2048;
         }
 
 

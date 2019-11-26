@@ -28,7 +28,7 @@ namespace Natasha.Builder
         {
 
             Complier.Domain = DomainManagment.Create("N" + Guid.NewGuid().ToString("N"));
-            Complier.Domain.GCCount = 3;
+            Complier.Domain.GCCount = DomainManagment.ConcurrentCount;
             return Link;
 
         }
