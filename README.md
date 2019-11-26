@@ -73,7 +73,7 @@ WeihanLi
  - 2019-10-12 ： 发布v2.0.2.1，修复插件依赖加载。  
  - 2019-10-15 ： 发布v2.0.4.0，增强构建信息操作类。 
  - 2019-10-20 ： 发布v2.0.5.0，增强NAction/NFunc/DelegateOperator等封装类的传参类型，支持string/string[]/Type/Type[]/Assembly/Asssembly[], 增强Natasha的Using方法解析。 
- - 2019-11-26 :  发布v2.1.0.0，增加随机域API, 改Operator.New为Operator.MainDomain; 区分NAction/NFunc/NDelegateOperator为默认域，RAction/RFunc/RDelegateOperator为随机域API;增加随机域延迟回收机制。
+ - 2019-11-26 :  发布v2.1.1.0，增加随机域API, 改Operator.New为Operator.MainDomain; 区分NAction/NFunc/NDelegateOperator为默认域，RAction/RFunc/RDelegateOperator为随机域API;增加随机域延迟回收机制和随机域并发计数。
  
  <br/>  
  
