@@ -73,7 +73,7 @@ namespace NatashaUT
         [Fact(DisplayName = "NFunc委托")]
         public static void RunDelegate5()
         {
-            var action = NFunc<string, string, string>.UnsafeDelegate(@"
+            var action = RFunc<string, string, string>.UnsafeDelegate(@"
                             string result = arg1 +"" ""+ arg2;
                             Console.WriteLine(result);
                             return result;");
