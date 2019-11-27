@@ -2,7 +2,7 @@
 
 namespace Natasha.Template
 {
-    public class OopContentTemplate<T>: OopFieldTemplate<T>
+    public class OopContentTemplate<T>: OopPropertyTemplate<T>
     {
 
         public StringBuilder OopContentScript;

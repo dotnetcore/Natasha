@@ -43,7 +43,7 @@ namespace Natasha.Operator
 
             var method = typeof(T).GetMethod("Invoke");
             return FakeMethodOperator
-                .RandomDomain
+                .MainDomain
                 .UseMethod(method)
                 .UseUnsafe()
                 .Using(usings)
@@ -60,7 +60,7 @@ namespace Natasha.Operator
 
             var method = typeof(T).GetMethod("Invoke");
             return FakeMethodOperator
-                .RandomDomain
+                .MainDomain
                 .UseMethod(method)
                 .UseUnsafe()
                 .UseAsync()

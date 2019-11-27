@@ -17,7 +17,7 @@ namespace Natasha.Template
 
 
 
-        public T CreateFiled(Action<FieldNameTemplate<T>> action)
+        public T CreateField(Action<FieldNameTemplate<T>> action)
         {
             var handler = new FieldNameTemplate<T>();
             action?.Invoke(handler);

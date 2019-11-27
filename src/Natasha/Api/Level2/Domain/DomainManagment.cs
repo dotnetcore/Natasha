@@ -26,26 +26,34 @@ namespace Natasha
         public static AssemblyDomain Create(string key)
         {
 
-            foreach (var item in Cache)
+            if (Cache.ContainsKey(key))
+            {
+                return (AssemblyDomain)(Cache[key].Target);
+            }
+            else
             {
 
-                var domain = (AssemblyDomain)(item.Value.Target);
-                if (!item.Value.IsAlive)
+                foreach (var item in Cache)
                 {
-                    Cache.TryRemove(item.Key,out _);
-                }
-                else if (domain.GCCount > 1)
-                {
-                    domain.GCCount -= 1;
-                    
-                }
-                else if (domain.GCCount == 1)
-                {
-                    domain.Dispose();
-                }
 
+                    var domain = (AssemblyDomain)(item.Value.Target);
+                    if (!item.Value.IsAlive)
+                    {
+                        Cache.TryRemove(item.Key, out _);
+                    }
+                    else if (domain.GCCount > 1)
+                    {
+                        domain.GCCount -= 1;
+
+                    }
+                    else if (domain.GCCount == 1)
+                    {
+                        domain.Dispose();
+                    }
+
+                }
+                return new AssemblyDomain(key);
             }
-            return new AssemblyDomain(key);
 
         }
 

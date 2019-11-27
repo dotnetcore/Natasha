@@ -147,7 +147,7 @@ namespace Natasha
         {
 
             var @operator = new FastMethodOperator().OopName(name);
-            _builderCache.Add(@operator);
+            @operator.Complier.Domain = Options.Domain;
             return @operator;
 
         }
@@ -164,7 +164,7 @@ namespace Natasha
         {
 
             var @operator = new FakeMethodOperator().OopName(name);
-            _builderCache.Add(@operator);
+            @operator.Complier.Domain = Options.Domain;
             return @operator;
 
         }

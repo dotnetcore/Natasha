@@ -70,6 +70,7 @@ namespace NatashaUT
 
 
 
+
         [Fact(DisplayName = "NFunc委托")]
         public static void RunDelegate5()
         {
