@@ -74,7 +74,7 @@ Emit和表达式树的使用场景，Natasha均适用。
 ```C#
 
 //你需要准备一个字符串
-string script = "Console.WriteLine(""Hello World!"")";
+string script = "Console.WriteLine(""Hello World!"");";
 
 
 //然后像这样用
@@ -89,3 +89,13 @@ action();
 ```
 
 <br/>  
+
+## 第二个 HelloWorld
+
+```C#
+
+//不要浪费默认域，请使用其他域创建委托，在不用时可以回收
+var func = NDomain.Create("NDomain1").Func<string>("return \"Hello World!\";");
+func();
+
+```
