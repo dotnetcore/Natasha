@@ -4,14 +4,45 @@
 
 ## API用法展示
 
-<br/>  
 
-- **NFunc/NAction**  
+
+- **NDomain**  
 
 ```C#
 
-//NFunc 和 NAction 支持：
 
+//NDomain 支持：
+
+// 普通方法：      Func/Action
+// 异步方法：      Async Func/Action
+// 非安全方法：    Unsafe Func/Action
+// 非安全异步方法： UnsafeAsync Func/Action
+
+
+
+//------创建一个域（方便卸载）----//-----创建Func方法--------//
+var func = NDomain.Create("NDomain2").Func<string,string>("return arg;");
+Assert.Equal("1", func("1"));
+//可卸载
+NDomain.Delete("NDomain2");
+
+
+NormalTestModel model = new NormalTestModel();
+var func = NDomain.Create("NDomain6").Action<NormalTestModel, int, int>("arg1.Age=arg2+arg3;");
+func(model,1,2);
+Assert.Equal(3, model.Age);
+  
+```  
+
+
+<br/>  
+
+- **NFunc/NAction/RFunc/RAction**  
+
+```C#
+
+
+//NFunc 、 NAction 和 RFunc、 RAction 支持：
 // 普通方法：      Delegate
 // 异步方法：      AsyncDelegate
 // 非安全方法：    UnsafeDelegate
