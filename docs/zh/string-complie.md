@@ -25,4 +25,21 @@ Type type = oop.GetType("Test");
 var asm = new NAssembly("MyAssembly");
 asm.AddScript(text);
 
+```  
+
+四级运算 API
+
+```C#
+
+var handler = DomainOperator.Create("Tesst2Domain")
+& @"public class  DomainTest1{
+      public string Name;
+      public DomainOperator Operator;
+}" | "System" | typeof(DomainOperator);
+
+
+var type = handler.GetType();
+Assert.Equal("DomainTest1", type.Name);
+
 ```
+使用 DomainOperator.Create 创建域， 使用 & 符合连接字符串代码， 使用 | 符号链接命名空间。
