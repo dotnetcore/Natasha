@@ -68,13 +68,14 @@ WeihanLi
 
 ### 发布日志  
 
- - 2019-09-27 ： 发布v2.0.0.2，修复默认域的插件加载操作，增加域内并发控制，使用链表方式存储引用表。  
- - 2019-10-01 ： 发布v2.0.2.0，在流的基础上，恢复文件方式的编译、加载, 增强错误日志处理，增强反解器（内部类部分）。
- - 2019-10-12 ： 发布v2.0.2.1，修复插件依赖加载。  
  - 2019-10-15 ： 发布v2.0.4.0，增强构建信息操作类。 
- - 2019-10-20 ： 发布v2.0.5.0，增强 NAction/NFunc/DelegateOperator 等封装类的传参类型，支持string/string[]/Type/Type[]/Assembly/Asssembly[], 增强 Natasha 的 Using 方法解析。 
- - 2019-11-26 ： 发布v2.1.1.0，增加随机域 API , 改 Operator.New 为 Operator.MainDomain ; 区分 NAction/NFunc/NDelegateOperator 为默认域， RAction/RFunc/RDelegateOperator 为随机域API;增加随机域延迟回收机制和随机域并发计数。
- - 2019-11-27 ： 发布v2.1.2.0, OOP模板构建增加属性模板，NAssembly 获取 Fake/FastMethodOperator 将属于同一域，增加 NDomain 操作类，可以链式调用 Create 方法创建域并继续创建方法如 Func<> / AsyncFun<> / UnsafeFunc / AsyncUnsafeFunc / Action<> / AsyncAction<> / UnsafeAction<> / AsyncUnsafeAction<>.
+ - 2019-10-20 ： 发布v2.0.5.0，增强 NAction/NFunc/DelegateOperator 等封装类的传参类型，支持string/string[]/Type/Type[]/Assembly/Asssembly[], 增强 Natasha 的 Using 方法解析。   
+ 
+ - 2019-11-26 ： 发布v2.1.1.0，增加随机域 API , 改 Operator.New 为 Operator.MainDomain ; 区分 NAction/NFunc/NDelegateOperator 为默认域， RAction/RFunc/RDelegateOperator 为随机域API;增加随机域延迟回收机制和随机域并发计数。  
+ 
+ - 2019-11-27 ： 发布v2.1.2.0, Oop 模板构建增加属性模板，NAssembly 获取 Fake/FastMethodOperator 将属于同一域，增加 NDomain 操作类，可以链式调用 Create 方法创建域并继续创建方法如 Func<> / AsyncFun<> / UnsafeFunc / AsyncUnsafeFunc / Action<> / AsyncAction<> / UnsafeAction<> / AsyncUnsafeAction<>。  
+ 
+ - 2019-11-28 ： 发布v2.2.0.0, 增加四级运算 API , 可使用 DomainOperator 操作类来完成运算；改模板中 MethodBody 以及 OopBody 为追加模式；模板支持随机命名函数。 
  
  <br/>  
  

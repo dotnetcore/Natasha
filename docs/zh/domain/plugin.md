@@ -21,6 +21,7 @@ using(DomainManagment.CreateAndLock("MyDomain"))
 
 
 //将引用从当前域内移除，下次编译将不会带着该程序集的信息
+//三选一即可
 domain.RemoveDll(dllPath);
 domain.RemoveAssembly(assembly);
 domain.RemoveType(type);
