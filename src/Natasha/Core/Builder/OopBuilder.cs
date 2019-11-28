@@ -37,6 +37,27 @@ namespace Natasha.Builder
 
 
         /// <summary>
+        /// 使用随机域
+        /// </summary>
+        /// <returns></returns>
+        public T UseDomain(string domainName)
+        {
+
+            Complier.Domain = DomainManagment.Create(domainName);
+            return Link;
+
+        }
+        public T UseDomain(AssemblyDomain domain)
+        {
+
+            Complier.Domain = domain;
+            return Link;
+
+        }
+
+
+
+        /// <summary>
         /// 初始化器构建
         /// </summary>
         /// <param name="action">构建委托</param>

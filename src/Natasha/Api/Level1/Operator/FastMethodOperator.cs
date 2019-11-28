@@ -44,6 +44,7 @@ namespace Natasha.Operator
                 .Static
                 .PublicMember
                 .StaticMember
+                .UseRandomOopName()
                 .HiddenNameSpace();
 
         }

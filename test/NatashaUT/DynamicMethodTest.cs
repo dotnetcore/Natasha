@@ -139,6 +139,7 @@ namespace NatashaUT
            Assert.Equal(@"public void ReWrite1()
 {
 Console.WriteLine(""hello world"");
+
 }", builder.MethodScript);
         }
 
@@ -156,6 +157,7 @@ Console.WriteLine(""hello world"");
             Assert.Equal(@"public static void ReWrite1()
 {
 Console.WriteLine(""hello world"");
+
 }", builder.MethodScript);
         }
 
@@ -173,6 +175,7 @@ Console.WriteLine(""hello world"");
             Assert.Equal(@"public async Task<OopTestModel> ReWrite2()
 {
 Console.WriteLine(""hello world"");return this;
+
 }", builder.MethodScript);
         }
 
@@ -189,6 +192,7 @@ Console.WriteLine(""hello world"");return this;
             Assert.Equal(@"public static async Task<OopTestModel> ReWrite2()
 {
 Console.WriteLine(""hello world"");return this;
+
 }", builder.MethodScript);
         }
 
@@ -206,6 +210,7 @@ Console.WriteLine(""hello world"");return this;
             Assert.Equal(@"public virtual void ReWrite3(ref Int32 i,String temp)
 {
 i++;temp+=i.ToString();
+
 }", builder.MethodScript);
         }
 
@@ -223,6 +228,7 @@ i++;temp+=i.ToString();
             Assert.Equal(@"public static void ReWrite3(ref Int32 i,String temp)
 {
 i++;temp+=i.ToString();
+
 }", builder.MethodScript);
         }
 

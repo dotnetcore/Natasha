@@ -10,16 +10,17 @@ namespace Natasha.Template
 
 
 
-        public OopNameTemplate()
+
+
+
+
+        public T UseRandomOopName()
         {
 
             OopNameScript = "N" + Guid.NewGuid().ToString("N");
+            return Link;
 
         }
-
-
-
-
         
 
 

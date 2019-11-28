@@ -40,7 +40,7 @@ namespace Natasha.Operator
         {
 
             Link = this;
-            Public.HiddenNameSpace();
+            Public.UseRandomOopName().HiddenNameSpace();
 
         }
 

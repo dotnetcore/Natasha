@@ -144,6 +144,10 @@ namespace Natasha
 
 
             var nodes = GetNodes<T>(node);
+            if (nodes.Count()==0)
+            {
+                return default;
+            }
             return nodes.ToArray()[index].Identifier.Text;
         }
 
@@ -177,6 +181,10 @@ namespace Natasha
 
 
             var nodes = GetNodes<MethodDeclarationSyntax>(node);
+            if (nodes.Count() == 0)
+            {
+                return default;
+            }
             return nodes.ToArray()[index].Identifier.Text;
         }
 

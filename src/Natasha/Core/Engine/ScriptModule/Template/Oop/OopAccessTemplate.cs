@@ -23,7 +23,7 @@ namespace Natasha.Template
 
 
 
-        [Obsolete("该方法已过时，请使用Public/Pirvate...属性")]
+        //[Obsolete("该方法已过时，请使用Public/Pirvate...属性")]
         public T OopAccess(AccessTypes enumAccess)
         {
 
