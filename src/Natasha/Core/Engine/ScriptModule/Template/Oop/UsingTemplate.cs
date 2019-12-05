@@ -12,14 +12,25 @@ namespace Natasha.Template
         public readonly StringBuilder UsingScript;
         private readonly HashSet<string> _usings;
         private readonly HashSet<Type> _usingTypes;
-
+        private bool _useCustomerUsing;
 
         public UsingTemplate()
         {
             UsingScript = new StringBuilder();
+            UsingScript.Append(UsingDefaultCache.DefaultScript);
             _usings = new HashSet<string>();
             _usingTypes = new HashSet<Type>();
         }
+
+
+
+
+        public T UseCustomerUsing()
+        {
+            _useCustomerUsing = true;
+            return Link;
+        }
+
 
 
 
@@ -44,7 +55,7 @@ namespace Natasha.Template
                 Using(converter.NamespaceString);
 
             }
-            else if (converter.NamespaceAssemblys !=default)
+            else if (converter.NamespaceAssemblys != default)
             {
 
                 Using(converter.NamespaceAssemblys);
@@ -248,17 +259,44 @@ namespace Natasha.Template
         }
 
 
-       public StringBuilder GetUsingBuilder()
-       {
-            UsingScript.Clear();
+
+
+        public StringBuilder GetUsingBuilder()
+        {
+
             Using(UsingRecoder.Types);
-            foreach (var @using in _usings)
+            if (_useCustomerUsing)
             {
-                UsingScript.AppendLine($"using {@using};");
+
+                UsingScript.Clear();
+                foreach (var @using in _usings)
+                {
+
+                    UsingScript.AppendLine($"using {@using};");
+
+                }
+
             }
-            
+            else
+            {
+
+                foreach (var @using in _usings)
+                {
+
+                    if (!UsingDefaultCache.DefaultNamesapce.Contains(@using))
+                    {
+
+                        UsingScript.AppendLine($"using {@using};");
+
+                    }
+
+                }
+
+            }
+
+
             return UsingScript;
-       } 
+        }
 
 
         public override T Builder()
@@ -269,6 +307,10 @@ namespace Natasha.Template
             return Link;
 
         }
+
+
+
+        public override HashSet<string> Usings => _usings;
 
     }
 

@@ -182,7 +182,7 @@ namespace Natasha
             HasChecked = true;
             foreach (var item in _builderCache)
             {
-                Options.Add(item);
+                Options.Add(item, item.Usings);
             }
             return Options.SyntaxInfos.SyntaxExceptions;
 

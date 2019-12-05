@@ -15,6 +15,7 @@ namespace NatashaUT
             OopOperator builder = new OopOperator();
             var script = builder
                 .Public.Static
+                .UseCustomerUsing()
                 .Using<OopBuildTest>()
                 .Namespace("TestNamespace")
                 .OopName("TestUt1")
@@ -34,6 +35,7 @@ namespace NatashaUT
         {
             NAssembly assembly = new NAssembly();
             assembly.CreateStruct()
+                .UseCustomerUsing()
                 .Namespace("TestNamespace")
                 .Private.OopName("TestUt2")
                 .OopBody("public static void Test(){}")
@@ -51,6 +53,7 @@ namespace NatashaUT
         {
             OopOperator builder = new OopOperator();
             var script = builder
+                .UseCustomerUsing()
                 .Namespace<string>()
                 .OopName("TestUt3")
                 .ChangeToInterface()
@@ -74,6 +77,7 @@ namespace NatashaUT
         {
             OopOperator builder = new OopOperator();
             var script = builder
+                .UseCustomerUsing()
                 .HiddenNameSpace().ChangeToEnum()
                 .Public.OopName("EnumUT1")
                 .EnumField("Apple")
@@ -91,6 +95,7 @@ namespace NatashaUT
         {
             OopOperator builder = new OopOperator();
             var script = builder
+                .UseCustomerUsing()
                 .HiddenNameSpace().ChangeToEnum()
                 .Public.OopName("EnumUT1")
                 .EnumField("Apple",1)

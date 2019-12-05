@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Reflection;
@@ -10,13 +11,15 @@ namespace Natasha.Complier
     public abstract partial class IComplier
     {
 
+        public HashSet<string> Sets;
+
         /// <summary>
         /// 使用内存流进行脚本编译
         /// </summary>
         /// <param name="sourceContent">脚本内容</param>
         /// <param name="errorAction">发生错误执行委托</param>
         /// <returns></returns>
-        public  (Assembly Assembly, ImmutableArray<Diagnostic> Errors, CSharpCompilation Compilation) StreamComplier()
+        public (Assembly Assembly, ImmutableArray<Diagnostic> Errors, CSharpCompilation Compilation) StreamComplier()
         {
 
             lock (Domain)
@@ -35,7 +38,7 @@ namespace Natasha.Complier
                                        outputKind: OutputKind.DynamicallyLinkedLibrary,
                                        optimizationLevel: OptimizationLevel.Release,
                                        allowUnsafe: true),
-                                   syntaxTrees: SyntaxInfos.Trees ,
+                                   syntaxTrees: SyntaxInfos.Trees,
                                    references: References);
 
 
@@ -63,7 +66,7 @@ namespace Natasha.Complier
                 else
                 {
 
-                    
+
                     var path = Path.Combine(_domain.DomainPath, AssemblyName);
                     var dll = path + ".dll";
 

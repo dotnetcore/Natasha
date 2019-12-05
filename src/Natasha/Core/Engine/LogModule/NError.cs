@@ -57,7 +57,6 @@ namespace Natasha.Log
                     Errors[str].Add(item);
 
                 }
-               
 
             }
 

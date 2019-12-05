@@ -1,40 +1,58 @@
 ﻿using Microsoft.Extensions.DependencyModel;
-using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Text;
 
 namespace Natasha.Template
 {
+
     public static class UsingDefaultCache
     {
-        public static HashSet<string> Default;
+
+        public readonly static HashSet<string> DefaultNamesapce;
+        public readonly static StringBuilder DefaultScript;
 
         static UsingDefaultCache()
         {
 
-            Default = new HashSet<string>();
+            DefaultScript = new StringBuilder();
+            DefaultNamesapce = new HashSet<string>();
             var assemblyNames = DependencyContext.Default.GetDefaultAssemblyNames();
             foreach (var name in assemblyNames)
             {
+
                 var assembly = Assembly.Load(name);
+                if (assembly.FullName.Contains("System.Runtime.WindowsRuntime"))
+                {
+                    continue;
+                }
                 if (assembly != default)
                 {
-                    var types = assembly.GetTypes();
 
-                    foreach (var item1 in types)
+                    var types = assembly.ExportedTypes;
+                    foreach (var item in types)
                     {
-                        item1.GetDevelopName();
-                        if (!Default.Contains(item1.Namespace) && item1.Namespace != default)
+                        
+                        if (!DefaultNamesapce.Contains(item.Namespace) && item.Namespace != default)
                         {
-                            Default.Add(item1.Namespace);
+                            DefaultNamesapce.Add(item.Namespace);
                         }
 
                     }
                 }
-               
 
             }
 
+            DefaultNamesapce.Remove("System.Linq.Expressions.Interpreter");
+            DefaultNamesapce.Remove("System.Net.Internals");
+            DefaultNamesapce.Remove("System.Xml.Xsl.Runtime");
+            foreach (var @using in DefaultNamesapce)
+            {
+                DefaultScript.AppendLine($"using {@using};");
+            }
+
         }
+
     }
+
 }

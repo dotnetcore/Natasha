@@ -113,7 +113,7 @@ namespace Natasha.Builder
         public Type GetType(int classIndex = 1, int namespaceIndex = 1)
         {
 
-            Complier.Add(this);
+            Complier.Add(this, Usings);
             string name=default;
             switch (OopTypeEnum)
             {

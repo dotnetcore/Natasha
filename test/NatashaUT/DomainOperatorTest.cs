@@ -1,7 +1,4 @@
 ﻿using Natasha;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace NatashaUT
@@ -22,7 +19,7 @@ namespace NatashaUT
                 & @"public class  DomainTest1{
                         public string Name;
                         public DomainOperator Operator;
-                }"  | "System" | typeof(DomainOperator);
+                }";
 
             var type = handler.GetType();
             Assert.Equal("DomainTest1",type.Name);
@@ -37,7 +34,7 @@ namespace NatashaUT
                 & @"public class  DomainTest1{
                         public string Name;
                         public DomainOperator Operator;
-                }" | "System" | typeof(DomainOperator);
+                }";
 
             var type = handler.GetType();
             Assert.Equal("DomainTest1", type.Name);

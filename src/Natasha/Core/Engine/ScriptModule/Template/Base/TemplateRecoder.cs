@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 
 namespace Natasha.Template
 {
@@ -29,6 +30,8 @@ namespace Natasha.Template
         {
             get { _script.Clear(); Builder();  return _script.ToString(); }
         }
+
+        public virtual HashSet<string> Usings => default;
 
 
 

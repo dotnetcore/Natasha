@@ -1,4 +1,5 @@
 ﻿using Natasha.Complier;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Natasha
@@ -34,10 +35,10 @@ namespace Natasha
         /// </summary>
         /// <param name="template">构建模板</param>
         /// <returns></returns>
-        public CompilationException Add(IScript template)
+        public CompilationException Add(IScript template, HashSet<string> sets = default)
         {
 
-            var info = SyntaxInfos.Add(template.Script);
+            var info = SyntaxInfos.Add(template.Script, sets);
             ComplieException.ErrorFlag = info.ErrorFlag;
             return info;
 
@@ -51,7 +52,7 @@ namespace Natasha
         /// </summary>
         /// <param name="path">文件路径</param>
         /// <returns></returns>
-        public CompilationException AddFile(string path)
+        public CompilationException AddFile(string path, HashSet<string> sets = default)
         {
 
             if (File.Exists(path))

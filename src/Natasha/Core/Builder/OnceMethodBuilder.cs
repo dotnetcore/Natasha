@@ -28,7 +28,7 @@ namespace Natasha.Builder
         public virtual Delegate Complie(object binder = null)
         {
 
-            Complier.Add(this);
+            Complier.Add(this, Usings);
             var @delegate = Complier.GetDelegate(
                 OopNameScript,
                 MethodNameScript,
@@ -52,10 +52,10 @@ namespace Natasha.Builder
         /// </summary>
         /// <typeparam name="T">委托的强类型</typeparam>
         /// <returns></returns>
-        public virtual T Complie<T>(object binder=null) where T : Delegate
+        public virtual T Complie<T>(object binder = null) where T : Delegate
         {
 
-            Complier.Add(this);
+            Complier.Add(this, Usings);
             var @delegate = Complier.GetDelegate<T>(
                 OopNameScript,
                 MethodNameScript,

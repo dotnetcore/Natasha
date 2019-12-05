@@ -2,6 +2,7 @@
 using Natasha.Complier.Model;
 using Natasha.Log;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace Natasha.Complier
         public readonly CompilationException ComplieException;
         public string AssemblyName;
         public bool ComplieInFile;
+        public int ErrorRetryCount;
         public readonly static string CurrentPath;
 
         static IComplier()
@@ -75,6 +77,74 @@ namespace Natasha.Complier
 
                 if (assembly == default || assembly == null)
                 {
+
+                    bool HashRepeate = false;
+                    foreach (var item in result.Errors)
+                    {
+                        if (item.Id == "CS0104")
+                        {
+                            HashRepeate = true;
+                            SyntaxInfos.CS0104Cache[item.Location.SourceTree].Add(item);
+                        }
+                    }
+
+                    if (HashRepeate)
+                    {
+
+                        ErrorRetryCount += 1;
+                        if (ErrorRetryCount < 2)
+                        {
+
+                            SyntaxOption option = new SyntaxOption();
+                            foreach (var item in SyntaxInfos.CS0104Cache)
+                            {
+                                var sets = SyntaxInfos.TreeUsingMapping[item.Key];
+                                string temp = item.Key.ToString();
+
+                                if (sets != default)
+                                {
+
+                                    foreach (var error in item.Value)
+                                    {
+                                        var tupleError = CS0104Helper.Handler(error.Descriptor.MessageFormat.ToString(), error.GetMessage());
+                                        if (sets.Contains(tupleError.str2))
+                                        {
+
+                                            temp = temp.Replace($"using {tupleError.str1};","");
+
+                                        }
+                                        else if (sets.Contains(tupleError.str1))
+                                        {
+
+                                            temp = temp.Replace($"using {tupleError.str2};", "");
+
+                                        }
+                                    }
+                                    option.Add(temp,sets);
+
+                                }
+                                else
+                                {
+
+                                    option.Add(temp.ToString());
+
+                                }
+                                
+                            }
+                            foreach (var item in SyntaxInfos.TreeUsingMapping)
+                            {
+                                if (!option.Trees.Contains(item.Key))
+                                {
+                                    option.Add(item.ToString(),item.Value);
+                                }
+                            }
+                            SyntaxInfos = option;
+                            return GetAssembly();
+
+                        }
+
+                    }
+
 
                     ComplieException.Diagnostics.AddRange(result.Errors);
                     ComplieException.ErrorFlag = ComplieError.Complie;

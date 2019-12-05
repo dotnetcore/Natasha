@@ -6,22 +6,25 @@ namespace Natasha.Complier.Model
     public class SyntaxOption
     {
 
-        public readonly List<SyntaxTree> Trees;
+        public readonly HashSet<SyntaxTree> Trees;
         public readonly List<CompilationException> SyntaxExceptions;
-
+        public readonly Dictionary<SyntaxTree, List<Diagnostic>> CS0104Cache;
+        public readonly Dictionary<SyntaxTree, HashSet<string>> TreeUsingMapping;
 
         public SyntaxOption()
         {
 
-            Trees = new List<SyntaxTree>();
+            Trees = new HashSet<SyntaxTree>();
             SyntaxExceptions = new List<CompilationException>();
+            CS0104Cache = new Dictionary<SyntaxTree, List<Diagnostic>>();
+            TreeUsingMapping = new Dictionary<SyntaxTree, HashSet<string>>();
 
         }
 
 
 
 
-        public CompilationException Add(string content)
+        public CompilationException Add(string content, HashSet<string> sets = default)
         {
 
             CompilationException exception = new CompilationException();
@@ -47,6 +50,8 @@ namespace Natasha.Complier.Model
             {
 
                 Trees.Add(tree);
+                CS0104Cache[tree] = new List<Diagnostic>();
+                TreeUsingMapping[tree] = sets;
 
             }
             SyntaxExceptions.Add(exception);
