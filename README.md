@@ -75,7 +75,9 @@ WeihanLi
  
  - 2019-11-27 ： 发布v2.1.2.0, Oop 模板构建增加属性模板，NAssembly 获取 Fake/FastMethodOperator 将属于同一域，增加 NDomain 操作类，可以链式调用 Create 方法创建域并继续创建方法如 Func<> / AsyncFun<> / UnsafeFunc / AsyncUnsafeFunc / Action<> / AsyncAction<> / UnsafeAction<> / AsyncUnsafeAction<>。  
  
- - 2019-11-28 ： 发布v2.2.0.0, 增加四级运算 API , 可使用 DomainOperator 操作类来完成运算；改模板中 MethodBody 以及 OopBody 为追加模式；模板支持随机命名函数。 
+ - 2019-11-28 ： 发布v2.2.0.0, 增加四级运算 API , 可使用 DomainOperator 操作类来完成运算；改模板中 MethodBody 以及 OopBody 为追加模式；模板支持随机命名函数。  
+ 
+ - 2019-12-05 ： 发布v2.2.2.0, 移除并发计数，增加委托操作扩展 , 现 Fake/FastMethodOperator.Random 以及 RAction/RFunc 生成的委托都存入了缓存中，可以在委托上直接调用Delete进行卸载； 
  
  <br/>  
  
@@ -142,4 +144,10 @@ WeihanLi
 ## License
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdotnetcore%2FNatasha.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fdotnetcore%2FNatasha?ref=badge_large)          
       
+## 依赖（Dependence）
+
+ - Microsoft.CodeAnalysis.CSharp.Workspaces Version=3.4.0
+ - Microsoft.Extensions.DependencyModel Version=3.1.0
+ - Microsoft.Net.Compilers Version=3.4.0"
+ - Microsoft.Net.Compilers.Toolset Version=3.4.0
      
