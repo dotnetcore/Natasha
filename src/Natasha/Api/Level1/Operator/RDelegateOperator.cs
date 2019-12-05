@@ -2,19 +2,15 @@
 
 namespace Natasha.Operator
 {
+
     public static class RDelegateOperator<T> where T : Delegate
     {
 
         public static T Delegate(string content, params NamespaceConverter[] usings)
         {
 
-            var method = typeof(T).GetMethod("Invoke");
-            return FakeMethodOperator
-                .RandomDomain
-                .UseMethod(method)
-                .Using(usings)
-                .StaticMethodContent(content)
-                .Complie<T>();
+            var domain = DomainManagment.Create("N" + Guid.NewGuid().ToString("N"));
+            return DelegateOperator<T>.Delegate(content, domain, true, usings);
 
         }
 
@@ -24,14 +20,8 @@ namespace Natasha.Operator
         public static T AsyncDelegate(string content, params NamespaceConverter[] usings)
         {
 
-            var method = typeof(T).GetMethod("Invoke");
-            return FakeMethodOperator
-                .RandomDomain
-                .UseMethod(method)
-                .UseAsync()
-                .Using(usings)
-                .StaticMethodContent(content)
-                .Complie<T>();
+            var domain = DomainManagment.Create("N" + Guid.NewGuid().ToString("N"));
+            return DelegateOperator<T>.AsyncDelegate(content, domain, true, usings);
 
         }
 
@@ -41,14 +31,9 @@ namespace Natasha.Operator
         public static T UnsafeDelegate(string content, params NamespaceConverter[] usings)
         {
 
-            var method = typeof(T).GetMethod("Invoke");
-            return FakeMethodOperator
-                .RandomDomain
-                .UseMethod(method)
-                .UseUnsafe()
-                .Using(usings)
-                .StaticMethodContent(content)
-                .Complie<T>();
+            var domain = DomainManagment.Create("N" + Guid.NewGuid().ToString("N"));
+            return DelegateOperator<T>.UnsafeDelegate(content, domain, true, usings);
+
 
         }
 
@@ -58,15 +43,8 @@ namespace Natasha.Operator
         public static T UnsafeAsyncDelegate(string content, params NamespaceConverter[] usings)
         {
 
-            var method = typeof(T).GetMethod("Invoke");
-            return FakeMethodOperator
-                .RandomDomain
-                .UseMethod(method)
-                .UseUnsafe()
-                .UseAsync()
-                .Using(usings)
-                .StaticMethodContent(content)
-                .Complie<T>();
+            var domain = DomainManagment.Create("N" + Guid.NewGuid().ToString("N"));
+            return DelegateOperator<T>.UnsafeAsyncDelegate(content, domain, true, usings);
 
         }
 

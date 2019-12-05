@@ -9,10 +9,18 @@ namespace Natasha
         private AssemblyDomain _domain;
         private NDomain() { }
 
-        public static NDomain Create(string name)
+        public static NDomain Create(string name = default)
         {
             NDomain domain = new NDomain();
-            domain._domain = DomainManagment.Create(name);
+            if (name == default)
+            {
+                domain._domain = DomainManagment.Create("N" + Guid.NewGuid().ToString("N"));
+            }
+            else
+            {
+                domain._domain = DomainManagment.Create(name);
+            }
+           
             return domain;
         }
 

@@ -8,13 +8,7 @@ namespace Natasha.Operator
         public static T Delegate(string content, params NamespaceConverter[] usings)
         {
 
-            var method = typeof(T).GetMethod("Invoke");
-            return FakeMethodOperator
-                .MainDomain
-                .UseMethod(method)
-                .Using(usings)
-                .StaticMethodContent(content)
-                .Complie<T>();
+            return DelegateOperator<T>.Delegate(content, default, false, usings);
 
         }
 
@@ -24,14 +18,7 @@ namespace Natasha.Operator
         public static T AsyncDelegate(string content, params NamespaceConverter[] usings)
         {
 
-            var method = typeof(T).GetMethod("Invoke");
-            return FakeMethodOperator
-                .MainDomain
-                .UseMethod(method)
-                .UseAsync()
-                .Using(usings)
-                .StaticMethodContent(content)
-                .Complie<T>();
+            return DelegateOperator<T>.AsyncDelegate(content, default, false, usings);
 
         }
 
@@ -41,14 +28,7 @@ namespace Natasha.Operator
         public static T UnsafeDelegate(string content, params NamespaceConverter[] usings)
         {
 
-            var method = typeof(T).GetMethod("Invoke");
-            return FakeMethodOperator
-                .MainDomain
-                .UseMethod(method)
-                .UseUnsafe()
-                .Using(usings)
-                .StaticMethodContent(content)
-                .Complie<T>();
+            return DelegateOperator<T>.UnsafeDelegate(content, default, false, usings);
 
         }
 
@@ -58,15 +38,7 @@ namespace Natasha.Operator
         public static T UnsafeAsyncDelegate(string content, params NamespaceConverter[] usings)
         {
 
-            var method = typeof(T).GetMethod("Invoke");
-            return FakeMethodOperator
-                .MainDomain
-                .UseMethod(method)
-                .UseUnsafe()
-                .UseAsync()
-                .Using(usings)
-                .StaticMethodContent(content)
-                .Complie<T>();
+            return DelegateOperator<T>.UnsafeAsyncDelegate(content, default, false, usings);
 
         }
 

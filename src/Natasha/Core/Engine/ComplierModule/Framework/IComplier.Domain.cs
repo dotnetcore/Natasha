@@ -37,6 +37,10 @@ namespace Natasha.Complier
             set
             {
 
+                if (value==default)
+                {
+                    value = DomainManagment.Default;
+                }
                 _domain = value;
 
             }
