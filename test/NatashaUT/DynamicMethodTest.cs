@@ -136,11 +136,10 @@ namespace NatashaUT
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite1"))
                 .MethodContent(@"Console.WriteLine(""hello world"");")
                 .Builder();
-           Assert.Equal(@"public void ReWrite1()
-{
-Console.WriteLine(""hello world"");
-
-}", builder.MethodScript);
+           Assert.Equal($@"public void ReWrite1()
+{{
+Console.WriteLine(""hello world"");{Environment.NewLine}
+}}", builder.MethodScript);
         }
 
 
@@ -154,11 +153,10 @@ Console.WriteLine(""hello world"");
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite1"))
                 .StaticMethodContent(@"Console.WriteLine(""hello world"");")
                 .Builder();
-            Assert.Equal(@"public static void ReWrite1()
-{
-Console.WriteLine(""hello world"");
-
-}", builder.MethodScript);
+            Assert.Equal($@"public static void ReWrite1()
+{{
+Console.WriteLine(""hello world"");{Environment.NewLine}
+}}", builder.MethodScript);
         }
 
 
@@ -172,11 +170,10 @@ Console.WriteLine(""hello world"");
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite2"))
                 .MethodContent(@"Console.WriteLine(""hello world"");return this;")
                 .Builder();
-            Assert.Equal(@"public async Task<OopTestModel> ReWrite2()
-{
-Console.WriteLine(""hello world"");return this;
-
-}", builder.MethodScript);
+            Assert.Equal($@"public async Task<OopTestModel> ReWrite2()
+{{
+Console.WriteLine(""hello world"");return this;{Environment.NewLine}
+}}", builder.MethodScript);
         }
 
 
@@ -189,11 +186,10 @@ Console.WriteLine(""hello world"");return this;
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite2"))
                 .StaticMethodContent(@"Console.WriteLine(""hello world"");return this;")
                 .Builder();
-            Assert.Equal(@"public static async Task<OopTestModel> ReWrite2()
-{
-Console.WriteLine(""hello world"");return this;
-
-}", builder.MethodScript);
+            Assert.Equal($@"public static async Task<OopTestModel> ReWrite2()
+{{
+Console.WriteLine(""hello world"");return this;{Environment.NewLine}
+}}", builder.MethodScript);
         }
 
 
@@ -207,11 +203,10 @@ Console.WriteLine(""hello world"");return this;
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite3"))
                 .MethodContent(@"i++;temp+=i.ToString();")
                 .Builder();
-            Assert.Equal(@"public virtual void ReWrite3(ref Int32 i,String temp)
-{
-i++;temp+=i.ToString();
-
-}", builder.MethodScript);
+            Assert.Equal($@"public virtual void ReWrite3(ref Int32 i,String temp)
+{{
+i++;temp+=i.ToString();{Environment.NewLine}
+}}", builder.MethodScript);
         }
 
 
@@ -225,11 +220,10 @@ i++;temp+=i.ToString();
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite3"))
                 .StaticMethodContent(@"i++;temp+=i.ToString();")
                 .Builder();
-            Assert.Equal(@"public static void ReWrite3(ref Int32 i,String temp)
-{
-i++;temp+=i.ToString();
-
-}", builder.MethodScript);
+            Assert.Equal($@"public static void ReWrite3(ref Int32 i,String temp)
+{{
+i++;temp+=i.ToString();{Environment.NewLine}
+}}", builder.MethodScript);
         }
 
     }
