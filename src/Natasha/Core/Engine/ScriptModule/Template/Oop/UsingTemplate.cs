@@ -89,17 +89,16 @@ namespace Natasha.Template
 
 
 
-        public T Using(string type)
+        public T Using(string @using)
         {
 
-            if (type != null)
+            if (@using != default)
             {
 
-                if (!_usings.Contains(type))
+                if (!_usings.Contains(@using))
                 {
 
-                    _usings.Add(type);
-                    UsingScript.AppendLine($"using {type};");
+                    _usings.Add(@using);
 
                 }
 
@@ -249,14 +248,24 @@ namespace Natasha.Template
         }
 
 
+       public StringBuilder GetUsingBuilder()
+       {
+            UsingScript.Clear();
+            Using(UsingRecoder.Types);
+            foreach (var @using in _usings)
+            {
+                UsingScript.AppendLine($"using {@using};");
+            }
+            
+            return UsingScript;
+       } 
 
 
         public override T Builder()
         {
 
             base.Builder();
-            Using(UsingRecoder.Types);
-            _script.Append(UsingScript);
+            _script.Append(GetUsingBuilder());
             return Link;
 
         }

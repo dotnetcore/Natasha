@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Natasha;
 using System.Collections.Generic;
 
-namespace Natasha
+namespace System
 {
     public static class TypeExtension
     {

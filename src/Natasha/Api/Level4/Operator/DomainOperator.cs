@@ -104,10 +104,13 @@ namespace Natasha
 
         public Type GetType(string typeName = default)
         {
-            _operator.UsingScript.Append(_operator.OopContentScript);
+
             AssemblyComplier complier = new AssemblyComplier();
             complier.Domain = _domain;
-            var text = _operator.UsingScript.ToString();
+            var text = _operator
+                .GetUsingBuilder()
+                .Append(_operator.OopContentScript)
+                .ToString();
             if (typeName == default)
             {
                 typeName = ScriptHelper.GetClassName(text);

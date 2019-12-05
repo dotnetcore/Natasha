@@ -10,7 +10,6 @@ namespace Natasha
         public AssemblyComplier(string name) { AssemblyName = name; }
 
 
-
         
 
         /// <summary>

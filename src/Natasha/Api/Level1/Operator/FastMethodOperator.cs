@@ -25,9 +25,8 @@ namespace Natasha.Operator
 
             get
             {
-                var result = new FastMethodOperator();
+                var result = new FastMethodOperator(true);
                 result.Complier.Domain = DomainManagment.Create("N" + Guid.NewGuid().ToString("N"));
-                result.Complier.Domain.GCCount = DomainManagment.ConcurrentCount;
                 return result;
             }
 
@@ -36,7 +35,7 @@ namespace Natasha.Operator
 
 
 
-        public FastMethodOperator()
+        public FastMethodOperator(bool inCache = false) : base(inCache)
         {
 
             Link = this;

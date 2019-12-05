@@ -13,6 +13,7 @@ namespace Natasha.Operator
 
         public Action<MethodBuilder> Action;
         private MethodInfo _temp_info;
+
         public static FakeMethodOperator MainDomain
         {
             get { return new FakeMethodOperator(); }
@@ -24,9 +25,8 @@ namespace Natasha.Operator
 
             get 
             {
-                var result = new FakeMethodOperator();
+                var result = new FakeMethodOperator(true);
                 result.Complier.Domain = DomainManagment.Create("N" + Guid.NewGuid().ToString("N"));
-                result.Complier.Domain.GCCount = DomainManagment.ConcurrentCount;
                 return result;
             }
 
@@ -36,7 +36,7 @@ namespace Natasha.Operator
 
 
 
-        public FakeMethodOperator()
+        public FakeMethodOperator(bool inCache = false):base(inCache)
         {
 
             Link = this;

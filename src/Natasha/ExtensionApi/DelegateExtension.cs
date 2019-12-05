@@ -1,7 +1,8 @@
 ﻿using Natasha.Operator;
 using System;
+using System.Collections.Concurrent;
 
-namespace Natasha.DelegateExtension
+namespace Natasha
 {
     public static class DelegateExtension
     {
@@ -19,6 +20,33 @@ namespace Natasha.DelegateExtension
                 .Using(usings)
                 .StaticMethodContent(content)
                 .Complie();
+        }
+
+
+        public static ConcurrentDictionary<Delegate, AssemblyDomain> _delegate_cache;
+        static DelegateExtension()
+        {
+            _delegate_cache = new ConcurrentDictionary<Delegate, AssemblyDomain>();
+        }
+
+        public static bool Delete(this Delegate @delegate)
+        {
+            if (_delegate_cache.ContainsKey(@delegate))
+            {
+                while (!_delegate_cache.TryRemove(@delegate, out var domain))
+                {
+                    domain.Dispose();
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+
+        public static void AddInCache(this Delegate @delegate, AssemblyDomain domain)
+        {
+            _delegate_cache[@delegate] = domain;
         }
     }
 }

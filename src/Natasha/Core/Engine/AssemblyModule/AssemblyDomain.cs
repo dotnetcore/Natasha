@@ -1,6 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.DependencyModel;
-using Natasha.AssemblyModule.Model;
 using Natasha.Complier;
 using System;
 using System.Collections.Concurrent;
@@ -22,7 +21,6 @@ namespace Natasha
         public readonly HashSet<Type> TypeCache;
         public readonly object ObjLock;
         public readonly string DomainPath;
-        public int GCCount;
 #if NETSTANDARD2_0
         public string Name;
 #endif
@@ -72,7 +70,6 @@ namespace Natasha
                 var _ref = DependencyContext.Default.CompileLibraries
                                 .SelectMany(cl => cl.ResolveReferencePaths())
                                 .Select(asm => MetadataReference.CreateFromFile(asm));
-
                 ReferencesCache = new LinkedList<PortableExecutableReference>(_ref);
                 Default.Resolving += Default_Resolving;
 #if !NETSTANDARD2_0

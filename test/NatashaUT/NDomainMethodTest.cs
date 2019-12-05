@@ -42,6 +42,15 @@ namespace NatashaUT
 
 
 
+        //[Fact(DisplayName = "快速域函数7")]
+        //public static void RunDelegate7()
+        //{
+        //    var func = NDomain.Create("NDomain7").Func<string>("return OtherNameSpaceMethod.FromDate(DateTime.Now);");
+        //    Assert.Equal(DateTime.Now.ToString("yyyy-MM"), func());
+        //}
+
+
+
         [Fact(DisplayName = "快速域函数4")]
         public static void RunDelegate4()
         {

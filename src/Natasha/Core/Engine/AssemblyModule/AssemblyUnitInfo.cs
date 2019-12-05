@@ -2,11 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 
-namespace Natasha.AssemblyModule.Model
+namespace Natasha.Complier
 {
     public class AssemblyUnitInfo
     {
@@ -16,7 +15,7 @@ namespace Natasha.AssemblyModule.Model
         public readonly Assembly Assembly;
 
 
-        public AssemblyUnitInfo(AssemblyDomain context ,string path)
+        public AssemblyUnitInfo(AssemblyDomain context, string path)
         {
 
             if (context.Name == "Default")
@@ -58,7 +57,7 @@ namespace Natasha.AssemblyModule.Model
 
 
             stream.Position = 0;
-            Reference =new LinkedListNode<PortableExecutableReference>(MetadataReference.CreateFromStream(stream));
+            Reference = new LinkedListNode<PortableExecutableReference>(MetadataReference.CreateFromStream(stream));
             Id = Assembly.ManifestModule.ModuleVersionId;
             stream.Dispose();
 
