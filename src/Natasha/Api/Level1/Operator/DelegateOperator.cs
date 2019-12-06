@@ -9,7 +9,7 @@ namespace Natasha.Operator
         {
 
             var method = typeof(T).GetMethod("Invoke");
-            FakeMethodOperator @operator = new FakeMethodOperator();
+            FakeMethodOperator @operator = new FakeMethodOperator(inCache);
             @operator.Complier.Domain = domain;
             return @operator
                 .UseMethod(method)
@@ -26,7 +26,7 @@ namespace Natasha.Operator
         {
 
             var method = typeof(T).GetMethod("Invoke");
-            FakeMethodOperator @operator = new FakeMethodOperator();
+            FakeMethodOperator @operator = new FakeMethodOperator(inCache);
             @operator.Complier.Domain = domain;
             return @operator
                 .UseMethod(method)
@@ -44,7 +44,7 @@ namespace Natasha.Operator
         {
 
             var method = typeof(T).GetMethod("Invoke");
-            FakeMethodOperator @operator = new FakeMethodOperator();
+            FakeMethodOperator @operator = new FakeMethodOperator(inCache);
             @operator.Complier.Domain = domain;
             return @operator
                 .UseMethod(method)
@@ -62,7 +62,7 @@ namespace Natasha.Operator
         {
 
             var method = typeof(T).GetMethod("Invoke");
-            FakeMethodOperator @operator = new FakeMethodOperator();
+            FakeMethodOperator @operator = new FakeMethodOperator(inCache);
             @operator.Complier.Domain = domain;
             return @operator
                 .UseMethod(method)
