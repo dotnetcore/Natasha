@@ -9,7 +9,7 @@ namespace Natasha.Operator
         public static T Delegate(string content, params NamespaceConverter[] usings)
         {
 
-            var domain = DomainManagment.Create("N" + Guid.NewGuid().ToString("N"));
+            var domain = DomainManagment.Random();
             return DelegateOperator<T>.Delegate(content, domain, true, usings);
 
         }
@@ -20,7 +20,7 @@ namespace Natasha.Operator
         public static T AsyncDelegate(string content, params NamespaceConverter[] usings)
         {
 
-            var domain = DomainManagment.Create("N" + Guid.NewGuid().ToString("N"));
+            var domain = DomainManagment.Random();
             return DelegateOperator<T>.AsyncDelegate(content, domain, true, usings);
 
         }
@@ -31,7 +31,7 @@ namespace Natasha.Operator
         public static T UnsafeDelegate(string content, params NamespaceConverter[] usings)
         {
 
-            var domain = DomainManagment.Create("N" + Guid.NewGuid().ToString("N"));
+            var domain = DomainManagment.Random();
             return DelegateOperator<T>.UnsafeDelegate(content, domain, true, usings);
 
 
@@ -43,7 +43,7 @@ namespace Natasha.Operator
         public static T UnsafeAsyncDelegate(string content, params NamespaceConverter[] usings)
         {
 
-            var domain = DomainManagment.Create("N" + Guid.NewGuid().ToString("N"));
+            var domain = DomainManagment.Random();
             return DelegateOperator<T>.UnsafeAsyncDelegate(content, domain, true, usings);
 
         }

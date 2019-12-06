@@ -15,7 +15,7 @@ namespace Natasha
         {
             var method = instance.GetMethod("Invoke");
             return FakeMethodOperator
-                .MainDomain
+                .Create()
                 .UseMethod(method)
                 .Using(usings)
                 .StaticMethodContent(content)

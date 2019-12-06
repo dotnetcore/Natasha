@@ -9,19 +9,33 @@ namespace Natasha
         private AssemblyDomain _domain;
         private NDomain() { }
 
-        public static NDomain Create(string name = default)
+        public static NDomain Create(string domainName = default)
         {
-            NDomain domain = new NDomain();
-            if (name == default)
+            NDomain instance = new NDomain();
+            if (domainName== default)
             {
-                domain._domain = DomainManagment.Create("N" + Guid.NewGuid().ToString("N"));
+                instance._domain = DomainManagment.Default;
             }
             else
             {
-                domain._domain = DomainManagment.Create(name);
+                instance._domain = DomainManagment.Create(domainName);
             }
            
-            return domain;
+            return instance;
+        }
+
+        public static NDomain Create(AssemblyDomain domain)
+        {
+            NDomain instance = new NDomain();
+            instance._domain = domain;
+            return instance;
+        }
+
+        public static NDomain Random()
+        {
+            NDomain instance = new NDomain();
+            instance._domain = DomainManagment.Random();
+            return instance;
         }
 
 

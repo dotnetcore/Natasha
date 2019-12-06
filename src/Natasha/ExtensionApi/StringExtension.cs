@@ -24,7 +24,7 @@ namespace Natasha.MethodExtension
         }
         public static FastMethodOperator FastOperator(this string instance, params NamespaceConverter[] types)
         {
-            var builder = FastMethodOperator.MainDomain;
+            var builder = FastMethodOperator.Create();
             builder.Using(types);
             return builder.MethodBody(instance);
         }

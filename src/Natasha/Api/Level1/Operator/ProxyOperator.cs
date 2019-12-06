@@ -44,7 +44,7 @@ namespace Natasha.Operator
         /// </summary>
         /// <param name="class">类名</param>
         /// <returns></returns>
-        public T Create(string @class)
+        public T CreateProxy(string @class)
         {
 
             if (!_ctor_mapping.ContainsKey(@class)) { Compile(); }
@@ -73,6 +73,7 @@ namespace Natasha.Operator
         private readonly Type _oop_type;
         private readonly Dictionary<string, string> _oop_methods_mapping;
 
+        public ProxyOperator() { }
         public ProxyOperator(Type oopType) : base()
         {
 
@@ -122,7 +123,7 @@ namespace Natasha.Operator
 
 
                 //使用伪造函数模板
-                var template = FakeMethodOperator.MainDomain;
+                var template = FakeMethodOperator.Create();
 
                 if (!_oop_type.IsInterface)
                 {
@@ -167,7 +168,7 @@ namespace Natasha.Operator
 
 
             //返回委托
-            return CtorOperator.NewDelegate(TargetType);
+            return CtorOperator.Create().NewDelegate(TargetType);
         }
 
 

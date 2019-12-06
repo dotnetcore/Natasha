@@ -1,22 +1,26 @@
-﻿using System;
+﻿using Natasha.Builder;
+using System;
 
 namespace Natasha.Operator
 {
     /// <summary>
     /// 初始化操作类，生成初始化委托
     /// </summary>
-    public static class CtorOperator
+    public class CtorOperator: OnceMethodBuilder<CtorOperator>
     {
+        public CtorOperator()
+        {
+            Link = this;
+        }
         /// <summary>
         /// 返回初始化委托
         /// </summary>
         /// <typeparam name="T">初始化类型</typeparam>
         /// <param name="type">当T为object类型时候，type为真实类型</param>
         /// <returns></returns>
-        public static Func<T> NewDelegate<T>(Type type=null)
+        public Func<T> NewDelegate<T>(Type type=null)
         {
 
-            var builder = FastMethodOperator.MainDomain;
             if (type==null)
             {
 
@@ -24,20 +28,19 @@ namespace Natasha.Operator
                 type = typeof(T);
 
             }
-            else
-            {
-
-                //T为object，那么自动加载type的命名空间
-                builder.Using(type);
-
-            }
 
 
             //返回构建委托
-            return builder
-                .Using<T>()
-                .MethodBody($@"return new {type.GetDevelopName()}();")
+            return Public
+                .Static
+                .PublicMember
+                .StaticMember
+                .UseCustomerUsing()
+                .Using(type)
                 .Return<T>()
+                .UseRandomOopName()
+                .HiddenNameSpace()
+                .MethodBody($@"return new {type.GetDevelopName()}();")
                 .Complie<Func<T>>();
 
         }
@@ -50,12 +53,19 @@ namespace Natasha.Operator
         /// </summary>
         /// <param name="type">类型</param>
         /// <returns></returns>
-        public static Delegate NewDelegate(Type type)
+        public Delegate NewDelegate(Type type)
         {
 
-            return FastMethodOperator.MainDomain
-                .MethodBody($@"return new {type.GetDevelopName()}();")
+            return Public
+                .Static
+                .PublicMember
+                .StaticMember
+                .UseCustomerUsing()
+                .Using(type)
                 .Return(type)
+                .UseRandomOopName()
+                .HiddenNameSpace()
+                .MethodBody($@"return new {type.GetDevelopName()}();")
                 .Complie();
 
         }

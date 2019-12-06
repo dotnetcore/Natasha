@@ -88,7 +88,7 @@ namespace Core30
 
                 var domain = DomainManagment.CurrentDomain;
                 var assemebly = domain.LoadStream(path);
-                var action = FastMethodOperator.MainDomain
+                var action = FastMethodOperator.Create()
                    .Using(assemebly)
                    .MethodBody(@"
 try{
@@ -301,7 +301,7 @@ return default;").Return<string>()
 
 
 
-            var temp = FastMethodOperator.MainDomain;
+            var temp = FastMethodOperator.Create();
             temp.Complier.Domain = domain1;
             temp
                 //.Using<Test>()

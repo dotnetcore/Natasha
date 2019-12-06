@@ -15,7 +15,7 @@ namespace NatashaUT
         public static void RunDelegate1()
         {
             var delegateAction = FastMethodOperator
-                .MainDomain
+                .Create()
                         .Param<string>("str1")
                         .Param<string>("str2")
                         .MethodBody(@"
@@ -35,7 +35,7 @@ namespace NatashaUT
         public static void RunInnerDelegate()
         {
             var delegateAction = FastMethodOperator
-                .MainDomain
+                .Create()
                         .MethodBody(@"
                            OopTestModel.InnerClass a = new OopTestModel.InnerClass();
                             a.Name =""abc"";
@@ -90,7 +90,7 @@ namespace NatashaUT
         public static void RunDelegate2()
         {
             var delegateAction = FastMethodOperator
-                .MainDomain
+                .Create()
                         .Param<string>("str1")
                         .Param<string>("str2")
                         .MethodBody(@"
@@ -131,7 +131,7 @@ namespace NatashaUT
         public static void MakerCode1()
         {
 
-            var builder = FakeMethodOperator.MainDomain;
+            var builder = FakeMethodOperator.Create();
             builder
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite1"))
                 .MethodContent(@"Console.WriteLine(""hello world"");")
@@ -148,7 +148,7 @@ Console.WriteLine(""hello world"");{Environment.NewLine}
         public static void MakerStaticCode1()
         {
 
-            var builder = FakeMethodOperator.MainDomain;
+            var builder = FakeMethodOperator.Create();
             builder
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite1"))
                 .StaticMethodContent(@"Console.WriteLine(""hello world"");")
@@ -165,7 +165,7 @@ Console.WriteLine(""hello world"");{Environment.NewLine}
         [Fact(DisplayName = "函数克隆2")]
         public static void MakerCode2()
         {
-            var builder = FakeMethodOperator.MainDomain;
+            var builder = FakeMethodOperator.Create();
             builder
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite2"))
                 .MethodContent(@"Console.WriteLine(""hello world"");return this;")
@@ -182,7 +182,7 @@ Console.WriteLine(""hello world"");return this;{Environment.NewLine}
         [Fact(DisplayName = "函数克隆2-静态")]
         public static void MakerStaticCode2()
         {
-            var builder = FakeMethodOperator.MainDomain
+            var builder = FakeMethodOperator.Create()
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite2"))
                 .StaticMethodContent(@"Console.WriteLine(""hello world"");return this;")
                 .Builder();
@@ -198,7 +198,7 @@ Console.WriteLine(""hello world"");return this;{Environment.NewLine}
         [Fact(DisplayName = "函数克隆3")]
         public static void MakerCode3()
         {
-            var builder = FakeMethodOperator.MainDomain;
+            var builder = FakeMethodOperator.Create();
             builder
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite3"))
                 .MethodContent(@"i++;temp+=i.ToString();")
@@ -215,7 +215,7 @@ i++;temp+=i.ToString();{Environment.NewLine}
         [Fact(DisplayName = "函数克隆3-静态")]
         public static void MakerStaticCode3()
         {
-            var builder = FakeMethodOperator.MainDomain;
+            var builder = FakeMethodOperator.Create();
             builder
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite3"))
                 .StaticMethodContent(@"i++;temp+=i.ToString();")

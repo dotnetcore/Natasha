@@ -22,7 +22,7 @@ namespace NatashaUT
             builder["MethodWidthParamsString"] = "return str+\"1\";";
             builder["MethodWidthParams"] = "b=10;return a.ToString()+str+b.ToString();";
             builder.Compile();
-            var test = builder.Create("ITestClass");
+            var test = builder.CreateProxy("ITestClass");
             int testi = 1;
             int param3;
             test.MethodWidthParamsRefInt(ref testi);
@@ -51,7 +51,7 @@ namespace NatashaUT
             builder["MethodWidthParamsString"] = "return str+\"1\";";
             builder["MethodWidthParams"] = "b=10;return a.ToString()+str+b.ToString();";
             builder.Compile();
-            var test = builder.Create("ATestClass");
+            var test = builder.CreateProxy("ATestClass");
             int testi = 1;
             int param3;
             test.MethodWidthParamsRefInt(ref testi);
@@ -80,7 +80,7 @@ namespace NatashaUT
             builder["MethodWidthParamsString"] = "return str+\"1\";";
             builder["MethodWidthParams"] = "b=10;return a.ToString()+str+b.ToString();";
             builder.Compile();
-            var test = builder.Create("VTestClass");
+            var test = builder.CreateProxy("VTestClass");
             int testi = 1;
             int param3;
             test.MethodWidthParamsRefInt(ref testi);

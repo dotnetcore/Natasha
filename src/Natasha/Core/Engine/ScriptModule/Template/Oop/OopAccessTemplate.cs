@@ -48,7 +48,8 @@ namespace Natasha.Template
 
         public T Public
         {
-            get { OopAccessScript = "public "; return Link; }
+            get { OopAccessScript = "public "; 
+                return Link; }
         }
         public T Private
         {

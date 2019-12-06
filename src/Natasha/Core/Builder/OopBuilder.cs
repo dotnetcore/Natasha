@@ -4,7 +4,7 @@ using System;
 namespace Natasha.Builder
 {
 
-    public class OopBuilder<T> : OopContentTemplate<T>
+    public class OopBuilder<T> : OopContentTemplate<T> where T: OopBuilder<T>,new()
     {
 
         public  readonly AssemblyComplier Complier;
@@ -17,6 +17,51 @@ namespace Natasha.Builder
             Complier = new AssemblyComplier();
 
         }
+
+
+        /// <summary>
+        /// 如果参数为空，则使用默认域
+        /// 如果参数不为空，则创建以参数为名字的独立域
+        /// </summary>
+        /// <param name="domainName">域名</param>
+        /// <returns></returns>
+        public static T Create(string domainName = default)
+        {
+            T instance = new T();
+            if (domainName == default)
+            {
+                instance.Complier.Domain = DomainManagment.Default;
+            }
+            else
+            {
+                instance.Complier.Domain = DomainManagment.Create(domainName);
+            }
+
+            return instance;
+        }
+        /// <summary>
+        /// 使用一个现成的域
+        /// </summary>
+        /// <param name="domain">域</param>
+        /// <returns></returns>
+        public static T Create(AssemblyDomain domain)
+        {
+            T instance = new T();
+            instance.Complier.Domain = domain;
+            return instance;
+        }
+        /// <summary>
+        /// 创建一个随机的域
+        /// </summary>
+        /// <returns></returns>
+        public static T Random()
+        {
+            T instance = new T();
+            instance.Complier.Domain = DomainManagment.Random();
+            return instance;
+        }
+
+
 
 
 

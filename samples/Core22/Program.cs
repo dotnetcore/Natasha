@@ -15,7 +15,7 @@ namespace Core22
             {
                 throw new ArgumentNullException(nameof(args));
             }
-            var action = FastMethodOperator.MainDomain
+            var action = FastMethodOperator.Create()
                 .MethodBody("return 1+1;")
                 .Return<int>()
                 .Complie<Func<int>>();
@@ -23,13 +23,13 @@ namespace Core22
             action();
 
 
-            FakeMethodOperator.MainDomain
+            FakeMethodOperator.Create()
                .UseMethod<TestB>("TestMethod")
                .StaticMethodContent($@"Console.WriteLine(""Hello World!"");")
                .Complie<Action>();
 
 
-            FakeMethodOperator.MainDomain
+            FakeMethodOperator.Create()
                 .UseMethod<TestB>("TestMethod")
                 .MethodContent($@"Console.WriteLine(""Hello World!"");")
                 .Complie<Action>(new TestA());
@@ -50,12 +50,12 @@ namespace Core22
             abstractBuilder["GetName"] = "return Name;";
             abstractBuilder["GetAge"] = "return Age;";
             abstractBuilder.Compile();
-            var test = abstractBuilder.Create("UTestClass");
+            var test = abstractBuilder.CreateProxy("UTestClass");
 
             var delegate2 = NDelegateOperator<GetterDelegate>.Delegate("return value.ToString();");
             Console.WriteLine(delegate2(1));
             var delegate3 = "return value.ToString();".Delegate<GetterDelegate>();
-            var delegateConvt = FastMethodOperator.MainDomain
+            var delegateConvt = FastMethodOperator.Create()
                 .Param<string>("value")
                 .MethodBody($@"return value==""true"" || value==""mama"";")
                 .Return<bool>()
@@ -73,7 +73,7 @@ namespace Core22
             il.Emit(OpCodes.Ret);
             var emitAction = (Action<TestB, string>)(method.CreateDelegate(typeof(Action<TestB, string>)));
 
-            var roslynAction = FastMethodOperator.MainDomain
+            var roslynAction = FastMethodOperator.Create()
                 .Param<TestB>("instance")
                 .Param<string>("value")
                 .MethodBody("instance.Name = value;")

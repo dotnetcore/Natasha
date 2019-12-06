@@ -14,7 +14,7 @@ namespace NatashaUT
         public static async void RunAsyncDelegate1()
         {
             var delegateAction = FastMethodOperator
-                .MainDomain
+                .Create()
                         .UseAsync()
                         .Param<string>("str1")
                         .Param<string>("str2")
@@ -35,7 +35,7 @@ namespace NatashaUT
         [Fact(DisplayName = "手动强转异步委托2")]
         public static async void RunAsyncDelegate2()
         {
-            var delegateAction = FastMethodOperator.MainDomain
+            var delegateAction = FastMethodOperator.Create()
 
                         .UseAsync()
                         .Param<string>("str1")
@@ -110,7 +110,7 @@ namespace NatashaUT
         [Fact(DisplayName = "自动泛型异步委托2")]
         public static async void RunAsyncDelegate4()
         {
-            var delegateAction = FastMethodOperator.MainDomain
+            var delegateAction = FastMethodOperator.Create()
 
                 .UseAsync()
                 .MethodBody(@"

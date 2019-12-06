@@ -7,18 +7,66 @@ namespace Natasha.Builder
     /// 一次性方法构建器
     /// </summary>
     /// <typeparam name="TBuilder"></typeparam>
-    public class OnceMethodBuilder<TBuilder> : OnceMethodDelegateTemplate<TBuilder>
+    public class OnceMethodBuilder<TBuilder> : OnceMethodDelegateTemplate<TBuilder> where TBuilder : OnceMethodBuilder<TBuilder>,new()
     {
 
 
         //使用默认编译器
         public readonly AssemblyComplier Complier;
-        private readonly bool _inCache;
+        private bool _inCache;
         public OnceMethodBuilder(bool inCache = false)
         {
             _inCache = inCache;
             Complier = new AssemblyComplier();
         }
+
+
+
+        /// <summary>
+        /// 如果参数为空，则使用默认域
+        /// 如果参数不为空，则创建以参数为名字的独立域
+        /// </summary>
+        /// <param name="domainName">域名</param>
+        /// <returns></returns>
+        public static TBuilder Create(string domainName = default)
+        {
+            TBuilder instance = new TBuilder();
+            if (domainName == default)
+            {
+                instance.Complier.Domain = DomainManagment.Default;
+            }
+            else
+            {
+                instance.Complier.Domain = DomainManagment.Create(domainName);
+            }
+
+            return instance;
+        }
+        /// <summary>
+        /// 使用一个现成的域
+        /// </summary>
+        /// <param name="domain">域</param>
+        /// <returns></returns>
+        public static TBuilder Create(AssemblyDomain domain)
+        {
+            TBuilder instance = new TBuilder();
+            instance.Complier.Domain = domain;
+            return instance;
+        }
+        /// <summary>
+        /// 创建一个随机的域
+        /// </summary>
+        /// <returns></returns>
+        public static TBuilder Random()
+        {
+            TBuilder instance = new TBuilder() { };
+            instance._inCache = true;
+            instance.Complier.Domain = DomainManagment.Create("N" + Guid.NewGuid().ToString("N"));
+            return instance;
+        }
+
+
+
 
 
         /// <summary>
