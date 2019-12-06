@@ -43,6 +43,16 @@ namespace Natasha.Template
 
             }
 
+            var entryTypes = Assembly.GetEntryAssembly().GetTypes();
+            foreach (var item in entryTypes)
+            {
+
+                if (!DefaultNamesapce.Contains(item.Namespace) && item.Namespace != default)
+                {
+                    DefaultNamesapce.Add(item.Namespace);
+                }
+
+            }
             DefaultNamesapce.Remove("System.Linq.Expressions.Interpreter");
             DefaultNamesapce.Remove("System.Net.Internals");
             DefaultNamesapce.Remove("System.Xml.Xsl.Runtime");
@@ -51,6 +61,7 @@ namespace Natasha.Template
                 DefaultScript.AppendLine($"using {@using};");
             }
 
+           
         }
 
     }
