@@ -77,7 +77,7 @@ WeihanLi
  
  - 2019-11-28 ： 发布v2.2.0.0, 增加四级运算 API , 可使用 DomainOperator 操作类来完成运算；改模板中 MethodBody 以及 OopBody 为追加模式；模板支持随机命名函数。  
  
- - 2019-12-05 ： 发布v2.2.2.0, 移除并发计数，增加委托操作扩展 , 现 Fake/FastMethodOperator.Random 以及 RAction/RFunc 生成的委托都存入了缓存中，可以在委托上直接调用Delete进行卸载； 默认使用所有 Using 覆盖编译代码，当发生二义性引用时使用 CS0104Helper 处理二义性问题， 模板增加 UseCustomerUsing 方法来阻止 Using 覆盖，代价是将必要的 Using 引用精确引入到构建中。 编译引擎在出现二义性引用时将进行重试策略，重试次数1次。
+ - 2019-12-05 ： 发布v2.4.0.0, 移除并发计数，增加委托操作扩展 , 现 Fake/FastMethodOperator.Random 以及 RAction/RFunc 生成的委托都存入了缓存中，可以在委托上直接调用Delete进行卸载； 默认使用所有 Using 覆盖编译代码，当发生二义性引用时使用 CS0104Helper 处理二义性问题， 模板增加 UseCustomerUsing 方法来阻止 Using 覆盖，代价是将必要的 Using 引用精确引入到构建中。 编译引擎在出现二义性引用时将进行重试策略，重试次数1次。
  
  <br/>  
  
