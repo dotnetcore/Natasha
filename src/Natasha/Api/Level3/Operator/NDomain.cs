@@ -61,6 +61,40 @@ namespace Natasha
 
 
 
+        public Type GetType(string code, string typeName = default)
+        {
+
+            OopOperator oopOperator = new OopOperator();
+            AssemblyComplier complier = new AssemblyComplier();
+            complier.Domain = _domain;
+            var text = oopOperator
+                .GetUsingBuilder()
+                .Append(code)
+                .ToString();
+
+            if (typeName == default)
+            {
+                typeName = ScriptHelper.GetClassName(text);
+                if (typeName == default)
+                {
+                    typeName = ScriptHelper.GetInterfaceName(text);
+                    if (typeName == default)
+                    {
+                        typeName = ScriptHelper.GetStructName(text);
+                        if (typeName == default)
+                        {
+                            typeName = ScriptHelper.GetEnumName(text);
+                        }
+                    }
+                }
+            }
+            complier.Add(text);
+            return complier.GetType(typeName);
+        }
+
+
+
+
         public Func<T> Func<T>(string content, params NamespaceConverter[] usings)
         {
             return content == default ? null : DelegateOperator<Func<T>>.Delegate(content, _domain, _inCache, usings);

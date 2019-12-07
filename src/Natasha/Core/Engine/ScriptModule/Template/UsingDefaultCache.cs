@@ -22,10 +22,6 @@ namespace Natasha.Template
             {
 
                 var assembly = Assembly.Load(name);
-                if (assembly.FullName.Contains("System.Runtime.WindowsRuntime"))
-                {
-                    continue;
-                }
                 if (assembly != default)
                 {
 
@@ -53,15 +49,26 @@ namespace Natasha.Template
                 }
 
             }
-            DefaultNamesapce.Remove("System.Linq.Expressions.Interpreter");
-            DefaultNamesapce.Remove("System.Net.Internals");
-            DefaultNamesapce.Remove("System.Xml.Xsl.Runtime");
+
             foreach (var @using in DefaultNamesapce)
             {
                 DefaultScript.AppendLine($"using {@using};");
             }
 
            
+        }
+
+
+        public static void Remove(string @namespace)
+        {
+            lock (DefaultNamesapce)
+            {
+                if (DefaultNamesapce.Contains(@namespace))
+                {
+                    DefaultNamesapce.Remove(@namespace);
+                    DefaultScript.Replace($"using {@namespace};", string.Empty);
+                }
+            }
         }
 
     }

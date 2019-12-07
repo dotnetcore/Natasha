@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Natasha.Complier.Model;
 using Natasha.Log;
+using Natasha.Template;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace Natasha.Complier
             {
                 Directory.CreateDirectory(CurrentPath);
             }
-            
+
         }
 
         public IComplier()
@@ -46,7 +47,7 @@ namespace Natasha.Complier
 
 
 
-        
+
 
 
 
@@ -69,7 +70,7 @@ namespace Natasha.Complier
                 AssemblyName = Guid.NewGuid().ToString("N");
             }
 
-            
+
             var result = StreamComplier();
             Assembly assembly = result.Assembly;
             if (result.Compilation != null)
@@ -78,66 +79,88 @@ namespace Natasha.Complier
                 if (assembly == default || assembly == null)
                 {
 
-                    bool HashRepeate = false;
+                    bool CS0104SHUT = false;
+                    bool CS0234SHUT = false;
+                    bool CSO246SHUT = false;
+                    var tempCache = SyntaxInfos.TreeCodeMapping;
+                    SyntaxOption option = new SyntaxOption();
+
+
                     foreach (var item in result.Errors)
                     {
+
                         if (item.Id == "CS0104")
                         {
-                            HashRepeate = true;
-                            SyntaxInfos.CS0104Cache[item.Location.SourceTree].Add(item);
+
+                            CS0104SHUT = true;
+                            var tempTree = item.Location.SourceTree;
+                            var tempCode = tempCache[tempTree];
+                            var (str1, str2) = CS0104Helper.Handler(item.Descriptor.MessageFormat.ToString(), item.GetMessage());
+                            var sets = SyntaxInfos.TreeUsingMapping[tempTree];
+                            if (sets.Contains(str2))
+                            {
+
+                                tempCache[tempTree] = tempCode.Replace($"using {str1};", "");
+
+                            }
+                            else if (sets.Contains(str1))
+                            {
+
+                                tempCache[tempTree] = tempCode.Replace($"using {str2};", "");
+
+                            }
+                            else
+                            {
+
+                                tempCache[tempTree] = tempCode.Replace($"using {str1};", "");
+
+                            }
+
                         }
+                        else if (item.Id == "CS0234")
+                        {
+
+                            CS0234SHUT = true;
+                            var tempResult = CS0234Helper.Handler(item.Descriptor.MessageFormat.ToString(), item.GetMessage());
+                            UsingDefaultCache.Remove(tempResult);
+                            var tempTree = item.Location.SourceTree;
+                            var tempCode = tempCache[tempTree];
+                            tempCache[tempTree] = tempCode.Replace($"using {tempResult};", "");
+
+                        }
+                        else if (item.Id == "CS0246")
+                        {
+
+                            CSO246SHUT = true;
+                            var tempTree = item.Location.SourceTree;
+                            var tempCode = tempCache[tempTree];
+                            var formart = item.Descriptor.MessageFormat.ToString();
+                            CS0246Helper.Handler(item.Descriptor.MessageFormat.ToString(), item.GetMessage());
+                            foreach (var @using in CS0246Helper.GetUsings(formart, tempCode))
+                            {
+                                UsingDefaultCache.Remove(@using);
+                                tempCache[tempTree] = tempCode.Replace($"using {@using};", "");
+                            }
+
+                        }
+
                     }
 
-                    if (HashRepeate)
+
+                    if (CS0104SHUT || CS0234SHUT || CSO246SHUT)
                     {
 
                         ErrorRetryCount += 1;
                         if (ErrorRetryCount < 2)
                         {
 
-                            SyntaxOption option = new SyntaxOption();
-                            foreach (var item in SyntaxInfos.CS0104Cache)
+                            foreach (var item in tempCache)
                             {
-                                var sets = SyntaxInfos.TreeUsingMapping[item.Key];
-                                string temp = item.Key.ToString();
 
-                                if (sets != default)
-                                {
+                                option.Add(tempCache[item.Key], SyntaxInfos.TreeUsingMapping[item.Key]);
 
-                                    foreach (var error in item.Value)
-                                    {
-                                        var tupleError = CS0104Helper.Handler(error.Descriptor.MessageFormat.ToString(), error.GetMessage());
-                                        if (sets.Contains(tupleError.str2))
-                                        {
-
-                                            temp = temp.Replace($"using {tupleError.str1};","");
-
-                                        }
-                                        else if (sets.Contains(tupleError.str1))
-                                        {
-
-                                            temp = temp.Replace($"using {tupleError.str2};", "");
-
-                                        }
-                                    }
-                                    option.Add(temp,sets);
-
-                                }
-                                else
-                                {
-
-                                    option.Add(temp.ToString());
-
-                                }
-                                
                             }
-                            foreach (var item in SyntaxInfos.TreeUsingMapping)
-                            {
-                                if (!option.Trees.Contains(item.Key))
-                                {
-                                    option.Add(item.ToString(),item.Value);
-                                }
-                            }
+
                             SyntaxInfos = option;
                             return GetAssembly();
 

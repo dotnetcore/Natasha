@@ -12,7 +12,7 @@ namespace NatashaUT
     public class NDomainMethodTest
     {
 
-        [Fact(DisplayName = "快速域函数1")]
+        [Fact(DisplayName = "独立域函数1")]
         public static void RunDelegate1()
         {
             var func = NDomain.Create("NDomain1").Func<string>("return \"1\";");
@@ -22,7 +22,7 @@ namespace NatashaUT
 
 
 
-        [Fact(DisplayName = "快速域函数2")]
+        [Fact(DisplayName = "独立域函数2")]
         public static void RunDelegate2()
         {
             //------创建一个域（方便卸载）----//-----创建Func方法--------//
@@ -33,7 +33,7 @@ namespace NatashaUT
 
 
 
-        [Fact(DisplayName = "快速域函数3")]
+        [Fact(DisplayName = "独立域函数3")]
         public static void RunDelegate3()
         {
             var func = NDomain.Create("NDomain3").Func<string,string, string>("return arg1+arg2;");
@@ -42,7 +42,7 @@ namespace NatashaUT
 
 
 
-        [Fact(DisplayName = "快速域函数7")]
+        [Fact(DisplayName = "独立域函数7")]
         public static void RunDelegate7()
         {
             var func = NDomain.Create("NDomain7").Func<string>("return OtherNameSpaceMethod.FromDate(DateTime.Now);");
@@ -51,7 +51,7 @@ namespace NatashaUT
 
 
 
-        [Fact(DisplayName = "快速域函数4")]
+        [Fact(DisplayName = "独立域函数4")]
         public static void RunDelegate4()
         {
             NormalTestModel model = new NormalTestModel();
@@ -63,7 +63,7 @@ namespace NatashaUT
 
 
 
-        [Fact(DisplayName = "快速域函数5")]
+        [Fact(DisplayName = "独立域函数5")]
         public static void RunDelegate5()
         {
             NormalTestModel model = new NormalTestModel();
@@ -75,13 +75,27 @@ namespace NatashaUT
 
 
 
-        [Fact(DisplayName = "快速域函数6")]
+        [Fact(DisplayName = "独立域函数6")]
         public static void RunDelegate6()
         {
             NormalTestModel model = new NormalTestModel();
             var func = NDomain.Create("NDomain6").Action<NormalTestModel, int, int>("arg1.Age=arg2+arg3;");
             func(model,1,2);
             Assert.Equal(3, model.Age);
+        }
+
+
+
+        [Fact(DisplayName = "独立编译")]
+        public void TestType1()
+        {
+            var type = NDomain.Create("NDomain8").GetType(
+                @"public class  DomainTest1{
+                        public string Name;
+                        public DomainOperator Operator;
+                }");
+
+            Assert.Equal("DomainTest1", type.Name);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace NatashaUT
                 & @"public class  DomainTest1{
                         public string Name;
                         public DomainOperator Operator;
-                }";
+                }" | "W1233";
 
             var type = handler.GetType();
             Assert.Equal("DomainTest1",type.Name);
