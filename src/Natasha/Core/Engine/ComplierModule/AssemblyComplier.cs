@@ -52,7 +52,7 @@ namespace Natasha
         /// </summary>
         /// <param name="path">文件路径</param>
         /// <returns></returns>
-        public CompilationException AddFile(string path, HashSet<string> sets = default)
+        public CompilationException AddFile(string path)
         {
 
             if (File.Exists(path))

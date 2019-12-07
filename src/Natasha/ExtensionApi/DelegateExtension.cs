@@ -23,11 +23,16 @@ namespace Natasha
         }
 
 
+
+
         public static ConcurrentDictionary<Delegate, AssemblyDomain> _delegate_cache;
         static DelegateExtension()
         {
             _delegate_cache = new ConcurrentDictionary<Delegate, AssemblyDomain>();
         }
+
+
+
 
         public static bool Delete(this Delegate @delegate)
         {
@@ -41,6 +46,7 @@ namespace Natasha
             }
             return false;
         }
+
 
 
 

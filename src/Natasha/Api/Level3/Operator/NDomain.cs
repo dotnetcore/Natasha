@@ -64,14 +64,14 @@ namespace Natasha
         public Type GetType(string code, string typeName = default)
         {
 
-            OopOperator oopOperator = new OopOperator();
-            AssemblyComplier complier = new AssemblyComplier();
-            complier.Domain = _domain;
-            var text = oopOperator
+            OopOperator oopOperator = OopOperator.Create(_domain);
+            string result = oopOperator
                 .GetUsingBuilder()
-                .Append(code)
-                .ToString();
+                .Append(code).ToString();
 
+            oopOperator.Complier.SyntaxInfos.Add(result,oopOperator.Usings);
+
+            var text = result;
             if (typeName == default)
             {
                 typeName = ScriptHelper.GetClassName(text);
@@ -88,8 +88,13 @@ namespace Natasha
                     }
                 }
             }
-            complier.Add(text);
-            return complier.GetType(typeName);
+
+            Type type = oopOperator.Complier.GetType(typeName);
+            if (_domain != DomainManagment.Default)
+            {
+                type.AddInCache(_domain);
+            }
+            return type;
         }
 
 

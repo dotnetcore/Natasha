@@ -1,4 +1,5 @@
 ﻿using Natasha;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace System
@@ -76,6 +77,39 @@ namespace System
         public static Type With(this Type type,params Type[] types)
         {
             return type.MakeGenericType(types);
+        }
+
+
+
+
+        public static ConcurrentDictionary<Type, AssemblyDomain> _type_cache;
+        static TypeExtension()
+        {
+            _type_cache = new ConcurrentDictionary<Type, AssemblyDomain>();
+        }
+
+
+
+
+        public static bool Delete(this Type type)
+        {
+            if (_type_cache.ContainsKey(type))
+            {
+                while (!_type_cache.TryRemove(type, out var domain))
+                {
+                    domain.Dispose();
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+
+
+        public static void AddInCache(this Type type, AssemblyDomain domain)
+        {
+            _type_cache[type] = domain;
         }
     }
 }
