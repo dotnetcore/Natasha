@@ -59,7 +59,7 @@ namespace NatashaUT
         [Fact(DisplayName = "NFunc异步委托")]
         public static async void RunAsyncDelegate5()
         {
-            var action = RFunc<string, string, Task<string>>.AsyncDelegate(@"
+            var action = NDomain.Random().AsyncFunc<string, string, Task<string>>(@"
                             string result = arg1 +"" ""+ arg2;
                             Console.WriteLine(result);
                             return result;");
@@ -74,7 +74,7 @@ namespace NatashaUT
         [Fact(DisplayName = "NFunc非安全异步委托")]
         public static async void RunAsyncDelegate6()
         {
-            var action = RFunc<string, string, Task<string>>.UnsafeAsyncDelegate(@"
+            var action = NDomain.Random().UnsafeAsyncFunc<string, string, Task<string>>(@"
                             string result = arg1 +"" ""+ arg2;
                             Console.WriteLine(result);
                             return result;");

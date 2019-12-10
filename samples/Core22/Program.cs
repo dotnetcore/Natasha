@@ -1,6 +1,4 @@
-﻿using Natasha;
-using Natasha.MethodExtension;
-using Natasha.Operator;
+﻿using Natasha.Operator;
 using System;
 using System.Diagnostics;
 using System.Reflection.Emit;
@@ -52,16 +50,16 @@ namespace Core22
             abstractBuilder.Compile();
             var test = abstractBuilder.CreateProxy("UTestClass");
 
-            var delegate2 = NDelegateOperator<GetterDelegate>.Delegate("return value.ToString();");
-            Console.WriteLine(delegate2(1));
-            var delegate3 = "return value.ToString();".Delegate<GetterDelegate>();
-            var delegateConvt = FastMethodOperator.Create()
-                .Param<string>("value")
-                .MethodBody($@"return value==""true"" || value==""mama"";")
-                .Return<bool>()
-                .Complie<Func<string, bool>>();
+            //var delegate2 = NDelegateOperator<GetterDelegate>.Delegate("return value.ToString();");
+            //Console.WriteLine(delegate2(1));
+            //var delegate3 = "return value.ToString();".Delegate<GetterDelegate>();
+            //var delegateConvt = FastMethodOperator.Create()
+            //    .Param<string>("value")
+            //    .MethodBody($@"return value==""true"" || value==""mama"";")
+            //    .Return<bool>()
+            //    .Complie<Func<string, bool>>();
 
-            Console.WriteLine(delegateConvt("mama"));
+            //Console.WriteLine(delegateConvt("mama"));
 
            
 

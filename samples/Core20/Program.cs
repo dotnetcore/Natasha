@@ -1,6 +1,5 @@
 ﻿using Natasha;
 using System;
-using Natasha.MethodExtension;
 
 namespace Core20
 {
@@ -35,8 +34,8 @@ namespace Core20
             Type type = oop.GetType("Test");
 
 
-            var func = "return arg;".Delegate<Func<string, string>>();
-            Console.WriteLine(func("111"));
+           // var func = "return arg;".Delegate<Func<string, string>>();
+            //Console.WriteLine(func("111"));
 
             Console.ReadKey();
         }

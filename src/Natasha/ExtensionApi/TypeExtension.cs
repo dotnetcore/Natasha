@@ -91,7 +91,7 @@ namespace System
 
 
 
-        public static bool Delete(this Type type)
+        public static bool DisposeDomain(this Type type)
         {
             if (_type_cache.ContainsKey(type))
             {
@@ -107,7 +107,7 @@ namespace System
 
 
 
-        public static void AddInCache(this Type type, AssemblyDomain domain)
+        internal static void AddInCache(this Type type, AssemblyDomain domain)
         {
             _type_cache[type] = domain;
         }

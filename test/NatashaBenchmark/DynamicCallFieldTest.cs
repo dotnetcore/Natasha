@@ -86,21 +86,21 @@ namespace NatashaBenchmark
             EmitSetDateTime = (Action<CallModel, DateTime>)(method.CreateDelegate(typeof(Action<CallModel, DateTime>)));
 
 
-            NatashaGetString = NFunc<CallModel, string>.Delegate("return arg.Age;");
+            NatashaGetString = NDomain.Create().Func<CallModel, string>("return arg.Age;");
             NatashaGetString(OriginModel);
             OriginGetString = item => item.Age;
            
 
-            NatashaGetDateTime = NFunc<CallModel, DateTime>.Delegate("return arg.CreateTime;");
+            NatashaGetDateTime = NDomain.Create().Func<CallModel, DateTime>("return arg.CreateTime;");
             NatashaGetDateTime(OriginModel);
             OriginGetDateTime = item => item.CreateTime;
             
 
-            NatashaSetString =NAction<CallModel, string>.Delegate("arg1.Age=arg2;");
+            NatashaSetString = NDomain.Create().Action<CallModel, string>("arg1.Age=arg2;");
             NatashaSetString(OriginModel, OriginModel.Age);
            OriginSetString = (item, value) => item.Age = value;
 
-            NatashaSetDateTime = NDelegateOperator<ValueDelegate >.Delegate("model.CreateTime=value;");
+            NatashaSetDateTime = DelegateOperator<ValueDelegate >.Delegate("model.CreateTime=value;");
             NatashaSetDateTime(OriginModel, OriginModel.CreateTime);
             OriginSetDateTime = OriginDateTime;
 

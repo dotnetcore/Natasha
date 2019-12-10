@@ -6,10 +6,6 @@ namespace Natasha
 {
     public static class DelegateExtension
     {
-        public static T Create<T>(this T instance,string content,params NamespaceConverter[] usings) where T: Delegate
-        {
-            return instance = NDelegateOperator<T>.Delegate(content, usings);
-        }
 
         public static Delegate Create(this Type instance, string content, params NamespaceConverter[] usings)
         {
@@ -34,7 +30,7 @@ namespace Natasha
 
 
 
-        public static bool Delete(this Delegate @delegate)
+        public static bool DisposeDomain(this Delegate @delegate)
         {
             if (_delegate_cache.ContainsKey(@delegate))
             {
@@ -50,7 +46,7 @@ namespace Natasha
 
 
 
-        public static void AddInCache(this Delegate @delegate, AssemblyDomain domain)
+        internal static void AddInCache(this Delegate @delegate, AssemblyDomain domain)
         {
             _delegate_cache[@delegate] = domain;
         }

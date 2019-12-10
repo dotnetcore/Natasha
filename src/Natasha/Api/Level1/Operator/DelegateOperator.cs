@@ -5,12 +5,13 @@ namespace Natasha.Operator
     public static class DelegateOperator<T> where T : Delegate
     {
 
-        public static T Delegate(string content, AssemblyDomain domain = default, bool inCache = false, params NamespaceConverter[] usings)
+        public static T Delegate(string content, AssemblyDomain domain = default, bool inCache = false,bool complieInFile = false, params NamespaceConverter[] usings)
         {
 
             var method = typeof(T).GetMethod("Invoke");
             FakeMethodOperator @operator = new FakeMethodOperator(inCache);
             @operator.Complier.Domain = domain;
+            @operator.Complier.ComplieInFile = complieInFile;
             return @operator
                 .UseMethod(method)
                 .Using(usings)
@@ -22,12 +23,13 @@ namespace Natasha.Operator
 
 
 
-        public static T AsyncDelegate(string content, AssemblyDomain domain = default, bool inCache = false, params NamespaceConverter[] usings)
+        public static T AsyncDelegate(string content, AssemblyDomain domain = default, bool inCache = false, bool complieInFile = false, params NamespaceConverter[] usings)
         {
 
             var method = typeof(T).GetMethod("Invoke");
             FakeMethodOperator @operator = new FakeMethodOperator(inCache);
             @operator.Complier.Domain = domain;
+            @operator.Complier.ComplieInFile = complieInFile;
             return @operator
                 .UseMethod(method)
                 .UseAsync()
@@ -40,12 +42,13 @@ namespace Natasha.Operator
 
 
 
-        public static T UnsafeDelegate(string content, AssemblyDomain domain = default, bool inCache = false, params NamespaceConverter[] usings)
+        public static T UnsafeDelegate(string content, AssemblyDomain domain = default, bool inCache = false, bool complieInFile = false, params NamespaceConverter[] usings)
         {
 
             var method = typeof(T).GetMethod("Invoke");
             FakeMethodOperator @operator = new FakeMethodOperator(inCache);
             @operator.Complier.Domain = domain;
+            @operator.Complier.ComplieInFile = complieInFile;
             return @operator
                 .UseMethod(method)
                 .UseUnsafe()
@@ -58,12 +61,13 @@ namespace Natasha.Operator
 
 
 
-        public static T UnsafeAsyncDelegate(string content, AssemblyDomain domain = default, bool inCache = false, params NamespaceConverter[] usings)
+        public static T UnsafeAsyncDelegate(string content, AssemblyDomain domain = default, bool inCache = false, bool complieInFile = false, params NamespaceConverter[] usings)
         {
 
             var method = typeof(T).GetMethod("Invoke");
             FakeMethodOperator @operator = new FakeMethodOperator(inCache);
             @operator.Complier.Domain = domain;
+            @operator.Complier.ComplieInFile = complieInFile;
             return @operator
                 .UseMethod(method)
                 .UseUnsafe()

@@ -44,7 +44,7 @@ namespace NatashaUT
                     Assert.NotEqual(result1, result2);
                     Assert.Equal(type1.Name, type2.Name);
 
-                    var func = NFunc<object>.Delegate("return new Class1();", "ClassLibrary1");
+                    var func = NDomain.Create().Func<object>("return new Class1();", "ClassLibrary1");
                     Assert.Equal(result2, func().GetType().Assembly);
                 }
 
@@ -79,7 +79,7 @@ namespace NatashaUT
                     Assert.Equal(type1.Name, type2.Name);
                     lock (obj)
                     {
-                        var func = NFunc<object>.Delegate("return new Class1();", "ClassLibrary1");
+                        var func = NDomain.Create().Func<object>("return new Class1();", "ClassLibrary1");
                         Assert.Equal(result2, func().GetType().Assembly);
                     }
                 }
@@ -122,7 +122,7 @@ namespace NatashaUT
                 Assert.Equal(type1.Name, type2.Name);
                 lock (obj)
                 {
-                    var func = NFunc<object>.Delegate("return new Class1();", "ClassLibrary1");
+                    var func = NDomain.Create().Func<object>("return new Class1();", "ClassLibrary1");
                     Assert.Equal(result1, func().GetType().Assembly);
                 }
 
@@ -163,7 +163,7 @@ namespace NatashaUT
 
                 }
 
-                var func = NFunc<object>.Delegate("return new Class1();", "ClassLibrary1");
+                var func = NDomain.Create().Func<object>("return new Class1();", "ClassLibrary1");
                 Assert.Equal(result1, func().GetType().Assembly);
                 DomainManagment.CurrentDomain.RemoveAssembly(result1);
             }
@@ -202,7 +202,7 @@ namespace NatashaUT
 
                 }
 
-                var func = NFunc<object>.Delegate("return new Class1();", "ClassLibrary1");
+                var func = NDomain.Create().Func<object>("return new Class1();", "ClassLibrary1");
                 Assert.Equal(result1, func().GetType().Assembly);
                 DomainManagment.CurrentDomain.RemoveAssembly(result1);
             }

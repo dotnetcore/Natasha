@@ -19,15 +19,29 @@ namespace Natasha.Builder
         }
 
 
+
+        public static T Default
+        {
+
+            get { return Create(); }
+
+        }
+
+
+        
         /// <summary>
         /// 如果参数为空，则使用默认域
         /// 如果参数不为空，则创建以参数为名字的独立域
         /// </summary>
         /// <param name="domainName">域名</param>
         /// <returns></returns>
-        public static T Create(string domainName = default)
+        public static T Create(string domainName = default,bool complieInFile = default)
         {
+
             T instance = new T();
+            instance.Complier.ComplieInFile = complieInFile;
+
+
             if (domainName == default)
             {
                 instance.Complier.Domain = DomainManagment.Default;
@@ -38,27 +52,34 @@ namespace Natasha.Builder
             }
 
             return instance;
+
         }
         /// <summary>
         /// 使用一个现成的域
         /// </summary>
         /// <param name="domain">域</param>
         /// <returns></returns>
-        public static T Create(AssemblyDomain domain)
+        public static T Create(AssemblyDomain domain, bool complieInFile = default)
         {
+
             T instance = new T();
+            instance.Complier.ComplieInFile = complieInFile;
             instance.Complier.Domain = domain;
             return instance;
+
         }
         /// <summary>
         /// 创建一个随机的域
         /// </summary>
         /// <returns></returns>
-        public static T Random()
+        public static T Random(bool complieInFile = default)
         {
+
             T instance = new T();
+            instance.Complier.ComplieInFile = complieInFile;
             instance.Complier.Domain = DomainManagment.Random();
             return instance;
+
         }
 
 

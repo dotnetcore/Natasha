@@ -22,15 +22,18 @@ namespace Natasha.Builder
 
 
 
+
         /// <summary>
         /// 如果参数为空，则使用默认域
         /// 如果参数不为空，则创建以参数为名字的独立域
         /// </summary>
         /// <param name="domainName">域名</param>
         /// <returns></returns>
-        public static TBuilder Create(string domainName = default)
+        public static TBuilder Create(string domainName = default, bool complieInFile = default)
         {
+
             TBuilder instance = new TBuilder();
+            instance.Complier.ComplieInFile = complieInFile;
             if (domainName == default)
             {
                 instance.Complier.Domain = DomainManagment.Default;
@@ -41,28 +44,35 @@ namespace Natasha.Builder
             }
 
             return instance;
+
         }
         /// <summary>
         /// 使用一个现成的域
         /// </summary>
         /// <param name="domain">域</param>
         /// <returns></returns>
-        public static TBuilder Create(AssemblyDomain domain)
+        public static TBuilder Create(AssemblyDomain domain, bool complieInFile = default)
         {
+
             TBuilder instance = new TBuilder();
+            instance.Complier.ComplieInFile = complieInFile;
             instance.Complier.Domain = domain;
             return instance;
+
         }
         /// <summary>
         /// 创建一个随机的域
         /// </summary>
         /// <returns></returns>
-        public static TBuilder Random()
+        public static TBuilder Random(bool complieInFile = default)
         {
+
             TBuilder instance = new TBuilder() { };
+            instance.Complier.ComplieInFile = complieInFile;
             instance._inCache = true;
             instance.Complier.Domain = DomainManagment.Create("N" + Guid.NewGuid().ToString("N"));
             return instance;
+
         }
 
 

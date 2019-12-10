@@ -1,5 +1,4 @@
 ﻿using Natasha;
-using Natasha.MethodExtension;
 using Natasha.Operator;
 using NatashaUT.Model;
 using System;
@@ -50,22 +49,22 @@ namespace NatashaUT
 
 
 
-        [Fact(DisplayName = "扩展强转委托")]
-        public static void RunDelegate3()
-        {
-            var delegateAction = @"
-                            string result = str1 +"" ""+ str2;
-                            Console.WriteLine(result);
-                            return result;"
-                        .FastOperator()
-                        .Param<string>("str1")
-                        .Param<string>("str2")
-                        .Return<string>()
-                .Complie();
+        //[Fact(DisplayName = "扩展强转委托")]
+        //public static void RunDelegate3()
+        //{
+        //    var delegateAction = @"
+        //                    string result = str1 +"" ""+ str2;
+        //                    Console.WriteLine(result);
+        //                    return result;"
+        //                .FastOperator()
+        //                .Param<string>("str1")
+        //                .Param<string>("str2")
+        //                .Return<string>()
+        //        .Complie();
 
-            string result = ((Func<string, string, string>)delegateAction)?.Invoke("Hello", "World1!");
-            Assert.Equal("Hello World1!", result);
-        }
+        //    string result = ((Func<string, string, string>)delegateAction)?.Invoke("Hello", "World1!");
+        //    Assert.Equal("Hello World1!", result);
+        //}
 
 
 
@@ -74,7 +73,7 @@ namespace NatashaUT
         [Fact(DisplayName = "NFunc委托")]
         public static void RunDelegate5()
         {
-            var action = RFunc<string, string, string>.UnsafeDelegate(@"
+            var action = NDomain.Random().UnsafeFunc<string, string, string>(@"
                             string result = arg1 +"" ""+ arg2;
                             Console.WriteLine(result);
                             return result;");
@@ -107,22 +106,22 @@ namespace NatashaUT
 
 
 
-        [Fact(DisplayName = "扩展泛型委托")]
-        public static void RunDelegate4()
-        {
-            var delegateAction = @"
-                            string result = str1 +"" ""+ str2;
-                            Console.WriteLine(result);
-                            return result;"
-                        .FastOperator()
-                        .Param<string>("str1")
-                        .Param<string>("str2")
-                        .Return<string>()
-                .Complie<Func<string, string, string>>();
+        //[Fact(DisplayName = "扩展泛型委托")]
+        //public static void RunDelegate4()
+        //{
+        //    var delegateAction = @"
+        //                    string result = str1 +"" ""+ str2;
+        //                    Console.WriteLine(result);
+        //                    return result;"
+        //                .FastOperator()
+        //                .Param<string>("str1")
+        //                .Param<string>("str2")
+        //                .Return<string>()
+        //        .Complie<Func<string, string, string>>();
 
-            string result = delegateAction?.Invoke("Hello", "World2!");
-            Assert.Equal("Hello World2!", result);
-        }
+        //    string result = delegateAction?.Invoke("Hello", "World2!");
+        //    Assert.Equal("Hello World2!", result);
+        //}
 
 
 
