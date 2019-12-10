@@ -171,6 +171,19 @@ namespace Natasha.Builder
 
 
         /// <summary>
+        /// 将结果编译进文件
+        /// </summary>
+        /// <returns></returns>
+        public T UseFileComplie()
+        {
+            Complier.ComplieInFile = true;
+            return Link;
+        }
+
+
+
+
+        /// <summary>
         /// 精准获取动态类
         /// </summary>
         /// <param name="classIndex">类索引，1开始</param>
@@ -179,7 +192,7 @@ namespace Natasha.Builder
         public Type GetType(int classIndex = 1, int namespaceIndex = 1)
         {
 
-            Complier.Add(this, Usings);
+            Complier.Add(this);
             string name=default;
             switch (OopTypeEnum)
             {

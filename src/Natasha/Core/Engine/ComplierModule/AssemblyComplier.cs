@@ -35,10 +35,10 @@ namespace Natasha
         /// </summary>
         /// <param name="template">构建模板</param>
         /// <returns></returns>
-        public CompilationException Add(IScript template, HashSet<string> sets = default)
+        public CompilationException Add(IScript template)
         {
 
-            var info = SyntaxInfos.Add(template.Script, sets);
+            var info = SyntaxInfos.Add(template.Script, template.Usings);
             ComplieException.ErrorFlag = info.ErrorFlag;
             return info;
 

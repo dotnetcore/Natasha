@@ -66,7 +66,7 @@ namespace Natasha
 
 
 
-        public static void DeleteDomain(string name)
+        public static void DisposeDomain(string name)
         {
 
             var domain = DomainManagment.Get(name);
@@ -75,6 +75,19 @@ namespace Natasha
                 domain.Dispose();
             }
 
+        }
+
+
+
+
+        /// <summary>
+        /// 将结果编译进文件
+        /// </summary>
+        /// <returns></returns>
+        public NDomain UseFileComplie()
+        {
+            _complieInFile = true;
+            return this;
         }
 
 
