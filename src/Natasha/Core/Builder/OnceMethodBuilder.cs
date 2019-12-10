@@ -22,6 +22,13 @@ namespace Natasha.Builder
 
 
 
+        public static TBuilder Default
+        {
+
+            get { return Create(); }
+
+        }
+
 
         /// <summary>
         /// 如果参数为空，则使用默认域
