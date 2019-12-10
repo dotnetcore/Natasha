@@ -82,6 +82,8 @@ WeihanLi
   - 2019-12-06 ： 发布v2.5.0.0, Operator 以及 N系列 API, 可以调用静态方法创建实例同时指定所属的域， 包括 Create(string) / Create(AssemblyDomain) / Random() 三种。
   
   - 2019-12-07 ： 发布v2.5.4.0, 增加 CS0234 以及 CS0246 错误自动修复机制，命名空间在无效时会自动剔除并重编译，增加 CS0104 的替换逻辑，在未手动解决二义性时，默认使用靠前的命名空间, 由 NDomain 创建的独立/随机域类型/结构/枚举/接口将支持回收。
+  
+  - 2019-12-10 ： 发布v2.6.0.0, 移除NFunc / RFunc / NAction / RAction / NDelegateOperator / RDelegateOperator / 字符串扩展方法 / 委托扩展方法；改 Delete 卸载方法为 DisposeDomain ，改 AddInCache 为内部方法不对外开放；三个静态创建实例的方法（Create(string) / Create(AssemblyDomain) / Random()）增加第二个参数，指定是否以文件方式进行编译，默认为 false，增加静态属性 Default 作为系统域即 Create()方法返回实例。
  
  <br/>  
  
@@ -152,6 +154,6 @@ WeihanLi
 
  - Microsoft.CodeAnalysis.CSharp.Workspaces Version=3.4.0
  - Microsoft.Extensions.DependencyModel Version=3.1.0
- - Microsoft.Net.Compilers Version=3.4.0"
+ - Microsoft.Net.Compilers Version=3.4.0
  - Microsoft.Net.Compilers.Toolset Version=3.4.0
      
