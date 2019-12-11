@@ -58,7 +58,7 @@ namespace Natasha
 
             }
 
-            DomainManagment.Add(key, this);
+            
             TypeCache = new HashSet<Type>();
             OutfileMapping = new ConcurrentDictionary<string, Assembly>();
             AssemblyMappings = new ConcurrentDictionary<Assembly, AssemblyUnitInfo>();
@@ -81,8 +81,13 @@ namespace Natasha
             {
 
                 ReferencesCache = new LinkedList<PortableExecutableReference>();
+//                this.Resolving += Default_Resolving;
+//#if !NETSTANDARD2_0
+//                this.ResolvingUnmanagedDll += Default_ResolvingUnmanagedDll;
+//#endif
 
             }
+            DomainManagment.Add(key, this);
 
         }
 
