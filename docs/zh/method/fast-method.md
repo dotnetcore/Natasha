@@ -2,9 +2,21 @@
  <a href="https://natasha.dotnetcore.xyz/"> 返回 </a> |  <a href="https://natasha.dotnetcore.xyz/en/method/fast-method.html"> English </a>
 </p> 
 
+## 域操作
+
+```C#
+FastMethodOperator.Default             //系统域
+FastMethodOperator.Create("MyDomain")  //创建一个新的独立域
+FastMethodOperator.Random()            //使用一个随机域
+
+//如果方法里传 bool 类型则可以告诉编译器，是否编译成DLL文件，默认是编译到内存。
+```
+<br/> 
+
+
 ## 构建方式
 
-FastMethodOperator操作类中，构造函数里制作了一个默认的模板：  
+FastMethodOperator 操作类中，构造函数里制作了一个默认的模板：  
 
 ```C#
 HiddenNameSpace()
@@ -79,7 +91,7 @@ Natasha的模板都是写活的，Builder都十分的灵活，因此您可以不
  
 ```C#
 
- var script =  FastMethodOperator.New
+ var script =  FastMethodOperator.Default
                .Param<string>("str1")
                .Param<string>("str2")
                .MethodBody(@"
@@ -101,6 +113,6 @@ public static string NatashaDynamicMethod(String str1, String str2)
             
 ```
 
-您还可以在. 之后找到UseAsync/UseUnsafe等方法，它们可以让您定制更加丰富的功能。
+您还可以在. 之后找到 UseAsync/UseUnsafe 等方法，它们可以让您定制更加丰富的功能。
 这里有个有趣的地方，如果您去看过Natasha的CI过程的测试会发现，日志中有很多“Hello World”,
 这些就是在动态方法中输出的hello world,在测试的时候被输出出来了。
