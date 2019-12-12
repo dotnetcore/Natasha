@@ -4,6 +4,22 @@
 
 再FakeMethodOperator基础上，构建了DelegateOperator<T>操作类。
  
+ ```C#
+ 
+   Delegate(
+     string content, 
+     params NamespaceConverter[] usings
+   )
+   
+   Delegate(
+     string content, 
+     AssemblyDomain domain = default, 
+     bool inCache = false,
+     bool complieInFile = false, 
+     params NamespaceConverter[] usings
+   )
+   
+```
  
  ```C#
  var action = DelegateOpeartor<Func<string>>.Delegate("return \"1\";");
@@ -24,7 +40,7 @@ DelegateOpeartor<T>.UnsafeAsyncDelegate
   
  <br/>  
  
-DelegateOperator<T>.[Method]的第二个参数是命名空间，可以直接扔一个Assembly,或者精确的传Type,或者直接写String.
+NamespaceConverter，可以直接扔一个Assembly,或者精确的传Type,或者直接写String.
 
 ```C#
 
