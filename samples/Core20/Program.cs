@@ -34,8 +34,11 @@ namespace Core20
             Type type = oop.GetType("Test");
 
             Console.WriteLine(type.Name);
-           // var func = "return arg;".Delegate<Func<string, string>>();
-            //Console.WriteLine(func("111"));
+
+            var action = NDomain.Random().Action("");
+            var a = action.Method;
+            Console.WriteLine(action.Method.Module.Assembly);
+
 
             Console.ReadKey();
         }

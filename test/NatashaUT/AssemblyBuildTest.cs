@@ -162,7 +162,7 @@ return obj.ShowMethod(""Hello"");
 
             Assert.Equal("HelloTest1", @delegate("hello"));
 #if !NETCOREAPP2_2
-            domain.Dispose();
+            @delegate.DisposeDomain();
             for (int i = 0; i < 10; i++)
             {
                 GC.Collect();

@@ -1,4 +1,5 @@
 ﻿using Natasha;
+using Natasha.Core;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
@@ -7,39 +8,21 @@ namespace System
     public static class TypeExtension
     {
 
-
-
-        public static ConcurrentDictionary<Type, AssemblyDomain> _type_cache;
-        static TypeExtension()
+        public static void RemoveReferences(this Type type)
         {
-            _type_cache = new ConcurrentDictionary<Type, AssemblyDomain>();
+
+            DomainCache.RemoveReferences(type);
+
         }
 
 
 
-
-        public static bool DisposeDomain(this Type type)
+        public static void DisposeDomain(this Type type)
         {
-            if (_type_cache.ContainsKey(type))
-            {
-                while (!_type_cache.TryRemove(type, out var domain))
-                {
-                    if (domain != default)
-                    {
-                        domain.Dispose();
-                        return true;
-                    }
-                }
-            }
-            return false;
+
+            DomainCache.DisposeDomain(type);
+
         }
 
-
-
-
-        internal static void AddInCache(this Type type, AssemblyDomain domain)
-        {
-            _type_cache[type] = domain;
-        }
     }
 }

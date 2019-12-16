@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.DependencyModel;
+using Natasha.Core;
 using Natasha.Core.Complier;
 using System;
 using System.Collections.Concurrent;
@@ -18,7 +19,6 @@ namespace Natasha
         public readonly ConcurrentDictionary<Assembly, AssemblyUnitInfo> AssemblyMappings;
         public readonly ConcurrentDictionary<string, Assembly> OutfileMapping;
         public readonly LinkedList<PortableExecutableReference> ReferencesCache;
-        public readonly HashSet<Type> TypeCache;
         public readonly object ObjLock;
         public readonly string DomainPath;
 #if NETSTANDARD2_0
@@ -59,7 +59,6 @@ namespace Natasha
             }
 
             
-            TypeCache = new HashSet<Type>();
             OutfileMapping = new ConcurrentDictionary<string, Assembly>();
             AssemblyMappings = new ConcurrentDictionary<Assembly, AssemblyUnitInfo>();
 
@@ -127,13 +126,9 @@ namespace Natasha
             lock (ObjLock)
             {
 
-                if (TypeCache.Contains(type))
-                {
-                    return RemoveAssembly(type.Assembly);
-                }
+               return RemoveAssembly(type.Assembly);
 
             }
-            return false;
 
         }
 
@@ -159,13 +154,9 @@ namespace Natasha
                         while (!OutfileMapping.TryRemove(assembly.Location, out var _)) { };
                     }
 
-
                     var info = AssemblyMappings[assembly];
                     ReferencesCache.Remove(info.Reference);
-                    foreach (var item in assembly.GetTypes())
-                    {
-                        TypeCache.Remove(item);
-                    }
+                    DomainCache.Remove(assembly);
                     return true;
 
                 }
@@ -185,8 +176,8 @@ namespace Natasha
 #if  !NETSTANDARD2_0
             _resolver = null;
 #endif
+            DomainCache.Clear(this);
             ReferencesCache.Clear();
-            TypeCache.Clear();
             OutfileMapping.Clear();
             AssemblyMappings.Clear();
 
@@ -286,7 +277,6 @@ namespace Natasha
                 if (result != default)
                 {
                     AssemblyMappings[result] = info;
-                    TypeCache.UnionWith(result.GetTypes());
                 }
                 ReferencesCache.AddLast(info.Reference);
                 return result;

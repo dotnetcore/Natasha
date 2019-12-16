@@ -13,10 +13,10 @@ namespace Natasha.Builder
 
         //使用默认编译器
         public readonly AssemblyComplier Complier;
-        private bool _inCache;
-        public OnceMethodBuilder(bool inCache = false)
+
+        public OnceMethodBuilder()
         {
-            _inCache = inCache;
+
             Complier = new AssemblyComplier();
         }
 
@@ -76,7 +76,6 @@ namespace Natasha.Builder
 
             TBuilder instance = new TBuilder() { };
             instance.Complier.ComplieInFile = complieInFile;
-            instance._inCache = true;
             instance.Complier.Domain = DomainManagment.Create("N" + Guid.NewGuid().ToString("N"));
             return instance;
 
@@ -94,18 +93,11 @@ namespace Natasha.Builder
         {
 
             Complier.Add(this);
-            var @delegate = Complier.GetDelegate(
+            return Complier.GetDelegate(
                 OopNameScript,
                 MethodNameScript,
                 DelegateType,
                 binder);
-
-
-            if (_inCache)
-            {
-                @delegate.AddInCache(Complier.Domain);
-            }
-            return @delegate;
 
         }
 
@@ -134,17 +126,10 @@ namespace Natasha.Builder
         {
 
             Complier.Add(this);
-            var @delegate = Complier.GetDelegate<T>(
+            return Complier.GetDelegate<T>(
                 OopNameScript,
                 MethodNameScript,
                 binder);
-
-
-            if (_inCache)
-            {
-                @delegate.AddInCache(Complier.Domain);
-            }
-            return @delegate;
 
         }
 

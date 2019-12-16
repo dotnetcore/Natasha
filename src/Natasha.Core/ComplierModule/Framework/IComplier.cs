@@ -182,6 +182,11 @@ namespace Natasha.Core.Complier
                 else
                 {
 
+                    if (_domain != DomainManagment.Default)
+                    {
+                        DomainCache.Add(result.Assembly, _domain);
+                    }
+
                     NSucceed logSucceed = new NSucceed();
                     logSucceed.Handler(result.Compilation);
                     ComplieException.ErrorFlag = ComplieError.None;

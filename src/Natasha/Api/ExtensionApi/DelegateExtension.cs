@@ -1,6 +1,6 @@
-﻿using Natasha.Operator;
+﻿using Natasha.Core;
+using Natasha.Operator;
 using System;
-using System.Collections.Concurrent;
 
 namespace Natasha
 {
@@ -21,37 +21,20 @@ namespace Natasha
 
 
 
-        public static ConcurrentDictionary<Delegate, AssemblyDomain> _delegate_cache;
-        static DelegateExtension()
+        public static void RemoveReferences(this Delegate @delegate)
         {
-            _delegate_cache = new ConcurrentDictionary<Delegate, AssemblyDomain>();
+
+            DomainCache.RemoveReferences(@delegate);
+
         }
 
 
 
-
-        public static bool DisposeDomain(this Delegate @delegate)
+        public static void DisposeDomain(this Delegate @delegate)
         {
-            if (_delegate_cache.ContainsKey(@delegate))
-            {
-                while (!_delegate_cache.TryRemove(@delegate, out var domain))
-                {
-                    if (domain != default)
-                    {
-                        domain.Dispose();
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
 
+            DomainCache.DisposeDomain(@delegate);
 
-
-
-        internal static void AddInCache(this Delegate @delegate, AssemblyDomain domain)
-        {
-            _delegate_cache[@delegate] = domain;
         }
     }
 }

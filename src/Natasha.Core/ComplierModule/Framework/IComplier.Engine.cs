@@ -25,6 +25,7 @@ namespace Natasha.Core.Complier
             lock (Domain)
             {
 
+
                 if (_domain != DomainManagment.Default)
                 {
 

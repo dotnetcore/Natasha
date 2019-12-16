@@ -75,13 +75,27 @@ namespace NatashaUT
 
 
 
-        [Fact(DisplayName = "独立域函数6")]
-        public static void RunDelegate6()
+        
+        public static int RunDelegate6()
         {
             NormalTestModel model = new NormalTestModel();
             var func = NDomain.Create("NDomain6").Action<NormalTestModel, int, int>("arg1.Age=arg2+arg3;");
             func(model,1,2);
-            Assert.Equal(3, model.Age);
+            func.DisposeDomain();
+            return model.Age;
+            
+        }
+
+        [Fact(DisplayName = "卸载委托测试")]
+        public static void UnloadDelegate()
+        {
+            Assert.Equal(3, RunDelegate6());
+            for (int i = 0; i < 6; i++)
+            {
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            }
+            Assert.True(DomainManagment.IsDeleted("NDomain6"));
         }
 
 

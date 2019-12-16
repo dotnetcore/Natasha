@@ -16,14 +16,7 @@ namespace Natasha.Operator
 
 
 
-        public FakeMethodOperator() : base(false)
-        {
-
-            Link = this;
-            Public.UseRandomOopName().HiddenNameSpace();
-
-        }
-        public FakeMethodOperator(bool inCache = false):base(inCache)
+        public FakeMethodOperator()
         {
 
             Link = this;

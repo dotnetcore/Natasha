@@ -11,19 +11,7 @@ namespace Natasha.Operator
 
 
 
-        public FastMethodOperator() : base(false)
-        {
-
-            Link = this;
-            Public
-                .Static
-                .PublicMember
-                .StaticMember
-                .UseRandomOopName()
-                .HiddenNameSpace();
-
-        }
-        public FastMethodOperator(bool inCache = false) : base(inCache)
+        public FastMethodOperator()
         {
 
             Link = this;
