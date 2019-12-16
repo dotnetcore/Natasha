@@ -84,7 +84,8 @@ WeihanLi
   - 2019-12-07 ： 发布v2.5.4.0, 增加 CS0234 以及 CS0246 错误自动修复机制，命名空间在无效时会自动剔除并重编译，增加 CS0104 的替换逻辑，在未手动解决二义性时，默认使用靠前的命名空间, 由 NDomain 创建的独立/随机域类型/结构/枚举/接口将支持回收。
   
   - 2019-12-10 ： 发布v2.6.1.0, 移除NFunc / RFunc / NAction / RAction / NDelegateOperator / RDelegateOperator / 字符串扩展方法 / 委托扩展方法；改 Delete 卸载方法为 DisposeDomain ，改 AddInCache 为内部方法不对外开放；三个静态创建实例的方法（Create(string) / Create(AssemblyDomain) / Random()）增加第二个参数，指定是否以文件方式进行编译，默认为 false，增加静态属性 Default 作为系统域即 Create()方法返回实例。
- 
+
+  - 2019-12-16 ： 发布v2.7.0.0, 分离项目，Natasha.Core 项目负责原始编译的 API 以及域操作，Natasha.Reverser 项目负责运行时信息反解操作，Natasha 项目引用了 Natasha.Core 以及 Natasha.Reverser 并组建了 Template / Builder / Operator 动态构建三件套，提供便利的 API 以便对外使用。
  <br/>  
  
  
