@@ -22,8 +22,8 @@
 
 
   <ItemGroup>
-    <PackageReference Include="DotNetCore.Natasha.Core" Version="0.1.0" />
-    <PackageReference Include="DotNetCore.Natasha.Reverser" Version="0.1.0" />
+    <PackageReference Include="DotNetCore.Natasha.Core" Version="2.0.0" />
+    <PackageReference Include="DotNetCore.Natasha.Reverser" Version="2.0.0" />
   </ItemGroup>
 
 

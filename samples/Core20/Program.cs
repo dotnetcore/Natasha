@@ -33,7 +33,7 @@ namespace Core20
             oop.Add(text);
             Type type = oop.GetType("Test");
 
-
+            Console.WriteLine(type.Name);
            // var func = "return arg;".Delegate<Func<string, string>>();
             //Console.WriteLine(func("111"));
 
