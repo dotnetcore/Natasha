@@ -24,8 +24,11 @@ namespace System
             {
                 while (!_type_cache.TryRemove(type, out var domain))
                 {
-                    domain.Dispose();
-                    return true;
+                    if (domain != default)
+                    {
+                        domain.Dispose();
+                        return true;
+                    }
                 }
             }
             return false;

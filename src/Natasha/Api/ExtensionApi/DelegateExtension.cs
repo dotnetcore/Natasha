@@ -36,8 +36,11 @@ namespace Natasha
             {
                 while (!_delegate_cache.TryRemove(@delegate, out var domain))
                 {
-                    domain.Dispose();
-                    return true;
+                    if (domain != default)
+                    {
+                        domain.Dispose();
+                        return true;
+                    }
                 }
             }
             return false;
