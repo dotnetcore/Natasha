@@ -68,14 +68,6 @@ WeihanLi
 
 ### 发布日志  
 
- - 2019-10-15 ： 发布v2.0.4.0，增强构建信息操作类。 
- - 2019-10-20 ： 发布v2.0.5.0，增强 NAction/NFunc/DelegateOperator 等封装类的传参类型，支持string/string[]/Type/Type[]/Assembly/Asssembly[], 增强 Natasha 的 Using 方法解析。   
- 
- - 2019-11-26 ： 发布v2.1.1.0，增加随机域 API , 改 Operator.New 为 Operator.MainDomain ; 区分 NAction/NFunc/NDelegateOperator 为默认域， RAction/RFunc/RDelegateOperator 为随机域API;增加随机域延迟回收机制和随机域并发计数。  
- 
- - 2019-11-27 ： 发布v2.1.2.0, Oop 模板构建增加属性模板，NAssembly 获取 Fake/FastMethodOperator 将属于同一域，增加 NDomain 操作类，可以链式调用 Create 方法创建域并继续创建方法如 Func<> / AsyncFun<> / UnsafeFunc / AsyncUnsafeFunc / Action<> / AsyncAction<> / UnsafeAction<> / AsyncUnsafeAction<>。  
- 
- - 2019-11-28 ： 发布v2.2.0.0, 增加四级运算 API , 可使用 DomainOperator 操作类来完成运算；改模板中 MethodBody 以及 OopBody 为追加模式；模板支持随机命名函数。  
  
  - 2019-12-05 ： 发布v2.4.0.0, 移除并发计数，增加委托操作扩展 , 现 Fake/FastMethodOperator.Random 以及 RAction/RFunc 生成的委托都存入了缓存中，可以在委托上直接调用Delete进行卸载； 默认使用所有 Using 覆盖编译代码，当发生二义性引用时使用 CS0104Helper 处理二义性问题， 模板增加 UseCustomerUsing 方法来阻止 Using 覆盖，代价是将必要的 Using 引用精确引入到构建中。 编译引擎在出现二义性引用时将进行重试策略，重试次数1次。
  
