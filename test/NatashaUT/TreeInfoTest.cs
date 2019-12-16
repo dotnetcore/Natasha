@@ -1,7 +1,7 @@
-﻿using Natasha.Complier;
-using System;
+﻿using System;
 using System.Linq;
 using Xunit;
+using Natasha.Core.Complier;
 
 namespace NatashaUT
 {
@@ -21,7 +21,7 @@ namespace NatashaUT
         public List<string> List;
     }
 ";
-            var (_,_,errors) = str;
+            var (_, _, errors) = str;
             foreach (var item in errors)
             {
                 var aa = item.GetMessage();

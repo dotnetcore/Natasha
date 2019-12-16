@@ -1,5 +1,5 @@
 ﻿using Natasha;
-using Natasha.Complier;
+using Natasha.Core;
 using System;
 using Xunit;
 

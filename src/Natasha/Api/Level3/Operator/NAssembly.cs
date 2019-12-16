@@ -37,6 +37,56 @@ namespace Natasha
 
 
 
+        public static NAssembly Default
+        {
+
+            get { return Create(); }
+
+        }
+
+        public static NAssembly Create(string domainName = default, bool complieInFile = false)
+        {
+
+            NAssembly instance = new NAssembly();
+            instance.Options.ComplieInFile = complieInFile;
+
+
+            if (domainName == default)
+            {
+                instance.Options.Domain = DomainManagment.Default;
+            }
+            else
+            {
+                instance.Options.Domain = DomainManagment.Create(domainName);
+            }
+
+            return instance;
+
+        }
+
+        public static NAssembly Create(AssemblyDomain domain, bool complieInFile = false)
+        {
+
+            NAssembly instance = new NAssembly();
+            instance.Options.ComplieInFile = complieInFile;
+            instance.Options.Domain = domain;
+
+            return instance;
+        }
+
+        public static NAssembly Random(bool complieInFile = false)
+        {
+
+            NAssembly instance = new NAssembly();
+            instance.Options.ComplieInFile = complieInFile;
+            instance.Options.Domain = DomainManagment.Random();
+            return instance;
+
+        }
+
+
+
+
         public bool Remove(IScript builder)
         {
             return _builderCache.Remove(builder);

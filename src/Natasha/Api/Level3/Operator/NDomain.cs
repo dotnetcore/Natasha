@@ -1,4 +1,5 @@
-﻿using Natasha.Operator;
+﻿using Natasha.Core;
+using Natasha.Operator;
 using System;
 
 namespace Natasha
