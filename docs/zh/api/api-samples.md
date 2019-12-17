@@ -31,23 +31,10 @@ NormalTestModel model = new NormalTestModel();
 var func = NDomain.Create("NDomain6").Action<NormalTestModel, int, int>("arg1.Age=arg2+arg3;");
 func(model,1,2);
 Assert.Equal(3, model.Age);
-  
-```  
 
 
-<br/>  
 
-- **NFunc/NAction/RFunc/RAction**  
-
-```C#
-
-
-//NFunc 、 NAction 和 RFunc、 RAction 支持：
-// 普通方法：      Delegate
-// 异步方法：      AsyncDelegate
-// 非安全方法：    UnsafeDelegate
-// 非安全异步方法： UnsafeAsyncDelegate
-
+案例2：
 var action = NDomain.Default.UnsafeAsyncFunc<string, string, Task<string>>(@"
                             string result = arg1 +"" ""+ arg2;
                             Console.WriteLine(result);
