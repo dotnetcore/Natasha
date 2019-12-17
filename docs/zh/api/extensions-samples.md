@@ -35,35 +35,3 @@ Example:
 ```
 <br/>
 <br/>    
-
-#### 使用Natasha的方法扩展:  
-
-```C#
-
-Example:  
-
-        Using : Natasha.MethodExtension; 
-        public delegate int AddOne(int value);
-        
-        
-        var action = "return value + 1;".Create<AddOne>();
-        var result = action(9);
-        //result : 10
-        
-        
-        var action = typeof(AddOne).Create("return value + 1;");
-        var result = action(9);
-        //result : 10
-        
-        
-        //使用方法扩展快速动态构建委托
-         @"string result = str1 +"" ""+ str2;
-           Console.WriteLine(result);
-           return result;".FastOperator()
-               .Param<string>("str1")
-               .Param<string>("str2")
-               .Return<string>()
-               .Complie<Func<string, string, string>>()
-```
-<br/>
-<br/>    
