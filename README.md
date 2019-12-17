@@ -43,6 +43,9 @@
 
 <br/>    
 
+ ![展示](https://github.com/dotnetcore/Natasha/blob/master/Image/Natasha.gif)
+ 
+<br/>  
  ### 性能测试
       
    - [x]  **动态调用性能测试（对照组： emit, origin）**  
