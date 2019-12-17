@@ -10,6 +10,7 @@ namespace Natasha
 
         private OopOperator _operator;
         private AssemblyDomain _domain;
+        private bool _complieInFile;
         public DomainOperator()
         {
             _operator = new OopOperator();
@@ -21,18 +22,60 @@ namespace Natasha
             get { return new DomainOperator(); }
         }
 
+        public static DomainOperator Default
+        {
 
-        public static DomainOperator Create(string domainName)
-        {
-            var result  = new DomainOperator();
-            result._domain = DomainManagment.Create(domainName);
-            return result;
+            get { return Create(); }
+
         }
-        public static DomainOperator Create(AssemblyDomain domain)
+
+        public static DomainOperator Create(string domainName = default, bool complieInFile = false)
         {
-            var result = new DomainOperator();
-            result._domain = domain;
-            return result;
+
+            DomainOperator instance = new DomainOperator
+            {
+                _complieInFile = complieInFile
+            };
+
+
+            if (domainName == default)
+            {
+                instance._domain = DomainManagment.Default;
+            }
+            else
+            {
+                instance._domain = DomainManagment.Create(domainName);
+            }
+
+            return instance;
+
+        }
+
+        public static DomainOperator Create(AssemblyDomain domain, bool complieInFile = false)
+        {
+
+            DomainOperator instance = new DomainOperator
+            {
+                _complieInFile = complieInFile,
+                _domain = domain
+            };
+
+            return instance;
+        }
+
+
+
+
+        public static DomainOperator Random(bool complieInFile = false)
+        {
+
+            DomainOperator instance = new DomainOperator
+            {
+                _complieInFile = complieInFile,
+                _domain = DomainManagment.Random
+            };
+            return instance;
+
         }
 
 
@@ -107,6 +150,7 @@ namespace Natasha
         {
 
             AssemblyComplier complier = new AssemblyComplier();
+            complier.ComplieInFile = _complieInFile;
             complier.Domain = _domain;
             var text = _operator
                 .GetUsingBuilder()
