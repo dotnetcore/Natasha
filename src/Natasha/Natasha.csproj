@@ -20,10 +20,9 @@
     <AssemblyVersion>2.7.0.1</AssemblyVersion>
   </PropertyGroup>
 
-
   <ItemGroup>
-    <ProjectReference Include="..\Natasha.Core\Natasha.Core.csproj" />
-    <ProjectReference Include="..\Natasha.Reverser\Natasha.Reverser.csproj" />
+    <PackageReference Include="DotNetCore.Natasha.Core" Version="2.1.0" />
+    <PackageReference Include="DotNetCore.Natasha.Reverser" Version="2.0.0" />
   </ItemGroup>
 
 
