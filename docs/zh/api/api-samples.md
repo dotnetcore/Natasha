@@ -213,7 +213,7 @@ public delegate string GetterDelegate(int value);
      
      
 //方法一     
-var action = DelegateOperator<GetterDelegate>.Create("value += 101; return value.ToString();");
+var action = DelegateOperator<GetterDelegate>.Delegate("value += 101; return value.ToString();");
 string result = action(1);              
 //result: "102"
  
