@@ -31,3 +31,32 @@ var result = assembly.Complier();
 assembly.GetType(name);
 
 ```
+<br/>
+
+
+### 程序集移除操作
+
+```C#
+
+            var domain = DomainManagment.Random;
+            var type = NDomain.Create(domain).GetType("public class A{ public A(){Name=\"1\"; }public string Name;}");
+            var func = NDomain.Create(domain).Func<string>("return (new A()).Name;");
+            Console.WriteLine(func());  // result : 1
+
+            type.RemoveReferences();  //如果不移除，下次引用A的时候会出现二义性
+            type = NDomain.Create(domain).GetType("public class A{ public A(){Name=\"2\"; }public string Name;}");
+            func = NDomain.Create(domain).Func<string>("return (new A()).Name;");
+            Console.WriteLine(func());  // result : 2
+```
+
+
+### 程序域卸载
+
+```C#
+
+XXType.DisposeDomain();
+XXAssembly.DisposeDomain();
+XXDelegate.DisposeDomain();
+三种方法调用之后都可以回收域。
+
+```
