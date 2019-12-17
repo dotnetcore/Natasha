@@ -77,7 +77,10 @@ WeihanLi
   
   - 2019-12-10 ： 发布v2.6.1.0, 移除NFunc / RFunc / NAction / RAction / NDelegateOperator / RDelegateOperator / 字符串扩展方法 / 委托扩展方法；改 Delete 卸载方法为 DisposeDomain ，改 AddInCache 为内部方法不对外开放；三个静态创建实例的方法（Create(string) / Create(AssemblyDomain) / Random()）增加第二个参数，指定是否以文件方式进行编译，默认为 false，增加静态属性 Default 作为系统域即 Create()方法返回实例。
 
-  - 2019-12-16 ： 发布v2.7.0.0, 分离项目，Natasha.Core 项目负责原始编译的 API 以及域操作，Natasha.Reverser 项目负责运行时信息反解操作，Natasha 项目引用了 Natasha.Core 以及 Natasha.Reverser 并组建了 Template / Builder / Operator 动态构建三件套，提供便利的 API 以便对外使用。
+  - 2019-12-16 ： 发布v2.7.0.1, 分离项目，Natasha.Core 项目负责原始编译的 API 以及域操作，Natasha.Reverser 项目负责运行时信息反解操作，Natasha 项目引用了 Natasha.Core 以及 Natasha.Reverser 并组建了 Template / Builder / Operator 动态构建三件套，提供便利的 API 以便对外使用。
+  
+  - 2019-12-17 ： 发布v2.7.3.0, Natasha 非系统域生成的操作均进行了缓存，以便进行引用移除/域卸载等操作， Type / Delegate / Assembly 均可以使用 RemoveReferences / DisposeDomain 方法进行引用移除或者卸载域操作。
+
  <br/>  
  
  
