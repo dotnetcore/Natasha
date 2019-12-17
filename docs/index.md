@@ -40,7 +40,7 @@
      
    - [第三层操作类](./zh/method/layer3.md)  
    
-     - [伪func方法](./zh/method/ndomain-method.md)
+     - [NDomain快速构建](./zh/method/ndomain-method.md)
   
   
  - [异常捕获](./zh/exception.md)

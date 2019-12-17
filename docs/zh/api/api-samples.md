@@ -31,24 +31,11 @@ NormalTestModel model = new NormalTestModel();
 var func = NDomain.Create("NDomain6").Action<NormalTestModel, int, int>("arg1.Age=arg2+arg3;");
 func(model,1,2);
 Assert.Equal(3, model.Age);
-  
-```  
 
 
-<br/>  
 
-- **NFunc/NAction/RFunc/RAction**  
-
-```C#
-
-
-//NFunc 、 NAction 和 RFunc、 RAction 支持：
-// 普通方法：      Delegate
-// 异步方法：      AsyncDelegate
-// 非安全方法：    UnsafeDelegate
-// 非安全异步方法： UnsafeAsyncDelegate
-
-var action = NFunc<string, string, Task<string>>.UnsafeAsyncDelegate(@"
+案例2：
+var action = NDomain.Default.UnsafeAsyncFunc<string, string, Task<string>>(@"
                             string result = arg1 +"" ""+ arg2;
                             Console.WriteLine(result);
                             return result;");
@@ -141,29 +128,15 @@ string result = await action("Hello", "World1!");
 
 <br/>  
 
-#### SnapshotOperator    
 
-> 使用该方法可以实现快照功能
-
-```C#
-
- SnapshotOperator.MakeSnapshot(instance);
- //
- //do sth
- //
- var diff = SnapshotOperator.Compare(instance);
-
-```  
-
-<br/>  
 
 #### CtorOperator    
 
 > 当您知道一个类，并想将它的初始化操作放在委托里
 
 ```C#
-
- var func = CtorOperator.NewDelegate(typeof(Foo));
+ //在系统域创建
+ var func = CtorOperator.Default.NewDelegate(typeof(Foo));
  Foo instance = func();
 
 ```  
@@ -181,7 +154,7 @@ string result = await action("Hello", "World1!");
 > 快速定制一个方法
   
 ```C#
-var action = FastMethodOperator.New
+var action = FastMethodOperator.Default
              .Param<string>("str1")
              .Param(typeof(string),"str2")
              .MethodBody("return str1+str2;")
@@ -199,7 +172,7 @@ var result = action("Hello ","World!");    //result:   "Hello World!"
 返回的参数需要您指定Task<>,以便运行时异步调用，记得外面那层方法要有async关键字哦。
 
 ```C#
-var delegateAction = FastMethodOperator.New
+var delegateAction = FastMethodOperator.Default
 
        .UseAsync()
        .MethodBody(@"
@@ -227,15 +200,10 @@ public delegate string GetterDelegate(int value);
      
      
 //方法一     
-var action = DelegateOperator<GetterDelegate>.Create("value += 101; return value.ToString();");
+var action = DelegateOperator<GetterDelegate>.Delegate("value += 101; return value.ToString();");
 string result = action(1);              
 //result: "102"
-
-
-//方法二
-var action = "value += 101; return value.ToString();".Create<GetterDelegate>();
-string result = action(1);              
-//result: "102"     
+ 
 
 ```  
 
@@ -257,7 +225,7 @@ public class Test
 
 ```
 ```C#
-var action = FakeMethodOperator.New
+var action = FakeMethodOperator.Default
              .UseMethod(typeof(Test).GetMethod("Handler"))
              .StaticMethodContent(" str += "" is xxx;"",return str; ")
              .Complie<Func<string,string>>();
