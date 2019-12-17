@@ -46,7 +46,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natasha.Core", "src\Natasha
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natasha.Reverser", "src\Natasha.Reverser\Natasha.Reverser.csproj", "{3C7D4AF7-EAC3-4906-B430-6E9CC1B24F95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core31", "Core31\Core31.csproj", "{A03DE42E-E15C-4A4B-B6F2-60A7F9CAEA40}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core31", "samples\Core31\Core31.csproj", "{A03DE42E-E15C-4A4B-B6F2-60A7F9CAEA40}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

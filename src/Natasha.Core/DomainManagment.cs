@@ -22,10 +22,11 @@ namespace Natasha
 
 
 
-        public static AssemblyDomain Random()
+        public static AssemblyDomain Random
         {
-            return DomainManagment.Create("N" + Guid.NewGuid().ToString("N"));
+            get { return DomainManagment.Create("N" + Guid.NewGuid().ToString("N")); }
         }
+
 
 
         public static AssemblyDomain Create(string key)

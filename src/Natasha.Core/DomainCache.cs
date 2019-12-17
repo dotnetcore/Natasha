@@ -67,7 +67,7 @@ namespace Natasha.Core
                 throw new NullReferenceException("RemoveReferences: Delegate is null! This method can't be passed a null instance.");
             }
 
-            Remove(@delegate.Method.Module.Assembly);
+            RemoveReferences(@delegate.Method.Module.Assembly);
 
         }
 
@@ -81,7 +81,7 @@ namespace Natasha.Core
             {
                 throw new NullReferenceException("RemoveReferences: Type is null! This method can't be passed a null instance.");
             }
-            Remove(type.Assembly);
+            RemoveReferences(type.Assembly);
 
         }
 
@@ -92,8 +92,9 @@ namespace Natasha.Core
         {
             if (_cache.ContainsKey(assembly))
             {
+                var domain = _cache[assembly];
                 Remove(assembly);
-                _cache[assembly].RemoveAssembly(assembly);
+                domain.RemoveAssembly(assembly);
             }
         }
 

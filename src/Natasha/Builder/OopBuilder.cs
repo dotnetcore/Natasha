@@ -78,7 +78,7 @@ namespace Natasha.Builder
 
             T instance = new T();
             instance.Complier.ComplieInFile = complieInFile;
-            instance.Complier.Domain = DomainManagment.Random();
+            instance.Complier.Domain = DomainManagment.Random;
             return instance;
 
         }

@@ -23,8 +23,10 @@ namespace Natasha
         public static NDomain Create(string domainName = default, bool complieInFile = false)
         {
 
-            NDomain instance = new NDomain();
-            instance._complieInFile = complieInFile;
+            NDomain instance = new NDomain
+            {
+                _complieInFile = complieInFile
+            };
 
 
             if (domainName== default)
@@ -42,10 +44,12 @@ namespace Natasha
 
         public static NDomain Create(AssemblyDomain domain, bool complieInFile = false)
         {
-           
-            NDomain instance = new NDomain();
-            instance._complieInFile = complieInFile;
-            instance._domain = domain;
+
+            NDomain instance = new NDomain
+            {
+                _complieInFile = complieInFile,
+                _domain = domain
+            };
 
             return instance;
         }
@@ -56,9 +60,11 @@ namespace Natasha
         public static NDomain Random(bool complieInFile = false)
         {
 
-            NDomain instance = new NDomain();
-            instance._complieInFile = complieInFile;
-            instance._domain = DomainManagment.Random();
+            NDomain instance = new NDomain
+            {
+                _complieInFile = complieInFile,
+                _domain = DomainManagment.Random
+            };
             return instance;
 
         }

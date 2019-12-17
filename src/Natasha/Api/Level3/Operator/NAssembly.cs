@@ -70,8 +70,8 @@ namespace Natasha
             NAssembly instance = new NAssembly();
             instance.Options.ComplieInFile = complieInFile;
             instance.Options.Domain = domain;
-
             return instance;
+
         }
 
         public static NAssembly Random(bool complieInFile = false)
@@ -79,7 +79,7 @@ namespace Natasha
 
             NAssembly instance = new NAssembly();
             instance.Options.ComplieInFile = complieInFile;
-            instance.Options.Domain = DomainManagment.Random();
+            instance.Options.Domain = DomainManagment.Random;
             return instance;
 
         }

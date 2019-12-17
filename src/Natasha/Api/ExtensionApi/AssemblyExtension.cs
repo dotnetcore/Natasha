@@ -1,4 +1,7 @@
-﻿namespace Natasha
+﻿using Natasha.Core;
+using System.Reflection;
+
+namespace Natasha
 {
     public static  class AssemblyExtension
     {
@@ -13,6 +16,25 @@
             NAssembly result = new NAssembly(name);
             result.Options.Domain = domain;
             return result;
+        }
+
+
+
+
+        public static void RemoveReferences(this Assembly assembly)
+        {
+
+            DomainCache.RemoveReferences(assembly);
+
+        }
+
+
+
+        public static void DisposeDomain(this Assembly assembly)
+        {
+
+            DomainCache.DisposeDomain(assembly);
+
         }
 
     }

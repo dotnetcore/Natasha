@@ -8,14 +8,13 @@ namespace Core31
     {
         static void Main(string[] args)
         {
-            var domain = DomainManagment.Random();
+            var domain = DomainManagment.Random;
             var type = NDomain.Create(domain).GetType("public class A{ public A(){Name=\"1\"; }public string Name;}");
             Console.WriteLine(type.FullName);
             var func = NDomain.Create(domain).Func<string>("return (new A()).Name;");
             Console.WriteLine(func());
 
-
-            domain.RemoveType(type);
+            type.RemoveReferences();
             type = NDomain.Create(domain).GetType("public class A{ public A(){Name=\"2\"; }public string Name;}");
             func = NDomain.Create(domain).Func<string>("return (new A()).Name;");
             Console.WriteLine(type.FullName);
