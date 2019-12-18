@@ -69,6 +69,28 @@ namespace Natasha.Template
 
 
 
+        public T Override()
+        {
+
+            MethodModifier(Modifiers.Override);
+            return Link;
+
+        }
+
+
+
+
+        public T NewHidden()
+        {
+
+            MethodModifier(Modifiers.New);
+            return Link;
+
+        }
+
+
+
+
         public override T Builder()
         {
 
