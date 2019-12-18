@@ -30,7 +30,7 @@ jobs:
   - task: DotNetCoreInstaller@1
     displayName: install
     inputs:
-      version: '3.0.100'
+      version: '3.1.100'
 
       
 
@@ -70,7 +70,7 @@ jobs:
   - task: DotNetCoreInstaller@1
     displayName: install
     inputs:
-      version: '3.0.100'
+      version: '3.1.100'
 
 
   - task: DotNetCoreCLI@1
@@ -108,7 +108,7 @@ jobs:
   - task: DotNetCoreInstaller@1
     displayName: install
     inputs:
-      version: '3.0.100'
+      version: '3.1.100'
 
 
   - task: DotNetCoreCLI@1

@@ -1,9 +1,6 @@
-version: 2.0.0.{build}
+version: 2.7.6.{build}
 image:
-- Ubuntu1804
 - Visual Studio 2019
-
-
 
 
 configuration: Release
@@ -53,19 +50,3 @@ for:
   - ps: OpenCover.Console.exe -register:user -target:"dotnet.exe" -targetargs:test -output:".\coverage.xml" -oldstyle
   - ps: codecov -f "coverage.xml" -t %COVERAGE_KEY%
 
--
-  matrix:
-    only:
-      - image: Ubuntu1804
-
-  services:
-
-
-  install:
-
-    
-  before_build:
-  - sh: dotnet tool install --global FlubuCore.GlobalTool --version 4.2.8
-  
-  build_script:
-  - sh: flubu Rebuild
