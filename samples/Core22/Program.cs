@@ -43,12 +43,12 @@ namespace Core22
              *      <PreserveCompilationContext>true</PreserveCompilationContext>
              */
 
-            ProxyOperator<TestAbstract> abstractBuilder = new ProxyOperator<TestAbstract>();
-            abstractBuilder.OopName("UTestClass");
-            abstractBuilder["GetName"] = "return Name;";
-            abstractBuilder["GetAge"] = "return Age;";
-            abstractBuilder.Compile();
-            var test = abstractBuilder.CreateProxy("UTestClass");
+            //ProxyOperator<TestAbstract> abstractBuilder = new ProxyOperator<TestAbstract>();
+            //abstractBuilder.OopName("UTestClass");
+            //abstractBuilder["GetName"] = "return Name;";
+            //abstractBuilder["GetAge"] = "return Age;";
+            //abstractBuilder.Compile();
+            //var test = abstractBuilder.CreateProxy("UTestClass");
 
             //var delegate2 = NDelegateOperator<GetterDelegate>.Delegate("return value.ToString();");
             //Console.WriteLine(delegate2(1));
