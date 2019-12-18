@@ -40,13 +40,8 @@ for:
   #- ps: cd c:\projects\xxx
                 
   before_build:
-  - ps: dotnet restore Natasha.sln
   - ps: choco install opencover.portable
   - ps: choco install codecov
-
-  build_script:
-  - ps: dotnet build Natasha.sln -c Release
-  
 
   test_script:
   - ps: cd ./test/NatashaUT
