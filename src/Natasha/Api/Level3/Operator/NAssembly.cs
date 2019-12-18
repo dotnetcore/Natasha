@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace Natasha
@@ -12,7 +13,6 @@ namespace Natasha
         public Assembly Assembly;
         private readonly HashSet<IScript> _builderCache;
         public readonly AssemblyComplier Options;
-        public ConcurrentDictionary<string, Type> TypeCache;
         private bool HasChecked;
 
 
@@ -28,9 +28,12 @@ namespace Natasha
         {
 
             _builderCache = new HashSet<IScript>();
-            TypeCache = new ConcurrentDictionary<string, Type>();
             Options = new AssemblyComplier();
             HasChecked = false;
+            if (Options.AssemblyName == default)
+            {
+                Options.AssemblyName = Guid.NewGuid().ToString("N");
+            }
 
         }
 
@@ -43,7 +46,12 @@ namespace Natasha
             get { return Create(); }
 
         }
-
+        /// <summary>
+        /// 创建一个程序集操作类
+        /// </summary>
+        /// <param name="domainName">域名，为空使用系统域</param>
+        /// <param name="complieInFile">是否将动态内容编译成DLL</param>
+        /// <returns></returns>
         public static NAssembly Create(string domainName = default, bool complieInFile = false)
         {
 
@@ -74,6 +82,14 @@ namespace Natasha
 
         }
 
+
+
+
+        /// <summary>
+        /// 在随机域内创建一个操作类
+        /// </summary>
+        /// <param name="complieInFile">是否将动态内容写入DLL</param>
+        /// <returns></returns>
         public static NAssembly Random(bool complieInFile = false)
         {
 
@@ -86,7 +102,11 @@ namespace Natasha
 
 
 
-
+        /// <summary>
+        /// 移除一个构建类
+        /// </summary>
+        /// <param name="builder">构建类</param>
+        /// <returns></returns>
         public bool Remove(IScript builder)
         {
             return _builderCache.Remove(builder);
@@ -122,7 +142,7 @@ namespace Natasha
 
 
         /// <summary>
-        /// 创建一个类Operator，命名空间默认是程序集命
+        /// 创建一个类Operator
         /// </summary>
         /// <param name="name">类名</param>
         /// <returns></returns>
@@ -138,7 +158,7 @@ namespace Natasha
 
 
         /// <summary>
-        /// 创建一个枚举Operator，命名空间默认是程序集命
+        /// 创建一个枚举Operator
         /// </summary>
         /// <param name="name">枚举名</param>
         /// <returns></returns>
@@ -155,7 +175,7 @@ namespace Natasha
 
 
         /// <summary>
-        /// 创建一个接口Operator，命名空间默认是程序集命
+        /// 创建一个接口Operator
         /// </summary>
         /// <param name="name">接口名</param>
         /// <returns></returns>
@@ -172,7 +192,7 @@ namespace Natasha
 
 
         /// <summary>
-        /// 创建一个结构体Operator，命名空间默认是程序集命
+        /// 创建一个结构体Operator
         /// </summary>
         /// <param name="name">结构体名</param>
         /// <returns></returns>
@@ -255,11 +275,6 @@ namespace Natasha
 
 
             Assembly = Options.GetAssembly();
-            var types = Assembly.GetTypes();
-            foreach (var item in types)
-            {
-                TypeCache[item.GetDevelopName()] = item;
-            }
             return Assembly;
 
         }
@@ -275,11 +290,11 @@ namespace Natasha
         public Type GetType(string name)
         {
 
-            if (TypeCache.ContainsKey(name))
+            if (Assembly==default)
             {
-                return TypeCache[name];
+                Complier();
             }
-            return default;
+            return  Assembly.GetTypes().First(item => item.GetDevelopName() == name);
 
         }
 
