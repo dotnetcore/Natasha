@@ -27,15 +27,15 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 3.1.100
-      - name: Setup DotNet2.0.5
+      - name: Setup DotNet2.1.4
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 2.0.5
+          dotnet-version: 2.1.4
       - name: Setup Opencover
         uses: crazy-max/ghaction-chocolatey@v1
         with:
           args: choco install opencover.portable
-          env: Setup DotNet2.0.5
+          env: Setup DotNet2.1.4
       - name: Setup Cover
         uses: crazy-max/ghaction-chocolatey@v1
         with: 
