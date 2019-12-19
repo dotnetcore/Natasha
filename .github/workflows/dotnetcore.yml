@@ -50,4 +50,4 @@ jobs:
       - name: Build
         run: dotnet build './src/Natasha/Natasha.csproj' --configuration Release
       - name: Test
-        run:dotnet test './test/NatashaUT'
+        run: dotnet test './test/NatashaUT'
