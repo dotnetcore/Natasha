@@ -22,32 +22,39 @@ jobs:
   windows:
       runs-on: windows-latest
       steps:
-         - name : CheckOut Code
-           uses: actions/checkout@v1
-         - name: Setup DotNet 3.1.100
-           uses: actions/setup-dotnet@v1
-           with:
+       - name : CheckOut Code
+         uses: actions/checkout@v1
+      
+       - name: Setup DotNet 3.1.100
+         uses: actions/setup-dotnet@v1
+         with:
              dotnet-version: 3.1.100
-         - name: Setup DotNet2.1.4
-           uses: actions/setup-dotnet@v1
-           with:
+       
+       - name: Setup DotNet2.1.4
+         uses: actions/setup-dotnet@v1
+         with:
              dotnet-version: 2.1.4
-         - name: Setup Opencover
-           uses: crazy-max/ghaction-chocolatey@v1
-           with:
+       
+       - name: Setup Opencover
+         uses: crazy-max/ghaction-chocolatey@v1
+         with:
              args: install opencover.portable
              env: Setup DotNet2.1.4
-         - name: Setup Cover
-           uses: crazy-max/ghaction-chocolatey@v1
-           with: 
+       
+       - name: Setup Cover
+         uses: crazy-max/ghaction-chocolatey@v1
+         with: 
             args: install codecov
      
-         - name: Build
-           run: dotnet build './src/Natasha/Natasha.csproj' --configuration Release
-         - name: Test
-           run: 
+       - name: Build
+         run: dotnet build './src/Natasha/Natasha.csproj' --configuration Release
+         
+       - name: Test
+         run: 
              OpenCover.Console.exe -register:user -target:"dotnet.exe" -targetargs:"test ./test/NatashaUT" -output:".\coverage.xml" -oldstyle
-         - name: Upload Report
+       
+       - name: Upload Report
+         run:
             codecov -f "coverage.xml" -t ${{ secrets.COVERAGE_KEY }}
    
   mac:
