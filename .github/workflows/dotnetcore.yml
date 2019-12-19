@@ -23,14 +23,21 @@ jobs:
       runs-on: windows-latest
       steps:
       - uses: actions/checkout@v1
-      - name: Setup
+      - name: Setup DotNet
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 3.1.100
+      - name: Setup Cover
+        run: 
+            choco install opencover.portable
+            choco install codecov
+            
       - name: Build
         run: dotnet build --configuration Release
       - name: Test
-        run: dotnet test
+        run: 
+         OpenCover.Console.exe -register:user -target:"dotnet.exe" -targetargs:"test .\test\NatashaUT" -output:".\coverage.xml" -oldstyle
+         codecov -f "coverage.xml" -t %COVERAGE_KEY%
    
   mac:
       runs-on: macos
