@@ -40,6 +40,7 @@ for:
   #- ps: cd c:\projects\xxx
                 
   before_build:
+  - ps: dotnet restore
   - ps: choco install opencover.portable
   - ps: choco install codecov
 
