@@ -34,7 +34,7 @@ jobs:
       - name: Setup Opencover
         uses: crazy-max/ghaction-chocolatey@v1
         with:
-          args: choco install opencover.portable
+          args: install opencover.portable
           env: Setup DotNet2.1.4
       - name: Setup Cover
         uses: crazy-max/ghaction-chocolatey@v1
