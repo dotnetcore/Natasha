@@ -15,9 +15,9 @@ jobs:
         with:
           dotnet-version: 3.1.100
       - name: Build
-        run: dotnet build --configuration Release
+        run: dotnet build './src/Natasha/Natasha.csproj' --configuration Release
       - name: Test
-        run: dotnet test
+        run: dotnet test './test/NatashaUT'
         
   windows:
       runs-on: windows-latest
@@ -37,7 +37,7 @@ jobs:
       - name: Test
         run: 
          OpenCover.Console.exe -register:user -target:"dotnet.exe" -targetargs:"test .\test\NatashaUT" -output:".\coverage.xml" -oldstyle
-         codecov -f "coverage.xml" -t %COVERAGE_KEY%
+         codecov -f "coverage.xml" -t ${{ secrets.COVERAGE_KEY }}
    
   mac:
       runs-on: macos
