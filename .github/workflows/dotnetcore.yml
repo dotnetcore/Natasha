@@ -30,11 +30,8 @@ jobs:
       - name: Setup Cover Opencover
         uses: crazy-max/ghaction-chocolatey@v1
         with: 
-         args: install opencover.portable
-      - name: Setup Cover codecov
-        uses: crazy-max/ghaction-chocolatey@v1
-        with: 
-         args: install codecov 
+         args: install opencover.portable codecov --no-progress
+     
       - name: Build
         run: dotnet build './src/Natasha/Natasha.csproj' --configuration Release
       - name: Test
