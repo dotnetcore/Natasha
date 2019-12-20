@@ -17,6 +17,49 @@ namespace Natasha.Core
 
 
 
+
+        public static AssemblyDomain GetDomain(Type type)
+        {
+
+            if (type == default)
+            {
+                return default;
+            }
+            return GetDomain(type);
+
+        }
+
+
+
+
+        public static AssemblyDomain GetDomain(Delegate @delegate)
+        {
+
+            if (@delegate == default)
+            {
+                return default;
+            }
+            return GetDomain(@delegate.Method.Module.Assembly);
+                
+        }
+
+
+
+
+        public static AssemblyDomain GetDomain(Assembly assembly)
+        {
+
+            if (_cache.ContainsKey(assembly))
+            {
+                return _cache[assembly];
+            }
+            return default;
+                
+        }
+
+
+
+
         public static void Add(Assembly assembly, AssemblyDomain domain)
         {
 
