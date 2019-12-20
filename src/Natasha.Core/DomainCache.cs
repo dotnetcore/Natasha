@@ -25,7 +25,7 @@ namespace Natasha.Core
             {
                 return default;
             }
-            return GetDomain(type);
+            return GetDomain(type.Assembly);
 
         }
 

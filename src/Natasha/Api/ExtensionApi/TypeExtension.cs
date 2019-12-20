@@ -8,6 +8,15 @@ namespace System
     public static class TypeExtension
     {
 
+
+        public static AssemblyDomain GetDomain(this Type type)
+        {
+
+            return DomainCache.GetDomain(type);
+
+        }
+
+
         public static void RemoveReferences(this Type type)
         {
 

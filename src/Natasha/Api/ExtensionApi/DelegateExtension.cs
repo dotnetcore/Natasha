@@ -21,12 +21,24 @@ namespace Natasha
 
 
 
+        public static AssemblyDomain GetDomain(this Delegate @delegate)
+        {
+
+            return DomainCache.GetDomain(@delegate);
+
+        }
+
+
+
+
         public static void RemoveReferences(this Delegate @delegate)
         {
 
             DomainCache.RemoveReferences(@delegate);
 
         }
+
+
 
 
 

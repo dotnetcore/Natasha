@@ -8,6 +8,9 @@ namespace Core31
     {
         static void Main(string[] args)
         {
+
+            var a123 = NClass.Create(typeof(Program).GetDomain());
+
             var domain = DomainManagment.Random;
             var type = NDomain.Create(domain).GetType("public class A{ public A(){Name=\"1\"; }public string Name;}");
             Console.WriteLine(type.FullName);
