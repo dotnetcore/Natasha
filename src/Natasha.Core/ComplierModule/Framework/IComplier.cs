@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace Natasha.Core.Complier
 {
@@ -124,7 +125,7 @@ namespace Natasha.Core.Complier
                             UsingDefaultCache.Remove(tempResult);
                             var tempTree = item.Location.SourceTree;
                             var tempCode = tempCache[tempTree];
-                            tempCache[tempTree] = tempCode.Replace($"using {tempResult};", "");
+                            tempCache[tempTree] = Regex.Replace(tempCode, $"using {tempResult}(.*?);", "");
 
                         }
                         else if (item.Id == "CS0246")

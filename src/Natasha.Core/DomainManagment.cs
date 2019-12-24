@@ -9,7 +9,7 @@ namespace Natasha
     {
 
         public readonly static AssemblyDomain Default;
-        public static ConcurrentDictionary<string, WeakReference> Cache;
+        public readonly static ConcurrentDictionary<string, WeakReference> Cache;
 
         static DomainManagment()
         {
@@ -24,7 +24,7 @@ namespace Natasha
 
         public static AssemblyDomain Random
         {
-            get { return DomainManagment.Create("N" + Guid.NewGuid().ToString("N")); }
+            get { return Create("N" + Guid.NewGuid().ToString("N")); }
         }
 
 

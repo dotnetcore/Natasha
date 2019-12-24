@@ -43,7 +43,7 @@ namespace Natasha
 
         {
 #if !NETSTANDARD2_0
-            _resolver = new AssemblyDependencyResolver(AppDomain.CurrentDomain.BaseDirectory);
+            _load_resolver = new AssemblyDependencyResolver(AppDomain.CurrentDomain.BaseDirectory);
 #else
             Name = key;
 #endif
@@ -174,7 +174,7 @@ namespace Natasha
         {
 
 #if  !NETSTANDARD2_0
-            _resolver = null;
+            _load_resolver = null;
 #endif
             DomainCache.Clear(this);
             ReferencesCache.Clear();
@@ -185,14 +185,14 @@ namespace Natasha
 
 
 #if  !NETSTANDARD2_0
-        private AssemblyDependencyResolver _resolver;
+        private AssemblyDependencyResolver _load_resolver;
 #endif
 
         protected override Assembly Load(AssemblyName assemblyName)
         {
 
 #if  !NETSTANDARD2_0
-            string assemblyPath = _resolver.ResolveAssemblyToPath(assemblyName);
+            string assemblyPath = _load_resolver.ResolveAssemblyToPath(assemblyName);
             if (assemblyPath != null)
             {
 
@@ -217,7 +217,7 @@ namespace Natasha
         {
 
 #if !NETSTANDARD2_0
-            string libraryPath = _resolver.ResolveUnmanagedDllToPath(unmanagedDllName);
+            string libraryPath = _load_resolver.ResolveUnmanagedDllToPath(unmanagedDllName);
             if (libraryPath != null)
             {
                 return LoadUnmanagedDllFromPath(libraryPath);
@@ -297,7 +297,7 @@ namespace Natasha
         {
 
 #if !NETSTANDARD2_0
-            _resolver = new AssemblyDependencyResolver(path);
+            _load_resolver = new AssemblyDependencyResolver(path);
 #endif
             if (isCover) { RemoveDll(path); }
 
@@ -311,7 +311,7 @@ namespace Natasha
         {
 
 #if !NETSTANDARD2_0
-            _resolver = new AssemblyDependencyResolver(path);
+            _load_resolver = new AssemblyDependencyResolver(path);
 #endif
             if (isCover) { RemoveDll(path); }
 
