@@ -39,7 +39,7 @@ namespace Natasha.Core.Complier
                                        outputKind: OutputKind.DynamicallyLinkedLibrary,
                                        optimizationLevel: OptimizationLevel.Release,
                                        allowUnsafe: true),
-                                   syntaxTrees: SyntaxInfos.Trees,
+                                   syntaxTrees: SyntaxInfos.TreeCodeMapping.Keys,
                                    references: References);
 
 

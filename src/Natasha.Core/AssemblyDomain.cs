@@ -173,13 +173,15 @@ namespace Natasha
         public void Dispose()
         {
 
-#if  !NETSTANDARD2_0
-            _load_resolver = null;
-#endif
+
             DomainCache.Clear(this);
             ReferencesCache.Clear();
             OutfileMapping.Clear();
             AssemblyMappings.Clear();
+#if !NETSTANDARD2_0
+            _load_resolver = null;
+            Unload();
+#endif
 
         }
 

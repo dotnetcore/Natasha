@@ -1,4 +1,5 @@
 ﻿using Natasha;
+using Natasha.Core;
 using Natasha.Log;
 using Natasha.Operator;
 using System;
@@ -10,22 +11,28 @@ namespace UnloadTest31
 {
     class Program
     {
-        const int count = 100;
-        static Func<int[]>[] func = new Func<int[]>[100];
+        const int count = 1000;
+        static Type[] func = new Type[1000];
         static void Main(string[] args)
         {
 
-            NError.Enabled = false;
             NSucceed.Enabled = false;
             NWarning.Enabled = false;
 
             var preTime = Process.GetCurrentProcess().TotalProcessorTime;
             Stopwatch watch = new Stopwatch();
             watch.Start();
-            var a = CtorOperator.Create().NewDelegate<Process>();
+            var  type = NClass.Create("tes1t")
+                    .Namespace("Test")
+                    .UseRandomOopName()
+                    .PublicField<string>("Name")
+                    .PublicField<string>("Age")
+                    .PublicField<int[]>("Temp")
+                    .Ctor(item => item.Body("Temp = new int[40960];"))
+                    .GetType();
             watch.Stop();
-            Thread.Sleep(1000);
             Console.WriteLine();
+            var temp = Process.GetCurrentProcess();
             Console.ForegroundColor = ConsoleColor.Magenta;
             Console.WriteLine("Natasha预热:");
             Console.WriteLine("-----------------------------------------------------------------------------------------");
@@ -67,7 +74,9 @@ namespace UnloadTest31
             preTime = Process.GetCurrentProcess().TotalProcessorTime;
             watch.Restart();
             var alive = CheckAlive();
+            DomainManagment.Clear();
             watch.Stop();
+            func = null;
             Thread.Sleep(4000);
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine();
@@ -75,8 +84,8 @@ namespace UnloadTest31
             Console.WriteLine("-----------------------------------------------------------------------------------------");
             Console.WriteLine($"|\tCPU:{GetCpu(Process.GetCurrentProcess().TotalProcessorTime, preTime).ToString("f2")}%\t|\t内存:{Process.GetCurrentProcess().PrivateMemorySize64/1024/1024}M\t|\t执行耗时：{watch.Elapsed}\t|");
             Console.WriteLine("-----------------------------------------------------------------------------------------");
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.ReadKey();
+
         }
 
 
@@ -92,18 +101,18 @@ namespace UnloadTest31
         public static int CheckAlive()
         {
 
-            int count = 0;
+            int tempCount = 0;
             for (int i = 0; i < count; i++)
             {
 
                 if (!DomainManagment.IsDeleted("test" + i.ToString()))
                 {
-                    count++;
+                    tempCount++;
                     Console.WriteLine($"{i} is aliave!");
                 }
 
             }
-            return count;
+            return tempCount;
 
         }
 
@@ -122,12 +131,15 @@ namespace UnloadTest31
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void Release()
         {
-            func = null;
+            
             for (int i = 0; i < count; i++)
             {
+                func[i] = null;
                 var handler = DomainManagment.Get("test" + i.ToString());
                 handler.Dispose();
             }
+            func = null;
+
         }
 
 
@@ -137,42 +149,19 @@ namespace UnloadTest31
 
             for (int i = 0; i < count; i++)
             {
-                var builder = FastMethodOperator.Create("test" + i.ToString());
-                func[i] = builder.MethodBody($@"
-int[] a = new int[80960];
-for(int i =0;i<80960;i++){{a[i]=i;}}
-string temp = @""111111111111111111111111
-11111111111111
-111111111111111111111
-111111111111111111111
-111111111111111111111
-11111111111111111111111111111111111
-111111111111111111111111111111111111111111
-111111111111111111111111111111111111111111
-111111111111111111111
-111111111111111111111
-11111111111111111111111111111111111
-111111111111111111111111111111111111111111
-1111111111111111111111111111111111111
-111111111111111111111
-111111111111111111111
-11111111111111111111111111111111111
-111111111111111111111111111111111111111111
-1111111111111111111111111111111111111
-111111111111111111111
-111111111111111111111
-11111111111111111111111111111111111
-111111111111111111111111111111111111111111
-1111111111111111111111111111111111111
-11111111111111111111111111111111111
-11111111111111111111111111111111111
-1111111111111111111111111111
-1111111111111111111111111111
-11111111111111111111111111111111111111"";
-a[0]+=temp.Length;
-return a;
-").Complie<Func<int[]>>();
-                func[i]();
+                var type= NClass.Create("test" + i.ToString())
+                    .Namespace("Test")
+                    .UseRandomOopName()
+                    .PublicField<string>("Name")
+                    .PublicField<string>("Age")
+                    .PublicField<int[]>("Temp")
+                    .Ctor(item => item.Body("Temp = new int[40960];"))
+                    .GetType();
+                if (type==default)
+                {
+                    throw new Exception("Bad Builder!");
+                }
+                func[i] = type;
             }
         }
     }

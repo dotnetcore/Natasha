@@ -9,8 +9,6 @@ namespace Natasha.Operator
     {
 
 
-
-
         public FastMethodOperator()
         {
 

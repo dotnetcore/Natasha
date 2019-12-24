@@ -6,14 +6,12 @@ namespace Natasha.Core.Complier.Model
     public class SyntaxOption
     {
 
-        public readonly HashSet<SyntaxTree> Trees;
         public readonly List<CompilationException> SyntaxExceptions;
         public readonly Dictionary<SyntaxTree, HashSet<string>> TreeUsingMapping;
         public readonly Dictionary<SyntaxTree, string> TreeCodeMapping;
         public SyntaxOption()
         {
 
-            Trees = new HashSet<SyntaxTree>();
             SyntaxExceptions = new List<CompilationException>();
             TreeUsingMapping = new Dictionary<SyntaxTree, HashSet<string>>();
             TreeCodeMapping = new Dictionary<SyntaxTree, string>();
@@ -48,7 +46,6 @@ namespace Natasha.Core.Complier.Model
             else
             {
 
-                Trees.Add(tree);
                 TreeCodeMapping.Add(tree, content);
                 TreeUsingMapping[tree] = sets;
 

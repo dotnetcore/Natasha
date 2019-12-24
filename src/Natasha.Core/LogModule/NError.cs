@@ -151,7 +151,7 @@ namespace Natasha.Log
                 else
                 {
 
-                    return currentErrorLine.Substring(start.Character, end.Character - start.Character).Trim();
+                    return currentErrorLine.Substring(startIndex: start.Character, end.Character - start.Character).Trim();
 
                 }
 

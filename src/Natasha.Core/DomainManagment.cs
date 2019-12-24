@@ -34,24 +34,34 @@ namespace Natasha
 
             if (Cache.ContainsKey(key))
             {
+
                 return (AssemblyDomain)(Cache[key].Target);
+
             }
             else
             {
 
-                foreach (var item in Cache)
-                {
-
-                    var domain = (AssemblyDomain)(item.Value.Target);
-                    if (!item.Value.IsAlive)
-                    {
-                        Cache.TryRemove(item.Key, out _);
-                    }
-
-                }
+                Clear();
                 return new AssemblyDomain(key);
+
             }
 
+        }
+
+
+
+
+        public static void Clear()
+        {
+            foreach (var item in Cache)
+            {
+
+                if (!item.Value.IsAlive)
+                {
+                    Cache.TryRemove(item.Key, out _);
+                }
+
+            }
         }
 
 

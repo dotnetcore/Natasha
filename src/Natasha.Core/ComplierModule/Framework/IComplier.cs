@@ -59,7 +59,7 @@ namespace Natasha.Core.Complier
         public Assembly GetAssembly()
         {
 
-            if (SyntaxInfos.Trees.Count == 0)
+            if (SyntaxInfos.TreeCodeMapping.Count == 0)
             {
                 return null;
             }
