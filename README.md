@@ -88,6 +88,9 @@ WeihanLi
   - 2019-12-17 ： 发布v2.7.3.0, Natasha 非系统域生成的操作均进行了缓存，以便进行引用移除/域卸载等操作， Type / Delegate / Assembly 均可以使用 RemoveReferences / DisposeDomain 方法进行引用移除或者卸载域操作。
   
   - 2019-12-18 ： 发布v2.7.6.0, Natasha 方法操作类增加 Override 和 NewHidden 方法， NAssembly 增加三种域创建方式， 移除代理操作类到 NCaller 项目中。
+  
+  - 2019-12-25 ： 发布v2.8.0.0, Natasha 日志操作类改名 NError => NErrorLog / NSucceed => NSucceedLog / NWarning => NWarningLog； 对外开放DomainManagement.Clear 方法方便手动清楚已卸载的域； 增加 Override 和 NewHidden 方法， NAssembly 增加三种域创建方式， 移除代理操作类到 NCaller 项目中；增强和修复CS0234的替换规则，识别父命名空间正则移除父子命名空间；引擎语法树选项内部进行细微优化。
+  
  <br/>  
  
  
