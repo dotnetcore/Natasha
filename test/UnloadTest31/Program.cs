@@ -1,7 +1,5 @@
 ﻿using Natasha;
-using Natasha.Core;
 using Natasha.Log;
-using Natasha.Operator;
 using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -11,18 +9,20 @@ namespace UnloadTest31
 {
     class Program
     {
-        const int count = 1000;
-        static Type[] func = new Type[1000];
+        const int count = 2000;
+        static Type[] func = new Type[count];
+        static Type tempType;
         static void Main(string[] args)
         {
-
+            NError.Enabled = false;
             NSucceed.Enabled = false;
             NWarning.Enabled = false;
-
-            var preTime = Process.GetCurrentProcess().TotalProcessorTime;
             Stopwatch watch = new Stopwatch();
+            double tempTotleTime;
+            #region Natasha Preheating
+            var preTime = Process.GetCurrentProcess().TotalProcessorTime;
             watch.Start();
-            var  type = NClass.Create("tes1t")
+            tempType = NClass.Create("tes1t")
                     .Namespace("Test")
                     .UseRandomOopName()
                     .PublicField<string>("Name")
@@ -31,59 +31,109 @@ namespace UnloadTest31
                     .Ctor(item => item.Body("Temp = new int[40960];"))
                     .GetType();
             watch.Stop();
+            tempTotleTime = GetCpu(Process.GetCurrentProcess().TotalProcessorTime, preTime);
+            if (watch.Elapsed.Seconds > 0)
+            {
+                tempTotleTime = tempTotleTime / watch.Elapsed.Seconds;
+            }
             Console.WriteLine();
-            var temp = Process.GetCurrentProcess();
             Console.ForegroundColor = ConsoleColor.Magenta;
             Console.WriteLine("Natasha预热:");
             Console.WriteLine("-----------------------------------------------------------------------------------------");
-            Console.WriteLine($"|\tCPU:{GetCpu(Process.GetCurrentProcess().TotalProcessorTime, preTime).ToString("f2")}%\t|\t内存:{Process.GetCurrentProcess().PrivateMemorySize64 /1024/1024}M\t|\t执行耗时：{watch.Elapsed}\t|");
+            Console.WriteLine($"|\tCPU:{tempTotleTime.ToString("f2")}%\t|\t内存:{Process.GetCurrentProcess().PrivateMemorySize64 / 1024 / 1024}M\t|\t执行耗时：{watch.Elapsed}\t|");
             Console.WriteLine("-----------------------------------------------------------------------------------------");
-            Thread.Sleep(3000);
+            #endregion
+
+            Thread.Sleep(1000);
+
+            #region Run Complier
             preTime = Process.GetCurrentProcess().TotalProcessorTime;
             watch.Restart();
             Test();
             watch.Stop();
+            tempTotleTime = GetCpu(Process.GetCurrentProcess().TotalProcessorTime, preTime);
+            if (watch.Elapsed.Seconds > 0)
+            {
+                tempTotleTime = tempTotleTime / watch.Elapsed.Seconds;
+            }
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("100个独立域编译后:");
+            Console.WriteLine($"{count}个独立域编译后:");
             Console.WriteLine("-----------------------------------------------------------------------------------------");
-            Console.WriteLine($"|\tCPU:{GetCpu(Process.GetCurrentProcess().TotalProcessorTime, preTime).ToString("f2")}%\t|\t内存:{Process.GetCurrentProcess().PrivateMemorySize64 / 1024 / 1024}M\t|\t执行耗时：{watch.Elapsed}\t|");
+            Console.WriteLine($"|\tCPU:{tempTotleTime.ToString("f2")}%\t|\t内存:{Process.GetCurrentProcess().PrivateMemorySize64 / 1024 / 1024}M\t|\t执行耗时：{watch.Elapsed}\t|");
             Console.WriteLine("-----------------------------------------------------------------------------------------");
-            Thread.Sleep(3000);
+            #endregion
+
+            Thread.Sleep(1000);
+
+            #region Release Handler
             preTime = Process.GetCurrentProcess().TotalProcessorTime;
             watch.Restart();
             Release();
             watch.Stop();
+            tempTotleTime = GetCpu(Process.GetCurrentProcess().TotalProcessorTime, preTime);
+            if (watch.Elapsed.Seconds > 0)
+            {
+                tempTotleTime = tempTotleTime / watch.Elapsed.Seconds;
+            }
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("释放中:");
             Console.WriteLine("-----------------------------------------------------------------------------------------");
-            Console.WriteLine($"|\tCPU:{GetCpu(Process.GetCurrentProcess().TotalProcessorTime, preTime).ToString("f2")}%\t|\t内存:{Process.GetCurrentProcess().PrivateMemorySize64 / 1024 / 1024}M\t|\t执行耗时：{watch.Elapsed}\t|");
+            Console.WriteLine($"|\tCPU:{tempTotleTime.ToString("f2")}%\t|\t内存:{Process.GetCurrentProcess().PrivateMemorySize64 / 1024 / 1024}M\t|\t执行耗时：{watch.Elapsed}\t|");
             Console.WriteLine("-----------------------------------------------------------------------------------------");
-            Thread.Sleep(3000);
+            #endregion
+
+            Thread.Sleep(1000);
+            #region Run GC
             preTime = Process.GetCurrentProcess().TotalProcessorTime;
             watch.Restart();
             RunGc();
             watch.Stop();
+            tempTotleTime = GetCpu(Process.GetCurrentProcess().TotalProcessorTime, preTime);
+            if (watch.Elapsed.Seconds>0)
+            {
+                tempTotleTime = tempTotleTime / watch.Elapsed.Seconds;
+            }
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine();
             Console.WriteLine("回收后:");
             Console.WriteLine("-----------------------------------------------------------------------------------------");
-            Console.WriteLine($"|\tCPU:{GetCpu(Process.GetCurrentProcess().TotalProcessorTime, preTime).ToString("f2")}%\t|\t内存:{Process.GetCurrentProcess().PrivateMemorySize64 / 1024 / 1024}M\t|\t执行耗时：{watch.Elapsed}\t|");
+            Console.WriteLine($"|\tCPU:{tempTotleTime.ToString("f2")}%\t|\t内存:{Process.GetCurrentProcess().PrivateMemorySize64 / 1024 / 1024}M\t|\t执行耗时：{watch.Elapsed}\t|");
             Console.WriteLine("-----------------------------------------------------------------------------------------");
+            #endregion
+
+            Thread.Sleep(1000);
+
+            #region Check Alive
             preTime = Process.GetCurrentProcess().TotalProcessorTime;
             watch.Restart();
             var alive = CheckAlive();
             DomainManagment.Clear();
             watch.Stop();
-            func = null;
-            Thread.Sleep(4000);
+            tempTotleTime = GetCpu(Process.GetCurrentProcess().TotalProcessorTime, preTime);
+            if (watch.Elapsed.Seconds > 0)
+            {
+                tempTotleTime = tempTotleTime / watch.Elapsed.Seconds;
+            }
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine();
             Console.WriteLine($"存活检测: {alive}");
             Console.WriteLine("-----------------------------------------------------------------------------------------");
-            Console.WriteLine($"|\tCPU:{GetCpu(Process.GetCurrentProcess().TotalProcessorTime, preTime).ToString("f2")}%\t|\t内存:{Process.GetCurrentProcess().PrivateMemorySize64/1024/1024}M\t|\t执行耗时：{watch.Elapsed}\t|");
+            Console.WriteLine($"|\tCPU:{tempTotleTime.ToString("f2")}%\t|\t内存:{Process.GetCurrentProcess().PrivateMemorySize64 / 1024 / 1024}M\t|\t执行耗时：{watch.Elapsed}\t|");
             Console.WriteLine("-----------------------------------------------------------------------------------------");
+            #endregion
+
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    Thread.Sleep(3000);
+            //    preTime = Process.GetCurrentProcess().TotalProcessorTime;
+            //    Console.WriteLine($"第{i}次静默检测:");
+            //    Console.WriteLine("-----------------------------------------------------------------------------------------");
+            //    Console.WriteLine($"|\tCPU:{tempTotleTime.ToString("f2")}%\t|\t内存:{Process.GetCurrentProcess().PrivateMemorySize64 / 1024 / 1024}M\t|\t执行耗时：{watch.Elapsed}\t|");
+            //    Console.WriteLine("-----------------------------------------------------------------------------------------");
+            //}
+            
             Console.ReadKey();
 
         }
@@ -94,7 +144,7 @@ namespace UnloadTest31
 
             //间隔时间内的CPU运行时间除以逻辑CPU数量
 
-            return  (totleTime - preTime).TotalMilliseconds / 1000 / Environment.ProcessorCount * 100;
+            return (totleTime - preTime).TotalMilliseconds / 1000 / Environment.ProcessorCount * 100;
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
@@ -123,6 +173,7 @@ namespace UnloadTest31
             for (int i = 0; i < 20; i++)
             {
                 GC.Collect();
+                //GC.Collect(2);
                 GC.WaitForPendingFinalizers();
             }
         }
@@ -131,7 +182,7 @@ namespace UnloadTest31
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void Release()
         {
-            
+
             for (int i = 0; i < count; i++)
             {
                 func[i] = null;
@@ -149,15 +200,24 @@ namespace UnloadTest31
 
             for (int i = 0; i < count; i++)
             {
-                var type= NClass.Create("test" + i.ToString())
-                    .Namespace("Test")
-                    .UseRandomOopName()
-                    .PublicField<string>("Name")
-                    .PublicField<string>("Age")
-                    .PublicField<int[]>("Temp")
-                    .Ctor(item => item.Body("Temp = new int[40960];"))
+                var type = NClass.Create("test" + i.ToString())
+                     .Namespace("Test")
+                     .UseRandomOopName()
+                     .PublicField<string>("Name")
+                     .PublicField<string>("Name1")
+                     .PublicField<string>("Name2")
+                     .PublicField<string>("Name3")
+                     .PublicField<string>("Name4")
+                     .PublicField<string>("Name5")
+                     .PublicField<string>("Age")
+                     .PublicField<int[]>("Temp")
+                     .Ctor(item => item.Body("Temp = new int[40960];"))
                     .GetType();
-                if (type==default)
+                //builder.Complier.SyntaxInfos.SyntaxExceptions.Clear();
+                //builder.Complier.SyntaxInfos.TreeCodeMapping.Clear();
+                //builder.Complier.SyntaxInfos.TreeUsingMapping.Clear();
+                //builder = null;
+                if (type == default)
                 {
                     throw new Exception("Bad Builder!");
                 }

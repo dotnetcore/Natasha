@@ -31,9 +31,10 @@ namespace Natasha.Core.Complier
 
             tree = CSharpSyntaxTree.ParseText(text.Trim(), _options);
             SyntaxNode root = Formatter.Format(tree.GetCompilationUnitRoot(), _workSpace);
+            _workSpace.ClearSolution();
             tree = root.SyntaxTree;
-            formatter = root.ToString();
-            errors = root.GetDiagnostics();
+            formatter = tree.ToString();
+            errors = tree.GetDiagnostics();
 
         }
 
