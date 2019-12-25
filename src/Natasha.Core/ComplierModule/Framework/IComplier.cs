@@ -174,10 +174,10 @@ namespace Natasha.Core.Complier
                     ComplieException.Message = "发生错误,无法生成程序集！";
 
 
-                    NError logError = new NError();
+                    NErrorLog logError = new NErrorLog();
                     logError.Handler(result.Compilation, ComplieException.Diagnostics);
                     ComplieException.Log = logError.Buffer.ToString();
-                    if (NError.Enabled) { logError.Write(); }
+                    if (NErrorLog.Enabled) { logError.Write(); }
 
                 }
                 else
@@ -188,11 +188,11 @@ namespace Natasha.Core.Complier
                         DomainCache.Add(result.Assembly, _domain);
                     }
 
-                    NSucceed logSucceed = new NSucceed();
+                    NSucceedLog logSucceed = new NSucceedLog();
                     logSucceed.Handler(result.Compilation);
                     ComplieException.ErrorFlag = ComplieError.None;
                     ComplieException.Log = logSucceed.Buffer.ToString();
-                    if (NSucceed.Enabled) { logSucceed.Write(); }
+                    if (NSucceedLog.Enabled) { logSucceed.Write(); }
 
                 }
 

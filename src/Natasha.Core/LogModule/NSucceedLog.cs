@@ -6,19 +6,19 @@ using System.Reflection;
 namespace Natasha.Log
 {
 
-    public class NSucceed : ALogWrite
+    public class NSucceedLog : ALogWrite
     {
 
         public static bool Enabled;
 
-        static NSucceed() => Enabled = true;
+        static NSucceedLog() => Enabled = true;
 
 
 
 
         public override void Write()
         {
-            NWriter<NSucceed>.Recoder(Buffer);
+            NWriter<NSucceedLog>.Recoder(Buffer);
         }
 
 

@@ -14,9 +14,9 @@ namespace UnloadTest31
         static Type tempType;
         static void Main(string[] args)
         {
-            NError.Enabled = false;
-            NSucceed.Enabled = false;
-            NWarning.Enabled = false;
+            NErrorLog.Enabled = false;
+            NSucceedLog.Enabled = false;
+            NWarningLog.Enabled = false;
             Stopwatch watch = new Stopwatch();
             double tempTotleTime;
             #region Natasha Preheating

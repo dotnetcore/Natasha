@@ -6,19 +6,19 @@ using System.Text;
 namespace Natasha.Log
 {
 
-    public class NWarning : ALogWrite
+    public class NWarningLog : ALogWrite
     {
 
         public static bool Enabled;
 
-        static NWarning() => Enabled = true;
+        static NWarningLog() => Enabled = true;
         
 
 
 
         public override void Write()
         {
-            NWriter<NWarning>.Recoder(Buffer);
+            NWriter<NWarningLog>.Recoder(Buffer);
         }
 
 

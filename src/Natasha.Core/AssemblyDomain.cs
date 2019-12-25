@@ -95,6 +95,7 @@ namespace Natasha
 
         public bool RemoveDll(string path)
         {
+
             if (path == default)
             {
                 throw new NullReferenceException("Path is null! This method can't be passed a null instance.");
@@ -118,17 +119,14 @@ namespace Natasha
         public bool RemoveType(Type type)
         {
 
+
             if (type == default)
             {
                 throw new NullReferenceException("Type is null! This method can't be passed a null instance.");
             }
 
-            lock (ObjLock)
-            {
+             return RemoveAssembly(type.Assembly);
 
-               return RemoveAssembly(type.Assembly);
-
-            }
 
         }
 
@@ -180,7 +178,6 @@ namespace Natasha
             AssemblyMappings.Clear();
 #if !NETSTANDARD2_0
             _load_resolver = null;
-            Unload();
 #endif
 
         }

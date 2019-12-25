@@ -8,15 +8,15 @@ using System.Text;
 namespace Natasha.Log
 {
 
-    public class NError : ALogWrite
+    public class NErrorLog : ALogWrite
     {
 
         public static bool Enabled;
-        static NError() => Enabled = true;
+        static NErrorLog() => Enabled = true;
 
 
         public Dictionary<string, List<Diagnostic>> Errors;
-        public NError()
+        public NErrorLog()
         {
             Errors = new Dictionary<string, List<Diagnostic>>();
         }
@@ -26,7 +26,7 @@ namespace Natasha.Log
 
         public override void Write()
         {
-            NWriter<NError>.Recoder(Buffer);
+            NWriter<NErrorLog>.Recoder(Buffer);
         }
 
 

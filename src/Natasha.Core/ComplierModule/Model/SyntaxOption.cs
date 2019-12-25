@@ -37,7 +37,7 @@ namespace Natasha.Core.Complier.Model
 
                 exception.ErrorFlag = ComplieError.Syntax;
                 exception.Message = "语法错误,请仔细检查脚本代码！";
-                NError log = new NError();
+                NErrorLog log = new NErrorLog();
                 log.Handler(exception.Diagnostics);
                 log.Write();
                 exception.Log = log.Buffer.ToString();
