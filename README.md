@@ -75,10 +75,6 @@ WeihanLi
 ### 发布日志  
 
  
- - 2019-12-05 ： 发布v2.4.0.0, 移除并发计数，增加委托操作扩展 , 现 Fake/FastMethodOperator.Random 以及 RAction/RFunc 生成的委托都存入了缓存中，可以在委托上直接调用Delete进行卸载； 默认使用所有 Using 覆盖编译代码，当发生二义性引用时使用 CS0104Helper 处理二义性问题， 模板增加 UseCustomerUsing 方法来阻止 Using 覆盖，代价是将必要的 Using 引用精确引入到构建中。 编译引擎在出现二义性引用时将进行重试策略，重试次数1次。
- 
-  - 2019-12-06 ： 发布v2.5.0.0, Operator 以及 N系列 API, 可以调用静态方法创建实例同时指定所属的域， 包括 Create(string) / Create(AssemblyDomain) / Random() 三种。
-  
   - 2019-12-07 ： 发布v2.5.4.0, 增加 CS0234 以及 CS0246 错误自动修复机制，命名空间在无效时会自动剔除并重编译，增加 CS0104 的替换逻辑，在未手动解决二义性时，默认使用靠前的命名空间, 由 NDomain 创建的独立/随机域类型/结构/枚举/接口将支持回收。
   
   - 2019-12-10 ： 发布v2.6.1.0, 移除NFunc / RFunc / NAction / RAction / NDelegateOperator / RDelegateOperator / 字符串扩展方法 / 委托扩展方法；改 Delete 卸载方法为 DisposeDomain ，改 AddInCache 为内部方法不对外开放；三个静态创建实例的方法（Create(string) / Create(AssemblyDomain) / Random()）增加第二个参数，指定是否以文件方式进行编译，默认为 false，增加静态属性 Default 作为系统域即 Create()方法返回实例。
@@ -91,6 +87,7 @@ WeihanLi
   
   - 2019-12-25 ： 发布v2.8.0.0, Natasha 日志操作类改名 NError => NErrorLog / NSucceed => NSucceedLog / NWarning => NWarningLog； 对外开放 DomainManagement.Clear 方法方便手动清除已卸载的域； 增强和修复 CS0234 的替换规则，识别父命名空间正则移除父子命名空间；引擎语法树选项内部进行细微优化。
   
+  - 2019-12-26 ： 发布v2.8.5.0, Natasha 增强反解类； 引擎增加接收语法树的 API. 启动项目 [[动态插件编译]](https://github.com/night-moon-studio/DynamicPlugIn) 支持运行时改变部分插件的功能，重编译插件。
  <br/>  
  
  
