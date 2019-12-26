@@ -77,13 +77,13 @@ namespace Natasha.Reverser
                 return "protected ";
 
             }
-            else if (reflectMethodInfo.IsAssembly)
+            else if (reflectMethodInfo.IsAssembly || reflectMethodInfo.IsFamilyOrAssembly)
             {
 
                 return "internal ";
 
             }
-            else if (reflectMethodInfo.IsFamilyOrAssembly)
+            else if (reflectMethodInfo.IsFamilyAndAssembly)
             {
 
                 return "internal protected";
@@ -124,13 +124,13 @@ namespace Natasha.Reverser
                 return "protected ";
 
             }
-            else if (reflectFieldInfo.IsAssembly)
+            else if (reflectFieldInfo.IsAssembly || reflectFieldInfo.IsFamilyOrAssembly)
             {
 
                 return "internal ";
 
             }
-            else if (reflectFieldInfo.IsFamilyOrAssembly)
+            else if (reflectFieldInfo.IsFamilyAndAssembly)
             {
 
                 return "internal protected";
@@ -165,7 +165,7 @@ namespace Natasha.Reverser
                 return "public ";
 
             }
-            else if (type.IsNotPublic)
+            else if (type.IsNotPublic || type.IsNestedFamORAssem)
             {
 
                 return "internal ";
@@ -177,13 +177,18 @@ namespace Natasha.Reverser
                 return "protected ";
 
             }
-            else if (type.IsNestedAssembly)
+            else if (type.IsNestedFamANDAssem)
             {
 
                 return "internal protected ";
 
             }
+            else if (type.IsNestedPrivate)
+            {
 
+                return "private ";
+
+            }
 
             return "internal ";
 

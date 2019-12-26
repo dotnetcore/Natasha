@@ -5,7 +5,7 @@ using System;
 namespace Natasha.Builder
 {
 
-    public class OopBuilder<T> : OopContentTemplate<T> where T: OopBuilder<T>,new()
+    public class OopBuilder<T> : OopContentTemplate<T> where T : OopBuilder<T>, new()
     {
 
         public readonly AssemblyComplier Complier;
@@ -29,14 +29,14 @@ namespace Natasha.Builder
         }
 
 
-        
+
         /// <summary>
         /// 如果参数为空，则使用默认域
         /// 如果参数不为空，则创建以参数为名字的独立域
         /// </summary>
         /// <param name="domainName">域名</param>
         /// <returns></returns>
-        public static T Create(string domainName = default,bool complieInFile = default)
+        public static T Create(string domainName = default, bool complieInFile = default)
         {
 
             T instance = new T();
@@ -123,6 +123,48 @@ namespace Natasha.Builder
 
 
 
+        public T UseType(Type type, string TypeName)
+        {
+
+            if (type.IsEnum)
+            {
+
+                ChangeToEnum();
+
+            }
+            else if (type.IsInterface)
+            {
+
+                ChangeToInterface();
+
+            }
+            else if (type.IsValueType)
+            {
+
+                ChangeToStruct();
+
+            }
+            else
+            {
+
+                ChangeToClass();
+
+            }
+
+            OopName(TypeName!=default? TypeName:type.GetDevelopName())
+            .Inheritance(type.BaseType)
+            .Inheritance(type.GetInterfaces())
+            .Namespace(type.Namespace)
+           . OopAccess(type)
+           . OopModifier(type);
+            return Link;
+
+        }
+
+
+
+
+
         /// <summary>
         /// 初始化器构建
         /// </summary>
@@ -140,10 +182,12 @@ namespace Natasha.Builder
 
         public T Method(Action<MethodBuilder> action)
         {
+
             var handler = new MethodBuilder();
             action?.Invoke(handler);
             OopBody(handler.Script);
             return Link;
+
         }
 
 
@@ -194,7 +238,7 @@ namespace Natasha.Builder
         {
 
             Complier.Add(this);
-            string name=default;
+            string name = default;
             switch (OopTypeEnum)
             {
 

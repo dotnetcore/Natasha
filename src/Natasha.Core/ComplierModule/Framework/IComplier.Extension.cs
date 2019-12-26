@@ -39,6 +39,22 @@ namespace Natasha.Core.Complier
         }
 
 
+
+        public static void Deconstruct(
+            this SyntaxTree node,
+            out SyntaxTree tree,
+            out string formatter,
+            out IEnumerable<Diagnostic> errors)
+        {
+
+            SyntaxNode root = Formatter.Format(node.GetCompilationUnitRoot(), _workSpace);
+            _workSpace.ClearSolution();
+            tree = root.SyntaxTree;
+            formatter = tree.ToString();
+            errors = tree.GetDiagnostics();
+
+        }
+
     }
 
 }

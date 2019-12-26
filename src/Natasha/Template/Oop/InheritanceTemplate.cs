@@ -67,13 +67,17 @@ namespace Natasha.Template
         public T Inheritance(params Type[] types)
         {
 
-            for (int i = 0; i < types.Length; i++)
+            if (types != null && types.Length > 0)
             {
 
-                Inheritance(types[i]);
+                for (int i = 0; i < types.Length; i++)
+                {
+
+                    Inheritance(types[i]);
+
+                }
 
             }
-
 
             return Link;
 
@@ -95,7 +99,7 @@ namespace Natasha.Template
         public T Inheritance(Type type)
         {
 
-            if (type == null)
+            if (type == null || type == typeof(object))
             {
                 return Link;
             }

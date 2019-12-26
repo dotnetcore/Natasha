@@ -2,6 +2,7 @@
 using System;
 using System.Reflection;
 using System.Text;
+using System.Runtime.CompilerServices;
 
 namespace Natasha.Reverser
 {
@@ -115,20 +116,49 @@ namespace Natasha.Reverser
         {
 
             StringBuilder builder = new StringBuilder();
-            if (info.IsSealed)
+            if (info.IsClass)
             {
 
-                builder.Append("sealed ");
+                if (info.IsAbstract)
+                {
+
+                    if (info.IsSealed)
+                    {
+                        builder.Append("static ");
+                    }
+                    else
+                    {
+                        builder.Append("abstract ");
+                    }
+
+                }
+                else if (info.IsSealed)
+                {
+                    builder.Append("sealed ");
+                }
 
             }
 
-
-            if (info.IsAbstract)
+#if !NETSTANDARD2_0
+            else if (info.IsValueType)
             {
 
-                builder.Append("abstract ");
+                if (!info.IsEnum)
+                {
+
+                    if (info.GetCustomAttribute<IsReadOnlyAttribute>()!=default)
+                    {
+                        builder.Append("readonly ");
+                    }
+                    else if (info.IsByRefLike)
+                    {
+                        builder.Append("ref ");
+                    }
+
+                }
 
             }
+#endif
 
 
             return builder.ToString();

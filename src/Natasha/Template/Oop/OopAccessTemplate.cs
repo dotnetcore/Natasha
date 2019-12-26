@@ -48,6 +48,17 @@ namespace Natasha.Template
 
 
 
+        public T OopAccess(Type access)
+        {
+
+            OopAccessScript = AccessReverser.GetAccess(access);
+            return Link;
+
+        }
+
+
+
+
         public T Public
         {
             get { OopAccessScript = "public "; 

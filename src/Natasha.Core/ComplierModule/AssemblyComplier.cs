@@ -1,4 +1,5 @@
-﻿using Natasha.Core;
+﻿using Microsoft.CodeAnalysis;
+using Natasha.Core;
 using Natasha.Core.Complier;
 using System.IO;
 
@@ -22,6 +23,22 @@ namespace Natasha
         {
 
             var info = SyntaxInfos.Add(text);
+            ComplieException.ErrorFlag = info.ErrorFlag;
+            return info;
+
+        }
+
+
+
+        /// <summary>
+        /// 增加语法树
+        /// </summary>
+        /// <param name="node">语法树</param>
+        /// <returns></returns>
+        public CompilationException Add(SyntaxTree node)
+        {
+
+            var info = SyntaxInfos.Add(node);
             ComplieException.ErrorFlag = info.ErrorFlag;
             return info;
 

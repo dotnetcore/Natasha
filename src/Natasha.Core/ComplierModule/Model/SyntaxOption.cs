@@ -48,7 +48,7 @@ namespace Natasha.Core.Complier.Model
 
                 TreeCodeMapping.Add(tree, content);
                 TreeUsingMapping[tree] = sets;
-
+                
             }
             SyntaxExceptions.Add(exception);
             return exception;
@@ -56,6 +56,36 @@ namespace Natasha.Core.Complier.Model
 
         }
 
+        public CompilationException Add(SyntaxTree node)
+        {
+            CompilationException exception = new CompilationException();
+            var (tree, formartter, errors) = node;
 
+
+            exception.Formatter = formartter;
+            exception.Diagnostics.AddRange(errors);
+
+
+            if (exception.Diagnostics.Count != 0)
+            {
+
+                exception.ErrorFlag = ComplieError.Syntax;
+                exception.Message = "语法错误,请仔细检查脚本代码！";
+                NErrorLog log = new NErrorLog();
+                log.Handler(exception.Diagnostics);
+                log.Write();
+                exception.Log = log.Buffer.ToString();
+
+            }
+            else
+            {
+                
+                TreeCodeMapping.Add(tree, tree.ToString());
+                TreeUsingMapping[tree] = default;
+
+            }
+            SyntaxExceptions.Add(exception);
+            return exception;
+        }
     }
 }

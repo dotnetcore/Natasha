@@ -44,7 +44,7 @@ namespace NatashaUT
         [Fact(DisplayName = "多维数组解析")]
         public void TestType()
         {
-           
+
             Assert.Equal("List<Int32>[]", typeof(List<int>[]).GetDevelopName());
             Assert.Equal("List<Int32>[,]", typeof(List<int>[,]).GetDevelopName());
             Assert.Equal("List<Int32>[,][][,,,,]", typeof(List<int>[,][][,,,,]).GetDevelopName());
@@ -62,6 +62,17 @@ namespace NatashaUT
         public void TestInnerType()
         {
 
+            Assert.Equal("OopTestModel.InnerClass", typeof(OopTestModel.InnerClass).GetDevelopName());
+
+        }
+
+
+
+        [Fact(DisplayName = "类继承解析")]
+        public void TestInheritanceType()
+        {
+            var a = typeof(InheritanceTest).GetInterfaces();
+            var b = typeof(InheritanceTest).BaseType;
             Assert.Equal("OopTestModel.InnerClass", typeof(OopTestModel.InnerClass).GetDevelopName());
 
         }

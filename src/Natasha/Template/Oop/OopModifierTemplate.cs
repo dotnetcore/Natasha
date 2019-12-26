@@ -66,6 +66,17 @@ namespace Natasha.Template
 
 
 
+        public T OopModifier(Type type)
+        {
+
+            OopModifierScript = ModifierReverser.GetModifier(type);
+            return Link;
+
+        }
+
+
+
+
         public override T Builder()
         {
 
