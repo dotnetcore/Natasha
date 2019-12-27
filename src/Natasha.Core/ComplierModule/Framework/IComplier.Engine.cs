@@ -68,6 +68,14 @@ namespace Natasha.Core.Complier
                 {
 
 
+                    if (!Directory.Exists(_domain.DomainPath))
+                    {
+
+                        Directory.CreateDirectory(_domain.DomainPath);
+
+                    }
+
+
                     var path = Path.Combine(_domain.DomainPath, AssemblyName);
                     DllFilePath = path + ".dll";
                     PdbFilePath = path + ".pdb";

@@ -16,6 +16,7 @@ namespace Natasha
     public class AssemblyDomain : AssemblyLoadContext, IDisposable
     {
 
+
         public readonly ConcurrentDictionary<Assembly, AssemblyUnitInfo> AssemblyMappings;
         public readonly ConcurrentDictionary<string, Assembly> OutfileMapping;
         public readonly LinkedList<PortableExecutableReference> ReferencesCache;
@@ -23,6 +24,15 @@ namespace Natasha
         public readonly string DomainPath;
 #if NETSTANDARD2_0
         public string Name;
+#else
+        public readonly static Func<AssemblyDependencyResolver, Dictionary<string, string>> GetDictionary;
+        static AssemblyDomain()
+        {
+
+            var methodInfo = typeof(AssemblyDependencyResolver).GetField("_assemblyPaths", BindingFlags.NonPublic | BindingFlags.Instance);
+            GetDictionary = item => (Dictionary<string, string>)methodInfo.GetValue(item);
+
+        }
 #endif
 
 
@@ -31,6 +41,10 @@ namespace Natasha
         {
             get { return ReferencesCache.Count; }
         }
+
+
+
+
 
 
 
@@ -51,14 +65,6 @@ namespace Natasha
 
 
             DomainPath = Path.Combine(IComplier.CurrentPath, key);
-            if (!Directory.Exists(DomainPath))
-            {
-
-                Directory.CreateDirectory(DomainPath);
-
-            }
-
-            
             OutfileMapping = new ConcurrentDictionary<string, Assembly>();
             AssemblyMappings = new ConcurrentDictionary<Assembly, AssemblyUnitInfo>();
 
@@ -80,10 +86,10 @@ namespace Natasha
             {
 
                 ReferencesCache = new LinkedList<PortableExecutableReference>();
-//                this.Resolving += Default_Resolving;
-//#if !NETSTANDARD2_0
-//                this.ResolvingUnmanagedDll += Default_ResolvingUnmanagedDll;
-//#endif
+                //                this.Resolving += Default_Resolving;
+                //#if !NETSTANDARD2_0
+                //                this.ResolvingUnmanagedDll += Default_ResolvingUnmanagedDll;
+                //#endif
 
             }
             DomainManagment.Add(key, this);
@@ -125,7 +131,7 @@ namespace Natasha
                 throw new NullReferenceException("Type is null! This method can't be passed a null instance.");
             }
 
-             return RemoveAssembly(type.Assembly);
+            return RemoveAssembly(type.Assembly);
 
 
         }
@@ -194,7 +200,7 @@ namespace Natasha
             string assemblyPath = _load_resolver.ResolveAssemblyToPath(assemblyName);
             if (assemblyPath != null)
             {
-
+                //return LoadFromAssemblyPath(assemblyPath);
                 return Handler(new FileStream(assemblyPath, FileMode.Open));
 
             }
@@ -295,30 +301,65 @@ namespace Natasha
         public Assembly LoadFile(string path, bool isCover = false)
         {
 
-#if !NETSTANDARD2_0
-            _load_resolver = new AssemblyDependencyResolver(path);
-#endif
             if (isCover) { RemoveDll(path); }
 
+#if !NETSTANDARD2_0
 
-            var result = Handler(new AssemblyUnitInfo(this, path));
-            OutfileMapping[path] = result;
-            return result;
+            _load_resolver = new AssemblyDependencyResolver(path);
+            var newMapping = GetDictionary(_load_resolver);
+            lock (UsingDefaultCache.DefaultNamesapce)
+            {
+                foreach (var item in newMapping)
+                {
+                    if (!UsingDefaultCache.DefaultNamesapce.Contains(item.Key))
+                    {
+                        OutfileMapping[item.Value] = Handler(new AssemblyUnitInfo(this, item.Value));
+                    }
+                }
+            }
+
+#else
+
+             OutfileMapping[path] = Handler(new AssemblyUnitInfo(this, path));
+
+#endif
+           
+            return OutfileMapping[path];
 
         }
+
+
+
+
         public Assembly LoadStream(string path, bool isCover = false)
         {
 
-#if !NETSTANDARD2_0
-            _load_resolver = new AssemblyDependencyResolver(path);
-#endif
             if (isCover) { RemoveDll(path); }
 
+#if !NETSTANDARD2_0
 
-            var result = Handler(new AssemblyUnitInfo(this, new FileStream(path, FileMode.Open)));
-            OutfileMapping[path] = result;
-            return result;
+            _load_resolver = new AssemblyDependencyResolver(path);
+            var newMapping = GetDictionary(_load_resolver);
+            lock (UsingDefaultCache.DefaultNamesapce)
+            {
+                foreach (var item in newMapping)
+                {
+                    if (!UsingDefaultCache.DefaultNamesapce.Contains(item.Key))
+                    {
+                        OutfileMapping[item.Value] = Handler(new AssemblyUnitInfo(this, new FileStream(item.Value, FileMode.Open)));
+                    }
+                }
+            }
 
+
+#else
+
+             OutfileMapping[path] =  Handler(new AssemblyUnitInfo(this, new FileStream(path, FileMode.Open)));
+
+#endif
+
+            return OutfileMapping[path];
+         
         }
     }
 
