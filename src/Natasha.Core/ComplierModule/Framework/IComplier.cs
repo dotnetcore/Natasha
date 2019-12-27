@@ -19,6 +19,8 @@ namespace Natasha.Core.Complier
         public string AssemblyName;
         public bool ComplieInFile;
         public int ErrorRetryCount;
+        public string DllFilePath;
+        public string PdbFilePath;
         public readonly static string CurrentPath;
 
         static IComplier()

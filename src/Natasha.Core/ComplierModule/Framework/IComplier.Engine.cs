@@ -69,14 +69,14 @@ namespace Natasha.Core.Complier
 
 
                     var path = Path.Combine(_domain.DomainPath, AssemblyName);
-                    var dll = path + ".dll";
+                    DllFilePath = path + ".dll";
+                    PdbFilePath = path + ".pdb";
 
-
-                    var complieResult = compilation.Emit(dll, path + ".pdb");
+                    var complieResult = compilation.Emit(DllFilePath, PdbFilePath);
                     if (complieResult.Success)
                     {
 
-                        return (_domain.Handler(dll), default, compilation);
+                        return (_domain.Handler(new FileStream(DllFilePath, FileMode.Open)), default, compilation);
 
                     }
                     else
