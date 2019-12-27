@@ -190,7 +190,7 @@ namespace Natasha
         protected override Assembly Load(AssemblyName assemblyName)
         {
 
-#if  !NETSTANDARD2_0
+#if !NETSTANDARD2_0
             string assemblyPath = _load_resolver.ResolveAssemblyToPath(assemblyName);
             if (assemblyPath != null)
             {

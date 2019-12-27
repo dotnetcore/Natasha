@@ -131,7 +131,7 @@ namespace Natasha.Template
 
             if (assembly != default)
             {
-                Using(assembly.GetTypes());
+                Using(assembly.ExportedTypes);
             }
             return Link;
 
