@@ -1,5 +1,4 @@
 ﻿using Natasha;
-using Natasha.Core;
 
 namespace System
 {
@@ -10,7 +9,7 @@ namespace System
         public static AssemblyDomain GetDomain(this Type type)
         {
 
-            return DomainCache.GetDomain(type);
+            return type.Assembly.GetDomain();
 
         }
 
@@ -18,7 +17,7 @@ namespace System
         public static void RemoveReferences(this Type type)
         {
 
-            DomainCache.RemoveReferences(type);
+            type.Assembly.RemoveReferences();
 
         }
 
@@ -27,7 +26,7 @@ namespace System
         public static void DisposeDomain(this Type type)
         {
 
-            DomainCache.DisposeDomain(type);
+            type.Assembly.DisposeDomain();
 
         }
 

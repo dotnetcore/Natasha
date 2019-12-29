@@ -90,12 +90,14 @@ namespace NatashaUT
         public static void UnloadDelegate()
         {
             Assert.Equal(3, RunDelegate6());
+#if !NETCOREAPP2_2
             for (int i = 0; i < 6; i++)
             {
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
             }
             Assert.True(DomainManagment.IsDeleted("NDomain6"));
+#endif
         }
 
 

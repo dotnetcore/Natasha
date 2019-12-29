@@ -1,5 +1,6 @@
 ﻿using Natasha;
 using System;
+using System.Runtime.CompilerServices;
 using Xunit;
 
 namespace NatashaUT
@@ -43,6 +44,7 @@ namespace NatashaUT
 
         }
 
+        [MethodImpl(MethodImplOptions.NoInlining)]
         public void Test3()
         {
             var handler = DomainOperator.Instance
@@ -55,8 +57,9 @@ namespace NatashaUT
                 }" | "W1233";
 
             var type = handler.GetType();
-            type.DisposeDomain();
             Assert.Equal("DomainTest1", type.Name);
+            DomainManagment.Get("DomainOperatorTest3").Dispose();
+            //type.DisposeDomain();
 
         }
 
@@ -64,12 +67,14 @@ namespace NatashaUT
         public void UnloadTest3()
         {
             Test3();
-            for (int i = 0; i < 6; i++)
+#if !NETCOREAPP2_2
+            for (int i = 0; i < 10; i++)
             {
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
             }
             Assert.True(DomainManagment.IsDeleted("DomainOperatorTest3"));
+#endif
         }
         public void Test4()
         {
@@ -90,12 +95,14 @@ namespace NatashaUT
         public void UnloadTest4()
         {
             Test4();
-            for (int i = 0; i < 6; i++)
+#if !NETCOREAPP2_2
+            for (int i = 0; i < 10; i++)
             {
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
             }
             Assert.True(DomainManagment.IsDeleted("Tesst4Domain"));
+#endif
         }
     }
 }

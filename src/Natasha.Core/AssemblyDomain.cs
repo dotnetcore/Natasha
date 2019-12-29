@@ -160,7 +160,6 @@ namespace Natasha
 
                     var info = AssemblyMappings[assembly];
                     ReferencesCache.Remove(info.Reference);
-                    DomainCache.Remove(assembly);
                     return true;
 
                 }
@@ -177,19 +176,18 @@ namespace Natasha
         public void Dispose()
         {
 
-
-            DomainCache.Clear(this);
-            ReferencesCache.Clear();
-            OutfileMapping.Clear();
-            AssemblyMappings.Clear();
+            
 #if !NETSTANDARD2_0
             _load_resolver = null;
 #endif
+            ReferencesCache.Clear();
+            OutfileMapping.Clear();
+            AssemblyMappings.Clear();
 
         }
 
 
-#if  !NETSTANDARD2_0
+#if !NETSTANDARD2_0
         private AssemblyDependencyResolver _load_resolver;
 #endif
 

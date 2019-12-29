@@ -1,5 +1,5 @@
-﻿using Natasha.Core;
-using System.Reflection;
+﻿using System.Reflection;
+using System.Runtime.Loader;
 
 namespace Natasha
 {
@@ -21,10 +21,10 @@ namespace Natasha
 
 
 
-        public static AssemblyDomain GetDomain(this Assembly @delegate)
+        public static AssemblyDomain GetDomain(this Assembly assembly)
         {
 
-            return DomainCache.GetDomain(@delegate);
+            return (AssemblyDomain)AssemblyLoadContext.GetLoadContext(assembly);
 
         }
 
@@ -34,7 +34,7 @@ namespace Natasha
         public static void RemoveReferences(this Assembly assembly)
         {
 
-            DomainCache.RemoveReferences(assembly);
+            GetDomain(assembly).RemoveAssembly(assembly);
 
         }
 
@@ -43,7 +43,7 @@ namespace Natasha
         public static void DisposeDomain(this Assembly assembly)
         {
 
-            DomainCache.DisposeDomain(assembly);
+            GetDomain(assembly).Dispose();
 
         }
 
