@@ -88,6 +88,9 @@ WeihanLi
   - 2019-12-25 ： 发布v2.8.0.0, Natasha 日志操作类改名 NError => NErrorLog / NSucceed => NSucceedLog / NWarning => NWarningLog； 对外开放 DomainManagement.Clear 方法方便手动清除已卸载的域； 增强和修复 CS0234 的替换规则，识别父命名空间正则移除父子命名空间；引擎语法树选项内部进行细微优化。
   
   - 2019-12-26 ： 发布v2.8.5.0, Natasha 增强反解类； 引擎增加接收语法树的 API. 启动项目 [[动态插件编译]](https://github.com/night-moon-studio/DynamicPlugIn) 支持运行时改变部分插件的功能，重编译插件。
+  
+  - 2020-01-01 ： 发布v2.8.10.0, Natasha 移除程序集域映射，使用官方的 API 进行域转换；.NET Standard2.0 支持扫描同DLL文件目录下的所有依赖文件项。
+  
  <br/>  
  
  
