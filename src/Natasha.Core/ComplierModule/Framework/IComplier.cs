@@ -124,7 +124,10 @@ namespace Natasha.Core.Complier
 
                             CS0234SHUT = true;
                             var tempResult = CS0234Helper.Handler(item.Descriptor.MessageFormat.ToString(), item.GetMessage());
-                            UsingDefaultCache.Remove(tempResult);
+                            lock (UsingDefaultCache.DefaultNamesapce)
+                            {
+                                UsingDefaultCache.Remove(tempResult);
+                            }
                             var tempTree = item.Location.SourceTree;
                             var tempCode = tempCache[tempTree];
                             tempCache[tempTree] = Regex.Replace(tempCode, $"using {tempResult}(.*?);", "");
@@ -140,7 +143,10 @@ namespace Natasha.Core.Complier
                             CS0246Helper.Handler(item.Descriptor.MessageFormat.ToString(), item.GetMessage());
                             foreach (var @using in CS0246Helper.GetUsings(formart, tempCode))
                             {
-                                UsingDefaultCache.Remove(@using);
+                                lock (UsingDefaultCache.DefaultNamesapce)
+                                {
+                                    UsingDefaultCache.Remove(@using);
+                                }
                                 tempCache[tempTree] = tempCode.Replace($"using {@using};", "");
                             }
 

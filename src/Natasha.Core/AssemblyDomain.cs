@@ -277,11 +277,17 @@ namespace Natasha
             lock (ObjLock)
             {
                 Assembly result = info.Assembly;
-                if (result != default)
+                if (!AssemblyMappings.ContainsKey(result))
                 {
-                    AssemblyMappings[result] = info;
+
+                    if (result != default)
+                    {
+                        AssemblyMappings[result] = info;
+                    }
+                    ReferencesCache.AddLast(info.Reference);
+
                 }
-                ReferencesCache.AddLast(info.Reference);
+               
                 return result;
             }
 
@@ -318,7 +324,12 @@ namespace Natasha
 
 #else
 
-             OutfileMapping[path] = Handler(new AssemblyUnitInfo(this, path));
+            var dllPath = Path.GetDirectoryName(path);
+            string[] dllFiles = Directory.GetFiles(dllPath, "*.dll", SearchOption.AllDirectories);
+            for (int i = 0; i < dllFiles.Length; i++)
+            {
+                OutfileMapping[path] = Handler(new AssemblyUnitInfo(this, dllFiles[i]));
+            }
 
 #endif
            
@@ -349,10 +360,14 @@ namespace Natasha
                 }
             }
 
-
 #else
 
-             OutfileMapping[path] =  Handler(new AssemblyUnitInfo(this, new FileStream(path, FileMode.Open)));
+            var dllPath = Path.GetDirectoryName(path);
+            string[] dllFiles = Directory.GetFiles(dllPath, "*.dll", SearchOption.AllDirectories);
+            for (int i = 0; i < dllFiles.Length; i++)
+            {
+                OutfileMapping[path] = Handler(new AssemblyUnitInfo(this, new FileStream(dllFiles[i], FileMode.Open)));
+            }
 
 #endif
 
