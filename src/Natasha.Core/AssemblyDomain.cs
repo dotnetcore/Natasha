@@ -302,10 +302,19 @@ namespace Natasha
         /// <param name="path">dll文件路径</param>
         /// <param name="isCover">是否覆盖原有的同路径的dll</param>
         /// <returns></returns>
-        public Assembly LoadFile(string path, bool isCover = false)
+        public Assembly LoadFile(string path, bool isCover = false, params string[] excludePaths)
         {
 
             if (isCover) { RemoveDll(path); }
+            HashSet<string> exclude;
+            if (excludePaths==default)
+            {
+                exclude = new HashSet<string>();
+            }
+            else
+            {
+                exclude = new HashSet<string>(excludePaths);
+            }
 
 #if !NETSTANDARD2_0
 
@@ -317,7 +326,10 @@ namespace Natasha
                 {
                     if (!UsingDefaultCache.DefaultNamesapce.Contains(item.Key))
                     {
-                        OutfileMapping[item.Value] = Handler(new AssemblyUnitInfo(this, item.Value));
+                        if (!exclude.Contains(item.Value))
+                        {
+                            OutfileMapping[item.Value] = Handler(new AssemblyUnitInfo(this, item.Value));
+                        }
                     }
                 }
             }
@@ -328,7 +340,12 @@ namespace Natasha
             string[] dllFiles = Directory.GetFiles(dllPath, "*.dll", SearchOption.AllDirectories);
             for (int i = 0; i < dllFiles.Length; i++)
             {
-                OutfileMapping[path] = Handler(new AssemblyUnitInfo(this, dllFiles[i]));
+
+                if (!exclude.Contains(dllFiles[i]))
+                {
+                    OutfileMapping[dllFiles[i]] = Handler(new AssemblyUnitInfo(this, dllFiles[i]));
+                }
+                
             }
 
 #endif
@@ -340,10 +357,19 @@ namespace Natasha
 
 
 
-        public Assembly LoadStream(string path, bool isCover = false)
+        public Assembly LoadStream(string path, bool isCover = false, params string[] excludePaths)
         {
 
             if (isCover) { RemoveDll(path); }
+            HashSet<string> exclude;
+            if (excludePaths == default)
+            {
+                exclude = new HashSet<string>();
+            }
+            else
+            {
+                exclude = new HashSet<string>(excludePaths);
+            }
 
 #if !NETSTANDARD2_0
 
@@ -355,7 +381,10 @@ namespace Natasha
                 {
                     if (!UsingDefaultCache.DefaultNamesapce.Contains(item.Key))
                     {
-                        OutfileMapping[item.Value] = Handler(new AssemblyUnitInfo(this, new FileStream(item.Value, FileMode.Open)));
+                        if (!exclude.Contains(item.Value))
+                        {
+                            OutfileMapping[item.Value] = Handler(new AssemblyUnitInfo(this, new FileStream(item.Value, FileMode.Open)));
+                        }
                     }
                 }
             }
@@ -366,7 +395,10 @@ namespace Natasha
             string[] dllFiles = Directory.GetFiles(dllPath, "*.dll", SearchOption.AllDirectories);
             for (int i = 0; i < dllFiles.Length; i++)
             {
-                OutfileMapping[path] = Handler(new AssemblyUnitInfo(this, new FileStream(dllFiles[i], FileMode.Open)));
+                if (!exclude.Contains(dllFiles[i]))
+                {
+                    OutfileMapping[dllFiles[i]] = Handler(new AssemblyUnitInfo(this, new FileStream(dllFiles[i], FileMode.Open)));
+                }
             }
 
 #endif
