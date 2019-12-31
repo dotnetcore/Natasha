@@ -113,5 +113,29 @@ namespace NatashaUT
 
             Assert.Equal("DomainTest1", type.Name);
         }
+
+
+        [Fact(DisplayName = "类型比域")]
+        public void TestTypeEqual()
+        {
+            var domain = DomainManagment.Random;
+            var type = NDomain.Create(domain).GetType(
+                @"public class  DomainTest1{
+                        public string Name;
+                        public DomainOperator Operator;
+                }");
+
+            Assert.Equal(domain, type.GetDomain());
+        }
+
+
+        [Fact(DisplayName = "委托比域")]
+        public void TestDelegateEqual()
+        {
+            var domain = DomainManagment.Random;
+            var action = NDomain.Create(domain).Action(
+                @"int i = 1+1;");
+            Assert.Equal(domain, action.GetDomain());
+        }
     }
 }
