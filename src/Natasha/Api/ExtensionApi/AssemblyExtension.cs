@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using System.Runtime.Loader;
 
 namespace Natasha
@@ -24,7 +25,12 @@ namespace Natasha
         public static AssemblyDomain GetDomain(this Assembly assembly)
         {
 
-            return (AssemblyDomain)AssemblyLoadContext.GetLoadContext(assembly);
+            var assemblyDomain = AssemblyLoadContext.GetLoadContext(assembly);
+            if (assemblyDomain == AssemblyLoadContext.Default)
+            {
+                return DomainManagment.Default;
+            }
+            return (AssemblyDomain)assemblyDomain;
 
         }
 
