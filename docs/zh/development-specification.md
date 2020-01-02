@@ -45,11 +45,9 @@ Natasha有自己的封装规则，这可以让封装者思路更加清晰，并�
      
         为了对接编译引擎和搜集异常，Natasha使用抽象类IComplier进行基础的编译工作，
         包括：选择编译方式/获取程序集/获取类型/获取方法元数据/获取委托。  
-        引擎之外便是编译层，其中实现了OopComplier/MethodComplier
+        引擎之外便是编译层，Natasha统一采用AssemblyComplier编译器。
         
-      - OopComplier : 在抽象编译器的基础上，区分了获取类、结构体以及接口的方法。  
-      
-      - MethodComplier : 在抽象编译器的基础上，对获取委托方法进行了包装。
+      - AssemblyComplier : 在抽象编译器的基础上，区分了获取类、结构体以及接口的方法，并对获取委托方法进行了包装。  
         
         
 
@@ -58,9 +56,10 @@ Natasha有自己的封装规则，这可以让封装者思路更加清晰，并�
 
 ## Operator
 
-Operator 在 Builder的基础上进行封装，Builder提供了脚本构建以及编译的大部分功能，因此，Operator的封装需要更专注功能及扩展的开发。    
+Operator 在 Builder 的基础上进行封装，Builder提供了脚本构建以及编译的大部分功能，因此，Operator的封装需要更专注功能及扩展的开发。    
 对于扩展而言，Operator或者Builder写好之后，可以根据需要，封装一个扩展方法，给用户使用。  
 Operator的功能是根据自己的需求进行定制的。
+
 
 #### 案例  
 
