@@ -56,11 +56,17 @@ Emit 和表达式树的使用场景，Natasha 均适用。
   
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.2</TargetFramework>
+
+    //控制台/桌面如下
+    <PreserveCompilationContext>true</PreserveCompilationContext>
     
-    //要加上这句话
-    <PreserveCompilationContext>true</PreserveCompilationContext> 
-    //WEB发布一定要加
-    <MvcRazorExcludeRefAssembliesFromPublish>false</MvcRazorExcludeRefAssembliesFromPublish> 
+    //老版WEB需要
+    <MvcRazorExcludeRefAssembliesFromPublish>false</MvcRazorExcludeRefAssembliesFromPublish>
+    
+    //3.1 新版WEB要加
+    <PreserveCompilationReferences>true</PreserveCompilationReferences>
+    //3.1 如果不加上面节点也可以引用Razor的编译服务
+    Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation
     
   </PropertyGroup>
  
