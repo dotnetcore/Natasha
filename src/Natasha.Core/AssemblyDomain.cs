@@ -159,7 +159,11 @@ namespace Natasha
                     }
 
                     var info = AssemblyMappings[assembly];
-                    ReferencesCache.Remove(info.Reference);
+                    if (ReferencesCache.Contains(info.Reference.Value))
+                    {
+                        ReferencesCache.Remove(info.Reference);
+                    }
+                   
                     return true;
 
                 }
