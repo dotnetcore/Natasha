@@ -130,11 +130,16 @@ WeihanLi
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     
-    //一定要加上这句话
+    //控制台/桌面如下
     <PreserveCompilationContext>true</PreserveCompilationContext>
     
-    //WEB发布要加
+    //老版WEB需要
     <MvcRazorExcludeRefAssembliesFromPublish>false</MvcRazorExcludeRefAssembliesFromPublish>
+    
+    //3.1 新版WEB要加
+    <PreserveCompilationReferences>true</PreserveCompilationReferences>
+    //3.1 如果不加上面节点也可以引用Razor的编译服务
+    Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation
     
   </PropertyGroup>
  
