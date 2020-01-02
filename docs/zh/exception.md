@@ -47,12 +47,15 @@ Operator.Complier.ComplieException
 
 #### 开启日志：
 ```C#
-NSucceed.Enabled = true;
-NError.Enabled = true;
+NSucceedLog.Enabled = true;
+NErrorLog.Enabled = true;
+NWarningLog.Enabled = true;
+
 ```  
 
 #### 关闭日志：
 ```C#
-NSucceed.Enabled = false;
-NError.Enabled = false;
+NSucceedLog.Enabled = false;
+NErrorLog.Enabled = false;
+NWarningLog.Enabled = false
 ```
