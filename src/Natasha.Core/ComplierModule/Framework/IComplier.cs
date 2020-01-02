@@ -39,7 +39,7 @@ namespace Natasha.Core.Complier
 
             ComplieException = new CompilationException();
             _domain = DomainManagment.Default;
-            References = new List<PortableExecutableReference>(_domain.ReferencesCache);
+            References = new List<PortableExecutableReference>();
             SyntaxInfos = new SyntaxOption();
             SyntaxExceptions = SyntaxInfos.SyntaxExceptions;
             //ComplieInFile = true;

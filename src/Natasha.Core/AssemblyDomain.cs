@@ -19,6 +19,7 @@ namespace Natasha
 
         public readonly ConcurrentDictionary<Assembly, AssemblyUnitInfo> AssemblyMappings;
         public readonly ConcurrentDictionary<string, Assembly> OutfileMapping;
+        public readonly ConcurrentDictionary<string, PortableExecutableReference> ShortReferenceMappings;
         public readonly LinkedList<PortableExecutableReference> ReferencesCache;
         public readonly object ObjLock;
         public readonly string DomainPath;
@@ -67,14 +68,20 @@ namespace Natasha
             DomainPath = Path.Combine(IComplier.CurrentPath, key);
             OutfileMapping = new ConcurrentDictionary<string, Assembly>();
             AssemblyMappings = new ConcurrentDictionary<Assembly, AssemblyUnitInfo>();
-
+            ShortReferenceMappings = new ConcurrentDictionary<string, PortableExecutableReference>();
 
             if (key == "Default")
             {
 
                 var _ref = DependencyContext.Default.CompileLibraries
                                 .SelectMany(cl => cl.ResolveReferencePaths())
-                                .Select(asm => MetadataReference.CreateFromFile(asm));
+                                .Select(asm =>
+                                {
+                                    var table = MetadataReference.CreateFromFile(asm);
+                                    ShortReferenceMappings[Path.GetFileName(asm)] = table;
+                                    return table;
+                                });
+
                 ReferencesCache = new LinkedList<PortableExecutableReference>(_ref);
                 Default.Resolving += Default_Resolving;
 #if !NETSTANDARD2_0
@@ -86,10 +93,6 @@ namespace Natasha
             {
 
                 ReferencesCache = new LinkedList<PortableExecutableReference>();
-                //                this.Resolving += Default_Resolving;
-                //#if !NETSTANDARD2_0
-                //                this.ResolvingUnmanagedDll += Default_ResolvingUnmanagedDll;
-                //#endif
 
             }
             DomainManagment.Add(key, this);
@@ -163,7 +166,7 @@ namespace Natasha
                     {
                         ReferencesCache.Remove(info.Reference);
                     }
-                   
+
                     return true;
 
                 }
@@ -180,10 +183,11 @@ namespace Natasha
         public void Dispose()
         {
 
-            
+
 #if !NETSTANDARD2_0
             _load_resolver = null;
 #endif
+            ShortReferenceMappings.Clear();
             ReferencesCache.Clear();
             OutfileMapping.Clear();
             AssemblyMappings.Clear();
@@ -291,7 +295,7 @@ namespace Natasha
                     ReferencesCache.AddLast(info.Reference);
 
                 }
-               
+
                 return result;
             }
 
@@ -311,7 +315,7 @@ namespace Natasha
 
             if (isCover) { RemoveDll(path); }
             HashSet<string> exclude;
-            if (excludePaths==default)
+            if (excludePaths == default)
             {
                 exclude = new HashSet<string>();
             }
@@ -324,18 +328,17 @@ namespace Natasha
 
             _load_resolver = new AssemblyDependencyResolver(path);
             var newMapping = GetDictionary(_load_resolver);
-            lock (UsingDefaultCache.DefaultNamesapce)
+
+            foreach (var item in newMapping)
             {
-                foreach (var item in newMapping)
+
+                if (!exclude.Contains(item.Value))
                 {
-                    if (!UsingDefaultCache.DefaultNamesapce.Contains(item.Key))
-                    {
-                        if (!exclude.Contains(item.Value))
-                        {
-                            OutfileMapping[item.Value] = Handler(new AssemblyUnitInfo(this, item.Value));
-                        }
-                    }
+                    var info = new AssemblyUnitInfo(this, item.Value);
+                    OutfileMapping[item.Value] = Handler(info);
+                    ShortReferenceMappings[Path.GetFileName(item.Value)] = info.Reference.Value;
                 }
+
             }
 
 #else
@@ -347,13 +350,15 @@ namespace Natasha
 
                 if (!exclude.Contains(dllFiles[i]))
                 {
-                    OutfileMapping[dllFiles[i]] = Handler(new AssemblyUnitInfo(this, dllFiles[i]));
+                    var info = new AssemblyUnitInfo(this, dllFiles[i]);
+                    OutfileMapping[dllFiles[i]] = Handler(info);
+                    ShortReferenceMappings[Path.GetFileName(dllFiles[i])] = info.Reference.Value;
                 }
                 
             }
 
 #endif
-           
+
             return OutfileMapping[path];
 
         }
@@ -379,19 +384,20 @@ namespace Natasha
 
             _load_resolver = new AssemblyDependencyResolver(path);
             var newMapping = GetDictionary(_load_resolver);
-            lock (UsingDefaultCache.DefaultNamesapce)
+
+
+            foreach (var item in newMapping)
             {
-                foreach (var item in newMapping)
+
+                if (!exclude.Contains(item.Value))
                 {
-                    if (!UsingDefaultCache.DefaultNamesapce.Contains(item.Key))
-                    {
-                        if (!exclude.Contains(item.Value))
-                        {
-                            OutfileMapping[item.Value] = Handler(new AssemblyUnitInfo(this, new FileStream(item.Value, FileMode.Open)));
-                        }
-                    }
+                    var info = new AssemblyUnitInfo(this, new FileStream(item.Value, FileMode.Open));
+                    OutfileMapping[item.Value] = Handler(info);
+                    ShortReferenceMappings[Path.GetFileName(item.Value)] = info.Reference.Value;
                 }
+
             }
+
 
 #else
 
@@ -401,14 +407,16 @@ namespace Natasha
             {
                 if (!exclude.Contains(dllFiles[i]))
                 {
-                    OutfileMapping[dllFiles[i]] = Handler(new AssemblyUnitInfo(this, new FileStream(dllFiles[i], FileMode.Open)));
+                    var info = new AssemblyUnitInfo(this, new FileStream(dllFiles[i], FileMode.Open));
+                    OutfileMapping[dllFiles[i]] = Handler(info);
+                    ShortReferenceMappings[Path.GetFileName(dllFiles[i])] = info.Reference.Value;
                 }
             }
 
 #endif
 
             return OutfileMapping[path];
-         
+
         }
     }
 

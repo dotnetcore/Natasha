@@ -25,12 +25,26 @@ namespace Natasha.Core.Complier
             lock (Domain)
             {
 
-
+                References.Clear();
                 if (_domain != DomainManagment.Default)
                 {
 
+                    var defaultDomain = DomainManagment.Default;
+                    var sets = new HashSet<PortableExecutableReference>(defaultDomain.ReferencesCache);
+                    foreach (var item in _domain.ShortReferenceMappings)
+                    {
+                        if (defaultDomain.ShortReferenceMappings.ContainsKey(item.Key))
+                        {
+                            sets.Remove(defaultDomain.ShortReferenceMappings[item.Key]);
+                        }
+                    }
                     References.AddRange(_domain.ReferencesCache);
+                    References.AddRange(sets);
 
+                }
+                else
+                {
+                    References.AddRange(_domain.ReferencesCache);
                 }
                 //创建语言编译
                 CSharpCompilation compilation = CSharpCompilation.Create(
