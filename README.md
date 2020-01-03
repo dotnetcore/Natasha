@@ -74,14 +74,6 @@ WeihanLi
 
 ### 发布日志  
 
- 
-  - 2019-12-07 ： 发布v2.5.4.0, 增加 CS0234 以及 CS0246 错误自动修复机制，命名空间在无效时会自动剔除并重编译，增加 CS0104 的替换逻辑，在未手动解决二义性时，默认使用靠前的命名空间, 由 NDomain 创建的独立/随机域类型/结构/枚举/接口将支持回收。
-  
-  - 2019-12-10 ： 发布v2.6.1.0, 移除NFunc / RFunc / NAction / RAction / NDelegateOperator / RDelegateOperator / 字符串扩展方法 / 委托扩展方法；改 Delete 卸载方法为 DisposeDomain ，改 AddInCache 为内部方法不对外开放；三个静态创建实例的方法（Create(string) / Create(AssemblyDomain) / Random()）增加第二个参数，指定是否以文件方式进行编译，默认为 false，增加静态属性 Default 作为系统域即 Create()方法返回实例。
-
-  - 2019-12-16 ： 发布v2.7.0.1, 分离项目，Natasha.Core 项目负责原始编译的 API 以及域操作，Natasha.Reverser 项目负责运行时信息反解操作，Natasha 项目引用了 Natasha.Core 以及 Natasha.Reverser 并组建了 Template / Builder / Operator 动态构建三件套，提供便利的 API 以便对外使用。
-  
-  - 2019-12-17 ： 发布v2.7.3.0, Natasha 非系统域生成的操作均进行了缓存，以便进行引用移除/域卸载等操作， Type / Delegate / Assembly 均可以使用 RemoveReferences / DisposeDomain 方法进行引用移除或者卸载域操作。
   
   - 2019-12-18 ： 发布v2.7.6.0, Natasha 方法操作类增加 Override 和 NewHidden 方法， NAssembly 增加三种域创建方式， 移除代理操作类到 NCaller 项目中。
   
@@ -91,6 +83,7 @@ WeihanLi
   
   - 2020-01-01 ： 发布v2.8.11.0, Natasha 移除程序集域映射，使用官方的 API 进行域转换；.NET Standard2.0 支持扫描同DLL文件目录下的所有依赖文件项。
   
+  - 2020-01-03 ： 发布v2.9.0.0, 修改大量静态初始化 API, 支持运行时引发异常， 支持新域内外部插件优先覆盖系统域插件进行编译， 修复若干编译器 BUG。 补操作文档：https://github.com/dotnetcore/Natasha/blob/master/docs/zh/api/static-init.md 。
  <br/>  
  
  
@@ -115,7 +108,7 @@ WeihanLi
 ### 使用方法(User Api)：  
 
  <br/>  
- 
+
  > 更多更新的参考文档：https://natasha.dotnetcore.xyz/  
 
 <br/>    
