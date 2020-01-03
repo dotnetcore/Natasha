@@ -10,7 +10,7 @@
  - [开发规范](./zh/development-specification.md)  
  
  - [API速查表](./zh/api/index.md)  
- 
+   - [API的静态初始化操作](./zh/api/static-init.md)
    - [API速查案例](./zh/api/api-samples.md)
    - [API扩展案例](./zh/api/extensions-samples.md)  
    
