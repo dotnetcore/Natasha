@@ -160,15 +160,23 @@ namespace Natasha
 
                     if (PathMapping.ContainsKey(assembly))
                     {
+
+                        while (!ShortReferenceMappings.TryRemove(Path.GetFileName(PathMapping[assembly]), out var _)) { };
                         while (!OutfileMapping.TryRemove(PathMapping[assembly], out var _)) { };
                         while (!PathMapping.TryRemove(assembly, out var _)) { };
+                       
                     }
+
 
                     var info = AssemblyMappings[assembly];
                     if (ReferencesCache.Contains(info.Reference.Value))
                     {
                         ReferencesCache.Remove(info.Reference);
                     }
+
+
+                    while (!AssemblyMappings.TryRemove(assembly, out var _)) { };
+
 
                     return true;
 
