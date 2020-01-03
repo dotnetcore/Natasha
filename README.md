@@ -91,6 +91,7 @@ WeihanLi
   
   - 2020-01-01 ： 发布v2.8.11.0, Natasha 移除程序集域映射，使用官方的 API 进行域转换；.NET Standard2.0 支持扫描同DLL文件目录下的所有依赖文件项。
   
+  - 2020-01-03 ： 发布v2.9.0.0, 修改大量静态初始化 API, 支持运行时引发异常， 支持新域内外部插件优先覆盖系统域插件进行编译， 修复若干编译器 BUG。 补操作文档：https://github.com/dotnetcore/Natasha/blob/master/docs/zh/api/static-init.md 。
  <br/>  
  
  
@@ -115,7 +116,7 @@ WeihanLi
 ### 使用方法(User Api)：  
 
  <br/>  
- 
+
  > 更多更新的参考文档：https://natasha.dotnetcore.xyz/  
 
 <br/>    
