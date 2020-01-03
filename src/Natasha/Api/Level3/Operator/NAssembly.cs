@@ -40,65 +40,94 @@ namespace Natasha
 
 
 
-        public static NAssembly Default
+        #region 指定字符串域创建以及参数
+        public static NAssembly Create(string domainName, ComplierResultTarget target, ComplierResultError error = ComplierResultError.None)
         {
 
-            get { return Create(); }
+            return Create(domainName, error, target);
 
         }
-        /// <summary>
-        /// 创建一个程序集操作类
-        /// </summary>
-        /// <param name="domainName">域名，为空使用系统域</param>
-        /// <param name="complieInFile">是否将动态内容编译成DLL</param>
-        /// <returns></returns>
-        public static NAssembly Create(string domainName = default, bool complieInFile = false)
+
+        public static NAssembly Create(string domainName, ComplierResultError error, ComplierResultTarget target = ComplierResultTarget.Stream)
         {
 
-            NAssembly instance = new NAssembly();
-            instance.Options.ComplieInFile = complieInFile;
-
-
-            if (domainName == default)
+            if (domainName == default || domainName.ToLower() == "default")
             {
-                instance.Options.Domain = DomainManagment.Default;
+                return Create(DomainManagment.Default, target, error);
             }
             else
             {
-                instance.Options.Domain = DomainManagment.Create(domainName);
+                return Create(DomainManagment.Create(domainName), target, error);
             }
 
-            return instance;
+        }
+        #endregion
+        #region 指定域创建以及参数
+        public static NAssembly Create(AssemblyDomain domain, ComplierResultError error, ComplierResultTarget target = ComplierResultTarget.Stream)
+        {
+
+            return Create(domain, target, error);
 
         }
 
-        public static NAssembly Create(AssemblyDomain domain, bool complieInFile = false)
+        public static NAssembly Create(AssemblyDomain domain, ComplierResultTarget target, ComplierResultError error = ComplierResultError.None)
         {
 
             NAssembly instance = new NAssembly();
-            instance.Options.ComplieInFile = complieInFile;
+            instance.Options.EnumCRError = error;
+            instance.Options.EnumCRTarget = target;
             instance.Options.Domain = domain;
             return instance;
 
         }
-
-
-
-
-        /// <summary>
-        /// 在随机域内创建一个操作类
-        /// </summary>
-        /// <param name="complieInFile">是否将动态内容写入DLL</param>
-        /// <returns></returns>
-        public static NAssembly Random(bool complieInFile = false)
+        #endregion
+        #region  Default 默认域创建以及参数
+        public static NAssembly Default()
         {
 
-            NAssembly instance = new NAssembly();
-            instance.Options.ComplieInFile = complieInFile;
-            instance.Options.Domain = DomainManagment.Random;
-            return instance;
+            return Create(DomainManagment.Default, ComplierResultTarget.Stream);
 
         }
+
+        public static NAssembly Default(ComplierResultError error, ComplierResultTarget target = ComplierResultTarget.Stream)
+        {
+
+            return Create(DomainManagment.Default, target, error);
+
+        }
+
+        public static NAssembly Default(ComplierResultTarget target, ComplierResultError error = ComplierResultError.None)
+        {
+
+            return Create(DomainManagment.Default, target, error);
+
+        }
+        #endregion
+        #region 随机域创建以及参数
+        public static NAssembly Random()
+        {
+
+            return Create(DomainManagment.Random, ComplierResultTarget.Stream);
+
+        }
+
+
+        public static NAssembly Random(ComplierResultError error, ComplierResultTarget target = ComplierResultTarget.Stream)
+        {
+
+            return Create(DomainManagment.Random, target, error);
+
+        }
+
+
+        public static NAssembly Random(ComplierResultTarget target, ComplierResultError error = ComplierResultError.None)
+        {
+
+            return Create(DomainManagment.Random, target, error);
+
+        }
+        #endregion
+
 
 
 

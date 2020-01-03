@@ -9,74 +9,101 @@ namespace Natasha
     {
 
         private OopOperator _operator;
-        private AssemblyDomain _domain;
-        private bool _complieInFile;
+        private readonly AssemblyComplier Complier;
         public DomainOperator()
         {
             _operator = new OopOperator();
+            Complier = new AssemblyComplier();
         }
 
 
-        public static DomainOperator Instance
-        {
-            get { return new DomainOperator(); }
-        }
-
-        public static DomainOperator Default
+        #region 指定字符串域创建以及参数
+        public static DomainOperator Create(string domainName, ComplierResultTarget target = ComplierResultTarget.Stream, ComplierResultError error = ComplierResultError.None)
         {
 
-            get { return Create(); }
+            return Create(domainName, error, target);
 
         }
 
-        public static DomainOperator Create(string domainName = default, bool complieInFile = false)
+        public static DomainOperator Create(string domainName, ComplierResultError error, ComplierResultTarget target = ComplierResultTarget.Stream)
         {
 
-            DomainOperator instance = new DomainOperator
+            if (domainName == default || domainName.ToLower() == "default")
             {
-                _complieInFile = complieInFile
-            };
-
-
-            if (domainName == default)
-            {
-                instance._domain = DomainManagment.Default;
+                return Create(DomainManagment.Default, target, error);
             }
             else
             {
-                instance._domain = DomainManagment.Create(domainName);
+                return Create(DomainManagment.Create(domainName), target, error);
             }
 
-            return instance;
-
         }
-
-        public static DomainOperator Create(AssemblyDomain domain, bool complieInFile = false)
+        #endregion
+        #region 指定域创建以及参数
+        public static DomainOperator Create(AssemblyDomain domain, ComplierResultError error, ComplierResultTarget target = ComplierResultTarget.Stream)
         {
 
-            DomainOperator instance = new DomainOperator
-            {
-                _complieInFile = complieInFile,
-                _domain = domain
-            };
+            return Create(domain, target, error);
 
-            return instance;
         }
 
-
-
-
-        public static DomainOperator Random(bool complieInFile = false)
+        public static DomainOperator Create(AssemblyDomain domain, ComplierResultTarget target, ComplierResultError error = ComplierResultError.None)
         {
 
-            DomainOperator instance = new DomainOperator
-            {
-                _complieInFile = complieInFile,
-                _domain = DomainManagment.Random
-            };
+            DomainOperator instance = new DomainOperator();
+            instance.Complier.EnumCRError = error;
+            instance.Complier.EnumCRTarget = target;
+            instance.Complier.Domain = domain;
             return instance;
 
         }
+        #endregion
+        #region  Default 默认域创建以及参数
+        public static DomainOperator Default()
+        {
+
+            return Create(DomainManagment.Default, ComplierResultTarget.Stream);
+
+        }
+
+        public static DomainOperator Default(ComplierResultError error, ComplierResultTarget target = ComplierResultTarget.Stream)
+        {
+
+            return Create(DomainManagment.Default, target, error);
+
+        }
+
+        public static DomainOperator Default(ComplierResultTarget target, ComplierResultError error = ComplierResultError.None)
+        {
+
+            return Create(DomainManagment.Default, target, error);
+
+        }
+        #endregion
+        #region 随机域创建以及参数
+        public static DomainOperator Random()
+        {
+
+            return Create(DomainManagment.Random, ComplierResultTarget.Stream);
+
+        }
+
+
+        public static DomainOperator Random(ComplierResultError error, ComplierResultTarget target = ComplierResultTarget.Stream)
+        {
+
+            return Create(DomainManagment.Random, target, error);
+
+        }
+
+
+        public static DomainOperator Random(ComplierResultTarget target, ComplierResultError error = ComplierResultError.None)
+        {
+
+            return Create(DomainManagment.Random, target, error);
+
+        }
+        #endregion
 
 
 
@@ -117,28 +144,28 @@ namespace Natasha
         public static DomainOperator operator +(DomainOperator @operator, string domainName)
         {
 
-            @operator._domain = DomainManagment.Create(domainName);
+            @operator.Complier.Domain = DomainManagment.Create(domainName);
             return @operator;
 
         }
         public static DomainOperator operator +(string domainName, DomainOperator @operator)
         {
 
-            @operator._domain = DomainManagment.Create(domainName);
+            @operator.Complier.Domain = DomainManagment.Create(domainName);
             return @operator;
 
         }
         public static DomainOperator operator +(DomainOperator @operator, AssemblyDomain domain)
         {
 
-            @operator._domain = domain;
+            @operator.Complier.Domain = domain;
             return @operator;
 
         }
         public static DomainOperator operator +(AssemblyDomain domain, DomainOperator @operator)
         {
 
-            @operator._domain = domain;
+            @operator.Complier.Domain = domain;
             return @operator;
 
         }
@@ -149,9 +176,6 @@ namespace Natasha
         public Type GetType(string typeName = default)
         {
 
-            AssemblyComplier complier = new AssemblyComplier();
-            complier.ComplieInFile = _complieInFile;
-            complier.Domain = _domain;
             var text = _operator
                 .GetUsingBuilder()
                 .Append(_operator.OopContentScript)
@@ -172,8 +196,8 @@ namespace Natasha
                     }
                 }
             }
-            complier.Add(text);
-            return complier.GetType(typeName);
+            Complier.Add(text);
+            return Complier.GetType(typeName);
         }
 
     }

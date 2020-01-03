@@ -13,7 +13,7 @@ namespace Core22
             {
                 throw new ArgumentNullException(nameof(args));
             }
-            var action = FastMethodOperator.Create()
+            var action = FastMethodOperator.Default()
                 .MethodBody("return 1+1;")
                 .Return<int>()
                 .Complie<Func<int>>();
@@ -21,13 +21,13 @@ namespace Core22
             action();
 
 
-            FakeMethodOperator.Create()
+            FakeMethodOperator.Default()
                .UseMethod<TestB>("TestMethod")
                .StaticMethodContent($@"Console.WriteLine(""Hello World!"");")
                .Complie<Action>();
 
 
-            FakeMethodOperator.Create()
+            FakeMethodOperator.Default()
                 .UseMethod<TestB>("TestMethod")
                 .MethodContent($@"Console.WriteLine(""Hello World!"");")
                 .Complie<Action>(new TestA());
@@ -71,7 +71,7 @@ namespace Core22
             il.Emit(OpCodes.Ret);
             var emitAction = (Action<TestB, string>)(method.CreateDelegate(typeof(Action<TestB, string>)));
 
-            var roslynAction = FastMethodOperator.Create()
+            var roslynAction = FastMethodOperator.Default()
                 .Param<TestB>("instance")
                 .Param<string>("value")
                 .MethodBody("instance.Name = value;")

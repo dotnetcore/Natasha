@@ -59,7 +59,7 @@ namespace NatashaUT
         [Fact(DisplayName = "函数构造-程序集异常")]
         public void Test3()
         {
-            var builder = FastMethodOperator.Create();
+            var builder = FastMethodOperator.Default();
             var delegateAction = builder
                        .Param<string>("str1")
                        .Param<string>("str2")

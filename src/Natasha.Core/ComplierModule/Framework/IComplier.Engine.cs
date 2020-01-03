@@ -58,7 +58,7 @@ namespace Natasha.Core.Complier
 
 
                 //编译并生成程序集
-                if (!ComplieInFile)
+                if (EnumCRTarget == ComplierResultTarget.Stream)
                 {
 
                     MemoryStream stream = new MemoryStream();

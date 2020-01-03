@@ -17,10 +17,11 @@ namespace Natasha.Core.Complier
         public readonly List<CompilationException> SyntaxExceptions;
         public readonly CompilationException ComplieException;
         public string AssemblyName;
-        public bool ComplieInFile;
         public int ErrorRetryCount;
         public string DllFilePath;
         public string PdbFilePath;
+        public ComplierResultError EnumCRError;
+        public ComplierResultTarget EnumCRTarget;
         public readonly static string CurrentPath;
 
         static IComplier()
@@ -42,7 +43,8 @@ namespace Natasha.Core.Complier
             References = new List<PortableExecutableReference>();
             SyntaxInfos = new SyntaxOption();
             SyntaxExceptions = SyntaxInfos.SyntaxExceptions;
-            //ComplieInFile = true;
+            EnumCRError = ComplierResultError.None;
+            EnumCRTarget = ComplierResultTarget.Stream;
 
         }
 
@@ -186,6 +188,12 @@ namespace Natasha.Core.Complier
                     logError.Handler(result.Compilation, ComplieException.Diagnostics);
                     ComplieException.Log = logError.Buffer.ToString();
                     if (NErrorLog.Enabled) { logError.Write(); }
+
+
+                    if (EnumCRError == ComplierResultError.ThrowException)
+                    {
+                        throw new Exception(ComplieException.Log);
+                    }
 
                 }
                 else

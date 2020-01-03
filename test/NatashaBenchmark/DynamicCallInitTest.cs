@@ -32,7 +32,7 @@ namespace NatashaBenchmark
             il.Emit(OpCodes.Newobj, ctor);
             il.Emit(OpCodes.Ret);
             EmitFunc = (Func<CallModel>)(method.CreateDelegate(typeof(Func<CallModel>)));
-            NatashaFunc = CtorOperator.Create().NewDelegate<CallModel>();
+            NatashaFunc = CtorOperator.Default().NewDelegate<CallModel>();
         }
         public void Preheating()
         {

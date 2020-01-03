@@ -14,7 +14,7 @@ namespace NatashaUT
         [Fact(DisplayName = "运算编译")]
         public void Test1()
         {
-            var handler = DomainOperator.Instance 
+            var handler = DomainOperator.Default() 
 
                 + "DomainOperatorTest1" 
 
@@ -33,6 +33,7 @@ namespace NatashaUT
         [Fact(DisplayName = "运算编译2")]
         public void Test2()
         {
+
             var handler = DomainOperator.Create("Tesst2Domain")
                 & @"public class  DomainTest1{
                         public string Name;
@@ -47,7 +48,7 @@ namespace NatashaUT
         [MethodImpl(MethodImplOptions.NoInlining)]
         public void Test3()
         {
-            var handler = DomainOperator.Instance
+            var handler = DomainOperator.Default(ComplierResultError.ThrowException)
 
                + "DomainOperatorTest3"
 

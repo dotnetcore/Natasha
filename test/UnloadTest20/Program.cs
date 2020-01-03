@@ -13,7 +13,7 @@ namespace UnloadTest20
         static void Main(string[] args)
         {
             Console.WriteLine("Roslyn 预热；");
-            var a = CtorOperator.Create().NewDelegate<Program>();
+            var a = CtorOperator.Default().NewDelegate<Program>();
             Console.WriteLine("3秒后开始编译；");
             Thread.Sleep(3000);
             Test();
@@ -76,7 +76,7 @@ namespace UnloadTest20
             for (int i = 0; i < count; i++)
             {
                 var ad = DomainManagment.Create("test" + i.ToString());
-                var builder = FastMethodOperator.Create();
+                var builder = FastMethodOperator.Default();
                 builder.Complier.Domain = ad;
                 func[i] = builder.MethodBody($@"
 int[] a = new int[40960];

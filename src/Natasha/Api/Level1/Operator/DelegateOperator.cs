@@ -9,7 +9,7 @@ namespace Natasha.Operator
         {
 
             var method = typeof(T).GetMethod("Invoke");
-            return FakeMethodOperator.Default
+            return FakeMethodOperator.Default()
                 .UseMethod(method)
                 .Using(usings)
                 .StaticMethodContent(content)
@@ -24,7 +24,7 @@ namespace Natasha.Operator
         {
 
             var method = typeof(T).GetMethod("Invoke");
-            return FakeMethodOperator.Default
+            return FakeMethodOperator.Default()
                 .UseMethod(method)
                 .UseAsync()
                 .Using(usings)
@@ -40,7 +40,7 @@ namespace Natasha.Operator
         {
 
             var method = typeof(T).GetMethod("Invoke");
-            return FakeMethodOperator.Default
+            return FakeMethodOperator.Default()
                 .UseMethod(method)
                 .UseUnsafe()
                 .Using(usings)
@@ -56,7 +56,7 @@ namespace Natasha.Operator
         {
 
             var method = typeof(T).GetMethod("Invoke");
-            return FakeMethodOperator.Default
+            return FakeMethodOperator.Default()
                 .UseMethod(method)
                 .UseUnsafe()
                 .UseAsync()
@@ -69,11 +69,11 @@ namespace Natasha.Operator
 
 
 
-        public static T Delegate(string content, AssemblyDomain domain = default, bool complieInFile = false, params NamespaceConverter[] usings)
+        public static T Delegate(string content, AssemblyDomain domain = default, ComplierResultTarget target = ComplierResultTarget.Stream, ComplierResultError error = ComplierResultError.None, params NamespaceConverter[] usings)
         {
 
             var method = typeof(T).GetMethod("Invoke");
-            FakeMethodOperator @operator = FakeMethodOperator.Create(domain, complieInFile);
+            FakeMethodOperator @operator = FakeMethodOperator.Create(domain, target, error);
             return @operator
                 .UseMethod(method)
                 .Using(usings)
@@ -85,11 +85,11 @@ namespace Natasha.Operator
 
 
 
-        public static T AsyncDelegate(string content, AssemblyDomain domain = default, bool complieInFile = false, params NamespaceConverter[] usings)
+        public static T AsyncDelegate(string content, AssemblyDomain domain = default, ComplierResultTarget target = ComplierResultTarget.Stream, ComplierResultError error = ComplierResultError.None, params NamespaceConverter[] usings)
         {
 
             var method = typeof(T).GetMethod("Invoke");
-            FakeMethodOperator @operator = FakeMethodOperator.Create(domain, complieInFile);
+            FakeMethodOperator @operator = FakeMethodOperator.Create(domain, target, error);
             return @operator
                 .UseMethod(method)
                 .UseAsync()
@@ -102,11 +102,11 @@ namespace Natasha.Operator
 
 
 
-        public static T UnsafeDelegate(string content, AssemblyDomain domain = default, bool complieInFile = false, params NamespaceConverter[] usings)
+        public static T UnsafeDelegate(string content, AssemblyDomain domain = default, ComplierResultTarget target = ComplierResultTarget.Stream, ComplierResultError error = ComplierResultError.None, params NamespaceConverter[] usings)
         {
 
             var method = typeof(T).GetMethod("Invoke");
-            FakeMethodOperator @operator = FakeMethodOperator.Create(domain, complieInFile);
+            FakeMethodOperator @operator = FakeMethodOperator.Create(domain, target, error);
             return @operator
                 .UseMethod(method)
                 .UseUnsafe()
@@ -119,11 +119,11 @@ namespace Natasha.Operator
 
 
 
-        public static T UnsafeAsyncDelegate(string content, AssemblyDomain domain = default, bool complieInFile = false, params NamespaceConverter[] usings)
+        public static T UnsafeAsyncDelegate(string content, AssemblyDomain domain = default, ComplierResultTarget target = ComplierResultTarget.Stream, ComplierResultError error = ComplierResultError.None, params NamespaceConverter[] usings)
         {
 
             var method = typeof(T).GetMethod("Invoke");
-            FakeMethodOperator @operator = FakeMethodOperator.Create(domain, complieInFile);
+            FakeMethodOperator @operator = FakeMethodOperator.Create(domain, target, error);
             return @operator
                 .UseMethod(method)
                 .UseUnsafe()

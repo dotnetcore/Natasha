@@ -6,8 +6,8 @@ namespace Natasha.Builder
     /// <summary>
     /// 一次性方法构建器
     /// </summary>
-    /// <typeparam name="TBuilder"></typeparam>
-    public class OnceMethodBuilder<TBuilder> : OnceMethodDelegateTemplate<TBuilder> where TBuilder : OnceMethodBuilder<TBuilder>,new()
+    /// <typeparam name="T"></typeparam>
+    public class OnceMethodBuilder<T> : OnceMethodDelegateTemplate<T> where T : OnceMethodBuilder<T>,new()
     {
 
 
@@ -22,65 +22,93 @@ namespace Natasha.Builder
 
 
 
-        public static TBuilder Default
+        #region 指定字符串域创建以及参数
+        public static T Create(string domainName, ComplierResultTarget target = ComplierResultTarget.Stream, ComplierResultError error = ComplierResultError.None)
         {
 
-            get { return Create(); }
+            return Create(domainName, error, target);
 
         }
 
-
-        /// <summary>
-        /// 如果参数为空，则使用默认域
-        /// 如果参数不为空，则创建以参数为名字的独立域
-        /// </summary>
-        /// <param name="domainName">域名</param>
-        /// <returns></returns>
-        public static TBuilder Create(string domainName = default, bool complieInFile = default)
+        public static T Create(string domainName, ComplierResultError error, ComplierResultTarget target = ComplierResultTarget.Stream)
         {
 
-            TBuilder instance = new TBuilder();
-            instance.Complier.ComplieInFile = complieInFile;
-            if (domainName == default)
+            if (domainName == default || domainName.ToLower() == "default")
             {
-                instance.Complier.Domain = DomainManagment.Default;
+                return Create(DomainManagment.Default, target, error);
             }
             else
             {
-                instance.Complier.Domain = DomainManagment.Create(domainName);
+                return Create(DomainManagment.Create(domainName), target, error);
             }
 
-            return instance;
-
         }
-        /// <summary>
-        /// 使用一个现成的域
-        /// </summary>
-        /// <param name="domain">域</param>
-        /// <returns></returns>
-        public static TBuilder Create(AssemblyDomain domain, bool complieInFile = default)
+        #endregion
+        #region 指定域创建以及参数
+        public static T Create(AssemblyDomain domain, ComplierResultError error, ComplierResultTarget target = ComplierResultTarget.Stream)
         {
 
-            TBuilder instance = new TBuilder();
-            instance.Complier.ComplieInFile = complieInFile;
+            return Create(domain, target, error);
+
+        }
+
+        public static T Create(AssemblyDomain domain, ComplierResultTarget target = ComplierResultTarget.Stream, ComplierResultError error = ComplierResultError.None)
+        {
+
+            T instance = new T();
+            instance.Complier.EnumCRError = error;
+            instance.Complier.EnumCRTarget = target;
             instance.Complier.Domain = domain;
             return instance;
 
         }
-        /// <summary>
-        /// 创建一个随机的域
-        /// </summary>
-        /// <returns></returns>
-        public static TBuilder Random(bool complieInFile = default)
+        #endregion
+        #region  Default 默认域创建以及参数
+        public static T Default()
         {
 
-            TBuilder instance = new TBuilder() { };
-            instance.Complier.ComplieInFile = complieInFile;
-            instance.Complier.Domain = DomainManagment.Random;
-            return instance;
+            return Create(DomainManagment.Default, ComplierResultTarget.Stream);
 
         }
 
+        public static T Default(ComplierResultError error, ComplierResultTarget target = ComplierResultTarget.Stream)
+        {
+
+            return Create(DomainManagment.Default, target, error);
+
+        }
+
+        public static T Default(ComplierResultTarget target, ComplierResultError error = ComplierResultError.None)
+        {
+
+            return Create(DomainManagment.Default, target, error);
+
+        }
+        #endregion
+        #region 随机域创建以及参数
+        public static T Random()
+        {
+
+            return Create(DomainManagment.Random, ComplierResultTarget.Stream);
+
+        }
+
+
+        public static T Random(ComplierResultError error, ComplierResultTarget target = ComplierResultTarget.Stream)
+        {
+
+            return Create(DomainManagment.Random, target, error);
+
+        }
+
+
+        public static T Random(ComplierResultTarget target, ComplierResultError error = ComplierResultError.None)
+        {
+
+            return Create(DomainManagment.Random, target, error);
+
+        }
+        #endregion
 
 
 
@@ -108,9 +136,9 @@ namespace Natasha.Builder
         /// 将结果编译进文件
         /// </summary>
         /// <returns></returns>
-        public TBuilder UseFileComplie()
+        public T UseFileComplie()
         {
-            Complier.ComplieInFile = true;
+            Complier.EnumCRTarget = ComplierResultTarget.File ;
             return Link;
         }
 
@@ -120,13 +148,13 @@ namespace Natasha.Builder
         /// <summary>
         /// 返回强类型委托
         /// </summary>
-        /// <typeparam name="T">委托的强类型</typeparam>
+        /// <typeparam name="S">委托的强类型</typeparam>
         /// <returns></returns>
-        public virtual T Complie<T>(object binder = null) where T : Delegate
+        public virtual S Complie<S>(object binder = null) where S : Delegate
         {
 
             Complier.Add(this);
-            return Complier.GetDelegate<T>(
+            return Complier.GetDelegate<S>(
                 OopNameScript,
                 MethodNameScript,
                 binder);
