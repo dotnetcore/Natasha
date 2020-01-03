@@ -134,6 +134,10 @@ WeihanLi
     //3.1 如果不加上面节点也可以引用Razor的编译服务
     Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation
     
+    //如果你觉得发布文件夹下关于本地化的文件夹太多，您可以选择如下节点
+    //选项：cs / de / es / fr / it / ja / ko / pl / ru / tr / zh-Hans / zh-Hant
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    
   </PropertyGroup>
  
 ```  
