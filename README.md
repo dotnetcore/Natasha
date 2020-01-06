@@ -56,8 +56,6 @@
      ![内存及CPU](https://github.com/dotnetcore/Natasha/blob/master/Image/%E8%B5%84%E6%BA%90%E7%9B%91%E6%B5%8B.png) 
      
 
-
-
 <br/>    
 
 ### Wiki审核
@@ -84,6 +82,9 @@ WeihanLi
   - 2020-01-01 ： 发布v2.8.11.0, Natasha 移除程序集域映射，使用官方的 API 进行域转换；.NET Standard2.0 支持扫描同DLL文件目录下的所有依赖文件项。
   
   - 2020-01-03 ： 发布v2.9.0.0, 修改大量静态初始化 API, 支持运行时引发异常， 支持新域内外部插件优先覆盖系统域插件进行编译， 修复若干编译器 BUG。 补操作文档：https://github.com/dotnetcore/Natasha/blob/master/docs/zh/api/static-init.md 。
+  
+  - 2020-01-06 ： 发布v2.9.6.0, 补加无参的 UnsafeAction / AsyncAction / UnsafeAsyncAction API；语法检测增加日志开关和异常引发。
+    
  <br/>  
  
  
