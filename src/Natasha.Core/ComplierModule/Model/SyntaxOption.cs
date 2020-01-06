@@ -39,7 +39,7 @@ namespace Natasha.Core.Complier.Model
                 exception.Message = "语法错误,请仔细检查脚本代码！";
                 NErrorLog log = new NErrorLog();
                 log.Handler(exception.Diagnostics);
-                log.Write();
+                if (NErrorLog.Enabled) { log.Write(); }
                 exception.Log = log.Buffer.ToString();
 
             }
@@ -50,6 +50,7 @@ namespace Natasha.Core.Complier.Model
                 TreeUsingMapping[tree] = sets;
                 
             }
+
             SyntaxExceptions.Add(exception);
             return exception;
 
@@ -58,6 +59,7 @@ namespace Natasha.Core.Complier.Model
 
         public CompilationException Add(SyntaxTree node)
         {
+
             CompilationException exception = new CompilationException();
             var (tree, formartter, errors) = node;
 
@@ -73,7 +75,7 @@ namespace Natasha.Core.Complier.Model
                 exception.Message = "语法错误,请仔细检查脚本代码！";
                 NErrorLog log = new NErrorLog();
                 log.Handler(exception.Diagnostics);
-                log.Write();
+                if (NErrorLog.Enabled) { log.Write(); }
                 exception.Log = log.Buffer.ToString();
 
             }
@@ -86,6 +88,9 @@ namespace Natasha.Core.Complier.Model
             }
             SyntaxExceptions.Add(exception);
             return exception;
+
         }
+
     }
+
 }

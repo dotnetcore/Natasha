@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Natasha.Core.Complier
@@ -65,7 +66,21 @@ namespace Natasha.Core.Complier
 
             if (SyntaxInfos.TreeCodeMapping.Count == 0)
             {
+
+                if (SyntaxInfos.SyntaxExceptions.Count!=0 && EnumCRError == ComplierResultError.ThrowException)
+                {
+
+                    StringBuilder builder = new StringBuilder();
+                    foreach (var item in SyntaxInfos.SyntaxExceptions)
+                    {
+                        builder.Append(item.Log);
+                    }
+                    throw new Exception(builder.ToString());
+
+                }
+                
                 return null;
+
             }
 
 
