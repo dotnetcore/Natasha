@@ -534,6 +534,29 @@ namespace Natasha
 
 
 
+        public Action AsyncAction(string content, params NamespaceConverter[] usings)
+        {
+            return content == default ? null : DelegateOperator<Action>.AsyncDelegate(content, _domain, _target, _error, usings);
+        }
+
+
+
+
+        public Action UnsafeAction(string content, params NamespaceConverter[] usings)
+        {
+            return content == default ? null : DelegateOperator<Action>.UnsafeDelegate(content, _domain, _target, _error, usings);
+        }
+
+
+
+
+        public Action UnsafeAsyncAction(string content, params NamespaceConverter[] usings)
+        {
+            return content == default ? null : DelegateOperator<Action>.UnsafeAsyncDelegate(content, _domain, _target, _error, usings);
+        }
+
+
+
 
         public Action<T> Action<T>(string content, params NamespaceConverter[] usings)
         {
