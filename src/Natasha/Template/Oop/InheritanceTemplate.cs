@@ -104,7 +104,7 @@ namespace Natasha.Template
                 return Link;
             }
             UsingRecoder.Add(type);
-            return Inheritance(type.GetRuntimeName());
+            return Inheritance(type.GetDevelopName());
 
         }
 

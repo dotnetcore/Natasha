@@ -40,7 +40,7 @@ namespace Natasha.Operator
                 .Return<T>()
                 .UseRandomOopName()
                 .HiddenNameSpace()
-                .MethodBody($@"return new {type.GetRuntimeName()}();")
+                .MethodBody($@"return new {type.GetDevelopName()}();")
                 .Complie<Func<T>>();
 
         }
@@ -65,7 +65,7 @@ namespace Natasha.Operator
                 .Return(type)
                 .UseRandomOopName()
                 .HiddenNameSpace()
-                .MethodBody($@"return new {type.GetRuntimeName()}();")
+                .MethodBody($@"return new {type.GetDevelopName()}();")
                 .Complie();
 
         }

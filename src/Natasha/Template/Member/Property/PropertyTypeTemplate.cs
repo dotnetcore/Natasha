@@ -24,7 +24,7 @@ namespace Natasha.Template
         public T PropertyType(Type type)
         {
 
-            PropertyTypeScript = type.GetRuntimeName();
+            PropertyTypeScript = type.GetDevelopName();
             return Link;
 
         }

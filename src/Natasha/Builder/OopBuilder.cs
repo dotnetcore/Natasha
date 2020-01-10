@@ -176,7 +176,7 @@ namespace Natasha.Builder
 
             }
 
-            OopName(TypeName!=default? TypeName:type.GetRuntimeName())
+            OopName(TypeName!=default? TypeName:type.GetDevelopName())
             .Inheritance(type.BaseType)
             .Inheritance(type.GetInterfaces())
             .Namespace(type.Namespace)
