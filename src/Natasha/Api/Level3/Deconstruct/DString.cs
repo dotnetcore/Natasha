@@ -24,7 +24,7 @@ namespace Natasha
                 TypeCache = new ConcurrentDictionary<string, Type>();
                 foreach (var item in Assembly.GetTypes())
                 {
-                    TypeCache[item.GetDevelopName()] = item;
+                    TypeCache[item.GetRuntimeName()] = item;
                 }
             }
             else

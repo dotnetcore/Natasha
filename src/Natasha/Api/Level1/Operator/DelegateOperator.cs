@@ -73,8 +73,7 @@ namespace Natasha.Operator
         {
 
             var method = typeof(T).GetMethod("Invoke");
-            FakeMethodOperator @operator = FakeMethodOperator.Create(domain, target, error);
-            return @operator
+            return FakeMethodOperator.Create(domain, target, error)
                 .UseMethod(method)
                 .Using(usings)
                 .StaticMethodContent(content)
@@ -89,8 +88,7 @@ namespace Natasha.Operator
         {
 
             var method = typeof(T).GetMethod("Invoke");
-            FakeMethodOperator @operator = FakeMethodOperator.Create(domain, target, error);
-            return @operator
+            return FakeMethodOperator.Create(domain, target, error)
                 .UseMethod(method)
                 .UseAsync()
                 .Using(usings)
@@ -106,8 +104,7 @@ namespace Natasha.Operator
         {
 
             var method = typeof(T).GetMethod("Invoke");
-            FakeMethodOperator @operator = FakeMethodOperator.Create(domain, target, error);
-            return @operator
+            return FakeMethodOperator.Create(domain, target, error)
                 .UseMethod(method)
                 .UseUnsafe()
                 .Using(usings)
@@ -123,8 +120,7 @@ namespace Natasha.Operator
         {
 
             var method = typeof(T).GetMethod("Invoke");
-            FakeMethodOperator @operator = FakeMethodOperator.Create(domain, target, error);
-            return @operator
+            return FakeMethodOperator.Create(domain, target, error)
                 .UseMethod(method)
                 .UseUnsafe()
                 .UseAsync()

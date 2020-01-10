@@ -41,7 +41,7 @@ namespace Natasha.Template
             Using(type);
             if (!_fieldsSet.Contains(name))
             {
-                OopFieldScript.AppendLine($"{access} {type.GetDevelopName()} {name};");
+                OopFieldScript.AppendLine($"{access} {type.GetRuntimeName()} {name};");
             }
             return Link;
         }

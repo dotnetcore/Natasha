@@ -32,7 +32,7 @@ namespace Natasha.Template
         public T Name(Type type)
         {
 
-            CtorNameScript = type.GetDevelopName();
+            CtorNameScript = type.GetRuntimeName();
             return Link;
 
         }

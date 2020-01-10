@@ -40,11 +40,11 @@ namespace Natasha.Template
             UsingRecoder.Add(type);
             if (ctorInfo!=default)
             {
-                MemberAttributeScript.AppendLine($"[{type.GetDevelopName()}({ctorInfo})]");
+                MemberAttributeScript.AppendLine($"[{type.GetRuntimeName()}({ctorInfo})]");
             }
             else
             {
-                MemberAttributeScript.AppendLine($"[{type.GetDevelopName()}]");
+                MemberAttributeScript.AppendLine($"[{type.GetRuntimeName()}]");
             }
             return Link;
 

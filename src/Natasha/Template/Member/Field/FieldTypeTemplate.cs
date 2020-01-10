@@ -24,7 +24,7 @@ namespace Natasha.Template
         public T FieldType(Type type)
         {
 
-            FieldTypeScript = type.GetDevelopName();
+            FieldTypeScript = type.GetRuntimeName();
             return Link;
 
         }

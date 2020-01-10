@@ -45,13 +45,16 @@ namespace NatashaUT
         public void TestType()
         {
 
-            Assert.Equal("List<Int32>[]", typeof(List<int>[]).GetDevelopName());
-            Assert.Equal("List<Int32>[,]", typeof(List<int>[,]).GetDevelopName());
-            Assert.Equal("List<Int32>[,][][,,,,]", typeof(List<int>[,][][,,,,]).GetDevelopName());
-            Assert.Equal("Int32[,]", typeof(int[,]).GetDevelopName());
-            Assert.Equal("Int32[][]", typeof(int[][]).GetDevelopName());
-            Assert.Equal("Int32[][,,,]", typeof(int[][,,,]).GetDevelopName());
-            Assert.Equal("Dictionary<Int32[][,,,],String[,,,][]>[]", typeof(Dictionary<int[][,,,], string[,,,][]>[]).GetDevelopName());
+            Assert.Equal("Dictionary<TKey,TValue>", typeof(Dictionary<,>).GetDevelopName());
+            Assert.Equal("List<T>", typeof(List<>).GetDevelopName());
+            Assert.Equal("List<>", typeof(List<>).GetRuntimeName());
+            Assert.Equal("List<Int32>[]", typeof(List<int>[]).GetRuntimeName());
+            Assert.Equal("List<Int32>[,]", typeof(List<int>[,]).GetRuntimeName());
+            Assert.Equal("List<Int32>[,][][,,,,]", typeof(List<int>[,][][,,,,]).GetRuntimeName());
+            Assert.Equal("Int32[,]", typeof(int[,]).GetRuntimeName());
+            Assert.Equal("Int32[][]", typeof(int[][]).GetRuntimeName());
+            Assert.Equal("Int32[][,,,]", typeof(int[][,,,]).GetRuntimeName());
+            Assert.Equal("Dictionary<Int32[][,,,],String[,,,][]>[]", typeof(Dictionary<int[][,,,], string[,,,][]>[]).GetRuntimeName());
 
         }
 
@@ -62,7 +65,7 @@ namespace NatashaUT
         public void TestInnerType()
         {
 
-            Assert.Equal("OopTestModel.InnerClass", typeof(OopTestModel.InnerClass).GetDevelopName());
+            Assert.Equal("OopTestModel.InnerClass", typeof(OopTestModel.InnerClass).GetRuntimeName());
 
         }
 
@@ -73,7 +76,7 @@ namespace NatashaUT
         {
             var a = typeof(InheritanceTest).GetInterfaces();
             var b = typeof(InheritanceTest).BaseType;
-            Assert.Equal("OopTestModel.InnerClass", typeof(OopTestModel.InnerClass).GetDevelopName());
+            Assert.Equal("OopTestModel.InnerClass", typeof(OopTestModel.InnerClass).GetRuntimeName());
 
         }
 

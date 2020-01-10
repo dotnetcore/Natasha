@@ -61,7 +61,7 @@ namespace Natasha
 
                     MemberName = tempInfo.Name,
                     MemberType = tempInfo.FieldType,
-                    MemberTypeName = tempInfo.FieldType.GetDevelopName(),
+                    MemberTypeName = tempInfo.FieldType.GetRuntimeName(),
                     MemberTypeAvailableName = tempInfo.FieldType.GetAvailableName(),
                     IsNew = tempInfo.DeclaringType != tempInfo.ReflectedType,
                     CanRead = true,
@@ -93,7 +93,7 @@ namespace Natasha
 
                     MemberName = tempInfo.Name,
                     MemberType = tempInfo.PropertyType,
-                    MemberTypeName = tempInfo.PropertyType.GetDevelopName(),
+                    MemberTypeName = tempInfo.PropertyType.GetRuntimeName(),
                     MemberTypeAvailableName = tempInfo.PropertyType.GetAvailableName(),
                     IsNew = tempInfo.DeclaringType != tempInfo.ReflectedType,
                     CanRead = tempInfo.CanRead,
@@ -144,7 +144,7 @@ namespace Natasha
 
                 Type temp = type;
                 instance.ElementType = type.GetElementType();
-                instance.ElementTypeName = instance.ElementType.GetDevelopName();
+                instance.ElementTypeName = instance.ElementType.GetRuntimeName();
                 instance.ElementTypeAvailableName = instance.ElementType.GetAvailableName();
 
 
@@ -158,7 +158,7 @@ namespace Natasha
                 }
                 instance.ArrayLayer = count;
                 instance.ArrayBaseType = temp;
-                instance.ArrayBaseTypeName = instance.ArrayBaseType.GetDevelopName();
+                instance.ArrayBaseTypeName = instance.ArrayBaseType.GetRuntimeName();
                 instance.ArrayBaseTypeAvaliableName = instance.ArrayBaseType.GetAvailableName();
 
 
@@ -179,11 +179,11 @@ namespace Natasha
         {
 
             instance.CurrentType = type;
-            instance.CurrentTypeName = type.GetDevelopName();
+            instance.CurrentTypeName = type.GetRuntimeName();
             instance.CurrentTypeAvailableName = type.GetAvailableName();
 
             instance.FatherType = type.BaseType;
-            instance.FatherTypeName = type.BaseType.GetDevelopName();
+            instance.FatherTypeName = type.BaseType.GetRuntimeName();
             instance.FatherAvailableName = type.BaseType.GetAvailableName();
             return instance;
 

@@ -45,7 +45,7 @@ namespace Natasha.Template
             UsingRecoder.Add(type);
 
 
-            ReturnScript = type.GetDevelopName()+" ";
+            ReturnScript = type.GetRuntimeName()+" ";
             return Link;
         }
 

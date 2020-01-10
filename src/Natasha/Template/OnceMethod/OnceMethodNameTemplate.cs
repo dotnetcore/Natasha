@@ -24,7 +24,7 @@ namespace Natasha.Template
         }
         public T MethodName(Type type)
         {
-            MethodNameScript = type.GetDevelopName();
+            MethodNameScript = type.GetRuntimeName();
             return Link;
         }
         public T MethodName<S>()

@@ -21,7 +21,7 @@ namespace Natasha.Reverser
             StringBuilder declaration = new StringBuilder();
             declaration.Append(AccessReverser.GetAccess(methodInfo));
             declaration.Append(ModifierReverser.GetModifier(methodInfo));
-            declaration.Append(methodInfo.ReturnType.GetDevelopName());
+            declaration.Append(methodInfo.ReturnType.GetRuntimeName());
             declaration.Append(methodInfo.Name);
             declaration.Append(GetParameters(methodInfo));
             return declaration.ToString();
@@ -40,7 +40,7 @@ namespace Natasha.Reverser
         {
 
             //反解参数类型
-            string result = parameterInfo.ParameterType.GetDevelopName();
+            string result = parameterInfo.ParameterType.GetRuntimeName();
 
 
             //特殊类型反解
@@ -91,7 +91,7 @@ namespace Natasha.Reverser
         {
 
             //反解类名
-            string result = parameterInfo.ParameterType.GetDevelopName();
+            string result = parameterInfo.ParameterType.GetRuntimeName();
 
 
             //特殊处理
@@ -141,7 +141,7 @@ namespace Natasha.Reverser
         public static string GetFieldDeclaration(FieldInfo reflectFieldInfo)
         {
 
-            return reflectFieldInfo.FieldType.GetDevelopName() + " " + reflectFieldInfo.Name;
+            return reflectFieldInfo.FieldType.GetRuntimeName() + " " + reflectFieldInfo.Name;
 
         }
 
@@ -199,7 +199,7 @@ namespace Natasha.Reverser
 
                     }
 
-                    result.Append(item.Key.GetDevelopName());
+                    result.Append(item.Key.GetRuntimeName());
                     result.Append(' ');
                     result.Append(item.Value);
                     i += 1;

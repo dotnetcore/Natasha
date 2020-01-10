@@ -17,11 +17,11 @@ namespace Core21
              */
 
          
-            Console.WriteLine(typeof(List<int>[]).GetDevelopName());
-            Console.WriteLine(typeof(List<int>[,]).GetDevelopName());
-            Console.WriteLine(typeof(int[,]).GetDevelopName());
-            Console.WriteLine(typeof(int[][]).GetDevelopName());
-            Console.WriteLine(typeof(int[][,,,]).GetDevelopName());
+            Console.WriteLine(typeof(List<int>[]).GetRuntimeName());
+            Console.WriteLine(typeof(List<int>[,]).GetRuntimeName());
+            Console.WriteLine(typeof(int[,]).GetRuntimeName());
+            Console.WriteLine(typeof(int[][]).GetRuntimeName());
+            Console.WriteLine(typeof(int[][,,,]).GetRuntimeName());
             Console.ReadKey();
         }
     }

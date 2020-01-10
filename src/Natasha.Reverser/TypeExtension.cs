@@ -67,15 +67,21 @@ namespace System
         }
 
 
-        public static string GetDevelopName(this Type type)
+        public static string GetRuntimeName(this Type type)
         {
-            return TypeNameReverser.GetName(type);
+            return TypeNameReverser.GetRuntimeName(type);
         }
 
 
         public static Type With(this Type type,params Type[] types)
         {
             return type.MakeGenericType(types);
+        }
+
+
+        public static string GetDevelopName(this Type type)
+        {
+            return TypeNameReverser.GetDevelopName(type);
         }
 
     }

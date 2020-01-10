@@ -323,7 +323,7 @@ namespace Natasha
             {
                 Complier();
             }
-            return  Assembly.GetTypes().First(item => item.GetDevelopName() == name);
+            return  Assembly.GetTypes().First(item => item.GetRuntimeName() == name);
 
         }
 
