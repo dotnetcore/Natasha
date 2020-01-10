@@ -2,6 +2,7 @@
 using Natasha.Reverser;
 using NatashaUT.Model;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Xunit;
 
@@ -39,12 +40,18 @@ namespace NatashaUT
         }
 
 
-
+        public class Inline<TT> { }
 
         [Fact(DisplayName = "多维数组解析")]
         public void TestType()
         {
-
+            var temp = new { name="abc", age= 15 };
+            var temp1 = new { name = "abc", age = 15, time=DateTime.Now };
+            Assert.Equal("<>f__AnonymousType0<String,Int32>", temp.GetType().GetDevelopName());
+            Assert.Equal("<>f__AnonymousType1<String,Int32,DateTime>", temp1.GetType().GetDevelopName());
+            Assert.Equal("ValueTuple<Int32,ValueTuple<Int32,Int32>>", typeof((int, (int,int))).GetDevelopName());
+            Assert.Equal("ValueTuple<Int32,Int32>", typeof((int,int)).GetDevelopName());
+            Assert.Equal("ReverserTest.Inline<TT>", typeof(Inline<>).GetDevelopName());
             Assert.Equal("Dictionary<TKey,TValue>", typeof(Dictionary<,>).GetDevelopName());
             Assert.Equal("List<T>", typeof(List<>).GetDevelopName());
             Assert.Equal("List<Int32>", typeof(List<int>).GetDevelopName());

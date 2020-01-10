@@ -31,7 +31,7 @@ namespace Natasha.Reverser
                 return default;
 
             }
-            return Reverser(type);
+            return Reverser(type, true);
 
         }
 
@@ -53,7 +53,7 @@ namespace Natasha.Reverser
                 return default;
 
             }
-            return Reverser(type, false);
+            return Reverser(type);
 
         }
 
@@ -65,7 +65,7 @@ namespace Natasha.Reverser
         /// </summary>
         /// <param name="type">类型</param>
         /// <returns></returns>
-        internal static string Reverser(Type type, bool ignoreFlag = true)
+        internal static string Reverser(Type type, bool ignoreFlag = false)
         {
 
             string fatherString = default;
@@ -110,8 +110,10 @@ namespace Natasha.Reverser
                 result.Append($"{type.Name.Split('`')[0]}<");
                 bool HasWriteArguments = false;
 
+
                 if (type.GenericTypeArguments.Length > 0)
                 {
+
                     HasWriteArguments = true;
                     result.Append(Reverser(type.GenericTypeArguments[0]));
                     for (int i = 1; i < type.GenericTypeArguments.Length; i++)
@@ -129,6 +131,7 @@ namespace Natasha.Reverser
                     var types = ((System.Reflection.TypeInfo)type).GenericTypeParameters;
                     if (types.Length > 0)
                     {
+
                         result.Append(Reverser(types[0], ignoreFlag));
                         for (int i = 1; i < types.Length; i++)
                         {
@@ -137,8 +140,9 @@ namespace Natasha.Reverser
                             result.Append(Reverser(types[i], ignoreFlag));
 
                         }
-                        //大家好，我是小编莉莉：付款之后不用艾特哦，柠檬君中午将统一对照表单确认收款回复。
+
                     }
+
                 }
 
 
