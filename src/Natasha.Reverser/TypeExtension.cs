@@ -69,7 +69,13 @@ namespace System
 
         public static string GetDevelopName(this Type type)
         {
-            return TypeNameReverser.GetName(type);
+            return TypeNameReverser.GetDevelopName(type);
+        }
+
+
+        public static string GetRuntimeName(this Type type)
+        {
+            return TypeNameReverser.GetRuntimeName(type);
         }
 
 
