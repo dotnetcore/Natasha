@@ -84,7 +84,8 @@ WeihanLi
   - 2020-01-03 ： 发布v2.9.0.0, 修改大量静态初始化 API, 支持运行时引发异常， 支持新域内外部插件优先覆盖系统域插件进行编译， 修复若干编译器 BUG。 补操作文档：https://github.com/dotnetcore/Natasha/blob/master/docs/zh/api/static-init.md 。
   
   - 2020-01-06 ： 发布v2.9.6.0, 补加无参的 UnsafeAction / AsyncAction / UnsafeAsyncAction API；语法检测增加日志开关和异常引发。
-    
+  
+  - 2020-01-10 ： 发布v2.9.8.0, 增加反解器的区分， List<T> 由 GetDevelopName 返回， List<> 由 GetRuntimeName 返回。
  <br/>  
  
  
