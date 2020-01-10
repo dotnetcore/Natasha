@@ -47,6 +47,7 @@ namespace NatashaUT
 
             Assert.Equal("Dictionary<TKey,TValue>", typeof(Dictionary<,>).GetDevelopName());
             Assert.Equal("List<T>", typeof(List<>).GetDevelopName());
+            Assert.Equal("List<Int32>", typeof(List<int>).GetDevelopName());
             Assert.Equal("List<>", typeof(List<>).GetRuntimeName());
             Assert.Equal("List<Int32>[]", typeof(List<int>[]).GetRuntimeName());
             Assert.Equal("List<Int32>[,]", typeof(List<int>[,]).GetRuntimeName());

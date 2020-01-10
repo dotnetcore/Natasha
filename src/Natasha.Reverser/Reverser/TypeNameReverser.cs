@@ -53,7 +53,7 @@ namespace Natasha.Reverser
                 return default;
 
             }
-            return Reverser(type,false);
+            return Reverser(type, false);
 
         }
 
@@ -67,6 +67,7 @@ namespace Natasha.Reverser
         /// <returns></returns>
         internal static string Reverser(Type type, bool ignoreFlag = true)
         {
+
             string fatherString = default;
             //外部类处理
             if (type.DeclaringType != null && type.FullName != null)
@@ -107,25 +108,22 @@ namespace Natasha.Reverser
 
                 StringBuilder result = new StringBuilder();
                 result.Append($"{type.Name.Split('`')[0]}<");
+                bool HasWriteArguments = false;
 
-
-                if (ignoreFlag)
+                if (type.GenericTypeArguments.Length > 0)
                 {
-                    if (type.GenericTypeArguments.Length > 0)
+                    HasWriteArguments = true;
+                    result.Append(Reverser(type.GenericTypeArguments[0]));
+                    for (int i = 1; i < type.GenericTypeArguments.Length; i++)
                     {
 
-                        result.Append(Reverser(type.GenericTypeArguments[0]));
-                        for (int i = 1; i < type.GenericTypeArguments.Length; i++)
-                        {
-
-                            result.Append(',');
-                            result.Append(Reverser(type.GenericTypeArguments[i]));
-
-                        }
+                        result.Append(',');
+                        result.Append(Reverser(type.GenericTypeArguments[i]));
 
                     }
+
                 }
-                else
+                if (!ignoreFlag && !HasWriteArguments)
                 {
 
                     var types = ((System.Reflection.TypeInfo)type).GenericTypeParameters;
