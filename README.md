@@ -92,7 +92,7 @@ WeihanLi
  ### 升级日志
  
  - [[2019]](https://github.com/dotnetcore/Natasha/blob/master/docs/zh/update/2019.md)
-  
+ - [[2020]](https://github.com/dotnetcore/Natasha/blob/master/docs/zh/update/2020.md)
  <br/>  
  
  
