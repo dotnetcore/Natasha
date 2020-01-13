@@ -30,7 +30,12 @@ namespace Natasha.Core.Complier
                 {
 
                     var defaultDomain = DomainManagment.Default;
-                    var sets = new HashSet<PortableExecutableReference>(defaultDomain.ReferencesCache);
+                    HashSet<PortableExecutableReference> sets;
+                    lock (defaultDomain.ReferencesCache)
+                    {
+                        sets = new HashSet<PortableExecutableReference>(defaultDomain.ReferencesCache);
+                    }
+                  
                     foreach (var item in _domain.ShortReferenceMappings)
                     {
                         if (defaultDomain.ShortReferenceMappings.ContainsKey(item.Key))

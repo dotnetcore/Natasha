@@ -1,5 +1,6 @@
 ﻿using Natasha;
 using Natasha.Builder;
+using Natasha.Log;
 using System;
 using Xunit;
 
@@ -51,6 +52,7 @@ namespace NatashaUT
         [Fact(DisplayName = "普通字段1")]
         public void Test3()
         {
+
             FieldBuilder template = new FieldBuilder();
             var result = template
                 .MemberAttribute("[Test]")

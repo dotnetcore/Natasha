@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Natasha.Core.Complier.Utils
+namespace Natasha.Core
 {
     internal static class RegexHelper
     {

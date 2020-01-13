@@ -17,13 +17,20 @@ namespace Natasha
     {
 
 
-        public readonly ConcurrentDictionary<Assembly, AssemblyUnitInfo> AssemblyMappings;
-        public readonly ConcurrentDictionary<string, Assembly> OutfileMapping;
-        public readonly ConcurrentDictionary<Assembly, string> PathMapping;
-        public readonly ConcurrentDictionary<string, PortableExecutableReference> ShortReferenceMappings;
-        public readonly LinkedList<PortableExecutableReference> ReferencesCache;
         public readonly object ObjLock;
         public readonly string DomainPath;
+        public event DomainAssemblyEvent LoadAssemblyEvent;
+        public event DomainNativeAssemblyEvent LoadNativeEvent;
+        public event DomainAssemblyEvent RemoveAssemblyEvent;
+        public event DomainNativeAssemblyEvent RemoveNativeEvent;
+
+        public readonly ConcurrentDictionary<string, Assembly> OutfileMapping;
+        public readonly ConcurrentDictionary<Assembly, string> PathMapping;
+        public readonly LinkedList<PortableExecutableReference> ReferencesCache;
+        public readonly ConcurrentDictionary<Assembly, AssemblyUnitInfo> AssemblyMappings;
+        public readonly ConcurrentDictionary<string, PortableExecutableReference> ShortReferenceMappings;
+
+
 #if NETSTANDARD2_0
         public string Name;
 #else
@@ -76,13 +83,15 @@ namespace Natasha
             {
 
                 var _ref = DependencyContext.Default.CompileLibraries
-                                .SelectMany(cl => cl.ResolveReferencePaths())
-                                .Select(asm =>
-                                {
-                                    var table = MetadataReference.CreateFromFile(asm);
-                                    ShortReferenceMappings[Path.GetFileName(asm)] = table;
-                                    return table;
-                                });
+                           .SelectMany(cl => cl.ResolveReferencePaths())
+                           .Select(asm =>
+                           {
+
+                               var table = MetadataReference.CreateFromFile(asm);
+                               ShortReferenceMappings[Path.GetFileName(asm)] = table;
+                               return table;
+
+                           });
 
                 ReferencesCache = new LinkedList<PortableExecutableReference>(_ref);
                 Default.Resolving += Default_Resolving;
@@ -116,8 +125,7 @@ namespace Natasha
             if (OutfileMapping.ContainsKey(path))
             {
 
-                bool result = RemoveAssembly(OutfileMapping[path]);
-                return result;
+                return RemoveAssembly(OutfileMapping[path]);
 
             }
             return false;
@@ -161,20 +169,28 @@ namespace Natasha
                     if (PathMapping.ContainsKey(assembly))
                     {
 
-                        while (!ShortReferenceMappings.TryRemove(Path.GetFileName(PathMapping[assembly]), out var _)) { };
-                        while (!OutfileMapping.TryRemove(PathMapping[assembly], out var _)) { };
+                        var path = PathMapping[assembly];
+                        while (!ShortReferenceMappings.TryRemove(Path.GetFileName(path), out var _)) { };
+
+
+                        while (!OutfileMapping.TryRemove(path, out var _)) { };
                         while (!PathMapping.TryRemove(assembly, out var _)) { };
-                       
+                        RemoveAssemblyEvent?.Invoke(path, assembly);
+
                     }
 
-
-                    var info = AssemblyMappings[assembly];
-                    if (ReferencesCache.Contains(info.Reference.Value))
+                    lock (ReferencesCache)
                     {
-                        ReferencesCache.Remove(info.Reference);
+
+                        var info = AssemblyMappings[assembly];
+                        if (ReferencesCache.Contains(info.Reference.Value))
+                        {
+
+                            ReferencesCache.Remove(info.Reference);
+
+                        }
+
                     }
-
-
                     while (!AssemblyMappings.TryRemove(assembly, out var _)) { };
 
 
@@ -218,8 +234,10 @@ namespace Natasha
             string assemblyPath = _load_resolver.ResolveAssemblyToPath(assemblyName);
             if (assemblyPath != null)
             {
-                //return LoadFromAssemblyPath(assemblyPath);
-                return Handler(new FileStream(assemblyPath, FileMode.Open));
+
+                var assembly = Handler(new FileStream(assemblyPath, FileMode.Open));
+                LoadAssemblyEvent?.Invoke(assemblyPath, assembly);
+                return assembly;
 
             }
 #endif
@@ -243,7 +261,11 @@ namespace Natasha
             string libraryPath = _load_resolver.ResolveUnmanagedDllToPath(unmanagedDllName);
             if (libraryPath != null)
             {
-                return LoadUnmanagedDllFromPath(libraryPath);
+
+                var ptr = LoadUnmanagedDllFromPath(libraryPath);
+                LoadNativeEvent.Invoke(libraryPath, ptr);
+                return ptr;
+
             }
 #endif
             return IntPtr.Zero;
@@ -296,6 +318,7 @@ namespace Natasha
 
             lock (ObjLock)
             {
+
                 Assembly result = info.Assembly;
                 if (!AssemblyMappings.ContainsKey(result))
                 {
@@ -303,8 +326,14 @@ namespace Natasha
                     if (result != default)
                     {
                         AssemblyMappings[result] = info;
+                        LoadAssemblyEvent?.Invoke(result.CodeBase, result);
                     }
-                    ReferencesCache.AddLast(info.Reference);
+
+                    lock (ReferencesCache)
+                    {
+                        ReferencesCache.AddLast(info.Reference);
+                    }
+
 
                 }
 

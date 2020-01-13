@@ -11,7 +11,7 @@ namespace Natasha.Log
 
         public static bool Enabled;
 
-        static NSucceedLog() => Enabled = true;
+        static NSucceedLog() => Enabled = false;
 
 
 
