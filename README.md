@@ -86,6 +86,9 @@ WeihanLi
   - 2020-01-06 ： 发布v2.9.6.0, 补加无参的 UnsafeAction / AsyncAction / UnsafeAsyncAction API；语法检测增加日志开关和异常引发。
   
   - 2020-01-10 ： 发布v2.9.6.1, 增加反解器的区分， List\<T\> 由 GetDevelopName 返回， List<> 由 GetRuntimeName 返回, 移除编译依赖。
+    
+  - 2020-01-13 ： 发布v2.9.7.0, 默认关闭成功日志提升性能，AssemblyDomain 增加事件以便外部调用者跟踪插件生命周期，调整文件结构。
+  
  <br/>  
  
  
