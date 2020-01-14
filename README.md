@@ -71,15 +71,6 @@ WeihanLi
 <br/>    
 
 ### 发布日志  
-
-  
-  - 2019-12-18 ： 发布v2.7.6.0, Natasha 方法操作类增加 Override 和 NewHidden 方法， NAssembly 增加三种域创建方式， 移除代理操作类到 NCaller 项目中。
-  
-  - 2019-12-25 ： 发布v2.8.0.0, Natasha 日志操作类改名 NError => NErrorLog / NSucceed => NSucceedLog / NWarning => NWarningLog； 对外开放 DomainManagement.Clear 方法方便手动清除已卸载的域； 增强和修复 CS0234 的替换规则，识别父命名空间正则移除父子命名空间；引擎语法树选项内部进行细微优化。
-  
-  - 2019-12-26 ： 发布v2.8.5.0, Natasha 增强反解类； 引擎增加接收语法树的 API. 启动项目 [[动态插件编译]](https://github.com/night-moon-studio/DynamicPlugIn) 支持运行时改变部分插件的功能，重编译插件。
-  
-  - 2020-01-01 ： 发布v2.8.11.0, Natasha 移除程序集域映射，使用官方的 API 进行域转换；.NET Standard2.0 支持扫描同DLL文件目录下的所有依赖文件项。
   
   - 2020-01-03 ： 发布v2.9.0.0, 修改大量静态初始化 API, 支持运行时引发异常， 支持新域内外部插件优先覆盖系统域插件进行编译， 修复若干编译器 BUG。 补操作文档：https://github.com/dotnetcore/Natasha/blob/master/docs/zh/api/static-init.md 。
   
@@ -153,6 +144,8 @@ WeihanLi
 
   #### Natasha的动态调用模块:  已移至[【NCaller】](https://github.com/night-moon-studio/NCaller)
   #### Natasha的动态克隆模块:  已移至[【DeepClone】](https://github.com/night-moon-studio/DeepClone)  
+  #### 查找树算法:  [【BTFindTreee】](https://github.com/dotnet-lab/BTFindTreee)  
+  #### 快速动态缓存:  [【DynamicCache】](https://github.com/night-moon-studio/DynamicCache)  
   
 <br/>
 <br/>    
