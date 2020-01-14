@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Natasha.Log;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 namespace Natasha.Core.Complier.Model
 {
@@ -7,14 +8,14 @@ namespace Natasha.Core.Complier.Model
     {
 
         public readonly List<CompilationException> SyntaxExceptions;
-        public readonly Dictionary<SyntaxTree, HashSet<string>> TreeUsingMapping;
-        public readonly Dictionary<SyntaxTree, string> TreeCodeMapping;
+        public readonly ConcurrentDictionary<SyntaxTree, HashSet<string>> TreeUsingMapping;
+        public readonly ConcurrentDictionary<SyntaxTree, string> TreeCodeMapping;
         public SyntaxOption()
         {
 
             SyntaxExceptions = new List<CompilationException>();
-            TreeUsingMapping = new Dictionary<SyntaxTree, HashSet<string>>();
-            TreeCodeMapping = new Dictionary<SyntaxTree, string>();
+            TreeUsingMapping = new ConcurrentDictionary<SyntaxTree, HashSet<string>>();
+            TreeCodeMapping = new ConcurrentDictionary<SyntaxTree, string>();
 
         }
 
@@ -46,9 +47,9 @@ namespace Natasha.Core.Complier.Model
             else
             {
 
-                TreeCodeMapping.Add(tree, content);
+                TreeCodeMapping[tree] = content;
                 TreeUsingMapping[tree] = sets;
-                
+
             }
 
             SyntaxExceptions.Add(exception);
@@ -81,8 +82,9 @@ namespace Natasha.Core.Complier.Model
             }
             else
             {
-                
-                TreeCodeMapping.Add(tree, tree.ToString());
+
+
+                TreeCodeMapping[tree] = tree.ToString();
                 TreeUsingMapping[tree] = default;
 
             }

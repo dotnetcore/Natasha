@@ -283,7 +283,7 @@ namespace Natasha.Template
                 foreach (var @using in _usings)
                 {
 
-                    if (!UsingDefaultCache.DefaultNamesapce.Contains(@using))
+                    if (!UsingDefaultCache.HasElement(@using))
                     {
 
                         UsingScript.AppendLine($"using {@using};");

@@ -51,6 +51,63 @@ namespace Natasha.Core.Complier
 
 
 
+        /// <summary>
+        /// 进行编译前检查
+        /// </summary>
+        /// <returns></returns>
+        public bool CheckSyntax()
+        {
+
+
+            if (SyntaxInfos.SyntaxExceptions.Count != SyntaxInfos.TreeUsingMapping.Count)
+            {
+
+
+                if (ComplieException.ErrorFlag == ComplieError.None)
+                {
+
+                    ComplieException.ErrorFlag = ComplieError.Syntax;
+
+                }
+
+
+                if (EnumCRError == ComplierResultError.ThrowException)
+                {
+
+                    StringBuilder builder = new StringBuilder();
+                    foreach (var item in SyntaxInfos.SyntaxExceptions)
+                    {
+
+                        builder.Append(item.Log);
+
+                    }
+                    throw new Exception(builder.ToString());
+
+                }
+                return false;
+
+
+            }else if(SyntaxInfos.TreeUsingMapping.Count == 0)
+            {
+
+
+                if (EnumCRError == ComplierResultError.ThrowException)
+                {
+
+                    throw new Exception("未检测到需要编译的内容~！");
+
+                }
+                return false;
+
+
+            }
+            return true;
+
+
+        }
+
+
+
 
 
 
@@ -64,23 +121,9 @@ namespace Natasha.Core.Complier
         public Assembly GetAssembly()
         {
 
-            if (SyntaxInfos.TreeCodeMapping.Count == 0)
+            if (!CheckSyntax())
             {
-
-                if (SyntaxInfos.SyntaxExceptions.Count != 0 && EnumCRError == ComplierResultError.ThrowException)
-                {
-
-                    StringBuilder builder = new StringBuilder();
-                    foreach (var item in SyntaxInfos.SyntaxExceptions)
-                    {
-                        builder.Append(item.Log);
-                    }
-                    throw new Exception(builder.ToString());
-
-                }
-
                 return null;
-
             }
 
 
@@ -95,13 +138,16 @@ namespace Natasha.Core.Complier
             if (result.Compilation != null)
             {
 
+
                 if (assembly == default || assembly == null)
                 {
 
                     bool CS0104SHUT = false;
                     bool CS0234SHUT = false;
                     bool CSO246SHUT = false;
-                    var tempCache = SyntaxInfos.TreeCodeMapping;
+
+
+                    var tempCache =  SyntaxInfos.TreeCodeMapping;
                     SyntaxOption option = new SyntaxOption();
 
 
@@ -141,9 +187,7 @@ namespace Natasha.Core.Complier
 
                             CS0234SHUT = true;
                             var tempResult = CS0234Helper.Handler(item.Descriptor.MessageFormat.ToString(), item.GetMessage());
-
                             UsingDefaultCache.Remove(tempResult);
-
                             var tempTree = item.Location.SourceTree;
                             var tempCode = tempCache[tempTree];
                             tempCache[tempTree] = Regex.Replace(tempCode, $"using {tempResult}(.*?);", "");
@@ -161,8 +205,8 @@ namespace Natasha.Core.Complier
                             {
 
                                 UsingDefaultCache.Remove(@using);
-
                                 tempCache[tempTree] = tempCode.Replace($"using {@using};", "");
+
                             }
 
                         }
@@ -208,15 +252,18 @@ namespace Natasha.Core.Complier
                         throw new Exception(ComplieException.Log);
                     }
 
+
                 }
                 else
                 {
+
 
                     NSucceedLog logSucceed = new NSucceedLog();
                     logSucceed.Handler(result.Compilation);
                     ComplieException.ErrorFlag = ComplieError.None;
                     ComplieException.Log = logSucceed.Buffer.ToString();
                     if (NSucceedLog.Enabled) { logSucceed.Write(); }
+
 
                 }
 
@@ -239,16 +286,20 @@ namespace Natasha.Core.Complier
             Assembly assembly = GetAssembly();
             if (assembly == null)
             {
+
                 return null;
+
             }
 
 
             var type = assembly.GetTypes().First(item => item.Name == typeName);
-            if (type == null)
+            if (type == null && ComplieException.ErrorFlag == ComplieError.None)
             {
+
 
                 ComplieException.ErrorFlag = ComplieError.Type;
                 ComplieException.Message = $"发生错误,无法从程序集{assembly.FullName}中获取类型{typeName}！";
+
 
             }
 
@@ -277,8 +328,9 @@ namespace Natasha.Core.Complier
 
 
             var info = type.GetMethod(methodName);
-            if (info == null)
+            if (info == null && ComplieException.ErrorFlag == ComplieError.None)
             {
+
 
                 ComplieException.ErrorFlag = ComplieError.Method;
                 ComplieException.Message = $"发生错误,无法从类型{typeName}中找到{methodName}方法！";
@@ -314,15 +366,24 @@ namespace Natasha.Core.Complier
             try
             {
 
+
                 return info.CreateDelegate(delegateType, binder);
+
 
             }
             catch (Exception ex)
             {
 
-                ComplieException.ErrorFlag = ComplieError.Delegate;
-                ComplieException.Message = $"发生错误,无法从方法{methodName}创建{delegateType.Name}委托！";
+                if (ComplieException.ErrorFlag == ComplieError.None)
+                {
 
+
+                    ComplieException.ErrorFlag = ComplieError.Delegate;
+                    ComplieException.Message = $"发生错误,无法从方法{methodName}创建{delegateType.Name}委托！";
+
+
+                }
+                
             }
 
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyModel;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
@@ -9,7 +10,7 @@ namespace Natasha
     public static class UsingDefaultCache
     {
 
-        public readonly static HashSet<string> DefaultNamesapce;
+        private readonly static HashSet<string> DefaultNamesapce;
         public readonly static StringBuilder DefaultScript;
 
         static UsingDefaultCache()
@@ -59,6 +60,15 @@ namespace Natasha
         }
 
 
+
+        public static bool HasElement(string @namespace)
+        {
+            lock (DefaultNamesapce)
+            {
+                return DefaultNamesapce.Contains(@namespace);
+            }
+        }
+
         public static void Remove(string @namespace)
         {
             lock (DefaultNamesapce)
@@ -66,7 +76,7 @@ namespace Natasha
                 if (DefaultNamesapce.Contains(@namespace))
                 {
                     DefaultNamesapce.Remove(@namespace);
-                    DefaultScript.Replace($"using {@namespace};", string.Empty);
+                    DefaultScript.Replace($"using {@namespace};{Environment.NewLine}", string.Empty);
                 }
             }
         }

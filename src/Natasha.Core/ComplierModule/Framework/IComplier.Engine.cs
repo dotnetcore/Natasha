@@ -22,33 +22,41 @@ namespace Natasha.Core.Complier
         public (Assembly Assembly, ImmutableArray<Diagnostic> Errors, CSharpCompilation Compilation) StreamComplier()
         {
 
-            lock (Domain)
+            lock (this)
             {
 
                 References.Clear();
-                if (_domain != DomainManagment.Default)
+                if (Domain != DomainManagment.Default)
                 {
 
                     var defaultDomain = DomainManagment.Default;
                     HashSet<PortableExecutableReference> sets;
-
                     lock (defaultDomain.ReferencesCache)
                     {
+
                         sets = new HashSet<PortableExecutableReference>(defaultDomain.ReferencesCache);
+
                     }
-                    
+
+
                     foreach (var item in _domain.ShortReferenceMappings)
                     {
+
                         if (defaultDomain.ShortReferenceMappings.ContainsKey(item.Key))
                         {
+
                             sets.Remove(defaultDomain.ShortReferenceMappings[item.Key]);
+
                         }
+
                     }
 
 
                     lock (_domain.ReferencesCache)
                     {
+
                         References.AddRange(_domain.ReferencesCache);
+
                     }
                     References.AddRange(sets);
 
@@ -58,10 +66,14 @@ namespace Natasha.Core.Complier
 
                     lock (_domain.ReferencesCache)
                     {
+
                         References.AddRange(_domain.ReferencesCache);
+
                     }
 
                 }
+
+
                 //创建语言编译
                 CSharpCompilation compilation = CSharpCompilation.Create(
                                    AssemblyName,
@@ -76,6 +88,7 @@ namespace Natasha.Core.Complier
                 //编译并生成程序集
                 if (EnumCRTarget == ComplierResultTarget.Stream)
                 {
+
 
                     MemoryStream stream = new MemoryStream();
                     var complieResult = compilation.Emit(stream);
@@ -92,6 +105,7 @@ namespace Natasha.Core.Complier
                         return (null, complieResult.Diagnostics, compilation);
 
                     }
+
 
                 }
                 else
@@ -110,6 +124,7 @@ namespace Natasha.Core.Complier
                     DllFilePath = path + ".dll";
                     PdbFilePath = path + ".pdb";
 
+
                     var complieResult = compilation.Emit(DllFilePath, PdbFilePath);
                     if (complieResult.Success)
                     {
@@ -123,6 +138,7 @@ namespace Natasha.Core.Complier
                         return (null, complieResult.Diagnostics, compilation);
 
                     }
+
 
                 }
 
