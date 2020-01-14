@@ -17,7 +17,6 @@ namespace Natasha
     {
 
 
-        public readonly object ObjLock;
         public readonly string DomainPath;
         public event DomainAssemblyEvent LoadAssemblyEvent;
         public event DomainNativeAssemblyEvent LoadNativeEvent;
@@ -70,7 +69,7 @@ namespace Natasha
 #else
             Name = key;
 #endif
-            ObjLock = new object();
+
 
 
             DomainPath = Path.Combine(IComplier.CurrentPath, key);
@@ -78,7 +77,9 @@ namespace Natasha
             PathMapping = new ConcurrentDictionary<Assembly, string>();
             AssemblyMappings = new ConcurrentDictionary<Assembly, AssemblyUnitInfo>();
             ShortReferenceMappings = new ConcurrentDictionary<string, PortableExecutableReference>();
-
+            
+            DomainManagment.Add(key, this);
+            
             if (key == "Default")
             {
 
@@ -93,6 +94,7 @@ namespace Natasha
 
                            });
 
+
                 ReferencesCache = new LinkedList<PortableExecutableReference>(_ref);
                 Default.Resolving += Default_Resolving;
 #if !NETSTANDARD2_0
@@ -106,7 +108,7 @@ namespace Natasha
                 ReferencesCache = new LinkedList<PortableExecutableReference>();
 
             }
-            DomainManagment.Add(key, this);
+            
 
         }
 
@@ -160,43 +162,41 @@ namespace Natasha
                 throw new NullReferenceException("Assembly is null!  This method can't be passed a null instance.");
             }
 
-            lock (ObjLock)
+
+
+            if (AssemblyMappings.ContainsKey(assembly))
             {
 
-                if (AssemblyMappings.ContainsKey(assembly))
+                if (PathMapping.ContainsKey(assembly))
                 {
 
-                    if (PathMapping.ContainsKey(assembly))
-                    {
-
-                        var path = PathMapping[assembly];
-                        while (!ShortReferenceMappings.TryRemove(Path.GetFileName(path), out var _)) { };
+                    var path = PathMapping[assembly];
+                    while (!ShortReferenceMappings.TryRemove(Path.GetFileName(path), out var _)) { };
 
 
-                        while (!OutfileMapping.TryRemove(path, out var _)) { };
-                        while (!PathMapping.TryRemove(assembly, out var _)) { };
-                        RemoveAssemblyEvent?.Invoke(path, assembly);
-
-                    }
-
-                    lock (ReferencesCache)
-                    {
-
-                        var info = AssemblyMappings[assembly];
-                        if (ReferencesCache.Contains(info.Reference.Value))
-                        {
-
-                            ReferencesCache.Remove(info.Reference);
-
-                        }
-
-                    }
-                    while (!AssemblyMappings.TryRemove(assembly, out var _)) { };
-
-
-                    return true;
+                    while (!OutfileMapping.TryRemove(path, out var _)) { };
+                    while (!PathMapping.TryRemove(assembly, out var _)) { };
+                    RemoveAssemblyEvent?.Invoke(path, assembly);
 
                 }
+
+                lock (ReferencesCache)
+                {
+
+                    var info = AssemblyMappings[assembly];
+                    if (ReferencesCache.Contains(info.Reference.Value))
+                    {
+
+                        ReferencesCache.Remove(info.Reference);
+
+                    }
+
+                }
+                while (!AssemblyMappings.TryRemove(assembly, out var _)) { };
+
+
+                return true;
+
 
             }
 
@@ -316,29 +316,26 @@ namespace Natasha
         internal Assembly Handler(AssemblyUnitInfo info)
         {
 
-            lock (ObjLock)
+            Assembly result = info.Assembly;
+            if (!AssemblyMappings.ContainsKey(result))
             {
 
-                Assembly result = info.Assembly;
-                if (!AssemblyMappings.ContainsKey(result))
+                if (result != default)
                 {
-
-                    if (result != default)
-                    {
-                        AssemblyMappings[result] = info;
-                        LoadAssemblyEvent?.Invoke(result.CodeBase, result);
-                    }
-
-                    lock (ReferencesCache)
-                    {
-                        ReferencesCache.AddLast(info.Reference);
-                    }
-
-
+                    AssemblyMappings[result] = info;
+                    LoadAssemblyEvent?.Invoke(result.CodeBase, result);
                 }
 
-                return result;
+                lock (ReferencesCache)
+                {
+                    ReferencesCache.AddLast(info.Reference);
+                }
+
+
             }
+
+            return result;
+
 
         }
 
@@ -399,7 +396,7 @@ namespace Natasha
                     PathMapping[assembly] = dllFiles[i];
                     ShortReferenceMappings[Path.GetFileName(dllFiles[i])] = info.Reference.Value;
                 }
-                
+
             }
 
 #endif

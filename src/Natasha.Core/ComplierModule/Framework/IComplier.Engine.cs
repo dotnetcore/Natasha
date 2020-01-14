@@ -31,11 +31,12 @@ namespace Natasha.Core.Complier
 
                     var defaultDomain = DomainManagment.Default;
                     HashSet<PortableExecutableReference> sets;
+
                     lock (defaultDomain.ReferencesCache)
                     {
                         sets = new HashSet<PortableExecutableReference>(defaultDomain.ReferencesCache);
                     }
-                  
+                    
                     foreach (var item in _domain.ShortReferenceMappings)
                     {
                         if (defaultDomain.ShortReferenceMappings.ContainsKey(item.Key))
@@ -43,13 +44,23 @@ namespace Natasha.Core.Complier
                             sets.Remove(defaultDomain.ShortReferenceMappings[item.Key]);
                         }
                     }
-                    References.AddRange(_domain.ReferencesCache);
+
+
+                    lock (_domain.ReferencesCache)
+                    {
+                        References.AddRange(_domain.ReferencesCache);
+                    }
                     References.AddRange(sets);
 
                 }
                 else
                 {
-                    References.AddRange(_domain.ReferencesCache);
+
+                    lock (_domain.ReferencesCache)
+                    {
+                        References.AddRange(_domain.ReferencesCache);
+                    }
+
                 }
                 //创建语言编译
                 CSharpCompilation compilation = CSharpCompilation.Create(

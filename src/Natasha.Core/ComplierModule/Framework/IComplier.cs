@@ -67,7 +67,7 @@ namespace Natasha.Core.Complier
             if (SyntaxInfos.TreeCodeMapping.Count == 0)
             {
 
-                if (SyntaxInfos.SyntaxExceptions.Count!=0 && EnumCRError == ComplierResultError.ThrowException)
+                if (SyntaxInfos.SyntaxExceptions.Count != 0 && EnumCRError == ComplierResultError.ThrowException)
                 {
 
                     StringBuilder builder = new StringBuilder();
@@ -78,7 +78,7 @@ namespace Natasha.Core.Complier
                     throw new Exception(builder.ToString());
 
                 }
-                
+
                 return null;
 
             }
@@ -141,10 +141,9 @@ namespace Natasha.Core.Complier
 
                             CS0234SHUT = true;
                             var tempResult = CS0234Helper.Handler(item.Descriptor.MessageFormat.ToString(), item.GetMessage());
-                            lock (UsingDefaultCache.DefaultNamesapce)
-                            {
-                                UsingDefaultCache.Remove(tempResult);
-                            }
+
+                            UsingDefaultCache.Remove(tempResult);
+
                             var tempTree = item.Location.SourceTree;
                             var tempCode = tempCache[tempTree];
                             tempCache[tempTree] = Regex.Replace(tempCode, $"using {tempResult}(.*?);", "");
@@ -160,10 +159,9 @@ namespace Natasha.Core.Complier
                             CS0246Helper.Handler(item.Descriptor.MessageFormat.ToString(), item.GetMessage());
                             foreach (var @using in CS0246Helper.GetUsings(formart, tempCode))
                             {
-                                lock (UsingDefaultCache.DefaultNamesapce)
-                                {
-                                    UsingDefaultCache.Remove(@using);
-                                }
+
+                                UsingDefaultCache.Remove(@using);
+
                                 tempCache[tempTree] = tempCode.Replace($"using {@using};", "");
                             }
 

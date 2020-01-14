@@ -28,7 +28,7 @@ namespace Natasha
                     var types = assembly.ExportedTypes;
                     foreach (var item in types)
                     {
-                        
+
                         if (!DefaultNamesapce.Contains(item.Namespace) && item.Namespace != default)
                         {
                             DefaultNamesapce.Add(item.Namespace);
@@ -55,7 +55,7 @@ namespace Natasha
                 DefaultScript.AppendLine($"using {@using};");
             }
 
-           
+
         }
 
 

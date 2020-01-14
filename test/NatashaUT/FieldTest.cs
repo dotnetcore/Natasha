@@ -23,7 +23,7 @@ namespace NatashaUT
                 .FieldType<string>()
                 .Script;
 
-                Assert.Equal($"[Test]{Environment.NewLine}public static String Name;", result);
+            Assert.Equal($"[Test]{Environment.NewLine}public static String Name;", result);
 
         }
 
@@ -41,9 +41,9 @@ namespace NatashaUT
                 .FieldType(typeof(int))
                 .Script;
 
-                Assert.Equal($"[Test][Test1]{Environment.NewLine}public static Int32 Age;", result);
+            Assert.Equal($"[Test][Test1]{Environment.NewLine}public static Int32 Age;", result);
 
-            
+
         }
 
 
@@ -61,9 +61,9 @@ namespace NatashaUT
                 .FieldType<string>()
                 .Script;
 
-                Assert.Equal($"[Test]{Environment.NewLine}public String Name;", result);
+            Assert.Equal($"[Test]{Environment.NewLine}public String Name;", result);
 
-            
+
         }
 
 
@@ -80,9 +80,9 @@ namespace NatashaUT
                 .Script;
 
 
-                Assert.Equal($"[ClassDataAttribute]{Environment.NewLine}public String Name;", result);
+            Assert.Equal($"[ClassDataAttribute]{Environment.NewLine}public String Name;", result);
 
-            
+
         }
 
     }
