@@ -47,6 +47,7 @@ namespace NatashaUT
         {
             var temp = new { name="abc", age= 15 };
             var temp1 = new { name = "abc", age = 15, time=DateTime.Now };
+            Assert.Equal("Nullable<Int32>", typeof(int?).GetDevelopName());
             Assert.Equal("<>f__AnonymousType0<String,Int32>", temp.GetType().GetDevelopName());
             Assert.Equal("<>f__AnonymousType1<String,Int32,DateTime>", temp1.GetType().GetDevelopName());
             Assert.Equal("ValueTuple<Int32,ValueTuple<Int32,Int32>>", typeof((int, (int,int))).GetDevelopName());
