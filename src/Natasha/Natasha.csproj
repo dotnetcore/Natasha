@@ -8,7 +8,7 @@
     <PackageId>DotNetCore.Natasha</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageReleaseNotes>修复默认域加载插件的问题，增强域内并发控制。</PackageReleaseNotes>
-    <Version>2.9.8</Version>
+    <Version>2.9.10</Version>
     <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
     <PackageTags>Roslyn ; IL ; Scripte ; Dynamic ; </PackageTags>
@@ -16,8 +16,8 @@
     <Company>.NET Core Community</Company>
     <PackageIconUrl>https://avatars2.githubusercontent.com/u/19404084</PackageIconUrl>
     <Authors>NMSAzulX</Authors>
-    <FileVersion>2.9.8.0</FileVersion>
-    <AssemblyVersion>2.9.8.0</AssemblyVersion>
+    <FileVersion>2.9.10.0</FileVersion>
+    <AssemblyVersion>2.9.10.0</AssemblyVersion>
   </PropertyGroup>
 
   <!--<ItemGroup>
