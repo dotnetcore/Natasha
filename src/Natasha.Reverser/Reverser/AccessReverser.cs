@@ -124,13 +124,13 @@ namespace Natasha.Reverser
                 return "protected ";
 
             }
-            else if (reflectFieldInfo.IsAssembly || reflectFieldInfo.IsFamilyOrAssembly)
+            else if (reflectFieldInfo.IsAssembly)
             {
 
                 return "internal ";
 
             }
-            else if (reflectFieldInfo.IsFamilyAndAssembly)
+            else if (reflectFieldInfo.IsFamilyOrAssembly)
             {
 
                 return "internal protected";

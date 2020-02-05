@@ -219,6 +219,28 @@ namespace NatashaUT
             Assert.False(typeof(RDSTRUCT).IsByRef);
             Assert.False(typeof(RDSTRUCT).IsByRefLike);
             Assert.False(typeof(RDSTRUCT).IsMarshalByRef);
+            
+        }
+        [Fact(DisplayName = "栈上结构体类")]
+        public void Test14()
+        {
+
+            Assert.NotNull(typeof(RPDSTRUCT).GetCustomAttribute<IsReadOnlyAttribute>());
+            Assert.True(typeof(RPDSTRUCT).IsPublic);
+            Assert.False(typeof(RPDSTRUCT).IsNotPublic);
+            Assert.True(typeof(RPDSTRUCT).IsSealed);
+            Assert.False(typeof(RPDSTRUCT).IsAbstract);
+            Assert.True(typeof(RPDSTRUCT).IsValueType);
+            Assert.False(typeof(RPDSTRUCT).IsInterface);
+            Assert.False(typeof(RPDSTRUCT).IsNested);
+            Assert.False(typeof(RPDSTRUCT).IsNestedAssembly);
+            Assert.False(typeof(RPDSTRUCT).IsNestedFamANDAssem);
+            Assert.False(typeof(RPDSTRUCT).IsNestedFamily);
+            Assert.False(typeof(RPDSTRUCT).IsNestedPrivate);
+            Assert.False(typeof(RPDSTRUCT).IsNestedFamORAssem);
+            Assert.False(typeof(RPDSTRUCT).IsByRef);
+            Assert.True(typeof(RPDSTRUCT).IsByRefLike);
+            Assert.False(typeof(RPDSTRUCT).IsMarshalByRef);
 
         }
         [Fact(DisplayName = "普通结构体类")]
@@ -246,7 +268,7 @@ namespace NatashaUT
 
 
 
-             [Fact(DisplayName = "栈上结构体类")]
+        [Fact(DisplayName = "引用结构体类")]
         public void Test13()
         {
             Assert.Null(typeof(RPSTRUCT).GetCustomAttribute<IsReadOnlyAttribute>());
@@ -272,7 +294,102 @@ namespace NatashaUT
         private class PPrivateTR { }
 
         internal protected class IIPTR { }
-    }
 
+
+        [Fact(DisplayName = "公有字段")]
+        public void Test15()
+        {
+            var info = typeof(TFieldClass).GetField("A");
+            Assert.True(info.IsPublic);
+            Assert.False(info.IsPrivate);
+            Assert.False(info.IsFamily);
+            Assert.False(info.IsSpecialName);
+            Assert.False(info.IsAssembly);
+            Assert.False(info.IsFamilyAndAssembly);
+            Assert.False(info.IsFamilyOrAssembly);
+
+        }
+        [Fact(DisplayName = "保护字段")]
+        public void Test16()
+        {
+            var info = typeof(TFieldClass).GetField("B",BindingFlags.NonPublic | BindingFlags.Instance);
+            Assert.False(info.IsPublic);
+            Assert.False(info.IsPrivate);
+            Assert.True(info.IsFamily);
+            Assert.False(info.IsSpecialName);
+            Assert.False(info.IsAssembly);
+            Assert.False(info.IsFamilyAndAssembly);
+            Assert.False(info.IsFamilyOrAssembly);
+
+        }
+
+        [Fact(DisplayName = "私有字段")]
+        public void Test18()
+        {
+            var info = typeof(TFieldClass).GetField("D", BindingFlags.NonPublic |
+
+BindingFlags.Instance);
+            Assert.False(info.IsPublic);
+            Assert.True(info.IsPrivate);
+            Assert.False(info.IsFamily);
+            Assert.False(info.IsSpecialName);
+            Assert.False(info.IsAssembly);
+            Assert.False(info.IsFamilyAndAssembly);
+            Assert.False(info.IsFamilyOrAssembly);
+
+        }
+
+        [Fact(DisplayName = "程序集字段")]
+        public void Test17()
+        {
+            var info = typeof(TFieldClass).GetField("C", BindingFlags.NonPublic |
+
+BindingFlags.Instance);
+            Assert.False(info.IsPublic);
+            Assert.False(info.IsPrivate);
+            Assert.False(info.IsFamily);
+            Assert.False(info.IsSpecialName);
+            Assert.True(info.IsAssembly);
+            Assert.False(info.IsFamilyAndAssembly);
+            Assert.False(info.IsFamilyOrAssembly);
+
+        }
+
+
+
+        [Fact(DisplayName = "保护程序集字段")]
+        public void Test19()
+        {
+            var info = typeof(TFieldClass).GetField("E", BindingFlags.NonPublic |
+
+BindingFlags.Instance);
+            Assert.False(info.IsPublic);
+            Assert.False(info.IsPrivate);
+            Assert.False(info.IsFamily);
+            Assert.False(info.IsSpecialName);
+            Assert.False(info.IsAssembly);
+            Assert.False(info.IsFamilyAndAssembly);
+            Assert.True(info.IsFamilyOrAssembly);
+
+        }
+
+        [Fact(DisplayName = "程序集保护字段")]
+        public void Test20()
+        {
+            var info = typeof(TFieldClass).GetField("F", BindingFlags.NonPublic |
+
+BindingFlags.Instance);
+            Assert.False(info.IsPublic);
+            Assert.False(info.IsPrivate);
+            Assert.False(info.IsFamily);
+            Assert.False(info.IsSpecialName);
+            Assert.False(info.IsAssembly);
+            Assert.False(info.IsFamilyAndAssembly);
+            Assert.True(info.IsFamilyOrAssembly);
+
+        }
+
+
+    }
 
 }

@@ -150,7 +150,7 @@ namespace Natasha.Reverser
                     {
                         builder.Append("readonly ");
                     }
-                    else if (info.IsByRefLike)
+                    if (info.IsByRefLike)
                     {
                         builder.Append("ref ");
                     }
