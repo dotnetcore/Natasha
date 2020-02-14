@@ -10,8 +10,10 @@
 
     public enum ComplierResultError
     {
+
         None,
-        ThrowException,
+        ThrowException
+
     }
 
 }

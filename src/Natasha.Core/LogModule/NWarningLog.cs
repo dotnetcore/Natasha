@@ -1,7 +1,4 @@
 ﻿using Natasha.Log.Model;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Natasha.Log
 {
@@ -11,7 +8,7 @@ namespace Natasha.Log
 
         public static bool Enabled;
 
-        static NWarningLog() => Enabled = true;
+        static NWarningLog() => Enabled = false;
         
 
 
@@ -26,7 +23,7 @@ namespace Natasha.Log
 
         public void Handler(string str)
         {
-            Buffer.Append(str);
+            Buffer.AppendLine(str);
         }
 
     }

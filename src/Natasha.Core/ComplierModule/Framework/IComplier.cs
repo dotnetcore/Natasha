@@ -24,10 +24,12 @@ namespace Natasha.Core.Complier
         public ComplierResultError EnumCRError;
         public ComplierResultTarget EnumCRTarget;
         public readonly static string CurrentPath;
+        public static bool UseDetailLog;
 
         static IComplier()
         {
 
+            UseDetailLog = true;
             CurrentPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "dynamiclib");
             if (!Directory.Exists(CurrentPath))
             {
@@ -87,7 +89,8 @@ namespace Natasha.Core.Complier
                 return false;
 
 
-            }else if(SyntaxInfos.TreeUsingMapping.Count == 0)
+            }
+            else if (SyntaxInfos.TreeUsingMapping.Count == 0)
             {
 
 
@@ -109,8 +112,38 @@ namespace Natasha.Core.Complier
 
 
 
+        private void WriteWarningLog(Diagnostic item)
+        {
+
+            NWarningLog logWarning = null;
+            if (UseDetailLog)
+            {
+
+                logWarning = new NWarningLog();
+                logWarning.Handler(item.Id);
+                logWarning.Handler(item.Descriptor.MessageFormat.ToString());
+                logWarning.Handler(item.GetMessage());
+                ComplieException.Log = logWarning.Buffer.ToString();
+
+            }
 
 
+            if (NWarningLog.Enabled)
+            {
+
+                if (logWarning == default)
+                {
+
+                    logWarning = new NWarningLog();
+                    logWarning.Handler(item.Descriptor.MessageFormat.ToString());
+                    logWarning.Handler(item.GetMessage());
+
+                }
+                logWarning.Write();
+
+            }
+
+        }
 
 
 
@@ -147,7 +180,7 @@ namespace Natasha.Core.Complier
                     bool CSO246SHUT = false;
 
 
-                    var tempCache =  SyntaxInfos.TreeCodeMapping;
+                    var tempCache = SyntaxInfos.TreeCodeMapping;
                     SyntaxOption option = new SyntaxOption();
 
 
@@ -156,6 +189,9 @@ namespace Natasha.Core.Complier
 
                         if (item.Id == "CS0104")
                         {
+
+                            WriteWarningLog(item);
+
 
                             CS0104SHUT = true;
                             var tempTree = item.Location.SourceTree;
@@ -185,6 +221,8 @@ namespace Natasha.Core.Complier
                         else if (item.Id == "CS0234")
                         {
 
+                            WriteWarningLog(item);
+
                             CS0234SHUT = true;
                             var tempResult = CS0234Helper.Handler(item.Descriptor.MessageFormat.ToString(), item.GetMessage());
                             UsingDefaultCache.Remove(tempResult);
@@ -195,6 +233,9 @@ namespace Natasha.Core.Complier
                         }
                         else if (item.Id == "CS0246")
                         {
+
+                            WriteWarningLog(item);
+
 
                             CSO246SHUT = true;
                             var tempTree = item.Location.SourceTree;
@@ -241,10 +282,28 @@ namespace Natasha.Core.Complier
                     ComplieException.Message = "发生错误,无法生成程序集！";
 
 
-                    NErrorLog logError = new NErrorLog();
-                    logError.Handler(result.Compilation, ComplieException.Diagnostics);
-                    ComplieException.Log = logError.Buffer.ToString();
-                    if (NErrorLog.Enabled) { logError.Write(); }
+                    NErrorLog logError = null;
+                    if (UseDetailLog)
+                    {
+
+                        logError = new NErrorLog();
+                        logError.Handler(result.Compilation, ComplieException.Diagnostics);
+                        ComplieException.Log = logError.Buffer.ToString();
+
+                    }
+
+
+                    if (NErrorLog.Enabled)
+                    {
+
+                        if (logError == default)
+                        {
+                            logError = new NErrorLog();
+                            logError.Handler(result.Compilation, ComplieException.Diagnostics);
+                        }
+
+                        logError.Write();
+                    }
 
 
                     if (EnumCRError == ComplierResultError.ThrowException)
@@ -257,12 +316,31 @@ namespace Natasha.Core.Complier
                 else
                 {
 
-
-                    NSucceedLog logSucceed = new NSucceedLog();
-                    logSucceed.Handler(result.Compilation);
                     ComplieException.ErrorFlag = ComplieError.None;
-                    ComplieException.Log = logSucceed.Buffer.ToString();
-                    if (NSucceedLog.Enabled) { logSucceed.Write(); }
+
+
+                    NSucceedLog logSucceed = null;
+                    if (UseDetailLog)
+                    {
+
+                        logSucceed = new NSucceedLog();
+                        logSucceed.Handler(result.Compilation);
+                        ComplieException.Log = logSucceed.Buffer.ToString();
+
+                    }
+
+
+                    if (NSucceedLog.Enabled)
+                    {
+
+                        if (logSucceed == default)
+                        {
+                            logSucceed = new NSucceedLog();
+                            logSucceed.Handler(result.Compilation);
+                        }
+
+                        logSucceed.Write();
+                    }
 
 
                 }
@@ -383,7 +461,7 @@ namespace Natasha.Core.Complier
 
 
                 }
-                
+
             }
 
 
