@@ -28,10 +28,10 @@ namespace NatashaUT
                     var domain = DomainManagment.CurrentDomain;
 
 
-                    var assembly = domain.CreateAssembly("AsmTest1");
+                    var assembly = domain.CreateAssembly("ababab");
                     assembly.AddScript("using System;namespace ClassLibrary1{ public class Class1{public string name;}}");
                     var result2 = assembly.Complier();
-                    var type2 = assembly.GetType("Class1");
+                    var type2 = assembly.GetType("ClassLibrary1.Class1");
 
 
                     string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Repeate", "ClassLibrary1.dll");
@@ -63,10 +63,10 @@ namespace NatashaUT
             {
 
                 var domain = DomainManagment.CurrentDomain;
-                var assembly = domain.CreateAssembly("AsmTest1");
+                var assembly = domain.CreateAssembly("ClassLibrary1");
                 assembly.AddScript("using System;namespace ClassLibrary1{ public class Class1{public string name;}}");
                 var result2 = assembly.Complier();
-                var type2 = assembly.GetType("Class1");
+                var type2 = assembly.GetType("ClassLibrary1.Class1");
 
                 try
                 {
@@ -105,17 +105,17 @@ namespace NatashaUT
             {
 
                 var domain = DomainManagment.CurrentDomain;
-                var assembly = domain.CreateAssembly("AsmTest1");
+                var assembly = domain.CreateAssembly("ClassLibrary1");
                 assembly.AddScript("using System;namespace ClassLibrary1{ public class Class1{public string name;}}");
                 var result2 = assembly.Complier();
-                var type2 = assembly.GetType("Class1");
+                var type2 = assembly.GetType("ClassLibrary1.Class1");
                 domain.RemoveAssembly(result2);
 
 
                 var assembly1 = domain.CreateAssembly("AsmTest2");
                 assembly1.AddScript("using System;namespace ClassLibrary1{ public class Class1{public string name;}}");
                 var result1 = assembly1.Complier();
-                var type1 = assembly1.GetType("Class1");
+                var type1 = assembly1.GetType("ClassLibrary1.Class1");
 
 
                 Assert.NotEqual(result1, result2);
@@ -147,14 +147,14 @@ namespace NatashaUT
                     var assembly = domain.CreateAssembly("DAsmTest1");
                     assembly.AddScript("using System;namespace ClassLibrary1{ public class Class1{public string name;}}");
                     var result2 = assembly.Complier();
-                    var type2 = assembly.GetType("Class1");
+                    var type2 = assembly.GetType("ClassLibrary1.Class1");
                     domain.RemoveAssembly(result2);
 
 
                     var assembly1 = domain.CreateAssembly("DAsmTest2");
                     assembly1.AddScript("using System;namespace ClassLibrary1{ public class Class1{public string name;}}");
                     result1 = assembly1.Complier();
-                    var type1 = assembly1.GetType("Class1");
+                    var type1 = assembly1.GetType("ClassLibrary1.Class1");
 
 
                     Assert.NotEqual(result1, result2);

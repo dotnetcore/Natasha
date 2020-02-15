@@ -1,9 +1,10 @@
 ﻿using Microsoft.CodeAnalysis.CSharp;
+using Natasha.Log;
 using Natasha.Log.Model;
 using System;
 using System.Reflection;
 
-namespace Natasha.Log
+namespace System
 {
 
     public class NSucceedLog : ALogWrite

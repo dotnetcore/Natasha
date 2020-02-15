@@ -23,7 +23,8 @@ namespace NatashaUT
 
                 var (Assembly, TypeCache) = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Sql", "ClassLibrary1.dll");
                 Assert.Equal("ClassLibrary1, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", Assembly.FullName);
-                Assert.Equal("Class1", TypeCache["Class1"].Name);
+                Assert.Equal("Class1", TypeCache["ClassLibrary1.Class1"].Name);
+                Assert.Equal("ClassLibrary1.Class1", TypeCache["ClassLibrary1.Class1"].FullName);
 
             }
         }

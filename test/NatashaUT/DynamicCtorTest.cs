@@ -20,7 +20,7 @@ namespace NatashaUT
                 .Body("this.connection = initString;")
                 .Script;
 
-            Assert.Equal($"public Test(String initString){{{Environment.NewLine}this.connection = initString;}}", result);
+            Assert.Equal($"public Test(System.String initString){{{Environment.NewLine}this.connection = initString;}}", result);
         }
 
 

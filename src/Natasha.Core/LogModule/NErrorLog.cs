@@ -1,11 +1,12 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Natasha.Log;
 using Natasha.Log.Model;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Natasha.Log
+namespace System
 {
 
     public class NErrorLog : ALogWrite

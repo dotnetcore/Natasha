@@ -1,6 +1,7 @@
-﻿using Natasha.Log.Model;
+﻿using Natasha.Log;
+using Natasha.Log.Model;
 
-namespace Natasha.Log
+namespace System
 {
 
     public class NWarningLog : ALogWrite

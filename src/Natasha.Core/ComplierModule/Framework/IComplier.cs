@@ -198,16 +198,29 @@ namespace Natasha.Core.Complier
                             var tempCode = tempCache[tempTree];
                             var (str1, str2) = CS0104Helper.Handler(item.Descriptor.MessageFormat.ToString(), item.GetMessage());
                             var sets = SyntaxInfos.TreeUsingMapping[tempTree];
-                            if (sets.Contains(str2))
+                            if (sets.Contains(str1))
                             {
 
-                                tempCache[tempTree] = tempCode.Replace($"using {str1};", "");
+                                if (sets.Contains(str2))
+                                {
 
-                            }
-                            else if (sets.Contains(str1))
-                            {
+                                    if (str2 == "System")
+                                    {
+                                        tempCache[tempTree] = tempCode.Replace($"using {str2};", "");
+                                    }
+                                    else
+                                    {
+                                        tempCache[tempTree] = tempCode.Replace($"using {str1};", "");
+                                    }
 
-                                tempCache[tempTree] = tempCode.Replace($"using {str2};", "");
+                                }
+                                else
+                                {
+
+                                    tempCache[tempTree] = tempCode.Replace($"using {str2};", "");
+
+                                }
+                                
 
                             }
                             else

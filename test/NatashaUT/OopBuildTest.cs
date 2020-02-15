@@ -23,7 +23,7 @@ namespace NatashaUT
                 .PublicStaticField<string>("Name")
                 .PrivateStaticField<int>("_age")
                 .Script;
-            Assert.Equal($@"using NatashaUT;{Environment.NewLine}using System;{Environment.NewLine}namespace TestNamespace{{{Environment.NewLine}public static class TestUt1{{{Environment.NewLine}public static String Name;{Environment.NewLine}private static Int32 _age;{Environment.NewLine}public static void Test(){{}}{Environment.NewLine}}}}}", script);
+            Assert.Equal($@"using NatashaUT;{Environment.NewLine}using System;{Environment.NewLine}namespace TestNamespace{{{Environment.NewLine}public static class TestUt1{{{Environment.NewLine}public static System.String Name;{Environment.NewLine}private static System.Int32 _age;{Environment.NewLine}public static void Test(){{}}{Environment.NewLine}}}}}", script);
             
         }
 
@@ -42,7 +42,7 @@ namespace NatashaUT
                 .PublicStaticField<string>("Name")
                 .PrivateStaticField<int>("_age");
             var result = assembly.Check();
-            Assert.Equal($@"using System;{Environment.NewLine}namespace TestNamespace{Environment.NewLine}{{{Environment.NewLine}    private struct TestUt2{Environment.NewLine}    {{{Environment.NewLine}        public static String Name;{Environment.NewLine}        private static Int32 _age;{Environment.NewLine}        public static void Test() {{ }}{Environment.NewLine}    }}{Environment.NewLine}}}", result[0].Formatter);
+            Assert.Equal($@"using System;{Environment.NewLine}namespace TestNamespace{Environment.NewLine}{{{Environment.NewLine}    private struct TestUt2{Environment.NewLine}    {{{Environment.NewLine}        public static System.String Name;{Environment.NewLine}        private static System.Int32 _age;{Environment.NewLine}        public static void Test() {{ }}{Environment.NewLine}    }}{Environment.NewLine}}}", result[0].Formatter);
         }
 
 
@@ -66,7 +66,7 @@ namespace NatashaUT
                 .PrivateStaticField<int>("_age")
                 .Script;
 
-            Assert.Equal($@"using System;{Environment.NewLine}namespace System{{{Environment.NewLine}interface TestUt3{{{Environment.NewLine}public static String Name;{Environment.NewLine}private static Int32 _age;{Environment.NewLine}public static void Test(){{}}static TestUt3(String name){{{Environment.NewLine}this.Name=name;}}{Environment.NewLine}}}}}", script);
+            Assert.Equal($@"using System;{Environment.NewLine}namespace System{{{Environment.NewLine}interface TestUt3{{{Environment.NewLine}public static System.String Name;{Environment.NewLine}private static System.Int32 _age;{Environment.NewLine}public static void Test(){{}}static TestUt3(System.String name){{{Environment.NewLine}this.Name=name;}}{Environment.NewLine}}}}}", script);
         }
 
 

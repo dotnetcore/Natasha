@@ -49,7 +49,7 @@ namespace HelloWorld
             var oop = new NAssembly();
             oop.AddScript(text);
             oop.Complier();
-            Type type = oop.GetType("Test");
+            Type type = oop.GetType("HelloWorld.Test");
             Assert.Equal("Test", type.Name);
         }
 

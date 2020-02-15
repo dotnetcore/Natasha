@@ -19,7 +19,7 @@ namespace Natasha
         public NAssembly(string name) : this()
         {
 
-            Options .AssemblyName = name;
+            Options.AssemblyName = name;
 
         }
 
@@ -245,7 +245,7 @@ namespace Natasha
         public FastMethodOperator CreateFastMethod(string name = default)
         {
 
-            var @operator = new FastMethodOperator().OopName(name);
+            var @operator = new FastMethodOperator().OopName(name).Namespace(Options.AssemblyName);
             @operator.Complier.Domain = Options.Domain;
             return @operator;
 
@@ -262,7 +262,7 @@ namespace Natasha
         public FakeMethodOperator CreateFakeMethod(string name = default)
         {
 
-            var @operator = new FakeMethodOperator().OopName(name);
+            var @operator = new FakeMethodOperator().OopName(name).Namespace(Options.AssemblyName);
             @operator.Complier.Domain = Options.Domain;
             return @operator;
 

@@ -17,7 +17,7 @@ namespace NatashaUT
             string path2 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "File", "TestFileModel.cs");
             
             
-            NAssembly assembly = new NAssembly("AsmTestFile");
+            NAssembly assembly = new NAssembly();
             assembly.AddFile(path1);
             assembly.AddFile(path2);
 
@@ -26,7 +26,7 @@ namespace NatashaUT
             Assert.NotNull(result);
 
 
-            var type = assembly.GetType("TestFileModel");
+            var type = assembly.GetType("aaa.TestFileModel");
             Assert.NotNull(type);
             Assert.Equal("TestFileModel", type.Name);
 

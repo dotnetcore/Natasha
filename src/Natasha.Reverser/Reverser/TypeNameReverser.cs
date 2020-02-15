@@ -107,6 +107,10 @@ namespace Natasha.Reverser
             {
 
                 StringBuilder result = new StringBuilder();
+                if (fatherString == default && type.Namespace!= default && type.FullName != default)
+                {
+                    result.Append(type.Namespace+".");
+                }
                 result.Append($"{type.Name.Split('`')[0]}<");
                 bool HasWriteArguments = false;
 
@@ -160,6 +164,10 @@ namespace Natasha.Reverser
 
                     return "void";
 
+                }
+                if (fatherString == default && type.Namespace != default && type.FullName != default)
+                {
+                    return type.Namespace + "." + type.Name + Suffix;
                 }
                 return fatherString + type.Name + Suffix;
 

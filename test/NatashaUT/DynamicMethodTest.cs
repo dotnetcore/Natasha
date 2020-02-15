@@ -169,7 +169,7 @@ Console.WriteLine(""hello world"");{Environment.NewLine}
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite2"))
                 .MethodContent(@"Console.WriteLine(""hello world"");return this;")
                 .Builder();
-            Assert.Equal($@"public async Task<OopTestModel> ReWrite2()
+            Assert.Equal($@"public async System.Threading.Tasks.Task<NatashaUT.Model.OopTestModel> ReWrite2()
 {{
 Console.WriteLine(""hello world"");return this;{Environment.NewLine}
 }}", builder.MethodScript);
@@ -185,7 +185,7 @@ Console.WriteLine(""hello world"");return this;{Environment.NewLine}
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite2"))
                 .StaticMethodContent(@"Console.WriteLine(""hello world"");return this;")
                 .Builder();
-            Assert.Equal($@"public static async Task<OopTestModel> ReWrite2()
+            Assert.Equal($@"public static async System.Threading.Tasks.Task<NatashaUT.Model.OopTestModel> ReWrite2()
 {{
 Console.WriteLine(""hello world"");return this;{Environment.NewLine}
 }}", builder.MethodScript);
@@ -202,7 +202,7 @@ Console.WriteLine(""hello world"");return this;{Environment.NewLine}
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite3"))
                 .MethodContent(@"i++;temp+=i.ToString();")
                 .Builder();
-            Assert.Equal($@"public virtual void ReWrite3(ref Int32 i,String temp)
+            Assert.Equal($@"public virtual void ReWrite3(ref System.Int32 i,System.String temp)
 {{
 i++;temp+=i.ToString();{Environment.NewLine}
 }}", builder.MethodScript);
@@ -219,7 +219,7 @@ i++;temp+=i.ToString();{Environment.NewLine}
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite3"))
                 .StaticMethodContent(@"i++;temp+=i.ToString();")
                 .Builder();
-            Assert.Equal($@"public static void ReWrite3(ref Int32 i,String temp)
+            Assert.Equal($@"public static void ReWrite3(ref System.Int32 i,System.String temp)
 {{
 i++;temp+=i.ToString();{Environment.NewLine}
 }}", builder.MethodScript);

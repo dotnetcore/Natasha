@@ -60,7 +60,7 @@ namespace NatashaUT
                 .EnumField("Test2", 1);
 
             var result = assembly.Complier();
-            var type = assembly.GetType("ClassAsm");
+            var type = assembly.GetType(@class.NamespaceScript+"."+"ClassAsm");
 
             var builder = FastMethodOperator.Default();
             builder.Complier.Domain = domain;
@@ -113,7 +113,7 @@ namespace NatashaUT
 
 
             var result = assembly.Complier();
-            var type = assembly.GetType("ClassAsm");
+            var type = assembly.GetType(@class.NamespaceScript + "."+"ClassAsm");
             domain.RemoveType(type);
 
 
@@ -148,7 +148,7 @@ namespace NatashaUT
 
 
             result = assembly.Complier();
-            type = assembly.GetType("ClassAsm");
+            type = assembly.GetType(@class.NamespaceScript+".ClassAsm");
 
 
 
@@ -243,7 +243,7 @@ public class Test{}
 
 
                 //创建一个类并实现​接口
-                assembly
+               var nameSpace = assembly
                    .CreateClass("TestClass​")
                    .Using("System")
                    .Public
@@ -253,10 +253,10 @@ public class Test{}
                      .Name("ShowMethod")
                      .Param<string>("str")
                      .Body("return str+\" World!\";")
-                     .Return<string>());
+                     .Return<string>()).NamespaceScript;
 
                 var result = assembly.Complier();
-                var type = assembly.GetType("TestClass");
+                var type = assembly.GetType(nameSpace+".TestClass");
 
                 //单独创建一个程序集​方法
                var func = FastMethodOperator.Default()

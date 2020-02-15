@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Natasha.Log;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 namespace Natasha.Core.Complier.Model
