@@ -30,7 +30,7 @@ namespace NatashaUT
         }
 
 
-        //[Fact(DisplayName = "不可回收：MySql插件")]
+        [Fact(DisplayName = "不可回收：MySql插件")]
         public void Test1()
         {
 
@@ -40,7 +40,7 @@ namespace NatashaUT
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
             }
-            Assert.False(DomainManagment.IsDeleted("TempDomain11"));
+            Assert.False(DomainManagment.IsDeleted("TempDADomain11"));
 
         }
 
@@ -49,13 +49,12 @@ namespace NatashaUT
         {
             string result;
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib","Sql", "ClassLibrary1.dll");
-            Console.WriteLine(path);
             Assert.True(File.Exists(path));
-            using (DomainManagment.CreateAndLock("TempDomain11"))
+            using (DomainManagment.CreateAndLock("TempDADomain11"))
             {
 
                 var domain = DomainManagment.CurrentDomain;
-                var assemebly = domain.LoadFile(path);
+                var assemebly = domain.LoadStream(path);
                 var action = FastMethodOperator.Default()
                    .Using(assemebly)
                    .MethodBody(@"

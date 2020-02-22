@@ -129,7 +129,7 @@ namespace Natasha.Core.Complier
                     if (complieResult.Success)
                     {
 
-                        return (_domain.Handler(new FileStream(DllFilePath, FileMode.Open)), default, compilation);
+                        return (_domain.Handler(new FileStream(DllFilePath, FileMode.Open, FileAccess.Read)), default, compilation);
 
                     }
                     else

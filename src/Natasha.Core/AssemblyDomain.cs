@@ -235,7 +235,7 @@ namespace Natasha
             if (assemblyPath != null)
             {
 
-                var assembly = Handler(new FileStream(assemblyPath, FileMode.Open));
+                var assembly = Handler(new FileStream(assemblyPath, FileMode.Open, FileAccess.Read));
                 LoadAssemblyEvent?.Invoke(assemblyPath, assembly);
                 return assembly;
 
@@ -433,7 +433,7 @@ namespace Natasha
 
                 if (!exclude.Contains(item.Value))
                 {
-                    var info = new AssemblyUnitInfo(this, new FileStream(item.Value, FileMode.Open));
+                    var info = new AssemblyUnitInfo(this, new FileStream(item.Value, FileMode.Open, FileAccess.Read));
                     Assembly assembly = Handler(info);
                     OutfileMapping[item.Value] = assembly;
                     PathMapping[assembly] = item.Value;
@@ -451,7 +451,7 @@ namespace Natasha
             {
                 if (!exclude.Contains(dllFiles[i]))
                 {
-                    var info = new AssemblyUnitInfo(this, new FileStream(dllFiles[i], FileMode.Open));
+                    var info = new AssemblyUnitInfo(this, new FileStream(dllFiles[i], FileMode.Open, FileAccess.Read));
                     Assembly assembly = Handler(info);
                     OutfileMapping[dllFiles[i]] = assembly;
                     PathMapping[assembly] = dllFiles[i];

@@ -90,12 +90,11 @@ namespace Core30
                 var assemebly = domain.LoadStream(path);
                 var action = FastMethodOperator.Default()
                    .Using(assemebly)
+                   .Using("MySql.Data.MySqlClient")
                    .MethodBody(@"
 try{
-//MySqlConnection conn = new MySqlConnection("""");
-//conn.Open();
-Class1 a = new Class1();
-return  a.Show();
+MySqlConnection conn = new MySqlConnection("""");
+conn.Open();
 }
 catch(Exception e){
     return e.Message;
