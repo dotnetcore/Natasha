@@ -80,32 +80,10 @@ namespace Core30
             //Thread.Sleep(2000);
             //TestMemoery2();
             //Testt();
+            Show1();
+            Console.WriteLine(DomainManagment.IsDeleted("TempDomain11"));
 
-            string result;
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Sql", "ClassLibrary1.dll");
-            using (DomainManagment.CreateAndLock("TempDomain11"))
-            {
-
-                var domain = DomainManagment.CurrentDomain;
-                var assemebly = domain.LoadStream(path);
-                var action = FastMethodOperator.Default()
-                   .Using(assemebly)
-                   .Using("MySql.Data.MySqlClient")
-                   .MethodBody(@"
-try{
-MySqlConnection conn = new MySqlConnection("""");
-conn.Open();
-}
-catch(Exception e){
-    return e.Message;
-}
-return default;").Return<string>()
-
-                   .Complie<Func<string>>();
-                result = action();
-                Console.WriteLine(result);
-            }
-                Console.ReadKey();
+            Console.ReadKey();
         }
 
         public static void ShowQ()
@@ -139,7 +117,7 @@ return default;").Return<string>()
                 nStruct
                     .Namespace("Core301")
                     .OopName($"Test{i}")
-                    
+
                     .Ctor(builder => builder
                         .PublicMember
                         .Param<string>("name")
@@ -223,8 +201,33 @@ return default;").Return<string>()
             action?.Invoke();
         }
 
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static void Show1()
+        {
+            string result;
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Sql", "ClassLibrary1.dll");
+            using (DomainManagment.CreateAndLock("TempDomain11"))
+            {
 
-        
+                var domain = DomainManagment.CurrentDomain;
+                var assemebly = domain.LoadStream(path);
+                var action = FastMethodOperator.Default()
+                   .Using(assemebly)
+                   .MethodBody(@"
+try{
+Class1 a = new Class1();
+return  a.Show();
+}
+catch(Exception e){
+    return e.Message;
+}
+return default;").Return<string>()
+
+                   .Complie<Func<string>>();
+                result = action();
+                Console.WriteLine(result);
+            }
+        }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void Show()
@@ -245,31 +248,31 @@ return default;").Return<string>()
 
 
             var domain1 = DomainManagment.Create("TempDomain");
-           // nStruct = new NStruct();
-           // nStruct
- 
-           //     .Namespace("Core30")
-           //     .OopName("Test1")
-           //     .Ctor(builder => builder
-           //         .PublicMember
-           //         .Param<string>("name")
-           //         .Body(@"Name=name+""1"";"))
-           //     .PublicField<string>("Name");
-           //var type1 = nStruct.GetType();
-           // domain1.RemoveType(type1);
+            // nStruct = new NStruct();
+            // nStruct
 
-           // nStruct = new NStruct();
-           // nStruct
+            //     .Namespace("Core30")
+            //     .OopName("Test1")
+            //     .Ctor(builder => builder
+            //         .PublicMember
+            //         .Param<string>("name")
+            //         .Body(@"Name=name+""1"";"))
+            //     .PublicField<string>("Name");
+            //var type1 = nStruct.GetType();
+            // domain1.RemoveType(type1);
 
-           //     .Namespace("Core30")
-           //     .OopName("Test")
-           //     .Ctor(builder => builder
-           //         .PublicMember
-           //         .Param<string>("name")
-           //         .Body(@"Name=name+""2"";"))
-           //     .PublicField<string>("Name");
-           // var type3 = nStruct.GetType();
-           // domain1.RemoveType(type3);
+            // nStruct = new NStruct();
+            // nStruct
+
+            //     .Namespace("Core30")
+            //     .OopName("Test")
+            //     .Ctor(builder => builder
+            //         .PublicMember
+            //         .Param<string>("name")
+            //         .Body(@"Name=name+""2"";"))
+            //     .PublicField<string>("Name");
+            // var type3 = nStruct.GetType();
+            // domain1.RemoveType(type3);
 
 
             nStruct = new NStruct();
@@ -284,7 +287,7 @@ return default;").Return<string>()
                     .Body(@"Name=name+""3"";"))
                 .PublicField<string>("Name");
             var type4 = nStruct.GetType();
-           
+
 
             //nStruct = new NStruct();
             //nStruct
