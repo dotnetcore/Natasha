@@ -89,5 +89,39 @@ namespace NatashaUT
         }
 
 
+        [Fact(DisplayName = "方法承解析1")]
+        public void TestMethodProtected1()
+        {
+
+            var a = typeof(MethodModel).GetMethod("M");
+            Assert.Equal("virtual ", ModifierReverser.GetModifier(a));
+
+        }
+        [Fact(DisplayName = "方法承解析2")]
+        public void TestMethodProtected2()
+        {
+
+            var a = typeof(MethodModel2).GetMethod("M");
+            Assert.Equal("abstract ", ModifierReverser.GetModifier(a));
+
+        }
+        [Fact(DisplayName = "方法承解析3")]
+        public void TestMethodProtected3()
+        {
+
+            var a = typeof(MethodModel3).GetMethod("M");
+            Assert.Equal("override ", ModifierReverser.GetModifier(a));
+
+        }
+        //[Fact(DisplayName = "方法承解析4")]
+        //public void TestMethodProtected4()
+        //{
+
+        //    var a = typeof(MethodModel4).GetMethod("M");
+        //    Assert.Equal("new ", ModifierReverser.GetModifier(a));
+
+        //}
+
+
     }
 }

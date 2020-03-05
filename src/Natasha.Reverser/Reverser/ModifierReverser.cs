@@ -45,32 +45,32 @@ namespace Natasha.Reverser
         /// <returns></returns>
         public static string GetModifier(MethodInfo reflectMethodInfo)
         {
-
+            //此段代码由工良提供
             if (reflectMethodInfo.IsStatic)
             {
-
                 return "static ";
-
             }
+            // 没有相应的信息，说明没有使用以上关键字修饰
+            if (!reflectMethodInfo.IsHideBySig)
+                return default;
 
-
-            if (reflectMethodInfo.IsVirtual)
-            {
-
-                return "virtual ";
-
-            }
-
-
+            // 是否抽象方法
             if (reflectMethodInfo.IsAbstract)
-            {
-
                 return "abstract ";
 
+            // virtual、override、实现接口的方法
+            if (reflectMethodInfo.IsVirtual)
+            {
+                // 实现接口的方法
+                if (reflectMethodInfo.IsFinal)
+                    return default;
+                // 没有被重写，则为 virtual
+                if (reflectMethodInfo.Equals(reflectMethodInfo.GetBaseDefinition()))
+                    return "virtual ";
+                else
+                    return "override ";
             }
-
-
-            return "";
+            return default;
 
         }
 
