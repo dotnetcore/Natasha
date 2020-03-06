@@ -95,6 +95,7 @@ namespace NatashaUT
 
             var a = typeof(MethodModel).GetMethod("M");
             Assert.Equal("virtual ", ModifierReverser.GetModifier(a));
+            Assert.False(a.IsAbstract);
 
         }
         [Fact(DisplayName = "方法承解析2")]
@@ -103,6 +104,7 @@ namespace NatashaUT
 
             var a = typeof(MethodModel2).GetMethod("M");
             Assert.Equal("abstract ", ModifierReverser.GetModifier(a));
+            Assert.True(a.IsVirtual);
 
         }
         [Fact(DisplayName = "方法承解析3")]

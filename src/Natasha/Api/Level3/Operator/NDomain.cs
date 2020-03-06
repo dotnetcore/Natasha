@@ -152,6 +152,38 @@ namespace Natasha
 
 
 
+        public T Delegate<T>(string content, params NamespaceConverter[] usings) where T : Delegate
+        {
+            return content == default ? null : DelegateOperator<T>.Delegate(content, _domain, _target, _error, usings);
+        }
+
+
+
+
+        public T AsyncDelegate<T>(string content, params NamespaceConverter[] usings) where T : Delegate
+        {
+            return content == default ? null : DelegateOperator<T>.AsyncDelegate(content, _domain, _target, _error, usings);
+        }
+
+
+
+
+        public T UnsafeDelegate<T>(string content, params NamespaceConverter[] usings) where T : Delegate
+        {
+            return content == default ? null : DelegateOperator<T>.UnsafeDelegate(content, _domain, _target, _error, usings);
+        }
+
+
+
+
+        public T UnsafeAsyncDelegate<T>(string content, params NamespaceConverter[] usings) where T : Delegate
+        {
+            return content == default ? null : DelegateOperator<T>.UnsafeAsyncDelegate(content, _domain, _target, _error, usings);
+        }
+
+
+
+
         public Func<T> Func<T>(string content, params NamespaceConverter[] usings)
         {
             return content == default ? null : DelegateOperator<Func<T>>.Delegate(content, _domain, _target, _error, usings);

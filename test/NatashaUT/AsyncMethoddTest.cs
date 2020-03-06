@@ -56,7 +56,7 @@ namespace NatashaUT
 
 
 
-        [Fact(DisplayName = "NFunc异步委托")]
+        [Fact(DisplayName = "NDomain - AsyncFunc异步委托")]
         public static async void RunAsyncDelegate5()
         {
             var action = NDomain.Random().AsyncFunc<string, string, Task<string>>(@"
@@ -71,7 +71,7 @@ namespace NatashaUT
 
 
 
-        [Fact(DisplayName = "NFunc非安全异步委托")]
+        [Fact(DisplayName = "NDomain - UnsafeAsyncFunc非安全异步委托")]
         public static async void RunAsyncDelegate6()
         {
             var action = NDomain.Random().UnsafeAsyncFunc<string, string, Task<string>>(@"
@@ -125,6 +125,20 @@ namespace NatashaUT
             Assert.Equal("Hello World2!", result);
         }
 
+
+
+
+        [Fact(DisplayName = "NDomain - Delegate自定义委托")]
+        public static void RunDelegate8()
+        {
+            var action = NDomain.Random().Delegate<TestDelegate>(@"
+                            return value.Length;");
+
+            int result = action("Hello");
+            Assert.Equal(5, result);
+        }
+
     }
 
+    public delegate int TestDelegate(string value);
 }
