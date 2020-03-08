@@ -112,7 +112,7 @@ namespace NatashaUT
                 domain.RemoveAssembly(result2);
 
 
-                var assembly1 = domain.CreateAssembly("AsmTest2");
+                var assembly1 = domain.CreateAssembly("AsmTest22");
                 assembly1.AddScript("using System;namespace ClassLibrary1{ public class Class1{public string name;}}");
                 var result1 = assembly1.Complier();
                 var type1 = assembly1.GetType("ClassLibrary1.Class1");
