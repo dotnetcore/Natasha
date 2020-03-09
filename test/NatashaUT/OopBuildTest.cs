@@ -20,10 +20,10 @@ namespace NatashaUT
                 .Namespace("TestNamespace")
                 .OopName("TestUt1")
                 .OopBody("public static void Test(){}")
-                .PublicStaticField<string>("Name")
-                .PrivateStaticField<int>("_age")
+                .PublicStaticField<string>("Name", 0)
+                .PrivateStaticField<int>("_age", 10)
                 .Script;
-            Assert.Equal($@"using NatashaUT;{Environment.NewLine}using System;{Environment.NewLine}namespace TestNamespace{{{Environment.NewLine}public static class TestUt1{{{Environment.NewLine}public static System.String Name;{Environment.NewLine}private static System.Int32 _age;{Environment.NewLine}public static void Test(){{}}{Environment.NewLine}}}}}", script);
+            Assert.Equal($@"using NatashaUT;{Environment.NewLine}using System;{Environment.NewLine}namespace TestNamespace{{{Environment.NewLine}public static class TestUt1{{{Environment.NewLine}[FieldOffset(0)]{Environment.NewLine}public static System.String Name;{Environment.NewLine}[FieldOffset(10)]{Environment.NewLine}private static System.Int32 _age;{Environment.NewLine}public static void Test(){{}}{Environment.NewLine}}}}}", script);
             
         }
 
