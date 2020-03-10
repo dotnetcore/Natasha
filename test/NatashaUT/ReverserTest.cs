@@ -115,6 +115,13 @@ namespace NatashaUT
             Assert.Equal("override ", ModifierReverser.GetModifier(a));
 
         }
+        [Fact(DisplayName = "方法承解析4")]
+        public void TestMethodProtected4()
+        {
+            var a = typeof(IMethodModel4).GetMethod("M");
+            Assert.Equal(null, ModifierReverser.GetModifier(a));
+
+        }
         //[Fact(DisplayName = "方法承解析4")]
         //public void TestMethodProtected4()
         //{

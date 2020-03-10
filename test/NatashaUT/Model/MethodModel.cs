@@ -9,6 +9,10 @@ namespace NatashaUT.Model
     {
         public virtual void M() { }
     }
+    public interface IMethodModel4
+    {
+        void M();
+    }
 
     public abstract class MethodModel2
     {
