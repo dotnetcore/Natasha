@@ -71,23 +71,17 @@ WeihanLi
 <br/>    
 
 ### 发布日志  
-  
-  - 2020-01-03 ： 发布v2.9.0.0, 修改大量静态初始化 API, 支持运行时引发异常， 支持新域内外部插件优先覆盖系统域插件进行编译， 修复若干编译器 BUG。 补操作文档：https://github.com/dotnetcore/Natasha/blob/master/docs/zh/api/static-init.md 。
-  
-  - 2020-01-06 ： 发布v2.9.6.0, 补加无参的 UnsafeAction / AsyncAction / UnsafeAsyncAction API；语法检测增加日志开关和异常引发。
-  
-  - 2020-01-10 ： 发布v2.9.6.1, 增加反解器的区分， List\<T\> 由 GetDevelopName 返回， List<> 由 GetRuntimeName 返回, 移除编译依赖。
     
-  - 2020-01-13 ： 发布v2.9.7.0, 默认关闭成功日志提升性能，AssemblyDomain 增加事件以便外部调用者跟踪插件生命周期，调整文件结构。
-  
-  - 2020-01-14 ： 发布v2.9.8.0, 优化引擎锁。
-  
   - 2020-02-05 ： 发布v2.9.10.0, 修复字段保护级别反解，增加栈上类型反解。
     
   - 2020-02-15 ： 发布v2.10.0.0, 增加警告编译日志（默认关闭），增加全局详细日志控制字段 UseDetailLog, 日志操作的命名空间改为system, 类型反解器添加命名空间，修改 CS0104 BUG。
   
   - 2020-03-05 ： 发布v2.10.2.0, 修复一处方法反解器的 BUG ,暂不解析 new 关键字。 
+  
   - 2020-03-12 ： 发布v2.12.0.0, 增加新API  NDomain.XXX.Delegate<Tdelegate>() 系列API, Field模板构建增加了一个参数 int? fieldoffset。 
+  
+  - 2020-03-16 ： 发布v2.14.0.0, 为 RuntimeToDynamic 库优化些API ,NDomain 类使用 Using 模板来提供命名空间预定义的操作, 方便提前定制命名空间;新增域、命名空间关联模板 NHandler 以便提供与当前信息相同的 delegate / class / interface / enum / struct 操作类;增加 ALink 抽象类约束，以便约束不带有功能的 Link 操作。  
+  
  <br/>  
  
  
