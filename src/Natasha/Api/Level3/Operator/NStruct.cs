@@ -1,8 +1,6 @@
-﻿using Natasha.Builder;
-
-namespace Natasha
+﻿namespace Natasha
 {
-    public class NStruct : OopBuilder<NStruct>
+    public class NStruct : NHandler<NStruct>
     {
 
         public NStruct()

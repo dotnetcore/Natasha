@@ -2,7 +2,7 @@
 
 namespace Natasha
 {
-    public class NInterface : OopBuilder<NInterface>
+    public class NInterface : NHandler<NInterface>
     {
 
         public NInterface()

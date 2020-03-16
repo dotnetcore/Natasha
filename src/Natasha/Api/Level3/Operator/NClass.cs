@@ -7,7 +7,7 @@ namespace Natasha
     /// <summary>
     /// 默认创建一个公有的类
     /// </summary>
-    public class NClass : OopBuilder<NClass>
+    public class NClass : NHandler<NClass>
     {
 
         public NClass()
@@ -17,6 +17,8 @@ namespace Natasha
             Public.ChangeToClass();
 
         }
+
+
 
     }
 

@@ -2,7 +2,7 @@
 
 namespace Natasha
 {
-    public class NEnum : OopBuilder<NEnum>
+    public class NEnum : NHandler<NEnum>
     {
 
         public NEnum()

@@ -10,9 +10,9 @@ namespace Natasha.Template
     {
 
         public readonly StringBuilder UsingScript;
-        private readonly HashSet<string> _usings;
-        private readonly HashSet<Type> _usingTypes;
-        private bool _useCustomerUsing;
+        internal readonly HashSet<string> _usings;
+        internal readonly HashSet<Type> _usingTypes;
+        internal bool _useCustomerUsing;
 
         public UsingTemplate()
         {
