@@ -7,14 +7,14 @@ namespace Natasha.Template
     /// 记录模板
     /// </summary>
     /// <typeparam name="T">LINK返回的类型</typeparam>
-    public class TemplateRecoder<T> : ComplierTemplate<T>, IScriptBuilder<T> where T : TemplateRecoder<T>, new()
+    public class GlobalUsingTemplate<T> : ComplierTemplate<T>, IScriptBuilder<T> where T : GlobalUsingTemplate<T>, new()
     {
 
         public StringBuilder _script;
         public readonly TypeRecoder UsingRecoder;
 
 
-        public TemplateRecoder()
+        public GlobalUsingTemplate()
         {
 
             UsingRecoder = new TypeRecoder();

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Natasha.Template
 {
-    public class UsingTemplate<T> : TemplateRecoder<T> where T : UsingTemplate<T>, new()
+    public class UsingTemplate<T> : GlobalUsingTemplate<T> where T : UsingTemplate<T>, new()
     {
 
         public readonly StringBuilder UsingScript;

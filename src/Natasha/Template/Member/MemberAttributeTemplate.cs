@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Natasha.Template
 {
-    public class MemberAttributeTemplate<T> : TemplateRecoder<T> where T : MemberAttributeTemplate<T>, new()
+    public class MemberAttributeTemplate<T> : GlobalUsingTemplate<T> where T : MemberAttributeTemplate<T>, new()
     {
 
         public readonly StringBuilder MemberAttributeScript;
