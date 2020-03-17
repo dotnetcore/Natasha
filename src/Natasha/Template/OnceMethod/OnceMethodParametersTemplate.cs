@@ -1,15 +1,14 @@
 ﻿using Natasha.Reverser;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 
 namespace Natasha.Template
 {
-    public class OnceMethodParametersTemplate<T>: OnceMethodNameTemplate<T>
+    public class OnceMethodParametersTemplate<T> : OnceMethodNameTemplate<T> where T : OnceMethodParametersTemplate<T>, new()
     {
-       
+
         private MethodInfo _methodInfo;
         public string ParametersScript;
         public readonly List<Type> ParametersTypes;
@@ -30,7 +29,7 @@ namespace Natasha.Template
 
             _methodInfo = info;
             var parameters = info.GetParameters();
-            for (int i = 0; i < parameters.Length; i+=1)
+            for (int i = 0; i < parameters.Length; i += 1)
             {
                 Param(parameters[i].ParameterType, parameters[i].Name);
             }
@@ -52,7 +51,7 @@ namespace Natasha.Template
 
         internal void GetParams(IEnumerable<KeyValuePair<Type, string>> parameters)
         {
-            if (_methodInfo==null)
+            if (_methodInfo == null)
             {
                 ParametersScript = DeclarationReverser.GetParameters(parameters).ToString();
             }
@@ -60,7 +59,7 @@ namespace Natasha.Template
             {
                 ParametersScript = DeclarationReverser.GetParameters(_methodInfo).ToString();
             }
-            
+
         }
 
 

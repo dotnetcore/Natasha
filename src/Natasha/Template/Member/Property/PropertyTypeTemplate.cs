@@ -2,7 +2,7 @@
 
 namespace Natasha.Template
 {
-    public class PropertyTypeTemplate<T>: MemberModifierTemplate<T>
+    public class PropertyTypeTemplate<T>: MemberModifierTemplate<T> where T : PropertyTypeTemplate<T>, new()
     {
 
         public string PropertyTypeScript;

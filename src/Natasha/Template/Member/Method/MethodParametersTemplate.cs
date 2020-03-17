@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace Natasha.Template
 {
-    public class MethodParametersTemplate<T>: MethodNameTemplate<T>
+    public class MethodParametersTemplate<T> : MethodNameTemplate<T> where T : MethodParametersTemplate<T>, new()
     {
 
         public readonly List<KeyValuePair<Type, string>> ParametersMappings;

@@ -1,6 +1,6 @@
 ﻿namespace Natasha.Template
 {
-    public class ALink<T>
+    public class ALinkTemplate<T>
     {
         public T Link;
     }

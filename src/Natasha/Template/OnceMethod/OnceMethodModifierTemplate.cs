@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Natasha.Template
 {
-    public class OnceMethodModifierTemplate<T>: OnceMethodAccessTemplate<T>
+    public class OnceMethodModifierTemplate<T>: OnceMethodAccessTemplate<T> where T : OnceMethodModifierTemplate<T>, new()
     {
 
         public string OnceModifierScript;

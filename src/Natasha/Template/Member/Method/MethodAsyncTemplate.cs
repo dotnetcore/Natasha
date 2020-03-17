@@ -3,7 +3,7 @@ using Natasha.Reverser;
 
 namespace Natasha.Template
 {
-    public class MethodAsyncTemplate<T> : MethodUnsafeTemplate<T>
+    public class MethodAsyncTemplate<T> : MethodUnsafeTemplate<T> where T : MethodAsyncTemplate<T>, new()
     {
 
         public string MethodAsyncScript;

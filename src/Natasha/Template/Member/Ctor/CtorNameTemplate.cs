@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace Natasha.Template
 {
-    public class CtorNameTemplate<T>:MemberModifierTemplate<T>
+    public class CtorNameTemplate<T> : MemberModifierTemplate<T> where T : CtorNameTemplate<T>, new()
     {
 
         public string CtorNameScript;
@@ -53,7 +53,7 @@ namespace Natasha.Template
         public T Name(MethodInfo info)
         {
 
-            CtorNameScript =info.Name;
+            CtorNameScript = info.Name;
             return Link;
 
         }

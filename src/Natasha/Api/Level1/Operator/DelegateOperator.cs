@@ -5,11 +5,11 @@ namespace Natasha.Operator
     public static class DelegateOperator<T> where T : Delegate
     {
 
-        public static T Delegate(string content, params NamespaceConverter[] usings)
+        public static T Delegate(string content, Action<AssemblyComplier> option, params NamespaceConverter[] usings)
         {
 
             var method = typeof(T).GetMethod("Invoke");
-            return FakeMethodOperator.Default()
+            return FakeMethodOperator.Default(option)
                 .UseMethod(method)
                 .Using(usings)
                 .StaticMethodContent(content)
@@ -20,77 +20,11 @@ namespace Natasha.Operator
 
 
 
-        public static T AsyncDelegate(string content, params NamespaceConverter[] usings)
+        public static T AsyncDelegate(string content, Action<AssemblyComplier> option, params NamespaceConverter[] usings)
         {
 
             var method = typeof(T).GetMethod("Invoke");
-            return FakeMethodOperator.Default()
-                .UseMethod(method)
-                .UseAsync()
-                .Using(usings)
-                .StaticMethodContent(content)
-                .Complie<T>();
-
-        }
-
-
-
-
-        public static T UnsafeDelegate(string content, params NamespaceConverter[] usings)
-        {
-
-            var method = typeof(T).GetMethod("Invoke");
-            return FakeMethodOperator.Default()
-                .UseMethod(method)
-                .UseUnsafe()
-                .Using(usings)
-                .StaticMethodContent(content)
-                .Complie<T>();
-
-        }
-
-
-
-
-        public static T UnsafeAsyncDelegate(string content, params NamespaceConverter[] usings)
-        {
-
-            var method = typeof(T).GetMethod("Invoke");
-            return FakeMethodOperator.Default()
-                .UseMethod(method)
-                .UseUnsafe()
-                .UseAsync()
-                .Using(usings)
-                .StaticMethodContent(content)
-                .Complie<T>();
-
-        }
-
-
-
-
-        public static T Delegate(string content, AssemblyDomain domain = default, ComplierResultTarget target = ComplierResultTarget.Stream, ComplierResultError error = ComplierResultError.None, params NamespaceConverter[] usings)
-        {
-
-            var method = typeof(T).GetMethod("Invoke");
-            FakeMethodOperator @operator = FakeMethodOperator.Create(domain, target, error);
-            return @operator
-                .UseMethod(method)
-                .Using(usings)
-                .StaticMethodContent(content)
-                .Complie<T>();
-
-        }
-
-
-
-
-        public static T AsyncDelegate(string content, AssemblyDomain domain = default, ComplierResultTarget target = ComplierResultTarget.Stream, ComplierResultError error = ComplierResultError.None, params NamespaceConverter[] usings)
-        {
-
-            var method = typeof(T).GetMethod("Invoke");
-            FakeMethodOperator @operator = FakeMethodOperator.Create(domain, target, error);
-            return @operator
+            return FakeMethodOperator.Default(option)
                 .UseMethod(method)
                 .UseAsync()
                 .Using(usings)
@@ -102,12 +36,11 @@ namespace Natasha.Operator
 
 
 
-        public static T UnsafeDelegate(string content, AssemblyDomain domain = default, ComplierResultTarget target = ComplierResultTarget.Stream, ComplierResultError error = ComplierResultError.None, params NamespaceConverter[] usings)
+        public static T UnsafeDelegate(string content, Action<AssemblyComplier> option, params NamespaceConverter[] usings)
         {
 
             var method = typeof(T).GetMethod("Invoke");
-            FakeMethodOperator @operator = FakeMethodOperator.Create(domain, target, error);
-            return @operator
+            return FakeMethodOperator.Default(option)
                 .UseMethod(method)
                 .UseUnsafe()
                 .Using(usings)
@@ -119,12 +52,75 @@ namespace Natasha.Operator
 
 
 
-        public static T UnsafeAsyncDelegate(string content, AssemblyDomain domain = default, ComplierResultTarget target = ComplierResultTarget.Stream, ComplierResultError error = ComplierResultError.None, params NamespaceConverter[] usings)
+        public static T UnsafeAsyncDelegate(string content, Action<AssemblyComplier> option, params NamespaceConverter[] usings)
         {
 
             var method = typeof(T).GetMethod("Invoke");
-            FakeMethodOperator @operator = FakeMethodOperator.Create(domain, target, error);
-            return @operator
+            return FakeMethodOperator.Default(option)
+                .UseMethod(method)
+                .UseUnsafe()
+                .UseAsync()
+                .Using(usings)
+                .StaticMethodContent(content)
+                .Complie<T>();
+
+        }
+
+
+
+
+        public static T Delegate(string content, AssemblyDomain domain = default, Action<AssemblyComplier> option = default, params NamespaceConverter[] usings)
+        {
+
+            var method = typeof(T).GetMethod("Invoke");
+            return FakeMethodOperator.Create(domain, option)
+                .UseMethod(method)
+                .Using(usings)
+                .StaticMethodContent(content)
+                .Complie<T>();
+
+        }
+
+
+
+
+        public static T AsyncDelegate(string content, AssemblyDomain domain = default, Action<AssemblyComplier> option = default, params NamespaceConverter[] usings)
+        {
+
+            var method = typeof(T).GetMethod("Invoke");
+            return FakeMethodOperator.Create(domain, option)
+                .UseMethod(method)
+                .UseAsync()
+                .Using(usings)
+                .StaticMethodContent(content)
+                .Complie<T>();
+
+        }
+
+
+
+
+        public static T UnsafeDelegate(string content, AssemblyDomain domain = default, Action<AssemblyComplier> option = default, params NamespaceConverter[] usings)
+        {
+
+            var method = typeof(T).GetMethod("Invoke");
+            return FakeMethodOperator.Create(domain, option)
+                .UseMethod(method)
+                .UseUnsafe()
+                .Using(usings)
+                .StaticMethodContent(content)
+                .Complie<T>();
+
+        }
+
+
+
+
+        public static T UnsafeAsyncDelegate(string content, AssemblyDomain domain = default, Action<AssemblyComplier> option = default, params NamespaceConverter[] usings)
+        {
+
+            var method = typeof(T).GetMethod("Invoke");
+            return FakeMethodOperator.Create(domain, option)
                 .UseMethod(method)
                 .UseUnsafe()
                 .UseAsync()

@@ -1,9 +1,8 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace Natasha.Template
 {
-    public class PropertyNameTemplate<T>: PropertyTypeTemplate<T>
+    public class PropertyNameTemplate<T> : PropertyTypeTemplate<T> where T : PropertyNameTemplate<T>, new()
     {
 
         public string PropertyNameScript;

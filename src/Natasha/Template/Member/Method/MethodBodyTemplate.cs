@@ -1,6 +1,6 @@
 ﻿namespace Natasha.Template
 {
-    public class MethodBodyTemplate<T> : MethodParametersTemplate<T>
+    public class MethodBodyTemplate<T> : MethodParametersTemplate<T> where T : MethodBodyTemplate<T>, new()
     {
 
         public string MethodBodyScript;

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Natasha.Template
 {
-    public class OopFieldTemplate<T>:InheritanceTemplate<T>
+    public class OopFieldTemplate<T> : InheritanceTemplate<T> where T : OopFieldTemplate<T>, new()
     {
         public readonly StringBuilder OopFieldScript;
         public readonly HashSet<string> FieldsSet;
@@ -17,9 +17,9 @@ namespace Natasha.Template
 
 
 
-        public T CreateField(Action<FieldNameTemplate<T>> action)
+        public T CreateField<S>(Action<FieldNameTemplate<S>> action) where S : FieldNameTemplate<S>, new()
         {
-            var handler = new FieldNameTemplate<T>();
+            var handler = new FieldNameTemplate<S>();
             action?.Invoke(handler);
             handler.Builder();
             OopFieldScript.Append(handler._script);
@@ -36,7 +36,7 @@ namespace Natasha.Template
         /// <param name="type"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public T CreateField(string access, Type type, string name,int? offset = null)
+        public T CreateField(string access, Type type, string name, int? offset = null)
         {
 
             Using(type);
@@ -46,11 +46,11 @@ namespace Natasha.Template
             }
 
 
-            if (offset!=null)
+            if (offset != null)
             {
                 OopFieldScript.AppendLine($"[FieldOffset({offset})]");
             }
-            
+
 
             OopFieldScript.AppendLine($"{access} {type.GetDevelopName()} {name};");
             return Link;
@@ -146,7 +146,7 @@ namespace Natasha.Template
         public T EnumField(string name, int value)
         {
 
-            if (OopFieldScript.Length>0)
+            if (OopFieldScript.Length > 0)
             {
                 OopFieldScript.AppendLine(",");
             }

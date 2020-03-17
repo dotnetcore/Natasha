@@ -17,7 +17,7 @@ namespace Natasha.Builder
         /// <typeparam name="T"></typeparam>
         /// <param name="template"></param>
         /// <returns></returns>
-        public CtorBuilder UseTemplate<T>(OopContentTemplate<T> template)
+        public CtorBuilder UseTemplate<T>(OopContentTemplate<T> template) where T : OopContentTemplate<T>, new()
         {
 
             //类名即方法名

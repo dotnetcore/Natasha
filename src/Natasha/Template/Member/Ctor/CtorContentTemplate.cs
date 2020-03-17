@@ -1,6 +1,6 @@
 ﻿namespace Natasha.Template
 {
-    public class CtorContentTemplate<T> : CtorParametersTemplate<T>
+    public class CtorContentTemplate<T> : CtorParametersTemplate<T> where T : CtorContentTemplate<T>, new()
     {
 
         public string CtorContentScript;

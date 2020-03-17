@@ -1,6 +1,6 @@
 ﻿namespace Natasha.Template
 {
-    public class OopTypeTemplate<T>: OopModifierTemplate<T>
+    public class OopTypeTemplate<T>: OopModifierTemplate<T> where T : OopTypeTemplate<T>, new()
     {
         public OopType OopTypeEnum;
         public string OopTypeScript;

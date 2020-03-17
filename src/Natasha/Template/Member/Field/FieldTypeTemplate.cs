@@ -2,7 +2,7 @@
 
 namespace Natasha.Template
 {
-    public class FieldTypeTemplate<T>: MemberModifierTemplate<T>
+    public class FieldTypeTemplate<T> : MemberModifierTemplate<T> where T : FieldTypeTemplate<T>, new()
     {
 
         public string FieldTypeScript;

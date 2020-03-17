@@ -6,7 +6,7 @@ using Natasha.Reverser.Model;
 namespace Natasha.Template
 {
 
-    public class MemberModifierTemplate<T>:MemberAccessTemplate<T>
+    public class MemberModifierTemplate<T> : MemberAccessTemplate<T> where T : MemberModifierTemplate<T>, new()
     {
 
         public string MemberModifierScript;

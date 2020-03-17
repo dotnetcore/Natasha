@@ -4,7 +4,7 @@ using System.Text;
 namespace Natasha.Template
 {
 
-    public class OnceMethodAttributeTemplate<T> : OopContentTemplate<T>
+    public class OnceMethodAttributeTemplate<T> : OopContentTemplate<T> where T : OnceMethodAttributeTemplate<T>, new()
     {
 
         public readonly StringBuilder MethodAttributeScript;

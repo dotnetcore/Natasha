@@ -1,9 +1,9 @@
-﻿using System.Reflection;
-using Natasha.Reverser;
+﻿using Natasha.Reverser;
+using System.Reflection;
 
 namespace Natasha.Template
 {
-    public class OnceMethodAsyncTemplate<T> : OnceMethodUnsafeTemplate<T>
+    public class OnceMethodAsyncTemplate<T> : OnceMethodUnsafeTemplate<T> where T : OnceMethodAsyncTemplate<T>, new()
     {
 
         public string OnceAsyncScript;

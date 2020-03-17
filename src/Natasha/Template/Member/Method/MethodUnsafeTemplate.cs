@@ -2,7 +2,7 @@
 
 namespace Natasha.Template
 {
-    public class MethodUnsafeTemplate<T> : MemberModifierTemplate<T>
+    public class MethodUnsafeTemplate<T> : MemberModifierTemplate<T> where T : MethodUnsafeTemplate<T>, new()
     {
 
         public string MethodUnsafeScript;

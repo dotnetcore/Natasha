@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace Natasha.Template
 {
-    public class OopNameTemplate<T> : OopTypeTemplate<T>
+    public class OopNameTemplate<T> : OopTypeTemplate<T> where T : OopNameTemplate<T>, new()
     {
 
         public string OopNameScript;

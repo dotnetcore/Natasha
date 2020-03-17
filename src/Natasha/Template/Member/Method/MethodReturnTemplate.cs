@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace Natasha.Template
 {
-    public class MethodReturnTemplate<T>: MethodAsyncTemplate<T>
+    public class MethodReturnTemplate<T> : MethodAsyncTemplate<T> where T : MethodReturnTemplate<T>, new()
     {
 
         public string MethodReturnScript;
@@ -47,7 +47,7 @@ namespace Natasha.Template
             }
 
             UsingRecoder.Add(type);
-            MethodReturnScript = type.GetDevelopName()+" ";
+            MethodReturnScript = type.GetDevelopName() + " ";
             return Link;
 
         }

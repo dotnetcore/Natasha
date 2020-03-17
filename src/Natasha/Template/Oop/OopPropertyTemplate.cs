@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Natasha.Template
 {
-    public class OopPropertyTemplate<T>: OopFieldTemplate<T>
+    public class OopPropertyTemplate<T> : OopFieldTemplate<T> where T : OopPropertyTemplate<T>, new()
     {
         public readonly StringBuilder OopPropertyScript;
         internal readonly HashSet<string> _propertiesSet;
@@ -17,9 +17,9 @@ namespace Natasha.Template
 
 
 
-        public T CreateProperty(Action<PropertyNameTemplate<T>> action)
+        public T CreateProperty<S>(Action<PropertyNameTemplate<S>> action) where S : PropertyNameTemplate<S>, new()
         {
-            var handler = new PropertyNameTemplate<T>();
+            var handler = new PropertyNameTemplate<S>();
             action?.Invoke(handler);
             handler.Builder();
             OopPropertyScript.Append(handler._script);
@@ -136,7 +136,7 @@ namespace Natasha.Template
         public T EnumProperty(string name, int value)
         {
 
-            if (OopPropertyScript.Length>0)
+            if (OopPropertyScript.Length > 0)
             {
                 OopPropertyScript.AppendLine(",");
             }

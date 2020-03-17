@@ -6,7 +6,7 @@ using Natasha.Reverser;
 
 namespace Natasha.Template
 {
-    public class CtorParametersTemplate<T>: CtorNameTemplate<T>
+    public class CtorParametersTemplate<T> : CtorNameTemplate<T> where T : CtorParametersTemplate<T>, new()
     {
 
         public readonly List<KeyValuePair<Type, string>> ParametersMappings;

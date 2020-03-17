@@ -1,11 +1,10 @@
 ﻿using Natasha.Reverser;
 using Natasha.Reverser.Model;
-using System;
 using System.Reflection;
 
 namespace Natasha.Template
 {
-    public class MemberAccessTemplate<T> : MemberAttributeTemplate<T>
+    public class MemberAccessTemplate<T> : MemberAttributeTemplate<T> where T : MemberAccessTemplate<T>, new()
     {
 
         public string MemberAccessScript;

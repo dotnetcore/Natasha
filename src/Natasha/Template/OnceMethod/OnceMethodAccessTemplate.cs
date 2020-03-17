@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace Natasha.Template
 {
-    public class OnceMethodAccessTemplate<T>: OnceMethodAttributeTemplate<T>
+    public class OnceMethodAccessTemplate<T> : OnceMethodAttributeTemplate<T> where T : OnceMethodAccessTemplate<T>, new()
     {
         public string OnceAccessScript;
 
@@ -73,7 +73,7 @@ namespace Natasha.Template
         public override T Builder()
         {
 
-            OnceBuilder.Insert(0,OnceAccessScript);
+            OnceBuilder.Insert(0, OnceAccessScript);
             return base.Builder();
 
         }

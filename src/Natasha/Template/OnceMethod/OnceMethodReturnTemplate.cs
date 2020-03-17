@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace Natasha.Template
 {
-    public class OnceMethodReturnTemplate<T>: OnceMethodAsyncTemplate<T>
+    public class OnceMethodReturnTemplate<T> : OnceMethodAsyncTemplate<T> where T : OnceMethodReturnTemplate<T>, new()
     {
 
         public string ReturnScript;
@@ -45,7 +45,7 @@ namespace Natasha.Template
             UsingRecoder.Add(type);
 
 
-            ReturnScript = type.GetDevelopName()+" ";
+            ReturnScript = type.GetDevelopName() + " ";
             return Link;
         }
 

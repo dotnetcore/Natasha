@@ -2,7 +2,7 @@
 
 namespace Natasha.Template
 {
-    public class OopContentTemplate<T>: OopPropertyTemplate<T>
+    public class OopContentTemplate<T> : OopPropertyTemplate<T> where T : OopContentTemplate<T>, new()
     {
 
         public StringBuilder OopContentScript;

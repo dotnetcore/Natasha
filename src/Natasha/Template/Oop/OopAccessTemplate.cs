@@ -9,7 +9,7 @@ namespace Natasha.Template
     /// 类型模板
     /// </summary>
     /// <typeparam name="T">LINK类型</typeparam>
-    public class OopAccessTemplate<T> : OopAttributeTemplate<T>
+    public class OopAccessTemplate<T> : OopAttributeTemplate<T> where T : OopAccessTemplate<T>, new()
     {
 
         public string OopAccessScript;

@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace Natasha.Template
 {
-    public class OopModifierTemplate<T> : OopAccessTemplate<T>
+    public class OopModifierTemplate<T> : OopAccessTemplate<T> where T : OopModifierTemplate<T>, new()
     {
 
         public string OopModifierScript;

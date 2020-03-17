@@ -7,7 +7,7 @@ namespace Natasha.Template
     /// 记录模板
     /// </summary>
     /// <typeparam name="T">LINK返回的类型</typeparam>
-    public class TemplateRecoder<T>: ALink<T>, IScriptBuilder<T>
+    public class TemplateRecoder<T> : ComplierTemplate<T>, IScriptBuilder<T> where T : TemplateRecoder<T>, new()
     {
 
         public StringBuilder _script;

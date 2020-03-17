@@ -4,7 +4,7 @@ using System.Text;
 namespace Natasha.Template
 {
 
-    public class OopAttributeTemplate<T> : NamespaceTemplate<T>
+    public class OopAttributeTemplate<T> : NamespaceTemplate<T> where T : OopAttributeTemplate<T>, new()
     {
 
         public readonly StringBuilder OopAttributeScript;

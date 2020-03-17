@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace Natasha.Template
 {
-    public class OnceMethodNameTemplate<T>: OnceMethodReturnTemplate<T>
+    public class OnceMethodNameTemplate<T> : OnceMethodReturnTemplate<T> where T : OnceMethodNameTemplate<T>, new()
     {
         public string MethodNameScript;
 
@@ -33,7 +33,7 @@ namespace Natasha.Template
         }
         public T MethodName(MethodInfo info)
         {
-            MethodNameScript =info.Name;
+            MethodNameScript = info.Name;
             return Link;
         }
 

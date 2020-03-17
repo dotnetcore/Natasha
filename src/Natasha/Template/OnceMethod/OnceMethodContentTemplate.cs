@@ -3,7 +3,7 @@
 namespace Natasha.Template
 {
 
-    public class OnceMethodContentTemplate<T> : OnceMethodParametersTemplate<T>
+    public class OnceMethodContentTemplate<T> : OnceMethodParametersTemplate<T> where T : OnceMethodContentTemplate<T>, new()
     {
 
         public StringBuilder OnceContentScript;

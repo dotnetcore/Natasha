@@ -1,9 +1,8 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace Natasha.Template
 {
-    public class FieldNameTemplate<T>: FieldTypeTemplate<T>
+    public class FieldNameTemplate<T> : FieldTypeTemplate<T> where T : FieldNameTemplate<T>, new()
     {
 
         public string FieldNameScript;

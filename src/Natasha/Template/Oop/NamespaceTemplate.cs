@@ -2,7 +2,7 @@
 
 namespace Natasha.Template
 {
-    public class NamespaceTemplate<T>:UsingTemplate<T>
+    public class NamespaceTemplate<T>:UsingTemplate<T> where T : NamespaceTemplate<T>, new()
     {
 
         public string NamespaceScript;
