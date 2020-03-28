@@ -10,6 +10,9 @@
         Virtual,
         New,
         Override,
-        Abstract
+        Abstract,
+        Async,
+        Unsafe
+
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Text.RegularExpressions;
 
-namespace Natasha.Core.Complier.Utils
+namespace Natasha.Core.Compiler.Utils
 {
 
     internal class CS0234Helper

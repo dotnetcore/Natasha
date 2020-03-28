@@ -1,8 +1,8 @@
-﻿using Natasha.Core.Complier.Model;
+﻿using Natasha.Core.Compiler.Model;
 
-namespace Natasha.Core.Complier
+namespace Natasha.Core.Compiler
 {
-    public abstract partial class IComplier
+    public abstract partial class ICompiler
     {
 
         public SyntaxOption SyntaxInfos;

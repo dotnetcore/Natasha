@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace Natasha.Core.Complier.Utils
+namespace Natasha.Core.Compiler.Utils
 {
 
     internal class CS0246Helper

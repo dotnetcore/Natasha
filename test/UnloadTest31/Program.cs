@@ -24,7 +24,7 @@ namespace UnloadTest31
             watch.Start();
             tempType = NClass.Create("tes1t")
                     .Namespace("Test")
-                    .UseRandomOopName()
+                    .UseRandomName()
                     .PublicField<string>("Name")
                     .PublicField<string>("Age")
                     .PublicField<int[]>("Temp")
@@ -46,7 +46,7 @@ namespace UnloadTest31
 
             Thread.Sleep(1000);
 
-            #region Run Complier
+            #region Run Compiler
             preTime = Process.GetCurrentProcess().TotalProcessorTime;
             watch.Restart();
             Test();
@@ -202,7 +202,7 @@ namespace UnloadTest31
             {
                 var type = NClass.Create("test" + i.ToString())
                      .Namespace("Test")
-                     .UseRandomOopName()
+                     .UseRandomName()
                      .PublicField<string>("Name")
                      .PublicField<string>("Name1")
                      .PublicField<string>("Name2")
@@ -213,9 +213,9 @@ namespace UnloadTest31
                      .PublicField<int[]>("Temp")
                      .Ctor(item => item.Body("Temp = new int[40960];"))
                     .GetType();
-                //builder.Complier.SyntaxInfos.SyntaxExceptions.Clear();
-                //builder.Complier.SyntaxInfos.TreeCodeMapping.Clear();
-                //builder.Complier.SyntaxInfos.TreeUsingMapping.Clear();
+                //builder.Compiler.SyntaxInfos.SyntaxExceptions.Clear();
+                //builder.Compiler.SyntaxInfos.TreeCodeMapping.Clear();
+                //builder.Compiler.SyntaxInfos.TreeUsingMapping.Clear();
                 //builder = null;
                 if (type == default)
                 {

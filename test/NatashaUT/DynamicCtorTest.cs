@@ -14,13 +14,13 @@ namespace NatashaUT
         public void TestCtor1()
         {
             CtorBuilder ctor = new CtorBuilder();
-            string result = ctor.Name("Test")
-                .PublicMember
+            string result = ctor.DefinedName("Test")
+                .Access(Natasha.Reverser.Model.AccessTypes.Public)
                 .Param<string>("initString")
                 .Body("this.connection = initString;")
                 .Script;
 
-            Assert.Equal($"public Test(System.String initString){{{Environment.NewLine}this.connection = initString;}}", result);
+            Assert.Equal($"public Test(System.String initString){{this.connection = initString;}}", result);
         }
 
 
@@ -29,12 +29,12 @@ namespace NatashaUT
         public void TestCtor2()
         {
             CtorBuilder ctor = new CtorBuilder();
-            string result = ctor.Name("Test")
-                .PrivateMember
+            string result = ctor.DefinedName("Test")
+                .Access(Natasha.Reverser.Model.AccessTypes.Private)
                 .Body("this.connection = initString;")
                 .Script;
 
-            Assert.Equal($"private Test(){{{Environment.NewLine}this.connection = initString;}}", result);
+            Assert.Equal($"private Test(){{this.connection = initString;}}", result);
         }
 
 
@@ -43,12 +43,12 @@ namespace NatashaUT
         public void TestCtor3()
         {
             CtorBuilder ctor = new CtorBuilder();
-            string result = ctor.Name("Test")
-                .StaticMember
+            string result = ctor.DefinedName("Test")
+                .Modifier(Natasha.Reverser.Model.Modifiers.Static)
                 .Body("this.connection = initString;")
                 .Script;
 
-            Assert.Equal($"static Test(){{{Environment.NewLine}this.connection = initString;}}", result);
+            Assert.Equal($"static Test(){{this.connection = initString;}}", result);
         }
     }
 }

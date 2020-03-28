@@ -1,5 +1,4 @@
-﻿using Natasha.Operator;
-using System;
+﻿using System;
 
 namespace Natasha
 {
@@ -13,8 +12,8 @@ namespace Natasha
                 .Default()
                 .UseMethod(method)
                 .Using(usings)
-                .StaticMethodContent(content)
-                .Complie();
+                .StaticMethodBody(content)
+                .Compile();
         }
 
 

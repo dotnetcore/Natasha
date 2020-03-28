@@ -1,4 +1,5 @@
-﻿using Natasha;
+﻿using Natash;
+using Natasha;
 using Natasha.Operator;
 using System;
 using System.Runtime.CompilerServices;
@@ -13,7 +14,7 @@ namespace UnloadTest20
         static void Main(string[] args)
         {
             Console.WriteLine("Roslyn 预热；");
-            var a = CtorOperator.Default().NewDelegate<Program>();
+            var a = NType.Creator<Program>();
             Console.WriteLine("3秒后开始编译；");
             Thread.Sleep(3000);
             Test();
@@ -77,8 +78,8 @@ namespace UnloadTest20
             {
                 var ad = DomainManagment.Create("test" + i.ToString());
                 var builder = FastMethodOperator.Default();
-                builder.Complier.Domain = ad;
-                func[i] = builder.MethodBody($@"
+                builder.Compiler.Domain = ad;
+                func[i] = builder.Body($@"
 int[] a = new int[40960];
 for(int i =0;i<40960;i++){{a[i]=i;}}
 string temp = @""111111111111111111111111111111111111111111111111111111111111111111111111
@@ -90,7 +91,7 @@ string temp = @""111111111111111111111111111111111111111111111111111111111111111
 77777777777777777777777777777777777777777777722221111111111111111111111111111111"";
 Console.WriteLine(""HelloWorld111111111111111111111111111111111111111!"");
 return a;
-").Complie<Func<int[]>>();
+").Compile<Func<int[]>>();
                 func[i]();
             }
         }

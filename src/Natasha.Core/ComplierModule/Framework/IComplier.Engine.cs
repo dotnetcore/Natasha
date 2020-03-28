@@ -5,10 +5,10 @@ using System.Collections.Immutable;
 using System.IO;
 using System.Reflection;
 
-namespace Natasha.Core.Complier
+namespace Natasha.Core.Compiler
 {
 
-    public abstract partial class IComplier
+    public abstract partial class ICompiler
     {
 
         public HashSet<string> Sets;
@@ -19,7 +19,7 @@ namespace Natasha.Core.Complier
         /// <param name="sourceContent">脚本内容</param>
         /// <param name="errorAction">发生错误执行委托</param>
         /// <returns></returns>
-        public (Assembly Assembly, ImmutableArray<Diagnostic> Errors, CSharpCompilation Compilation) StreamComplier()
+        public (Assembly Assembly, ImmutableArray<Diagnostic> Errors, CSharpCompilation Compilation) StreamCompiler()
         {
 
             lock (this)
@@ -86,13 +86,13 @@ namespace Natasha.Core.Complier
 
 
                 //编译并生成程序集
-                if (EnumCRTarget == ComplierResultTarget.Stream)
+                if (CompileTarget == CompilerResultTarget.Stream)
                 {
 
 
                     MemoryStream stream = new MemoryStream();
-                    var complieResult = compilation.Emit(stream);
-                    if (complieResult.Success)
+                    var CompileResult = compilation.Emit(stream);
+                    if (CompileResult.Success)
                     {
 
                         return (_domain.Handler(stream), default, compilation);
@@ -102,7 +102,7 @@ namespace Natasha.Core.Complier
                     {
 
                         stream.Dispose();
-                        return (null, complieResult.Diagnostics, compilation);
+                        return (null, CompileResult.Diagnostics, compilation);
 
                     }
 
@@ -125,8 +125,8 @@ namespace Natasha.Core.Complier
                     PdbFilePath = path + ".pdb";
 
 
-                    var complieResult = compilation.Emit(DllFilePath, PdbFilePath);
-                    if (complieResult.Success)
+                    var CompileResult = compilation.Emit(DllFilePath, PdbFilePath);
+                    if (CompileResult.Success)
                     {
 
                         return (_domain.Handler(new FileStream(DllFilePath, FileMode.Open, FileAccess.Read)), default, compilation);
@@ -135,7 +135,7 @@ namespace Natasha.Core.Complier
                     else
                     {
 
-                        return (null, complieResult.Diagnostics, compilation);
+                        return (null, CompileResult.Diagnostics, compilation);
 
                     }
 

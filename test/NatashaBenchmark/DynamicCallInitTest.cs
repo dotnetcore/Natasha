@@ -1,4 +1,5 @@
 ﻿using BenchmarkDotNet.Attributes;
+using Natash;
 using Natasha;
 using Natasha.Operator;
 using NatashaBenchmark.Model;
@@ -32,7 +33,7 @@ namespace NatashaBenchmark
             il.Emit(OpCodes.Newobj, ctor);
             il.Emit(OpCodes.Ret);
             EmitFunc = (Func<CallModel>)(method.CreateDelegate(typeof(Func<CallModel>)));
-            NatashaFunc = CtorOperator.Default().NewDelegate<CallModel>();
+            NatashaFunc = NType.Creator<CallModel>();
         }
         public void Preheating()
         {

@@ -2,15 +2,15 @@
 
 namespace Natasha.Builder
 {
-    public class FieldBuilder : FieldNameTemplate<FieldBuilder>
+
+    public class FieldBuilder : FieldTemplate<FieldBuilder>
     {
 
         public FieldBuilder()
         {
-
             Link = this;
-
         }
 
     }
+
 }

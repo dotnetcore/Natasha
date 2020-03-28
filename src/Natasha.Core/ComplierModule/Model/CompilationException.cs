@@ -10,7 +10,7 @@ namespace Natasha
         {
 
             Diagnostics = new List<Diagnostic>();
-            ErrorFlag = ComplieError.None;
+            ErrorFlag = CompileError.None;
 
         }
 
@@ -25,7 +25,7 @@ namespace Natasha
         public string Formatter;
 
         //错误类型
-        public ComplieError ErrorFlag;
+        public CompileError ErrorFlag;
 
         //roslyn诊断集合
         public List<Diagnostic> Diagnostics;
@@ -34,7 +34,7 @@ namespace Natasha
 
 
 
-    public enum ComplieError
+    public enum CompileError
     {
         None,
         Assembly,
@@ -42,7 +42,7 @@ namespace Natasha
         Method,
         Delegate,
         Syntax,
-        Complie
+        Compile
     }
 
 }

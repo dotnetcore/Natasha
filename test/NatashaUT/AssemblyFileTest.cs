@@ -22,7 +22,7 @@ namespace NatashaUT
             assembly.AddFile(path2);
 
 
-            var result = assembly.Complier();
+            var result = assembly.Compile();
             Assert.NotNull(result);
 
 
@@ -31,7 +31,7 @@ namespace NatashaUT
             Assert.Equal("TestFileModel", type.Name);
 
 
-            var @delegate = NDomain.Random().Func<string>("return new TestFileModel().Name;", result);
+            var @delegate = NDelegate.Random().Func<string>("return new TestFileModel().Name;", result);
             Assert.Equal("aaa",@delegate());
         }
     }

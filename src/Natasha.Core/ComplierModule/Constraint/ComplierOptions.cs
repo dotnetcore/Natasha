@@ -1,6 +1,6 @@
 ﻿namespace Natasha
 {
-    public enum ComplierResultTarget 
+    public enum CompilerResultTarget 
     {
     
         File,
@@ -8,7 +8,7 @@
 
     }
 
-    public enum ComplierResultError
+    public enum CompilerResultError
     {
 
         None,

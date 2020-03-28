@@ -7,13 +7,6 @@ namespace Core20
     {
         static void Main(string[] args)
         {
-            /*
-             *   在此之前，你需要右键，选择工程文件，在你的.csproj里面 
-             *   
-             *   写上这样一句浪漫的话： 
-             *   
-             *      <PreserveCompilationContext>true</PreserveCompilationContext>
-             */
 
 
             string text = @"namespace HelloWorld
@@ -29,13 +22,13 @@ namespace Core20
     }
 }";
             //根据脚本创建动态类
-            AssemblyComplier oop = new AssemblyComplier("test");
+            AssemblyCompiler oop = new AssemblyCompiler("test");
             oop.Add(text);
             Type type = oop.GetType("Test");
 
             Console.WriteLine(type.Name);
 
-            var action = NDomain.Random().Action("");
+            var action = NDelegate.Random().Action("");
             var a = action.Method;
             Console.WriteLine(action.Method.Module.Assembly);
 

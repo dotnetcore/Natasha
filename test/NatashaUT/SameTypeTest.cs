@@ -30,7 +30,7 @@ namespace NatashaUT
 
                     var assembly = domain.CreateAssembly("ababab");
                     assembly.AddScript("using System;namespace ClassLibrary1{ public class Class1{public string name;}}");
-                    var result2 = assembly.Complier();
+                    var result2 = assembly.Compile();
                     var type2 = assembly.GetType("ClassLibrary1.Class1");
 
 
@@ -44,7 +44,7 @@ namespace NatashaUT
                     Assert.NotEqual(result1, result2);
                     Assert.Equal(type1.Name, type2.Name);
 
-                    var func = NDomain.Default().Func<object>("return new Class1();", "ClassLibrary1");
+                    var func = NDelegate.Default().Func<object>("return new Class1();", "ClassLibrary1");
                     Assert.Equal(result2, func().GetType().Assembly);
                 }
 
@@ -65,21 +65,21 @@ namespace NatashaUT
                 var domain = DomainManagment.CurrentDomain;
                 var assembly = domain.CreateAssembly("ClassLibrary1");
                 assembly.AddScript("using System;namespace ClassLibrary1{ public class Class1{public string name;}}");
-                var result2 = assembly.Complier();
+                var result2 = assembly.Compile();
                 var type2 = assembly.GetType("ClassLibrary1.Class1");
 
                 try
                 {
                     var assembly1 = domain.CreateAssembly("AsmTest2");
                     assembly1.AddScript("using System;namespace ClassLibrary1{ public class Class1{public string name;}}");
-                    var result1 = assembly1.Complier();
+                    var result1 = assembly1.Compile();
                     var type1 = assembly1.GetType("Class1");
 
                     Assert.NotEqual(result1, result2);
                     Assert.Equal(type1.Name, type2.Name);
                     lock (obj)
                     {
-                        var func = NDomain.Default().Func<object>("return new Class1();", "ClassLibrary1");
+                        var func = NDelegate.Default().Func<object>("return new Class1();", "ClassLibrary1");
                         Assert.Equal(result2, func().GetType().Assembly);
                     }
                 }
@@ -107,14 +107,14 @@ namespace NatashaUT
                 var domain = DomainManagment.CurrentDomain;
                 var assembly = domain.CreateAssembly("ClassLibrary1");
                 assembly.AddScript("using System;namespace ClassLibrary1{ public class Class1{public string name;}}");
-                var result2 = assembly.Complier();
+                var result2 = assembly.Compile();
                 var type2 = assembly.GetType("ClassLibrary1.Class1");
                 domain.RemoveAssembly(result2);
 
 
                 var assembly1 = domain.CreateAssembly("AsmTest22");
                 assembly1.AddScript("using System;namespace ClassLibrary1{ public class Class1{public string name;}}");
-                var result1 = assembly1.Complier();
+                var result1 = assembly1.Compile();
                 var type1 = assembly1.GetType("ClassLibrary1.Class1");
 
 
@@ -122,7 +122,7 @@ namespace NatashaUT
                 Assert.Equal(type1.Name, type2.Name);
                 lock (obj)
                 {
-                    var func = NDomain.Default().Func<object>("return new Class1();", "ClassLibrary1");
+                    var func = NDelegate.Default().Func<object>("return new Class1();", "ClassLibrary1");
                     Assert.Equal(result1, func().GetType().Assembly);
                 }
 
@@ -146,14 +146,14 @@ namespace NatashaUT
                     var domain = DomainManagment.CurrentDomain;
                     var assembly = domain.CreateAssembly("DAsmTest1");
                     assembly.AddScript("using System;namespace ClassLibrary1{ public class Class1{public string name;}}");
-                    var result2 = assembly.Complier();
+                    var result2 = assembly.Compile();
                     var type2 = assembly.GetType("ClassLibrary1.Class1");
                     domain.RemoveAssembly(result2);
 
 
                     var assembly1 = domain.CreateAssembly("DAsmTest2");
                     assembly1.AddScript("using System;namespace ClassLibrary1{ public class Class1{public string name;}}");
-                    result1 = assembly1.Complier();
+                    result1 = assembly1.Compile();
                     var type1 = assembly1.GetType("ClassLibrary1.Class1");
 
 
@@ -163,7 +163,7 @@ namespace NatashaUT
 
                 }
 
-                var func = NDomain.Default().Func<object>("return new Class1();", "ClassLibrary1");
+                var func = NDelegate.Default().Func<object>("return new Class1();", "ClassLibrary1");
                 Assert.Equal(result1, func().GetType().Assembly);
                 DomainManagment.CurrentDomain.RemoveAssembly(result1);
             }
@@ -186,7 +186,7 @@ namespace NatashaUT
                     var domain = DomainManagment.CurrentDomain;
                     //var assembly = domain.CreateAssembly("AsmTest1");
                     //assembly.AddScript("using System;namespace ClassLibrary1{ public class Class1{public string name;}}");
-                    //var result2 = assembly.Complier();
+                    //var result2 = assembly.Compiler();
                     //var type2 = assembly.GetType("Class1");
                     //domain.RemoveAssembly(result2);
 
@@ -202,7 +202,7 @@ namespace NatashaUT
 
                 }
 
-                var func = NDomain.Default().Func<object>("return new Class1();", "ClassLibrary1");
+                var func = NDelegate.Default().Func<object>("return new Class1();", "ClassLibrary1");
                 Assert.Equal(result1, func().GetType().Assembly);
                 DomainManagment.CurrentDomain.RemoveAssembly(result1);
             }

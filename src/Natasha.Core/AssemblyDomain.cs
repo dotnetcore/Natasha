@@ -1,7 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.DependencyModel;
 using Natasha.Core;
-using Natasha.Core.Complier;
+using Natasha.Core.Compiler;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -28,6 +28,7 @@ namespace Natasha
         public readonly LinkedList<PortableExecutableReference> ReferencesCache;
         public readonly ConcurrentDictionary<Assembly, AssemblyUnitInfo> AssemblyMappings;
         public readonly ConcurrentDictionary<string, PortableExecutableReference> ShortReferenceMappings;
+
 
 
 #if NETSTANDARD2_0
@@ -72,7 +73,7 @@ namespace Natasha
 
 
 
-            DomainPath = Path.Combine(IComplier.CurrentPath, key);
+            DomainPath = Path.Combine(ICompiler.CurrentPath, key);
             OutfileMapping = new ConcurrentDictionary<string, Assembly>();
             PathMapping = new ConcurrentDictionary<Assembly, string>();
             AssemblyMappings = new ConcurrentDictionary<Assembly, AssemblyUnitInfo>();

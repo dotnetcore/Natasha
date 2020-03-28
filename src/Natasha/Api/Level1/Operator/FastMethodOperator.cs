@@ -1,50 +1,36 @@
 ﻿using Natasha.Builder;
 
-namespace Natasha.Operator
+namespace Natasha
 {
     /// <summary>
     /// 快速创建一个动态方法
     /// </summary>
-    public class FastMethodOperator : OnceMethodBuilder<FastMethodOperator>
+    public class FastMethodOperator : MethodBuilder<FastMethodOperator>
     {
-
 
         public FastMethodOperator()
         {
-
             Link = this;
-            Public
-                .Static
-                .PublicMember
-                .StaticMember
-                .UseRandomOopName()
-                .HiddenNameSpace();
-
+            this.Access(Reverser.Model.AccessTypes.Public)
+                .Modifier(Reverser.Model.Modifiers.Static);
         }
 
 
 
-        public override T Complie<T>(object binder = null)
+
+        public override void Init()
         {
 
-            var method = typeof(T).GetMethod("Invoke");
-            if (ParametersMappings.Count == 0)
-            {
-
-                Param(method);
-
-            }
-
-
-            if (ReturnScript == default)
-            {
-
-                Return(method.ReturnType);
-
-            }
-            return base.Complie<T>(binder);
+            ClassOptions(item => item
+            .Modifier(Reverser.Model.Modifiers.Static)
+            .Class()
+            .UseRandomName()
+            .HiddenNamespace()
+            .Access(Reverser.Model.AccessTypes.Public)
+            );
 
         }
+
 
     }
 

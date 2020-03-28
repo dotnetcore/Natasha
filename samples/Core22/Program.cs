@@ -1,4 +1,5 @@
-﻿using Natasha.Operator;
+﻿using Natasha;
+using Natasha.Operator;
 using System;
 using System.Diagnostics;
 using System.Reflection.Emit;
@@ -14,23 +15,23 @@ namespace Core22
                 throw new ArgumentNullException(nameof(args));
             }
             var action = FastMethodOperator.Default()
-                .MethodBody("return 1+1;")
+                .Body("return 1+1;")
                 .Return<int>()
-                .Complie<Func<int>>();
+                .Compile<Func<int>>();
 
             action();
 
 
             FakeMethodOperator.Default()
                .UseMethod<TestB>("TestMethod")
-               .StaticMethodContent($@"Console.WriteLine(""Hello World!"");")
-               .Complie<Action>();
+               .StaticMethodBody($@"Console.WriteLine(""Hello World!"");")
+               .Compile<Action>();
 
 
             FakeMethodOperator.Default()
                 .UseMethod<TestB>("TestMethod")
-                .MethodContent($@"Console.WriteLine(""Hello World!"");")
-                .Complie<Action>(new TestA());
+                .Methodbody($@"Console.WriteLine(""Hello World!"");")
+                .Compile<Action>(new TestA());
 
             
 
@@ -57,7 +58,7 @@ namespace Core22
             //    .Param<string>("value")
             //    .MethodBody($@"return value==""true"" || value==""mama"";")
             //    .Return<bool>()
-            //    .Complie<Func<string, bool>>();
+            //    .Compile<Func<string, bool>>();
 
             //Console.WriteLine(delegateConvt("mama"));
 
@@ -74,9 +75,8 @@ namespace Core22
             var roslynAction = FastMethodOperator.Default()
                 .Param<TestB>("instance")
                 .Param<string>("value")
-                .MethodBody("instance.Name = value;")
-                .Return()
-                .Complie<Action<TestB, string>>();
+                .Body("instance.Name = value;")
+                .Compile<Action<TestB, string>>();
 
 
             Stopwatch stopwatch = new Stopwatch();

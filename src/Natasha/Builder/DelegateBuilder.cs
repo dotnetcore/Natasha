@@ -3,11 +3,13 @@ using System.Collections.Generic;
 
 namespace Natasha.Builder
 {
+
     /// <summary>
     /// 委托构建器，动态构建Func和Action委托
     /// </summary>
     public class DelegateBuilder
     {
+
         private static readonly Type[] FuncMaker;
         private static readonly Type[] ActionMaker;
 
@@ -36,6 +38,9 @@ namespace Natasha.Builder
             ActionMaker[8] = typeof(Action<,,,,,,,>);
         }
 
+
+
+
         /// <summary>
         /// 获取函数委托
         /// </summary>
@@ -51,6 +56,9 @@ namespace Natasha.Builder
 
             return GetFunc(returnType, parametersTypes);
         }
+
+
+
 
         /// <summary>
         /// 根据类型动态生成Func委托
@@ -72,6 +80,9 @@ namespace Natasha.Builder
             return FuncMaker[parametersTypes.Length].MakeGenericType(list.ToArray());
         }
 
+
+
+
         /// <summary>
         /// 根据类型动态生成Action委托
         /// </summary>
@@ -86,5 +97,7 @@ namespace Natasha.Builder
 
             return ActionMaker[parametersTypes.Length].MakeGenericType(parametersTypes);
         }
+
     }
+
 }

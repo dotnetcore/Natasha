@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Loader;
 
-namespace Natasha.Core.Complier
+namespace Natasha.Core.Compiler
 {
-    public abstract partial class IComplier
+    public abstract partial class ICompiler
     {
 
         private AssemblyDomain _domain;

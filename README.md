@@ -27,7 +27,7 @@
 | Scan Name | Status |
 |--------- |------------- |
 | Document | [![wiki](https://img.shields.io/badge/wiki-ch-blue.svg)](https://github.com/dotnetcore/Natasha/wiki) |
-| Lang | ![Complie](https://img.shields.io/badge/script-csharp-green.svg)|
+| Lang | ![Compile](https://img.shields.io/badge/script-csharp-green.svg)|
 | OS | ![Windows](https://img.shields.io/badge/os-windows-black.svg) ![linux](https://img.shields.io/badge/os-linux-black.svg) ![mac](https://img.shields.io/badge/os-mac-black.svg)|
 | Rumtime | ![standard](https://img.shields.io/badge/platform-standard2.0-blue.svg) ![standard](https://img.shields.io/badge/platform-netcore3.0-blue.svg) ![standard](https://img.shields.io/badge/platform-netcore3.1-blue.svg)| 
 
@@ -78,9 +78,9 @@ WeihanLi
   
   - 2020-03-05 ： 发布v2.10.2.0, 修复一处方法反解器的 BUG ,暂不解析 new 关键字。 
   
-  - 2020-03-12 ： 发布v2.12.0.0, 增加新API  NDomain.XXX.Delegate<Tdelegate>() 系列API, Field模板构建增加了一个参数 int? fieldoffset。 
+  - 2020-03-12 ： 发布v2.12.0.0, 增加新API  NDelegate.XXX.Delegate<Tdelegate>() 系列API, Field模板构建增加了一个参数 int? fieldoffset。 
   
-  - 2020-03-16 ： 发布v2.14.0.0, 为 RuntimeToDynamic 库优化些API ,NDomain 类使用 Using 模板来提供命名空间预定义的操作, 方便提前定制命名空间;新增域、命名空间关联模板 NHandler 以便提供与当前信息相同的 delegate / class / interface / enum / struct 操作类;增加 ALink 抽象类约束，以便约束不带有功能的 Link 操作。  
+  - 2020-03-16 ： 发布v2.14.0.0, 为 RuntimeToDynamic 库优化些API ,NDelegate 类使用 Using 模板来提供命名空间预定义的操作, 方便提前定制命名空间;新增域、命名空间关联模板 NHandler 以便提供与当前信息相同的 delegate / class / interface / enum / struct 操作类;增加 ALink 抽象类约束，以便约束不带有功能的 Link 操作。  
   
  <br/>  
  

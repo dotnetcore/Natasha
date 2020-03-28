@@ -3,7 +3,7 @@ using Natasha.Log;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-namespace Natasha.Core.Complier.Model
+namespace Natasha.Core.Compiler.Model
 {
     public class SyntaxOption
     {
@@ -37,7 +37,7 @@ namespace Natasha.Core.Complier.Model
             if (exception.Diagnostics.Count != 0)
             {
 
-                exception.ErrorFlag = ComplieError.Syntax;
+                exception.ErrorFlag = CompileError.Syntax;
                 exception.Message = "语法错误,请仔细检查脚本代码！";
                 NErrorLog log = new NErrorLog();
                 log.Handler(exception.Diagnostics);
@@ -73,7 +73,7 @@ namespace Natasha.Core.Complier.Model
             if (exception.Diagnostics.Count != 0)
             {
 
-                exception.ErrorFlag = ComplieError.Syntax;
+                exception.ErrorFlag = CompileError.Syntax;
                 exception.Message = "语法错误,请仔细检查脚本代码！";
                 NErrorLog log = new NErrorLog();
                 log.Handler(exception.Diagnostics);

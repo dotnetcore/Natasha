@@ -8,7 +8,11 @@ namespace Natasha.Reverser
 
         public static string GetAsync(MethodInfo info)
         {
-            return info.GetCustomAttribute(typeof(AsyncStateMachineAttribute))==null?"":"async ";
+
+            return info.GetCustomAttribute(typeof(AsyncStateMachineAttribute)) == null ? default : "async ";
+
         }
+
     }
+
 }

@@ -13,73 +13,7 @@ namespace Core30
         public static Action action;
         static void Main(string[] args)
         {
-            // NAssembly nAssembly = new NAssembly("a");
-            //// Show();
-            //// Console.WriteLine(AssemblyManagment.Count("TempDomain"));
-
-            // NStruct nStruct1 = new NStruct();
-            // nStruct1
-            //     .Namespace("Core30")
-            //     .OopName("Test")
-            //     .Ctor(builder => builder
-            //         .PublicMember
-            //         .Param<string>("name")
-            //         .Body("Name=name;"))
-            //     .PublicField<string>("Name");
-            // var typ1e = nStruct1.GetType();
-            // Console.WriteLine(AssemblyManagment.Count("Default"));
-
-
-            // var domain2 = AssemblyManagment.Create("TempDomain2");
-            // using (AssemblyManagment.Lock("TempDomain2"))
-            // {
-            //     //do sth
-            //     NStruct nStruct = new NStruct();
-            //     nStruct
-            //         .Namespace("Core30")
-            //         .OopName("Test")
-            //         .Ctor(builder => builder
-            //             .PublicMember
-            //             .Param<string>("name")
-            //             .Body("Name=name;"))
-            //         .PublicField<string>("Name");
-            //     var type = nStruct.GetType();
-
-            //     nStruct = new NStruct();
-            //     nStruct
-            //         .Namespace("Core30")
-            //         .OopName("Test1")
-            //         .Ctor(builder => builder
-            //             .PublicMember
-            //             .Param<string>("name")
-            //             .Body("Name=name;"))
-            //         .PublicField<string>("Name");
-            //     type = nStruct.GetType();
-            // }
-            // Console.WriteLine(AssemblyManagment.Count("TempDomain2"));
-
-            // using (AssemblyManagment.CreateAndLock("TempDomain3"))
-            // {
-            //     //do sth
-            //     NStruct nStruct = new NStruct();
-            //     nStruct
-            //         .Namespace("Core30")
-            //         .OopName("Test")
-            //         .Ctor(builder => builder
-            //             .PublicMember
-            //             .Param<string>("name")
-            //             .Body("Name=name;"))
-            //         .PublicField<string>("Name");
-            //     var type = nStruct.GetType();
-            // }
-            // Console.WriteLine(AssemblyManagment.Count("TempDomain3"));
-
-            //ShowQ();
-            //Thread.Sleep(2000);
-            //Testqq();
-            //Thread.Sleep(2000);
-            //TestMemoery2();
-            //Testt();
+            
             Show1();
             Console.WriteLine(DomainManagment.IsDeleted("TempDomain11"));
 
@@ -116,10 +50,10 @@ namespace Core30
                 NClass nStruct = new NClass();
                 nStruct
                     .Namespace("Core301")
-                    .OopName($"Test{i}")
+                    .DefinedName($"Test{i}")
 
                     .Ctor(builder => builder
-                        .PublicMember
+                        .Public()
                         .Param<string>("name")
                         .Body("Name=name;"))
                     .PublicField<string>("Name")
@@ -143,10 +77,10 @@ namespace Core30
                 NClass nStruct = new NClass();
                 nStruct
                     .Namespace("Core30")
-                    .OopName($"Test{i}")
+                    .DefinedName($"Test{i}")
 
                     .Ctor(builder => builder
-                        .PublicMember
+                        .Public()
                         .Param<string>("name")
                         .Body("Name=name;"))
                     .PublicField<string>("Name")
@@ -213,7 +147,7 @@ namespace Core30
                 var assemebly = domain.LoadStream(path);
                 var action = FastMethodOperator.Default()
                    .Using(assemebly)
-                   .MethodBody(@"
+                   .Body(@"
 try{
 Class1 a = new Class1();
 return  a.Show();
@@ -223,7 +157,7 @@ catch(Exception e){
 }
 return default;").Return<string>()
 
-                   .Complie<Func<string>>();
+                   .Compile<Func<string>>();
                 result = action();
                 Console.WriteLine(result);
             }
@@ -276,13 +210,13 @@ return default;").Return<string>()
 
 
             nStruct = new NStruct();
-            nStruct.Complier.Domain = domain1;
+            nStruct.Compiler.Domain = domain1;
             nStruct
 
                 .Namespace("Core30")
-                .OopName("Test")
+                .DefinedName("Test")
                 .Ctor(builder => builder
-                    .PublicMember
+                    .Public()
                     .Param<string>("name")
                     .Body(@"Name=name+""3"";"))
                 .PublicField<string>("Name");
@@ -291,7 +225,7 @@ return default;").Return<string>()
 
             //nStruct = new NStruct();
             //nStruct
-            //    .InDomain(domain1)
+            //    .INDelegate(domain1)
             //    .Namespace("Core30")
             //    .OopName("Test")
             //    .Ctor(builder => builder
@@ -304,17 +238,17 @@ return default;").Return<string>()
 
 
             var temp = FastMethodOperator.Default();
-            temp.Complier.Domain = domain1;
+            temp.Compiler.Domain = domain1;
             temp
                 //.Using<Test>()
                 //.Using(type)
                 .Using(type4)
                 //.MethodAttribute<MethodImplAttribute>("MethodImplOptions.NoInlining")
-                .MethodBody(@"
+                .Body(@"
 Test obj = new Test(""Hello World!"");
 Console.WriteLine(obj.Name);"
 );
-            action = temp.Complie<Action>();
+            action = temp.Compile<Action>();
             action();
             DomainManagment.Get("TempDomain").Dispose();
         }

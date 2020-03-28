@@ -12,20 +12,20 @@ namespace NatashaUT
         [Fact(DisplayName = "类构造-程序集异常")]
         public void Test1()
         {
-            OopOperator builder = new OopOperator();
+            NClass builder = new NClass();
             builder
-                .Public
-                .Static
+                .Public()
+                .Static()
                 .Using<OopBuildTest>()
                 .Namespace("TestNamespace")
-                .OopName("TestExceptionUt1")
-                .OopBody(@"public static void 1 Test(){}")
+                .DefinedName("TestExceptionUt1")
+                .Body(@"public static void 1 Test(){}")
                 .PublicStaticField<string>("Name")
                 .PrivateStaticField<int>("_age")
                 .Builder();
             var type = builder.GetType();
             Assert.Null(type);
-            Assert.Equal(ComplieError.Syntax, builder.Complier.ComplieException.ErrorFlag);
+            Assert.Equal(CompileError.Syntax, builder.Compiler.CompileException.ErrorFlag);
         }
 
 
@@ -36,21 +36,21 @@ namespace NatashaUT
         {
             OopOperator builder = new OopOperator();
             builder
-                .Public
-                .Static
+                .Public()
+                .Static()
                 .Using<OopBuildTest>()
                 .Namespace("TestNamespace")
-                .ChangeToStruct()
-                .OopName("TestExceptionUt2")
-                .OopBody(@"public static void 1 Test(){}")
+                .Struct()
+                .DefinedName("TestExceptionUt2")
+                .Body(@"public static void 1 Test(){}")
                 .PublicStaticField<string>("Name")
                 .PrivateStaticField<int>("_age")
                 .Builder();
             var type = builder.GetType();
-            Assert.Equal(OopType.Struct ,builder.OopTypeEnum);
+            
             Assert.Null(type);
-            Assert.Equal(ComplieError.Syntax, builder.Complier.ComplieException.ErrorFlag);
-            Assert.Equal(ComplieError.Syntax, builder.Complier.SyntaxExceptions[0].ErrorFlag);
+            Assert.Equal(CompileError.Syntax, builder.Compiler.CompileException.ErrorFlag);
+            Assert.Equal(CompileError.Syntax, builder.Compiler.SyntaxExceptions[0].ErrorFlag);
         }
 
 
@@ -63,16 +63,16 @@ namespace NatashaUT
             var delegateAction = builder
                        .Param<string>("str1")
                        .Param<string>("str2")
-                       .MethodBody(@"
+                       .Body(@"
                             string result = str1 +"" ""+ str2;
                             Console.WriteLine(result)1;
                             return result;")
                        .Return<string>()
-               .Complie();
+               .Compile();
 
             Assert.Null(delegateAction);
-            Assert.Equal(ComplieError.Syntax, builder.Complier.ComplieException.ErrorFlag);
-            Assert.Equal(ComplieError.Syntax, builder.Complier.SyntaxExceptions[0].ErrorFlag);
+            Assert.Equal(CompileError.Syntax, builder.Compiler.CompileException.ErrorFlag);
+            Assert.Equal(CompileError.Syntax, builder.Compiler.SyntaxExceptions[0].ErrorFlag);
         }
 
     }

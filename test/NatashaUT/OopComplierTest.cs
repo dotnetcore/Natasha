@@ -14,7 +14,7 @@ namespace NatashaUT
         [Fact(DisplayName = "动态类生成测试1")]
         public static void RunClassName0()
         {
-            //ScriptComplier.Init();
+            //ScriptCompiler.Init();
             string text = @"
 namespace HelloWorld
 {public class Test{public Test(){
@@ -24,7 +24,7 @@ namespace HelloWorld
     }
 }";
             //根据脚本创建动态类
-            AssemblyComplier oop = new AssemblyComplier();
+            AssemblyCompiler oop = new AssemblyCompiler();
             oop.Add(text);
             Type type = oop.GetType("Test");
             Assert.Equal("Test", type.Name);
@@ -36,7 +36,7 @@ namespace HelloWorld
         [Fact(DisplayName = "动态类生成测试2")]
         public static void RunClassName4()
         {
-            //ScriptComplier.Init();
+            //ScriptCompiler.Init();
             string text = @"
 namespace HelloWorld
 {public class Test{public Test(){
@@ -48,7 +48,7 @@ namespace HelloWorld
             //根据脚本创建动态类
             var oop = new NAssembly();
             oop.AddScript(text);
-            oop.Complier();
+            oop.Compile();
             Type type = oop.GetType("HelloWorld.Test");
             Assert.Equal("Test", type.Name);
         }
@@ -59,7 +59,7 @@ namespace HelloWorld
         [Fact(DisplayName = "选择类")]
         public static void RunClassName1()
         {
-            //ScriptComplier.Init();
+            //ScriptCompiler.Init();
             string text = @"using System;
 using System.Collections;
 using System.Linq;
@@ -97,7 +97,7 @@ namespace HelloWorld{
 
 ";
             //根据脚本创建动态类
-            AssemblyComplier oop = new AssemblyComplier();
+            AssemblyCompiler oop = new AssemblyCompiler();
             oop.Add(text);
             Type type = oop.GetType("TestIndex3");
             Assert.Equal("TestIndex3", type.Name);
@@ -109,7 +109,7 @@ namespace HelloWorld{
         [Fact(DisplayName = "选择命名空间+类")]
         public static void RunClassName2()
         {
-            //ScriptComplier.Init();
+            //ScriptCompiler.Init();
             string text = @"using System;
 using System.Collections;
 using System.Linq;

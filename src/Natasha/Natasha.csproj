@@ -8,7 +8,7 @@
     <PackageId>DotNetCore.Natasha</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageReleaseNotes>修复默认域加载插件的问题，增强域内并发控制。</PackageReleaseNotes>
-    <Version>2.14.0</Version>
+    <Version>3.0.0-alpha1</Version>
     <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
     <PackageTags>Roslyn ; IL ; Scripte ; Dynamic ; </PackageTags>
@@ -16,19 +16,20 @@
     <Company>.NET Core Community</Company>
     <PackageIconUrl>https://avatars2.githubusercontent.com/u/19404084</PackageIconUrl>
     <Authors>NMSAzulX</Authors>
-    <FileVersion>2.14.0.0</FileVersion>
-    <AssemblyVersion>2.14.0.0</AssemblyVersion>
+    <FileVersion>3.0.0.0</FileVersion>
+    <AssemblyVersion>3.0.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Natasha.Core\Natasha.Core.csproj" />
-    <ProjectReference Include="..\Natasha.Reverser\Natasha.Reverser.csproj" />
+    <PackageReference Include="DotNetCore.Natasha.Core" Version="2.11.0.1" />
+    <PackageReference Include="DotNetCore.Natasha.Reverser" Version="2.4.0.1" />
   </ItemGroup>
 
-    <!--<ItemGroup>
-      <PackageReference Include="DotNetCore.Natasha.Core" Version="2.9.0" />
-      <PackageReference Include="DotNetCore.Natasha.Reverser" Version="2.2.3" />
-    </ItemGroup>-->
+
+  <!--<ItemGroup>
+    <ProjectReference Include="..\Natasha.Core\Natasha.Core.csproj" />
+    <ProjectReference Include="..\Natasha.Reverser\Natasha.Reverser.csproj" />
+  </ItemGroup>-->
 
 
 </Project>

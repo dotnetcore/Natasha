@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Xunit;
-using Natasha.Core.Complier;
+using Natasha.Core.Compiler;
 
 namespace NatashaUT
 {

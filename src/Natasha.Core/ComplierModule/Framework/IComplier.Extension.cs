@@ -3,16 +3,16 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Formatting;
 using System.Collections.Generic;
 
-namespace Natasha.Core.Complier
+namespace Natasha.Core.Compiler
 {
 
-    public static class IComplierExtension
+    public static class ICompilerExtension
     {
 
         private readonly static AdhocWorkspace _workSpace;
         private readonly static CSharpParseOptions _options;
         
-        static IComplierExtension()
+        static ICompilerExtension()
         {
 
             _workSpace = new AdhocWorkspace();

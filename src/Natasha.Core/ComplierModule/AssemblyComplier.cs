@@ -1,18 +1,39 @@
 ﻿using Microsoft.CodeAnalysis;
-using Natasha.Core;
-using Natasha.Core.Complier;
+using Natasha.Core.Compiler;
 using System.IO;
 
 namespace Natasha
 {
-    public class AssemblyComplier : IComplier
+    public class AssemblyCompiler : ICompiler
     {
 
-        public AssemblyComplier() {}
-        public AssemblyComplier(string name) { AssemblyName = name; }
+        public AssemblyCompiler() {}
+        public AssemblyCompiler(string name) 
+        { 
+            AssemblyName = name;
+            CustomerUsingShut = true;
+        }
+
+        public bool CustomerUsingShut;
 
 
-        
+
+
+        public AssemblyCompiler AutoUsing()
+        {
+
+            CustomerUsingShut = false;
+            return this;
+
+        }
+        public AssemblyCompiler CurstomeUsing()
+        {
+            CustomerUsingShut = true;
+            return this;
+        }
+
+
+
 
         /// <summary>
         /// 添加一段代码
@@ -23,7 +44,7 @@ namespace Natasha
         {
 
             var info = SyntaxInfos.Add(text);
-            ComplieException.ErrorFlag = info.ErrorFlag;
+            CompileException.ErrorFlag = info.ErrorFlag;
             return info;
 
         }
@@ -39,7 +60,7 @@ namespace Natasha
         {
 
             var info = SyntaxInfos.Add(node);
-            ComplieException.ErrorFlag = info.ErrorFlag;
+            CompileException.ErrorFlag = info.ErrorFlag;
             return info;
 
         }
@@ -56,7 +77,7 @@ namespace Natasha
         {
 
             var info = SyntaxInfos.Add(template.Script, template.Usings);
-            ComplieException.ErrorFlag = info.ErrorFlag;
+            CompileException.ErrorFlag = info.ErrorFlag;
             return info;
 
         }

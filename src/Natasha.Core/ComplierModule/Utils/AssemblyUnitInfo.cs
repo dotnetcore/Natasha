@@ -5,7 +5,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.Loader;
 
-namespace Natasha.Core.Complier
+namespace Natasha.Core.Compiler
 {
     public class AssemblyUnitInfo
     {

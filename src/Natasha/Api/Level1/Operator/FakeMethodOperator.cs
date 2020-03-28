@@ -1,28 +1,45 @@
 ﻿using Natasha.Builder;
+using Natasha.Reverser;
 using Natasha.Template;
 using System;
 using System.Reflection;
 
-namespace Natasha.Operator
+namespace Natasha
 {
     /// <summary>
     /// 根据现有反射方法伪造一个方法，内容自己定
     /// </summary>
-    public class FakeMethodOperator : OnceMethodBuilder<FakeMethodOperator>
+    public class FakeMethodOperator : MethodBuilder<FakeMethodOperator>
     {
 
-        public Action<MethodBuilder> Action;
-        private MethodInfo _temp_info;
+        private MethodInfo _method_info;
 
 
-
+        
         public FakeMethodOperator()
         {
 
             Link = this;
-            Public.UseRandomOopName().HiddenNameSpace();
 
         }
+
+
+
+        public override void Init()
+        {
+
+            ClassOptions(item => item
+            .Modifier(Reverser.Model.Modifiers.Static)
+            .Class()
+            .UseRandomName()
+            .HiddenNamespace()
+            .Access(Reverser.Model.AccessTypes.Public)
+            );
+
+        }
+
+
+
 
 
 
@@ -35,14 +52,14 @@ namespace Natasha.Operator
         public FakeMethodOperator UseMethod(MethodInfo reflectMethodInfo)
         {
 
-            _temp_info = reflectMethodInfo;
+            _method_info = reflectMethodInfo;
             return this;
 
         }
         public FakeMethodOperator UseMethod<T>(string methodName)
         {
 
-            _temp_info = typeof(T).GetMethod(methodName);
+            _method_info = typeof(T).GetMethod(methodName);
             return this;
 
         }
@@ -54,45 +71,40 @@ namespace Natasha.Operator
         /// </summary>
         /// <param name="content"></param>
         /// <returns></returns>
-        public FakeMethodOperator MethodContent(string content)
+        private FakeMethodOperator MethodCopy()
         {
 
-            if (!HashMethodName())
+            if (NameScript == default)
             {
 
-                MethodName(_temp_info);
+                DefinedName(_method_info);
 
             }
 
-
-            if (OnceModifierScript == default)
-            {
-
-                MethodModifier(_temp_info);
-
-            }
-
-
-            if (OnceAsyncScript == default)
-            {
-
-                AsyncFrom(_temp_info);
-
-            }
-
-
-
-            MethodAccess(_temp_info)
-            .Param(_temp_info)
-            .MethodBody(content)
-            .Return(_temp_info);
-
-
-            return this;
+            return Access(_method_info)
+            .Param(_method_info)
+            .Return(_method_info);
 
         }
 
 
+        //public new FakeMethodOperator Body(string body)
+        //{
+        //    return Methodbody(body);
+        //}
+        public FakeMethodOperator Methodbody(string body)
+        {
+
+            MethodCopy();
+            if (ModifierScript.Length == 0)
+            {
+
+                Modifier(_method_info);
+
+            }
+            return Body(body);
+            
+        }
 
 
         /// <summary>
@@ -100,41 +112,13 @@ namespace Natasha.Operator
         /// </summary>
         /// <param name="content"></param>
         /// <returns></returns>
-        public FakeMethodOperator StaticMethodContent(string content)
+        public FakeMethodOperator StaticMethodBody(string body)
         {
 
-            if (!HashMethodName())
-            {
-
-                MethodName(_temp_info);
-
-            }
-
-
-            if (OnceModifierScript == default)
-            {
-
-                MethodModifier(_temp_info);
-
-            }
-
-
-            if (OnceAsyncScript == default)
-            {
-
-                AsyncFrom(_temp_info);
-
-            }
-
-
-            Static.StaticMember
-            .MethodAccess(_temp_info)
-            .Param(_temp_info)
-            .MethodBody(content)
-            .Return(_temp_info);
-
-
-            return this;
+            MethodCopy();
+            Modifier(Reverser.Model.Modifiers.Static);
+            ModifierAppend(AsyncReverser.GetAsync(_method_info));
+            return Body(body);
 
         }
 

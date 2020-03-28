@@ -1,6 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
-using Natasha.Core.Complier.Model;
-using Natasha.Core.Complier.Utils;
+using Natasha.Core.Compiler.Model;
+using Natasha.Core.Compiler.Utils;
 using Natasha.Log;
 using System;
 using System.Collections.Generic;
@@ -10,23 +10,23 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Natasha.Core.Complier
+namespace Natasha.Core.Compiler
 {
-    public abstract partial class IComplier
+    public abstract partial class ICompiler
     {
 
         public readonly List<CompilationException> SyntaxExceptions;
-        public readonly CompilationException ComplieException;
+        public readonly CompilationException CompileException;
         public string AssemblyName;
         public int ErrorRetryCount;
         public string DllFilePath;
         public string PdbFilePath;
-        public ComplierResultError EnumCRError;
-        public ComplierResultTarget EnumCRTarget;
+        public CompilerResultError ErrorActionType;
+        public CompilerResultTarget CompileTarget;
         public readonly static string CurrentPath;
         public static bool UseDetailLog;
 
-        static IComplier()
+        static ICompiler()
         {
 
             UseDetailLog = true;
@@ -38,16 +38,16 @@ namespace Natasha.Core.Complier
 
         }
 
-        public IComplier()
+        public ICompiler()
         {
 
-            ComplieException = new CompilationException();
+            CompileException = new CompilationException();
             _domain = DomainManagment.Default;
             References = new List<PortableExecutableReference>();
             SyntaxInfos = new SyntaxOption();
             SyntaxExceptions = SyntaxInfos.SyntaxExceptions;
-            EnumCRError = ComplierResultError.None;
-            EnumCRTarget = ComplierResultTarget.Stream;
+            ErrorActionType = CompilerResultError.None;
+            CompileTarget = CompilerResultTarget.Stream;
 
         }
 
@@ -65,15 +65,15 @@ namespace Natasha.Core.Complier
             {
 
 
-                if (ComplieException.ErrorFlag == ComplieError.None)
+                if (CompileException.ErrorFlag == CompileError.None)
                 {
 
-                    ComplieException.ErrorFlag = ComplieError.Syntax;
+                    CompileException.ErrorFlag = CompileError.Syntax;
 
                 }
 
 
-                if (EnumCRError == ComplierResultError.ThrowException)
+                if (ErrorActionType == CompilerResultError.ThrowException)
                 {
 
                     StringBuilder builder = new StringBuilder();
@@ -94,7 +94,7 @@ namespace Natasha.Core.Complier
             {
 
 
-                if (EnumCRError == ComplierResultError.ThrowException)
+                if (ErrorActionType == CompilerResultError.ThrowException)
                 {
 
                     throw new Exception("未检测到需要编译的内容~！");
@@ -123,7 +123,7 @@ namespace Natasha.Core.Complier
                 logWarning.Handler(item.Id);
                 logWarning.Handler(item.Descriptor.MessageFormat.ToString());
                 logWarning.Handler(item.GetMessage());
-                ComplieException.Log = logWarning.Buffer.ToString();
+                CompileException.Log = logWarning.Buffer.ToString();
 
             }
 
@@ -166,7 +166,7 @@ namespace Natasha.Core.Complier
             }
 
 
-            var result = StreamComplier();
+            var result = StreamCompiler();
             Assembly assembly = result.Assembly;
             if (result.Compilation != null)
             {
@@ -290,9 +290,9 @@ namespace Natasha.Core.Complier
                     }
 
 
-                    ComplieException.Diagnostics.AddRange(result.Errors);
-                    ComplieException.ErrorFlag = ComplieError.Complie;
-                    ComplieException.Message = "发生错误,无法生成程序集！";
+                    CompileException.Diagnostics.AddRange(result.Errors);
+                    CompileException.ErrorFlag = CompileError.Compile;
+                    CompileException.Message = "发生错误,无法生成程序集！";
 
 
                     NErrorLog logError = null;
@@ -300,8 +300,8 @@ namespace Natasha.Core.Complier
                     {
 
                         logError = new NErrorLog();
-                        logError.Handler(result.Compilation, ComplieException.Diagnostics);
-                        ComplieException.Log = logError.Buffer.ToString();
+                        logError.Handler(result.Compilation, CompileException.Diagnostics);
+                        CompileException.Log = logError.Buffer.ToString();
 
                     }
 
@@ -312,16 +312,16 @@ namespace Natasha.Core.Complier
                         if (logError == default)
                         {
                             logError = new NErrorLog();
-                            logError.Handler(result.Compilation, ComplieException.Diagnostics);
+                            logError.Handler(result.Compilation, CompileException.Diagnostics);
                         }
 
                         logError.Write();
                     }
 
 
-                    if (EnumCRError == ComplierResultError.ThrowException)
+                    if (ErrorActionType == CompilerResultError.ThrowException)
                     {
-                        throw new Exception(ComplieException.Log);
+                        throw new Exception(CompileException.Log);
                     }
 
 
@@ -329,7 +329,7 @@ namespace Natasha.Core.Complier
                 else
                 {
 
-                    ComplieException.ErrorFlag = ComplieError.None;
+                    CompileException.ErrorFlag = CompileError.None;
 
 
                     NSucceedLog logSucceed = null;
@@ -338,7 +338,7 @@ namespace Natasha.Core.Complier
 
                         logSucceed = new NSucceedLog();
                         logSucceed.Handler(result.Compilation);
-                        ComplieException.Log = logSucceed.Buffer.ToString();
+                        CompileException.Log = logSucceed.Buffer.ToString();
 
                     }
 
@@ -384,12 +384,12 @@ namespace Natasha.Core.Complier
 
 
             var type = assembly.GetTypes().First(item => item.Name == typeName);
-            if (type == null && ComplieException.ErrorFlag == ComplieError.None)
+            if (type == null && CompileException.ErrorFlag == CompileError.None)
             {
 
 
-                ComplieException.ErrorFlag = ComplieError.Type;
-                ComplieException.Message = $"发生错误,无法从程序集{assembly.FullName}中获取类型{typeName}！";
+                CompileException.ErrorFlag = CompileError.Type;
+                CompileException.Message = $"发生错误,无法从程序集{assembly.FullName}中获取类型{typeName}！";
 
 
             }
@@ -419,12 +419,12 @@ namespace Natasha.Core.Complier
 
 
             var info = type.GetMethod(methodName);
-            if (info == null && ComplieException.ErrorFlag == ComplieError.None)
+            if (info == null && CompileException.ErrorFlag == CompileError.None)
             {
 
 
-                ComplieException.ErrorFlag = ComplieError.Method;
-                ComplieException.Message = $"发生错误,无法从类型{typeName}中找到{methodName}方法！";
+                CompileException.ErrorFlag = CompileError.Method;
+                CompileException.Message = $"发生错误,无法从类型{typeName}中找到{methodName}方法！";
 
 
             }
@@ -465,12 +465,12 @@ namespace Natasha.Core.Complier
             catch (Exception ex)
             {
 
-                if (ComplieException.ErrorFlag == ComplieError.None)
+                if (CompileException.ErrorFlag == CompileError.None)
                 {
 
 
-                    ComplieException.ErrorFlag = ComplieError.Delegate;
-                    ComplieException.Message = $"发生错误,无法从方法{methodName}创建{delegateType.Name}委托！";
+                    CompileException.ErrorFlag = CompileError.Delegate;
+                    CompileException.Message = $"发生错误,无法从方法{methodName}创建{delegateType.Name}委托！";
 
 
                 }

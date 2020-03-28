@@ -30,6 +30,8 @@ namespace Natasha.Reverser
                     return "abstract ";
                 case Modifiers.Override:
                     return "override ";
+                case Modifiers.Async:
+                    return "async ";
                 default:
                     return "";
             }
@@ -46,12 +48,12 @@ namespace Natasha.Reverser
         public static string GetModifier(MethodInfo reflectMethodInfo)
         {
 
-
+            string result = AsyncReverser.GetAsync(reflectMethodInfo);
             // 没有相应的信息，说明没有使用以上关键字修饰
             if (!reflectMethodInfo.IsHideBySig)
             {
 
-                return default;
+                return result;
 
             }
                 
@@ -63,7 +65,7 @@ namespace Natasha.Reverser
                 if (reflectMethodInfo.IsStatic)
                 {
 
-                    return "static ";
+                    return "static " + result;
 
                 }
 
@@ -74,7 +76,7 @@ namespace Natasha.Reverser
                 if (reflectMethodInfo.IsAbstract)
                 {
 
-                    return "abstract ";
+                    return "abstract " + result;
 
                 }
                     
@@ -87,25 +89,25 @@ namespace Natasha.Reverser
                     // 实现接口的方法
                     if (reflectMethodInfo.IsFinal)
                     {
-                        return default;
+                        return result;
                     }
 
 
                     // 没有被重写，则为 virtual
                     if (reflectMethodInfo.Equals(reflectMethodInfo.GetBaseDefinition()))
                     { 
-                        return "virtual ";
+                        return "virtual " + result;
                     }
                     else 
                     { 
-                        return "override "; 
+                        return "override " + result; 
                     }
                         
                 }
 
             }
            
-            return default;
+            return result;
 
         }
 

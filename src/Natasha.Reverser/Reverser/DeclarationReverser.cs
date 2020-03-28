@@ -30,7 +30,42 @@ namespace Natasha.Reverser
 
 
 
+        public static string GetParametePrefix(ParameterInfo parameterInfo)
+        {
 
+            //特殊类型反解
+            if (parameterInfo.ParameterType.Name.EndsWith("&"))
+            {
+
+                //前
+                if (parameterInfo.IsIn)
+                {
+
+                    return "in ";
+
+                }
+                else if (parameterInfo.IsOut)
+                {
+
+                    return "out ";
+
+                }
+                else
+                {
+
+                    return "ref ";
+
+                }
+
+            }
+            else
+            {
+
+                return default;
+
+            }
+
+        }
         /// <summary>
         /// 根据参数反射信息反解出参数类型
         /// </summary>
@@ -41,41 +76,7 @@ namespace Natasha.Reverser
 
             //反解参数类型
             string result = parameterInfo.ParameterType.GetDevelopName();
-
-
-            //特殊类型反解
-            if (parameterInfo.ParameterType.Name.EndsWith("&"))
-            {
-
-                //前缀
-                string prefix;
-                if (parameterInfo.IsIn)
-                {
-
-                    prefix = "in ";
-
-                }
-                else if (parameterInfo.IsOut)
-                {
-
-                    prefix = "out ";
-
-                }
-                else
-                {
-
-                    prefix = "ref ";
-
-                }
-                return $"{prefix}{result}";
-
-            }
-            else
-            {
-
-                return $"{result}";
-
-            }
+            return $"{GetParametePrefix(parameterInfo)}{result}";
 
         }
 
@@ -92,41 +93,8 @@ namespace Natasha.Reverser
 
             //反解类名
             string result = parameterInfo.ParameterType.GetDevelopName();
-
-
             //特殊处理
-            if (parameterInfo.ParameterType.Name.EndsWith("&"))
-            {
-
-                //前缀
-                string prefix;
-                if (parameterInfo.IsIn)
-                {
-
-                    prefix = "in ";
-
-                }
-                else if (parameterInfo.IsOut)
-                {
-
-                    prefix = "out ";
-
-                }
-                else
-                {
-
-                    prefix = "ref ";
-
-                }
-                return $"{prefix}{result} {parameterInfo.Name}";
-
-            }
-            else
-            {
-
-                return $"{result} {parameterInfo.Name}";
-
-            }
+            return $"{GetParametePrefix(parameterInfo)}{result} {parameterInfo.Name}";
 
         }
 

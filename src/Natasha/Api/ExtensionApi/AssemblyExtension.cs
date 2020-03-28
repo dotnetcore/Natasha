@@ -15,7 +15,7 @@ namespace Natasha
         public static NAssembly CreateAssembly(this AssemblyDomain domain, string name = default)
         {
             NAssembly result = new NAssembly(name);
-            result.Options.Domain = domain;
+            result.Compiler.Domain = domain;
             return result;
         }
 
