@@ -39,7 +39,7 @@ namespace NatashaUT
                     var type1 = result1.GetTypes().First(item => item.Name == "Class1");
 
 
-                    Assert.True(domain.RemoveDll(path));
+                    domain.RemoveDll(path);
                     Assert.Equal("TestSame", DomainManagment.CurrentDomain.Name);
                     Assert.NotEqual(result1, result2);
                     Assert.Equal(type1.Name, type2.Name);
@@ -101,6 +101,7 @@ namespace NatashaUT
         {
 
 #if !NETCOREAPP2_2
+            NSucceedLog.Enabled = true;
             using (DomainManagment.CreateAndLock("Default2"))
             {
 
@@ -109,7 +110,7 @@ namespace NatashaUT
                 assembly.AddScript("using System;namespace ClassLibrary1{ public class Class1{public string name;}}");
                 var result2 = assembly.Compile();
                 var type2 = assembly.GetType("ClassLibrary1.Class1");
-                domain.RemoveAssembly(result2);
+                //domain.RemoveAssembly(result2);
 
 
                 var assembly1 = domain.CreateAssembly("AsmTest22");
@@ -120,9 +121,12 @@ namespace NatashaUT
 
                 Assert.NotEqual(result1, result2);
                 Assert.Equal(type1.Name, type2.Name);
+                domain.RemoveAssembly(result2);
+
                 lock (obj)
                 {
-                    var func = NDelegate.Default().Func<object>("return new Class1();", "ClassLibrary1");
+                    //Class1 同时存在于 ClassLibrary1 和 AsmTest22 中
+                    var func = NDelegate.Use(domain).Func<object>("return new Class1();", "ClassLibrary1");
                     Assert.Equal(result1, func().GetType().Assembly);
                 }
 

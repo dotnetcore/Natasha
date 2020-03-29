@@ -3,7 +3,7 @@ using System;
 
 namespace Natash
 {
-    public class NType
+    public class NInstance
     {
 
         public static Func<T> Creator<T>()

@@ -14,7 +14,7 @@ namespace UnloadTest20
         static void Main(string[] args)
         {
             Console.WriteLine("Roslyn 预热；");
-            var a = NType.Creator<Program>();
+            var a = NInstance.Creator<Program>();
             Console.WriteLine("3秒后开始编译；");
             Thread.Sleep(3000);
             Test();
