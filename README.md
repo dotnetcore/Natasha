@@ -117,7 +117,7 @@ WeihanLi
 <br/>    
 
  
-#### 首先编辑您的工程文件：
+#### 引入动态编译环境：
 
 引用 "DotNetCore.Compile.Environment" 就不用下面的了;  
 > "DotNetCore.Compile.Environment" 为动态编译提供了依赖环境.
@@ -167,10 +167,4 @@ WeihanLi
 ## License
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdotnetcore%2FNatasha.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fdotnetcore%2FNatasha?ref=badge_large)          
       
-## 依赖（Dependence）
 
- - Microsoft.CodeAnalysis.CSharp.Workspaces Version=3.4.0
- - Microsoft.Extensions.DependencyModel Version=3.1.0
- - Microsoft.Net.Compilers Version=3.4.0
- - Microsoft.Net.Compilers.Toolset Version=3.4.0
-     
