@@ -5,6 +5,11 @@
 <p align="center"> <span>你们的反馈是我的动力，文档还有很多不足之处；</span> </p>
 <p align="center"> <span> 当你看完文档之后仍然不知道如何实现你的需求，可以在issue中提出你的需求。</span> </p>
 
+# 当前状态
+
+   - [x] 重构模板提高复用性，降低耦合，更合理的支撑上层API。
+   - [ ] 重构引擎，降低耦合，便于定制, 规范引擎API, 提升插件编程体验。
+
 # Natasha 
 
 [![Member project of .NET Core Community](https://img.shields.io/badge/member%20project%20of-NCC-9e20c9.svg)](https://github.com/dotnetcore)
@@ -113,6 +118,10 @@ WeihanLi
 
  
 #### 首先编辑您的工程文件：
+
+引用 "DotNetCore.Compile.Environment" 就不用下面的了;  
+> "DotNetCore.Compile.Environment" 为动态编译提供了依赖环境.
+> 构建文件不具备继承性，所以每一个新的工程都需要引用该库。  
 
 ```C#
 
