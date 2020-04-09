@@ -5,6 +5,13 @@
 <p align="center"> <span>你们的反馈是我的动力，文档还有很多不足之处；</span> </p>
 <p align="center"> <span> 当你看完文档之后仍然不知道如何实现你的需求，可以在issue中提出你的需求。</span> </p>
 
+# 当前状态
+
+   - 不挣钱，想写就写，一切随缘。
+   - [x] 重构模板，提高复用性，降低耦合，更合理的支撑上层API。（90%）
+   - [x] 重构引擎，降低耦合，抽象出多模块（框架，域，语法，编译，异常，引擎）以便后续扩展多语言编译，规范引擎API, 提升插件编程体验。（90%）
+   
+
 # Natasha 
 
 [![Member project of .NET Core Community](https://img.shields.io/badge/member%20project%20of-NCC-9e20c9.svg)](https://github.com/dotnetcore)
@@ -112,7 +119,11 @@ WeihanLi
 <br/>    
 
  
-#### 首先编辑您的工程文件：
+#### 引入动态编译环境：
+
+引用 "DotNetCore.Compile.Environment" 就不用下面的了;  
+> "DotNetCore.Compile.Environment" 为动态编译提供了依赖环境.
+> 构建文件不具备继承性，所以每一个新的工程都需要引用该库。  
 
 ```C#
 
@@ -158,10 +169,4 @@ WeihanLi
 ## License
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdotnetcore%2FNatasha.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fdotnetcore%2FNatasha?ref=badge_large)          
       
-## 依赖（Dependence）
 
- - Microsoft.CodeAnalysis.CSharp.Workspaces Version=3.4.0
- - Microsoft.Extensions.DependencyModel Version=3.1.0
- - Microsoft.Net.Compilers Version=3.4.0
- - Microsoft.Net.Compilers.Toolset Version=3.4.0
-     
