@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Natasha.Error;
+using System;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Reflection;
@@ -20,7 +21,7 @@ namespace Natasha
             if (File.Exists(path))
             {
                 var domain = (AssemblyDomain)(AssemblyLoadContext.CurrentContextualReflectionContext);
-                Assembly = domain.LoadStream(path);
+                Assembly = domain.LoadPluginFromStream(path);
                 TypeCache = new ConcurrentDictionary<string, Type>();
                 foreach (var item in Assembly.GetTypes())
                 {
@@ -44,11 +45,19 @@ namespace Natasha
            out CompilationException Error)
         {
 
-            AssemblyCompiler assembly = new AssemblyCompiler();
-            assembly.Add(script);
+            AssemblyBuilder assembly = new AssemblyBuilder();
+            assembly.Syntax.Add(script);
             Assembly = assembly.GetAssembly();
             Types = Assembly.GetTypes();
-            Error = assembly.CompileException;
+            if (assembly.Exceptions != null)
+            {
+                Error = assembly.Exceptions[0];
+            }
+            else
+            {
+                Error = null;
+            }
+            
 
         }
 #endif

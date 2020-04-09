@@ -49,7 +49,7 @@ namespace Natasha.Template
 
         public string Script
         {
-            get { _script.Clear(); Builder();  return _script.ToString(); }
+            get { _script.Clear(); BuilderScript();  return _script.ToString(); }
         }
 
         public virtual HashSet<string> Usings => default;
@@ -61,7 +61,7 @@ namespace Natasha.Template
         /// 脚本构建
         /// </summary>
         /// <returns></returns>
-        public virtual T Builder()
+        public virtual T BuilderScript()
         {
             return Link;
         }

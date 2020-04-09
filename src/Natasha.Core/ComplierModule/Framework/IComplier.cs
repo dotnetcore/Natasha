@@ -238,7 +238,7 @@ namespace Natasha.Core.Compiler
 
                             CS0234SHUT = true;
                             var tempResult = CS0234Helper.Handler(item.Descriptor.MessageFormat.ToString(), item.GetMessage());
-                            UsingDefaultCache.Remove(tempResult);
+                            GlobalUsing.Remove(tempResult);
                             var tempTree = item.Location.SourceTree;
                             var tempCode = tempCache[tempTree];
                             tempCache[tempTree] = Regex.Replace(tempCode, $"using {tempResult}(.*?);", "");
@@ -258,7 +258,7 @@ namespace Natasha.Core.Compiler
                             foreach (var @using in CS0246Helper.GetUsings(formart, tempCode))
                             {
 
-                                UsingDefaultCache.Remove(@using);
+                                GlobalUsing.Remove(@using);
                                 tempCache[tempTree] = tempCode.Replace($"using {@using};", "");
 
                             }

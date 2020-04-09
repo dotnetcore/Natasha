@@ -78,7 +78,7 @@ namespace UnloadTest20
             {
                 var ad = DomainManagment.Create("test" + i.ToString());
                 var builder = FastMethodOperator.Default();
-                builder.Compiler.Domain = ad;
+                builder.AssemblyBuilder.Compiler.Domain = ad;
                 func[i] = builder.Body($@"
 int[] a = new int[40960];
 for(int i =0;i<40960;i++){{a[i]=i;}}

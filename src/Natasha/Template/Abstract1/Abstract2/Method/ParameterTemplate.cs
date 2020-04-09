@@ -110,7 +110,7 @@ namespace Natasha.Template
 
 
 
-        public override T Builder()
+        public override T BuilderScript()
         {
 
             // [Attribute]
@@ -121,7 +121,7 @@ namespace Natasha.Template
             }
             ParametersScript.Append(')');
 
-            base.Builder();
+            base.BuilderScript();
             _script.Append(ParametersScript);
             return Link;
 

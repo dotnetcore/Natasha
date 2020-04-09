@@ -58,11 +58,11 @@ namespace NatashaUT
                 .EnumField("Test1")
                 .EnumField("Test2", 1);
 
-            var result = assembly.Compile();
-            var type = assembly.GetType(@class.NamespaceScript+"."+"ClassAsm");
+            var result = assembly.GetAssembly();
+            var type = assembly.GetTypeFromFullName(@class.NamespaceScript+"."+"ClassAsm");
 
             var builder = FastMethodOperator.Default();
-            builder.Compiler.Domain = domain;
+            builder.AssemblyBuilder.Compiler.Domain = domain;
             var @delegate = builder.Using(type).Body(@"
             ClassAsm obj = new ClassAsm();
             return obj.ShowMethod(""Hello"");
@@ -111,9 +111,9 @@ namespace NatashaUT
                .EnumField("Test2", 1);
 
 
-            var result = assembly.Compile();
-            var type = assembly.GetType(@class.NamespaceScript + "."+"ClassAsm");
-            domain.RemoveType(type);
+            var result = assembly.GetAssembly();
+            var type = assembly.GetTypeFromFullName(@class.NamespaceScript + "."+"ClassAsm");
+            domain.Remove(type.Assembly);
 
 
             assembly = domain.CreateAssembly("AsmTest2");
@@ -146,14 +146,14 @@ namespace NatashaUT
                .EnumField("Test2", 1);
 
 
-            result = assembly.Compile();
-            type = assembly.GetType(@class.NamespaceScript+".ClassAsm");
+            result = assembly.GetAssembly();
+            type = assembly.GetTypeFromFullName(@class.NamespaceScript+".ClassAsm");
 
 
 
 
             var builder = FastMethodOperator.Default();
-            builder.Compiler.Domain = domain;
+            builder.AssemblyBuilder.Compiler.Domain = domain;
             var @delegate = builder.Using(type).Body(@"
 ClassAsm obj = new ClassAsm();
 return obj.ShowMethod(""Hello"");
@@ -254,11 +254,11 @@ public class Test{}
                      .Body("return str+\" World!\";")
                      .Return<string>()).NamespaceScript;
 
-                var result = assembly.Compile();
-                var type = assembly.GetType(nameSpace+".TestClass");
+                var result = assembly.GetAssembly();
+                var type = assembly.GetTypeFromShortName("TestClass");
 
                 //单独创建一个程序集​方法
-               var func = FastMethodOperator.Default()
+               var func = FastMethodOperator.Use(domain)
                   .Using(type)
                   .Body(@"
 TestClass obj = new TestClass​();

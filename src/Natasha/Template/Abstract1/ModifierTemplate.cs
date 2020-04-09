@@ -148,7 +148,7 @@ namespace Natasha.Template
 
 
 
-        public override T Builder()
+        public override T BuilderScript()
         {
 
             StringBuilder builder = new StringBuilder();
@@ -177,7 +177,7 @@ namespace Natasha.Template
 
             // [Attribute]
             // [access] [{this}]
-            base.Builder();
+            base.BuilderScript();
             _script.Append(ModifierScript);
             return Link;
 

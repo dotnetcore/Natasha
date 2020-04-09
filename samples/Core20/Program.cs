@@ -22,9 +22,9 @@ namespace Core20
     }
 }";
             //根据脚本创建动态类
-            AssemblyCompiler oop = new AssemblyCompiler("test");
-            oop.Add(text);
-            Type type = oop.GetType("Test");
+            AssemblyBuilder oop = new AssemblyBuilder("test");
+            oop.Syntax.Add(text);
+            Type type = oop.GetTypeFromShortName("Test");
 
             Console.WriteLine(type.Name);
 

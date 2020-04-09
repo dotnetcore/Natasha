@@ -1,4 +1,5 @@
 ﻿using Natasha;
+using Natasha.Error.Model;
 using Natasha.Operator;
 using Xunit;
 
@@ -12,8 +13,9 @@ namespace NatashaUT
         [Fact(DisplayName = "类构造-程序集异常")]
         public void Test1()
         {
-            NClass builder = new NClass();
-            builder
+            NClass classBuilder = new NClass();
+            classBuilder.AssemblyBuilder.Syntax.ErrorBehavior = ExceptionBehavior.None;
+            classBuilder
                 .Public()
                 .Static()
                 .Using<OopBuildTest>()
@@ -22,10 +24,10 @@ namespace NatashaUT
                 .Body(@"public static void 1 Test(){}")
                 .PublicStaticField<string>("Name")
                 .PrivateStaticField<int>("_age")
-                .Builder();
-            var type = builder.GetType();
+                .BuilderScript();
+            var type = classBuilder.GetType();
             Assert.Null(type);
-            Assert.Equal(CompileError.Syntax, builder.Compiler.CompileException.ErrorFlag);
+            Assert.Equal(ExceptionKind.Syntax, classBuilder.Exception.ErrorFlag);
         }
 
 
@@ -35,6 +37,7 @@ namespace NatashaUT
         public void Test2()
         {
             OopOperator builder = new OopOperator();
+            builder.AssemblyBuilder.Syntax.ErrorBehavior = ExceptionBehavior.None;
             builder
                 .Public()
                 .Static()
@@ -45,12 +48,12 @@ namespace NatashaUT
                 .Body(@"public static void 1 Test(){}")
                 .PublicStaticField<string>("Name")
                 .PrivateStaticField<int>("_age")
-                .Builder();
+                .BuilderScript();
             var type = builder.GetType();
             
             Assert.Null(type);
-            Assert.Equal(CompileError.Syntax, builder.Compiler.CompileException.ErrorFlag);
-            Assert.Equal(CompileError.Syntax, builder.Compiler.SyntaxExceptions[0].ErrorFlag);
+            Assert.Equal(ExceptionKind.Syntax, builder.Exception.ErrorFlag);
+
         }
 
 
@@ -59,7 +62,9 @@ namespace NatashaUT
         [Fact(DisplayName = "函数构造-程序集异常")]
         public void Test3()
         {
+
             var builder = FastMethodOperator.Default();
+            builder.AssemblyBuilder.Syntax.ErrorBehavior = ExceptionBehavior.None;
             var delegateAction = builder
                        .Param<string>("str1")
                        .Param<string>("str2")
@@ -71,8 +76,8 @@ namespace NatashaUT
                .Compile();
 
             Assert.Null(delegateAction);
-            Assert.Equal(CompileError.Syntax, builder.Compiler.CompileException.ErrorFlag);
-            Assert.Equal(CompileError.Syntax, builder.Compiler.SyntaxExceptions[0].ErrorFlag);
+            Assert.Equal(ExceptionKind.Syntax, builder.Exception.ErrorFlag);
+            
         }
 
     }

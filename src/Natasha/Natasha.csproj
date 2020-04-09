@@ -27,7 +27,7 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\Natasha.Core\Natasha.Core.csproj" />
+    <ProjectReference Include="..\Natasha.CSharpEngine\Natasha.CSharpEngine.csproj" />
     <ProjectReference Include="..\Natasha.Reverser\Natasha.Reverser.csproj" />
   </ItemGroup>
 

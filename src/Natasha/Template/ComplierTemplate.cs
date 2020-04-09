@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Natasha.CSharpEngine;
+using Natasha.Framework;
+using System;
 
 namespace Natasha.Template
 {
@@ -6,11 +8,11 @@ namespace Natasha.Template
     {
 
         //使用默认编译器
-        public readonly AssemblyCompiler Compiler;
-        public Action<AssemblyCompiler> OptionAction;
+        public readonly AssemblyBuilder AssemblyBuilder;
+        public Action<AssemblyBuilder> OptionAction;
         public CompilerTemplate()
         {
-            Compiler = new AssemblyCompiler();
+            AssemblyBuilder = new AssemblyBuilder();
         }
 
 
@@ -19,13 +21,13 @@ namespace Natasha.Template
         public T AutoUsing()
         {
 
-            Compiler.CustomerUsingShut = false;
+            AssemblyBuilder.CustomerUsingShut = false;
             return Link;
 
         }
         public T CurstomeUsing()
         {
-            Compiler.CustomerUsingShut = true;
+            AssemblyBuilder.CustomerUsingShut = true;
             return Link;
         }
 
@@ -37,7 +39,7 @@ namespace Natasha.Template
 
             if (name != default)
             {
-                Compiler.AssemblyName = name;
+                AssemblyBuilder.Compiler.AssemblyName = name;
             }
             return Link;
 
@@ -46,15 +48,15 @@ namespace Natasha.Template
 
 
         #region 指定编译器的域进行创建
-        public static T Create(AssemblyCompiler Compiler, Action<AssemblyCompiler> option = default)
+        public static T Create(AssemblyBuilder builder, Action<AssemblyBuilder> option = default)
         {
 
-            return Use(Compiler.Domain, option);
+            return Use(builder.Compiler.Domain, option);
 
         }
         #endregion
         #region 指定字符串域创建以及参数
-        public static T Create(string domainName, Action<AssemblyCompiler> option = default)
+        public static T Create(string domainName, Action<AssemblyBuilder> option = default)
         {
 
             if (domainName == default || domainName.ToLower() == "default")
@@ -69,19 +71,19 @@ namespace Natasha.Template
         }
         #endregion
         #region 指定域创建以及参数
-        public static T Use(AssemblyDomain domain, Action<AssemblyCompiler> option = default)
+        public static T Use(DomainBase domain, Action<AssemblyBuilder> option = default)
         {
 
             T instance = new T();
-            instance.Compiler.Domain = domain;
+            instance.AssemblyBuilder.Compiler.Domain = domain;
             instance.OptionAction = option;
-            option?.Invoke(instance.Compiler);
+            option?.Invoke(instance.AssemblyBuilder);
             return instance;
 
         }
         #endregion
         #region  Default 默认域创建以及参数
-        public static T Default(Action<AssemblyCompiler> option = default)
+        public static T Default(Action<AssemblyBuilder> option = default)
         {
 
             return Use(DomainManagment.Default, option);
@@ -91,7 +93,7 @@ namespace Natasha.Template
 
         #endregion
         #region 随机域创建以及参数
-        public static T Random(Action<AssemblyCompiler> option = default)
+        public static T Random(Action<AssemblyBuilder> option = default)
         {
 
             return Use(DomainManagment.Random, option);

@@ -8,25 +8,25 @@ namespace Natasha
 
         public NDelegate DelegateHandler
         {
-            get { return NDelegate.Use(Compiler.Domain).Namespace(NamespaceScript); }
+            get { return NDelegate.Use(AssemblyBuilder.Compiler.Domain).Namespace(NamespaceScript); }
         }
 
 
         public NClass ClassHandler
         {
-            get { return NClass.Use(Compiler.Domain).Namespace(NamespaceScript); }
+            get { return NClass.Use(AssemblyBuilder.Compiler.Domain).Namespace(NamespaceScript); }
         }
 
 
         public NInterface InterfaceHandler
         {
-            get { return NInterface.Use(Compiler.Domain).Namespace(NamespaceScript); }
+            get { return NInterface.Use(AssemblyBuilder.Compiler.Domain).Namespace(NamespaceScript); }
         }
 
 
         public NEnum EnumHandler
         {
-            get { return NEnum.Use(Compiler.Domain).Namespace(NamespaceScript); }
+            get { return NEnum.Use(AssemblyBuilder.Compiler.Domain).Namespace(NamespaceScript); }
         }
 
 

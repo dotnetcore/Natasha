@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;netcoreapp3.0;</TargetFrameworks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Natasha.CSharpComplier\Natasha.CSharpComplier.csproj" />
+    <ProjectReference Include="..\Natasha.CSharpSyntax\Natasha.CSharpSyntax.csproj" />
+    <ProjectReference Include="..\Natasha.Domain\Natasha.Domain.csproj" />
+    <ProjectReference Include="..\Natasha.Exception\Natasha.Exception.csproj" />
+  </ItemGroup>
+
+</Project>

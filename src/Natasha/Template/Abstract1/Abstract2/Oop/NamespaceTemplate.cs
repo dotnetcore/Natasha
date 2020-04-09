@@ -69,14 +69,14 @@ namespace Natasha.Template
 
 
 
-        public override T Builder()
+        public override T BuilderScript()
         {
 
             // [{this}]
             //  [Attribute]
             //  [access] [modifier] [Name] [:Interface] 
             //  [body]
-            base.Builder();
+            base.BuilderScript();
             if (!_hiddenNamesapce)
             {
                 _script.Insert(0,$"namespace {NamespaceScript}{{");

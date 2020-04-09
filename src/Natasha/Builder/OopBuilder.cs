@@ -1,4 +1,6 @@
 ﻿using Natasha.Core;
+using Natasha.Engine.Utils;
+using Natasha.Error;
 using Natasha.Template;
 using System;
 
@@ -15,10 +17,14 @@ namespace Natasha.Builder
 
     }
 
+
+
+
     public class OopBuilder<T> : UsingTemplate<T> where T: OopBuilder<T>, new()
     {
 
 
+        public CompilationException Exception;
         /// <summary>
         /// 指定外部类型和类型名来仿制构建结构的命名空间，保护级别，特殊修饰符，继承的结构，结构名
         /// </summary>
@@ -153,39 +159,62 @@ namespace Natasha.Builder
         public virtual Type GetType(OopType oopType, int classIndex = 1, int namespaceIndex = 1)
         {
 
-            Compiler.Add(this);
-            string name = default;
-            switch (oopType)
+            Exception = AssemblyBuilder.Syntax.Add(this);
+            if (!Exception.HasError)
             {
+                string name = default;
+                switch (oopType)
+                {
 
-                case OopType.Class:
+                    case OopType.Class:
 
-                    name = ScriptHelper.GetClassName(Script, classIndex, namespaceIndex);
-                    break;
+                        name = ScriptHelper.GetClassName(Script, classIndex, namespaceIndex);
+                        break;
 
-                case OopType.Struct:
+                    case OopType.Struct:
 
-                    name = ScriptHelper.GetStructName(Script, classIndex, namespaceIndex);
-                    break;
+                        name = ScriptHelper.GetStructName(Script, classIndex, namespaceIndex);
+                        break;
 
-                case OopType.Interface:
+                    case OopType.Interface:
 
-                    name = ScriptHelper.GetInterfaceName(Script, classIndex, namespaceIndex);
-                    break;
+                        name = ScriptHelper.GetInterfaceName(Script, classIndex, namespaceIndex);
+                        break;
 
-                case OopType.Enum:
+                    case OopType.Enum:
 
-                    name = ScriptHelper.GetEnumName(Script, classIndex, namespaceIndex);
-                    break;
+                        name = ScriptHelper.GetEnumName(Script, classIndex, namespaceIndex);
+                        break;
+                }
+
+
+                var type = AssemblyBuilder.GetTypeFromShortName(name);
+                if (type == null)
+                {
+                    Exception = AssemblyBuilder.Exceptions[0];
+                }
+                return type;
+
             }
-
-            return Compiler.GetType(name);
+            return null;
+            
 
         }
         public virtual Type GetType(int classIndex = 1, int namespaceIndex = 1)
         {
-            Compiler.Add(this);
-            return Compiler.GetType(NameScript);
+
+            Exception = AssemblyBuilder.Syntax.Add(this);
+            if (!Exception.HasError)
+            {
+                var type = AssemblyBuilder.GetTypeFromShortName(NameScript);
+                if (type == null)
+                {
+                    Exception = AssemblyBuilder.Exceptions[0];
+                }
+                return type;
+            }
+            return null;
+
         }
 
 

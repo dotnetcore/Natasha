@@ -6,7 +6,7 @@
     public interface IScriptBuilder<T>:IScript
     {
 
-        T Builder();
+        T BuilderScript();
 
     }
 

@@ -51,7 +51,7 @@ namespace Natasha.Template
 
 
 
-        public override T Builder()
+        public override T BuilderScript()
         {
 
             if (NameScript==default)
@@ -61,7 +61,7 @@ namespace Natasha.Template
 
             // [Attribute]
             // [access] [modifier] [type] [{this}]{}
-            base.Builder();
+            base.BuilderScript();
             _script.Append(NameScript);
             return Link;
 

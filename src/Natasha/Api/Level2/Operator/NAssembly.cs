@@ -1,4 +1,5 @@
 ﻿using Natasha.Builder;
+using Natasha.Error;
 using Natasha.Template;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Reflection;
 
 namespace Natasha
 {
+
     public class NAssembly : CompilerTemplate<NAssembly>
     {
 
@@ -18,7 +20,7 @@ namespace Natasha
         public NAssembly(string name) : this()
         {
 
-            Compiler.AssemblyName = name;
+            AssemblyBuilder.Compiler.AssemblyName = name;
 
         }
 
@@ -30,9 +32,9 @@ namespace Natasha
 
             _builderCache = new HashSet<IScript>();
             HasChecked = false;
-            if (Compiler.AssemblyName == default)
+            if (AssemblyBuilder.Compiler.AssemblyName == default)
             {
-                Compiler.AssemblyName = Guid.NewGuid().ToString("N");
+                AssemblyBuilder.Compiler.AssemblyName = Guid.NewGuid().ToString("N");
             }
 
         }
@@ -57,7 +59,7 @@ namespace Natasha
         /// <returns></returns>
         public CompilationException AddScript(string script)
         {
-            return Compiler.Add(script);
+            return AssemblyBuilder.Syntax.Add(script);
         }
 
 
@@ -70,21 +72,21 @@ namespace Natasha
         /// <returns></returns>
         public CompilationException AddFile(string path)
         {
-            return Compiler.AddFile(path);
+            return AssemblyBuilder.Syntax.AddFile(path);
         }
 
 
 
         private T GetBaseOopHandler<T>(string name = default) where T : OopBuilder<T>, new()
         {
-            var @operator = new T().DefinedName(name).Namespace(Compiler.AssemblyName);
+            var @operator = new T().DefinedName(name).Namespace(AssemblyBuilder.Compiler.AssemblyName);
             _builderCache.Add(@operator);
             return @operator;
         }
         private S GetBaseDelegateHandler<S>(string name = default) where S : MethodBuilder<S>, new()
         {
-            var @operator = new S().DefinedName(name).ClassOptions(item=>item.Namespace(Compiler.AssemblyName));
-            @operator.Compiler.Domain = Compiler.Domain;
+            var @operator = new S().DefinedName(name).ClassOptions(item=>item.Namespace(AssemblyBuilder.Compiler.AssemblyName));
+            @operator.AssemblyBuilder.Compiler.Domain = AssemblyBuilder.Compiler.Domain;
             _builderCache.Add(@operator);
             return @operator;
         }
@@ -189,12 +191,17 @@ namespace Natasha
         public List<CompilationException> Check()
         {
 
+            var list = new List<CompilationException>();
             HasChecked = true;
             foreach (var item in _builderCache)
             {
-                Compiler.Add(item);
+                var exception = AssemblyBuilder.Syntax.Add(item);
+                if (exception!=null)
+                {
+                    list.Add(exception);
+                }
             }
-            return Compiler.SyntaxInfos.SyntaxExceptions;
+            return list;
 
         }
 
@@ -205,7 +212,7 @@ namespace Natasha
         /// 对整个程序集进行编译
         /// </summary>
         /// <returns></returns>
-        public Assembly Compile()
+        public Assembly GetAssembly()
         {
 
             if (!HasChecked)
@@ -214,7 +221,7 @@ namespace Natasha
             }
 
 
-            Assembly = Compiler.GetAssembly();
+            Assembly = AssemblyBuilder.GetAssembly();
             return Assembly;
 
         }
@@ -227,14 +234,24 @@ namespace Natasha
         /// </summary>
         /// <param name="name">类名</param>
         /// <returns></returns>
-        public Type GetType(string name)
+        public Type GetTypeFromShortName(string name)
         {
 
-            if (Assembly==default)
+            if (Assembly == null)
             {
-                Compile();
+                GetAssembly();
             }
-            return  Assembly.GetTypes().First(item => item.GetDevelopName() == name);
+            return Assembly.GetTypes().First(item => item.Name == name);
+
+        }
+        public Type GetTypeFromFullName(string name)
+        {
+
+            if (Assembly == null)
+            {
+                GetAssembly();
+            }
+            return Assembly.GetTypes().First(item => item.FullName == name);
 
         }
 

@@ -54,8 +54,8 @@ namespace NatashaUT
             {
 
                 var domain = DomainManagment.CurrentDomain;
-                var assemebly = domain.LoadStream(path);
-                var action = FastMethodOperator.Default()
+                var assemebly = domain.LoadPluginFromStream(path);
+                var action = FastMethodOperator.Use(domain)
                    .Using(assemebly)
                    .Body(@"
 try{
@@ -100,8 +100,8 @@ return default;").Return<string>()
             {
 
                 var domain = DomainManagment.CurrentDomain;
-                var assemebly = domain.LoadFile(path);
-                var action = FastMethodOperator.Default()
+                var assemebly = domain.LoadPluginFromStream(path);
+                var action = FastMethodOperator.Use(domain)
                    .Using(assemebly)
                    .Body(@"Test.Instance.Name=""11""; return Test.Instance.Name;")
                    .Compile<Func<string>>();
@@ -138,8 +138,10 @@ return default;").Return<string>()
             {
 
                 var domain = DomainManagment.CurrentDomain;
-                var assemebly = domain.LoadStream(path);
-                var action = FastMethodOperator.Default()
+                var assemebly = domain.LoadPluginFromStream(path);
+                var action = FastMethodOperator.Use(domain,
+                    item =>item.Compiler.ErrorBehavior = Natasha.Error.Model.ExceptionBehavior.Log 
+                )
                    .Using(assemebly)
                    .Body(@"Class1 obj = new Class1(); return obj.Get();")
                    .Compile<Func<string>>();

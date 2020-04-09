@@ -22,11 +22,11 @@ namespace NatashaUT
             assembly.AddFile(path2);
 
 
-            var result = assembly.Compile();
+            var result = assembly.GetAssembly();
             Assert.NotNull(result);
 
 
-            var type = assembly.GetType("aaa.TestFileModel");
+            var type = assembly.GetTypeFromFullName("aaa.TestFileModel");
             Assert.NotNull(type);
             Assert.Equal("TestFileModel", type.Name);
 

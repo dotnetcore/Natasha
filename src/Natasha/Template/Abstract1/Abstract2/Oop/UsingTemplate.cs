@@ -18,7 +18,7 @@ namespace Natasha.Template
         {
 
             UsingScript = new StringBuilder();
-            UsingScript.Append(UsingDefaultCache.DefaultScript);
+            UsingScript.Append(GlobalUsing.DefaultScript);
             _usings = new HashSet<string>();
             _usingTypes = new HashSet<Type>();
 
@@ -257,7 +257,7 @@ namespace Natasha.Template
         {
 
             Using(UsingRecoder.Types);
-            if (Compiler.CustomerUsingShut)
+            if (AssemblyBuilder.CustomerUsingShut)
             {
 
                 UsingScript.Clear();
@@ -275,7 +275,7 @@ namespace Natasha.Template
                 foreach (var @using in _usings)
                 {
 
-                    if (!UsingDefaultCache.HasElement(@using))
+                    if (!GlobalUsing.HasElement(@using))
                     {
 
                         UsingScript.AppendLine($"using {@using};");
@@ -291,7 +291,7 @@ namespace Natasha.Template
         }
 
 
-        public override T Builder()
+        public override T BuilderScript()
         {
 
             // [{this}]
@@ -299,7 +299,7 @@ namespace Natasha.Template
             //      [Attribute]
             //      [access] [modifier] [Name] [:Interface] 
             //      [body]
-            base.Builder();
+            base.BuilderScript();
             _script.Insert(0, GetUsingBuilder());
             return Link;
 

@@ -144,7 +144,7 @@ namespace Core30
             {
 
                 var domain = DomainManagment.CurrentDomain;
-                var assemebly = domain.LoadStream(path);
+                var assemebly = domain.LoadPluginFromStream(path);
                 var action = FastMethodOperator.Default()
                    .Using(assemebly)
                    .Body(@"
@@ -210,7 +210,7 @@ return default;").Return<string>()
 
 
             nStruct = new NStruct();
-            nStruct.Compiler.Domain = domain1;
+            nStruct.AssemblyBuilder.Compiler.Domain = domain1;
             nStruct
 
                 .Namespace("Core30")
@@ -238,7 +238,7 @@ return default;").Return<string>()
 
 
             var temp = FastMethodOperator.Default();
-            temp.Compiler.Domain = domain1;
+            temp.AssemblyBuilder.Compiler.Domain = domain1;
             temp
                 //.Using<Test>()
                 //.Using(type)

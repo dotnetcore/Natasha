@@ -68,12 +68,12 @@ namespace Natasha.Template
 
 
 
-        public override T Builder()
+        public override T BuilderScript()
         {
 
             // [{this}]
             // [access] [modifier]
-            base.Builder();
+            base.BuilderScript();
             _script.Append(AttributeScript);
             return Link;
 

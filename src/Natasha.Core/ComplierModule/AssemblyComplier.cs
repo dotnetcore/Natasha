@@ -4,11 +4,11 @@ using System.IO;
 
 namespace Natasha
 {
-    public class AssemblyCompiler : ICompiler
+    public class AssemblyBuilder : ICompiler
     {
 
-        public AssemblyCompiler() {}
-        public AssemblyCompiler(string name) 
+        public AssemblyBuilder() {}
+        public AssemblyBuilder(string name) 
         { 
             AssemblyName = name;
             CustomerUsingShut = true;
@@ -19,14 +19,14 @@ namespace Natasha
 
 
 
-        public AssemblyCompiler AutoUsing()
+        public AssemblyBuilder AutoUsing()
         {
 
             CustomerUsingShut = false;
             return this;
 
         }
-        public AssemblyCompiler CurstomeUsing()
+        public AssemblyBuilder CurstomeUsing()
         {
             CustomerUsingShut = true;
             return this;

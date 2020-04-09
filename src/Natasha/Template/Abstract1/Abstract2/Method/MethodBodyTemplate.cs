@@ -54,12 +54,12 @@ namespace Natasha.Template
 
 
 
-        public override T Builder()
+        public override T BuilderScript()
         {
 
             // [Attribute]
             // [access] [modifier] [type] [Name]([Parameter])[{this}]
-            base.Builder();
+            base.BuilderScript();
             _script.Append(BodyScript);
             return Link;
 

@@ -28,12 +28,12 @@ namespace Natasha.Template
 
 
 
-        public override T Builder()
+        public override T BuilderScript()
         {
             // [Attribute]
             // [access] [modifier] [Name] [:Interface] 
             // [{this}]
-            base.Builder();
+            base.BuilderScript();
             _script.AppendLine("{");
             _script.Append(BodyScript);
             _script.Append('}');

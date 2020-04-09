@@ -1,4 +1,5 @@
-﻿using Natasha.Template;
+﻿using Natasha.Error;
+using Natasha.Template;
 using System;
 
 namespace Natasha.Builder
@@ -20,7 +21,7 @@ namespace Natasha.Builder
 
 
         private readonly OopBuilder _oopHandler;
-
+        public CompilationException Exception;
 
         public MethodBuilder()
         {
@@ -131,9 +132,20 @@ namespace Natasha.Builder
             {
                 _oopHandler.HiddenNamespace();
             }
+
+
             _oopHandler.Body(Script);
-            Compiler.Add(_oopHandler);
-            return Compiler.GetDelegate(_oopHandler.NameScript, NameScript, DelegateType, binder);
+            Exception = AssemblyBuilder.Syntax.Add(_oopHandler);
+            if (!Exception.HasError)
+            {
+                var @delegate = AssemblyBuilder.GetDelegateFromShortName(_oopHandler.NameScript, NameScript, DelegateType, binder);
+                if (@delegate == null)
+                {
+                    Exception = AssemblyBuilder.Exceptions[0];
+                }
+                return @delegate;
+            }
+            return null;
 
         }
 
@@ -173,8 +185,17 @@ namespace Natasha.Builder
 
 
             _oopHandler.Body(Script);
-            Compiler.Add(_oopHandler);
-            return Compiler.GetDelegate<S>(_oopHandler.NameScript, NameScript, binder);
+            Exception = AssemblyBuilder.Syntax.Add(_oopHandler);
+            if (!Exception.HasError)
+            {
+                S @delegate = AssemblyBuilder.GetDelegateFromShortName<S>(_oopHandler.NameScript, NameScript, binder);
+                if (@delegate == null)
+                {
+                    Exception = AssemblyBuilder.Exceptions[0];
+                }
+                return @delegate;
+            }
+            return null;
 
         }
 

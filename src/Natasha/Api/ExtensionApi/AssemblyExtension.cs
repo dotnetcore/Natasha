@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Natasha.Framework;
 using System.Reflection;
 using System.Runtime.Loader;
 
 namespace Natasha
 {
-    public static  class AssemblyExtension
+    public static class AssemblyExtension
     {
 
         /// <summary>
@@ -12,11 +12,13 @@ namespace Natasha
         /// </summary>
         /// <param name="name">程序集名字</param>
         /// <returns></returns>
-        public static NAssembly CreateAssembly(this AssemblyDomain domain, string name = default)
+        public static NAssembly CreateAssembly(this DomainBase domain, string name = default)
         {
+
             NAssembly result = new NAssembly(name);
-            result.Compiler.Domain = domain;
+            result.AssemblyBuilder.Compiler.Domain = domain;
             return result;
+
         }
 
 
@@ -28,7 +30,7 @@ namespace Natasha
             var assemblyDomain = AssemblyLoadContext.GetLoadContext(assembly);
             if (assemblyDomain == AssemblyLoadContext.Default)
             {
-                return DomainManagment.Default;
+                return (AssemblyDomain)DomainManagment.Default;
             }
             return (AssemblyDomain)assemblyDomain;
 
@@ -40,7 +42,7 @@ namespace Natasha
         public static void RemoveReferences(this Assembly assembly)
         {
 
-            GetDomain(assembly).RemoveAssembly(assembly);
+            GetDomain(assembly).Remove(assembly);
 
         }
 

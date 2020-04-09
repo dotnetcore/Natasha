@@ -7,13 +7,13 @@ using System.Text;
 namespace Natasha
 {
 
-    public static class UsingDefaultCache
+    public static class GlobalUsing
     {
 
         private readonly static HashSet<string> DefaultNamesapce;
         public readonly static StringBuilder DefaultScript;
 
-        static UsingDefaultCache()
+        static GlobalUsing()
         {
 
             DefaultScript = new StringBuilder();

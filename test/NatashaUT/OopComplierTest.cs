@@ -1,5 +1,6 @@
 ﻿using Natasha;
 using Natasha.Core;
+using Natasha.Engine.Utils;
 using System;
 using Xunit;
 
@@ -24,9 +25,10 @@ namespace HelloWorld
     }
 }";
             //根据脚本创建动态类
-            AssemblyCompiler oop = new AssemblyCompiler();
-            oop.Add(text);
-            Type type = oop.GetType("Test");
+            AssemblyBuilder oop = new AssemblyBuilder();
+            oop.Compiler.Domain = DomainManagment.Random;
+            oop.Syntax.Add(text);
+            Type type = oop.GetTypeFromShortName("Test");
             Assert.Equal("Test", type.Name);
         }
 
@@ -47,9 +49,9 @@ namespace HelloWorld
 }";
             //根据脚本创建动态类
             var oop = new NAssembly();
+            oop.AssemblyBuilder.Compiler.Domain = DomainManagment.Random;
             oop.AddScript(text);
-            oop.Compile();
-            Type type = oop.GetType("HelloWorld.Test");
+            Type type = oop.GetTypeFromShortName("Test");
             Assert.Equal("Test", type.Name);
         }
 
@@ -97,9 +99,10 @@ namespace HelloWorld{
 
 ";
             //根据脚本创建动态类
-            AssemblyCompiler oop = new AssemblyCompiler();
-            oop.Add(text);
-            Type type = oop.GetType("TestIndex3");
+            AssemblyBuilder oop = new AssemblyBuilder();
+            oop.Compiler.Domain = DomainManagment.Random;
+            oop.Syntax.Add(text);
+            Type type = oop.GetTypeFromShortName("TestIndex3");
             Assert.Equal("TestIndex3", type.Name);
         }
 
