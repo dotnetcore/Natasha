@@ -8,7 +8,7 @@
    
     - AssemblyReferences ： 编译需要的引用库，该字段以程序集/引用字典的形式储存了程序集对应的引用。
     - GetInstance ： 该方法需要重载，以便于 DomainManagement 类的 Create 操作， 需要返回你当前类的实例，需要重载。
-    - Default_Resolving ： 在系统域加载是触发的方法，需要重载。
+    - Default_Resolving ： 在系统域加载时触发的方法，需要重载。
     - Default_ResolvingUnmanagedDll ： 在系统域加载非安代码时触发的方法，需要重载。
     - CompileStreamHandler ： 当以流的方式成功编译时触发的方法，需要重载。
     - CompileFileHandler : 当以文件的方式成功编译时触发的方法，需要重载。
