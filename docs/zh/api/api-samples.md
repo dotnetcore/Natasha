@@ -35,7 +35,7 @@ Assert.Equal(3, model.Age);
 
 
 案例2：
-var action = NDomain.Default.UnsafeAsyncFunc<string, string, Task<string>>(@"
+var action = NDomain.Default().UnsafeAsyncFunc<string, string, Task<string>>(@"
                             string result = arg1 +"" ""+ arg2;
                             Console.WriteLine(result);
                             return result;");
@@ -48,98 +48,15 @@ string result = await action("Hello", "World1!");
 
 <br/>  
 
-- **NewClass/NewInterface/NewStruct**  
-
-```C#
-
-  var result = NewStruct.Create(builder => builder
-  
-                .Namespace("TestNamespace")
-                .OopAccess(AccessTypes.Private)
-                .OopName("TestUt2")
-                
-                .Ctor(item=>item
-                    .MemberAccess("public")
-                    .Param<string>("name")
-                    .Body("this.Name=name;"))
-                    
-                .OopBody(@"public static void Test(){}")
-                
-                .PublicStaticField<string>("Name")
-                .PrivateStaticField<int>("_age")
-                
-  );
-  
-  
-  Type type = result.Type;
-  var error = result.Exception; 
-  
-```  
-
-<br/>  
-
-- **NewMethod**  
-
-```C#
-
- var result = NewMethod.Create<Func<string, string, Task<string>>>(builder => builder
- 
-                    .UseAsync()
-                    .MethodBody(@"
-                            string result = arg1 +"" ""+ arg2;
-                            Console.WriteLine(result);
-                            return result;")
-                    );
-
-  var method = result.Method;
-  var error = result.Exception; 
-  
-
-```  
-
-<br/>  
 
 
-#### ProxyOperator : [参见UT测试](https://github.com/dotnetcore/Natasha/blob/master/test/NatashaUT/ProxyTest.cs)  
-
-<br/>  
-
-
-#### OopOperator : [参见UT测试](https://github.com/dotnetcore/Natasha/blob/master/test/NatashaUT/OopTest.cs)  
+#### OopOperator : [参见UT测试](https://github.com/dotnetcore/Natasha/blob/master/test/NatashaUT/BuilderUT)  
 
 <br/>  
 
 
 #### OopComplier : [参见UT测试](https://github.com/dotnetcore/Natasha/blob/master/test/NatashaUT/OopComplierTest.cs)    
 
-
-<br/>  
-
-#### CloneOperator   
-
-
-> 使用该方法可以实现深度克隆
-
-```C#
-
- var copyInstance = CloneOperator.Clone(instance);
-
-```  
-
-<br/>  
-
-
-
-#### CtorOperator    
-
-> 当您知道一个类，并想将它的初始化操作放在委托里
-
-```C#
- //在系统域创建
- var func = CtorOperator.Default.NewDelegate(typeof(Foo));
- Foo instance = func();
-
-```  
 
 <br/>  
 
@@ -154,7 +71,7 @@ string result = await action("Hello", "World1!");
 > 快速定制一个方法
   
 ```C#
-var action = FastMethodOperator.Default
+var action = FastMethodOperator.Default()
              .Param<string>("str1")
              .Param(typeof(string),"str2")
              .MethodBody("return str1+str2;")
@@ -172,7 +89,7 @@ var result = action("Hello ","World!");    //result:   "Hello World!"
 返回的参数需要您指定Task<>,以便运行时异步调用，记得外面那层方法要有async关键字哦。
 
 ```C#
-var delegateAction = FastMethodOperator.Default
+var delegateAction = FastMethodOperator.Random()
 
        .UseAsync()
        .MethodBody(@"
@@ -225,7 +142,7 @@ public class Test
 
 ```
 ```C#
-var action = FakeMethodOperator.Default
+var action = FakeMethodOperator.Default()
              .UseMethod(typeof(Test).GetMethod("Handler"))
              .StaticMethodContent(" str += "" is xxx;"",return str; ")
              .Complie<Func<string,string>>();
