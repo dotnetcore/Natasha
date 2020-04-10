@@ -17,11 +17,11 @@ namespace Natasha.CSharpEngine
     public class NatashaEngine
     {
 
-        public static ConcurrentDictionary<string, Action<CompilationException, Diagnostic, NatashaSyntax, Dictionary<string, string>>> ErrorHandlers;
+        public static ConcurrentDictionary<string, Action<CompilationException, Diagnostic, NatashaCSharpSyntax, Dictionary<string, string>>> ErrorHandlers;
         static NatashaEngine()
         {
 
-            ErrorHandlers = new ConcurrentDictionary<string, Action<CompilationException, Diagnostic, NatashaSyntax, Dictionary<string, string>>>();
+            ErrorHandlers = new ConcurrentDictionary<string, Action<CompilationException, Diagnostic, NatashaCSharpSyntax, Dictionary<string, string>>>();
             ErrorHandlers["CS0104"] = (exception, diagnostic, syntax, dict) =>
             {
 
@@ -93,8 +93,8 @@ namespace Natasha.CSharpEngine
         }
 
 
-        public NatashaSyntax Syntax;
-        public NatashaCompiler Compiler;
+        public NatashaCSharpSyntax Syntax;
+        public NatashaCSharpCompiler Compiler;
         public List<CompilationException> Exceptions; 
 
 
@@ -107,8 +107,8 @@ namespace Natasha.CSharpEngine
         public NatashaEngine(string name)
         {
 
-            Syntax = new NatashaSyntax();
-            Compiler = new NatashaCompiler();
+            Syntax = new NatashaCSharpSyntax();
+            Compiler = new NatashaCSharpCompiler();
             Compiler.AssemblyName = name;
             Compiler.StreamCompileFailedHandler += NatashaEngine_StreamCompileFailedHandler;
             Compiler.FileCompileFailedHandler += NatashaEngine_FileCompileFailedHandler; ;

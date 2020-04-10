@@ -37,11 +37,11 @@ namespace Natasha.CSharp
 
 
 
-        public void CompilerOption(Action<NatashaCompiler> action)
+        public void CompilerOption(Action<NatashaCSharpCompiler> action)
         {
             action?.Invoke(Compiler);
         }
-        public void SyntaxOptions(Action<NatashaSyntax> action)
+        public void SyntaxOptions(Action<NatashaCSharpSyntax> action)
         {
             action?.Invoke(Syntax);
         }

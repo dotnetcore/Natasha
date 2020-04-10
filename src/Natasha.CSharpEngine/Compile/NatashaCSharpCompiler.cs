@@ -1,21 +1,11 @@
 ﻿using Natasha.CSharpComplier;
-using Natasha.Error;
 using Natasha.Error.Model;
 using Natasha.Framework;
-using System.Collections.Generic;
 
 namespace Natasha.CSharpEngine.Compile
 {
-    public class NatashaCompiler : CSharpCompilerBase
+    public class NatashaCSharpCompiler : CSharpCompilerBase
     {
-
-        public List<CompilationException> Exceptions;
-
-
-        public int RetryLimit;
-        private int _retryCount;
-        internal bool CanRetry;
-
 
         public AssemblyBuildKind AssemblyOutputKind;
         public ExceptionBehavior ErrorBehavior;
@@ -23,7 +13,7 @@ namespace Natasha.CSharpEngine.Compile
         public string PdbPath;
 
 
-        public NatashaCompiler()
+        public NatashaCSharpCompiler()
         {
 
             AssemblyOutputKind = AssemblyBuildKind.Stream;
@@ -40,7 +30,6 @@ namespace Natasha.CSharpEngine.Compile
         public virtual void Compile()
         {
 
-            Exceptions = null;
             switch (AssemblyOutputKind)
             {
 

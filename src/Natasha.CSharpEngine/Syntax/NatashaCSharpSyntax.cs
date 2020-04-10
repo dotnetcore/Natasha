@@ -11,12 +11,12 @@ using System.IO;
 namespace Natasha.CSharpEngine.Syntax
 {
 
-    public class NatashaSyntax : CSharpSyntaxBase
+    public class NatashaCSharpSyntax : CSharpSyntaxBase
     {
 
         public readonly ConcurrentDictionary<string, HashSet<string>> UsingCache;
         public ExceptionBehavior ErrorBehavior;
-        public NatashaSyntax()
+        public NatashaCSharpSyntax()
         {
             ErrorBehavior = ExceptionBehavior.Throw;
             UsingCache = new ConcurrentDictionary<string, HashSet<string>>();
