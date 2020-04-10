@@ -33,8 +33,12 @@
  
     - AssemblyName : 编译器会对当前代码进行整程序集编译，需要指定程序集名。
     - Assembly : 编译结果。
+    - AssemblyOutputKind ：Assembly 输出的方式，编译到文件 file / 编译到流 stream。
     - Domain : 该属性承载了 DomainBase 实例。
     - PreComplier ： 该方法在编译前执行，如果返回 false 将阻止编译， 可重写。
+     - CompileToFile ： 该方法实现了将以上信息编译到文件的功能，可重写。
+    - CompileToStream : 该方法实现了将以上信息编译到流的功能，可重写。
+    - Compile ：该方法实现了根据输出方式（AssemblyOutputKind）进行自动编译，file 调用 CompileToFile 方法， stream 调用 CompileToStream 方法。
     - CompileTrees ： 需要被编译的语法树。
     - GetCompilation ：返回不同语言的编译信息集，必须重写。
     
@@ -44,10 +48,8 @@
     - FileCompileFailedHandler ： 当文件形式编译失败之后引发的事件。
     - StreamCompileFailedHandler ： 当流形式编译失败之后引发的事件。
     
-    - CompileToFile ： 该方法实现了将以上信息编译到文件的功能，可重写。
-    - CompileToStream : 该方法实现了将以上信息编译到流的功能，可重写。
-    
-     
+
+
 <br/>  
 
  对以上类进行重写，即可完成一门语言的动态编译，详情请看 Engine 实现篇。
