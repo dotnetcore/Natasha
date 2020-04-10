@@ -24,7 +24,7 @@
  - SyntaxBase: 作为语法转换的基础类，提供了代码及语法树缓存，规定了一些抽象方法，实现了自动添加缓存的方法。
  
     - TreeCache ： 存放字符串代码及语法树的缓存。
-    - LoadTreeFromLauguage ： 每个语言都有自己的转换方法，但最终需要返回 SyntaxTree ,当您继承该类时，需要实现该方法，返回对应语言的语法树，需要重载。
+    - LoadTree / LoadTreeFromScript ： 每个语言都有自己的转换方法，但最终需要返回 SyntaxTree ,当您继承该类时，需要实现该方法，返回对应语言的语法树，需要重载。
     - AddTreeToCache ： 该方法会自动将对应语言的代码及语法树缓存起来，可重载。
   
 <br/>  
@@ -36,7 +36,7 @@
     - AssemblyOutputKind ：Assembly 输出的方式，编译到文件 file / 编译到流 stream。
     - Domain : 该属性承载了 DomainBase 实例。
     - PreComplier ： 该方法在编译前执行，如果返回 false 将阻止编译， 可重写。
-     - CompileToFile ： 该方法实现了将以上信息编译到文件的功能，可重写。
+    - CompileToFile ： 该方法实现了将以上信息编译到文件的功能，可重写。
     - CompileToStream : 该方法实现了将以上信息编译到流的功能，可重写。
     - Compile ：该方法实现了根据输出方式（AssemblyOutputKind）进行自动编译，file 调用 CompileToFile 方法， stream 调用 CompileToStream 方法。
     - CompileTrees ： 需要被编译的语法树。
