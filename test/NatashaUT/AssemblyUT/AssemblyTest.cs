@@ -21,7 +21,7 @@ namespace NatashaUT
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
             }
-            Assert.True(DomainManagment.IsDeleted("SingleDomainAsmTest1"));
+            Assert.True(DomainManagement.IsDeleted("SingleDomainAsmTest1"));
 #endif
 
         }
@@ -30,7 +30,7 @@ namespace NatashaUT
         [MethodImpl(MethodImplOptions.NoInlining)]
         internal string ForTest1()
         {
-            var domain = DomainManagment.Create("SingleDomainAsmTest1");
+            var domain = DomainManagement.Create("SingleDomainAsmTest1");
             var assembly = domain.CreateAssembly("AsmTest1");
 
             var @interface = assembly
@@ -69,7 +69,7 @@ namespace NatashaUT
             ClassAsm obj = new ClassAsm();
             return obj.ShowMethod(""Hello"");
             ").Compile<Func<string, string>>();
-            DomainManagment.Get("SingleDomainAsmTest1").Dispose();
+            DomainManagement.Get("SingleDomainAsmTest1").Dispose();
             return @delegate("hello");
 
 
@@ -81,7 +81,7 @@ namespace NatashaUT
         [Fact(DisplayName = "多程序集覆盖")]
         public void Test2()
         {
-            var domain = DomainManagment.Create("SingleDomainAsmTest2");
+            var domain = DomainManagement.Create("SingleDomainAsmTest2");
             var assembly = domain.CreateAssembly("AsmTest1");
 
             var @interface = assembly
@@ -170,7 +170,7 @@ return obj.ShowMethod(""Hello"");
                 GC.WaitForPendingFinalizers();
             }
 
-            Assert.True(DomainManagment.IsDeleted("SingleDomainAsmTest1"));
+            Assert.True(DomainManagement.IsDeleted("SingleDomainAsmTest1"));
 #endif
 
         }
@@ -179,7 +179,7 @@ return obj.ShowMethod(""Hello"");
         [Fact(DisplayName = "自定义域解构编译")]
         public void Test4()
         {
-            using (DomainManagment.CreateAndLock("TempDomain15"))
+            using (DomainManagement.CreateAndLock("TempDomain15"))
             {
 
                 var (Assembly, Types, Exception) = @"
@@ -217,9 +217,9 @@ public class Test{}
         [Fact(DisplayName = "域锁与管理")]
         public void Test3()
         {
-            using (DomainManagment.CreateAndLock("CDomain1"))
+            using (DomainManagement.CreateAndLock("CDomain1"))
             {
-                var domain = DomainManagment.CurrentDomain;
+                var domain = DomainManagement.CurrentDomain;
                 Assert.Equal("CDomain1", domain.Name);
             }
         }
@@ -228,10 +228,10 @@ public class Test{}
         public void TestHelloWorld()
         {
 
-            using (DomainManagment.CreateAndLock("MyDomain"))
+            using (DomainManagement.CreateAndLock("MyDomain"))
             {
 
-                var domain = DomainManagment.CurrentDomain;
+                var domain = DomainManagement.CurrentDomain;
                 var assembly = domain.CreateAssembly("MyAssembly");
 
 

@@ -95,7 +95,7 @@ namespace NatashaUT
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
             }
-            Assert.True(DomainManagment.IsDeleted("NDelegate6"));
+            Assert.True(DomainManagement.IsDeleted("NDelegate6"));
 #endif
         }
 
@@ -117,7 +117,7 @@ namespace NatashaUT
         [Fact(DisplayName = "类型比域")]
         public void TestTypeEqual()
         {
-            var domain = DomainManagment.Random;
+            var domain = DomainManagement.Random;
             var type = NDelegate.Use(domain).GetType(
                 @"public class  DomainTest1{
                         public string Name;
@@ -131,7 +131,7 @@ namespace NatashaUT
         [Fact(DisplayName = "委托比域")]
         public void TestDelegateEqual()
         {
-            var domain = DomainManagment.Random;
+            var domain = DomainManagement.Random;
             var action = NDelegate.Use(domain).Action(
                 @"int i = 1+1;");
             Assert.Equal(domain, action.GetDomain());

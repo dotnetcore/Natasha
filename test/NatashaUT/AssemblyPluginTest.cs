@@ -18,7 +18,7 @@ namespace NatashaUT
         [Fact(DisplayName = "解构插件")]
         public void Test4()
         {
-            using (DomainManagment.CreateAndLock("TempDomain14"))
+            using (DomainManagement.CreateAndLock("TempDomain14"))
             { 
 
                 var (Assembly, TypeCache) = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Sql", "ClassLibrary1.dll");
@@ -40,7 +40,7 @@ namespace NatashaUT
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
             }
-            Assert.False(DomainManagment.IsDeleted("TempDADomain11"));
+            Assert.False(DomainManagement.IsDeleted("TempDADomain11"));
 
         }
 
@@ -50,10 +50,10 @@ namespace NatashaUT
             string result;
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib","Sql", "ClassLibrary1.dll");
             Assert.True(File.Exists(path));
-            using (DomainManagment.CreateAndLock("TempDADomain11"))
+            using (DomainManagement.CreateAndLock("TempDADomain11"))
             {
 
-                var domain = DomainManagment.CurrentDomain;
+                var domain = DomainManagement.CurrentDomain;
                 var assemebly = domain.LoadPluginFromStream(path);
                 var action = FastMethodOperator.Use(domain)
                    .Using(assemebly)
@@ -86,7 +86,7 @@ return default;").Return<string>()
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
             }
-            Assert.True(DomainManagment.IsDeleted("TempDomain12"));
+            Assert.True(DomainManagement.IsDeleted("TempDomain12"));
 
         }
 
@@ -96,10 +96,10 @@ return default;").Return<string>()
             string result;
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Static", "ClassLibrary5.dll");
             Assert.True(File.Exists(path));
-            using (DomainManagment.CreateAndLock("TempDomain12"))
+            using (DomainManagement.CreateAndLock("TempDomain12"))
             {
 
-                var domain = DomainManagment.CurrentDomain;
+                var domain = DomainManagement.CurrentDomain;
                 var assemebly = domain.LoadPluginFromStream(path);
                 var action = FastMethodOperator.Use(domain)
                    .Using(assemebly)
@@ -124,7 +124,7 @@ return default;").Return<string>()
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
             }
-            Assert.False(DomainManagment.IsDeleted("TempDomain13"));
+            Assert.False(DomainManagement.IsDeleted("TempDomain13"));
 
         }
 
@@ -134,10 +134,10 @@ return default;").Return<string>()
             string result;
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Json", "ClassLibrary6.dll");
             Assert.True(File.Exists(path));
-            using (DomainManagment.CreateAndLock("TempDomain13"))
+            using (DomainManagement.CreateAndLock("TempDomain13"))
             {
 
-                var domain = DomainManagment.CurrentDomain;
+                var domain = DomainManagement.CurrentDomain;
                 var assemebly = domain.LoadPluginFromStream(path);
                 var action = FastMethodOperator.Use(domain,
                     item =>item.Compiler.ErrorBehavior = Natasha.Error.Model.ExceptionBehavior.Log 

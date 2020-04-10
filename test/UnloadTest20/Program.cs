@@ -38,7 +38,7 @@ namespace UnloadTest20
 
             for (int i = 0; i < count; i++)
             {
-                if (!DomainManagment.IsDeleted("test" + i.ToString()))
+                if (!DomainManagement.IsDeleted("test" + i.ToString()))
                 {
                     Console.WriteLine($"{i} is aliave!");
                 }
@@ -64,7 +64,7 @@ namespace UnloadTest20
             func = null;
             for (int i = 0; i < count; i++)
             {
-                var handler = DomainManagment.Get("test" + i.ToString());
+                var handler = DomainManagement.Get("test" + i.ToString());
                 handler.Dispose();
             }
         }
@@ -76,7 +76,7 @@ namespace UnloadTest20
 
             for (int i = 0; i < count; i++)
             {
-                var ad = DomainManagment.Create("test" + i.ToString());
+                var ad = DomainManagement.Create("test" + i.ToString());
                 var builder = FastMethodOperator.Default();
                 builder.AssemblyBuilder.Compiler.Domain = ad;
                 func[i] = builder.Body($@"

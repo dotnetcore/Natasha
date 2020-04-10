@@ -31,7 +31,7 @@ namespace Natasha
             var assemblyDomain = AssemblyLoadContext.GetLoadContext(assembly);
             if (assemblyDomain == AssemblyLoadContext.Default)
             {
-                return (AssemblyDomain)DomainManagment.Default;
+                return (AssemblyDomain)DomainManagement.Default;
             }
             return (AssemblyDomain)assemblyDomain;
 
