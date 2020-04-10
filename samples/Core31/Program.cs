@@ -12,7 +12,7 @@ namespace Core31
 
             var a123 = NClass.Use(typeof(Program).GetDomain());
 
-            var domain = DomainManagment.Random;
+            var domain = DomainManagement.Random;
             var type = NDelegate.Use(domain).GetType("public class A{ public A(){Name=\"1\"; }public string Name;}");
             Console.WriteLine(type.FullName);
             var func = NDelegate.Use(domain).Func<string>("return (new A()).Name;");
@@ -24,8 +24,8 @@ namespace Core31
             Console.WriteLine(type.FullName);
             Console.WriteLine(func());
 
-            domain = DomainManagment.Create("a");
-            using (DomainManagment.Lock("a"))
+            domain = DomainManagement.Create("a");
+            using (DomainManagement.Lock("a"))
             {
                 Console.WriteLine(domain == (AssemblyDomain)AssemblyLoadContext.CurrentContextualReflectionContext);
             }

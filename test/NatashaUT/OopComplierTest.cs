@@ -27,7 +27,7 @@ namespace HelloWorld
 }";
             //根据脚本创建动态类
             AssemblyCSharpBuilder oop = new AssemblyCSharpBuilder();
-            oop.Compiler.Domain = DomainManagment.Random;
+            oop.Compiler.Domain = DomainManagement.Random;
             oop.Syntax.Add(text);
             Type type = oop.GetTypeFromShortName("Test");
             Assert.Equal("Test", type.Name);
@@ -50,7 +50,7 @@ namespace HelloWorld
 }";
             //根据脚本创建动态类
             var oop = new NAssembly();
-            oop.AssemblyBuilder.Compiler.Domain = DomainManagment.Random;
+            oop.AssemblyBuilder.Compiler.Domain = DomainManagement.Random;
             oop.AddScript(text);
             Type type = oop.GetTypeFromShortName("Test");
             Assert.Equal("Test", type.Name);
@@ -101,7 +101,7 @@ namespace HelloWorld{
 ";
             //根据脚本创建动态类
             AssemblyCSharpBuilder oop = new AssemblyCSharpBuilder();
-            oop.Compiler.Domain = DomainManagment.Random;
+            oop.Compiler.Domain = DomainManagement.Random;
             oop.Syntax.Add(text);
             Type type = oop.GetTypeFromShortName("TestIndex3");
             Assert.Equal("TestIndex3", type.Name);

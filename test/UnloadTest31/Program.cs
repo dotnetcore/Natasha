@@ -109,7 +109,7 @@ namespace UnloadTest31
             preTime = Process.GetCurrentProcess().TotalProcessorTime;
             watch.Restart();
             var alive = CheckAlive();
-            DomainManagment.Clear();
+            DomainManagement.Clear();
             watch.Stop();
             tempTotleTime = GetCpu(Process.GetCurrentProcess().TotalProcessorTime, preTime);
             if (watch.Elapsed.Seconds > 0)
@@ -155,7 +155,7 @@ namespace UnloadTest31
             for (int i = 0; i < count; i++)
             {
 
-                if (!DomainManagment.IsDeleted("test" + i.ToString()))
+                if (!DomainManagement.IsDeleted("test" + i.ToString()))
                 {
                     tempCount++;
                     Console.WriteLine($"{i} is aliave!");
@@ -186,7 +186,7 @@ namespace UnloadTest31
             for (int i = 0; i < count; i++)
             {
                 func[i] = null;
-                var handler = DomainManagment.Get("test" + i.ToString());
+                var handler = DomainManagement.Get("test" + i.ToString());
                 handler.Dispose();
             }
             func = null;

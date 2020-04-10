@@ -8,17 +8,16 @@ using System.Runtime.Loader;
 
 namespace Natasha.Framework
 {
-
     //public delegate void DomainAssemblyEvent(string path, Assembly assembly);
     //public delegate void DomainNativeAssemblyEvent(string path, IntPtr ptr);
 
     public abstract class DomainBase : AssemblyLoadContext, IDisposable
     {
-
-        public DomainBase() { }
+        public DomainBase()
+        {
+        }
 
         public readonly ConcurrentDictionary<Assembly, PortableExecutableReference> AssemblyReferences;
-
 
 #if NETSTANDARD2_0
         public string Name;
@@ -26,15 +25,10 @@ namespace Natasha.Framework
         public readonly static Func<AssemblyDependencyResolver, Dictionary<string, string>> GetDictionary;
         static DomainBase()
         {
-
             var methodInfo = typeof(AssemblyDependencyResolver).GetField("_assemblyPaths", BindingFlags.NonPublic | BindingFlags.Instance);
             GetDictionary = item => (Dictionary<string, string>)methodInfo.GetValue(item);
-
         }
 #endif
-
-
-
 
         public DomainBase(string key)
 
@@ -55,15 +49,11 @@ namespace Natasha.Framework
                 Default.ResolvingUnmanagedDll += Default_ResolvingUnmanagedDll;
 #endif
             }
-
         }
-
-
-
 
         public virtual HashSet<PortableExecutableReference> GetDefaultReferences()
         {
-            return new HashSet<PortableExecutableReference>(DomainManagment.Default.AssemblyReferences.Values);
+            return new HashSet<PortableExecutableReference>(DomainManagement.Default.AssemblyReferences.Values);
         }
 
         public abstract Assembly Default_Resolving(AssemblyLoadContext arg1, AssemblyName arg2);
@@ -72,20 +62,23 @@ namespace Natasha.Framework
 
         public virtual HashSet<PortableExecutableReference> GetCompileReferences()
         {
-
             var sets = GetDefaultReferences();
             if (Name != "default")
             {
                 sets.UnionWith(AssemblyReferences.Values);
             }
             return sets;
-
         }
 
         public abstract Assembly CompileStreamHandler(Stream stream, string AssemblyName);
+
         public abstract Assembly CompileFileHandler(string dllFile, string pdbFile, string AssemblyName);
 
-        public virtual Assembly LoadPluginFromFile(string path, params string[] excludePaths) { return LoadFromAssemblyPath(path); }
+        public virtual Assembly LoadPluginFromFile(string path, params string[] excludePaths)
+        {
+            return LoadFromAssemblyPath(path);
+        }
+
         public virtual Assembly LoadPluginFromStream(string path, params string[] excludePaths)
         {
             using (FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
@@ -95,24 +88,18 @@ namespace Natasha.Framework
         }
 
         public abstract void Remove(string path);
-        public abstract void Remove(Assembly assembly);
 
+        public abstract void Remove(Assembly assembly);
 
         public int Count
         {
             get { return AssemblyReferences.Count; }
         }
 
-
-
-
         public virtual void Dispose()
         {
-
             AssemblyReferences.Clear();
-
         }
-
 
         public abstract DomainBase GetInstance(string paramaeters);
     }

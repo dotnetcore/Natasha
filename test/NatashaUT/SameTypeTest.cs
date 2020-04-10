@@ -23,10 +23,10 @@ namespace NatashaUT
 #if !NETCOREAPP2_2
             lock (obj)
             {
-                using (DomainManagment.CreateAndLock("TestSame"))
+                using (DomainManagement.CreateAndLock("TestSame"))
                 {
 
-                    var domain = DomainManagment.CurrentDomain;
+                    var domain = DomainManagement.CurrentDomain;
                     var assembly = domain.CreateAssembly("ababab");
                     assembly.AddScript("using System;namespace ClassLibrary1{ public class Class1{public string name;}}");
                     var result2 = assembly.GetAssembly();
@@ -39,7 +39,7 @@ namespace NatashaUT
                     domain.Remove(path);
 
 
-                    Assert.Equal("TestSame", DomainManagment.CurrentDomain.Name);
+                    Assert.Equal("TestSame", DomainManagement.CurrentDomain.Name);
                     Assert.NotEqual(result1, result2);
                     Assert.Equal(type1.Name, type2.Name);
 
@@ -59,10 +59,10 @@ namespace NatashaUT
         {
 
 #if !NETCOREAPP2_2
-            using (DomainManagment.CreateAndLock("Default1"))
+            using (DomainManagement.CreateAndLock("Default1"))
             {
 
-                var domain = DomainManagment.CurrentDomain;
+                var domain = DomainManagement.CurrentDomain;
                 var assembly = domain.CreateAssembly("ClassLibrary1");
                 assembly.AddScript("using System;namespace ClassLibrary1{ public class Class1{public string name;}}");
                 var result2 = assembly.GetAssembly();
@@ -102,10 +102,10 @@ namespace NatashaUT
 
 #if !NETCOREAPP2_2
             NSucceedLog.Enabled = true;
-            using (DomainManagment.CreateAndLock("Default2"))
+            using (DomainManagement.CreateAndLock("Default2"))
             {
 
-                var domain = DomainManagment.CurrentDomain;
+                var domain = DomainManagement.CurrentDomain;
                 var assembly = domain.CreateAssembly("ClassLibrary1");
                 assembly.AddScript("using System;namespace ClassLibrary1{ public class Class1{public string name;}}");
                 var result2 = assembly.GetAssembly();
@@ -147,7 +147,7 @@ namespace NatashaUT
                 //using (DomainManagment.Lock("Default"))
                 //{
 
-                    var domain = DomainManagment.CurrentDomain;
+                    var domain = DomainManagement.CurrentDomain;
                     var assembly = domain.CreateAssembly("DAsmTest1");
                     assembly.AddScript("using System;namespace ClassLibrary1{ public class Class1{public string name;}}");
                     var result2 = assembly.GetAssembly();
@@ -168,7 +168,7 @@ namespace NatashaUT
                 //}
                 var func = NDelegate.Default().Func<object>("return new Class1();", "ClassLibrary1");
                 Assert.Equal(result1, func().GetType().Assembly);
-                DomainManagment.Default.Remove(result1);
+                DomainManagement.Default.Remove(result1);
             }
 #endif
 
@@ -185,7 +185,7 @@ namespace NatashaUT
                 Assembly result1;
 
 
-                    var domain = DomainManagment.CurrentDomain;
+                    var domain = DomainManagement.CurrentDomain;
                     //var assembly = domain.CreateAssembly("AsmTest1");
                     //assembly.AddScript("using System;namespace ClassLibrary1{ public class Class1{public string name;}}");
                     //var result2 = assembly.Compiler();
@@ -205,7 +205,7 @@ namespace NatashaUT
 
                 var func = NDelegate.Default().Func<object>("return new Class1();", "ClassLibrary1");
                 Assert.Equal(result1, func().GetType().Assembly);
-                DomainManagment.Default.Remove(path);
+                DomainManagement.Default.Remove(path);
             }
 #endif
 
