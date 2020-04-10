@@ -1,7 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Formatting;
-using Natasha.Error.Model;
 using Natasha.Framework;
 
 namespace Natasha.CSharpSyntax
