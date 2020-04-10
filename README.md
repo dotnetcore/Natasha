@@ -7,10 +7,7 @@
 
 # 当前状态
 
-   - 不挣钱，想写就写，一切随缘。
-   - [x] 重构模板，提高复用性，降低耦合，更合理的支撑上层API。（100%）
-   - [x] 重构引擎，降低耦合，抽象出多模块（框架，域，语法，编译，异常，引擎）以便后续扩展多语言编译，规范引擎API, 提升插件编程体验。（100%）
-   - [x] 文档（0%）
+   - [x] 文档（10%）
    
 
 # Natasha 
@@ -88,7 +85,9 @@ WeihanLi
   
   - 2020-03-12 ： 发布v2.12.0.0, 增加新API  NDelegate.XXX.Delegate<Tdelegate>() 系列API, Field模板构建增加了一个参数 int? fieldoffset。 
   
-  - 2020-03-16 ： 发布v2.14.0.0, 为 RuntimeToDynamic 库优化些API ,NDelegate 类使用 Using 模板来提供命名空间预定义的操作, 方便提前定制命名空间;新增域、命名空间关联模板 NHandler 以便提供与当前信息相同的 delegate / class / interface / enum / struct 操作类;增加 ALink 抽象类约束，以便约束不带有功能的 Link 操作。  
+  - 2020-03-16 ： 发布v2.14.0.0, 为 RuntimeToDynamic 库优化些API ,NDelegate 类使用 Using 模板来提供命名空间预定义的操作, 方便提前定制命名空间;新增域、命名空间关联模板 NHandler 以便提供与当前信息相同的 delegate / class / interface / enum / struct 操作类;增加 ALink 抽象类约束，以便约束不带有功能的 Link 操作。    
+  
+  - 2020-04-30 ： 发布v3.0.0.0, 重构所有模块，上层API几乎没变，底层可以继承重写，移除部分 API.  
   
  <br/>  
  
