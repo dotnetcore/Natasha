@@ -14,11 +14,11 @@ using System.Text.RegularExpressions;
 
 namespace Natasha.CSharpEngine
 {
-    public class NatashaEngine
+    public class NatashaCSharpEngine
     {
 
         public static ConcurrentDictionary<string, Action<CompilationException, Diagnostic, NatashaCSharpSyntax, Dictionary<string, string>>> ErrorHandlers;
-        static NatashaEngine()
+        static NatashaCSharpEngine()
         {
 
             ErrorHandlers = new ConcurrentDictionary<string, Action<CompilationException, Diagnostic, NatashaCSharpSyntax, Dictionary<string, string>>>();
@@ -104,7 +104,7 @@ namespace Natasha.CSharpEngine
 
 
 
-        public NatashaEngine(string name)
+        public NatashaCSharpEngine(string name)
         {
 
             Syntax = new NatashaCSharpSyntax();

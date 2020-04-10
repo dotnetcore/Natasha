@@ -13,11 +13,19 @@ namespace Natasha.Framework
 
         public string AssemblyName;
         public Assembly Assembly;
+        public AssemblyBuildKind AssemblyOutputKind;
+        public string DllPath;
+        public string PdbPath;
+
+
 
         public CompilerBase()
         {
+
             _domain = null;
+           
         }
+
 
         private DomainBase _domain;
         public DomainBase Domain
@@ -140,6 +148,29 @@ namespace Natasha.Framework
 
             }
             
+        }
+
+
+
+
+        /// <summary>
+        /// 对语法树进行编译
+        /// </summary>
+        public virtual void Compile()
+        {
+
+            switch (AssemblyOutputKind)
+            {
+
+                case AssemblyBuildKind.File:
+                    CompileToFile(DllPath, PdbPath);
+                    break;
+                case AssemblyBuildKind.Stream:
+                    CompileToStream();
+                    break;
+
+            }
+
         }
     }
 }

@@ -10,7 +10,7 @@ using System.Reflection;
 namespace Natasha.CSharp
 {
 
-    public class AssemblyCSharpBuilder : NatashaEngine
+    public class AssemblyCSharpBuilder : NatashaCSharpEngine
     {
 
         /// <summary>
@@ -99,139 +99,6 @@ namespace Natasha.CSharp
             return Compiler.Assembly;
 
         }
-
-
-
-        ///// <summary>
-        ///// 获取编译后的类型
-        ///// </summary>
-        ///// <param name="typeName">类型名称</param>
-        ///// <returns></returns>
-        //public Type GetType(string typeName)
-        //{
-
-        //    Assembly assembly = GetAssembly();
-        //    if (assembly == null)
-        //    {
-
-        //        return null;
-
-        //    }
-
-
-        //    var type = assembly.GetTypes().First(item => item.Name == typeName);
-        //    if (type == null)
-        //    {
-
-        //        CompilationException exception = new CompilationException($"无法在程序集 {AssemblyName} 中找到该类型 {typeName}！");
-        //        if (Exceptions.Count == 0)
-        //        {
-        //            exception.ErrorFlag = ExceptionKind.Type;
-        //        }
-        //        else
-        //        {
-        //            exception.ErrorFlag = ExceptionKind.Assembly;
-        //        }
-        //        Exceptions.Add(exception);
-
-        //    }
-        //    return type;
-
-        //}
-
-
-
-
-        ///// <summary>
-        ///// 获取编译后的方法元数据
-        ///// </summary>
-        ///// <param name="typeName">类型名称</param>
-        ///// <param name="methodName">方法名</param>
-        ///// <returns></returns>
-        //public MethodInfo GetMethod(string typeName, string methodName = null)
-        //{
-
-        //    var type = GetType(typeName);
-        //    if (type == null)
-        //    {
-        //        return null;
-        //    }
-
-
-        //    var info = type.GetMethod(methodName);
-        //    if (info == null)
-        //    {
-
-        //        CompilationException exception = new CompilationException($"无法在类型 {typeName} 中找到该方法 {methodName}！");
-        //        if (Exceptions.Count == 0)
-        //        {
-        //            exception.ErrorFlag = ExceptionKind.Method;
-        //        }
-        //        else
-        //        {
-        //            exception.ErrorFlag = ExceptionKind.Assembly;
-        //        }
-        //        Exceptions.Add(exception);
-
-        //    }
-        //    return info;
-
-        //}
-
-
-
-
-        ///// <summary>
-        ///// 获取编译后的委托
-        ///// </summary>
-        ///// <param name="typeName">类型名称</param>
-        ///// <param name="methodName">方法名</param>
-        ///// <param name="delegateType">委托类型</param>
-        ///// <returns></returns>
-        //public Delegate GetDelegate(string typeName, string methodName, Type delegateType, object binder = null)
-        //{
-
-        //    var info = GetMethod(typeName, methodName);
-        //    if (info == null)
-        //    {
-        //        return null;
-        //    }
-
-
-        //    try
-        //    {
-
-
-        //        return info.CreateDelegate(delegateType, binder);
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        CompilationException exception = new CompilationException($"在类型 {typeName} 中找到的方法 {methodName} 向 {delegateType.FullName} 转换时出错！");
-        //        if (Exceptions.Count == 0)
-        //        {
-        //            exception.ErrorFlag = ExceptionKind.Delegate;
-        //        }
-        //        else
-        //        {
-        //            exception.ErrorFlag = ExceptionKind.Assembly;
-        //        }
-        //        Exceptions.Add(exception);
-
-        //    }
-        //    return null;
-
-        //}
-
-        //public T GetDelegate<T>(string typeName, string methodName, object binder = null) where T : Delegate
-        //{
-
-        //    return (T)GetDelegate(typeName, methodName, typeof(T));
-
-        //}
-
-
 
 
 
