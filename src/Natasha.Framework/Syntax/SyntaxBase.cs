@@ -18,8 +18,8 @@ namespace Natasha.Framework
         }
 
 
-        public abstract SyntaxTree LoadTreeFromLauguage(string script);
-        public abstract SyntaxTree LoadTreeFromLauguage(SyntaxTree tree);
+        public abstract SyntaxTree LoadTreeFromScript(string script);
+        public abstract SyntaxTree LoadTree(SyntaxTree tree);
 
 
 
@@ -30,7 +30,7 @@ namespace Natasha.Framework
             if (script!=default && script != "")
             {
 
-                SyntaxTree tree = LoadTreeFromLauguage(script);
+                SyntaxTree tree = LoadTreeFromScript(script);
                 var key = tree.ToString();
                 if (!TreeCache.ContainsKey(key))
                 {

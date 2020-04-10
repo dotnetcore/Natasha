@@ -72,7 +72,7 @@ namespace Natasha.Framework
 
 
 
-        public virtual bool PreComplier()
+        public virtual bool PreCompiler()
         {
             return true;
         }
@@ -93,7 +93,7 @@ namespace Natasha.Framework
         public virtual void CompileToFile(string dllPath, string pdbPath)
         {
 
-            if (PreComplier())
+            if (PreCompiler())
             {
 
                 var compilation = GetCompilation();
@@ -118,7 +118,7 @@ namespace Natasha.Framework
         public virtual void CompileToStream()
         {
 
-            if (PreComplier())
+            if (PreCompiler())
             {
 
                 var compilation = GetCompilation();

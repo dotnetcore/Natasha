@@ -24,12 +24,12 @@ namespace Natasha.CSharpSyntax
 
 
 
-        public override SyntaxTree LoadTreeFromLauguage(string script)
+        public override SyntaxTree LoadTreeFromScript(string script)
         {
             var tree = CSharpSyntaxTree.ParseText(script.Trim(), _options);
-            return LoadTreeFromLauguage(tree);
+            return LoadTree(tree);
         }
-        public override SyntaxTree LoadTreeFromLauguage(SyntaxTree tree)
+        public override SyntaxTree LoadTree(SyntaxTree tree)
         {
             SyntaxNode root = Formatter.Format(tree.GetCompilationUnitRoot(), _workSpace);
             tree = root.SyntaxTree;

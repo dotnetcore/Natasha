@@ -1,4 +1,4 @@
-﻿using Natasha.CSharpComplier;
+﻿using Natasha.CSharpCompiler;
 using Natasha.Error.Model;
 using Natasha.Framework;
 

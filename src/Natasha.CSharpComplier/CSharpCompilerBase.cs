@@ -2,7 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Natasha.Framework;
 
-namespace Natasha.CSharpComplier
+namespace Natasha.CSharpCompiler
 {
     public abstract class CSharpCompilerBase : CompilerBase<CSharpCompilation>
     {

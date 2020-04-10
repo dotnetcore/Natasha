@@ -149,7 +149,7 @@ namespace Natasha.CSharpEngine
         private bool CanRetryCompile(ImmutableArray<Diagnostic> errors)
         {
 
-            Exceptions = NatashaException.GetComplieException(Compiler.AssemblyName, errors);
+            Exceptions = NatashaException.GetCompileException(Compiler.AssemblyName, errors);
             Dictionary<string, string> codeMappings = new Dictionary<string, string>();
             foreach (var item in Exceptions)
             {

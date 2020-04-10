@@ -64,7 +64,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natasha.CSharpSyntax", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natasha.CSharpEngine", "src\Natasha.CSharpEngine\Natasha.CSharpEngine.csproj", "{3CDB55E8-F29B-4D87-952A-5CC379EC9A10}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natasha.CSharpComplier", "src\Natasha.CSharpComplier\Natasha.CSharpComplier.csproj", "{ACF4E84B-E06C-4A40-9AAD-5C1712C2EF30}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natasha.CSharpCompiler", "src\Natasha.CSharpComplier\Natasha.CSharpCompiler.csproj", "{ACF4E84B-E06C-4A40-9AAD-5C1712C2EF30}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

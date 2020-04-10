@@ -40,7 +40,7 @@ namespace Natasha.CSharpEngine.Error
             return exception;
 
         }
-        public static List<CompilationException> GetComplieException(string assemblyName, ImmutableArray<Diagnostic> errors)
+        public static List<CompilationException> GetCompileException(string assemblyName, ImmutableArray<Diagnostic> errors)
         {
 
             var exceptions = new Dictionary<string, CompilationException>();
