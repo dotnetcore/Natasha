@@ -19,7 +19,6 @@ namespace Natasha
 
             Cache = new ConcurrentDictionary<string, WeakReference>();
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            var t = assemblies.First(item => item.GetName().Name == "Natasha");
             if (assemblies != null)
             {
 
