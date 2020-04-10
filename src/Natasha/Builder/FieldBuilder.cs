@@ -1,6 +1,6 @@
-﻿using Natasha.Template;
+﻿using Natasha.CSharp.Template;
 
-namespace Natasha.Builder
+namespace Natasha.CSharp.Builder
 {
 
     public class FieldBuilder : FieldTemplate<FieldBuilder>

@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Text;
 
-namespace Natasha.Template
+namespace Natasha.CSharp.Template
 {
-    public class InheritanceTemplate_TEMP<T> : DefinedNameTemplate<T> where T : InheritanceTemplate_TEMP<T>, new()
+    public class InheritanceTemplate<T> : DefinedNameTemplate<T> where T : InheritanceTemplate<T>, new()
     {
 
         public readonly StringBuilder Inheritances;
 
-        public InheritanceTemplate_TEMP() => Inheritances = new StringBuilder();
+        public InheritanceTemplate() => Inheritances = new StringBuilder();
 
 
 

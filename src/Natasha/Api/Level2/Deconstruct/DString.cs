@@ -1,4 +1,5 @@
-﻿using Natasha.Error;
+﻿using Natasha.CSharp;
+using Natasha.Error;
 using System;
 using System.Collections.Concurrent;
 using System.IO;
@@ -45,7 +46,7 @@ namespace Natasha
            out CompilationException Error)
         {
 
-            AssemblyBuilder assembly = new AssemblyBuilder();
+            AssemblyCSharpBuilder assembly = new AssemblyCSharpBuilder();
             assembly.Syntax.Add(script);
             Assembly = assembly.GetAssembly();
             Types = Assembly.GetTypes();

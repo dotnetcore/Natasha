@@ -1,4 +1,5 @@
 ﻿using Natasha;
+using Natasha.CSharp;
 using System;
 
 namespace Core20
@@ -22,7 +23,7 @@ namespace Core20
     }
 }";
             //根据脚本创建动态类
-            AssemblyBuilder oop = new AssemblyBuilder("test");
+            AssemblyCSharpBuilder oop = new AssemblyCSharpBuilder("test");
             oop.Syntax.Add(text);
             Type type = oop.GetTypeFromShortName("Test");
 

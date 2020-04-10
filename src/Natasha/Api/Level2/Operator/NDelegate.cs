@@ -1,10 +1,10 @@
-﻿using Natasha.Engine.Utils;
-using Natasha.Operator;
-using Natasha.Template;
+﻿using Natasha.CSharp.Operator;
+using Natasha.CSharp.Template;
+using Natasha.Engine.Utils;
 using System;
 using System.Linq;
 
-namespace Natasha
+namespace Natasha.CSharp
 {
 
     public class NDelegate : UsingTemplate<NDelegate>

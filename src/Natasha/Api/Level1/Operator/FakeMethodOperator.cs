@@ -1,10 +1,10 @@
-﻿using Natasha.Builder;
+﻿using Natasha.CSharp.Builder;
 using Natasha.Reverser;
-using Natasha.Template;
+using Natasha.CSharp.Template;
 using System;
 using System.Reflection;
 
-namespace Natasha
+namespace Natasha.CSharp
 {
     /// <summary>
     /// 根据现有反射方法伪造一个方法，内容自己定

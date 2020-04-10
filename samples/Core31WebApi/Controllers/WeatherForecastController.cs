@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Natasha;
+using Natasha.CSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;

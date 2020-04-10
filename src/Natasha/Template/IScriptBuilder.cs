@@ -1,4 +1,4 @@
-﻿namespace Natasha
+﻿namespace Natasha.CSharp
 {
     /// <summary>
     /// 构建脚本接口

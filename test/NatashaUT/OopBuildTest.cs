@@ -1,7 +1,4 @@
-﻿using Natasha;
-using Natasha.Operator;
-using System;
-using Xunit;
+﻿using Xunit;
 
 namespace NatashaUT
 {

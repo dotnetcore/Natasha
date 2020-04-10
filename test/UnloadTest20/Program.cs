@@ -1,6 +1,6 @@
-﻿using Natash;
-using Natasha;
-using Natasha.Operator;
+﻿using Natasha;
+using Natasha.CSharp;
+using Natasha.CSharp.Operator;
 using System;
 using System.Runtime.CompilerServices;
 using System.Threading;

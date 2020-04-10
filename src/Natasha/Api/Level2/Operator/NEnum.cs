@@ -1,7 +1,7 @@
-﻿using Natasha.Builder;
+﻿using Natasha.CSharp.Builder;
 using System;
 
-namespace Natasha
+namespace Natasha.CSharp
 {
 
     public class NEnum : NHandler<NEnum>

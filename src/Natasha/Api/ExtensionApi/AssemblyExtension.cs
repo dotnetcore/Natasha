@@ -1,4 +1,5 @@
-﻿using Natasha.Framework;
+﻿using Natasha.CSharp;
+using Natasha.Framework;
 using System.Reflection;
 using System.Runtime.Loader;
 

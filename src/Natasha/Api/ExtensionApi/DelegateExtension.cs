@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Natasha
+namespace Natasha.CSharp
 {
     public static class DelegateExtension
     {

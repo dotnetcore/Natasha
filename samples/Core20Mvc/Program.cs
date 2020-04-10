@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
+﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+using Natasha.CSharp;
 
 namespace Core20Mvc
 {
@@ -14,7 +8,7 @@ namespace Core20Mvc
     {
         public static void Main(string[] args)
         {
-            string result = Natasha.NDelegate.Random().Func<string>("return \"a\";")();
+            string result = NDelegate.Random().Func<string>("return \"a\";")();
             CreateWebHostBuilder(args).Build().Run();
         }
 

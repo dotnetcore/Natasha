@@ -8,13 +8,13 @@ using System.Runtime.Loader;
 
 namespace Natasha.Framework
 {
-    public abstract class ComplierBase<T> where T : Compilation
+    public abstract class CompilerBase<T> where T : Compilation
     {
 
         public string AssemblyName;
         public Assembly Assembly;
 
-        public ComplierBase()
+        public CompilerBase()
         {
             _domain = null;
         }
@@ -82,7 +82,7 @@ namespace Natasha.Framework
 
 
 
-        public void CompileToFile(string dllPath, string pdbPath)
+        public virtual void CompileToFile(string dllPath, string pdbPath)
         {
 
             if (PreComplier())
@@ -107,7 +107,7 @@ namespace Natasha.Framework
             }
             
         }
-        public void CompileToStream()
+        public virtual void CompileToStream()
         {
 
             if (PreComplier())

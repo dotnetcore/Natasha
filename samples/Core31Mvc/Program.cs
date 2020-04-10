@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Natasha.CSharp;
 
 namespace Core31Mvc
 {
@@ -13,7 +8,7 @@ namespace Core31Mvc
     {
         public static void Main(string[] args)
         {
-            string result = Natasha.NDelegate.Random().Func<string>("return \"a\";")();
+            string result = NDelegate.Random().Func<string>("return \"a\";")();
             CreateHostBuilder(args).Build().Run();
         }
 

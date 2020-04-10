@@ -3,7 +3,7 @@ using Natasha.Reverser.Model;
 using System;
 using System.Reflection;
 
-namespace Natasha.Template
+namespace Natasha.CSharp.Template
 {
     public class AccessTemplate<T> : AttributeTemplate<T> where T : AccessTemplate<T>, new()
     {

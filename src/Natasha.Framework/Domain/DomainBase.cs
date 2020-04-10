@@ -63,7 +63,7 @@ namespace Natasha.Framework
 
         public virtual HashSet<PortableExecutableReference> GetDefaultReferences()
         {
-            return new HashSet<PortableExecutableReference>(AssemblyReferences.Values);
+            return new HashSet<PortableExecutableReference>(DomainManagment.Default.AssemblyReferences.Values);
         }
 
         public abstract Assembly Default_Resolving(AssemblyLoadContext arg1, AssemblyName arg2);

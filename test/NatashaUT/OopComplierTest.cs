@@ -1,5 +1,6 @@
 ﻿using Natasha;
 using Natasha.Core;
+using Natasha.CSharp;
 using Natasha.Engine.Utils;
 using System;
 using Xunit;
@@ -25,7 +26,7 @@ namespace HelloWorld
     }
 }";
             //根据脚本创建动态类
-            AssemblyBuilder oop = new AssemblyBuilder();
+            AssemblyCSharpBuilder oop = new AssemblyCSharpBuilder();
             oop.Compiler.Domain = DomainManagment.Random;
             oop.Syntax.Add(text);
             Type type = oop.GetTypeFromShortName("Test");
@@ -99,7 +100,7 @@ namespace HelloWorld{
 
 ";
             //根据脚本创建动态类
-            AssemblyBuilder oop = new AssemblyBuilder();
+            AssemblyCSharpBuilder oop = new AssemblyCSharpBuilder();
             oop.Compiler.Domain = DomainManagment.Random;
             oop.Syntax.Add(text);
             Type type = oop.GetTypeFromShortName("TestIndex3");

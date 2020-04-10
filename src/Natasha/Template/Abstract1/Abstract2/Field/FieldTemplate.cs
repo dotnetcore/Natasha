@@ -1,4 +1,4 @@
-﻿namespace Natasha.Template
+﻿namespace Natasha.CSharp.Template
 {
 
     public class FieldTemplate<T> : DefinedNameTemplate<T> where T : FieldTemplate<T>, new()

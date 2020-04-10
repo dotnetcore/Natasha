@@ -1,5 +1,5 @@
-﻿using Natasha;
-using Natasha.Operator;
+﻿using Natasha.CSharp;
+using Natasha.CSharp.Operator;
 using NatashaUT.Model;
 using System;
 using Xunit;

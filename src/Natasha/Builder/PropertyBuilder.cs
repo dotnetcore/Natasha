@@ -1,9 +1,9 @@
-﻿using Natasha.Template;
+﻿using Natasha.CSharp.Template;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Natasha.Builder
+namespace Natasha.CSharp.Builder
 {
 
     public class PropertyBuilder : PropertyTemplate<PropertyBuilder>

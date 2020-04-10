@@ -1,5 +1,5 @@
 ﻿using Natasha;
-using Natasha.Log;
+using Natasha.CSharp;
 using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;

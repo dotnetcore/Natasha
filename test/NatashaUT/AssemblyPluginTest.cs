@@ -1,5 +1,5 @@
 ﻿using Natasha;
-using Natasha.Operator;
+using Natasha.CSharp.Operator;
 using System;
 using System.Collections.Generic;
 using System.IO;

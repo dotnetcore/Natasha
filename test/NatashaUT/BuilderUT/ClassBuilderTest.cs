@@ -1,4 +1,5 @@
 ﻿using Natasha;
+using Natasha.CSharp;
 using System;
 using Xunit;
 
@@ -22,7 +23,7 @@ namespace NatashaUT.BuilderUT
                 .Property(item => { item.Public().DefinedName("Banana").DefinedType<NClass>(); })
                 .Script;
 
-            Assert.Equal($"using System;{Environment.NewLine}using Natasha;{Environment.NewLine}public class EnumUT1{{{Environment.NewLine}public System.Int32 Apple;{Environment.NewLine}public System.String Orange;{Environment.NewLine}public Natasha.NClass Banana{{{Environment.NewLine}get;{Environment.NewLine}set;{Environment.NewLine}}}{Environment.NewLine}}}", script);
+            Assert.Equal($"using System;{Environment.NewLine}using Natasha.CSharp;{Environment.NewLine}public class EnumUT1{{{Environment.NewLine}public System.Int32 Apple;{Environment.NewLine}public System.String Orange;{Environment.NewLine}public Natasha.CSharp.NClass Banana{{{Environment.NewLine}get;{Environment.NewLine}set;{Environment.NewLine}}}{Environment.NewLine}}}", script);
             Assert.NotNull(builder.GetType());
         }
 
@@ -48,7 +49,7 @@ namespace NatashaUT.BuilderUT
                     .Getter("return default;"); })
                 .Script;
 
-            Assert.Equal($"using System;{Environment.NewLine}using Natasha;{Environment.NewLine}public class EnumUT1{{{Environment.NewLine}public System.Int32 Apple(){{return 0;}}{Environment.NewLine}public Natasha.NClass Banana{{{Environment.NewLine}get{{return default;}}{Environment.NewLine}set{{int a = value.ToString().Length;}}{Environment.NewLine}}}{Environment.NewLine}}}", script);
+            Assert.Equal($"using System;{Environment.NewLine}using Natasha.CSharp;{Environment.NewLine}public class EnumUT1{{{Environment.NewLine}public System.Int32 Apple(){{return 0;}}{Environment.NewLine}public Natasha.CSharp.NClass Banana{{{Environment.NewLine}get{{return default;}}{Environment.NewLine}set{{int a = value.ToString().Length;}}{Environment.NewLine}}}{Environment.NewLine}}}", script);
             Assert.NotNull(builder.GetType());
 
         }

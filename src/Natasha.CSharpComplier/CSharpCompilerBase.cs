@@ -4,7 +4,7 @@ using Natasha.Framework;
 
 namespace Natasha.CSharpComplier
 {
-    public abstract class CSharpCompilerBase : ComplierBase<CSharpCompilation>
+    public abstract class CSharpCompilerBase : CompilerBase<CSharpCompilation>
     {
 
         public CSharpCompilation Compilation;

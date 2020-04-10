@@ -1,7 +1,8 @@
 ﻿using Natasha;
+using Natasha.CSharp.Operator;
 using System;
 
-namespace Natash
+namespace Natasha.CSharp
 {
     public class NInstance
     {

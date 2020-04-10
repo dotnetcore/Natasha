@@ -7,17 +7,17 @@ using System;
 using System.IO;
 using System.Reflection;
 
-namespace Natasha
+namespace Natasha.CSharp
 {
 
-    public class AssemblyBuilder : NatashaEngine
+    public class AssemblyCSharpBuilder : NatashaEngine
     {
 
         /// <summary>
         /// 默认的输出文件夹
         /// </summary>
         public static string OutputFolder;
-        static AssemblyBuilder()
+        static AssemblyCSharpBuilder()
         {
             OutputFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "DynamicLibraryFolders");
         }
@@ -25,8 +25,8 @@ namespace Natasha
 
 
         public bool CustomerUsingShut;
-        public AssemblyBuilder() : this(Guid.NewGuid().ToString("N")){}
-        public AssemblyBuilder(string name):base(name)
+        public AssemblyCSharpBuilder() : this(Guid.NewGuid().ToString("N")){}
+        public AssemblyCSharpBuilder(string name):base(name)
         {
 
             CustomerUsingShut = false;

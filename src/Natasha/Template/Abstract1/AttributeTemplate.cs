@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace Natasha.Template
+namespace Natasha.CSharp.Template
 {
     public class AttributeTemplate<T> : GlobalUsingTemplate<T> where T : AttributeTemplate<T>, new()
     {

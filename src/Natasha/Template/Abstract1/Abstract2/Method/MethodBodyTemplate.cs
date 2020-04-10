@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Natasha.Template
+namespace Natasha.CSharp.Template
 {
 
     //temp 临时的，后面再改，排除掉原来的类改动太大了

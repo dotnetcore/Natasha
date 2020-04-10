@@ -1,4 +1,5 @@
-﻿using Natasha;
+﻿using Natasha.CSharp;
+using Natasha.CSharp.Operator;
 using System;
 using System.Threading.Tasks;
 using Xunit;

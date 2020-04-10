@@ -1,6 +1,6 @@
-﻿using Natasha;
+﻿using Natasha.CSharp;
+using Natasha.CSharp.Operator;
 using Natasha.Error.Model;
-using Natasha.Operator;
 using Xunit;
 
 namespace NatashaUT

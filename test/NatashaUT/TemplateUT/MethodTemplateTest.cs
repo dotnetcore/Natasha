@@ -1,5 +1,4 @@
-﻿using Natasha;
-using Natasha.Builder;
+﻿using Natasha.CSharp.Builder;
 using System;
 using Xunit;
 
@@ -70,8 +69,8 @@ namespace NatashaUT
                 .BodyAppend("return \"xm\";")
                 .Script;
 
-            Assert.Equal($"[Test]{Environment.NewLine}public async Natasha.Builder.MethodBuilder Name(){{int a = 0;return \"xm\";}}", result);
-            Assert.Equal(typeof(Func<Natasha.Builder.MethodBuilder>), template.DelegateType);
+            Assert.Equal($"[Test]{Environment.NewLine}public async Natasha.CSharp.Builder.MethodBuilder Name(){{int a = 0;return \"xm\";}}", result);
+            Assert.Equal(typeof(Func<MethodBuilder>), template.DelegateType);
 
         }
 

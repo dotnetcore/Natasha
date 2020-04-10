@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Natasha.Template
+namespace Natasha.CSharp.Template
 {
 
     public class PropertyTemplate<T> : DefinedNameTemplate<T> where T : PropertyTemplate<T>, new()

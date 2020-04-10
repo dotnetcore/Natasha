@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Natasha.Template
+namespace Natasha.CSharp.Template
 {
 
     public class DefinedTypeTemplate<T> : ModifierTemplate<T> where T: DefinedTypeTemplate<T>, new()

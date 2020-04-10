@@ -1,4 +1,4 @@
-﻿using Natasha;
+﻿using Natasha.CSharp;
 using System;
 using System.IO;
 using Xunit;

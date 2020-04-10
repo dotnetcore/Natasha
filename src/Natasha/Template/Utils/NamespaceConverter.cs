@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Natasha
+namespace Natasha.CSharp
 {
 
     public class NamespaceConverter

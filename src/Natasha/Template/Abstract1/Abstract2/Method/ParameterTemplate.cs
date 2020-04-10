@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Natasha.Template
+namespace Natasha.CSharp.Template
 {
 
     public class ParameterTemplate<T> : DefinedNameTemplate<T> where T : ParameterTemplate<T>, new()

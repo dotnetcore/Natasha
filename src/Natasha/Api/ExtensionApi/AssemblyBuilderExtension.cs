@@ -4,13 +4,13 @@ using System;
 using System.Linq;
 using System.Reflection;
 
-namespace Natasha
+namespace Natasha.CSharp
 {
 
     public static class AssemblyBuilderExtension
     {
 
-        public static Type GetTypeFromFullName(this AssemblyBuilder builder, string typeName)
+        public static Type GetTypeFromFullName(this AssemblyCSharpBuilder builder, string typeName)
         {
 
             Assembly assembly = builder.GetAssembly();
@@ -41,7 +41,7 @@ namespace Natasha
             return type;
 
         }
-        public static Type GetTypeFromShortName(this AssemblyBuilder builder, string typeName)
+        public static Type GetTypeFromShortName(this AssemblyCSharpBuilder builder, string typeName)
         {
 
             Assembly assembly = builder.GetAssembly();
@@ -76,7 +76,7 @@ namespace Natasha
         
         
         
-        public static MethodInfo GetMethodFromFullName(this AssemblyBuilder builder, string typeName, string methodName)
+        public static MethodInfo GetMethodFromFullName(this AssemblyCSharpBuilder builder, string typeName, string methodName)
         {
 
             var type = builder.GetTypeFromFullName(typeName);
@@ -105,7 +105,7 @@ namespace Natasha
             return info;
 
         }
-        public static MethodInfo GetMethodFromShortName(this AssemblyBuilder builder, string typeName, string methodName)
+        public static MethodInfo GetMethodFromShortName(this AssemblyCSharpBuilder builder, string typeName, string methodName)
         {
 
             var type = builder.GetTypeFromShortName(typeName);
@@ -138,7 +138,7 @@ namespace Natasha
         
         
         
-        public static Delegate GetDelegateFromFullName(this AssemblyBuilder builder, string typeName, string methodName, Type delegateType, object binder = null)
+        public static Delegate GetDelegateFromFullName(this AssemblyCSharpBuilder builder, string typeName, string methodName, Type delegateType, object binder = null)
         {
 
             var info = builder.GetMethodFromFullName(typeName, methodName);
@@ -173,11 +173,11 @@ namespace Natasha
             return null;
 
         }
-        public static T GetDelegateFromFullName<T>(this AssemblyBuilder builder, string typeName, string methodName, object binder = null) where T : Delegate
+        public static T GetDelegateFromFullName<T>(this AssemblyCSharpBuilder builder, string typeName, string methodName, object binder = null) where T : Delegate
         {
             return (T)(builder.GetDelegateFromFullName(typeName, methodName, typeof(T)));
         }
-        public static Delegate GetDelegateFromShortName(this AssemblyBuilder builder, string typeName, string methodName, Type delegateType, object binder = null)
+        public static Delegate GetDelegateFromShortName(this AssemblyCSharpBuilder builder, string typeName, string methodName, Type delegateType, object binder = null)
         {
 
             var info = builder.GetMethodFromShortName(typeName, methodName);
@@ -212,7 +212,7 @@ namespace Natasha
             return null;
 
         }
-        public static T GetDelegateFromShortName<T>(this AssemblyBuilder builder, string typeName, string methodName, object binder = null) where T : Delegate
+        public static T GetDelegateFromShortName<T>(this AssemblyCSharpBuilder builder, string typeName, string methodName, object binder = null) where T : Delegate
         {
             return (T)(builder.GetDelegateFromShortName(typeName, methodName, typeof(T)));
         }

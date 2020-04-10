@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Natasha.Builder
+namespace Natasha.CSharp.Builder
 {
 
     /// <summary>

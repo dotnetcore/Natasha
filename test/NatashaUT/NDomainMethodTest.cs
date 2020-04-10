@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xunit;
-using Natasha;
+﻿using Natasha;
+using Natasha.CSharp;
 using NatashaUT.Model;
+using System;
+using Xunit;
 
 namespace NatashaUT
 {

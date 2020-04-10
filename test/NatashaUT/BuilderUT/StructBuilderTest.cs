@@ -1,4 +1,4 @@
-﻿using Natasha;
+﻿using Natasha.CSharp;
 using System;
 using System.Runtime.InteropServices;
 using Xunit;
@@ -25,7 +25,7 @@ namespace NatashaUT.BuilderUT
                 .Property(item => { item.Public().DefinedName("Banana").DefinedType<NClass>(); })
                 .Script;
 
-            Assert.Equal($"using System;{Environment.NewLine}using Natasha;{Environment.NewLine}public struct EnumUT1{{{Environment.NewLine}public System.Int32 Apple;{Environment.NewLine}public System.String Orange;{Environment.NewLine}public Natasha.NClass Banana{{{Environment.NewLine}get;{Environment.NewLine}set;{Environment.NewLine}}}{Environment.NewLine}}}", script);
+            Assert.Equal($"using System;{Environment.NewLine}using Natasha.CSharp;{Environment.NewLine}public struct EnumUT1{{{Environment.NewLine}public System.Int32 Apple;{Environment.NewLine}public System.String Orange;{Environment.NewLine}public Natasha.CSharp.NClass Banana{{{Environment.NewLine}get;{Environment.NewLine}set;{Environment.NewLine}}}{Environment.NewLine}}}", script);
             Assert.NotNull(builder.GetType());
 
         }

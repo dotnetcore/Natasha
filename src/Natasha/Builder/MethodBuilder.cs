@@ -1,8 +1,8 @@
 ﻿using Natasha.Error;
-using Natasha.Template;
+using Natasha.CSharp.Template;
 using System;
 
-namespace Natasha.Builder
+namespace Natasha.CSharp.Builder
 {
 
     public class MethodBuilder : MethodBuilder<MethodBuilder>

@@ -1,7 +1,4 @@
-﻿using Natasha;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Natasha.CSharp;
 using Xunit;
 
 namespace NatashaUT

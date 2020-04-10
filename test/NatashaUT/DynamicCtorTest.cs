@@ -1,7 +1,4 @@
-﻿using Natasha;
-using Natasha.Builder;
-using Natasha.Template;
-using System;
+﻿using Natasha.CSharp.Builder;
 using Xunit;
 
 namespace NatashaUT

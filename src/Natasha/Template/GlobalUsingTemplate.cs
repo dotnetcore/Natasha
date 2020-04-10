@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Natasha.Template
+namespace Natasha.CSharp.Template
 {
     /// <summary>
     /// 记录模板

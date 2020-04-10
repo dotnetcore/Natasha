@@ -1,8 +1,4 @@
-﻿using Natasha;
-using Natasha.Builder;
-using System;
-using System.Threading.Tasks;
-using Xunit;
+﻿using Xunit;
 
 namespace NatashaUT
 {

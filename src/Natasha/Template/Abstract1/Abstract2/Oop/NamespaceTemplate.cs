@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Natasha.Template
+namespace Natasha.CSharp.Template
 {
 
     public class NamespaceTemplate<T> : OopBodyTemplate<T> where T : NamespaceTemplate<T>, new()

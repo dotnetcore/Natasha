@@ -1,12 +1,13 @@
-﻿using Natasha.Builder;
+﻿using Natasha.CSharp.Builder;
+using Natasha.CSharp.Operator;
+using Natasha.CSharp.Template;
 using Natasha.Error;
-using Natasha.Template;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Natasha
+namespace Natasha.CSharp
 {
 
     public class NAssembly : CompilerTemplate<NAssembly>

@@ -1,14 +1,14 @@
 ﻿using Natasha.Framework;
 using System;
 
-namespace Natasha.Operator
+namespace Natasha.CSharp.Operator
 {
 
     public static class DelegateOperator<T> where T : Delegate
     {
 
         
-        public static T Delegate(string content, DomainBase domain = default, Action<AssemblyBuilder> option = default, params NamespaceConverter[] usings)
+        public static T Delegate(string content, DomainBase domain = default, Action<AssemblyCSharpBuilder> option = default, params NamespaceConverter[] usings)
         {
 
             var method = typeof(T).GetMethod("Invoke");
@@ -23,7 +23,7 @@ namespace Natasha.Operator
 
 
 
-        public static T AsyncDelegate(string content, DomainBase domain = default, Action<AssemblyBuilder> option = default, params NamespaceConverter[] usings)
+        public static T AsyncDelegate(string content, DomainBase domain = default, Action<AssemblyCSharpBuilder> option = default, params NamespaceConverter[] usings)
         {
 
             var method = typeof(T).GetMethod("Invoke");
@@ -39,7 +39,7 @@ namespace Natasha.Operator
 
 
 
-        public static T UnsafeDelegate(string content, DomainBase domain = default, Action<AssemblyBuilder> option = default, params NamespaceConverter[] usings)
+        public static T UnsafeDelegate(string content, DomainBase domain = default, Action<AssemblyCSharpBuilder> option = default, params NamespaceConverter[] usings)
         {
 
             var method = typeof(T).GetMethod("Invoke");
@@ -55,7 +55,7 @@ namespace Natasha.Operator
 
 
 
-        public static T UnsafeAsyncDelegate(string content, DomainBase domain = default, Action<AssemblyBuilder> option = default, params NamespaceConverter[] usings)
+        public static T UnsafeAsyncDelegate(string content, DomainBase domain = default, Action<AssemblyCSharpBuilder> option = default, params NamespaceConverter[] usings)
         {
 
             var method = typeof(T).GetMethod("Invoke");

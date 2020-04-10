@@ -1,7 +1,5 @@
-﻿using Natasha.Builder;
-using System;
-
-namespace Natasha
+﻿
+namespace Natasha.CSharp
 {
     public class NStruct : NHandler<NStruct>
     {

@@ -1,9 +1,9 @@
-﻿using Natasha.Builder;
+﻿using Natasha.CSharp.Builder;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Natasha.Template
+namespace Natasha.CSharp.Template
 {
 
     public class DelegateTemplate<T> : MethodBodyTemplate<T> where T : DelegateTemplate<T>, new()
@@ -22,6 +22,10 @@ namespace Natasha.Template
         public T Return<S>()
         {
             return this.Return(typeof(S));
+        }
+        public T Return(Type type)
+        {
+            return DefinedType(type);
         }
         public T Return(MethodInfo info)
         {
