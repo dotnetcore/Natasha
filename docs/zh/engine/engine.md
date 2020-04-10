@@ -20,7 +20,7 @@ Natasha.CSharpEngine 是由：Natasha.CSharpSyntax \ Natasha.CSharpCompiler \ Na
 
 <br/>  
   
- - AssemblyCSharpBuilder 为对外暴露的程序集编译类，改类继承自 NatashaCSharpEngine, 对配置 API 进行了封装，对编译流程进行了完整的把控。
+ - AssemblyCSharpBuilder 为对外暴露的程序集编译类，该类继承自 NatashaCSharpEngine, 对语法树和编译器的配置 API 进行了封装，对编译流程进行了完整的把控。
  
 <br/>  
   
