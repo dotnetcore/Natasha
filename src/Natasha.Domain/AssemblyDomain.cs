@@ -21,11 +21,18 @@ namespace Natasha
         {
 
             var defaultDomain = DomainManagment.RegisteDefault<AssemblyDomain>();
-            DependencyContext
+
+
+            var libraries = DependencyContext
                 .Default
                 .CompileLibraries
-                .SelectMany(cl => cl.ResolveReferencePaths())
-                .ToLookup(asm => defaultDomain.ShortReferences.Add(asm));
+                .SelectMany(cl => cl.ResolveReferencePaths());
+
+
+            foreach (var item in libraries)
+            {
+                defaultDomain.ShortReferences.Add(item);
+            }
 
         }
 
