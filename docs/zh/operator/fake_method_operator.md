@@ -6,4 +6,14 @@
 
 - Methodbody ： 添加方法内容
 
-- StaticMethodBody : 将方法转为静态方法，并添加方法内容（常用）
+- StaticMethodBody : 将方法转为静态方法，并添加方法内容（常用）  
+
+该类的初始化模板为：
+```C#
+using
+
+   public static class [random_name]{
+   
+         [ 需要自己构建 ]
+   }
+```
