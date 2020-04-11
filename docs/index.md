@@ -23,6 +23,7 @@
    - [对象构建器](./zh/builder/oop_builder.md)
    - [委托类型构建器](./zh/builder/delegate_builder.md)  
    
+
  - [操作类]
    - [快速方法操作类](./zh/operator/fast_method_operator.md)
    - [仿制方法操作类](./zh/operator/fake_method_operator.md)
