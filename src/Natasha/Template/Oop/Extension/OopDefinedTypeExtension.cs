@@ -3,7 +3,7 @@
 namespace Natasha.CSharp
 {
 
-    public static class OopForLDefinedTypeExtension
+    public static class OopDefinedTypeExtension
     {
 
         public static T Class<T>(this DefinedTypeTemplate<T> defined) where T : DefinedTypeTemplate<T>, new()

@@ -1,6 +1,7 @@
 ﻿using Natasha.Framework;
 using System;
 using System.Collections.Concurrent;
+using static System.Runtime.Loader.AssemblyLoadContext;
 
 namespace Natasha
 {
