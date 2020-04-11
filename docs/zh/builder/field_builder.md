@@ -1,3 +1,4 @@
-## 字段模板
+## 字段构建器
 
-字段模板继承了 FieldTemplate<FieldBuilder> ，拥有构建字段的一切 
+字段构建器继承自 FieldTemplate<FieldBuilder> 拥有字段模板的一切 API.
+
