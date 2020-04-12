@@ -1,4 +1,4 @@
-### 异常捕获
+## 异常捕获
 
 #### 异常结构：
 ```C#
@@ -48,4 +48,10 @@ var exception = builder.Exceptions;
 //可以通过设置异常行为来控制异常的发生动作
 builder.Syntax.ErrorBehavior = ExceptionBehavior.Log | ExceptionBehavior.Throw;
 builder.Compiler.ErrorBehavior = ExceptionBehavior.Throw;
+```
+
+例如：
+```C#
+NClass @class = NClass.Random();
+@class.Syntax.ErrorBehavior = xxx;
 ```
