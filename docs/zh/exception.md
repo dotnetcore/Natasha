@@ -34,28 +34,18 @@ public class CompilationException
 
 
 ```C# 
+//整个编译流程中涉及到异常的过程包括：
+//添加语法树会返回异常
+NatashaCSharpSyntax.Add();
+var exception = builder.Syntax.Add();
 
-//程序集单元编译器
-AssemblyComplier.ComplieException/SyntaxExceptions
 
-//语法检测异常
-Operator.Complier.SyntaxExceptions[0]
-//语法检测之后会搜集编译异常
-Operator.Complier.ComplieException
+//编译过后 Exceptions 字段中会存有异常
+AssemblyBuilder.Exceptions;
+builder.Exceptions;
 
-```
 
-#### 开启日志：
-```C#
-NSucceedLog.Enabled = true;
-NErrorLog.Enabled = true;
-NWarningLog.Enabled = true;
-
-```  
-
-#### 关闭日志：
-```C#
-NSucceedLog.Enabled = false;
-NErrorLog.Enabled = false;
-NWarningLog.Enabled = false
+//可以通过设置异常行为来控制异常的发生动作
+builder.Syntax.ErrorBehavior
+builder.Compiler.ErrorBehavior
 ```
