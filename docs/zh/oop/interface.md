@@ -11,25 +11,10 @@
 var type = new OopOperator()
   .Namespace<string>()
   .ChangeToInterface()
-  .OopAccess(Access.None)
-  .OopName("TestUt3")
-  .OopBody(@"static void Test();")
+  .Access(Access.None)
+  .Name("TestUt3")
+  .Body(@"static void Test();")
   .GetType();
-
-```
-
-或
-
-```C#
-
-//创建一个类并获取类型
-var type = NewInterface.Create(builder=>builder
-  .Namespace<string>()
-  .ChangeToInterface()
-  .OopAccess(Access.None)
-  .OopName("TestUt3")
-  .OopBody(@"static void Test();")
-  );
 
 ```
 
@@ -40,11 +25,10 @@ var type = NewInterface.Create(builder=>builder
 //创建一个类并获取类型
 var type = new NInterface()
   .Namespace<string>()
-  .Namespace<string>()
   .ChangeToInterface()
-  .OopAccess(Access.None)
-  .OopName("TestUt3")
-  .OopBody(@"static void Test();")
+  .Access(Access.None)
+  .Name("TestUt3")
+  .Body(@"static void Test();")
   .GetType();
 
 ```
