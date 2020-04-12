@@ -52,6 +52,7 @@
  <br/>    
  
  - [异常捕获](./zh/exception.md)
+ - [日志捕获](./zh/log.md)
  
   <br/>    
  
