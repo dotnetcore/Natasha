@@ -252,7 +252,7 @@ namespace Natasha.CSharp
             {
                 GetAssembly();
             }
-            return Assembly.GetTypes().First(item => item.FullName == name);
+            return Assembly.GetTypes().First(item => item.GetDevelopName() == name);
 
         }
 
