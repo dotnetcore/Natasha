@@ -4,7 +4,8 @@
 
 var script = new OopOperator()
     .HiddenNameSpace().ChangeToEnum()
-    .OopAccess(AccessTypes.Public).OopName("EnumUT1")
+    .Access(AccessTypes.Public)
+    .Name("EnumUT1")
     .EnumField("Apple")
     .EnumField("Orange",2)
     .EnumField("Banana")
@@ -31,7 +32,8 @@ public enum EnumUT1{
 
 var script = NEnum
     .Namespace("aaa")
-    .OopAccess(AccessTypes.Public).OopName("EnumUT1")
+    .Access(AccessTypes.Public)
+    .Name("EnumUT1")
     .EnumField("Apple")
     .EnumField("Orange",2)
     .EnumField("Banana")
@@ -39,16 +41,3 @@ var script = NEnum
 
 ```
 
-或  
-
-```C#
-
-var script = NewEnum(builder=>builder
-    .Namespace("aaa")
-    .OopAccess(AccessTypes.Public).OopName("EnumUT1")
-    .EnumField("Apple")
-    .EnumField("Orange",2)
-    .EnumField("Banana")
-    );
-   
-```
