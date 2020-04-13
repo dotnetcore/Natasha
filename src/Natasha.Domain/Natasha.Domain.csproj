@@ -2,10 +2,20 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netcoreapp3.0;</TargetFrameworks>
+    <Description>Natasha 编译域的实现</Description>
+    <PackageId>DotNetCore.Natasha.Domain</PackageId>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <PackageReleaseNotes>发布预览版</PackageReleaseNotes>
+    <Version>1.0.0-alpha1</Version>
+    <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
+    <PackageTags>Roslyn ; IL ; Scripte ; Dynamic ;</PackageTags>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <PackageIconUrl>https://avatars2.githubusercontent.com/u/19404084</PackageIconUrl>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Natasha.Framework\Natasha.Framework.csproj" />
+    <PackageReference Include="DotNetCore.Natasha.Framework" Version="1.0.0-alpha2" />
   </ItemGroup>
 
 </Project>

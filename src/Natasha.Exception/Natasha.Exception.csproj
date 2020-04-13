@@ -5,11 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Utils\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Natasha.Framework\Natasha.Framework.csproj" />
+    <PackageReference Include="DotNetCore.Natasha.Framework" Version="1.0.0-alpha2" />
   </ItemGroup>
 
 </Project>
