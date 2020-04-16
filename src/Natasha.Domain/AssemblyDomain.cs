@@ -45,9 +45,9 @@ namespace Natasha
         /// 从外部文件获取程序集，并添加引用信息
         /// </summary>
         /// <param name="path">文件路径</param>
-        public Assembly AddFromFile(string path)
+        public Assembly AssemblyCacheFromFile(string path)
         {
-            var assembly = GetFromFile(path);
+            var assembly = GetAssemblyFromFile(path);
             if (assembly != null)
             {
                 AssemblyReferences[assembly] = MetadataReference.CreateFromFile(path);
@@ -60,9 +60,9 @@ namespace Natasha
         /// [自动释放]
         /// </summary>
         /// <param name="path">外部文件</param>
-        public Assembly AddFromStream(string path)
+        public Assembly AssemblyCacheFromStream(string path)
         {
-            return AddFromStream(new FileStream(path, FileMode.Open, FileAccess.Read));
+            return AssemblyCacheFromStream(new FileStream(path, FileMode.Open, FileAccess.Read));
         }
 
         /// <summary>
@@ -71,11 +71,11 @@ namespace Natasha
         /// </summary>
         /// <param name="stream">流</param>
         /// <returns></returns>
-        public Assembly AddFromStream(Stream stream)
+        public Assembly AssemblyCacheFromStream(Stream stream)
         {
             using (stream)
             {
-                var assembly = GetFromStream(stream);
+                var assembly = GetAssemblyFromStream(stream);
                 if (assembly != null)
                 {
                     stream.Position = 0;
@@ -85,54 +85,7 @@ namespace Natasha
             }
         }
 
-        /// <summary>
-        /// 将文件转换为程序集，并加载到域
-        /// </summary>
-        /// <param name="path">外部文件</param>
-        /// <returns></returns>
-        internal Assembly GetFromFile(string path)
-        {
-            if (Name == "Default")
-            {
-                return Default.LoadFromAssemblyPath(path);
-            }
-            else
-            {
-                return LoadFromAssemblyPath(path);
-            }
-        }
 
-        /// <summary>
-        /// 将流转换为程序集，并加载到域
-        /// [手动释放]
-        /// </summary>
-        /// <param name="stream">外部流</param>
-        /// <returns></returns>
-        internal Assembly GetFromStream(Stream stream)
-        {
-            if (Name == "Default")
-            {
-                return Default.LoadFromStream(stream);
-            }
-            else
-            {
-                return LoadFromStream(stream);
-            }
-        }
-
-        /// <summary>
-        /// 将文件流转换为程序集，并加载到域
-        /// [自动释放]
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        internal Assembly GetFromStream(string path)
-        {
-            using (Stream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
-            {
-                return GetFromStream(stream);
-            }
-        }
 
         /// <summary>
         /// 获取编译所需的引用库
@@ -174,7 +127,7 @@ namespace Natasha
         /// <returns></returns>
         public override Assembly CompileFileHandler(string dllFile, string pdbFile, string AssemblyName)
         {
-            return AddFromFile(dllFile);
+            return AssemblyCacheFromFile(dllFile);
         }
 
         /// <summary>
@@ -185,7 +138,7 @@ namespace Natasha
         /// <returns></returns>
         public override Assembly CompileStreamHandler(Stream stream, string AssemblyName)
         {
-            return AddFromStream(stream);
+            return AssemblyCacheFromStream(stream);
         }
 
         /// <summary>
@@ -250,7 +203,7 @@ namespace Natasha
             string assemblyPath = _load_resolver.ResolveAssemblyToPath(assemblyName);
             if (assemblyPath != null)
             {
-                return GetFromStream(assemblyPath);
+                return GetAssemblyFromStream(assemblyPath);
             }
 #endif
             return null;
@@ -278,40 +231,16 @@ namespace Natasha
             return LoadUnmanagedDll(arg2);
         }
 
-        /// <summary>
-        /// 使用外部文件加载程序集
-        /// </summary>
-        /// <param name="path">dll文件路径</param>
-        /// <returns></returns>
-        public override Assembly LoadPluginFromFile(string path, params string[] excludePaths)
-        {
-            AddNewShortNameReference(path, excludePaths);
-            return GetFromFile(path);
-        }
 
-        /// <summary>
-        /// 使用外部文件流加载程序集
-        /// [自动释放]
-        /// </summary>
-        /// <param name="path"></param>
-        /// <param name="excludePaths"></param>
-        /// <returns></returns>
-        public override Assembly LoadPluginFromStream(string path, params string[] excludePaths)
-        {
-            AddNewShortNameReference(path, excludePaths);
-            using (FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
-            {
-                return GetFromStream(stream);
-            }
-        }
 
         /// <summary>
         /// 使用外部文件路径添加引用
         /// </summary>
-        /// <param name="path"></param>
+        /// <param name="path">文件路径</param>
         /// <param name="excludePaths"></param>
-        public void AddNewShortNameReference(string path, params string[] excludePaths)
+        public override void AddReferencesFromDllFile(string path, params string[] excludePaths)
         {
+
             HashSet<string> exclude;
             if (excludePaths == default)
             {
@@ -321,6 +250,53 @@ namespace Natasha
             {
                 exclude = new HashSet<string>(excludePaths);
             }
+
+            if (!exclude.Contains(path))
+            {
+                ShortReferences.Add(path);
+            }
+
+        }
+
+        public override void AddReferencesFromFolder(string path, bool subFolder = true, params string[] excludePaths)
+        {
+
+            HashSet<string> exclude;
+            if (excludePaths == default)
+            {
+                exclude = new HashSet<string>();
+            }
+            else
+            {
+                exclude = new HashSet<string>(excludePaths);
+            }
+
+
+            var dllPath = Path.GetDirectoryName(path);
+            string[] dllFiles = Directory.GetFiles(dllPath, "*.dll", subFolder ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
+            for (int i = 0; i < dllFiles.Length; i++)
+            {
+                if (!exclude.Contains(dllFiles[i]))
+                {
+                    ShortReferences.Add(dllFiles[i]);
+                }
+            }
+
+        }
+
+        public override void AddReferencesFromDepsJsonFile(string path, params string[] excludePaths)
+        {
+
+            HashSet<string> exclude;
+            if (excludePaths == default)
+            {
+                exclude = new HashSet<string>();
+            }
+            else
+            {
+                exclude = new HashSet<string>(excludePaths);
+            }
+
 
 #if !NETSTANDARD2_0
 
@@ -335,18 +311,8 @@ namespace Natasha
                 }
             }
 
-#else
-
-            var dllPath = Path.GetDirectoryName(path);
-            string[] dllFiles = Directory.GetFiles(dllPath, "*.dll", SearchOption.AllDirectories);
-            for (int i = 0; i < dllFiles.Length; i++)
-            {
-                if (!exclude.Contains(dllFiles[i]))
-                {
-                    ShortReferences.Add(dllFiles[i]);
-                }
-            }
 #endif
+
         }
     }
 }

@@ -76,15 +76,32 @@ namespace Natasha.Framework
 
         public virtual Assembly LoadPluginFromFile(string path, params string[] excludePaths)
         {
-            return LoadFromAssemblyPath(path);
+
+            AddDeps(path, excludePaths);
+            return GetAssemblyFromFile(path);
+
         }
 
         public virtual Assembly LoadPluginFromStream(string path, params string[] excludePaths)
         {
+
+            AddDeps(path, excludePaths);
             using (FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
-                return LoadFromStream(stream);
+                return GetAssemblyFromStream(stream);
             }
+
+        }
+
+        public virtual void AddDeps(string path, params string[] excludePaths)
+        {
+
+#if !NETSTANDARD2_0
+            AddReferencesFromDepsJsonFile(path,excludePaths);
+#else
+            AddReferencesFromDllFile(path, excludePaths);
+#endif
+
         }
 
         public abstract void Remove(string path);
@@ -102,5 +119,64 @@ namespace Natasha.Framework
         }
 
         public abstract DomainBase GetInstance(string paramaeters);
+
+        public virtual void AddReferencesFromDllFile(string path, params string[] excludePaths)
+        {
+
+
+        }
+
+        public virtual void AddReferencesFromFolder(string path, bool subFolder = true, params string[] excludePaths) { }
+
+        public virtual void AddReferencesFromDepsJsonFile(string path, params string[] excludePaths) { }
+
+        /// <summary>
+        /// 将文件转换为程序集，并加载到域
+        /// </summary>
+        /// <param name="path">外部文件</param>
+        /// <returns></returns>
+        public virtual Assembly GetAssemblyFromFile(string path)
+        {
+            if (Name == "Default")
+            {
+                return Default.LoadFromAssemblyPath(path);
+            }
+            else
+            {
+                return LoadFromAssemblyPath(path);
+            }
+        }
+
+        /// <summary>
+        /// 将流转换为程序集，并加载到域
+        /// [手动释放]
+        /// </summary>
+        /// <param name="stream">外部流</param>
+        /// <returns></returns>
+        public virtual Assembly GetAssemblyFromStream(Stream stream)
+        {
+            if (Name == "Default")
+            {
+                return Default.LoadFromStream(stream);
+            }
+            else
+            {
+                return LoadFromStream(stream);
+            }
+        }
+
+        /// <summary>
+        /// 将文件流转换为程序集，并加载到域
+        /// [自动释放]
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public virtual Assembly GetAssemblyFromStream(string path)
+        {
+            using (Stream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
+            {
+                return GetAssemblyFromStream(stream);
+            }
+        }
     }
 }
