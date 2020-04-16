@@ -14,6 +14,14 @@
     - CompileFileHandler : 当以文件的方式成功编译时触发的方法，需要重载。
     - Remove ： 删除引用时触发的方法，需要重载。
     
+    - AddDeps ： 该方法默认实现通过文件路径添加依赖，3.0+ 将解析deps.json, 2.0+ 将只添加单个文件。
+    - AddReferencesFromFolder ： 从一个文件夹中添加引用库，可重载。
+    - AddReferencesFromDepsJsonFile ： 从 deps.jso n文件中解析引用库，可重载。
+    - AddReferencesFromDllFile ： 从单个 dll 文件中获取引用库，可重载。
+    - LoadPluginFromFile ： 默认实现，加载插件调用 AddDeps 方法加载引用依赖，调用 GetAssemblyFromFile 从文件加载程序集到域，可重载。
+    - LoadPluginFromStream ： 默认实现，加载插件调用 AddDeps 方法加载引用依赖，调用 GetAssemblyFromStream 从流加载程序集到域，可重载。
+    - GetAssemblyFromStream ： 默认实现，区分了系统域和自定义与，从流中加载程序集到域，可重载。
+    - GetAssemblyFromFile ：  默认实现，区分了系统域和自定义与，从文件中加载程序集到域，可重载。
     - GetDefaultReferences ： 该方法返回一个系统域的所有引用，可重载。
     - GetCompileReferences ： 该方法返回了系统域及非系统域组合的引用， 可重载。
     - LoadPluginFromFile ： 当插件以文件方式加载时触发的方法，可重载。
