@@ -68,7 +68,6 @@
  以下要全部重写
  
 
-   - [API的静态初始化操作](./zh/api/static-init.md) ( 重点 )  
    - [API速查案例](./zh/api/api-samples.md)  
    - [API扩展案例](./zh/api/extensions-samples.md)   
  - [程序域操作](./zh/domain/index.md)  
