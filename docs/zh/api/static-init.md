@@ -18,8 +18,8 @@ Natasha 的所有模板均继承自 ComplierTemplate ，ComplierTemplate 本身�
 
 ```C#
 
-//使用一个 "domainJim" 域
-Handler.Use("domianJim", compiler => { 编译器配置 });
+//使用 domain 域
+Handler.Use(domian, compiler => { 编译器配置 });
 
 
 //创建一个 "domainJim" 域
@@ -27,11 +27,11 @@ Handler.Create("domianJim", compiler => { 编译器配置 });
 
 
 //使用默认域
-Handler.Default("domianJim", compiler => { 编译器配置 });
+Handler.Default(compiler => { 编译器配置 });
 
 
 //使用随机域
-Handler.Random("domianJim", compiler => { 编译器配置 });
+Handler.Random(compiler => { 编译器配置 });
 
 ```  
 <br/>  
