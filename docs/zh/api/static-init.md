@@ -14,6 +14,8 @@ Natasha 的所有模板均继承自 ComplierTemplate ，ComplierTemplate 本身�
 
  NDelegate / NAssembly / NClass.. / xxx_Oerator 等等以下称为 “Handler”.
  
+<br/>
+
  #### 静态初始化一 Create 操作：
 
 ```C#
