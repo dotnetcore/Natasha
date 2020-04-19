@@ -21,7 +21,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DotNetCore.Natasha.CSharpEngine" Version="1.0.0-alpha4" />
+    <PackageReference Include="DotNetCore.Natasha.CSharpEngine" Version="1.0.0-alpha5" />
     <PackageReference Include="DotNetCore.Natasha.Reverser" Version="2.4.1-alpha1" />
   </ItemGroup>
 

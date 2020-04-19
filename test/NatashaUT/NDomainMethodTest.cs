@@ -1,5 +1,7 @@
 ﻿using Natasha;
 using Natasha.CSharp;
+using Natasha.Error.Model;
+using Natasha.Framework;
 using NatashaUT.Model;
 using System;
 using Xunit;
@@ -118,7 +120,14 @@ namespace NatashaUT
         public void TestTypeEqual()
         {
             var domain = DomainManagement.Random;
-            var type = NDelegate.Use(domain).GetType(
+            var type = NDelegate.Use(domain,builder => {
+                builder
+                .CustomerUsing()                    //使用用户自定义的Using
+                .SetAssemblyName("MyAssemblyName")  //设置程序集名
+                .ThrowAndLogCompilerError()         //抛出并记录编译器的异常 
+                .ThrowSyntaxError()                 //抛出语法树异常
+                .UseStreamCompile();                //使用流编译
+            }).GetType(
                 @"public class  DomainTest1{
                         public string Name;
                         public int Operator;

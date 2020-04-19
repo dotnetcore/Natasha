@@ -16,19 +16,20 @@ namespace Natasha.CSharp
         /// <summary>
         /// 默认的输出文件夹
         /// </summary>
-        public static string OutputFolder;
+        public static string GlobalOutputFolder;
         static AssemblyCSharpBuilder()
         {
-            OutputFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "DynamicLibraryFolders");
+            GlobalOutputFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "DynamicLibraryFolders");
         }
 
 
-
+        public string OutputFolder;
         public bool CustomerUsingShut;
         public AssemblyCSharpBuilder() : this(Guid.NewGuid().ToString("N")){}
         public AssemblyCSharpBuilder(string name):base(name)
         {
 
+            OutputFolder = GlobalOutputFolder;
             CustomerUsingShut = false;
             RetryLimit = 2;
 
@@ -58,8 +59,8 @@ namespace Natasha.CSharp
 
                 if (Compiler.DllPath == default)
                 {
-                    Compiler.DllPath = Path.Combine(OutputFolder, Compiler.AssemblyName, ".dll");
-                    Compiler.PdbPath = Path.Combine(OutputFolder, Compiler.AssemblyName, ".pdb");
+                    Compiler.DllPath = Path.Combine(GlobalOutputFolder, Compiler.AssemblyName, ".dll");
+                    Compiler.PdbPath = Path.Combine(GlobalOutputFolder, Compiler.AssemblyName, ".pdb");
                 }
 
             }
@@ -100,7 +101,6 @@ namespace Natasha.CSharp
 
         }
 
-
-
     }
+
 }

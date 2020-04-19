@@ -1,6 +1,11 @@
-﻿using Natasha.Error;
+﻿using Microsoft.CodeAnalysis;
+using Natasha.CSharpEngine;
+using Natasha.CSharpEngine.Syntax;
+using Natasha.Error;
 using Natasha.Error.Model;
+using Natasha.Framework;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -215,6 +220,98 @@ namespace Natasha.CSharp
         public static T GetDelegateFromShortName<T>(this AssemblyCSharpBuilder builder, string typeName, string methodName, object binder = null) where T : Delegate
         {
             return (T)(builder.GetDelegateFromShortName(typeName, methodName, typeof(T)));
+        }
+
+
+
+        #region SimpleLinkApi
+        public static AssemblyCSharpBuilder AutoUsing(this AssemblyCSharpBuilder builder)
+        {
+            builder.CustomerUsingShut = false;
+            return builder;
+        }
+        public static AssemblyCSharpBuilder CustomerUsing(this AssemblyCSharpBuilder builder)
+        {
+            builder.CustomerUsingShut = true;
+            return builder;
+        }
+        public static AssemblyCSharpBuilder ThrowCompilerError(this AssemblyCSharpBuilder builder)
+        {
+            builder.Compiler.ErrorBehavior = ExceptionBehavior.Throw;
+            return builder;
+        }
+        public static AssemblyCSharpBuilder ThrowAndLogCompilerError(this AssemblyCSharpBuilder builder)
+        {
+            builder.Compiler.ErrorBehavior = ExceptionBehavior.Log | ExceptionBehavior.Throw;
+            return builder;
+        }
+        public static AssemblyCSharpBuilder LogCompilerError(this AssemblyCSharpBuilder builder)
+        {
+            builder.Compiler.ErrorBehavior = ExceptionBehavior.Log;
+            return builder;
+        }
+        public static AssemblyCSharpBuilder IgnoreCompilerError(this AssemblyCSharpBuilder builder)
+        {
+            builder.Compiler.ErrorBehavior = ExceptionBehavior.None;
+            return builder;
+        }
+
+
+
+        public static AssemblyCSharpBuilder ThrowAndLogSyntaxError(this AssemblyCSharpBuilder builder)
+        {
+            builder.Syntax.ErrorBehavior = ExceptionBehavior.Log | ExceptionBehavior.Throw;
+            return builder;
+        }
+        public static AssemblyCSharpBuilder ThrowSyntaxError(this AssemblyCSharpBuilder builder)
+        {
+            builder.Syntax.ErrorBehavior = ExceptionBehavior.Throw;
+            return builder;
+        }
+        public static AssemblyCSharpBuilder LogSyntaxError(this AssemblyCSharpBuilder builder)
+        {
+            builder.Syntax.ErrorBehavior = ExceptionBehavior.Log;
+            return builder;
+        }
+        public static AssemblyCSharpBuilder IgnoreSyntaxError(this AssemblyCSharpBuilder builder)
+        {
+            builder.Syntax.ErrorBehavior = ExceptionBehavior.None;
+            return builder;
+        }
+        public static AssemblyCSharpBuilder SetAssemblyName(this AssemblyCSharpBuilder builder,string assemblyName)
+        {
+            builder.Compiler.AssemblyName = assemblyName;
+            return builder;
+        }
+        public static AssemblyCSharpBuilder SetRetryLimit(this AssemblyCSharpBuilder builder,int maxRetry)
+        {
+            builder.RetryLimit = maxRetry;
+            return builder;
+        }
+        public static AssemblyCSharpBuilder SetOutputFolder(this AssemblyCSharpBuilder builder,string folder)
+        {
+            builder.OutputFolder = folder;
+            return builder;
+        }
+
+
+
+        public static AssemblyCSharpBuilder UseFileCompile(this AssemblyCSharpBuilder builder)
+        {
+            builder.Compiler.AssemblyOutputKind = AssemblyBuildKind.File;
+            return builder;
+        }
+        public static AssemblyCSharpBuilder UseStreamCompile(this AssemblyCSharpBuilder builder)
+        {
+            builder.Compiler.AssemblyOutputKind = AssemblyBuildKind.Stream;
+            return builder;
+        }
+        #endregion
+
+        public static AssemblyCSharpBuilder AddRetryHandler(this AssemblyCSharpBuilder builder, string key, Action<CompilationException, Diagnostic, NatashaCSharpSyntax, Dictionary<string, string>> action)
+        {
+            NatashaCSharpEngine.ErrorHandlers[key] = action;
+            return builder;
         }
 
     }
