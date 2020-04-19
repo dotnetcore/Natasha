@@ -38,10 +38,11 @@
    - [委托操作类](./zh/operator/delegate_operator.md)
    - [对象操作类](./zh/operator/oop_operator.md)
   
-  <br/> 
-
- - [API速查表](./zh/api/index.md)  
- - [API的静态初始化操作](./zh/api/static-init.md)  
+  <br/>   
+  
+ - [API]
+   - [API速查表](./zh/api/index.md)  
+   - [API的静态初始化操作](./zh/api/static-init.md)  
  
  <br/> 
 
