@@ -40,7 +40,8 @@
   
   <br/> 
 
- - [API速查表](./zh/api/index.md)
+ - [API速查表](./zh/api/index.md)  
+ - [API的静态初始化操作](./zh/api/static-init.md)  
  
  <br/> 
 
