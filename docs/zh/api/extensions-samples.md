@@ -10,7 +10,7 @@ Example:
          
          
         typeof(Dictionary<string,List<int>>[]).GetDevelopName();
-        //result:  "Dictionary<String,List<Int32>>[]"
+        //result:  "System.Collections.Generic.Dictionary<System.String,System.Collections.Generic.List<Int32>>[]"
         
               
         typeof(Dictionary<string,List<int>>[]).GetAvailableName();
