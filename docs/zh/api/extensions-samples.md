@@ -2,7 +2,7 @@
  <a href="https://natasha.dotnetcore.xyz/"> 返回 </a> |  <a href="https://natasha.dotnetcore.xyz/en/api/extensions-samples.html"> English </a>
 </p>  
 
-#### 使用Natasha的类扩展:  
+#### 使用Natasha的类型扩展:  
 
 ```C#
 
