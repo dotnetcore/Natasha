@@ -43,7 +43,8 @@
  - [API]
    - [API速查表](./zh/api/index.md)  
    - [API的静态初始化操作](./zh/api/static-init.md)  
- 
+   - [API类型扩展案例](./zh/api/extensions-samples.md)  
+   
  <br/> 
 
  - [面向对象的构建](./zh/oop/index.md)  
@@ -70,7 +71,7 @@
  
 
    - [API速查案例](./zh/api/api-samples.md)  
-   - [API扩展案例](./zh/api/extensions-samples.md)   
+      
  - [程序域操作](./zh/domain/index.md)  
  - [程序域插件](./zh/domain/plugin.md)  
  - [程序域程序集操作](./zh/domain/assembly.md)  
