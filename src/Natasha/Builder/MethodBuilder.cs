@@ -189,6 +189,7 @@ namespace Natasha.CSharp.Builder
             if (!Exception.HasError)
             {
                 S @delegate = AssemblyBuilder.GetDelegateFromShortName<S>(_oopHandler.NameScript, NameScript, binder);
+                var a = @delegate.GetHashCode();
                 if (@delegate == null)
                 {
                     Exception = AssemblyBuilder.Exceptions[0];

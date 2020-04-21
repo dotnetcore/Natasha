@@ -51,6 +51,8 @@ namespace NatashaUT
         [Fact(DisplayName = "NFunc委托")]
         public static void RunDelegate5()
         {
+
+            NSucceedLog.Enabled = true;
             var action = NDelegate.Random(builder=>builder.UseFileCompile()).UnsafeFunc<string, string, string>(@"
                             string result = arg1 +"" ""+ arg2;
                             Console.WriteLine(result);
@@ -70,6 +72,7 @@ namespace NatashaUT
 
             Assert.NotEqual(action3.GetHashCode(), action2.GetHashCode());
             Assert.NotEqual(action.GetHashCode(), action2.GetHashCode());
+
         }
 
 
