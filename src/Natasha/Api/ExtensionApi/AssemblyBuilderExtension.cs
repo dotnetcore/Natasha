@@ -156,7 +156,6 @@ namespace Natasha.CSharp
             try
             {
 
-
                 return info.CreateDelegate(delegateType, binder);
 
             }
