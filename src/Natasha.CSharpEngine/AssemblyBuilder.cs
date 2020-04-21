@@ -19,7 +19,13 @@ namespace Natasha.CSharp
         public static string GlobalOutputFolder;
         static AssemblyCSharpBuilder()
         {
+
             GlobalOutputFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "DynamicLibraryFolders");
+            if (!Directory.Exists(GlobalOutputFolder))
+            {
+                Directory.CreateDirectory(GlobalOutputFolder);
+            }
+
         }
 
 
@@ -53,14 +59,28 @@ namespace Natasha.CSharp
         public Assembly GetAssembly()
         {
 
+            if (Compiler.AssemblyName == default)
+            {
+                Compiler.AssemblyName = Guid.NewGuid().ToString("N");
+            }
+
+
             //如果是文件编译，则初始化路径
             if (Compiler.AssemblyOutputKind == Framework.AssemblyBuildKind.File)
             {
 
+                if (OutputFolder == GlobalOutputFolder)
+                {
+                    OutputFolder = Path.Combine(GlobalOutputFolder, Compiler.Domain.Name);
+                }
+                if (!Directory.Exists(OutputFolder))
+                {
+                    Directory.CreateDirectory(OutputFolder);
+                }
                 if (Compiler.DllPath == default)
                 {
-                    Compiler.DllPath = Path.Combine(GlobalOutputFolder, Compiler.AssemblyName, ".dll");
-                    Compiler.PdbPath = Path.Combine(GlobalOutputFolder, Compiler.AssemblyName, ".pdb");
+                    Compiler.DllPath = Path.Combine(OutputFolder, Compiler.AssemblyName + ".dll");
+                    Compiler.PdbPath = Path.Combine(OutputFolder, Compiler.AssemblyName + ".pdb");
                 }
 
             }

@@ -51,13 +51,25 @@ namespace NatashaUT
         [Fact(DisplayName = "NFunc委托")]
         public static void RunDelegate5()
         {
-            var action = NDelegate.Random().UnsafeFunc<string, string, string>(@"
+            var action = NDelegate.Random(builder=>builder.UseFileCompile()).UnsafeFunc<string, string, string>(@"
                             string result = arg1 +"" ""+ arg2;
                             Console.WriteLine(result);
                             return result;");
 
+            var action2 = NDelegate.Random(builder => builder.UseFileCompile()).UnsafeFunc<string, string, string>(@"
+                            string result = arg1 + "" "" + arg2 + ""1"";
+                            Console.WriteLine(result);
+                            return result;");
+
+            Func<string, string, string> action3 = (s1, s2) => s1 + s2;
+
+
             string result = action("Hello", "World1!");
             Assert.Equal("Hello World1!", result);
+
+
+            Assert.NotEqual(action3.GetHashCode(), action2.GetHashCode());
+            Assert.NotEqual(action.GetHashCode(), action2.GetHashCode());
         }
 
 

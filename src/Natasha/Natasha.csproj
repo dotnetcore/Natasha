@@ -21,19 +21,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DotNetCore.Natasha.CSharpEngine" Version="1.0.0-alpha5" />
+    <!--<PackageReference Include="DotNetCore.Natasha.CSharpEngine" Version="1.0.0-alpha5" />-->
     <PackageReference Include="DotNetCore.Natasha.Reverser" Version="2.4.1-alpha1" />
   </ItemGroup>
 
-  <!--<ItemGroup>
-    <PackageReference Include="DotNetCore.Natasha.CSharpEngine" Version="1.0.0-alpha3" />
-    <PackageReference Include="DotNetCore.Natasha.Reverser" Version="2.4.1-alpha1" />
-  </ItemGroup>-->
+  <ItemGroup>
+    <ProjectReference Include="..\Natasha.CSharpEngine\Natasha.CSharpEngine.csproj" />
+  </ItemGroup>
 
-  <!--<ItemGroup>
-    <PackageReference Include="DotNetCore.Natasha.Core" Version="2.11.0.1" />
-    <PackageReference Include="DotNetCore.Natasha.Reverser" Version="2.4.0.1" />
-  </ItemGroup>-->
 
 
 </Project>

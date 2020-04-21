@@ -103,8 +103,7 @@ namespace Natasha.Framework
                     stream.CopyTo(copyStream);
                     stream.Position = 0;
                     Assembly = Domain.CompileStreamHandler(stream, AssemblyName);
-                    copyStream.Position = 0;
-                    StreamCompileSucceedHandler?.Invoke(stream, compilation);
+                    StreamCompileSucceedHandler?.Invoke(copyStream, compilation);
                     copyStream.Dispose();
                 }
                 else

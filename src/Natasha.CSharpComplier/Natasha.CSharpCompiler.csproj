@@ -15,8 +15,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DotNetCore.Natasha.Framework" Version="1.0.0-alpha3" />
+    <!--<PackageReference Include="DotNetCore.Natasha.Framework" Version="1.0.0-alpha3" />-->
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Natasha.Framework\Natasha.Framework.csproj" />
   </ItemGroup>
 
 </Project>
