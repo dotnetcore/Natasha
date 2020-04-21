@@ -53,12 +53,12 @@ namespace NatashaUT
         {
 
             NSucceedLog.Enabled = true;
-            var action = NDelegate.Random(builder=>builder.UseFileCompile()).UnsafeFunc<string, string, string>(@"
+            Func<string, string, string> action = NDelegate.Random(builder=>builder.UseFileCompile()).UnsafeFunc<string, string, string>(@"
                             string result = arg1 +"" ""+ arg2;
                             Console.WriteLine(result);
                             return result;");
 
-            var action2 = NDelegate.Random(builder => builder.UseFileCompile()).UnsafeFunc<string, string, string>(@"
+            Func<string, string, string> action2 = NDelegate.Random(builder => builder.UseFileCompile()).UnsafeFunc<string, string, string>(@"
                             string result = arg1 + "" "" + arg2 + ""1"";
                             Console.WriteLine(result);
                             return result;");
@@ -71,6 +71,7 @@ namespace NatashaUT
 
 
             Assert.NotEqual(action3.GetHashCode(), action2.GetHashCode());
+            Assert.NotEqual(action.Method.GetHashCode(), action2.Method.GetHashCode());
             Assert.NotEqual(action.GetHashCode(), action2.GetHashCode());
 
         }
