@@ -19,7 +19,7 @@ namespace Natasha.CSharp
         public Type GetType(string code, string typeName = default)
         {
 
-            OopOperator oopOperator = OopOperator.Create(AssemblyBuilder, OptionAction);
+            OopOperator oopOperator = OopOperator.UseCompiler(AssemblyBuilder, OptionAction);
             string result = oopOperator
                 .GetUsingBuilder()
                 .Append(code).ToString();

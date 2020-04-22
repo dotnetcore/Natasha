@@ -63,7 +63,7 @@ namespace NatashaUT
         public void Test3()
         {
 
-            var builder = FastMethodOperator.Default();
+            var builder = FastMethodOperator.DefaultDomain();
             builder.AssemblyBuilder.Syntax.ErrorBehavior = ExceptionBehavior.None;
             var delegateAction = builder
                        .Param<string>("str1")

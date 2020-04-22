@@ -13,7 +13,7 @@ namespace NatashaUT.BuilderUT
         public void TestInterface()
         {
 
-            var builder = NInterface.Random();
+            var builder = NInterface.RandomDomain();
             var script = builder
                 .CurstomeUsing()
                 .HiddenNamespace()

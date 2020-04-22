@@ -14,7 +14,7 @@ namespace NatashaUT
         public static void RunDelegate1()
         {
             var delegateAction = FastMethodOperator
-                .Default()
+                .DefaultDomain()
                         .Param<string>("str1")
                         .Param<string>("str2")
                         .Body(@"
@@ -34,7 +34,7 @@ namespace NatashaUT
         public static void RunInnerDelegate()
         {
             var delegateAction = FastMethodOperator
-                .Default()
+                .DefaultDomain()
                         .Body(@"
                            OopTestModel.InnerClass a = new OopTestModel.InnerClass();
                             a.Name =""abc"";
@@ -53,12 +53,12 @@ namespace NatashaUT
         {
 
             NSucceedLog.Enabled = true;
-            Func<string, string, string> action = NDelegate.Random(builder=>builder.UseFileCompile()).UnsafeFunc<string, string, string>(@"
+            Func<string, string, string> action = NDelegate.RandomDomain(builder=>builder.UseFileCompile()).UnsafeFunc<string, string, string>(@"
                             string result = arg1 +"" ""+ arg2;
                             Console.WriteLine(result);
                             return result;");
 
-            Func<string, string, string> action2 = NDelegate.Random(builder => builder.UseFileCompile()).UnsafeFunc<string, string, string>(@"
+            Func<string, string, string> action2 = NDelegate.RandomDomain(builder => builder.UseFileCompile()).UnsafeFunc<string, string, string>(@"
                             string result = arg1 + "" "" + arg2 + ""1"";
                             Console.WriteLine(result);
                             return result;");
@@ -83,7 +83,7 @@ namespace NatashaUT
         public static void RunDelegate2()
         {
             var delegateAction = FastMethodOperator
-                .Default()
+                .DefaultDomain()
                         .Param<string>("str1")
                         .Param<string>("str2")
                         .Body(@"

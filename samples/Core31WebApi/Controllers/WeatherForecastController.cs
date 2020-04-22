@@ -26,7 +26,7 @@ namespace Core31WebApi.Controllers
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
-            var resultFunc = NDelegate.Random().Func<int>("return 5;");
+            var resultFunc = NDelegate.RandomDomain().Func<int>("return 5;");
             var result = resultFunc();
 
             if (result == 5)

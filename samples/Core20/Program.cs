@@ -29,7 +29,7 @@ namespace Core20
 
             Console.WriteLine(type.Name);
 
-            var action = NDelegate.Random().Action("");
+            var action = NDelegate.RandomDomain().Action("");
             var a = action.Method;
             Console.WriteLine(action.Method.Module.Assembly);
 

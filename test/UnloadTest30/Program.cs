@@ -77,7 +77,7 @@ namespace UnloadTest30
             for (int i = 0; i < count; i++)
             {
                 var ad = DomainManagement.Create("test" + i.ToString());
-                var builder = FastMethodOperator.Default();
+                var builder = FastMethodOperator.DefaultDomain();
                 builder.AssemblyBuilder.Compiler.Domain = ad;
                 func[i] = builder.Body($@"
 int[] a = new int[40960];

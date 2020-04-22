@@ -12,7 +12,7 @@ namespace NatashaUT.BuilderUT
         [Fact(DisplayName = "类构建与编译1")]
         public void TestClass()
         {
-            NClass builder = NClass.Random();
+            NClass builder = NClass.RandomDomain();
             var script = builder
                 .CurstomeUsing()
                 .HiddenNamespace()
@@ -34,7 +34,7 @@ namespace NatashaUT.BuilderUT
         public void TestClass1()
         {
 
-            NClass builder = NClass.Random();
+            NClass builder = NClass.RandomDomain();
             var script = builder
                 .CurstomeUsing()
                 .HiddenNamespace()

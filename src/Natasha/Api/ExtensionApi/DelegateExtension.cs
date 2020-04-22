@@ -10,7 +10,7 @@ namespace Natasha.CSharp
         {
             var method = instance.GetMethod("Invoke");
             return FakeMethodOperator
-                .Default()
+                .DefaultDomain()
                 .UseMethod(method)
                 .Using(usings)
                 .StaticMethodBody(content)

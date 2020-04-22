@@ -8,7 +8,7 @@ namespace Core31Mvc
     {
         public static void Main(string[] args)
         {
-            string result = NDelegate.Random().Func<string>("return \"a\";")();
+            string result = NDelegate.RandomDomain().Func<string>("return \"a\";")();
             CreateHostBuilder(args).Build().Run();
         }
 

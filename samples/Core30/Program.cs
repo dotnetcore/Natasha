@@ -146,7 +146,7 @@ namespace Core30
 
                 var domain = DomainManagement.CurrentDomain;
                 var assemebly = domain.LoadPluginFromStream(path);
-                var action = FastMethodOperator.Default()
+                var action = FastMethodOperator.DefaultDomain()
                    .Using(assemebly)
                    .Body(@"
 try{
@@ -238,7 +238,7 @@ return default;").Return<string>()
 
 
 
-            var temp = FastMethodOperator.Default();
+            var temp = FastMethodOperator.DefaultDomain();
             temp.AssemblyBuilder.Compiler.Domain = domain1;
             temp
                 //.Using<Test>()

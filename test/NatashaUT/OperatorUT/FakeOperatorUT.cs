@@ -13,7 +13,7 @@ namespace NatashaUT.OperatorUT
         public static void MakerCode1()
         {
 
-            var builder = FakeMethodOperator.Random();
+            var builder = FakeMethodOperator.RandomDomain();
             builder
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite1"))
                 .Methodbody(@"Console.WriteLine(""hello world"");");
@@ -27,7 +27,7 @@ namespace NatashaUT.OperatorUT
         public static void MakerStaticCode1()
         {
 
-            var builder = FakeMethodOperator.Random();
+            var builder = FakeMethodOperator.RandomDomain();
             builder
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite1"))
                 .StaticMethodBody(@"Console.WriteLine(""hello world"");");
@@ -43,7 +43,7 @@ namespace NatashaUT.OperatorUT
         public static void MakerCode2()
         {
 
-            var builder = FakeMethodOperator.Random();
+            var builder = FakeMethodOperator.RandomDomain();
             builder
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite2"))
                 .Methodbody(@"Console.WriteLine(""hello world"");return this;");
@@ -57,7 +57,7 @@ namespace NatashaUT.OperatorUT
         [Fact(DisplayName = "静态特殊函数克隆")]
         public static void MakerStaticCode2()
         {
-            var builder = FakeMethodOperator.Random()
+            var builder = FakeMethodOperator.RandomDomain()
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite2"))
                 .StaticMethodBody(@"Console.WriteLine(""hello world"");return default;");
             Assert.Equal($@"public static async System.Threading.Tasks.Task<NatashaUT.Model.OopTestModel> ReWrite2(){{Console.WriteLine(""hello world"");return default;}}", builder.Script);
@@ -72,7 +72,7 @@ namespace NatashaUT.OperatorUT
         public static void MakerCode3()
         {
 
-            var builder = FakeMethodOperator.Random();
+            var builder = FakeMethodOperator.RandomDomain();
             builder
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite3"))
                 .Methodbody(@"i++;temp+=i.ToString();");
@@ -87,7 +87,7 @@ namespace NatashaUT.OperatorUT
         public static void MakerStaticCode3()
         {
 
-            var builder = FakeMethodOperator.Random();
+            var builder = FakeMethodOperator.RandomDomain();
             builder
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite3"))
                 .StaticMethodBody(@"i++;temp+=i.ToString();");

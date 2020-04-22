@@ -10,7 +10,7 @@ namespace Natasha.CSharp
         public static Func<T> Creator<T>()
         {
 
-            return NDelegate.Use(typeof(T).GetDomain()).Func<T>($"return new {typeof(T).GetDevelopName()}();");
+            return NDelegate.UseDomain(typeof(T).GetDomain()).Func<T>($"return new {typeof(T).GetDevelopName()}();");
         
         }
 
@@ -21,7 +21,7 @@ namespace Natasha.CSharp
         {
 
             return FastMethodOperator
-                .Use(type.GetDomain())
+                .UseDomain(type.GetDomain())
                 .Body($"return new {type.GetDevelopName()}();")
                 .Return(type)
                 .Compile();

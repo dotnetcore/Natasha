@@ -15,7 +15,7 @@ namespace NatashaUT.OperatorUT
         public static void RunDelegate1()
         {
             var delegateAction = FastMethodOperator
-                .Random()
+                .RandomDomain()
                         .Param<string>("str1")
                         .Param<string>("str2")
                         .Body(@"
@@ -35,7 +35,7 @@ namespace NatashaUT.OperatorUT
         public static void RunDelegate2()
         {
 
-            var delegateAction = FastMethodOperator.Random()
+            var delegateAction = FastMethodOperator.RandomDomain()
                 .Body(@"return arg1 +"" ""+ arg2;")
                 .Compile<Func<string, string, string>>();
 
@@ -51,7 +51,7 @@ namespace NatashaUT.OperatorUT
         public static void RunDelegate3()
         {
 
-            var delegateAction = FastMethodOperator.Random()
+            var delegateAction = FastMethodOperator.RandomDomain()
                 .Body(@"var temp = obj;")
                 .Compile<Action<string>>();
 
@@ -65,7 +65,7 @@ namespace NatashaUT.OperatorUT
         [Fact(DisplayName = "异步委托1")]
         public static async void RunAsyncDelegate1()
         {
-            var delegateAction = FastMethodOperator.Default()
+            var delegateAction = FastMethodOperator.DefaultDomain()
 
                 .Async()
                 .Body(@"
@@ -84,7 +84,7 @@ namespace NatashaUT.OperatorUT
         [Fact(DisplayName = "异步委托2")]
         public static async void RunAsyncDelegate2()
         {
-            var delegateAction = FastMethodOperator.Default()
+            var delegateAction = FastMethodOperator.DefaultDomain()
 
                         .Async()
                         .Param<string>("str1")
@@ -106,7 +106,7 @@ namespace NatashaUT.OperatorUT
         [Fact(DisplayName = "异步委托")]
         public static async void RunAsyncDelegate3()
         {
-            var action = NDelegate.Random().AsyncFunc<string, string, Task<string>>(@"
+            var action = NDelegate.RandomDomain().AsyncFunc<string, string, Task<string>>(@"
                             return arg1 +"" ""+ arg2;");
 
             string result = await action("Hello", "World1!");
@@ -119,7 +119,7 @@ namespace NatashaUT.OperatorUT
         [Fact(DisplayName = "非安全异步委托")]
         public static async void RunAsyncDelegate4()
         {
-            var action = NDelegate.Random().UnsafeAsyncFunc<string, string, Task<string>>(@"
+            var action = NDelegate.RandomDomain().UnsafeAsyncFunc<string, string, Task<string>>(@"
                             return arg1 +"" ""+ arg2;");
 
             string result = await action("Hello", "World1!");
@@ -131,7 +131,7 @@ namespace NatashaUT.OperatorUT
         [Fact(DisplayName = "自定义委托")]
         public static void RunDelegate5()
         {
-            var action = NDelegate.Random().Delegate<TestDelegate>(@"
+            var action = NDelegate.RandomDomain().Delegate<TestDelegate>(@"
                             return value.Length;");
             int result = action("Hello");
             Assert.Equal(5, result);

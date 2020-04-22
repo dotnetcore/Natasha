@@ -16,7 +16,7 @@ namespace NatashaUT
         [Fact(DisplayName = "独立域函数1")]
         public static void RunDelegate1()
         {
-            var func = NDelegate.Create("NDelegate1").Func<string>("return \"1\";");
+            var func = NDelegate.CreateDomain("NDelegate1").Func<string>("return \"1\";");
             Assert.Equal("1", func());
         }
 
@@ -27,7 +27,7 @@ namespace NatashaUT
         public static void RunDelegate2()
         {
             //------创建一个域（方便卸载）----//-----创建Func方法--------//
-            var func = NDelegate.Create("NDelegate2").Func<string,string>("return arg;");
+            var func = NDelegate.CreateDomain("NDelegate2").Func<string,string>("return arg;");
             Assert.Equal("1", func("1"));
         }
 
@@ -37,7 +37,7 @@ namespace NatashaUT
         [Fact(DisplayName = "独立域函数3")]
         public static void RunDelegate3()
         {
-            var func = NDelegate.Create("NDelegate3").Func<string,string, string>("return arg1+arg2;");
+            var func = NDelegate.CreateDomain("NDelegate3").Func<string,string, string>("return arg1+arg2;");
             Assert.Equal("12", func("1","2"));
         }
 
@@ -46,7 +46,7 @@ namespace NatashaUT
         [Fact(DisplayName = "独立域函数7")]
         public static void RunDelegate7()
         {
-            var func = NDelegate.Create("NDelegate7").Func<string>("return OtherNameSpaceMethod.FromDate(DateTime.Now);");
+            var func = NDelegate.CreateDomain("NDelegate7").Func<string>("return OtherNameSpaceMethod.FromDate(DateTime.Now);");
             Assert.Equal(DateTime.Now.ToString("yyyy-MM"), func());
         }
 
@@ -56,7 +56,7 @@ namespace NatashaUT
         public static void RunDelegate4()
         {
             NormalTestModel model = new NormalTestModel();
-            var func = NDelegate.Create("NDelegate4").Action<NormalTestModel>("obj.Age=1;");
+            var func = NDelegate.CreateDomain("NDelegate4").Action<NormalTestModel>("obj.Age=1;");
             func(model);
             Assert.Equal(1, model.Age);
         }
@@ -68,7 +68,7 @@ namespace NatashaUT
         public static void RunDelegate5()
         {
             NormalTestModel model = new NormalTestModel();
-            var func = NDelegate.Create("NDelegate5").Action<NormalTestModel,int>("arg1.Age=arg2;");
+            var func = NDelegate.CreateDomain("NDelegate5").Action<NormalTestModel,int>("arg1.Age=arg2;");
             func(model,1);
             Assert.Equal(1, model.Age);
         }
@@ -80,7 +80,7 @@ namespace NatashaUT
         public static int RunDelegate6()
         {
             NormalTestModel model = new NormalTestModel();
-            var func = NDelegate.Create("NDelegate6").Action<NormalTestModel, int, int>("arg1.Age=arg2+arg3;");
+            var func = NDelegate.CreateDomain("NDelegate6").Action<NormalTestModel, int, int>("arg1.Age=arg2+arg3;");
             func(model,1,2);
             func.DisposeDomain();
             return model.Age;
@@ -106,7 +106,7 @@ namespace NatashaUT
         [Fact(DisplayName = "独立编译")]
         public void TestType1()
         {
-            var type = NDelegate.Create("NDelegate8").GetType(
+            var type = NDelegate.CreateDomain("NDelegate8").GetType(
                 @"public class  DomainTest1{
                         public string Name;
                         public int Operator;
@@ -120,7 +120,7 @@ namespace NatashaUT
         public void TestTypeEqual()
         {
             var domain = DomainManagement.Random;
-            var type = NDelegate.Use(domain,builder => {
+            var type = NDelegate.UseDomain(domain,builder => {
                 builder
                 .CustomerUsing()                    //使用用户自定义的Using
                 .SetAssemblyName("MyAssemblyName")  //设置程序集名
@@ -141,7 +141,7 @@ namespace NatashaUT
         public void TestDelegateEqual()
         {
             var domain = DomainManagement.Random;
-            var action = NDelegate.Use(domain).Action(
+            var action = NDelegate.UseDomain(domain).Action(
                 @"int i = 1+1;");
             Assert.Equal(domain, action.GetDomain());
         }

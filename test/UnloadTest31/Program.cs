@@ -22,7 +22,7 @@ namespace UnloadTest31
             #region Natasha Preheating
             var preTime = Process.GetCurrentProcess().TotalProcessorTime;
             watch.Start();
-            tempType = NClass.Create("tes1t")
+            tempType = NClass.CreateDomain("tes1t")
                     .Namespace("Test")
                     .UseRandomName()
                     .PublicField<string>("Name")
@@ -200,7 +200,7 @@ namespace UnloadTest31
 
             for (int i = 0; i < count; i++)
             {
-                var type = NClass.Create("test" + i.ToString())
+                var type = NClass.CreateDomain("test" + i.ToString())
                      .Namespace("Test")
                      .UseRandomName()
                      .PublicField<string>("Name")

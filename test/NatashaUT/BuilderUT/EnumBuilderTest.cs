@@ -12,7 +12,7 @@ namespace NatashaUT
         [Fact(DisplayName = "枚举构建与编译1")]
         public void TestEnum()
         {
-            NEnum builder = NEnum.Random();
+            NEnum builder = NEnum.RandomDomain();
             var script = builder
                 .CurstomeUsing()
                 .HiddenNamespace()
@@ -33,7 +33,7 @@ namespace NatashaUT
         [Fact(DisplayName = "枚举构建与编译2")]
         public void TestEnum1()
         {
-            NEnum builder = NEnum.Random();
+            NEnum builder = NEnum.RandomDomain();
             var script = builder
                 .CurstomeUsing()
                 .Namespace("haha")

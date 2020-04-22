@@ -13,7 +13,7 @@ namespace NatashaUT
         public void Test1()
         {
 
-            MethodBuilder template = MethodBuilder.Random();
+            MethodBuilder template = MethodBuilder.RandomDomain();
             var result = template
                 .Attribute("[Test]")
                 .Access("public")
@@ -35,7 +35,7 @@ namespace NatashaUT
         public void Test2()
         {
 
-            MethodBuilder template = MethodBuilder.Random();
+            MethodBuilder template = MethodBuilder.RandomDomain();
             var result = template
                 .Attribute("[Test][Test1]")
                 .Access(Natasha.Reverser.Model.AccessTypes.Public)
@@ -58,7 +58,7 @@ namespace NatashaUT
         public void Test3()
         {
 
-            MethodBuilder template = MethodBuilder.Random();
+            MethodBuilder template = MethodBuilder.RandomDomain();
             var result = template
                 .Attribute("[Test]")
                 .Async()
@@ -80,7 +80,7 @@ namespace NatashaUT
         public void Test4()
         {
 
-            MethodBuilder template = MethodBuilder.Random();
+            MethodBuilder template = MethodBuilder.RandomDomain();
             var result = template
                 .Attribute<ClassDataAttribute>()
                 .Unsafe()
@@ -100,7 +100,7 @@ namespace NatashaUT
         public void Test5()
         {
 
-            MethodBuilder template = MethodBuilder.Random();
+            MethodBuilder template = MethodBuilder.RandomDomain();
             var result = template
                 .Access(Natasha.Reverser.Model.AccessTypes.Public)
                 .DefinedName("Name")
@@ -116,7 +116,7 @@ namespace NatashaUT
         public void Test6()
         {
 
-            MethodBuilder template = MethodBuilder.Random();
+            MethodBuilder template = MethodBuilder.RandomDomain();
             var result = template
                 .Modifier(Natasha.Reverser.Model.Modifiers.Static)
                 .DefinedName("Name")
@@ -132,7 +132,7 @@ namespace NatashaUT
         public void Test7()
         {
 
-            MethodBuilder template = MethodBuilder.Random();
+            MethodBuilder template = MethodBuilder.RandomDomain();
             var result = template
                 .Modifier(Natasha.Reverser.Model.Modifiers.Static)
                 .DefinedName("Name")

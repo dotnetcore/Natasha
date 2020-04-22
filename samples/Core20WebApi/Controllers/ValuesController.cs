@@ -12,7 +12,7 @@ namespace Core20WebApi.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            string result = NDelegate.Random().Func<string>("return \"a\";")();
+            string result = NDelegate.RandomDomain().Func<string>("return \"a\";")();
             return new string[] { "value1", result };
         }
 

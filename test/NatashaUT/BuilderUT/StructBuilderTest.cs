@@ -14,7 +14,7 @@ namespace NatashaUT.BuilderUT
         public void TestStruct()
         {
 
-            NStruct builder = NStruct.Random();
+            NStruct builder = NStruct.RandomDomain();
             var script = builder
                 .CurstomeUsing()
                 .HiddenNamespace()
@@ -35,7 +35,7 @@ namespace NatashaUT.BuilderUT
         public void TestStruct1()
         {
             
-            NStruct builder = NStruct.Random();
+            NStruct builder = NStruct.RandomDomain();
             var script = builder
                 .CurstomeUsing()
                 .HiddenNamespace()
