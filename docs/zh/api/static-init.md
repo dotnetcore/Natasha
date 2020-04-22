@@ -21,19 +21,23 @@ Natasha 的所有模板均继承自 ComplierTemplate ，ComplierTemplate 本身�
 ```C#
 
 //使用 domain 域
-Handler.Use(domian, compiler => { 编译器配置 });
+Handler.UseDomain(domian, compiler => { 编译器配置 });
+
+
+//使用某编译器的域
+Handler.UseCompiler(assemblyCSharpCompiler, compiler => { 编译器配置 }));
 
 
 //创建一个 "domainJim" 域
-Handler.Create("domianJim", compiler => { 编译器配置 });
+Handler.CreateDomain("domianJim", compiler => { 编译器配置 });
 
 
 //使用默认域
-Handler.Default(compiler => { 编译器配置 });
+Handler.DefaultDomain(compiler => { 编译器配置 });
 
 
 //使用随机域
-Handler.Random(compiler => { 编译器配置 });
+Handler.RandomDomain(compiler => { 编译器配置 });
 
 ```  
 <br/>  
