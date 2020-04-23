@@ -8,64 +8,72 @@ namespace Natasha.CSharp.Operator
     {
 
         
-        public static T Delegate(string content, DomainBase domain = default, Action<AssemblyCSharpBuilder> option = default, params NamespaceConverter[] usings)
+        public static T Delegate(string content, DomainBase domain = default, Action<AssemblyCSharpBuilder> option = default, Func<FakeMethodOperator, FakeMethodOperator> methodAction = null, params NamespaceConverter[] usings)
         {
 
             var method = typeof(T).GetMethod("Invoke");
-            return FakeMethodOperator.UseDomain(domain, option)
+            var @operator = FakeMethodOperator.UseDomain(domain, option);
+            @operator
                 .UseMethod(method)
                 .Using(usings)
-                .StaticMethodBody(content)
-                .Compile<T>();
+                .StaticMethodBody(content);
+            methodAction?.Invoke(@operator);
+            return @operator.Compile<T>();
 
         }
 
 
 
 
-        public static T AsyncDelegate(string content, DomainBase domain = default, Action<AssemblyCSharpBuilder> option = default, params NamespaceConverter[] usings)
+        public static T AsyncDelegate(string content, DomainBase domain = default, Action<AssemblyCSharpBuilder> option = default, Func<FakeMethodOperator, FakeMethodOperator> methodAction = null, params NamespaceConverter[] usings)
         {
 
             var method = typeof(T).GetMethod("Invoke");
-            return FakeMethodOperator.UseDomain(domain, option)
+            var @operator = FakeMethodOperator.UseDomain(domain, option);
+            @operator
                 .UseMethod(method)
                 .Async()
                 .Using(usings)
-                .StaticMethodBody(content)
-                .Compile<T>();
+                .StaticMethodBody(content);
+            methodAction?.Invoke(@operator);
+            return @operator.Compile<T>();
 
         }
 
 
 
 
-        public static T UnsafeDelegate(string content, DomainBase domain = default, Action<AssemblyCSharpBuilder> option = default, params NamespaceConverter[] usings)
+        public static T UnsafeDelegate(string content, DomainBase domain = default, Action<AssemblyCSharpBuilder> option = default, Func<FakeMethodOperator, FakeMethodOperator> methodAction = null, params NamespaceConverter[] usings)
         {
 
             var method = typeof(T).GetMethod("Invoke");
-            return FakeMethodOperator.UseDomain(domain, option)
+            var @operator = FakeMethodOperator.UseDomain(domain, option);
+            @operator
                 .UseMethod(method)
                 .Unsafe()
                 .Using(usings)
-                .StaticMethodBody(content)
-                .Compile<T>();
+                .StaticMethodBody(content);
+            methodAction?.Invoke(@operator);
+            return @operator.Compile<T>();
 
         }
 
 
 
 
-        public static T UnsafeAsyncDelegate(string content, DomainBase domain = default, Action<AssemblyCSharpBuilder> option = default, params NamespaceConverter[] usings)
+        public static T UnsafeAsyncDelegate(string content, DomainBase domain = default, Action<AssemblyCSharpBuilder> option = default, Func<FakeMethodOperator, FakeMethodOperator> methodAction = null, params NamespaceConverter[] usings)
         {
 
             var method = typeof(T).GetMethod("Invoke");
-            return FakeMethodOperator.UseDomain(domain, option)
+            var @operator = FakeMethodOperator.UseDomain(domain, option);
+            @operator
                 .UseMethod(method)
                 .Unsafe()
                 .Async()
                 .Using(usings)
-                .StaticMethodBody(content)
-                .Compile<T>();
+                .StaticMethodBody(content);
+            methodAction?.Invoke(@operator);
+            return @operator.Compile<T>();
 
         }
 
