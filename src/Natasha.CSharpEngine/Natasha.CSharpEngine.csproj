@@ -15,16 +15,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!--<PackageReference Include="DotNetCore.Natasha.CSharpCompiler" Version="1.0.0-alpha2" />-->
-    <!--<PackageReference Include="DotNetCore.Natasha.CSharpSyntax" Version="1.0.0-alpha2" />
-    <PackageReference Include="DotNetCore.Natasha.Domain" Version="1.0.0-alpha2" />-->
-    <!--<PackageReference Include="DotNetCore.Natasha.Domain" Version="1.0.0-alpha1" />-->
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Natasha.CSharpComplier\Natasha.CSharpCompiler.csproj" />
-    <ProjectReference Include="..\Natasha.CSharpSyntax\Natasha.CSharpSyntax.csproj" />
-    <ProjectReference Include="..\Natasha.Domain\Natasha.Domain.csproj" />
+    <PackageReference Include="DotNetCore.Natasha.CSharpCompiler" Version="1.0.0-alpha5" />
+    <PackageReference Include="DotNetCore.Natasha.CSharpSyntax" Version="1.0.0-alpha5" />
+    <PackageReference Include="DotNetCore.Natasha.Domain" Version="1.0.0-alpha5" />
   </ItemGroup>
 
 </Project>
