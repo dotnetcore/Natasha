@@ -14,6 +14,9 @@ namespace UnloadTest31
         static Type tempType;
         static void Main(string[] args)
         {
+
+            DomainManagement.RegisterDefault<AssemblyDomain>();
+
             NErrorLog.Enabled = false;
             NSucceedLog.Enabled = false;
             NWarningLog.Enabled = false;

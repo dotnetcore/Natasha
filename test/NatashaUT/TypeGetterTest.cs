@@ -1,5 +1,4 @@
-﻿using Natasha;
-using NatashaUT.Model;
+﻿using NatashaUT.Model;
 using System;
 using System.Collections.Generic;
 using Xunit;

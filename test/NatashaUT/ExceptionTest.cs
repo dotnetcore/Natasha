@@ -18,7 +18,7 @@ namespace NatashaUT
             classBuilder
                 .Public()
                 .Static()
-                .Using<OopBuildTest>()
+                .Using<ClassExceptionTest>()
                 .Namespace("TestNamespace")
                 .DefinedName("TestExceptionUt1")
                 .Body(@"public static void 1 Test(){}")
@@ -41,7 +41,7 @@ namespace NatashaUT
             builder
                 .Public()
                 .Static()
-                .Using<OopBuildTest>()
+                .Using<ClassExceptionTest>()
                 .Namespace("TestNamespace")
                 .Struct()
                 .DefinedName("TestExceptionUt2")

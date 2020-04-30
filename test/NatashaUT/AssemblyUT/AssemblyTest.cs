@@ -175,14 +175,14 @@ return obj.ShowMethod(""Hello"");
 
         }
 
-#if !NETCOREAPP2_2
+
         [Fact(DisplayName = "自定义域解构编译")]
         public void Test4()
         {
             using (DomainManagement.CreateAndLock("TempDomain15"))
             {
 
-                var (Assembly, Types, Exception) = @"
+                var (Assembly, Exception) = @"
 using System;
 namespace TT{
 
@@ -193,7 +193,7 @@ public class Test{
 
 }
 ";
-                Assert.Equal("Test", Types[0].Name);
+                Assert.Equal("Test", Assembly.GetExportedTypes()[0].Name);
 
             }
         }
@@ -201,18 +201,19 @@ public class Test{
         [Fact(DisplayName = "共享域解构编译")]
         public void Test5()
         {
-                var (Assembly, Types, Exception) = @"
+                var (Assembly, Exception) = @"
 using System;
 namespace TT{
 public class Test{}
 }
 ";
-                Assert.Equal("Test", Types[0].Name);
+                Assert.Equal("Test", Assembly.GetExportedTypes()[0].Name);
         }
 
 
 
 
+#if !NETCOREAPP2_2
 
         [Fact(DisplayName = "域锁与管理")]
         public void Test3()

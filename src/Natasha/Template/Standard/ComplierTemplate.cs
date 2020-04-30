@@ -11,7 +11,9 @@ namespace Natasha.CSharp.Template
         public Action<AssemblyCSharpBuilder> OptionAction;
         public CompilerTemplate()
         {
+
             AssemblyBuilder = new AssemblyCSharpBuilder();
+
         }
 
 

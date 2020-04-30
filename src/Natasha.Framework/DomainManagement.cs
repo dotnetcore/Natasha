@@ -40,6 +40,7 @@ namespace Natasha
 
         public static T RegisterDefault<T>() where T : DomainBase, new()
         {
+
             if (Default != null)
             {
                 if (typeof(T) != Default.GetType())
@@ -52,6 +53,7 @@ namespace Natasha
                 Default = (new T()).GetInstance("Default");
             }
             return (T)Default;
+
         }
 
         internal static void RegisterDefault(Type type)

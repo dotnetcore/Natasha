@@ -15,19 +15,7 @@ namespace NatashaUT
     {
 #if !NETCOREAPP2_2
 
-        [Fact(DisplayName = "解构插件")]
-        public void Test4()
-        {
-            using (DomainManagement.CreateAndLock("TempDomain14"))
-            { 
-
-                var (Assembly, TypeCache) = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Sql", "ClassLibrary1.dll");
-                Assert.Equal("ClassLibrary1, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", Assembly.FullName);
-                Assert.Equal("Class1", TypeCache["ClassLibrary1.Class1"].Name);
-                Assert.Equal("ClassLibrary1.Class1", TypeCache["ClassLibrary1.Class1"].FullName);
-
-            }
-        }
+        
 
 
         [Fact(DisplayName = "不可回收：MySql插件")]
