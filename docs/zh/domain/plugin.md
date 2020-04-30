@@ -5,25 +5,20 @@
 //向域中注入插件 
 string dllPath = @"1/2/3.dll";
 var domain = DomainManagment.Get/Create("MyDomain");
-var assembly = domain.LoadFile(dllPath);
 
-
-
-//锁域与插件解构操作
-string dllPath = @"1/2/3.dll";
-using(DomainManagment.CreateAndLock("MyDomain"))
-{
-    var (Assembly,TypeCache) = dllPath;
-    //Assembly: Assembly
-    //TypeCache: ConcurrentDictionary<string,Type> 
-}
+//以文件方式加载插件
+//3.0版本会进行deps.json的依赖文件监测
+var assembly = domain.LoadPluginFromFile(dllPath);
+//以流的方式加载插件
+var assembly = domain.LoadPluginFromStream(dllPath);
 
 
 
 //将引用从当前域内移除，下次编译将不会带着该程序集的信息
-//三选一即可
-domain.RemoveDll(dllPath);
-domain.RemoveAssembly(assembly);
-domain.RemoveType(type);
+
+//移除短名引用
+domain.Remove(dllPath);
+//移除程序集引用，或者短名引用
+domain.Remove(assembly);
 
 ```

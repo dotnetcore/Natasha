@@ -16,7 +16,9 @@
    - [引擎开发](./zh/engine/engine.md)
   
  <br/> 
-
+ 
+ - [程序域操作](./zh/domain/index.md)
+ - [程序域插件](./zh/domain/plugin.md)
  - [模板](./zh/template/template.md)
  - [整串编译](./zh/string-complie.md)
  
@@ -72,8 +74,7 @@
 
    - [API速查案例](./zh/api/api-samples.md)  
       
- - [程序域操作](./zh/domain/index.md)  
- - [程序域插件](./zh/domain/plugin.md)  
+ 
  - [程序域程序集操作](./zh/domain/assembly.md)  
    
 
