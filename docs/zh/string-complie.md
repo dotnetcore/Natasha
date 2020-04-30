@@ -15,9 +15,9 @@ string text = @"
 
 
 //根据脚本创建动态类
-AssemblyBuilder oop = new AssemblyBuilder();
+AssemblyCSharpBuilder oop = new AssemblyCSharpBuilder();
 oop.Syntax.Add(text);
-Type type = oop.GetType("Test");
+Assembly assembly = oop.GetAssembly();
 
 
 //或者使用二级API NAssembly
