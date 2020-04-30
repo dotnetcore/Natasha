@@ -16,7 +16,7 @@
     
     - AddDeps ： 该方法默认实现通过文件路径添加依赖，3.0+ 将解析deps.json, 2.0+ 将只添加单个文件。
     - AddReferencesFromFolder ： 从一个文件夹中添加引用库，可重载。
-    - AddReferencesFromDepsJsonFile ： 从 deps.jso n文件中解析引用库，可重载。
+    - AddReferencesFromDepsJsonFile ： 从 deps.json 文件中解析引用库，可重载。
     - AddReferencesFromDllFile ： 从单个 dll 文件中获取引用库，可重载。
     - LoadPluginFromFile ： 默认实现，加载插件调用 AddDeps 方法加载引用依赖，调用 GetAssemblyFromFile 从文件加载程序集到域，可重载。
     - LoadPluginFromStream ： 默认实现，加载插件调用 AddDeps 方法加载引用依赖，调用 GetAssemblyFromStream 从流加载程序集到域，可重载。
