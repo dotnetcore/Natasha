@@ -27,6 +27,8 @@ namespace HelloWorld
 }";
             //根据脚本创建动态类
             AssemblyCSharpBuilder oop = new AssemblyCSharpBuilder();
+            oop.LogCompilerError();
+            oop.LogSyntaxError();
             oop.Compiler.Domain = DomainManagement.Random;
             oop.Syntax.Add(text);
             Type type = oop.GetTypeFromShortName("Test");

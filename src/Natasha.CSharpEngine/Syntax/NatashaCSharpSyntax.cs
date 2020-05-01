@@ -30,7 +30,7 @@ namespace Natasha.CSharpEngine.Syntax
 
             var tree = AddTreeToCache(script);
             var exception = NatashaException.GetSyntaxException(tree);
-            if (!exception.HasError)
+            if (!exception.HasError || ErrorBehavior == ExceptionBehavior.Ignore)
             {
 
                 UsingCache[exception.Formatter] = sets;

@@ -267,6 +267,11 @@ namespace Natasha.CSharp
             builder.Syntax.ErrorBehavior = ExceptionBehavior.Throw;
             return builder;
         }
+        public static AssemblyCSharpBuilder ForceAddSyntax(this AssemblyCSharpBuilder builder)
+        {
+            builder.Syntax.ErrorBehavior = ExceptionBehavior.Ignore;
+            return builder;
+        }
         public static AssemblyCSharpBuilder LogSyntaxError(this AssemblyCSharpBuilder builder)
         {
             builder.Syntax.ErrorBehavior = ExceptionBehavior.Log;

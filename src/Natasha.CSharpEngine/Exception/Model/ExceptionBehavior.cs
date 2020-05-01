@@ -4,6 +4,7 @@
     {
         None,
         Log,
-        Throw
+        Throw,
+        Ignore
     }
 }

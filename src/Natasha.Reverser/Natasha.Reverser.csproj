@@ -8,7 +8,7 @@
     <PackageId>DotNetCore.Natasha.Reverser</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageReleaseNotes> 项目分离 </PackageReleaseNotes>
-    <Version>2.4.1-alpha1</Version>
+    <Version>2.4.1</Version>
     <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
     <PackageTags>Roslyn ; IL ; Scripte ; Dynamic ; </PackageTags>
