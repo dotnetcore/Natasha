@@ -14,5 +14,11 @@
     <PackageIconUrl>https://avatars2.githubusercontent.com/u/19404084</PackageIconUrl>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="DotNetCore.Natasha.CSharpCompiler" Version="1.0.0" />
+    <PackageReference Include="DotNetCore.Natasha.CSharpSyntax" Version="1.0.0" />
+    <PackageReference Include="DotNetCore.Natasha.Domain" Version="1.0.0" />
+  </ItemGroup>
+
 
 </Project>
