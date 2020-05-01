@@ -6,6 +6,10 @@
 
 <br/>
 
+ - [Hello World](.zh/helloworld.md)
+
+<br/>
+
  - [开始入门](./zh/getting-started.md)
  - [开发规范](./zh/development-specification.md)
 
