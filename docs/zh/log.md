@@ -7,6 +7,17 @@ NSucceedLog.Enabled = true;
 NErrorLog.Enabled = true;
 NWarningLog.Enabled = true;
 
+
+AssemblyCSharpBuilder builder = new .....
+builder.LogCompileError().LogSyntaxError().....
+
+
+NDelegate/NClass/NInterface/.... .[StaticInitMethod](
+
+  builder=>builder.LogCompileError().LogSyntaxError()
+  
+)....
+
 ```  
 
 #### 关闭日志：
