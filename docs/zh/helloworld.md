@@ -26,7 +26,7 @@ sharpBuilder.UseFileCompile();
 //如果代码编译错误，那么抛出并且记录日志。
 sharpBuilder.ThrowAndLogCompilerError();
 
-//如果语法检测时出错，那么抛出并记录日志。
+//如果语法检测时出错，那么抛出并记录日志，该步骤在编译之前。
 sharpBuilder.ThrowAndLogSyntaxError();
 
 //添加你的字符串
