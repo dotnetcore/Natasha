@@ -6,7 +6,7 @@
 
 <br/>
 
- - [Hello World](.zh/helloworld.md)
+ - [Hello World](./zh/helloworld.md)
 
 <br/>
 
