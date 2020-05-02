@@ -6,7 +6,7 @@
 
 <br/>
 
- - [Hello World](./zh/helloworld.md)
+ - [Hello World(看)](./zh/helloworld.md)
 
 <br/>
 
@@ -24,7 +24,7 @@
  - [程序域操作](./zh/domain/index.md)
  - [程序域插件](./zh/domain/plugin.md)
  - [模板](./zh/template/template.md)
- - [整串编译](./zh/string-complie.md)
+ - [整串编译(看) ](./zh/string-complie.md)
  
 <br/> 
  
@@ -48,21 +48,21 @@
   
  - [API]
    - [API速查表](./zh/api/index.md)  
-   - [API的静态初始化操作](./zh/api/static-init.md)  
+   - [API的静态初始化操作(看)](./zh/api/static-init.md)  
    - [API类型扩展案例](./zh/api/extensions-samples.md)  
    
  <br/> 
 
  - [面向对象的构建](./zh/oop/index.md)  
  
-   - [类](./zh/oop/class.md)
+   - [类(看)](./zh/oop/class.md)
    - [结构体](./zh/oop/struct.md)
    - [接口](./zh/oop/interface.md)
  
  <br/>    
  
  - [异常捕获](./zh/exception.md)
- - [日志捕获](./zh/log.md)
+ - [日志捕获(看)](./zh/log.md)
  
   <br/>    
  
