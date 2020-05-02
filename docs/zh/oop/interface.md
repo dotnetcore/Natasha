@@ -10,7 +10,7 @@
 //创建一个类并获取类型
 var type = new OopOperator()
   .Namespace<string>()
-  .ChangeToInterface()
+  .Interface()
   .Access(Access.None)
   .Name("TestUt3")
   .Body(@"static void Test();")
@@ -25,7 +25,6 @@ var type = new OopOperator()
 //创建一个类并获取类型
 var type = new NInterface()
   .Namespace<string>()
-  .ChangeToInterface()
   .Access(Access.None)
   .Name("TestUt3")
   .Body(@"static void Test();")
