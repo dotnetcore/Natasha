@@ -25,15 +25,26 @@ sharpBuilder.UseFileCompile();
 
 //如果代码编译错误，那么抛出并且记录日志。
 sharpBuilder.ThrowAndLogCompilerError();
-
 //如果语法检测时出错，那么抛出并记录日志，该步骤在编译之前。
 sharpBuilder.ThrowAndLogSyntaxError();
 
+
 //添加你的字符串
 sharpBuilder.Syntax.Add("using System; public static class Test{ public static void Show(){ Console.WriteLine(\"Hello World!\");}}");
-
 //编译出一个程序集
 var assembly = sharpBuilder.GetAssembly();
+
+
+//如果你想直接获取到类型
+var type = sharpBuilder.GetTypeFromShortName("Test");
+type = sharpBuilder.GetTypeFromFullName("xxNamespace.xxClassName");
+//同时还有
+GetMethodFromShortName
+GetMethodFromFullName
+GetDelegateFromFullName
+GetDelegateFromFullName<T>
+GetDelegateFromShortName
+GetDelegateFromShortName<T>
 
 
 //创建一个 Action 委托
