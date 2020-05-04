@@ -16,7 +16,7 @@ namespace NatashaUT
         [Fact(DisplayName = "独立域函数1")]
         public static void RunDelegate1()
         {
-            var func = NDelegate.CreateDomain("NDelegate1").Func<string>("return \"1\";");
+            Func<string> func = NDelegate.CreateDomain("NDelegate1").Func<string>("return \"1\";");
             Assert.Equal("1", func());
         }
 
@@ -26,7 +26,7 @@ namespace NatashaUT
         [Fact(DisplayName = "独立域函数2")]
         public static void RunDelegate2()
         {
-            //------创建一个域（方便卸载）----//-----创建Func方法--------//
+            //-----------创建一个域（方便卸载）---------------//-----创建Func方法--------//
             var func = NDelegate.CreateDomain("NDelegate2").Func<string,string>("return arg;");
             Assert.Equal("1", func("1"));
         }

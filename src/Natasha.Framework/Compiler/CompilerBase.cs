@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Emit;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -60,6 +61,34 @@ namespace Natasha.Framework
         }
 
         public abstract T GetCompilation();
+        public virtual EmitResult EmitToFile(T compilation)
+        {
+
+            EmitResult CompileResult;
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            {
+                CompileResult = compilation.Emit(DllPath, PdbPath);
+            }
+            else
+            {
+                CompileResult = compilation.UnixEmit(DllPath, PdbPath);
+            }
+            return CompileResult;
+
+        }
+        public virtual EmitResult EmitToStream(T compilation, MemoryStream stream)
+        {
+            EmitResult CompileResult;
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            {
+                CompileResult = compilation.Emit(stream);
+            }
+            else
+            {
+                CompileResult = compilation.Emit(stream, options: new EmitOptions(false, DebugInformationFormat.PortablePdb));
+            }
+            return CompileResult;
+        }
 
         public IEnumerable<SyntaxTree> CompileTrees;
 
@@ -71,31 +100,41 @@ namespace Natasha.Framework
 
         public event Action<Stream, ImmutableArray<Diagnostic>, T> StreamCompileFailedHandler;
 
-        public virtual void CompileToFile(string dllPath, string pdbPath)
+        public virtual void CompileToFile()
         {
+
             if (PreCompiler())
             {
+
                 var compilation = GetCompilation();
-                var CompileResult = compilation.Emit(dllPath, pdbPath);
+                var CompileResult = EmitToFile(compilation);
+
+
                 if (CompileResult.Success)
                 {
-                    Assembly = Domain.CompileFileHandler(dllPath, pdbPath, AssemblyName);
-                    FileCompileSucceedHandler?.Invoke(dllPath, pdbPath, compilation);
+                    Assembly = Domain.CompileFileHandler(DllPath, PdbPath, AssemblyName);
+                    FileCompileSucceedHandler?.Invoke(DllPath, PdbPath, compilation);
                 }
                 else
                 {
-                    FileCompileFailedHandler?.Invoke(dllPath, pdbPath, CompileResult.Diagnostics, compilation);
+                    FileCompileFailedHandler?.Invoke(DllPath, PdbPath, CompileResult.Diagnostics, compilation);
                 }
+
             }
+
         }
 
         public virtual void CompileToStream()
         {
+
             if (PreCompiler())
             {
+
                 var compilation = GetCompilation();
                 MemoryStream stream = new MemoryStream();
-                var CompileResult = compilation.Emit(stream);
+                var CompileResult = EmitToStream(compilation, stream);
+
+
                 if (CompileResult.Success)
                 {
                     stream.Position = 0;
@@ -112,7 +151,9 @@ namespace Natasha.Framework
                     StreamCompileFailedHandler?.Invoke(stream, CompileResult.Diagnostics, compilation);
                 }
                 stream.Dispose();
+
             }
+
         }
 
         /// <summary>
@@ -123,7 +164,7 @@ namespace Natasha.Framework
             switch (AssemblyOutputKind)
             {
                 case AssemblyBuildKind.File:
-                    CompileToFile(DllPath, PdbPath);
+                    CompileToFile();
                     break;
 
                 case AssemblyBuildKind.Stream:
