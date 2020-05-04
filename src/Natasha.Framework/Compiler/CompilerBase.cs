@@ -61,34 +61,8 @@ namespace Natasha.Framework
         }
 
         public abstract T GetCompilation();
-        public virtual EmitResult EmitToFile(T compilation)
-        {
-
-            EmitResult CompileResult;
-            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
-            {
-                CompileResult = compilation.Emit(DllPath, PdbPath);
-            }
-            else
-            {
-                CompileResult = compilation.UnixEmit(DllPath, PdbPath);
-            }
-            return CompileResult;
-
-        }
-        public virtual EmitResult EmitToStream(T compilation, MemoryStream stream)
-        {
-            EmitResult CompileResult;
-            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
-            {
-                CompileResult = compilation.Emit(stream);
-            }
-            else
-            {
-                CompileResult = compilation.Emit(stream, options: new EmitOptions(false, DebugInformationFormat.PortablePdb));
-            }
-            return CompileResult;
-        }
+        public abstract EmitResult EmitToFile(T compilation);
+        public abstract EmitResult EmitToStream(T compilation, MemoryStream stream);
 
         public IEnumerable<SyntaxTree> CompileTrees;
 

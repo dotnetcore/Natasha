@@ -1,6 +1,9 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Emit;
 using Natasha.Framework;
+using System;
+using System.IO;
 
 namespace Natasha.CSharpCompiler
 {
@@ -33,6 +36,37 @@ namespace Natasha.CSharpCompiler
                                syntaxTrees: CompileTrees,
                                references: Domain.GetCompileReferences());
 
+        }
+
+
+
+        public override EmitResult EmitToFile(CSharpCompilation compilation)
+        {
+
+            EmitResult CompileResult;
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            {
+                CompileResult = compilation.Emit(DllPath, PdbPath);
+            }
+            else
+            {
+                CompileResult = compilation.UnixEmit(DllPath, PdbPath);
+            }
+            return CompileResult;
+
+        }
+        public override EmitResult EmitToStream(CSharpCompilation compilation, MemoryStream stream)
+        {
+            EmitResult CompileResult;
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            {
+                CompileResult = compilation.Emit(stream);
+            }
+            else
+            {
+                CompileResult = compilation.Emit(stream, options: new EmitOptions(false, DebugInformationFormat.PortablePdb));
+            }
+            return CompileResult;
         }
     }
 }
