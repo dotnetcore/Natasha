@@ -6,7 +6,7 @@
     <PackageId>DotNetCore.Natasha.CSharpEngine</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageReleaseNotes>发布预览版</PackageReleaseNotes>
-    <Version>1.0.0</Version>
+    <Version>1.0.0.1</Version>
     <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
     <PackageTags>Roslyn ; IL ; Scripte ; Dynamic ; </PackageTags>
@@ -15,9 +15,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DotNetCore.Natasha.CSharpCompiler" Version="1.0.0" />
-    <PackageReference Include="DotNetCore.Natasha.CSharpSyntax" Version="1.0.0" />
-    <PackageReference Include="DotNetCore.Natasha.Domain" Version="1.0.0" />
+    <PackageReference Include="DotNetCore.Natasha.CSharpCompiler" Version="1.0.2" />
+    <PackageReference Include="DotNetCore.Natasha.CSharpSyntax" Version="1.0.0.1" />
+    <PackageReference Include="DotNetCore.Natasha.Domain" Version="1.0.0.1" />
   </ItemGroup>
 
 
