@@ -49,6 +49,8 @@
     - Compile ：该方法实现了根据输出方式（AssemblyOutputKind）进行自动编译，file 调用 CompileToFile 方法， stream 调用 CompileToStream 方法。
     - CompileTrees ： 需要被编译的语法树。
     - GetCompilation ：返回不同语言的编译信息集，必须重写。
+    - EmitToFile： 将 compilation 编译到文件，必须重新写。
+    - EmitToStream: 将 compilation 编译到内存流，必须重写。
     
     - FileCompileSucceedHandler ： 当文件形式编译成功之后引发的事件。
     - StreamCompileSucceedHandler ：当流形式编译成功之后引发的事件。
