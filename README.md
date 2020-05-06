@@ -47,8 +47,38 @@
 | Azure |  Mac |[![Build Status](https://dev.azure.com/NightMoonStudio/Natasha/_apis/build/status/dotnetcore.Natasha?branchName=master&jobName=macOS)](https://dev.azure.com/NightMoonStudio/Natasha/_build/latest?definitionId=3&branchName=master)|[![Build Status](https://img.shields.io/azure-devops/tests/NightMoonStudio/Natasha/3/master.svg)](https://dev.azure.com/NightMoonStudio/Natasha/_build/latest?definitionId=3&branchName=master) | 
 
 
+<br/>    
+
+### 使用方法(User Api)：  
+
+ <br/>  
+ 
+ - 引入 动态构件库： DotNetCore.Natasha
+
+ - 引入 编译环境库： DotNetCore.Compile.Environment
+
+ - 向引擎中注入定制的域： DomainManagement.RegisterDefault< AssemblyDomain >()
+
+ - 敲代码  
+ 
+ > 更多更新的参考文档：https://natasha.dotnetcore.xyz/  
  
 <br/>  
+
+
+### 发布日志  
+      
+  - 2020-03-12 ： 发布v2.12.0.0, 增加新API  NDelegate.XXX.Delegate<Tdelegate>() 系列API, Field模板构建增加了一个参数 int? fieldoffset。 
+  
+  - 2020-03-16 ： 发布v2.14.0.0, 为 RuntimeToDynamic 库优化些API ,NDelegate 类使用 Using 模板来提供命名空间预定义的操作, 方便提前定制命名空间;新增域、命名空间关联模板 NHandler 以便提供与当前信息相同的 delegate / class / interface / enum / struct 操作类;增加 ALink 抽象类约束，以便约束不带有功能的 Link 操作。    
+  
+  - 2020-05-01 ： 发布v3.0.0.0, 重构所有模块，上层API几乎没变，底层可以继承重写，移除部分 API。  
+  
+  - 2020-05-06 ： 发布v3.0.2.0, 修复 修饰符模板状态机BUG, 增加 语法树选项 ForceAddSyntax 不管对错强制添加语法树。  
+  
+ <br/>  
+ 
+ 
 
 ### 性能测试
       
@@ -74,19 +104,6 @@ WeihanLi
 
 <br/>    
 
-### 发布日志  
-      
-  - 2020-03-12 ： 发布v2.12.0.0, 增加新API  NDelegate.XXX.Delegate<Tdelegate>() 系列API, Field模板构建增加了一个参数 int? fieldoffset。 
-  
-  - 2020-03-16 ： 发布v2.14.0.0, 为 RuntimeToDynamic 库优化些API ,NDelegate 类使用 Using 模板来提供命名空间预定义的操作, 方便提前定制命名空间;新增域、命名空间关联模板 NHandler 以便提供与当前信息相同的 delegate / class / interface / enum / struct 操作类;增加 ALink 抽象类约束，以便约束不带有功能的 Link 操作。    
-  
-  - 2020-05-01 ： 发布v3.0.0.0, 重构所有模块，上层API几乎没变，底层可以继承重写，移除部分 API。  
-  
-  - 2020-05-06 ： 发布v3.0.2.0, 修复 修饰符模板状态机BUG, 增加 语法树选项 ForceAddSyntax 不管对错强制添加语法树。  
-  
- <br/>  
- 
- 
  ### 升级日志
  
  - [[2019]](https://github.com/dotnetcore/Natasha/blob/master/docs/zh/update/2019.md)
@@ -101,26 +118,7 @@ WeihanLi
  
  
   <br/>  
- 
----------------------  
 
-
-### 使用方法(User Api)：  
-
- <br/>  
- 
- - 引入 DotNetCore.Natasha 库
-
- - 引入 编译环境库 ： DotNetCore.Compile.Environment
-
- - 向引擎中注入定制的域： DomainManagement.RegisterDefault< AssemblyDomain >()
-
- - 敲代码  
- 
- > 更多更新的参考文档：https://natasha.dotnetcore.xyz/  
-
-<br/>    
-<br/>  
 
   #### Natasha的动态调用模块:  已移至[【NCaller】](https://github.com/night-moon-studio/NCaller)
   #### Natasha的动态克隆模块:  已移至[【DeepClone】](https://github.com/night-moon-studio/DeepClone)  
