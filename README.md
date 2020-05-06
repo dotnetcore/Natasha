@@ -113,7 +113,7 @@ WeihanLi
 
  - 引入 编译环境库 ： DotNetCore.Compile.Environment
 
- - 向引擎中注入定制的域： DomainManagement.RegisterDefault< AssemblyDomain >();
+ - 向引擎中注入定制的域： DomainManagement.RegisterDefault< AssemblyDomain >()
 
  - 敲代码  
  
