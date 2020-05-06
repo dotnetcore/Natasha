@@ -13,6 +13,7 @@ namespace Natasha.CSharp.Template
     {
 
         public StringBuilder ModifierScript;
+        private string _modifierScript;
         private readonly HashSet<Modifiers> _status;
 
 
@@ -84,7 +85,7 @@ namespace Natasha.CSharp.Template
         public T Modifier(Type type)
         {
 
-            ModifierScript.Append(ModifierReverser.GetModifier(type));
+            _modifierScript = ModifierReverser.GetModifier(type);
             return Link;
 
         }
@@ -100,7 +101,7 @@ namespace Natasha.CSharp.Template
         public T Modifier(MethodInfo modifierInfo)
         {
 
-            ModifierScript.Append(ModifierReverser.GetModifier(modifierInfo));
+            _modifierScript = ModifierReverser.GetModifier(modifierInfo);
             return Link;
 
         }
@@ -131,16 +132,14 @@ namespace Natasha.CSharp.Template
         /// <returns></returns>
         public T Modifier(string modifierString)
         {
-
-            ModifierScript.Clear();
-            ModifierScript.Append(ScriptWrapper(modifierString));
+            _modifierScript = ScriptWrapper(modifierString);
             return Link;
 
         }
         public T ModifierAppend(string modifierString)
         {
 
-            ModifierScript.Append(ScriptWrapper(modifierString));
+            _modifierScript += ScriptWrapper(modifierString);
             return Link;
 
         }
@@ -151,28 +150,35 @@ namespace Natasha.CSharp.Template
         public override T BuilderScript()
         {
 
-            StringBuilder builder = new StringBuilder();
+            ModifierScript.Clear();
             if (_status.Contains(Modifiers.Static))
             {
 
-                builder.Append("static ");
-                _status.Remove(Modifiers.Static);
+                ModifierScript.Append("static ");
 
             }
 
 
             if (_status.Contains(Modifiers.Unsafe))
             {
-                builder.Append("unsafe ");
-                _status.Remove(Modifiers.Unsafe);
+
+                ModifierScript.Append("unsafe ");
+
             }
 
 
-            ModifierScript.Insert(0,builder);
             foreach (var item in _status)
             {
-                ModifierAppend(ModifierReverser.GetModifier(item));
+
+                if (item != Modifiers.Static && item != Modifiers.Unsafe)
+                {
+
+                    ModifierScript.Append(ModifierReverser.GetModifier(item));
+                
+                }
+                            
             }
+            ModifierScript.Append(_modifierScript);
 
 
             // [Attribute]
