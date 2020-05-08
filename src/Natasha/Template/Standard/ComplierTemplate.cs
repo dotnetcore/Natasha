@@ -26,7 +26,7 @@ namespace Natasha.CSharp.Template
             return Link;
 
         }
-        public T CurstomeUsing()
+        public T CustomeUsing()
         {
             AssemblyBuilder.CustomerUsingShut = true;
             return Link;

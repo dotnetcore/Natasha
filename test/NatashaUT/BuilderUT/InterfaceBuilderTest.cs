@@ -15,7 +15,7 @@ namespace NatashaUT.BuilderUT
 
             var builder = NInterface.RandomDomain();
             var script = builder
-                .CurstomeUsing()
+                .CustomeUsing()
                 .HiddenNamespace()
                 .Access(Natasha.Reverser.Model.AccessTypes.Public)
                 .DefinedName("Interface1")

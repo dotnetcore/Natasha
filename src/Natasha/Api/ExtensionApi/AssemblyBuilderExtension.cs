@@ -229,7 +229,7 @@ namespace Natasha.CSharp
             builder.CustomerUsingShut = false;
             return builder;
         }
-        public static AssemblyCSharpBuilder CustomerUsing(this AssemblyCSharpBuilder builder)
+        public static AssemblyCSharpBuilder CustomeUsing(this AssemblyCSharpBuilder builder)
         {
             builder.CustomerUsingShut = true;
             return builder;

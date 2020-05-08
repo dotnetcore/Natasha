@@ -16,7 +16,7 @@ namespace NatashaUT.BuilderUT
 
             NStruct builder = NStruct.RandomDomain();
             var script = builder
-                .CurstomeUsing()
+                .CustomeUsing()
                 .HiddenNamespace()
                 .Access(Natasha.Reverser.Model.AccessTypes.Public)
                 .DefinedName("EnumUT1")
@@ -37,7 +37,7 @@ namespace NatashaUT.BuilderUT
             
             NStruct builder = NStruct.RandomDomain();
             var script = builder
-                .CurstomeUsing()
+                .CustomeUsing()
                 .HiddenNamespace()
                 .Attribute("[StructLayout(LayoutKind.Explicit)]")
                 .Access(Natasha.Reverser.Model.AccessTypes.Public)
