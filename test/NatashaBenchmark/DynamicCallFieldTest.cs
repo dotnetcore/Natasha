@@ -3,7 +3,6 @@ using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Mathematics;
 using BenchmarkDotNet.Order;
 using Natasha.CSharp;
-using Natasha.CSharp.Operator;
 using NatashaBenchmark.Model;
 using System;
 using System.Reflection.Emit;

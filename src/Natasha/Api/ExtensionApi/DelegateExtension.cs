@@ -1,5 +1,4 @@
-﻿using Natasha.CSharp.Operator;
-using System;
+﻿using System;
 
 namespace Natasha.CSharp
 {

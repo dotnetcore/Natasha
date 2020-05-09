@@ -170,7 +170,16 @@ namespace Natasha.CSharp.Template
             return Link;
 
         }
+        public T Using(IEnumerable<Assembly> namespaces)
+        {
 
+            foreach (var item in namespaces)
+            {
+                Using(item);
+            }
+            return Link;
+
+        }
 
 
 
@@ -257,7 +266,7 @@ namespace Natasha.CSharp.Template
         {
 
             Using(UsingRecoder.Types);
-            if (AssemblyBuilder.CustomerUsingShut)
+            if (AssemblyBuilder.CustomeUsingShut)
             {
 
                 UsingScript.Clear();
@@ -271,7 +280,8 @@ namespace Natasha.CSharp.Template
             }
             else
             {
-
+               
+                Using(AssemblyBuilder.Compiler.Domain.GetPluginAssemblies());
                 foreach (var @using in _usings)
                 {
 

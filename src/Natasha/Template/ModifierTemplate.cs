@@ -145,9 +145,7 @@ namespace Natasha.CSharp.Template
         }
 
 
-
-
-        public override T BuilderScript()
+        public StringBuilder GetModifyBuilder()
         {
 
             ModifierScript.Clear();
@@ -174,17 +172,24 @@ namespace Natasha.CSharp.Template
                 {
 
                     ModifierScript.Append(ModifierReverser.GetModifier(item));
-                
+
                 }
-                            
+
             }
             ModifierScript.Append(_modifierScript);
+            return ModifierScript;
 
+        }
+
+
+
+        public override T BuilderScript()
+        {
 
             // [Attribute]
             // [access] [{this}]
             base.BuilderScript();
-            _script.Append(ModifierScript);
+            _script.Append(GetModifyBuilder());
             return Link;
 
         }

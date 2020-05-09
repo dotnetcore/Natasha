@@ -2,11 +2,13 @@
 using System;
 using System.Collections.Concurrent;
 using System.IO;
+using System.Reflection;
 
 namespace Natasha.Core
 {
     public class ShortNameReference : IDisposable
     {
+
         public readonly ConcurrentDictionary<string, PortableExecutableReference> References;
 
         public ShortNameReference()

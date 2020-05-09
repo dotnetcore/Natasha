@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyModel;
 using Natasha.Core;
 using Natasha.Framework;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,10 +14,13 @@ namespace Natasha
 {
     public class AssemblyDomain : DomainBase
     {
+
+        public readonly ConcurrentDictionary<string, Assembly> DllAssemblies;
         public readonly ShortNameReference ShortReferences;
 
         public AssemblyDomain()
         {
+            
         }
 
         static AssemblyDomain()
@@ -86,7 +90,28 @@ namespace Natasha
         }
 
 
+        public override Assembly LoadPluginFromFile(string path, params string[] excludePaths)
+        {
 
+            AddDeps(path, excludePaths);
+            var assembly = GetAssemblyFromFile(path);
+            DllAssemblies[path] = assembly;
+            return assembly;
+
+        }
+
+        public override Assembly LoadPluginFromStream(string path, params string[] excludePaths)
+        {
+
+            AddDeps(path, excludePaths);
+            using (FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
+            {
+                var assembly = GetAssemblyFromStream(stream);
+                DllAssemblies[path] = assembly;
+                return assembly;
+            }
+
+        }
         /// <summary>
         /// 获取编译所需的引用库
         /// </summary>
@@ -149,7 +174,12 @@ namespace Natasha
         {
             if (path != null)
             {
-                ShortReferences.Remove(path);
+                
+                if (DllAssemblies.ContainsKey(path))
+                {
+                    ShortReferences.Remove(path);
+                    while (!DllAssemblies.TryRemove(path,out _)) { }
+                }
             }
         }
 
@@ -181,6 +211,7 @@ namespace Natasha
 #endif
 
             ShortReferences = new ShortNameReference();
+            DllAssemblies = new ConcurrentDictionary<string, Assembly>();
             DomainManagement.Add(key, this);
         }
 
@@ -189,6 +220,7 @@ namespace Natasha
 #if !NETSTANDARD2_0
             _load_resolver = null;
 #endif
+            DllAssemblies.Clear();
             ShortReferences.Dispose();
             base.Dispose();
         }
@@ -313,6 +345,11 @@ namespace Natasha
 
 #endif
 
+        }
+
+        public override IEnumerable<Assembly> GetPluginAssemblies()
+        {
+            return DllAssemblies.Values;
         }
     }
 }

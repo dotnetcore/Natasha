@@ -1,6 +1,6 @@
 ﻿using Natasha.CSharp.Builder;
 
-namespace Natasha.CSharp.Operator
+namespace Natasha.CSharp
 {
 
     /// <summary>

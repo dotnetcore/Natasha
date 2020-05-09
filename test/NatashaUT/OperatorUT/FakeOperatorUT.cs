@@ -1,4 +1,4 @@
-﻿using Natasha.CSharp.Operator;
+﻿using Natasha.CSharp;
 using NatashaUT.Model;
 using Xunit;
 

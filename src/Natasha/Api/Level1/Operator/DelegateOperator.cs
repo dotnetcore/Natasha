@@ -1,7 +1,7 @@
 ﻿using Natasha.Framework;
 using System;
 
-namespace Natasha.CSharp.Operator
+namespace Natasha.CSharp
 {
 
     public static class DelegateOperator<T> where T : Delegate

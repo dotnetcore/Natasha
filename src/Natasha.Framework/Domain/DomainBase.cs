@@ -18,7 +18,6 @@ namespace Natasha.Framework
         }
 
         public readonly ConcurrentDictionary<Assembly, PortableExecutableReference> AssemblyReferences;
-
 #if NETSTANDARD2_0
         public string Name;
 #else
@@ -74,24 +73,9 @@ namespace Natasha.Framework
 
         public abstract Assembly CompileFileHandler(string dllFile, string pdbFile, string AssemblyName);
 
-        public virtual Assembly LoadPluginFromFile(string path, params string[] excludePaths)
-        {
+        public abstract Assembly LoadPluginFromFile(string path, params string[] excludePaths);
 
-            AddDeps(path, excludePaths);
-            return GetAssemblyFromFile(path);
-
-        }
-
-        public virtual Assembly LoadPluginFromStream(string path, params string[] excludePaths)
-        {
-
-            AddDeps(path, excludePaths);
-            using (FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
-            {
-                return GetAssemblyFromStream(stream);
-            }
-
-        }
+        public abstract Assembly LoadPluginFromStream(string path, params string[] excludePaths);
 
         public virtual void AddDeps(string path, params string[] excludePaths)
         {
@@ -178,5 +162,9 @@ namespace Natasha.Framework
                 return GetAssemblyFromStream(stream);
             }
         }
+
+
+        public abstract IEnumerable<Assembly> GetPluginAssemblies();
+
     }
 }

@@ -14,8 +14,12 @@
     <PackageIconUrl>https://avatars2.githubusercontent.com/u/19404084</PackageIconUrl>
   </PropertyGroup>
 
-  <ItemGroup>
+  <!--<ItemGroup>
     <PackageReference Include="DotNetCore.Natasha.Framework" Version="1.0.2" />
+  </ItemGroup>-->
+
+  <ItemGroup>
+    <ProjectReference Include="..\Natasha.Framework\Natasha.Framework.csproj" />
   </ItemGroup>
 
 </Project>

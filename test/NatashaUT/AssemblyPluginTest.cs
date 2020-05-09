@@ -1,10 +1,8 @@
 ﻿using Natasha;
-using Natasha.CSharp.Operator;
+using Natasha.CSharp;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
-using System.Text;
 using Xunit;
 
 namespace NatashaUT
@@ -45,7 +43,6 @@ namespace NatashaUT
                 var domain = DomainManagement.CurrentDomain;
                 var assemebly = domain.LoadPluginFromStream(path);
                 var action = FastMethodOperator.UseDomain(domain)
-                   .Using(assemebly)
                    .Body(@"
 try{
 Class1 a = new Class1();
@@ -91,7 +88,6 @@ return default;").Return<string>()
                 var domain = DomainManagement.CurrentDomain;
                 var assemebly = domain.LoadPluginFromStream(path);
                 var action = FastMethodOperator.UseDomain(domain)
-                   .Using(assemebly)
                    .Body(@"Test.Instance.Name=""11""; return Test.Instance.Name;")
                    .Compile<Func<string>>();
                 result = action();
@@ -129,9 +125,8 @@ return default;").Return<string>()
                 var domain = DomainManagement.CurrentDomain;
                 var assemebly = domain.LoadPluginFromStream(path);
                 var action = FastMethodOperator.UseDomain(domain,
-                    item =>item.Compiler.ErrorBehavior = Natasha.Error.Model.ExceptionBehavior.Log 
+                    item =>item.LogCompilerError() 
                 )
-                   .Using(assemebly)
                    .Body(@"Class1 obj = new Class1(); return obj.Get();")
                    .Compile<Func<string>>();
                 result = action();
