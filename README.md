@@ -53,7 +53,7 @@
 
  <br/>  
  
- - 引入 动态构件库： DotNetCore.Natasha
+ - 引入 动态构建库： DotNetCore.Natasha
 
  - 引入 编译环境库： DotNetCore.Compile.Environment
 
@@ -76,6 +76,8 @@
   - 2020-05-01 ： 发布v3.0.0.0, 重构所有模块，上层API几乎没变，底层可以继承重写，移除部分 API。  
   
   - 2020-05-06 ： 发布v3.0.2.0, 修复 修饰符模板状态机BUG, 增加 语法树选项 ForceAddSyntax 不管对错强制添加语法树。  
+  
+  - 2020-05-12 ： 发布v3.2.0.0，增加插件自动装载 using 的功能，修复部分字段命名，Domain 部分抽象实现将在 AssemblyDomain 中实现，增加 GetPluginAssembies 抽象方法以返回插件带来的程序集，需要子类实现。
   
  <br/>  
  
