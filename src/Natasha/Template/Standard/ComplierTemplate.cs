@@ -22,13 +22,13 @@ namespace Natasha.CSharp.Template
         public T AutoUsing()
         {
 
-            AssemblyBuilder.CustomeUsingShut = false;
+            AssemblyBuilder.CustomUsingShut = false;
             return Link;
 
         }
-        public T CustomeUsing()
+        public T CustomUsing()
         {
-            AssemblyBuilder.CustomeUsingShut = true;
+            AssemblyBuilder.CustomUsingShut = true;
             return Link;
         }
 

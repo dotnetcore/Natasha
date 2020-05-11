@@ -266,7 +266,7 @@ namespace Natasha.CSharp.Template
         {
 
             Using(UsingRecoder.Types);
-            if (AssemblyBuilder.CustomeUsingShut)
+            if (AssemblyBuilder.CustomUsingShut)
             {
 
                 UsingScript.Clear();

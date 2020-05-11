@@ -122,7 +122,7 @@ namespace NatashaUT
             var domain = DomainManagement.Random;
             var type = NDelegate.UseDomain(domain,builder => {
                 builder
-                .CustomeUsing()                    //使用用户自定义的Using
+                .CustomUsing()                    //使用用户自定义的Using
                 .SetAssemblyName("MyAssemblyName")  //设置程序集名
                 .ThrowAndLogCompilerError()         //抛出并记录编译器的异常 
                 .ThrowSyntaxError()                 //抛出语法树异常

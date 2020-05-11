@@ -226,12 +226,12 @@ namespace Natasha.CSharp
         #region SimpleLinkApi
         public static AssemblyCSharpBuilder AutoUsing(this AssemblyCSharpBuilder builder)
         {
-            builder.CustomeUsingShut = false;
+            builder.CustomUsingShut = false;
             return builder;
         }
-        public static AssemblyCSharpBuilder CustomeUsing(this AssemblyCSharpBuilder builder)
+        public static AssemblyCSharpBuilder CustomUsing(this AssemblyCSharpBuilder builder)
         {
-            builder.CustomeUsingShut = true;
+            builder.CustomUsingShut = true;
             return builder;
         }
         public static AssemblyCSharpBuilder ThrowCompilerError(this AssemblyCSharpBuilder builder)

@@ -30,13 +30,13 @@ namespace Natasha.CSharp
 
 
         public string OutputFolder;
-        public bool CustomeUsingShut;
+        public bool CustomUsingShut;
         public AssemblyCSharpBuilder() : this(Guid.NewGuid().ToString("N")){}
         public AssemblyCSharpBuilder(string name):base(name)
         {
 
             OutputFolder = GlobalOutputFolder;
-            CustomeUsingShut = false;
+            CustomUsingShut = false;
             RetryLimit = 2;
 
         }

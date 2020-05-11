@@ -14,7 +14,7 @@ namespace NatashaUT
         {
             NEnum builder = NEnum.RandomDomain();
             var script = builder
-                .CustomeUsing()
+                .CustomUsing()
                 .HiddenNamespace()
                 .Access(Natasha.Reverser.Model.AccessTypes.Public)
                 .DefinedName("EnumUT1")
@@ -35,7 +35,7 @@ namespace NatashaUT
         {
             NEnum builder = NEnum.RandomDomain();
             var script = builder
-                .CustomeUsing()
+                .CustomUsing()
                 .Namespace("haha")
                 .Access(Natasha.Reverser.Model.AccessTypes.Public)
                 .DefinedName("EnumUT1")

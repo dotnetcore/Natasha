@@ -14,7 +14,7 @@ namespace NatashaUT.BuilderUT
         {
             NClass builder = NClass.RandomDomain();
             var script = builder
-                .CustomeUsing()
+                .CustomUsing()
                 .HiddenNamespace()
                 .Access(Natasha.Reverser.Model.AccessTypes.Public)
                 .DefinedName("EnumUT1")
@@ -36,7 +36,7 @@ namespace NatashaUT.BuilderUT
 
             NClass builder = NClass.RandomDomain();
             var script = builder
-                .CustomeUsing()
+                .CustomUsing()
                 .HiddenNamespace()
                 .Access(Natasha.Reverser.Model.AccessTypes.Public)
                 .DefinedName("EnumUT1")
