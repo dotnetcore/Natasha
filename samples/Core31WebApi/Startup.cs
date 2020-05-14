@@ -2,10 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Core31WebApi.Controllers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Abstractions;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -27,7 +30,11 @@ namespace Core31WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            NatashaController.SvcAction = () => { services.AddControllers(); };
             services.AddControllers();
+            services
+                .AddSingleton<DynamicChangeTokenProvider>()
+                .AddSingleton<IActionDescriptorChangeProvider>(provider => provider.GetRequiredService<DynamicChangeTokenProvider>());
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
@@ -42,6 +49,7 @@ namespace Core31WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
+
             app.UseSwagger();
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
@@ -53,6 +61,7 @@ namespace Core31WebApi
                 c.RoutePrefix = string.Empty;
 
             });
+
             app.UseHttpsRedirection();
             
             app.UseRouting();
@@ -62,7 +71,11 @@ namespace Core31WebApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-            });
+                NatashaController.EndPointAction = () => { endpoints.MapControllers(); };
+            }).UseEndpoints(endpoints => endpoints.MapControllerRoute(
+                        name: default,
+                        pattern: "{controller}/{action}"
+                        ));
         }
     }
 }
