@@ -44,7 +44,7 @@ namespace Core31WebApi.Controllers
 
         }
 
-        [HttpDelete("{typeName}")]
+        [HttpDelete("{route}")]
         public string Delete(string route, 
             
             [FromServices] ApplicationPartManager manager,
