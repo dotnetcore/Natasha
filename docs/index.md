@@ -7,9 +7,6 @@
 <br/>
 
  - [开始入门(看)](./zh/helloworld.md)
-
-<br/>
-
  - [开发规范](./zh/development-specification.md)
 
 <br/> 
