@@ -4,6 +4,12 @@ using System.Reflection;
 namespace Natasha.CSharp
 {
 
+    /// <summary>
+    /// 为快速委托提供显式转换类，可以对：
+    /// Assembly/Assembly[]/Type/Type[]/string/string[]
+    /// 等类型进行显式的赋值，将自动解析 using
+    /// 例如 NDelegate.xxx.Action(code,"System",typeof(int),type.Assembly.....)
+    /// </summary>
     public class NamespaceConverter
     {
 
