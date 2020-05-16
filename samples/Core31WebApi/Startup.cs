@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -30,7 +31,7 @@ namespace Core31WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            NatashaController.SvcAction = () => { services.AddControllers(); };
+            
             services.AddControllers();
             services
                 .AddSingleton<DynamicChangeTokenProvider>()
@@ -44,6 +45,8 @@ namespace Core31WebApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            
+            NatashaController.Builder = (ApplicationBuilder)app;
             DomainManagement.RegisterDefault<AssemblyDomain>();
             if (env.IsDevelopment())
             {
@@ -63,7 +66,7 @@ namespace Core31WebApi
             });
 
             app.UseHttpsRedirection();
-            
+
             app.UseRouting();
 
             app.UseAuthorization();
@@ -71,11 +74,10 @@ namespace Core31WebApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                NatashaController.EndPointAction = () => { endpoints.MapControllers(); };
-            }).UseEndpoints(endpoints => endpoints.MapControllerRoute(
-                        name: default,
-                        pattern: "{controller}/{action}"
-                        ));
+                NatashaController.Endpoints = endpoints.DataSources;
+
+
+            });
         }
     }
 }
