@@ -90,14 +90,35 @@ action();
 
 ```
 
+<br/>  
+
 ## 第二个 HelloWorld
 
 ```C#
 
 //在 MyDomain 域内创建一个委托
 var func = NDelegate.CreateDomain("MyDomain").Func<string>("return \"Hello World!\";");
-func();
+Console.WriteLine(func());
 func.DisposeDomain();
 
 ```
 
+<br/>  
+
+## 第三个 HelloWorld
+
+```C#
+
+//在随机域内创建一个自定义 Using 的委托,并将结果写入DLL
+//后面的 Using 参数可以传 Assembly/Assembly[]/Type/Type[]/string/string[]
+//例子中传了 typeof(string), 参数为可变参数，可以无限追加
+
+var func = NDelegate.RandomDomain(
+builder=>buidler
+  .CustomUsing()
+  .UseFileCompile()
+  ).Func<string>("return \"Hello World!\";", typeof(string));
+Console.WriteLine(func());
+func.DisposeDomain();
+
+```
