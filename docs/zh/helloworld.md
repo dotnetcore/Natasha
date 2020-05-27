@@ -122,3 +122,21 @@ Console.WriteLine(func());
 func.DisposeDomain();
 
 ```
+## 第四个 HelloWorld
+
+```C#
+DomainManagement.RegisterDefault<AssemblyDomain>();
+var @operator = FastMethodOperator.DefaultDomain();
+var actionDelegate = @operator
+                .Param(typeof(string), "parameter")
+                .Body("Console.WriteLine(parameter);")
+                .Compile();
+
+//运行
+actionDelegate.DynamicInvoke("HelloWorld!");
+
+// 或者这样
+var action = (Action<string>)actionDelegate;
+action("HelloWorld!");
+actionDelegate.DisposeDomain();
+```
