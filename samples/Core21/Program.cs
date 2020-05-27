@@ -1,4 +1,5 @@
 ﻿using Natasha;
+using Natasha.CSharp;
 using System;
 using System.Collections.Generic;
 
@@ -8,20 +9,22 @@ namespace Core21
     {
         static void Main(string[] args)
         {
-            /*
-             *   在此之前，你需要右键，选择工程文件，在你的.csproj里面 
-             *   
-             *   写上这样一句浪漫的话： 
-             *   
-             *      <PreserveCompilationContext>true</PreserveCompilationContext>
-             */
+            DomainManagement.RegisterDefault<AssemblyDomain>();
+            var @operator = FastMethodOperator.DefaultDomain();
+            var actionDelegate = @operator
+                .Param(typeof(string), "parameter")
+                .Body("Console.WriteLine(parameter);")
+                .Compile();
 
-         
-            Console.WriteLine(typeof(List<int>[]).GetRuntimeName());
-            Console.WriteLine(typeof(List<int>[,]).GetRuntimeName());
-            Console.WriteLine(typeof(int[,]).GetRuntimeName());
-            Console.WriteLine(typeof(int[][]).GetRuntimeName());
-            Console.WriteLine(typeof(int[][,,,]).GetRuntimeName());
+            actionDelegate.DynamicInvoke("HelloWorld!");
+            var action = (Action<string>)actionDelegate;
+            action("HelloWorld!");
+            actionDelegate.DisposeDomain();
+            //Console.WriteLine(typeof(List<int>[]).GetRuntimeName());
+            //Console.WriteLine(typeof(List<int>[,]).GetRuntimeName());
+            //Console.WriteLine(typeof(int[,]).GetRuntimeName());
+            //Console.WriteLine(typeof(int[][]).GetRuntimeName());
+            //Console.WriteLine(typeof(int[][,,,]).GetRuntimeName());
             Console.ReadKey();
         }
     }
