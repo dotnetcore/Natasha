@@ -5,7 +5,8 @@ namespace Natasha.CSharp.Template
 
     public class PropertyTemplate<T> : DefinedNameTemplate<T> where T : PropertyTemplate<T>, new()
     {
-
+        internal string _getter_body;
+        internal string _setter_body;
         internal StringBuilder _getter;
         internal StringBuilder _setter;
 
@@ -26,7 +27,7 @@ namespace Natasha.CSharp.Template
         public T Setter(string body)
         {
 
-            _setter.Append(body);
+            _setter_body = body;
             return Link;
 
         }
@@ -38,7 +39,7 @@ namespace Natasha.CSharp.Template
         public T Getter(string body)
         {
 
-            _getter.Append(body);
+            _getter_body = body;
             return Link;
 
         }
@@ -49,10 +50,12 @@ namespace Natasha.CSharp.Template
         public override T BuilderScript()
         {
 
+            _getter.Clear();
+            _setter.Clear();
             // [Attribute]
             // [access] [modifier] [type] [Name]{[{this}]}
             base.BuilderScript();
-            if (_getter.Length == 0)
+            if (_getter_body == default)
             {
 
                 _getter.AppendLine("get;");
@@ -61,13 +64,14 @@ namespace Natasha.CSharp.Template
             else
             {
 
-                _getter.Insert(0, "get{");
+                _getter.Append("get{");
+                _getter.Append(_getter_body);
                 _getter.AppendLine("}");
 
             }
 
 
-            if (_setter.Length == 0)
+            if (_setter_body == default)
             {
 
                 _setter.AppendLine("set;");
@@ -76,7 +80,8 @@ namespace Natasha.CSharp.Template
             else
             {
 
-                _setter.Insert(0, "set{");
+                _getter.Append("set{");
+                _getter.Append(_setter_body);
                 _setter.AppendLine("}");
 
             }

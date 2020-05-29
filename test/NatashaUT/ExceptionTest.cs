@@ -20,7 +20,7 @@ namespace NatashaUT
                 .Using<ClassExceptionTest>()
                 .Namespace("TestNamespace")
                 .DefinedName("TestExceptionUt1")
-                .Body(@"public static void 1 Test(){}")
+                .BodyAppend(@"public static void 1 Test(){}")
                 .PublicStaticField<string>("Name")
                 .PrivateStaticField<int>("_age")
                 .BuilderScript();
@@ -44,7 +44,7 @@ namespace NatashaUT
                 .Namespace("TestNamespace")
                 .Struct()
                 .DefinedName("TestExceptionUt2")
-                .Body(@"public static void 1 Test(){}")
+                .BodyAppend(@"public static void 1 Test(){}")
                 .PublicStaticField<string>("Name")
                 .PrivateStaticField<int>("_age")
                 .BuilderScript();

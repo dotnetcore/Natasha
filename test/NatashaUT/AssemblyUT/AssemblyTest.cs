@@ -36,7 +36,7 @@ namespace NatashaUT
                 .CreateInterface("IAsmT1")
                 .Using("System")
                 .Public()
-                .Body("string ShowMethod(string str);");
+                .BodyAppend("string ShowMethod(string str);");
 
 
             var @class = assembly
@@ -87,7 +87,7 @@ namespace NatashaUT
                 .CreateInterface("IAsmT1")
                 .Using("System")
                 .Public()
-                .Body("string ShowMethod(string str);");
+                .BodyAppend("string ShowMethod(string str);");
 
 
             var @class = assembly
@@ -122,7 +122,7 @@ namespace NatashaUT
                 .CreateInterface("IAsmT1")
                 .Using("System")
                 .Public()
-                .Body("string ShowMethod(string str);");
+                .BodyAppend("string ShowMethod(string str);");
 
 
             @class = assembly
@@ -240,7 +240,7 @@ public class Test{}
                     .CreateInterface("InterfaceTest")
                     .Using("System")
                     .Public()
-                    .Body("string ShowMethod(string str);");
+                    .BodyAppend("string ShowMethod(string str);");
 
 
                 //创建一个类并实现​接口

@@ -134,7 +134,7 @@ namespace Natasha.CSharp.Builder
             }
 
 
-            _oopHandler.Body(Script);
+            _oopHandler.BodyAppend(Script);
             Exception = AssemblyBuilder.Syntax.Add(_oopHandler);
             if (!Exception.HasError)
             {
@@ -184,7 +184,7 @@ namespace Natasha.CSharp.Builder
             }
 
 
-            _oopHandler.Body(Script);
+            _oopHandler.BodyAppend(Script);
             Exception = AssemblyBuilder.Syntax.Add(_oopHandler);
             if (!Exception.HasError)
             {

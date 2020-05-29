@@ -53,5 +53,35 @@ namespace NatashaUT.BuilderUT
             Assert.NotNull(builder.GetType());
 
         }
+
+        [Fact(DisplayName = "类构建与编译3")]
+        public void TestClass2()
+        {
+
+            NClass builder = NClass.RandomDomain();
+
+            var mb = builder.GetMethodBuilder();
+            mb.Public().DefinedName("Apple").DefinedType<int>().Body("return 0;");
+            var pb = builder.GetPropertyBuilder();
+            pb.Public()
+            .DefinedName("Banana")
+            .DefinedType<NClass>()
+            .Setter("int a = value.ToString().Length;")
+            .Getter("return default;");
+
+
+            var script = builder
+                .CustomUsing()
+                .HiddenNamespace()
+                .Access(Natasha.Reverser.Model.AccessTypes.Public)
+                .DefinedName("EnumUT1")
+                .Script;
+            
+            Assert.Equal($"using System;{Environment.NewLine}using Natasha.CSharp;{Environment.NewLine}public class EnumUT1{{{Environment.NewLine}public System.Int32 Apple(){{return 0;}}{Environment.NewLine}public Natasha.CSharp.NClass Banana{{{Environment.NewLine}get{{return default;}}{Environment.NewLine}set{{int a = value.ToString().Length;}}{Environment.NewLine}}}{Environment.NewLine}}}", script);
+            Assert.Equal($"using System;{Environment.NewLine}using Natasha.CSharp;{Environment.NewLine}public class EnumUT1{{{Environment.NewLine}public System.Int32 Apple(){{return 0;}}{Environment.NewLine}public Natasha.CSharp.NClass Banana{{{Environment.NewLine}get{{return default;}}{Environment.NewLine}set{{int a = value.ToString().Length;}}{Environment.NewLine}}}{Environment.NewLine}}}", script);
+
+            Assert.NotNull(builder.GetType());
+
+        }
     }
 }

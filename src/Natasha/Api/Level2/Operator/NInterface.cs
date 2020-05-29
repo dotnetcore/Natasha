@@ -19,12 +19,13 @@ namespace Natasha.CSharp
         public override NInterface Property(Action<PropertyBuilder> action)
         {
 
-            var handler = new PropertyBuilder();
-            handler.NoUseAccess();
-            action(handler);
-            RecoderType(handler.UsingRecoder.Types);
-            Body(handler.Script);
-            return this;
+            return base.Property(item => { item.NoUseAccess(); action(item); });
+
+        }
+        public override PropertyBuilder GetPropertyBuilder()
+        {
+
+            return base.GetPropertyBuilder().NoUseAccess();
 
         }
 
@@ -33,13 +34,14 @@ namespace Natasha.CSharp
         public override NInterface Method(Action<MethodBuilder> action)
         {
 
-            var handler = new MethodBuilder();
-            handler.NoUseAccess().NoBody(";");
-            action(handler);
-            RecoderType(handler.UsingRecoder.Types);
-            Body(handler.Script);
-            return this;
+            return base.Method(item => { item.NoUseAccess().NoBody(";"); action(item); });
 
+        }
+        public override MethodBuilder GetMethodBuilder()
+        {
+
+            return base.GetMethodBuilder().NoUseAccess().NoBody(";");
+        
         }
 
     }

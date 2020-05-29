@@ -29,9 +29,9 @@ namespace Natasha.CSharp
 
             if (BodyScript.Length > 0)
             {
-                BodyScript.AppendLine(",");
+                BodyAppendLine(",");
             }
-            BodyScript.Append($"{name}={value}");
+            BodyAppend($"{name}={value}");
             return Link;
 
         }
@@ -49,9 +49,9 @@ namespace Natasha.CSharp
 
             if (BodyScript.Length > 0)
             {
-                BodyScript.AppendLine(",");
+                BodyAppendLine(",");
             }
-            BodyScript.Append(name);
+            BodyAppend(name);
             return Link;
 
         }

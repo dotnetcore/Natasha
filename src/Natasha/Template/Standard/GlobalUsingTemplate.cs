@@ -8,7 +8,7 @@ namespace Natasha.CSharp.Template
     /// 记录模板
     /// </summary>
     /// <typeparam name="T">LINK返回的类型</typeparam>
-    public class GlobalUsingTemplate<T> : StringWrapperTemplate<T>, IScriptBuilder<T> where T : GlobalUsingTemplate<T>, new()
+    public class GlobalUsingTemplate<T> : StringWrapperTemplate<T>, ILinkScriptBuilder<T> where T : GlobalUsingTemplate<T>, new()
     {
 
         public StringBuilder _script;
@@ -53,6 +53,8 @@ namespace Natasha.CSharp.Template
         }
 
         public virtual HashSet<string> Usings => default;
+
+        public TypeRecoder Recoder => UsingRecoder;
 
 
 

@@ -2,6 +2,7 @@
 using Natasha.Error;
 using Natasha.CSharp.Template;
 using System;
+using System.Collections.Concurrent;
 
 namespace Natasha.CSharp.Builder
 {
@@ -22,8 +23,12 @@ namespace Natasha.CSharp.Builder
     public class OopBuilder<T> : UsingTemplate<T> where T: OopBuilder<T>, new()
     {
 
-
+        private readonly ConcurrentQueue<IScriptBuilder> _script_cache;
         public CompilationException Exception;
+        public OopBuilder()
+        {
+            _script_cache = new ConcurrentQueue<IScriptBuilder>();
+        }
         /// <summary>
         /// 指定外部类型和类型名来仿制构建结构的命名空间，保护级别，特殊修饰符，继承的结构，结构名
         /// </summary>
@@ -83,10 +88,25 @@ namespace Natasha.CSharp.Builder
             var handler = new CtorBuilder();
             handler.DefinedName(NameScript);
             action?.Invoke(handler);
-            RecoderType(handler.UsingRecoder.Types);
-            Body(handler.Script);
+            _script_cache.Enqueue(handler);
             return Link;
 
+        }
+        public virtual T Ctor(CtorBuilder builder)
+        {
+            if (builder.NameScript != NameScript)
+            {
+                builder.DefinedName(NameScript);
+            }
+            _script_cache.Enqueue(builder);
+            return Link;
+        }
+        public virtual CtorBuilder GetCtorBuilder()
+        {
+            var builder = new CtorBuilder();
+            builder.DefinedName(NameScript);
+            _script_cache.Enqueue(builder);
+            return builder;
         }
 
 
@@ -102,12 +122,28 @@ namespace Natasha.CSharp.Builder
 
             var handler = new MethodBuilder();
             action?.Invoke(handler);
-            RecoderType(handler.UsingRecoder.Types);
-            Body(handler.Script);
+            _script_cache.Enqueue(handler);
             return Link;
 
         }
+        public virtual T Method(MethodBuilder builder)
+        {
 
+            if (builder != default)
+            {
+                _script_cache.Enqueue(builder);
+            }
+            return Link;
+
+        }
+        public virtual MethodBuilder GetMethodBuilder()
+        {
+
+            var builder = new MethodBuilder();
+            _script_cache.Enqueue(builder);
+            return builder;
+
+        }
 
 
 
@@ -121,12 +157,28 @@ namespace Natasha.CSharp.Builder
 
             var handler = new FieldBuilder();
             action?.Invoke(handler);
-            RecoderType(handler.UsingRecoder.Types);
-            Body(handler.Script);
+            _script_cache.Enqueue(handler);
             return Link;
 
         }
+        public virtual T Field(FieldBuilder builder)
+        {
 
+            if (builder != default)
+            {
+                _script_cache.Enqueue(builder);
+            }
+            return Link;
+
+        }
+        public virtual FieldBuilder GetFieldBuilder()
+        {
+
+            var builder = new FieldBuilder();
+            _script_cache.Enqueue(builder);
+            return builder;
+
+        }
 
 
 
@@ -140,12 +192,47 @@ namespace Natasha.CSharp.Builder
 
             var handler = new PropertyBuilder();
             action?.Invoke(handler);
-            RecoderType(handler.UsingRecoder.Types);
-            Body(handler.Script);
+            _script_cache.Enqueue(handler);
             return Link;
 
         }
+        public virtual T Property(PropertyBuilder builder)
+        {
 
+            if (builder != default)
+            {
+                _script_cache.Enqueue(builder);
+            }
+            return Link;
+
+        }
+        public virtual PropertyBuilder GetPropertyBuilder()
+        {
+
+            var builder = new PropertyBuilder();
+            _script_cache.Enqueue(builder);
+            return builder;
+
+        }
+
+
+
+        //public override 
+
+
+
+
+        public override T BuilderScript()
+        {
+
+            foreach (var item in _script_cache)
+            {
+                UsingRecoder.Union(item.Recoder);
+                OnceBodyAppend(item.Script);
+            }
+            return base.BuilderScript();
+
+        }
 
 
 
