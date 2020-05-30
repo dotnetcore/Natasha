@@ -123,6 +123,9 @@ func.DisposeDomain();
 
 ```  
 
+<br/>  
+
+
 ## 第四个 HelloWorld
 
 ```C#
@@ -142,6 +145,9 @@ var action = (Action<string>)actionDelegate;
 action("HelloWorld!");
 action.DisposeDomain();
 ```  
+
+<br/>  
+
 
 ## 第五个 HelloWorld
 
