@@ -121,7 +121,11 @@ builder=>buidler
 Console.WriteLine(func());
 func.DisposeDomain();
 
-```
+```  
+
+<br/>  
+
+
 ## 第四个 HelloWorld
 
 ```C#
@@ -134,9 +138,59 @@ var actionDelegate = @operator
 
 //运行
 actionDelegate.DynamicInvoke("HelloWorld!");
+actionDelegate.DisposeDomain();
 
 // 或者这样
 var action = (Action<string>)actionDelegate;
 action("HelloWorld!");
-actionDelegate.DisposeDomain();
+action.DisposeDomain();
+```  
+
+<br/>  
+
+
+## 第五个 HelloWorld
+
+```C#
+//起个类
+NClass nClass = NClass.DefaultDomain();
+nClass
+  .Namespace("MyNamespace")
+  .Public()
+  .DefinedName("MyClass")
+  .Ctor(ctor=>ctor.Public().Body("MyField=\"Hello\";"))
+  .Property(prop => prop
+    .DefinedType(typeof(string))
+    .DefinedName("MyProperty")
+    .Public()
+    OnlyGetter("return \"World!\";")
+  );
+
+
+//添加方法（3.4.00之前的版本请参照上述属性的API）
+MethodBuilder mb = new MethodBuilder();
+mb
+  .Public()
+  .Override()
+  .DefinedName("ToString")
+  .Body("return MyField+\" \"+MyProperty;")
+  .Return(typeof(string));
+ nClass.Method(mb);
+
+
+//添加字段（3.4.00之前的版本请参照上述属性的API）
+FieldBuilder fb = nClass.GetFieldBuilder();
+fb.Public()
+  .DefinedName("MyField")
+  .DefinedType<string>();
+
+
+//动态调用动态创建的类
+var action = NDelegate
+  .RandomDomain()
+  .Action("Console.WriteLine((new MyClass()).ToString());", nClass.GetType());
+
+action();
+action.DisposeDomain();
 ```
+
