@@ -9,6 +9,8 @@ namespace Natasha.CSharp.Template
         internal string _setter_body;
         internal StringBuilder _getter;
         internal StringBuilder _setter;
+        private bool _onlyGetter;
+        private bool _onlySetter;
 
         public PropertyTemplate()
         {
@@ -31,6 +33,11 @@ namespace Natasha.CSharp.Template
             return Link;
 
         }
+        public T OnlySetter(string body)
+        {
+            _onlySetter = true;
+            return Setter(body);
+        }
         /// <summary>
         /// 直接传属性Set方法的内容字符串
         /// </summary>
@@ -42,6 +49,11 @@ namespace Natasha.CSharp.Template
             _getter_body = body;
             return Link;
 
+        }
+        public T OnlyGetter(string body)
+        {
+            _onlyGetter = true;
+            return Getter(body);
         }
 
 
@@ -55,36 +67,47 @@ namespace Natasha.CSharp.Template
             // [Attribute]
             // [access] [modifier] [type] [Name]{[{this}]}
             base.BuilderScript();
-            if (_getter_body == default)
+            if (!_onlySetter)
             {
 
-                _getter.AppendLine("get;");
+                if (_getter_body == default)
+                {
+
+                    _getter.AppendLine("get;");
+
+                }
+                else
+                {
+
+                    _getter.Append("get{");
+                    _getter.Append(_getter_body);
+                    _getter.AppendLine("}");
+
+                }
 
             }
-            else
+            
+
+            if (!_onlyGetter)
             {
 
-                _getter.Append("get{");
-                _getter.Append(_getter_body);
-                _getter.AppendLine("}");
+                if (_setter_body == default)
+                {
+
+                    _setter.AppendLine("set;");
+
+                }
+                else
+                {
+
+                    _getter.Append("set{");
+                    _getter.Append(_setter_body);
+                    _setter.AppendLine("}");
+
+                }
 
             }
-
-
-            if (_setter_body == default)
-            {
-
-                _setter.AppendLine("set;");
-
-            }
-            else
-            {
-
-                _getter.Append("set{");
-                _getter.Append(_setter_body);
-                _setter.AppendLine("}");
-
-            }
+            
 
 
             _script.AppendLine("{");
