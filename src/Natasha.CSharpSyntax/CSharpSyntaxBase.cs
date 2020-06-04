@@ -16,7 +16,7 @@ namespace Natasha.CSharpSyntax
 
             _workSpace = new AdhocWorkspace();
             _workSpace.AddSolution(SolutionInfo.Create(SolutionId.CreateNewId("formatter"), VersionStamp.Default));
-            _options = new CSharpParseOptions(LanguageVersion.Latest);
+            _options = new CSharpParseOptions(LanguageVersion.Latest, preprocessorSymbols: new[] { "RELEASE" });
 
         }
 

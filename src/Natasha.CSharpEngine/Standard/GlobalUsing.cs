@@ -44,7 +44,7 @@ namespace Natasha
                     catch (Exception)
                     {
 
-                        throw;
+                        
 
                     }
                     
