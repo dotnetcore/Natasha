@@ -18,9 +18,9 @@ namespace NatashaUT.BuilderUT
                 .CustomUsing()
                 .HiddenNamespace()
                 .Access(Natasha.Reverser.Model.AccessTypes.Public)
-                .DefinedName("Interface1")
-                .Property(item=>item.DefinedType<string>().DefinedName("Abc"))
-                .Method(item=>item.DefinedName("Test").Param<string>("p").Return<int>())
+                .Name("Interface1")
+                .Property(item=>item.Type<string>().Name("Abc"))
+                .Method(item=>item.Name("Test").Param<string>("p").Return<int>())
                 .Script;
 
             Assert.Equal($"using System;{Environment.NewLine}public interface Interface1{{{Environment.NewLine}System.String Abc{{{Environment.NewLine}get;{Environment.NewLine}set;{Environment.NewLine}}}{Environment.NewLine}System.Int32 Test(System.String p);{Environment.NewLine}}}", script);

@@ -1,4 +1,6 @@
-﻿namespace Natasha.CSharp.Template
+﻿using Natasha.CSharp.Template;
+
+namespace Natasha.Template
 {
     public class StringWrapperTemplate<T> : CompilerTemplate<T> where T : StringWrapperTemplate<T>, new()
     {

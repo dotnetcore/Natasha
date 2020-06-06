@@ -46,7 +46,7 @@ namespace NatashaUT
                 .Inheritance("IAsmT1")
                 .Method(method => method
                     .Public()
-                    .DefinedName("ShowMethod")
+                    .Name("ShowMethod")
                     .Param<string>("str")
                     .Body("return str+AsmEnum.Test.ToString();")
                     .Return<string>()
@@ -97,7 +97,7 @@ namespace NatashaUT
                 .Inheritance("IAsmT1")
                 .Method(method => method
                     .Public()
-                    .DefinedName("ShowMethod")
+                    .Name("ShowMethod")
                     .Param<string>("str")
                     .Body("return str+AsmEnum.Test.ToString();")
                     .Return<string>()
@@ -132,7 +132,7 @@ namespace NatashaUT
                 .Inheritance("IAsmT1")
                 .Method(method => method
                     .Public()
-                    .DefinedName("ShowMethod")
+                    .Name("ShowMethod")
                     .Param<string>("str")
                     .Body("return str+AsmEnum.Test.ToString()+\"1\";")
                     .Return<string>()
@@ -251,7 +251,7 @@ public class Test{}
                    .Inheritance("InterfaceTest")
                    .Method(method => method
                      .Public()
-                     .DefinedName("ShowMethod")
+                     .Name("ShowMethod")
                      .Param<string>("str")
                      .Body("return str+\" World!\";")
                      .Return<string>()).NamespaceScript;

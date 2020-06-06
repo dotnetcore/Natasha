@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Natasha.Template;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -49,7 +50,7 @@ namespace Natasha.CSharp.Template
 
         public string Script
         {
-            get { _script.Clear(); BuilderScript();  return _script.ToString(); }
+            get { _script.Clear(); BuilderScript(); _cache = _script.ToString(); return _cache; }
         }
 
         public virtual HashSet<string> Usings => default;
@@ -58,14 +59,32 @@ namespace Natasha.CSharp.Template
 
 
 
+        private string _cache;
 
+        public string ScriptCache
+        {
+
+            get
+            {
+
+                if (_cache == default)
+                {
+                   return Script;
+                }
+                return _cache;
+
+            }
+
+        }
         /// <summary>
         /// 脚本构建
         /// </summary>
         /// <returns></returns>
         public virtual T BuilderScript()
         {
+
             return Link;
+
         }
 
     }

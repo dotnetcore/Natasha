@@ -75,7 +75,7 @@ namespace Natasha.CSharp
             if (NameScript == default)
             {
 
-                DefinedName(_method_info);
+                Name(_method_info);
 
             }
 

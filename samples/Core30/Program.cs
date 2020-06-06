@@ -50,7 +50,7 @@ namespace Core30
                 NClass nStruct = new NClass();
                 nStruct
                     .Namespace("Core301")
-                    .DefinedName($"Test{i}")
+                    .Name($"Test{i}")
 
                     .Ctor(builder => builder
                         .Public()
@@ -77,7 +77,7 @@ namespace Core30
                 NClass nStruct = new NClass();
                 nStruct
                     .Namespace("Core30")
-                    .DefinedName($"Test{i}")
+                    .Name($"Test{i}")
 
                     .Ctor(builder => builder
                         .Public()
@@ -214,7 +214,7 @@ return default;").Return<string>()
             nStruct
 
                 .Namespace("Core30")
-                .DefinedName("Test")
+                .Name("Test")
                 .Ctor(builder => builder
                     .Public()
                     .Param<string>("name")

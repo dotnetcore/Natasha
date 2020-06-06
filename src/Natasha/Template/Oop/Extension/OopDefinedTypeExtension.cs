@@ -9,7 +9,7 @@ namespace Natasha.CSharp
         public static T Class<T>(this DefinedTypeTemplate<T> defined) where T : DefinedTypeTemplate<T>, new()
         {
 
-            return defined.DefinedType("class");
+            return defined.Type("class");
 
         }
 
@@ -19,7 +19,7 @@ namespace Natasha.CSharp
         public static T Struct<T>(this DefinedTypeTemplate<T> defined) where T : DefinedTypeTemplate<T>, new()
         {
 
-            return defined.DefinedType("struct");
+            return defined.Type("struct");
 
         }
 
@@ -29,7 +29,7 @@ namespace Natasha.CSharp
         public static T Interface<T>(this DefinedTypeTemplate<T> defined) where T : DefinedTypeTemplate<T>, new()
         {
 
-            return defined.DefinedType("interface");
+            return defined.Type("interface");
 
         }
 
@@ -39,7 +39,7 @@ namespace Natasha.CSharp
         public static T Enum<T>(this DefinedTypeTemplate<T> defined) where T : DefinedTypeTemplate<T>, new()
         {
 
-            return defined.DefinedType("enum");
+            return defined.Type("enum");
 
         }
 

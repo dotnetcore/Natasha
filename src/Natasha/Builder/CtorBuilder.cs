@@ -9,7 +9,7 @@ namespace Natasha.CSharp.Builder
         {
 
             Link = this;
-            NoUseDefinedType();
+            NoUseType();
 
         }
 

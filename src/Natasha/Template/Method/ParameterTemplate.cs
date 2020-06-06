@@ -16,7 +16,6 @@ namespace Natasha.CSharp.Template
         public ParameterTemplate()
         {
             ParametersScript = new StringBuilder();
-            ParametersScript.Append('(');
         }
 
 
@@ -102,7 +101,11 @@ namespace Natasha.CSharp.Template
         {
 
             RecoderType(type);
-            ParametersScript.Append($"{keywords}{type.GetDevelopName()} {paramName},");
+            if (ParametersScript.Length>0)
+            {
+                ParametersScript.Append(',');
+            }
+            ParametersScript.Append($"{keywords}{type.GetDevelopName()} {paramName}");
             return Link;
 
         }
@@ -115,14 +118,8 @@ namespace Natasha.CSharp.Template
 
             // [Attribute]
             // [access] [modifier] [type] [Name][{this}]  
-            if (ParametersScript.Length > 1)
-            {
-                ParametersScript.Length -= 1;
-            }
-            ParametersScript.Append(')');
-
             base.BuilderScript();
-            _script.Append(ParametersScript);
+            _script.Append($"({ParametersScript})");
             return Link;
 
         }

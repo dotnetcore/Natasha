@@ -17,8 +17,8 @@ namespace NatashaUT
                 .Attribute("[Test]")
                 .Access("public")
                 .Modifier("static")
-                .DefinedName("Name")
-                .DefinedType<string>()
+                .Name("Name")
+                .Type<string>()
                 .Setter("_name = 1;")
                 .Getter("return 1;")
                 .Script;
@@ -40,8 +40,8 @@ namespace NatashaUT
                 .Attribute("[Test][Test1]")
                 .Access(Natasha.Reverser.Model.AccessTypes.Public)
                 .Modifier(Natasha.Reverser.Model.Modifiers.Static)
-                .DefinedName("Age")
-                .DefinedType(typeof(int))
+                .Name("Age")
+                .Type(typeof(int))
                 .Script;
 
             Assert.Equal($"[Test][Test1]{Environment.NewLine}public static System.Int32 Age{{{Environment.NewLine}get;{Environment.NewLine}set;{Environment.NewLine}}}", result);
@@ -60,8 +60,8 @@ namespace NatashaUT
             var result = template
                 .Attribute("[Test]")
                 .Access(Natasha.Reverser.Model.AccessTypes.Public)
-                .DefinedName("Name")
-                .DefinedType<string>()
+                .Name("Name")
+                .Type<string>()
                 .Script;
 
             Assert.Equal($"[Test]{Environment.NewLine}public System.String Name{{{Environment.NewLine}get;{Environment.NewLine}set;{Environment.NewLine}}}", result);
@@ -79,8 +79,8 @@ namespace NatashaUT
             var result = template
                 .Attribute<ClassDataAttribute>()
                 .Access(Natasha.Reverser.Model.AccessTypes.Public)
-                .DefinedName("Name")
-                .DefinedType<string>()
+                .Name("Name")
+                .Type<string>()
                 .Script;
 
             Assert.Equal($"[Xunit.ClassDataAttribute]{Environment.NewLine}public System.String Name{{{Environment.NewLine}get;{Environment.NewLine}set;{Environment.NewLine}}}", result);

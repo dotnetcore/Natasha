@@ -27,7 +27,7 @@ namespace Natasha.CSharp.Template
         /// </summary>
         /// <param name="name">名字</param>
         /// <returns></returns>
-        public T DefinedName(string name)
+        public T Name(string name)
         {
             NameScript = name;
             return Link;
@@ -41,10 +41,10 @@ namespace Natasha.CSharp.Template
         /// </summary>
         /// <param name="typeInfo">成员元数据</param>
         /// <returns></returns>
-        public T DefinedName(MemberInfo memberInfo)
+        public T Name(MemberInfo memberInfo)
         {
 
-            return DefinedName(memberInfo.Name);
+            return Name(memberInfo.Name);
 
         }
 

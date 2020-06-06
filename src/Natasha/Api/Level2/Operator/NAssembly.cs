@@ -79,13 +79,13 @@ namespace Natasha.CSharp
 
         private T GetBaseOopHandler<T>(string name = default) where T : OopBuilder<T>, new()
         {
-            var @operator = new T().DefinedName(name).Namespace(AssemblyBuilder.Compiler.AssemblyName);
+            var @operator = new T().Name(name).Namespace(AssemblyBuilder.Compiler.AssemblyName);
             _builderCache.Add(@operator);
             return @operator;
         }
         private S GetBaseDelegateHandler<S>(string name = default) where S : MethodBuilder<S>, new()
         {
-            var @operator = new S().DefinedName(name).ClassOptions(item=>item.Namespace(AssemblyBuilder.Compiler.AssemblyName));
+            var @operator = new S().Name(name).ClassOptions(item=>item.Namespace(AssemblyBuilder.Compiler.AssemblyName));
             @operator.AssemblyBuilder.Compiler.Domain = AssemblyBuilder.Compiler.Domain;
             _builderCache.Add(@operator);
             return @operator;

@@ -101,7 +101,7 @@ namespace Natasha.CSharp.Builder
         public T ClassName(string className)
         {
 
-            _oopHandler.DefinedName(className);
+            _oopHandler.Name(className);
             return Link;
 
         }
@@ -167,7 +167,7 @@ namespace Natasha.CSharp.Builder
 
             //自动判别是否有手动指定方法参数，若没有则使用方法的参数
             var method = typeof(S).GetMethod("Invoke");
-            if (ParametersScript.Length == 1)
+            if (ParametersScript.Length == 0)
             {
 
                 Param(method);

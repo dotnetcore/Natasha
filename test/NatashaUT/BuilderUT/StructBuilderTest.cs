@@ -19,10 +19,10 @@ namespace NatashaUT.BuilderUT
                 .CustomUsing()
                 .HiddenNamespace()
                 .Access(Natasha.Reverser.Model.AccessTypes.Public)
-                .DefinedName("EnumUT1")
-                .Field(item => { item.Public().DefinedName("Apple").DefinedType<int>(); })
-                .Field(item => { item.Public().DefinedName("Orange").DefinedType<string>(); })
-                .Property(item => { item.Public().DefinedName("Banana").DefinedType<NClass>(); })
+                .Name("EnumUT1")
+                .Field(item => { item.Public().Name("Apple").Type<int>(); })
+                .Field(item => { item.Public().Name("Orange").Type<string>(); })
+                .Property(item => { item.Public().Name("Banana").Type<NClass>(); })
                 .Script;
 
             Assert.Equal($"using System;{Environment.NewLine}using Natasha.CSharp;{Environment.NewLine}public struct EnumUT1{{{Environment.NewLine}public System.Int32 Apple;{Environment.NewLine}public System.String Orange;{Environment.NewLine}public Natasha.CSharp.NClass Banana{{{Environment.NewLine}get;{Environment.NewLine}set;{Environment.NewLine}}}{Environment.NewLine}}}", script);
@@ -41,9 +41,9 @@ namespace NatashaUT.BuilderUT
                 .HiddenNamespace()
                 .Attribute("[StructLayout(LayoutKind.Explicit)]")
                 .Access(Natasha.Reverser.Model.AccessTypes.Public)
-                .DefinedName("EnumUT1")
-                .Field(item => { item.Attribute<FieldOffsetAttribute>("0").Public().DefinedName("Apple").DefinedType<int>(); })
-                .Field(item => { item.Attribute<FieldOffsetAttribute>("0").Public().DefinedName("Orange").DefinedType<int>(); })
+                .Name("EnumUT1")
+                .Field(item => { item.Attribute<FieldOffsetAttribute>("0").Public().Name("Apple").Type<int>(); })
+                .Field(item => { item.Attribute<FieldOffsetAttribute>("0").Public().Name("Orange").Type<int>(); })
                 .Script;
 
             Assert.Equal($"using System.Runtime.InteropServices;{Environment.NewLine}using System;{Environment.NewLine}[StructLayout(LayoutKind.Explicit)]{Environment.NewLine}public struct EnumUT1{{{Environment.NewLine}[System.Runtime.InteropServices.FieldOffsetAttribute(0)]{Environment.NewLine}public System.Int32 Apple;{Environment.NewLine}[System.Runtime.InteropServices.FieldOffsetAttribute(0)]{Environment.NewLine}public System.Int32 Orange;{Environment.NewLine}}}", script);

@@ -17,9 +17,9 @@ namespace Natasha.CSharp.Template
         /// 不使用该层定义
         /// </summary>
         /// <returns></returns>
-        public T NoUseDefinedType()
+        public T NoUseType()
         {
-            return DefinedType(typeString: default);
+            return Type(typeString: default);
         }
 
 
@@ -30,7 +30,7 @@ namespace Natasha.CSharp.Template
         /// </summary>
         /// <param name="typeString">类型字符串</param>
         /// <returns></returns>
-        public T DefinedType(string typeString)
+        public T Type(string typeString)
         {
 
             TypeScript = ScriptWrapper(typeString);
@@ -45,13 +45,13 @@ namespace Natasha.CSharp.Template
         /// 根据外部类型来创建定义类型
         /// </summary>
         /// <param name="type">外部类型</param>
-        public T DefinedType(Type type)
+        public T Type(Type type)
         {
 
             RecoderType(type);
             if (type==typeof(void))
             {
-                DefinedType("void");
+                Type("void");
             }
 
 
@@ -59,15 +59,15 @@ namespace Natasha.CSharp.Template
             if (type!=default)
             {
 
-                DefinedType(type.GetDevelopName());
+                Type(type.GetDevelopName());
 
             }
             return Link;
 
         }
-        public T DefinedType<S>()
+        public T Type<S>()
         {
-            return DefinedType(typeof(S));
+            return Type(typeof(S));
         }
 
 
@@ -78,20 +78,20 @@ namespace Natasha.CSharp.Template
         /// </summary>
         /// <param name="typeInfo">成员元数据</param>
         /// <returns></returns>
-        public T DefinedType(MemberInfo memberInfo)
+        public T Type(MemberInfo memberInfo)
         {
 
             switch (memberInfo.MemberType)
             {
 
                 case MemberTypes.Field:
-                    return DefinedType(((FieldInfo)memberInfo).FieldType);
+                    return Type(((FieldInfo)memberInfo).FieldType);
 
                 case MemberTypes.Method:
-                    return DefinedType(((MethodInfo)memberInfo).ReturnType);
+                    return Type(((MethodInfo)memberInfo).ReturnType);
 
                 case MemberTypes.Property:
-                    return DefinedType(((PropertyInfo)memberInfo).PropertyType);
+                    return Type(((PropertyInfo)memberInfo).PropertyType);
 
                 default:
                     return Link;

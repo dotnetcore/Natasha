@@ -63,7 +63,7 @@ namespace Natasha.CSharp.Builder
 
             }
 
-            DefinedName(TypeName != default ? TypeName : type.GetDevelopName())
+            Name(TypeName != default ? TypeName : type.GetDevelopName())
             .Inheritance(type.BaseType)
             .Inheritance(type.GetInterfaces())
             .Namespace(type.Namespace)
@@ -86,7 +86,7 @@ namespace Natasha.CSharp.Builder
         {
 
             var handler = new CtorBuilder();
-            handler.DefinedName(NameScript);
+            handler.Name(NameScript);
             action?.Invoke(handler);
             _script_cache.Enqueue(handler);
             return Link;
@@ -96,7 +96,7 @@ namespace Natasha.CSharp.Builder
         {
             if (builder.NameScript != NameScript)
             {
-                builder.DefinedName(NameScript);
+                builder.Name(NameScript);
             }
             _script_cache.Enqueue(builder);
             return Link;
@@ -104,7 +104,7 @@ namespace Natasha.CSharp.Builder
         public virtual CtorBuilder GetCtorBuilder()
         {
             var builder = new CtorBuilder();
-            builder.DefinedName(NameScript);
+            builder.Name(NameScript);
             _script_cache.Enqueue(builder);
             return builder;
         }
@@ -317,8 +317,8 @@ namespace Natasha.CSharp.Builder
 
             Field(item => item
             .Access(access)
-            .DefinedType(type)
-            .DefinedName(name)
+            .Type(type)
+            .Name(name)
             .Attribute(attribute)
             );
             Using(type);

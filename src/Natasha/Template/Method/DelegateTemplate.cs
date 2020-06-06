@@ -25,7 +25,7 @@ namespace Natasha.CSharp.Template
         }
         public T Return(Type type)
         {
-            return DefinedType(type);
+            return Type(type);
         }
         public T Return(MethodInfo info)
         {

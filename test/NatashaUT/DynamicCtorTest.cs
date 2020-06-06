@@ -11,7 +11,7 @@ namespace NatashaUT
         public void TestCtor1()
         {
             CtorBuilder ctor = new CtorBuilder();
-            string result = ctor.DefinedName("Test")
+            string result = ctor.Name("Test")
                 .Access(Natasha.Reverser.Model.AccessTypes.Public)
                 .Param<string>("initString")
                 .Body("this.connection = initString;")
@@ -26,7 +26,7 @@ namespace NatashaUT
         public void TestCtor2()
         {
             CtorBuilder ctor = new CtorBuilder();
-            string result = ctor.DefinedName("Test")
+            string result = ctor.Name("Test")
                 .Access(Natasha.Reverser.Model.AccessTypes.Private)
                 .Body("this.connection = initString;")
                 .Script;
@@ -40,7 +40,7 @@ namespace NatashaUT
         public void TestCtor3()
         {
             CtorBuilder ctor = new CtorBuilder();
-            string result = ctor.DefinedName("Test")
+            string result = ctor.Name("Test")
                 .Modifier(Natasha.Reverser.Model.Modifiers.Static)
                 .Body("this.connection = initString;")
                 .Script;

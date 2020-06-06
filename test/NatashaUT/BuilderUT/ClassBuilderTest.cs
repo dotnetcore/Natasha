@@ -17,10 +17,10 @@ namespace NatashaUT.BuilderUT
                 .CustomUsing()
                 .HiddenNamespace()
                 .Access(Natasha.Reverser.Model.AccessTypes.Public)
-                .DefinedName("EnumUT1")
-                .Field(item=> { item.Public().DefinedName("Apple").DefinedType<int>(); })
-                .Field(item => { item.Public().DefinedName("Orange").DefinedType<string>(); })
-                .Property(item => { item.Public().DefinedName("Banana").DefinedType<NClass>(); })
+                .Name("EnumUT1")
+                .Field(item=> { item.Public().Name("Apple").Type<int>(); })
+                .Field(item => { item.Public().Name("Orange").Type<string>(); })
+                .Property(item => { item.Public().Name("Banana").Type<NClass>(); })
                 .Script;
 
             Assert.Equal($"using System;{Environment.NewLine}using Natasha.CSharp;{Environment.NewLine}public class EnumUT1{{{Environment.NewLine}public System.Int32 Apple;{Environment.NewLine}public System.String Orange;{Environment.NewLine}public Natasha.CSharp.NClass Banana{{{Environment.NewLine}get;{Environment.NewLine}set;{Environment.NewLine}}}{Environment.NewLine}}}", script);
@@ -39,12 +39,12 @@ namespace NatashaUT.BuilderUT
                 .CustomUsing()
                 .HiddenNamespace()
                 .Access(Natasha.Reverser.Model.AccessTypes.Public)
-                .DefinedName("EnumUT1")
-                .Method(item => { item.Public().DefinedName("Apple").DefinedType<int>().Body("return 0;"); })
+                .Name("EnumUT1")
+                .Method(item => { item.Public().Name("Apple").Type<int>().Body("return 0;"); })
                 .Property(item => { item
                     .Public()
-                    .DefinedName("Banana")
-                    .DefinedType<NClass>()
+                    .Name("Banana")
+                    .Type<NClass>()
                     .Setter("int a = value.ToString().Length;")
                     .Getter("return default;"); })
                 .Script;
@@ -61,11 +61,11 @@ namespace NatashaUT.BuilderUT
             NClass builder = NClass.RandomDomain();
 
             var mb = builder.GetMethodBuilder();
-            mb.Public().DefinedName("Apple").DefinedType<int>().Body("return 0;");
+            mb.Public().Name("Apple").Type<int>().Body("return 0;");
             var pb = builder.GetPropertyBuilder();
             pb.Public()
-            .DefinedName("Banana")
-            .DefinedType<NClass>()
+            .Name("Banana")
+            .Type<NClass>()
             .Setter("int a = value.ToString().Length;")
             .Getter("return default;");
 
@@ -74,7 +74,7 @@ namespace NatashaUT.BuilderUT
                 .CustomUsing()
                 .HiddenNamespace()
                 .Access(Natasha.Reverser.Model.AccessTypes.Public)
-                .DefinedName("EnumUT1")
+                .Name("EnumUT1")
                 .Script;
             
             Assert.Equal($"using System;{Environment.NewLine}using Natasha.CSharp;{Environment.NewLine}public class EnumUT1{{{Environment.NewLine}public System.Int32 Apple(){{return 0;}}{Environment.NewLine}public Natasha.CSharp.NClass Banana{{{Environment.NewLine}get{{return default;}}{Environment.NewLine}set{{int a = value.ToString().Length;}}{Environment.NewLine}}}{Environment.NewLine}}}", script);
