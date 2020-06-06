@@ -35,7 +35,7 @@ namespace Core31WebApi.Controllers
             string name = ScriptHelper.GetClassName(code);
             AssemblyCSharpBuilder builder = new AssemblyCSharpBuilder("TestAAA");
             builder.Compiler.Domain = DomainManagement.Create(name);
-            builder.Syntax.Add(code);
+            builder.Add(code);
             var assembly = new AssemblyPart(builder.GetAssembly());
             AssemblyCache.Enqueue(assembly);
             manager.ApplicationParts.Add(assembly);

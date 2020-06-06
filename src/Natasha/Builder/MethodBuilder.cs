@@ -20,13 +20,13 @@ namespace Natasha.CSharp.Builder
     {
 
 
-        private readonly OopBuilder _oopHandler;
+        public readonly OopBuilder OopHandler;
         public CompilationException Exception;
 
         public MethodBuilder()
         {
 
-            _oopHandler = new OopBuilder();
+            OopHandler = new OopBuilder();
             Body(default);
             Init();
 
@@ -38,35 +38,35 @@ namespace Natasha.CSharp.Builder
         public T Using<S>()
         {
 
-            _oopHandler.Using<S>();
+            OopHandler.Using<S>();
             return Link;
 
         }
         public T Using(Type @using)
         {
 
-            _oopHandler.Using(@using);
+            OopHandler.Using(@using);
             return Link;
 
         }
         public T Using(string @using)
         {
 
-            _oopHandler.Using(@using);
+            OopHandler.Using(@using);
             return Link;
 
         }
         public T Using(NamespaceConverter @using)
         {
 
-            _oopHandler.Using(@using);
+            OopHandler.Using(@using);
             return Link;
 
         }
         public T Using(NamespaceConverter[] @using)
         {
 
-            _oopHandler.Using(@using);
+            OopHandler.Using(@using);
             return Link;
 
         }
@@ -85,7 +85,7 @@ namespace Natasha.CSharp.Builder
         public T ClassOptions(Action<OopBuilder> acion)
         {
 
-            acion?.Invoke(_oopHandler);
+            acion?.Invoke(OopHandler);
             return Link;
 
         }
@@ -101,7 +101,7 @@ namespace Natasha.CSharp.Builder
         public T ClassName(string className)
         {
 
-            _oopHandler.Name(className);
+            OopHandler.Name(className);
             return Link;
 
         }
@@ -117,7 +117,7 @@ namespace Natasha.CSharp.Builder
         public T Namesapce(string @namespace)
         {
 
-            _oopHandler.Namespace(@namespace);
+            OopHandler.Namespace(@namespace);
             return Link;
 
         }
@@ -128,17 +128,17 @@ namespace Natasha.CSharp.Builder
         public Delegate Compile(object binder = null)
         {
 
-            if (_oopHandler.NamespaceScript == default)
+            if (OopHandler.NamespaceScript == default)
             {
-                _oopHandler.HiddenNamespace();
+                OopHandler.HiddenNamespace();
             }
 
 
-            _oopHandler.BodyAppend(Script);
-            Exception = AssemblyBuilder.Syntax.Add(_oopHandler);
+            OopHandler.BodyAppend(Script);
+            Exception = AssemblyBuilder.Add(OopHandler);
             if (!Exception.HasError)
             {
-                var @delegate = AssemblyBuilder.GetDelegateFromShortName(_oopHandler.NameScript, NameScript, DelegateType, binder);
+                var @delegate = AssemblyBuilder.GetDelegateFromShortName(OopHandler.NameScript, NameScript, DelegateType, binder);
                 if (@delegate == null)
                 {
                     Exception = AssemblyBuilder.Exceptions[0];
@@ -157,10 +157,10 @@ namespace Natasha.CSharp.Builder
         {
 
 
-            if (_oopHandler.NamespaceScript == default)
+            if (OopHandler.NamespaceScript == default)
             {
 
-                _oopHandler.HiddenNamespace();
+                OopHandler.HiddenNamespace();
 
             }
 
@@ -184,11 +184,11 @@ namespace Natasha.CSharp.Builder
             }
 
 
-            _oopHandler.BodyAppend(Script);
-            Exception = AssemblyBuilder.Syntax.Add(_oopHandler);
+            OopHandler.BodyAppend(Script);
+            Exception = AssemblyBuilder.Add(OopHandler);
             if (!Exception.HasError)
             {
-                S @delegate = AssemblyBuilder.GetDelegateFromShortName<S>(_oopHandler.NameScript, NameScript, binder);
+                S @delegate = AssemblyBuilder.GetDelegateFromShortName<S>(OopHandler.NameScript, NameScript, binder);
                 if (@delegate == null)
                 {
                     Exception = AssemblyBuilder.Exceptions[0];

@@ -1,5 +1,6 @@
 ﻿using Natasha;
 using Natasha.CSharp;
+using NatashaUT.Model;
 using System;
 using System.Runtime.CompilerServices;
 using Xunit;
@@ -209,6 +210,39 @@ public class Test{}
                 Assert.Equal("Test", Assembly.GetExportedTypes()[0].Name);
         }
 
+        
+        [Fact(DisplayName = "同域同程序集覆盖")]
+        public void Test6()
+        {
+            
+            string assemblyName = "tsda";
+            AssemblyCSharpBuilder builder = new AssemblyCSharpBuilder(assemblyName);
+            builder.Compiler.Domain = DomainManagement.Create("a");
+            builder.Add("public class TSDA{}");
+            var assembly = builder.GetAssembly();
+            assembly.RemoveReferences();
+            Assert.NotNull(assembly);
+            builder = new AssemblyCSharpBuilder();
+            builder.Compiler.Domain = DomainManagement.Create("a");
+            builder.Add("public class TSDA{}");
+            var assembly1 = builder.GetAssembly();
+            Assert.NotEqual(assembly, assembly1);
+            var func = NDelegate.CreateDomain("a").Func<string>("return typeof(TSDA).Assembly.FullName;");
+            Assert.Equal(assembly1.FullName, func());
+
+        }
+
+        [Fact(DisplayName = "私有成员调用")]
+        public void Test7()
+        {
+            TPropertyClass test = new TPropertyClass();
+            var action = NDelegate
+                .RandomDomain()
+                .SetClass(item=>item.AllowPrivate<TPropertyClass>())
+                .Action<TPropertyClass>("obj.A = 2; obj.D=1 ;");
+            action(test);
+            Assert.Equal(1, test.GetD);
+        }
 
 
 

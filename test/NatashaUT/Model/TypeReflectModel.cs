@@ -55,5 +55,6 @@ namespace NatashaUT.Model
         private int D { get; set; }
         protected internal int E { get; set; }
         internal protected int F { get; set; }
+        public int GetD { get { return D; } }
     }
 }

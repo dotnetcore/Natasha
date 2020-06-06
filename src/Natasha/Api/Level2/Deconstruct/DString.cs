@@ -14,7 +14,7 @@ namespace System
         {
 
             AssemblyCSharpBuilder assembly = new AssemblyCSharpBuilder();
-            assembly.Syntax.Add(script);
+            assembly.Add(script);
             Assembly = assembly.GetAssembly();
             if (assembly.Exceptions != null)
             {

@@ -1,4 +1,5 @@
-﻿using Natasha.Framework;
+﻿using Natasha.CSharp.Builder;
+using Natasha.Framework;
 using System;
 
 namespace Natasha.CSharp
@@ -8,7 +9,12 @@ namespace Natasha.CSharp
     {
 
         
-        public static T Delegate(string content, DomainBase domain = default, Action<AssemblyCSharpBuilder> option = default, Func<FakeMethodOperator, FakeMethodOperator> methodAction = null, params NamespaceConverter[] usings)
+        public static T Delegate(string content, 
+            DomainBase domain = default, 
+            Action<AssemblyCSharpBuilder> option = default, 
+            Func<FakeMethodOperator, FakeMethodOperator> methodAction = null, 
+            Func<OopBuilder,OopBuilder> oopAction = null, 
+            params NamespaceConverter[] usings)
         {
 
             var method = typeof(T).GetMethod("Invoke");
@@ -18,6 +24,7 @@ namespace Natasha.CSharp
                 .Using(usings)
                 .StaticMethodBody(content);
             methodAction?.Invoke(@operator);
+            oopAction?.Invoke(@operator.OopHandler);
             return @operator.Compile<T>();
 
         }
@@ -25,7 +32,12 @@ namespace Natasha.CSharp
 
 
 
-        public static T AsyncDelegate(string content, DomainBase domain = default, Action<AssemblyCSharpBuilder> option = default, Func<FakeMethodOperator, FakeMethodOperator> methodAction = null, params NamespaceConverter[] usings)
+        public static T AsyncDelegate(string content, 
+            DomainBase domain = default, 
+            Action<AssemblyCSharpBuilder> option = default, 
+            Func<FakeMethodOperator, FakeMethodOperator> methodAction = null,
+            Func<OopBuilder, OopBuilder> oopAction = null,
+            params NamespaceConverter[] usings)
         {
 
             var method = typeof(T).GetMethod("Invoke");
@@ -36,6 +48,7 @@ namespace Natasha.CSharp
                 .Using(usings)
                 .StaticMethodBody(content);
             methodAction?.Invoke(@operator);
+            oopAction?.Invoke(@operator.OopHandler);
             return @operator.Compile<T>();
 
         }
@@ -43,7 +56,12 @@ namespace Natasha.CSharp
 
 
 
-        public static T UnsafeDelegate(string content, DomainBase domain = default, Action<AssemblyCSharpBuilder> option = default, Func<FakeMethodOperator, FakeMethodOperator> methodAction = null, params NamespaceConverter[] usings)
+        public static T UnsafeDelegate(string content, 
+            DomainBase domain = default, 
+            Action<AssemblyCSharpBuilder> option = default, 
+            Func<FakeMethodOperator, FakeMethodOperator> methodAction = null,
+            Func<OopBuilder, OopBuilder> oopAction = null,
+            params NamespaceConverter[] usings)
         {
 
             var method = typeof(T).GetMethod("Invoke");
@@ -54,6 +72,7 @@ namespace Natasha.CSharp
                 .Using(usings)
                 .StaticMethodBody(content);
             methodAction?.Invoke(@operator);
+            oopAction?.Invoke(@operator.OopHandler);
             return @operator.Compile<T>();
 
         }
@@ -61,7 +80,12 @@ namespace Natasha.CSharp
 
 
 
-        public static T UnsafeAsyncDelegate(string content, DomainBase domain = default, Action<AssemblyCSharpBuilder> option = default, Func<FakeMethodOperator, FakeMethodOperator> methodAction = null, params NamespaceConverter[] usings)
+        public static T UnsafeAsyncDelegate(string content, 
+            DomainBase domain = default, 
+            Action<AssemblyCSharpBuilder> option = default, 
+            Func<FakeMethodOperator, FakeMethodOperator> methodAction = null,
+            Func<OopBuilder, OopBuilder> oopAction = null,
+            params NamespaceConverter[] usings)
         {
 
             var method = typeof(T).GetMethod("Invoke");
@@ -73,6 +97,7 @@ namespace Natasha.CSharp
                 .Using(usings)
                 .StaticMethodBody(content);
             methodAction?.Invoke(@operator);
+            oopAction?.Invoke(@operator.OopHandler);
             return @operator.Compile<T>();
 
         }

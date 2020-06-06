@@ -111,17 +111,17 @@ namespace Natasha.Framework
 
                 if (CompileResult.Success)
                 {
-                    stream.Position = 0;
+                    stream.Seek(0, SeekOrigin.Begin);
                     MemoryStream copyStream = new MemoryStream();
                     stream.CopyTo(copyStream);
-                    stream.Position = 0;
+                    stream.Seek(0, SeekOrigin.Begin);
                     Assembly = Domain.CompileStreamHandler(stream, AssemblyName);
                     StreamCompileSucceedHandler?.Invoke(copyStream, compilation);
                     copyStream.Dispose();
                 }
                 else
                 {
-                    stream.Position = 0;
+                    stream.Seek(0, SeekOrigin.Begin);
                     StreamCompileFailedHandler?.Invoke(stream, CompileResult.Diagnostics, compilation);
                 }
                 stream.Dispose();

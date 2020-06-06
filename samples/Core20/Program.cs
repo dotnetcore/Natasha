@@ -24,7 +24,7 @@ namespace Core20
 }";
             //根据脚本创建动态类
             AssemblyCSharpBuilder oop = new AssemblyCSharpBuilder("test");
-            oop.Syntax.Add(text);
+            oop.Add(text);
             Type type = oop.GetTypeFromShortName("Test");
 
             Console.WriteLine(type.Name);

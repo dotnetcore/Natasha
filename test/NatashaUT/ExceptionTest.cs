@@ -13,7 +13,7 @@ namespace NatashaUT
         public void Test1()
         {
             NClass classBuilder = new NClass();
-            classBuilder.AssemblyBuilder.Syntax.ErrorBehavior = ExceptionBehavior.None;
+            classBuilder.AssemblyBuilder.SyntaxErrorBehavior = ExceptionBehavior.None;
             classBuilder
                 .Public()
                 .Static()
@@ -36,7 +36,7 @@ namespace NatashaUT
         public void Test2()
         {
             OopOperator builder = new OopOperator();
-            builder.AssemblyBuilder.Syntax.ErrorBehavior = ExceptionBehavior.None;
+            builder.AssemblyBuilder.SyntaxErrorBehavior = ExceptionBehavior.None;
             builder
                 .Public()
                 .Static()
@@ -63,7 +63,7 @@ namespace NatashaUT
         {
 
             var builder = FastMethodOperator.DefaultDomain();
-            builder.AssemblyBuilder.Syntax.ErrorBehavior = ExceptionBehavior.None;
+            builder.AssemblyBuilder.SyntaxErrorBehavior = ExceptionBehavior.None;
             var delegateAction = builder
                        .Param<string>("str1")
                        .Param<string>("str2")

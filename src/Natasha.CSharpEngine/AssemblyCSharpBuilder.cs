@@ -1,9 +1,13 @@
-﻿using Natasha.CSharpEngine;
+﻿using Microsoft.CodeAnalysis;
+using Natasha.CSharpEngine;
 using Natasha.CSharpEngine.Compile;
+using Natasha.CSharpEngine.Error;
 using Natasha.CSharpEngine.Log;
 using Natasha.CSharpEngine.Syntax;
+using Natasha.Error;
 using Natasha.Error.Model;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
@@ -31,10 +35,14 @@ namespace Natasha.CSharp
 
         public string OutputFolder;
         public bool CustomUsingShut;
+        public ExceptionBehavior CompileErrorBehavior;
+        public ExceptionBehavior SyntaxErrorBehavior;
         public AssemblyCSharpBuilder() : this(Guid.NewGuid().ToString("N")){}
         public AssemblyCSharpBuilder(string name):base(name)
         {
 
+            CompileErrorBehavior = ExceptionBehavior.Throw;
+            SyntaxErrorBehavior = ExceptionBehavior.Throw;
             OutputFolder = GlobalOutputFolder;
             CustomUsingShut = false;
             RetryLimit = 2;
@@ -53,6 +61,84 @@ namespace Natasha.CSharp
             action?.Invoke(Syntax);
         }
 
+        public CompilationException Add(string script, HashSet<string> sets = default)
+        {
+
+            var tree = Syntax.LoadTreeFromScript(script);
+            var exception = NatashaException.GetSyntaxException(tree);
+            if (!exception.HasError || SyntaxErrorBehavior == ExceptionBehavior.Ignore)
+            {
+                Syntax.AddTreeToCache(tree);
+                Syntax.UsingCache[exception.Formatter] = sets;
+
+            }
+            else
+            {
+
+                HandlerErrors(exception);
+
+            }
+            return exception;
+
+        }
+
+
+
+
+        public CompilationException Add(SyntaxTree node, HashSet<string> sets = default)
+        {
+
+            return Add(node.ToString(), sets);
+
+        }
+
+
+
+
+        public CompilationException Add(IScript node)
+        {
+
+            return Add(node.Script, node.Usings);
+
+        }
+
+
+
+
+        public CompilationException AddFile(string filePath)
+        {
+
+            return Add(File.ReadAllText(filePath));
+
+        }
+
+
+
+
+        private void HandlerErrors(CompilationException exception)
+        {
+
+            if (SyntaxErrorBehavior == ExceptionBehavior.Throw)
+            {
+
+                throw exception;
+
+            }
+            else if (SyntaxErrorBehavior == ExceptionBehavior.Log)
+            {
+
+                LogOperator.ErrorRecoder(exception);
+
+            }
+            else if (SyntaxErrorBehavior == (ExceptionBehavior.Log | ExceptionBehavior.Throw))
+            {
+
+                LogOperator.ErrorRecoder(exception);
+                throw exception;
+
+            }
+
+        }
 
 
 
@@ -94,7 +180,7 @@ namespace Natasha.CSharp
             if (Compiler.Assembly == null && Exceptions != null && Exceptions.Count > 0 )
             {
 
-                switch (Compiler.ErrorBehavior)
+                switch (CompileErrorBehavior)
                 {
 
                     case ExceptionBehavior.Log | ExceptionBehavior.Throw:

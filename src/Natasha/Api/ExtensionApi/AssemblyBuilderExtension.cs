@@ -236,22 +236,22 @@ namespace Natasha.CSharp
         }
         public static AssemblyCSharpBuilder ThrowCompilerError(this AssemblyCSharpBuilder builder)
         {
-            builder.Compiler.ErrorBehavior = ExceptionBehavior.Throw;
+            builder.CompileErrorBehavior = ExceptionBehavior.Throw;
             return builder;
         }
         public static AssemblyCSharpBuilder ThrowAndLogCompilerError(this AssemblyCSharpBuilder builder)
         {
-            builder.Compiler.ErrorBehavior = ExceptionBehavior.Log | ExceptionBehavior.Throw;
+            builder.CompileErrorBehavior = ExceptionBehavior.Log | ExceptionBehavior.Throw;
             return builder;
         }
         public static AssemblyCSharpBuilder LogCompilerError(this AssemblyCSharpBuilder builder)
         {
-            builder.Compiler.ErrorBehavior = ExceptionBehavior.Log;
+            builder.CompileErrorBehavior = ExceptionBehavior.Log;
             return builder;
         }
         public static AssemblyCSharpBuilder IgnoreCompilerError(this AssemblyCSharpBuilder builder)
         {
-            builder.Compiler.ErrorBehavior = ExceptionBehavior.None;
+            builder.CompileErrorBehavior = ExceptionBehavior.None;
             return builder;
         }
 
@@ -260,27 +260,27 @@ namespace Natasha.CSharp
 
         public static AssemblyCSharpBuilder ThrowAndLogSyntaxError(this AssemblyCSharpBuilder builder)
         {
-            builder.Syntax.ErrorBehavior = ExceptionBehavior.Log | ExceptionBehavior.Throw;
+            builder.SyntaxErrorBehavior = ExceptionBehavior.Log | ExceptionBehavior.Throw;
             return builder;
         }
         public static AssemblyCSharpBuilder ThrowSyntaxError(this AssemblyCSharpBuilder builder)
         {
-            builder.Syntax.ErrorBehavior = ExceptionBehavior.Throw;
+            builder.SyntaxErrorBehavior = ExceptionBehavior.Throw;
             return builder;
         }
         public static AssemblyCSharpBuilder ForceAddSyntax(this AssemblyCSharpBuilder builder)
         {
-            builder.Syntax.ErrorBehavior = ExceptionBehavior.Ignore;
+            builder.SyntaxErrorBehavior = ExceptionBehavior.Ignore;
             return builder;
         }
         public static AssemblyCSharpBuilder LogSyntaxError(this AssemblyCSharpBuilder builder)
         {
-            builder.Syntax.ErrorBehavior = ExceptionBehavior.Log;
+            builder.SyntaxErrorBehavior = ExceptionBehavior.Log;
             return builder;
         }
         public static AssemblyCSharpBuilder IgnoreSyntaxError(this AssemblyCSharpBuilder builder)
         {
-            builder.Syntax.ErrorBehavior = ExceptionBehavior.None;
+            builder.SyntaxErrorBehavior = ExceptionBehavior.None;
             return builder;
         }
         public static AssemblyCSharpBuilder SetAssemblyName(this AssemblyCSharpBuilder builder,string assemblyName)

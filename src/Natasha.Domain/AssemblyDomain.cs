@@ -82,7 +82,7 @@ namespace Natasha
                 var assembly = GetAssemblyFromStream(stream);
                 if (assembly != null)
                 {
-                    stream.Position = 0;
+                    stream.Seek(0, SeekOrigin.Begin);
                     AssemblyReferences[assembly] = MetadataReference.CreateFromStream(stream);
                 }
                 return assembly;

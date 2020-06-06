@@ -4,48 +4,50 @@ using Microsoft.CodeAnalysis.Emit;
 using Natasha.Framework;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 
 namespace Natasha.CSharpCompiler
 {
     public abstract class CSharpCompilerBase : CompilerBase<CSharpCompilation>
     {
 
-        public CSharpCompilation Compilation;
-        public CSharpCompilerBase()
-        {
-
-            Enum_OutputKind = OutputKind.DynamicallyLinkedLibrary;
-            Enum_OptimizationLevel = OptimizationLevel.Release;
-            AllowUnsafe = true;
-            SuppressDiagnostics = new ConcurrentDictionary<string, ReportDiagnostic>();
-            SuppressDiagnostics["CS1701"] = ReportDiagnostic.Suppress;
-            SuppressDiagnostics["CS1702"] = ReportDiagnostic.Suppress;
-            SuppressDiagnostics["CS1705"] = ReportDiagnostic.Suppress;
-
-        }
-
-
         public bool AllowUnsafe;
         public OutputKind Enum_OutputKind;
         public OptimizationLevel Enum_OptimizationLevel;
-        public readonly ConcurrentDictionary<string, ReportDiagnostic> SuppressDiagnostics;
+        public ConcurrentDictionary<string, ReportDiagnostic> SuppressDiagnostics;
+        public static readonly PropertyInfo SetTopLevelBinderFlagDelegate;
+        public CSharpCompilation Compilation;
+
+
+        static CSharpCompilerBase()
+        {
+            SetTopLevelBinderFlagDelegate = typeof(CSharpCompilationOptions).GetProperty("TopLevelBinderFlags", BindingFlags.Instance | BindingFlags.NonPublic);
+        }
+        public CSharpCompilerBase()
+        {
+
+            SuppressDiagnostics = new ConcurrentDictionary<string, ReportDiagnostic>();
+
+        }
+
 
         public override CSharpCompilation GetCompilation()
         {
 
-            return Compilation = CSharpCompilation.Create(
-                               AssemblyName,
-                               options: new CSharpCompilationOptions(
-                                   outputKind: Enum_OutputKind,
+            var compilationOptions = new CSharpCompilationOptions(
+                                   metadataImportOptions: MetadataImportOptions.All,
+                                   outputKind:  OutputKind.DynamicallyLinkedLibrary,
                                    optimizationLevel: Enum_OptimizationLevel,
                                    allowUnsafe: AllowUnsafe)
-                               .WithSpecificDiagnosticOptions(SuppressDiagnostics),
-                               syntaxTrees: CompileTrees,
-                               references: Domain.GetCompileReferences());
+                               .WithSpecificDiagnosticOptions(SuppressDiagnostics)
+                               .WithMetadataImportOptions(MetadataImportOptions.All);
 
-        }
+            SetTopLevelBinderFlagDelegate.SetValue(compilationOptions, (uint)1 << 22);
+            Compilation = CSharpCompilation.Create(AssemblyName,CompileTrees,Domain.GetCompileReferences(), compilationOptions);
+            return Compilation;
+
+        } 
 
 
 

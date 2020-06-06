@@ -59,7 +59,7 @@ namespace Natasha.CSharp
         /// <returns></returns>
         public CompilationException AddScript(string script)
         {
-            return AssemblyBuilder.Syntax.Add(script);
+            return AssemblyBuilder.Add(script);
         }
 
 
@@ -72,7 +72,7 @@ namespace Natasha.CSharp
         /// <returns></returns>
         public CompilationException AddFile(string path)
         {
-            return AssemblyBuilder.Syntax.AddFile(path);
+            return AssemblyBuilder.AddFile(path);
         }
 
 
@@ -195,7 +195,7 @@ namespace Natasha.CSharp
             HasChecked = true;
             foreach (var item in _builderCache)
             {
-                var exception = AssemblyBuilder.Syntax.Add(item);
+                var exception = AssemblyBuilder.Add(item);
                 if (exception!=null)
                 {
                     list.Add(exception);

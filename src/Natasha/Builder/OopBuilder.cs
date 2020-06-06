@@ -245,7 +245,7 @@ namespace Natasha.CSharp.Builder
         public virtual Type GetType(OopType oopType, int classIndex = 1, int namespaceIndex = 1)
         {
 
-            Exception = AssemblyBuilder.Syntax.Add(this);
+            Exception = AssemblyBuilder.Add(this);
             if (!Exception.HasError)
             {
                 string name = default;
@@ -289,7 +289,7 @@ namespace Natasha.CSharp.Builder
         public virtual Type GetType(int classIndex = 1, int namespaceIndex = 1)
         {
 
-            Exception = AssemblyBuilder.Syntax.Add(this);
+            Exception = AssemblyBuilder.Add(this);
             if (!Exception.HasError)
             {
                 var type = AssemblyBuilder.GetTypeFromShortName(NameScript);

@@ -7,7 +7,7 @@ using System.Text;
 namespace Natasha.CSharp.Template
 {
 
-    public class UsingTemplate<T> : NamespaceTemplate<T> where T : UsingTemplate<T>, new()
+    public class UsingTemplate<T> : FlagTemplate<T> where T : UsingTemplate<T>, new()
     {
 
         public readonly StringBuilder UsingScript;
