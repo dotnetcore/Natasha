@@ -5,8 +5,8 @@
     <Description>Natasha C#编译引擎</Description>
     <PackageId>DotNetCore.Natasha.CSharpEngine</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <PackageReleaseNotes>发布预览版</PackageReleaseNotes>
-    <Version>1.1.0</Version>
+    <PackageReleaseNotes>发布正式版</PackageReleaseNotes>
+    <Version>1.2.0</Version>
     <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
     <PackageTags>Roslyn ; IL ; Scripte ; Dynamic ; </PackageTags>
@@ -15,15 +15,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!--<PackageReference Include="DotNetCore.Natasha.CSharpCompiler" Version="1.0.2.1" />-->
-    <!--<PackageReference Include="DotNetCore.Natasha.CSharpSyntax" Version="1.0.0.2" />
-    <PackageReference Include="DotNetCore.Natasha.Domain" Version="1.1.0" />-->
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Natasha.CSharpComplier\Natasha.CSharpCompiler.csproj" />
-    <ProjectReference Include="..\Natasha.CSharpSyntax\Natasha.CSharpSyntax.csproj" />
-    <ProjectReference Include="..\Natasha.Domain\Natasha.Domain.csproj" />
+    <PackageReference Include="DotNetCore.Natasha.CSharpCompiler" Version="1.1.0" />
+    <PackageReference Include="DotNetCore.Natasha.CSharpSyntax" Version="1.1.0" />
+    <PackageReference Include="DotNetCore.Natasha.Domain" Version="1.1.0.1" />
   </ItemGroup>
 
 

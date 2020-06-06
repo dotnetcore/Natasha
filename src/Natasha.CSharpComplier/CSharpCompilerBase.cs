@@ -17,6 +17,7 @@ namespace Natasha.CSharpCompiler
         public OptimizationLevel Enum_OptimizationLevel;
         public ConcurrentDictionary<string, ReportDiagnostic> SuppressDiagnostics;
         public static readonly PropertyInfo SetTopLevelBinderFlagDelegate;
+        public const uint _allowPrivateFlag = (uint)1 << 22;
         public CSharpCompilation Compilation;
 
 
@@ -37,13 +38,13 @@ namespace Natasha.CSharpCompiler
 
             var compilationOptions = new CSharpCompilationOptions(
                                    metadataImportOptions: MetadataImportOptions.All,
-                                   outputKind:  OutputKind.DynamicallyLinkedLibrary,
+                                   outputKind: Enum_OutputKind,
                                    optimizationLevel: Enum_OptimizationLevel,
                                    allowUnsafe: AllowUnsafe)
                                .WithSpecificDiagnosticOptions(SuppressDiagnostics)
                                .WithMetadataImportOptions(MetadataImportOptions.All);
 
-            SetTopLevelBinderFlagDelegate.SetValue(compilationOptions, (uint)1 << 22);
+            SetTopLevelBinderFlagDelegate.SetValue(compilationOptions, _allowPrivateFlag);
             Compilation = CSharpCompilation.Create(AssemblyName,CompileTrees,Domain.GetCompileReferences(), compilationOptions);
             return Compilation;
 

@@ -9,11 +9,12 @@ namespace Natasha.CSharp.Template
 {
     public class FlagTemplate<T> : NamespaceTemplate<T> where T : FlagTemplate<T>, new()
     {
-
+        public HashSet<Assembly> AssemblyCache;
         public StringBuilder FlagScript;
         public FlagTemplate()
         {
             FlagScript = new StringBuilder();
+            AssemblyCache = new HashSet<Assembly>();
         }
 
 
@@ -55,7 +56,12 @@ namespace Natasha.CSharp.Template
         }
         public T AllowPrivate(Assembly assembly)
         {
-            return AllowPrivate(assembly.GetName().Name);
+            if (!AssemblyCache.Contains(assembly))
+            {
+                AssemblyCache.Add(assembly);
+                return AllowPrivate(assembly.GetName().Name);
+            }
+            return Link;
         }
         public T AllowPrivate<S>()
         {
