@@ -75,7 +75,7 @@
     
   - 2020-06-01 ： 发布v3.4.0.0，Oop 模板增加两种内容构造API , nclass.GetXXXBuilder 返回构造器，用户可以在外随意定制， nclass.Property/Field/Method/Ctor( builder) 支持直接传一个完好的 builder 进去。
 
-  - 2020-06-06 ： 发布v3.8.0.0，修复模板状态机操作； 模板中API调整：DefinedName -> Name, DefinedType -> Type; 调整引擎 API 结构，减少 AssemblyCSharpBuilder 类 API 操作的层级；增加对私有字段动态调用的支持，OOP 模板新增API AllowPrivate；
+  - 2020-06-06 ： 发布v3.8.0.0，修复模板状态机操作； 模板中API调整：DefinedName -> Name, DefinedType -> Type; 调整引擎 API 结构，减少 AssemblyCSharpBuilder 类 API 操作的层级；增加对私有字段动态调用的支持，OOP 模板新增API AllowPrivate； 由于精力有限周边项目将只对 R2D \ DynamicaCache 进行更新。
   
  <br/>  
  
