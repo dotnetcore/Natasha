@@ -63,7 +63,7 @@ sharpBuilder.ThrowAndLogSyntaxError();
 
 
 //添加你的字符串
-sharpBuilder.Syntax.Add("using System; public static class Test{ public static void Show(){ Console.WriteLine(\"Hello World!\");}}");
+sharpBuilder.Add("using System; public static class Test{ public static void Show(){ Console.WriteLine(\"Hello World!\");}}");
 //编译出一个程序集
 var assembly = sharpBuilder.GetAssembly();
 
