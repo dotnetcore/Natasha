@@ -40,12 +40,10 @@ namespace Natasha.CSharpCompiler
                                    metadataImportOptions: MetadataImportOptions.All,
                                    outputKind: Enum_OutputKind,
                                    optimizationLevel: Enum_OptimizationLevel,
-                                   allowUnsafe: AllowUnsafe)
-                               .WithSpecificDiagnosticOptions(SuppressDiagnostics)
-                               .WithMetadataImportOptions(MetadataImportOptions.All);
-
+                                   allowUnsafe: AllowUnsafe,
+                                   specificDiagnosticOptions: SuppressDiagnostics);
             SetTopLevelBinderFlagDelegate.SetValue(compilationOptions, _allowPrivateFlag);
-            Compilation = CSharpCompilation.Create(AssemblyName,CompileTrees,Domain.GetCompileReferences(), compilationOptions);
+            Compilation = CSharpCompilation.Create(AssemblyName, CompileTrees, Domain.GetCompileReferences(), compilationOptions);
             return Compilation;
 
         } 

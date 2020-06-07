@@ -2,6 +2,8 @@
 using Natasha.CSharp;
 using NatashaUT.Model;
 using System;
+using System.Collections.Generic;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using Xunit;
 
@@ -242,6 +244,19 @@ public class Test{}
                 .Action<TPropertyClass>("obj.A = 2; obj.D=1 ;");
             action(test);
             Assert.Equal(1, test.GetD);
+        }
+
+        [Fact(DisplayName = "私有成员调用2")]
+        public void Test8()
+        {
+            AssemblyDomain.UseSdkLibraries();
+            AssemblyDomain.UseShareLibraries();
+            var action = NDelegate
+                .DefaultDomain()
+                .SetClass(item => item.AllowPrivate<List<int>>())
+                .Func<int>("return (new List<int>())._size;");
+            Assert.Equal(0,action());
+
         }
 
 

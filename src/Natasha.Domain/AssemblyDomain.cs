@@ -17,7 +17,7 @@ namespace Natasha
 
         public readonly ConcurrentDictionary<string, Assembly> DllAssemblies;
         public readonly ShortNameReference ShortReferences;
-
+        private static readonly AssemblyDomain _defaultDomain;
         public AssemblyDomain()
         {
             
@@ -25,15 +25,40 @@ namespace Natasha
 
         static AssemblyDomain()
         {
-            var defaultDomain = DomainManagement.RegisterDefault<AssemblyDomain>();
+
+            _defaultDomain = DomainManagement.RegisterDefault<AssemblyDomain>(); ;
+        
+        }
+
+
+        public static void UseSdkLibraries()
+        {
 
             foreach (var asm in DependencyContext
                 .Default
                 .CompileLibraries
                 .SelectMany(cl => cl.ResolveReferencePaths()))
             {
-                defaultDomain.ShortReferences.Add(asm);
+                _defaultDomain.ShortReferences.Add(asm);
             }
+
+        }
+        public static void UseShareLibraries()
+        {
+
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (var asm in assemblies)
+            {
+                try
+                {
+                    _defaultDomain.ShortReferences.Add(asm.Location);
+                }
+                catch (Exception)
+                {
+                }
+
+            }
+
         }
 
         /// <summary>

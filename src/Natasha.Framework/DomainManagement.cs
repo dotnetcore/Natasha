@@ -13,29 +13,6 @@ namespace Natasha
         static DomainManagement()
         {
             Cache = new ConcurrentDictionary<string, WeakReference>();
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            foreach (var assembly in assemblies)
-            {
-                try
-                {
-                    var types = assembly.ExportedTypes;
-                    if (types != null)
-                    {
-                        foreach (var item in types)
-                        {
-                            if (item.BaseType == typeof(DomainBase))
-                            {
-                                RegisterDefault(item);
-                                break;
-                            }
-                        }
-                    }
-                }
-                catch (Exception)
-                {
-                    // ignored
-                }
-            }
         }
 
         public static T RegisterDefault<T>() where T : DomainBase, new()

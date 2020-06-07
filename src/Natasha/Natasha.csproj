@@ -22,8 +22,9 @@
 
   <ItemGroup>
     <!--<PackageReference Include="DotNetCore.Natasha.CSharpEngine" Version="1.1.0" />-->
-    <PackageReference Include="DotNetCore.Natasha.CSharpEngine" Version="1.2.0" />
+    <!--<PackageReference Include="DotNetCore.Natasha.CSharpEngine" Version="1.2.0" />-->
     <PackageReference Include="DotNetCore.Natasha.Reverser" Version="2.4.1" />
+    <ProjectReference Include="..\Natasha.CSharpEngine\Natasha.CSharpEngine.csproj" />
   </ItemGroup>
 
   <!--<ItemGroup>
