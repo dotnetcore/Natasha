@@ -10,7 +10,7 @@ namespace NatashaUT
     { 
 
         [Fact(DisplayName = "手动强转委托")]
-        public static void RunDelegate1()
+        public void RunDelegate1()
         {
             var delegateAction = FastMethodOperator
                 .DefaultDomain()
@@ -48,7 +48,7 @@ namespace NatashaUT
 
 
         [Fact(DisplayName = "NFunc委托")]
-        public static void RunDelegate5()
+        public void RunDelegate5()
         {
 
             NSucceedLog.Enabled = true;
@@ -79,7 +79,7 @@ namespace NatashaUT
 
 
         [Fact(DisplayName = "自动泛型委托")]
-        public static void RunDelegate2()
+        public void RunDelegate2()
         {
             var delegateAction = FastMethodOperator
                 .DefaultDomain()

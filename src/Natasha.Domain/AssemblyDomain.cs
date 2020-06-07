@@ -18,6 +18,7 @@ namespace Natasha
         public readonly ConcurrentDictionary<string, Assembly> DllAssemblies;
         public readonly ShortNameReference ShortReferences;
         private static readonly AssemblyDomain _defaultDomain;
+        private static readonly ConcurrentQueue<string> _shareLibraries;
         public AssemblyDomain()
         {
 
@@ -26,7 +27,22 @@ namespace Natasha
         static AssemblyDomain()
         {
 
-            _defaultDomain = DomainManagement.RegisterDefault<AssemblyDomain>(); ;
+            _defaultDomain = DomainManagement.RegisterDefault<AssemblyDomain>();
+            _shareLibraries = new ConcurrentQueue<string>();
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (var asm in assemblies)
+            {
+
+                try
+                {
+                    _shareLibraries.Enqueue(asm.Location);
+                }
+                catch (Exception)
+                {
+
+                }
+
+            }
 
         }
 
@@ -55,16 +71,10 @@ namespace Natasha
         public void UseShareLibraries()
         {
 
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            foreach (var asm in assemblies)
+            foreach (var asmPath in _shareLibraries)
             {
-                try
-                {
-                    ShortReferences.Add(asm.Location);
-                }
-                catch (Exception)
-                {
-                }
+
+                 ShortReferences.Add(asmPath);
 
             }
 
@@ -158,14 +168,12 @@ namespace Natasha
                 //拿到系统域
                 var @default = DomainManagement.Default;
                 //将系统域的短名引用缓存起来
-                var dict = new Dictionary<string, PortableExecutableReference>(((AssemblyDomain)@default).ShortReferences.References);
+                var dict = new Dictionary<string, PortableExecutableReference>(_defaultDomain.ShortReferences.References);
                 foreach (var item in ShortReferences.References)
                 {
                     //用当前域的引用集合覆盖系统域的集合
                     dict[item.Key] = item.Value;
                 }
-                //将系统域的程序集引用加载进来
-                sets.UnionWith(@default.GetCompileReferences());
                 //将处理后的名引用加载进来
                 sets.UnionWith(dict.Values);
             }

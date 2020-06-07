@@ -14,17 +14,17 @@
     <PackageIconUrl>https://avatars2.githubusercontent.com/u/19404084</PackageIconUrl>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="DotNetCore.Natasha.CSharpCompiler" Version="1.2.0" />
-    <PackageReference Include="DotNetCore.Natasha.CSharpSyntax" Version="1.2.0" />
-    <PackageReference Include="DotNetCore.Natasha.Domain" Version="1.2.0" />
-  </ItemGroup>
-
   <!--<ItemGroup>
+    --><!--<PackageReference Include="DotNetCore.Natasha.CSharpCompiler" Version="1.2.0" />
+    <PackageReference Include="DotNetCore.Natasha.CSharpSyntax" Version="1.2.0" />--><!--
+    --><!--<PackageReference Include="DotNetCore.Natasha.Domain" Version="1.2.0" />--><!--
+  </ItemGroup>-->
+
+  <ItemGroup>
     <ProjectReference Include="..\Natasha.CSharpComplier\Natasha.CSharpCompiler.csproj" />
     <ProjectReference Include="..\Natasha.CSharpSyntax\Natasha.CSharpSyntax.csproj" />
     <ProjectReference Include="..\Natasha.Domain\Natasha.Domain.csproj" />
-  </ItemGroup>-->
+  </ItemGroup>
 
 
 </Project>
