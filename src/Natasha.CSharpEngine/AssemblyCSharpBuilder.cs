@@ -6,6 +6,7 @@ using Natasha.CSharpEngine.Log;
 using Natasha.CSharpEngine.Syntax;
 using Natasha.Error;
 using Natasha.Error.Model;
+using Natasha.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -37,6 +38,52 @@ namespace Natasha.CSharp
         public bool CustomUsingShut;
         public ExceptionBehavior CompileErrorBehavior;
         public ExceptionBehavior SyntaxErrorBehavior;
+        public bool OutputToFile
+        {
+
+            get { return Compiler.AssemblyOutputKind == AssemblyBuildKind.File; }
+            set { Compiler.AssemblyOutputKind = value? AssemblyBuildKind.File : AssemblyBuildKind.Stream; }
+        
+        }
+
+        public bool AllowUnsafe
+        {
+
+            get { return Compiler.AllowUnsafe; }
+            set { Compiler.AllowUnsafe = true; }
+
+        }
+
+        public bool UseRelease
+        {
+
+            get { return Compiler.Enum_OptimizationLevel == OptimizationLevel.Release; }
+            set { Compiler.Enum_OptimizationLevel = value ? OptimizationLevel.Release : OptimizationLevel.Debug; }
+
+        }
+
+        public OutputKind OutputKind
+        {
+
+            get { return Compiler.Enum_OutputKind; }
+            set { Compiler.Enum_OutputKind = value; }
+
+        }
+
+        public DomainBase Domain
+        {
+
+            get { return Compiler.Domain; }
+            set { Compiler.Domain = value; }
+
+        }
+
+        public string AssemblyName 
+        {
+            get { return Compiler.AssemblyName; }
+            set { Compiler.AssemblyName = value; }
+        }
+
         public AssemblyCSharpBuilder() : this(Guid.NewGuid().ToString("N")){}
         public AssemblyCSharpBuilder(string name):base(name)
         {
@@ -46,6 +93,7 @@ namespace Natasha.CSharp
             OutputFolder = GlobalOutputFolder;
             CustomUsingShut = false;
             RetryLimit = 2;
+            
 
         }
 
