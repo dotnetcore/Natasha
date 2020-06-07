@@ -24,11 +24,6 @@ jobs:
       steps:
        - name : CheckOut Code
          uses: actions/checkout@v1
-      
-       - name: Setup DotNet 3.1.100
-         uses: actions/setup-dotnet@v1
-         with:
-             dotnet-version: 3.1.100
        
        - name: Setup DotNet2.1.4
          uses: actions/setup-dotnet@v1
@@ -58,7 +53,7 @@ jobs:
             codecov -f "coverage.xml" -t ${{ secrets.COVERAGE_KEY }}
    
   mac:
-      runs-on: macos
+      runs-on: macos-latest
       steps:
       - uses: actions/checkout@v1
       - name: Setup
