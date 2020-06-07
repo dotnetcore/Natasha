@@ -249,8 +249,7 @@ public class Test{}
         [Fact(DisplayName = "私有成员调用2")]
         public void Test8()
         {
-            AssemblyDomain.UseSdkLibraries();
-            AssemblyDomain.UseShareLibraries();
+
             var action = NDelegate
                 .DefaultDomain()
                 .SetClass(item => item.AllowPrivate<List<int>>())

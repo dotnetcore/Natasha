@@ -25,6 +25,8 @@ namespace Natasha.CSharp
         static AssemblyCSharpBuilder()
         {
 
+            AssemblyDomain.UseSdkLibraries();
+            AssemblyDomain.UseShareLibraries();
             GlobalOutputFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "DynamicLibraryFolders");
             if (!Directory.Exists(GlobalOutputFolder))
             {
