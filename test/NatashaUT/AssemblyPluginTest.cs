@@ -9,7 +9,7 @@ namespace NatashaUT
 {
 
     [Trait("程序集编译测试", "插件")]
-    public class AssemblyPluginTest
+    public class AssemblyPluginTest : PrepareTest
     {
 #if !NETCOREAPP2_2
 

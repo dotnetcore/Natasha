@@ -6,7 +6,7 @@ using Xunit;
 namespace NatashaUT
 {
     [Trait("快速构建","函数")]
-    public class DynamicMethodTest
+    public class DynamicMethodTest : PrepareTest
     { 
 
         [Fact(DisplayName = "手动强转委托")]

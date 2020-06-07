@@ -9,7 +9,7 @@ using Xunit;
 namespace NatashaUT
 {
     [Trait("反解", "类型反射")]
-    public class TypeReflectorTest
+    public class TypeReflectorTest : PrepareTest
     {
         [Fact(DisplayName = "共有类")]
         public void Test1()

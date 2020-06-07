@@ -6,11 +6,11 @@ namespace NatashaUT.OperatorUT
 {
 
     [Trait("伪造委托构建与编译", "")]
-    public class FakeOperatorUT
+    public class FakeOperatorUT : PrepareTest
     {
 
         [Fact(DisplayName = "普通函数克隆")]
-        public static void MakerCode1()
+        public void MakerCode1()
         {
 
             var builder = FakeMethodOperator.RandomDomain();
@@ -24,7 +24,7 @@ namespace NatashaUT.OperatorUT
 
 
         [Fact(DisplayName = "静态普通函数克隆")]
-        public static void MakerStaticCode1()
+        public void MakerStaticCode1()
         {
 
             var builder = FakeMethodOperator.RandomDomain();
@@ -40,7 +40,7 @@ namespace NatashaUT.OperatorUT
 
 
         [Fact(DisplayName = "特殊函数克隆")]
-        public static void MakerCode2()
+        public void MakerCode2()
         {
 
             var builder = FakeMethodOperator.RandomDomain();
@@ -55,7 +55,7 @@ namespace NatashaUT.OperatorUT
 
 
         [Fact(DisplayName = "静态特殊函数克隆")]
-        public static void MakerStaticCode2()
+        public void MakerStaticCode2()
         {
             var builder = FakeMethodOperator.RandomDomain()
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite2"))
@@ -69,7 +69,7 @@ namespace NatashaUT.OperatorUT
 
 
         [Fact(DisplayName = "虚函数克隆")]
-        public static void MakerCode3()
+        public void MakerCode3()
         {
 
             var builder = FakeMethodOperator.RandomDomain();
@@ -84,7 +84,7 @@ namespace NatashaUT.OperatorUT
 
         private delegate void TestDelegate(ref int i, string temp);
         [Fact(DisplayName = "静态虚函数克隆态")]
-        public static void MakerStaticCode3()
+        public void MakerStaticCode3()
         {
 
             var builder = FakeMethodOperator.RandomDomain();

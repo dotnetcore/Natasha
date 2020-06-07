@@ -6,7 +6,7 @@ namespace NatashaUT
 {
 
     [Trait("异常捕获","")]
-    public class ClassExceptionTest
+    public class ClassExceptionTest : PrepareTest
     {
 
         [Fact(DisplayName = "类构造-程序集异常")]

@@ -9,7 +9,7 @@ using Xunit;
 namespace NatashaUT
 {
     [Trait("反解测试","参数")]
-    public class ReverserTest
+    public class ReverserTest : PrepareTest
     {
 
         [Fact(DisplayName = "参数与类型反解 in")]

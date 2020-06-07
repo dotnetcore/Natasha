@@ -7,7 +7,7 @@ namespace NatashaUT.BuilderUT
 {
 
     [Trait("结构体构建与编译", "结构体")]
-    public class StructBuilderTest
+    public class StructBuilderTest : PrepareTest
     {
 
         [Fact(DisplayName = "结构体构建与编译1")]

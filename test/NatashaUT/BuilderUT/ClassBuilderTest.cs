@@ -7,7 +7,7 @@ namespace NatashaUT.BuilderUT
 {
 
     [Trait("类构建与编译", "类")]
-    public class ClassBuilderTest
+    public class ClassBuilderTest : PrepareTest
     {
         [Fact(DisplayName = "类构建与编译1")]
         public void TestClass()

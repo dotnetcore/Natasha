@@ -10,7 +10,7 @@ using Xunit;
 namespace NatashaUT
 {
     [Trait("程序集编译测试", "单域")]
-    public class AssemblyTest
+    public class AssemblyTest : PrepareTest
     {
         [Fact(DisplayName = "多程序集协作")]
         public void Test1()
@@ -32,6 +32,7 @@ namespace NatashaUT
         [MethodImpl(MethodImplOptions.NoInlining)]
         internal string ForTest1()
         {
+
             var domain = DomainManagement.Create("SingleDomainAsmTest1");
             var assembly = domain.CreateAssembly("AsmTest1");
 

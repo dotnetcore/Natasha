@@ -4,7 +4,7 @@ using Xunit;
 namespace NatashaUT
 {
     [Trait("快速构建","初始化函数")]
-    public class DynamicCtorTest
+    public class DynamicCtorTest : PrepareTest
     {
 
         [Fact(DisplayName ="公有初始化函数")]

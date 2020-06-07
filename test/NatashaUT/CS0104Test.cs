@@ -4,7 +4,7 @@ using Xunit;
 namespace NatashaUT
 {
     [Trait("CS0104", "")]
-    public class CS0104Test
+    public class CS0104Test : PrepareTest
     {
         [Fact(DisplayName = "普通二义性测试")]
         public void Test1()

@@ -6,7 +6,7 @@ namespace NatashaUT
 {
 
     [Trait("属性构建", "")]
-    public class PropertyTemplateTest
+    public class PropertyTemplateTest : PrepareTest
     {
         [Fact(DisplayName = "静态属性1")]
         public void Test1()

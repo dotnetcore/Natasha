@@ -6,7 +6,7 @@ namespace NatashaUT
 {
 
     [Trait("枚举构建与编译", "枚举")]
-    public class EnumBuilderTest
+    public class EnumBuilderTest : PrepareTest
     {
 
         [Fact(DisplayName = "枚举构建与编译1")]

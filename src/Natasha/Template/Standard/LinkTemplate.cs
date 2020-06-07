@@ -1,4 +1,6 @@
-﻿namespace Natasha.CSharp.Template
+﻿using Natasha.Template;
+
+namespace Natasha.CSharp.Template
 {
     public class ALinkTemplate<T>
     {

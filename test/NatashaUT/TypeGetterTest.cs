@@ -6,7 +6,7 @@ using Xunit;
 namespace NatashaUT
 {
     [Trait("类型获取", "")]
-    public class TypeGetterTest
+    public class TypeGetterTest : PrepareTest
     {
 
 

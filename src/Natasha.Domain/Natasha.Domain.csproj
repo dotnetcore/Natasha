@@ -5,8 +5,8 @@
     <Description>Natasha 编译域的实现</Description>
     <PackageId>DotNetCore.Natasha.Domain</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <PackageReleaseNotes>发布预览版</PackageReleaseNotes>
-    <Version>1.1.0.1</Version>
+    <PackageReleaseNotes>发布最新版</PackageReleaseNotes>
+    <Version>1.2.0</Version>
     <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
     <PackageTags>Roslyn ; IL ; Scripte ; Dynamic ;</PackageTags>
@@ -15,8 +15,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DotNetCore.Natasha.Framework" Version="1.1.0" />
+    <PackageReference Include="DotNetCore.Natasha.Framework" Version="1.2.0" />
   </ItemGroup>
+
+  <!--<ItemGroup>
+    <PackageReference Include="DotNetCore.Natasha.Framework" Version="1.1.0" />
+  </ItemGroup>-->
 
   <!--<ItemGroup>
     <PackageReference Include="DotNetCore.Natasha.Framework" Version="1.0.3" />

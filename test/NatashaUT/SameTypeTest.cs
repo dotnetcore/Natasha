@@ -9,7 +9,7 @@ using Xunit;
 namespace NatashaUT
 {
     [Trait("程序集同类测试", "")]
-    public class SameTypeTest
+    public class SameTypeTest : PrepareTest
     {
         public object obj;
         public SameTypeTest()

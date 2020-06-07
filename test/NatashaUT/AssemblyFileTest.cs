@@ -7,7 +7,7 @@ namespace NatashaUT
 {
 
     [Trait("程序集编译测试", "文件")]
-    public class AssemblyFileTest
+    public class AssemblyFileTest : PrepareTest
     {
         [Fact(DisplayName = "文件部分类编译")]
         public void Test1()

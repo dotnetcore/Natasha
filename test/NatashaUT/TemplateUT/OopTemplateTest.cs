@@ -3,7 +3,7 @@
 namespace NatashaUT
 {
     [Trait("对象构建", "")]
-    public class OopTemplateTest
+    public class OopTemplateTest : PrepareTest
     {
 
         //[Fact(DisplayName = "构建类")]

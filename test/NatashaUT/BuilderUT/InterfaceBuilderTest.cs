@@ -6,7 +6,7 @@ namespace NatashaUT.BuilderUT
 {
 
     [Trait("接口构建与编译", "接口")]
-    public class InterfaceBuilderTest
+    public class InterfaceBuilderTest : PrepareTest
     {
 
         [Fact(DisplayName = "接口构建与编译1")]

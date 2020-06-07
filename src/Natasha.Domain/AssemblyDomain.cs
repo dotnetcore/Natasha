@@ -20,14 +20,23 @@ namespace Natasha
         private static readonly AssemblyDomain _defaultDomain;
         public AssemblyDomain()
         {
-            
+
         }
 
         static AssemblyDomain()
         {
 
             _defaultDomain = DomainManagement.RegisterDefault<AssemblyDomain>(); ;
-        
+
+        }
+
+
+        public static void Init()
+        {
+
+            UseSdkLibraries();
+            UseShareLibraries();
+
         }
 
 
@@ -35,12 +44,13 @@ namespace Natasha
         {
 
             foreach (var asm in DependencyContext
-                .Default
-                .CompileLibraries
-                .SelectMany(cl => cl.ResolveReferencePaths()))
+.Default
+.CompileLibraries
+.SelectMany(cl => cl.ResolveReferencePaths()))
             {
                 _defaultDomain.ShortReferences.Add(asm);
             }
+
 
         }
         public static void UseShareLibraries()
@@ -199,11 +209,11 @@ namespace Natasha
         {
             if (path != null)
             {
-                
+
                 if (DllAssemblies.ContainsKey(path))
                 {
                     ShortReferences.Remove(path);
-                    while (!DllAssemblies.TryRemove(path,out _)) { }
+                    while (!DllAssemblies.TryRemove(path, out _)) { }
                 }
             }
         }

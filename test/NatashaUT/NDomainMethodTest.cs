@@ -10,11 +10,11 @@ namespace NatashaUT
 {
 
     [Trait("快速构建", "函数")]
-    public class NDelegateMethodTest
+    public class NDelegateMethodTest : PrepareTest
     {
 
         [Fact(DisplayName = "独立域函数1")]
-        public static void RunDelegate1()
+        public void RunDelegate1()
         {
             Func<string> func = NDelegate.CreateDomain("NDelegate1").Func<string>("return \"1\";");
             Assert.Equal("1", func());
@@ -24,7 +24,7 @@ namespace NatashaUT
 
 
         [Fact(DisplayName = "独立域函数2")]
-        public static void RunDelegate2()
+        public void RunDelegate2()
         {
             //-----------创建一个域（方便卸载）---------------//-----创建Func方法--------//
             var func = NDelegate.CreateDomain("NDelegate2").Func<string,string>("return arg;");
@@ -35,7 +35,7 @@ namespace NatashaUT
 
 
         [Fact(DisplayName = "独立域函数3")]
-        public static void RunDelegate3()
+        public void RunDelegate3()
         {
             var func = NDelegate.CreateDomain("NDelegate3").Func<string,string, string>("return arg1+arg2;");
             Assert.Equal("12", func("1","2"));
@@ -44,7 +44,7 @@ namespace NatashaUT
 
 
         [Fact(DisplayName = "独立域函数7")]
-        public static void RunDelegate7()
+        public void RunDelegate7()
         {
             var func = NDelegate.CreateDomain("NDelegate7").Func<string>("return OtherNameSpaceMethod.FromDate(DateTime.Now);");
             Assert.Equal(DateTime.Now.ToString("yyyy-MM"), func());
@@ -53,7 +53,7 @@ namespace NatashaUT
 
 
         [Fact(DisplayName = "独立域函数4")]
-        public static void RunDelegate4()
+        public void RunDelegate4()
         {
             NormalTestModel model = new NormalTestModel();
             var func = NDelegate.CreateDomain("NDelegate4").Action<NormalTestModel>("obj.Age=1;");
@@ -65,7 +65,7 @@ namespace NatashaUT
 
 
         [Fact(DisplayName = "独立域函数5")]
-        public static void RunDelegate5()
+        public void RunDelegate5()
         {
             NormalTestModel model = new NormalTestModel();
             var func = NDelegate.CreateDomain("NDelegate5").Action<NormalTestModel,int>("arg1.Age=arg2;");
@@ -88,7 +88,7 @@ namespace NatashaUT
         }
 
         [Fact(DisplayName = "卸载委托测试")]
-        public static void UnloadDelegate()
+        public void UnloadDelegate()
         {
             Assert.Equal(3, RunDelegate6());
 #if !NETCOREAPP2_2

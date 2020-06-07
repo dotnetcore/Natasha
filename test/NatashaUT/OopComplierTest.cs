@@ -9,13 +9,14 @@ using Xunit;
 namespace NatashaUT
 {
     [Trait("快速构建","完整类")]
-    public class DynamicClassTest
+    public class DynamicClassTest : PrepareTest
     {
 
 
         [Fact(DisplayName = "动态类生成测试1")]
         public static void RunClassName0()
         {
+
             //ScriptCompiler.Init();
             string text = @"
 namespace HelloWorld
@@ -41,6 +42,7 @@ namespace HelloWorld
         [Fact(DisplayName = "动态类生成测试2")]
         public static void RunClassName4()
         {
+
             //ScriptCompiler.Init();
             string text = @"
 namespace HelloWorld
@@ -64,6 +66,7 @@ namespace HelloWorld
         [Fact(DisplayName = "选择类")]
         public static void RunClassName1()
         {
+
             //ScriptCompiler.Init();
             string text = @"using System;
 using System.Collections;

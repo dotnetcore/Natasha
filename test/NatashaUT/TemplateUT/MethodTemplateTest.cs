@@ -6,7 +6,7 @@ namespace NatashaUT
 {
 
     [Trait("方法构建", "")]
-    public class MethodTemplateTest
+    public class MethodTemplateTest : PrepareTest
     {
 
         [Fact(DisplayName = "静态方法1")]

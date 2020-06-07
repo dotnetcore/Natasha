@@ -6,7 +6,7 @@ namespace NatashaUT
 {
 
     [Trait("字段构建", "")]
-    public class FieldTemplateTest
+    public class FieldTemplateTest : PrepareTest
     {
 
         [Fact(DisplayName = "静态字段1")]

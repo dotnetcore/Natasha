@@ -7,7 +7,7 @@ using Xunit;
 namespace NatashaUT
 {
     [Trait("类型测试", "")]
-    public class TypeTest
+    public class TypeTest : PrepareTest
     {
         [Fact(DisplayName = "简单类")]
         public void Test1()
