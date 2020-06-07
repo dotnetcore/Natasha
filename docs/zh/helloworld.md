@@ -33,7 +33,9 @@ Emit 和表达式树的使用场景，Natasha 均适用。
 
 2、引入 编译环境库 ： DotNetCore.Compile.Environment  
 
-3、向引擎中注入定制的域：  DomainManagement.RegisterDefault< AssemblyDomain >()
+3、向引擎中注入定制的域：  
+  - 3.10.0.0 版本以前： DomainManagement.RegisterDefault< AssemblyDomain >();
+  - 3.10.0.0 版本及以后： AssemblyDomain.Init();
 
 4、敲代码
 
@@ -45,7 +47,7 @@ Emit 和表达式树的使用场景，Natasha 均适用。
 ```C#
 
 //引擎开放之后，您可以向引擎中注入自己实现的域，这里的 AssemblyDomain 是 Natasha 实现的域
-DomainManagement.RegisterDefault<AssemblyDomain>();
+AssemblyDomain.Init();
 
 //使用 Natasha 的 CSharp 编译器直接编译字符串
 AssemblyCSharpBuilder sharpBuilder = new AssemblyCSharpBuilder();
@@ -129,7 +131,7 @@ func.DisposeDomain();
 ## 第四个 HelloWorld
 
 ```C#
-DomainManagement.RegisterDefault<AssemblyDomain>();
+AssemblyDomain.Init();
 var @operator = FastMethodOperator.DefaultDomain();
 var actionDelegate = @operator
                 .Param(typeof(string), "parameter")
