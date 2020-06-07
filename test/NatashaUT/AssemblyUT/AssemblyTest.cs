@@ -178,7 +178,7 @@ return obj.ShowMethod(""Hello"");
 
         }
 
-
+#if !NETCOREAPP2_2
         [Fact(DisplayName = "自定义域解构编译")]
         public void Test4()
         {
@@ -201,6 +201,7 @@ public class Test{
             }
         }
 
+#endif
         [Fact(DisplayName = "共享域解构编译")]
         public void Test5()
         {

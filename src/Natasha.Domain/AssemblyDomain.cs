@@ -35,12 +35,11 @@ namespace Natasha
         {
 
             UseSdkLibraries();
-            UseShareLibraries();
 
         }
 
 
-        public static void UseSdkLibraries()
+        private static void UseSdkLibraries()
         {
 
             foreach (var asm in DependencyContext
@@ -53,7 +52,7 @@ namespace Natasha
 
 
         }
-        public static void UseShareLibraries()
+        public void UseShareLibraries()
         {
 
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
@@ -61,7 +60,7 @@ namespace Natasha
             {
                 try
                 {
-                    _defaultDomain.ShortReferences.Add(asm.Location);
+                    ShortReferences.Add(asm.Location);
                 }
                 catch (Exception)
                 {
