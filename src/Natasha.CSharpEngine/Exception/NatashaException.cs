@@ -54,7 +54,7 @@ namespace Natasha.CSharpEngine.Error
 
                     if (results.Count == 0)
                     {
-                        results.Add(new CompilationException("编译时出现问题！") { ErrorFlag = ExceptionKind.Compile, Name = assemblyName });
+                        results.Add(new CompilationException($"编译错误 : {item.Id} {item.GetMessage()}") { ErrorFlag = ExceptionKind.Compile, Name = assemblyName });
                     }
                     results[0].Diagnostics.Add(item);
 
@@ -64,7 +64,7 @@ namespace Natasha.CSharpEngine.Error
                     var key = tree.ToString();
                     if (!exceptions.ContainsKey(key))
                     {
-                        exceptions[key] = new CompilationException("编译时出现问题！") { ErrorFlag = ExceptionKind.Compile, Name = assemblyName, Formatter = key };
+                        exceptions[key] = new CompilationException($"编译错误 : {item.Id} {item.GetMessage()}") { ErrorFlag = ExceptionKind.Compile, Name = assemblyName, Formatter = key };
                     }
                     exceptions[key].Diagnostics.Add(item);
 

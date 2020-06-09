@@ -136,6 +136,8 @@ namespace Natasha.CSharp.Builder
 
             OopHandler.BodyAppend(Script);
             Exception = AssemblyBuilder.Add(OopHandler);
+
+
             if (!Exception.HasError)
             {
                 var @delegate = AssemblyBuilder.GetDelegateFromShortName(OopHandler.NameScript, NameScript, DelegateType, binder);
@@ -186,6 +188,8 @@ namespace Natasha.CSharp.Builder
 
             OopHandler.BodyAppend(Script);
             Exception = AssemblyBuilder.Add(OopHandler);
+             
+
             if (!Exception.HasError)
             {
                 S @delegate = AssemblyBuilder.GetDelegateFromShortName<S>(OopHandler.NameScript, NameScript, binder);

@@ -84,6 +84,8 @@ namespace Natasha.CSharp
             set { Compiler.AssemblyName = value; }
         }
 
+
+        public bool UseShareLibraries;
         public AssemblyCSharpBuilder() : this(Guid.NewGuid().ToString("N")){}
         public AssemblyCSharpBuilder(string name):base(name)
         {
@@ -193,6 +195,7 @@ namespace Natasha.CSharp
         public Assembly GetAssembly()
         {
 
+
             if (Compiler.AssemblyName == default)
             {
                 Compiler.AssemblyName = Guid.NewGuid().ToString("N");
@@ -219,6 +222,10 @@ namespace Natasha.CSharp
 
             }
 
+            if (UseShareLibraries)
+            {
+                ((AssemblyDomain)Compiler.Domain).UseShareLibraries();
+            }
 
             //进入编译流程
             Compile();
