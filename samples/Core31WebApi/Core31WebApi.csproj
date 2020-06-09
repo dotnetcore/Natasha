@@ -5,12 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DotNetCore.Compile.Environment" Version="1.0.0" />
+    <PackageReference Include="DotNetCore.Natasha" Version="3.11.0-alpha1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.4.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\Natasha\Natasha.csproj" />
   </ItemGroup>
 
 

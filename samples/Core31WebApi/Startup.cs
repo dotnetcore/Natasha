@@ -45,9 +45,10 @@ namespace Core31WebApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            
+
+            AssemblyDomain.Init();
             NatashaController.Builder = (ApplicationBuilder)app;
-            DomainManagement.RegisterDefault<AssemblyDomain>();
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
