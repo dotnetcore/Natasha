@@ -42,8 +42,8 @@ namespace Natasha.CSharp
         {
 
             get { return Compiler.AssemblyOutputKind == AssemblyBuildKind.File; }
-            set { Compiler.AssemblyOutputKind = value? AssemblyBuildKind.File : AssemblyBuildKind.Stream; }
-        
+            set { Compiler.AssemblyOutputKind = value ? AssemblyBuildKind.File : AssemblyBuildKind.Stream; }
+
         }
 
         public bool AllowUnsafe
@@ -78,14 +78,12 @@ namespace Natasha.CSharp
 
         }
 
-        public string AssemblyName 
+        public string AssemblyName
         {
             get { return Compiler.AssemblyName; }
             set { Compiler.AssemblyName = value; }
         }
 
-
-        public bool UseShareLibraries;
         public AssemblyCSharpBuilder() : this(Guid.NewGuid().ToString("N")){}
         public AssemblyCSharpBuilder(string name):base(name)
         {
@@ -218,11 +216,6 @@ namespace Natasha.CSharp
 
             }
 
-            if (UseShareLibraries)
-            {
-                ((AssemblyDomain)Compiler.Domain).UseShareLibraries();
-            }
-
             //进入编译流程
             Compile();
 
@@ -258,12 +251,6 @@ namespace Natasha.CSharp
 
         }
 
-
-
-        public void CustomReference()
-        {
-
-        }
 
     }
 

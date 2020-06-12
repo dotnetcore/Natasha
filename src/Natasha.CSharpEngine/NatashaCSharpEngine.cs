@@ -95,13 +95,14 @@ namespace Natasha.CSharpEngine
 
         public NatashaCSharpSyntax Syntax;
         public NatashaCSharpCompiler Compiler;
-        public List<CompilationException> Exceptions; 
+        public List<CompilationException> Exceptions;
 
 
         public int RetryLimit;
-        private int _retryCount;
-        internal bool CanRetry;
-
+        public int RetryCount;
+        public bool CanRetry;
+        public bool CustomReferences;
+        public bool UseShareLibraries;
 
 
         public NatashaCSharpEngine(string name)
@@ -183,8 +184,8 @@ namespace Natasha.CSharpEngine
             {
 
                 CanRetry = false;
-                _retryCount += 1;
-                if (_retryCount < RetryLimit)
+                RetryCount += 1;
+                if (RetryCount < RetryLimit)
                 {
 
                     foreach (var item in codeMappings)
@@ -211,6 +212,14 @@ namespace Natasha.CSharpEngine
         internal virtual void Compile()
         {
 
+            if (CustomReferences)
+            {
+                ((AssemblyDomain)Compiler.Domain).CustomReferences();
+            }
+            if (UseShareLibraries)
+            {
+                ((AssemblyDomain)Compiler.Domain).UseShareLibraries();
+            }
             Exceptions = null;
             Compiler.CompileTrees = Syntax.TreeCache.Values;
             Compiler.Compile();
