@@ -14,7 +14,7 @@ namespace Natasha
 {
     public class AssemblyDomain : DomainBase
     {
-
+        private bool _customReference;
         public readonly ConcurrentDictionary<string, Assembly> DllAssemblies;
         public readonly ShortNameReference ShortReferences;
         private static readonly AssemblyDomain _defaultDomain;
@@ -53,8 +53,6 @@ namespace Natasha
             UseSdkLibraries();
 
         }
-
-
         private static void UseSdkLibraries()
         {
 
@@ -78,6 +76,10 @@ namespace Natasha
 
             }
 
+        }
+        public void CustomReferences()
+        {
+            _customReference = true;
         }
 
         /// <summary>

@@ -96,12 +96,7 @@ namespace Natasha.CSharp
             CustomUsingShut = false;
             RetryLimit = 2;
             
-
         }
-
-
-
-
         public void CompilerOption(Action<NatashaCSharpCompiler> action)
         {
             action?.Invoke(Compiler);
@@ -192,6 +187,7 @@ namespace Natasha.CSharp
 
 
 
+
         public Assembly GetAssembly()
         {
 
@@ -259,6 +255,13 @@ namespace Natasha.CSharp
 
             }
             return Compiler.Assembly;
+
+        }
+
+
+
+        public void CustomReference()
+        {
 
         }
 

@@ -137,7 +137,7 @@ namespace Natasha.Framework
         /// </summary>
         /// <param name="stream">外部流</param>
         /// <returns></returns>
-        public virtual Assembly GetAssemblyFromStream(Stream stream)
+        public virtual Assembly LoadAndGetAssemblyFromStream(Stream stream)
         {
             if (Name == "Default")
             {
@@ -159,7 +159,7 @@ namespace Natasha.Framework
         {
             using (Stream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
-                return GetAssemblyFromStream(stream);
+                return LoadAndGetAssemblyFromStream(stream);
             }
         }
 
