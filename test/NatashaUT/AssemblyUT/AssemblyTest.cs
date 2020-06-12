@@ -253,7 +253,7 @@ public class Test{}
         {
 
             var action = NDelegate
-                .RandomDomain(item=>item.UseShareLibraries=true)
+                .RandomDomain(item => item.UseShareLibraries = true)
                 .SetClass(item => item.AllowPrivate<List<int>>())
                 .Func<int>("return (new List<int>())._size;");
             Assert.Equal(0,action());

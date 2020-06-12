@@ -14,6 +14,7 @@ namespace Natasha.CSharpCompiler
 
         public bool AllowUnsafe;
         public OutputKind Enum_OutputKind;
+        public Platform Enum_Platform;
         public OptimizationLevel Enum_OptimizationLevel;
         public ConcurrentDictionary<string, ReportDiagnostic> SuppressDiagnostics;
         public static readonly Action<CSharpCompilationOptions,uint> SetTopLevelBinderFlagDelegate;
@@ -31,6 +32,7 @@ namespace Natasha.CSharpCompiler
         public CSharpCompilerBase()
         {
 
+            Enum_Platform = Platform.AnyCpu;
             SuppressDiagnostics = new ConcurrentDictionary<string, ReportDiagnostic>();
 
         }
@@ -38,12 +40,18 @@ namespace Natasha.CSharpCompiler
 
         public override CSharpCompilation GetCompilation()
         {
-
+            //..ComparisonResult = AssemblyIdentityComparer.ComparisonResult.EquivalentIgnoringVersion;
+            //var a = new AssemblyIdentityComparer();
             var compilationOptions = new CSharpCompilationOptions(
+                                   concurrentBuild: true,
                                    metadataImportOptions: MetadataImportOptions.All,
                                    outputKind: Enum_OutputKind,
                                    optimizationLevel: Enum_OptimizationLevel,
                                    allowUnsafe: AllowUnsafe,
+                                   platform: Enum_Platform,
+                                   checkOverflow:false,
+                                   assemblyIdentityComparer: DesktopAssemblyIdentityComparer.Default,
+                                   strongNameProvider: new DesktopStrongNameProvider(),
                                    specificDiagnosticOptions: SuppressDiagnostics);
             SetTopLevelBinderFlagDelegate(compilationOptions, _allowPrivateFlag);
             Compilation = CSharpCompilation.Create(AssemblyName, CompileTrees, Domain.GetCompileReferences(), compilationOptions);

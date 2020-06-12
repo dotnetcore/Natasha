@@ -51,7 +51,7 @@ namespace Natasha
         {
 
             UseSdkLibraries();
-
+            
         }
         private static void UseSdkLibraries()
         {
@@ -262,7 +262,7 @@ namespace Natasha
 #if !NETSTANDARD2_0
             _load_resolver = new AssemblyDependencyResolver(AppDomain.CurrentDomain.BaseDirectory);
 #endif
-
+            
             ShortReferences = new ShortNameReference();
             DllAssemblies = new ConcurrentDictionary<string, Assembly>();
             DomainManagement.Add(key, this);
