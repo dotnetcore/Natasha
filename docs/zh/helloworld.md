@@ -46,9 +46,6 @@ Emit 和表达式树的使用场景，Natasha 均适用。
 
 ```C#
 
-//引擎开放之后，您可以向引擎中注入自己实现的域，这里的 AssemblyDomain 是 Natasha 实现的域
-AssemblyDomain.Init();
-
 //使用 Natasha 的 CSharp 编译器直接编译字符串
 AssemblyCSharpBuilder sharpBuilder = new AssemblyCSharpBuilder();
 
@@ -131,7 +128,7 @@ func.DisposeDomain();
 ## 第四个 HelloWorld
 
 ```C#
-AssemblyDomain.Init();
+
 var @operator = FastMethodOperator.DefaultDomain();
 var actionDelegate = @operator
                 .Param(typeof(string), "parameter")
@@ -196,3 +193,17 @@ action();
 action.DisposeDomain();
 ```
 
+## 第六个 HelloWorld
+
+```C#
+
+var hwFunc = FastMethodOperator
+                .RandomDomain()
+                .Param(typeof(string), "str1")
+                .Param<string>("str2")
+                .Body("return str1+str2;")
+                .Return<string>()
+                .Compile<Func<string, string, string>>();
+Console.WriteLine(hwFunc("Hello"," World!"));
+
+```
