@@ -14,7 +14,7 @@ namespace Natasha
 {
     public class AssemblyDomain : DomainBase
     {
-
+        private bool _customReferences;
         public readonly ConcurrentDictionary<string, Assembly> DllAssemblies;
         public readonly ShortNameReference ShortReferences;
         private static readonly AssemblyDomain _defaultDomain;
@@ -51,10 +51,8 @@ namespace Natasha
         {
 
             UseSdkLibraries();
-
+            
         }
-
-
         private static void UseSdkLibraries()
         {
 
@@ -79,6 +77,10 @@ namespace Natasha
             }
 
         }
+        public void CustomReferences()
+        {
+            _customReferences = true;
+        }
 
         /// <summary>
         /// 让父类通过此方法获取当前类型域
@@ -93,9 +95,9 @@ namespace Natasha
         /// 从外部文件获取程序集，并添加引用信息
         /// </summary>
         /// <param name="path">文件路径</param>
-        public Assembly AssemblyCacheFromFile(string path)
+        public override Assembly LoadAssemblyFromFile(string path)
         {
-            var assembly = GetAssemblyFromFile(path);
+            var assembly = base.LoadAssemblyFromFile(path);
             if (assembly != null)
             {
                 AssemblyReferences[assembly] = MetadataReference.CreateFromFile(path);
@@ -108,9 +110,9 @@ namespace Natasha
         /// [自动释放]
         /// </summary>
         /// <param name="path">外部文件</param>
-        public Assembly AssemblyCacheFromStream(string path)
+        public override Assembly LoadAssemblyFromStream(string path)
         {
-            return AssemblyCacheFromStream(new FileStream(path, FileMode.Open, FileAccess.Read));
+            return LoadAssemblyFromStream(new FileStream(path, FileMode.Open, FileAccess.Read));
         }
 
         /// <summary>
@@ -119,11 +121,11 @@ namespace Natasha
         /// </summary>
         /// <param name="stream">流</param>
         /// <returns></returns>
-        public Assembly AssemblyCacheFromStream(Stream stream)
+        public override Assembly LoadAssemblyFromStream(Stream stream)
         {
             using (stream)
             {
-                var assembly = GetAssemblyFromStream(stream);
+                var assembly = base.LoadAssemblyFromStream(stream);
                 if (assembly != null)
                 {
                     stream.Seek(0, SeekOrigin.Begin);
@@ -138,7 +140,7 @@ namespace Natasha
         {
 
             AddDeps(path, excludePaths);
-            var assembly = GetAssemblyFromFile(path);
+            var assembly = base.LoadAssemblyFromFile(path);
             DllAssemblies[path] = assembly;
             return assembly;
 
@@ -150,7 +152,7 @@ namespace Natasha
             AddDeps(path, excludePaths);
             using (FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
-                var assembly = GetAssemblyFromStream(stream);
+                var assembly = base.LoadAssemblyFromStream(stream);
                 DllAssemblies[path] = assembly;
                 return assembly;
             }
@@ -162,20 +164,29 @@ namespace Natasha
         /// <returns></returns>
         public override HashSet<PortableExecutableReference> GetCompileReferences()
         {
+
             var sets = base.GetCompileReferences();
             if (Name != "Default")
             {
-                //拿到系统域
-                var @default = DomainManagement.Default;
-                //将系统域的短名引用缓存起来
-                var dict = new Dictionary<string, PortableExecutableReference>(_defaultDomain.ShortReferences.References);
-                foreach (var item in ShortReferences.References)
+                if (!_customReferences)
                 {
-                    //用当前域的引用集合覆盖系统域的集合
-                    dict[item.Key] = item.Value;
+                    //拿到系统域
+                    var @default = DomainManagement.Default;
+                    //将系统域的短名引用缓存起来
+                    var dict = new Dictionary<string, PortableExecutableReference>(_defaultDomain.ShortReferences.References);
+                    foreach (var item in ShortReferences.References)
+                    {
+                        //用当前域的引用集合覆盖系统域的集合
+                        dict[item.Key] = item.Value;
+                    }
+                    //将处理后的名引用加载进来
+                    sets.UnionWith(dict.Values);
                 }
-                //将处理后的名引用加载进来
-                sets.UnionWith(dict.Values);
+                else
+                {
+                    sets.UnionWith(ShortReferences.References.Values);
+                }
+                
             }
             else
             {
@@ -194,7 +205,7 @@ namespace Natasha
         /// <returns></returns>
         public override Assembly CompileFileHandler(string dllFile, string pdbFile, string AssemblyName)
         {
-            return AssemblyCacheFromFile(dllFile);
+            return LoadAssemblyFromFile(dllFile);
         }
 
         /// <summary>
@@ -205,7 +216,7 @@ namespace Natasha
         /// <returns></returns>
         public override Assembly CompileStreamHandler(Stream stream, string AssemblyName)
         {
-            return AssemblyCacheFromStream(stream);
+            return LoadAssemblyFromStream(stream);
         }
 
         /// <summary>
@@ -251,7 +262,7 @@ namespace Natasha
 #if !NETSTANDARD2_0
             _load_resolver = new AssemblyDependencyResolver(AppDomain.CurrentDomain.BaseDirectory);
 #endif
-
+            
             ShortReferences = new ShortNameReference();
             DllAssemblies = new ConcurrentDictionary<string, Assembly>();
             DomainManagement.Add(key, this);
@@ -277,7 +288,7 @@ namespace Natasha
             string assemblyPath = _load_resolver.ResolveAssemblyToPath(assemblyName);
             if (assemblyPath != null)
             {
-                return GetAssemblyFromStream(assemblyPath);
+                return LoadAssemblyFromStream(assemblyPath);
             }
 #endif
             return null;

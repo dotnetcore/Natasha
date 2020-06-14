@@ -8,8 +8,6 @@ using System.Runtime.Loader;
 
 namespace Natasha.Framework
 {
-    //public delegate void DomainAssemblyEvent(string path, Assembly assembly);
-    //public delegate void DomainNativeAssemblyEvent(string path, IntPtr ptr);
 
     public abstract class DomainBase : AssemblyLoadContext, IDisposable
     {
@@ -119,7 +117,7 @@ namespace Natasha.Framework
         /// </summary>
         /// <param name="path">外部文件</param>
         /// <returns></returns>
-        public virtual Assembly GetAssemblyFromFile(string path)
+        public virtual Assembly LoadAssemblyFromFile(string path)
         {
             if (Name == "Default")
             {
@@ -137,7 +135,7 @@ namespace Natasha.Framework
         /// </summary>
         /// <param name="stream">外部流</param>
         /// <returns></returns>
-        public virtual Assembly GetAssemblyFromStream(Stream stream)
+        public virtual Assembly LoadAssemblyFromStream(Stream stream)
         {
             if (Name == "Default")
             {
@@ -155,11 +153,11 @@ namespace Natasha.Framework
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public virtual Assembly GetAssemblyFromStream(string path)
+        public virtual Assembly LoadAssemblyFromStream(string path)
         {
             using (Stream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
-                return GetAssemblyFromStream(stream);
+                return LoadAssemblyFromStream(stream);
             }
         }
 

@@ -301,10 +301,16 @@ namespace Natasha.CSharp
 
 
 
-        public static AssemblyCSharpBuilder UseFileCompile(this AssemblyCSharpBuilder builder)
+        public static AssemblyCSharpBuilder UseFileCompile(this AssemblyCSharpBuilder builder, string folder = default)
         {
+
+            if (folder != default)
+            {
+                builder.OutputFolder = folder;
+            }
             builder.Compiler.AssemblyOutputKind = AssemblyBuildKind.File;
             return builder;
+
         }
         public static AssemblyCSharpBuilder UseStreamCompile(this AssemblyCSharpBuilder builder)
         {

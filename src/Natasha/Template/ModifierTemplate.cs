@@ -12,7 +12,7 @@ namespace Natasha.CSharp.Template
     public class ModifierTemplate<T> : AccessTemplate<T> where T : ModifierTemplate<T>, new()
     {
 
-        public StringBuilder ModifierScript;
+        public string ModifierScript { get { return GetModifyBuilder(); } }
         private string _modifierScript;
         private readonly HashSet<Modifiers> _status;
 
@@ -20,7 +20,6 @@ namespace Natasha.CSharp.Template
 
         public ModifierTemplate()
         {
-            ModifierScript = new StringBuilder();
             _status = new HashSet<Modifiers>();
         }
 
@@ -40,6 +39,11 @@ namespace Natasha.CSharp.Template
             return Link;
 
         }
+        public T Readonly()
+        {
+            return ModifierAppend("readonly");
+        }
+
         public T New()
         {
 
@@ -145,14 +149,14 @@ namespace Natasha.CSharp.Template
         }
 
 
-        public StringBuilder GetModifyBuilder()
+        public string GetModifyBuilder()
         {
 
-            ModifierScript.Clear();
+            StringBuilder builder = new StringBuilder();
             if (_status.Contains(Modifiers.Static))
             {
 
-                ModifierScript.Append("static ");
+                builder.Append("static ");
 
             }
 
@@ -160,7 +164,7 @@ namespace Natasha.CSharp.Template
             if (_status.Contains(Modifiers.Unsafe))
             {
 
-                ModifierScript.Append("unsafe ");
+                builder.Append("unsafe ");
 
             }
 
@@ -171,13 +175,13 @@ namespace Natasha.CSharp.Template
                 if (item != Modifiers.Static && item != Modifiers.Unsafe)
                 {
 
-                    ModifierScript.Append(ModifierReverser.GetModifier(item));
+                    builder.Append(ModifierReverser.GetModifier(item));
 
                 }
 
             }
-            ModifierScript.Append(_modifierScript);
-            return ModifierScript;
+            builder.Append(_modifierScript);
+            return builder.ToString();
 
         }
 

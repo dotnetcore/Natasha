@@ -87,5 +87,25 @@ namespace NatashaUT
 
         }
 
+
+        [Fact(DisplayName = "只读静态字段2")]
+        public void Test5()
+        {
+
+            FieldBuilder template = new FieldBuilder();
+            var result = template
+                .Attribute<ClassDataAttribute>()
+                .Access(Natasha.Reverser.Model.AccessTypes.Public)
+                .Static()
+                .ModifierAppend("readonly")
+                .Name("Name")
+                .Type<string>()
+                .Script;
+
+            Assert.Equal($"[Xunit.ClassDataAttribute]{Environment.NewLine}public static readonly System.String Name;", result);
+
+
+        }
+
     }
 }

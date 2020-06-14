@@ -24,6 +24,7 @@ namespace NatashaUT
                 .Func<int>("return (new ConcurrentDictionary<string,string>()).Count;");
             Assert.Equal(0, func());
         }
+
         [Fact(DisplayName = "CS0433 ConcurrentQueue")]
         public void Test1()
         {
@@ -36,6 +37,7 @@ namespace NatashaUT
                 .Func<int>("return (new ConcurrentQueue<string>()).Count;");
             Assert.Equal(0, func());
         }
+
         [Fact(DisplayName = "CS0433 Dictionary")]
         public void Test2()
         {
@@ -48,6 +50,7 @@ namespace NatashaUT
                 .Func<int>("return (new Dictionary<string,string>()).Count;");
             Assert.Equal(0, func());
         }
+
         [Fact(DisplayName = "CS0433 List")]
         public void Test3()
         {
@@ -61,6 +64,18 @@ namespace NatashaUT
             Assert.Equal(0, func());
         }
 
+        //[Fact(DisplayName = "CS0433 List")]
+        //public void Test4()
+        //{
+        //    var func = NDelegate
+        //        .RandomDomain(item => item.UseShareLibraries = true)
+        //        .Func<int>("return (new List<string>()).Count;");
+        //    Assert.Equal(0, func());
+        //    func = NDelegate
+        //        .RandomDomain()
+        //        .Func<int>("return (new List<string>()).Count;");
+        //    Assert.Equal(0, func());
+        //}
 
         [Fact(DisplayName = "未知错误")]
         public void TestUnknow()

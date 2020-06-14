@@ -1,4 +1,5 @@
-﻿using Natasha;
+﻿using Microsoft.CodeAnalysis;
+using Natasha;
 using Natasha.CSharp;
 using System;
 
@@ -32,8 +33,6 @@ namespace Core20
             var action = NDelegate.RandomDomain().Action("");
             var a = action.Method;
             Console.WriteLine(action.Method.Module.Assembly);
-
-
             Console.ReadKey();
         }
     }
