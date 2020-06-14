@@ -15,17 +15,17 @@
     <Copyright>.NET Core Community and Contributors</Copyright>
   </PropertyGroup>
 
-  <ItemGroup>
+  <!--<ItemGroup>
     <PackageReference Include="DotNetCore.Natasha.CSharpCompiler" Version="1.3.0-alpha1" />
     <PackageReference Include="DotNetCore.Natasha.CSharpSyntax" Version="1.3.0-alpha1" />
     <PackageReference Include="DotNetCore.Natasha.Domain" Version="1.3.0-alpha1" />
-  </ItemGroup>
+  </ItemGroup>-->
 
-  <!--<ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Natasha.CSharpComplier\Natasha.CSharpCompiler.csproj" />
     <ProjectReference Include="..\Natasha.CSharpSyntax\Natasha.CSharpSyntax.csproj" />
     <ProjectReference Include="..\Natasha.Domain\Natasha.Domain.csproj" />
-  </ItemGroup>-->
+  </ItemGroup>
 
 
 </Project>
