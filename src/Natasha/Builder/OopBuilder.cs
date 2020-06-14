@@ -312,6 +312,21 @@ namespace Natasha.CSharp.Builder
         /// <param name="type"></param>
         /// <param name="name"></param>
         /// <returns></returns>
+        public T CreateField(string access,string modifier, Type type, string name, string attribute)
+        {
+
+            Field(item => item
+            .Access(access)
+            .Modifier(modifier)
+            .Type(type)
+            .Name(name)
+            .Attribute(attribute)
+            );
+            Using(type);
+            return Link;
+
+        }
+
         public T CreateField(string access, Type type, string name, string attribute)
         {
 
@@ -326,14 +341,34 @@ namespace Natasha.CSharp.Builder
 
         }
 
+
+
+        public T PublicReadonlyField<S>(string name, string attribute = default)
+        {
+            return PublicReadonlyField(typeof(S), name, attribute);
+        }
+        public T PublicReadonlyField(Type type, string name, string attribute = default)
+        {
+            return CreateField("public", "readonly", type, name, attribute);
+        }
+
         public T PublicField<S>(string name, string attribute = default)
         {
             return PublicField(typeof(S), name, attribute);
         }
-
         public T PublicField(Type type, string name, string attribute = default)
         {
             return CreateField("public", type, name, attribute);
+        }
+
+
+        public T PrivateReadonlyField<S>(string name, string attribute = default)
+        {
+            return PrivateReadonlyField(typeof(S), name, attribute);
+        }
+        public T PrivateReadonlyField(Type type, string name, string attribute = default)
+        {
+            return CreateField("private", "readonly", type, name, attribute);
         }
 
         public T PrivateField<S>(string name, string attribute = default)
@@ -346,6 +381,16 @@ namespace Natasha.CSharp.Builder
             return CreateField("private", type, name, attribute);
         }
 
+
+        public T InternalReadonlyField<S>(string name, string attribute = default)
+        {
+            return InternalReadonlyField(typeof(S), name, attribute);
+        }
+        public T InternalReadonlyField(Type type, string name, string attribute = default)
+        {
+            return CreateField("internal", "readonly", type, name, attribute);
+        }
+
         public T InternalField<S>(string name, string attribute = default)
         {
             return InternalField(typeof(S), name, attribute);
@@ -354,6 +399,16 @@ namespace Natasha.CSharp.Builder
         public T InternalField(Type type, string name, string attribute = default)
         {
             return CreateField("internal", type, name, attribute);
+        }
+
+
+        public T ProtectedReadonlyField<S>(string name, string attribute = default)
+        {
+            return ProtectedReadonlyField(typeof(S), name, attribute);
+        }
+        public T ProtectedReadonlyField(Type type, string name, string attribute = default)
+        {
+            return CreateField("protected", "readonly", type, name, attribute);
         }
 
         public T ProtectedField<S>(string name, string attribute = default)
@@ -366,6 +421,16 @@ namespace Natasha.CSharp.Builder
             return CreateField("protected", type, name, attribute);
         }
 
+        public T PublicStaticReadonlyField<S>(string name, string attribute = default)
+        {
+            return PublicStaticReadonlyField(typeof(S), name, attribute);
+        }
+
+        public T PublicStaticReadonlyField(Type type, string name, string attribute = default)
+        {
+            return CreateField("public", "static readonly", type, name, attribute);
+        }
+
         public T PublicStaticField<S>(string name, string attribute = default)
         {
             return PublicStaticField(typeof(S), name, attribute);
@@ -373,7 +438,17 @@ namespace Natasha.CSharp.Builder
 
         public T PublicStaticField(Type type, string name, string attribute = default)
         {
-            return CreateField("public static", type, name, attribute);
+            return CreateField("public", "static", type, name, attribute);
+        }
+
+        public T PrivateStaticReadonlyField<S>(string name, string attribute = default)
+        {
+            return PrivateStaticReadonlyField(typeof(S), name, attribute);
+        }
+
+        public T PrivateStaticReadonlyField(Type type, string name, string attribute = default)
+        {
+            return CreateField("private", "static readonly", type, name, attribute);
         }
 
         public T PrivateStaticField<S>(string name, string attribute = default)
@@ -383,9 +458,18 @@ namespace Natasha.CSharp.Builder
 
         public T PrivateStaticField(Type type, string name, string attribute = default)
         {
-            return CreateField("private static", type, name, attribute);
+            return CreateField("private", "static", type, name, attribute);
         }
 
+        public T InternalStaticReadonlyField<S>(string name, string attribute = default)
+        {
+            return InternalStaticReadonlyField(typeof(S), name, attribute);
+        }
+
+        public T InternalStaticReadonlyField(Type type, string name, string attribute = default)
+        {
+            return CreateField("internal", "static readonly", type, name, attribute);
+        }
         public T InternalStaticField<S>(string name, string attribute = default)
         {
             return InternalStaticField(typeof(S), name, attribute);
@@ -393,9 +477,17 @@ namespace Natasha.CSharp.Builder
 
         public T InternalStaticField(Type type, string name, string attribute = default)
         {
-            return CreateField("internal static", type, name, attribute);
+            return CreateField("internal", "static", type, name, attribute);
+        }
+        public T ProtectedStaticReadonlyField<S>(string name, string attribute = default)
+        {
+            return ProtectedStaticReadonlyField(typeof(S), name, attribute);
         }
 
+        public T ProtectedStaticReadonlyField(Type type, string name, string attribute = default)
+        {
+            return CreateField("protected", "static readonly", type, name, attribute);
+        }
         public T ProtectedStaticField<S>(string name, string attribute = default)
         {
             return ProtectedStaticField(typeof(S), name, attribute);
@@ -403,7 +495,7 @@ namespace Natasha.CSharp.Builder
 
         public T ProtectedStaticField(Type type, string name, string attribute = default)
         {
-            return CreateField("protected static", type, name, attribute);
+            return CreateField("protected", "static", type, name, attribute);
         }
 
     }

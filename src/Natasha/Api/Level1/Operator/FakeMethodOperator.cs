@@ -90,16 +90,11 @@ namespace Natasha.CSharp
         //{
         //    return Methodbody(body);
         //}
-        public FakeMethodOperator Methodbody(string body)
+        public FakeMethodOperator MethodBody(string body)
         {
 
             MethodCopy();
-            if (ModifierScript.Length == 0)
-            {
-
-                Modifier(_method_info);
-
-            }
+            ModifierAppend(AsyncReverser.GetAsync(_method_info));
             return Body(body);
             
         }

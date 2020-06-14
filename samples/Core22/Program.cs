@@ -29,7 +29,7 @@ namespace Core22
 
             FakeMethodOperator.DefaultDomain()
                 .UseMethod<TestB>("TestMethod")
-                .Methodbody($@"Console.WriteLine(""Hello World!"");")
+                .MethodBody($@"Console.WriteLine(""Hello World!"");")
                 .Compile<Action>(new TestA());
 
             

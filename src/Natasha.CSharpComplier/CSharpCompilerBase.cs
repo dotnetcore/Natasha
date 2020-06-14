@@ -51,7 +51,6 @@ namespace Natasha.CSharpCompiler
                                    platform: Enum_Platform,
                                    checkOverflow:false,
                                    assemblyIdentityComparer: DesktopAssemblyIdentityComparer.Default,
-                                   strongNameProvider: new DesktopStrongNameProvider(),
                                    specificDiagnosticOptions: SuppressDiagnostics);
             SetTopLevelBinderFlagDelegate(compilationOptions, _allowPrivateFlag);
             Compilation = CSharpCompilation.Create(AssemblyName, CompileTrees, Domain.GetCompileReferences(), compilationOptions);

@@ -16,7 +16,7 @@ namespace NatashaUT.OperatorUT
             var builder = FakeMethodOperator.RandomDomain();
             builder
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite1"))
-                .Methodbody(@"Console.WriteLine(""hello world"");");
+                .MethodBody(@"Console.WriteLine(""hello world"");");
             Assert.Equal($@"public void ReWrite1(){{Console.WriteLine(""hello world"");}}", builder.Script);
             
         }
@@ -46,7 +46,7 @@ namespace NatashaUT.OperatorUT
             var builder = FakeMethodOperator.RandomDomain();
             builder
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite2"))
-                .Methodbody(@"Console.WriteLine(""hello world"");return this;");
+                .MethodBody(@"Console.WriteLine(""hello world"");return this;");
             Assert.Equal($@"public async System.Threading.Tasks.Task<NatashaUT.Model.OopTestModel> ReWrite2(){{Console.WriteLine(""hello world"");return this;}}", builder.Script);
 
         }
@@ -74,8 +74,9 @@ namespace NatashaUT.OperatorUT
 
             var builder = FakeMethodOperator.RandomDomain();
             builder
+                .Virtrual()
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite3"))
-                .Methodbody(@"i++;temp+=i.ToString();");
+                .MethodBody(@"i++;temp+=i.ToString();");
             Assert.Equal($@"public virtual void ReWrite3(ref System.Int32 i,System.String temp){{i++;temp+=i.ToString();}}", builder.Script);
 
         }
