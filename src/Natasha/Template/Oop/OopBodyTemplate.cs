@@ -2,7 +2,7 @@
 
 namespace Natasha.CSharp.Template
 {
-    public class OopBodyTemplate<T> : InheritanceTemplate<T> where T : OopBodyTemplate<T>, new()
+    public class OopBodyTemplate<T> : OopConstraintTemplate<T> where T : OopBodyTemplate<T>, new()
     {
 
         public StringBuilder BodyScript;

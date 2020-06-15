@@ -14,7 +14,7 @@ namespace NatashaUT
 
 
         [Fact(DisplayName = "动态类生成测试1")]
-        public static void RunClassName0()
+        public void RunClassName0()
         {
 
             //ScriptCompiler.Init();
@@ -40,7 +40,7 @@ namespace HelloWorld
 
 
         [Fact(DisplayName = "动态类生成测试2")]
-        public static void RunClassName4()
+        public void RunClassName4()
         {
 
             //ScriptCompiler.Init();
@@ -64,7 +64,7 @@ namespace HelloWorld
 
 
         [Fact(DisplayName = "选择类")]
-        public static void RunClassName1()
+        public void RunClassName1()
         {
 
             //ScriptCompiler.Init();
@@ -116,7 +116,7 @@ namespace HelloWorld{
 
 
         [Fact(DisplayName = "选择命名空间+类")]
-        public static void RunClassName2()
+        public void RunClassName2()
         {
             //ScriptCompiler.Init();
             string text = @"using System;

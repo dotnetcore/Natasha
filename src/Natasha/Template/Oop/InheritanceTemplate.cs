@@ -25,7 +25,7 @@ namespace Natasha.CSharp.Template
             else
             {
 
-                Inheritances.Append(':');
+                Inheritances.Append(" : ");
                 Inheritances.Append(type);
 
             }

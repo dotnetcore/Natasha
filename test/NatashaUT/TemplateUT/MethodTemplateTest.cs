@@ -85,11 +85,12 @@ namespace NatashaUT
                 .Attribute<ClassDataAttribute>()
                 .Unsafe()
                 .Async()
+                .Constraint("where T : class")
                 .Access(Natasha.Reverser.Model.AccessTypes.Public)
                 .Name("Name")
                 .Script;
 
-            Assert.Equal($"[Xunit.ClassDataAttribute]{Environment.NewLine}public unsafe async void Name(){{}}", result);
+            Assert.Equal($"[Xunit.ClassDataAttribute]{Environment.NewLine}public unsafe async void Name() where T : class{{}}", result);
             Assert.Equal(typeof(Action), template.DelegateType);
 
         }

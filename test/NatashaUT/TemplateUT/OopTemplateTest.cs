@@ -1,4 +1,7 @@
-﻿using Xunit;
+﻿using Natasha.CSharp;
+using Natasha.CSharp.Builder;
+using System;
+using Xunit;
 
 namespace NatashaUT
 {
@@ -6,24 +9,27 @@ namespace NatashaUT
     public class OopTemplateTest : PrepareTest
     {
 
-        //[Fact(DisplayName = "构建类")]
-        //public void TestBuilder1()
-        //{
-        //    OopBuilder<OopTemplateTest> builder = new OopBuilder();
-        //    var script = builder
-        //        .Access(Natasha.Reverser.Model.AccessTypes.Public)
-        //        .Modifier(Natasha.Reverser.Model.Modifiers.Static)
-        //        .Class()
-        //        .CurstomeUsing()
-        //        .Using<OopTemplateTest>()
-        //        .Using<int>()
-        //        .Namespace("TestNamespace")
-        //        .DefinedName("TestUt1")
-        //        .Body("public static void Test(){}")
-        //        .Script;
-        //    Assert.Equal($@"using NatashaUT;{Environment.NewLine}using System;{Environment.NewLine}namespace TestNamespace{{public static class TestUt1{{{Environment.NewLine}public static void Test(){{}}{Environment.NewLine}}}}}", script);
+        [Fact(DisplayName = "构建类")]
+        public void TestBuilder1()
+        {
 
-        //}
+            OopBuilder builder = new OopBuilder();
+            var script = builder
+                .Access(Natasha.Reverser.Model.AccessTypes.Public)
+                .Modifier(Natasha.Reverser.Model.Modifiers.Static)
+                .Class()
+                .CustomUsing()
+                .Using<OopTemplateTest>()
+                .Using<int>()
+                .Inheritance<int>()
+                .Namespace("TestNamespace")
+                .Name("TestUt1<T>")
+                .Constraint("where T : class")
+                .Body("public static void Test(){}")
+                .Script;
+            Assert.Equal($@"using NatashaUT;{Environment.NewLine}using System;{Environment.NewLine}namespace TestNamespace{{public static class TestUt1<T> : System.Int32 where T : class{{{Environment.NewLine}public static void Test(){{}}}}}}", script);
+
+        }
 
 
 
