@@ -14,8 +14,7 @@
 [![Badge](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu/#/zh_CN)
 [![GitHub license](https://img.shields.io/github/license/dotnetcore/natasha.svg)](https://github.com/dotnetcore/Natasha/blob/master/LICENSE)
 
-&ensp;&ensp;&ensp;&ensp;基于 [Roslyn](https://github.com/dotnet/roslyn) 的动态编译库，为您提供高效率、高性能、可追踪的动态构建方案，兼容 stanadard2.0/netcoreapp3.0+ , 只需原生C#语法不用Emit, [更多的动图展示](https://github.com/dotnetcore/Natasha/blob/master/docs/zh/gif.md)。
-让您的动态方法更加容易编写、跟踪、维护。
+&ensp;&ensp;&ensp;&ensp;基于 [Roslyn](https://github.com/dotnet/roslyn) 的 C# 动态程序集构建库，该库允许开发者在运行时使用 C# 代码构建域 / 程序集 / 类 / 结构体 / 枚举 / 接口 / 方法等，使得程序在运行的时候可以增加新的模块及功能。Natasha 集成了域管理/插件管理，可以实现域隔离，域卸载，热拔插等功能。 该库遵循完整的编译流程，完整的错误提示，可自动添加引用让开发者只专注于程序集脚本的构建，兼容 stanadard2.0 / netcoreapp3.0+, 跨平台，统一、简便的链式 API。 且我们会尽快修复您的问题及回复您的 [issue](https://github.com/dotnetcore/Natasha/issues/new). [更多的动图展示](https://github.com/dotnetcore/Natasha/blob/master/docs/zh/gif.md)
 
 
  ![展示](https://github.com/dotnetcore/Natasha/blob/master/Image/Natasha.gif)
