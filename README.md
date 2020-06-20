@@ -98,12 +98,12 @@
  - [ ] 反解器增加泛型类型约束反解
  - [ ] 增加反解枚举，增强模板构造的状态机
  - [ ] 重新检查反解器是否违反了单一职责（D2R）
- - [ ] 改造 R2D
+ - [ ] 改造 [R2D](https://github.com/night-moon-studio/RuntimeToDynamic)
     - [x] 持续性能优化
     - [ ] 评估模板职责
     - [ ] 评估扩展方向
-    - [ ] 评估 NCall 项目新需求的抽象
- - [ ] 改造 DynmaicCache 
+    - [ ] 评估 [NCaller](https://github.com/night-moon-studio/NCaller) 项目新需求的抽象
+ - [ ] 改造 [DynmaicCache](https://github.com/night-moon-studio/DynamicCache) 
     - [x] 持续优化性能
     - [ ] 优化静态自动机
  - [ ] BTF 算法
@@ -114,12 +114,12 @@
     - [ ] 优化性能
     - [ ] 精确解析
     - [x] 持续评估封装架构的设计方案
- - [ ] 改造 NCaller 
+ - [ ] 改造 [NCaller](https://github.com/night-moon-studio/NCaller) 
     - [x] 持续优化性能
     - [ ] 私有支持
     - [ ] 设计动态变现功能和实现
     - [ ] 设计只读功能维度和实现
-    - [ ] 评估 NCaller 代理方式 和 DynamicCache 代理方式 在 R2D 模板下的异同及抽象
+    - [ ] 评估 [NCaller](https://github.com/night-moon-studio/NCaller) 代理方式 和 [DynmaicCache](https://github.com/night-moon-studio/DynamicCache) 代理方式 在 R2D 模板下的异同及抽象
     - [ ] 优化静态自动机代码
  - [ ] 依赖还原库
     - [ ] NET 模块
