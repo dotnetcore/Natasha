@@ -5,6 +5,7 @@
 <p align="center"> <span>你们的反馈是我的动力，文档还有很多不足之处；</span> </p>
 <p align="center"> <span> 当你看完文档之后仍然不知道如何实现你的需求，您可以查看<a href="https://github.com/dotnetcore/Natasha/blob/master/docs/FAQ.md"> FAQ </a>或者在issue中提出你的需求。</span> </p>
 
+# v3.10.0.0 版本慎用，详情见 NCC 公众号文章。
 
 # Natasha 
 
