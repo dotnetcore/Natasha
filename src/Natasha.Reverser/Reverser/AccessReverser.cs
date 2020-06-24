@@ -38,7 +38,7 @@ namespace Natasha.Reverser
 
 
                 case AccessTypes.InternalAndProtected:
-                    return "internal protected";
+                    return "internal protected ";
 
 
                 default:
