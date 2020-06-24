@@ -5,10 +5,11 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Xunit;
+using static NatashaUT.TypeReflectorTest;
 
 namespace NatashaUT
 {
-    [Trait("反解", "类型反射")]
+    [Trait("反解器", "类型元数据")]
     public class TypeReflectorTest : PrepareTest
     {
         [Fact(DisplayName = "共有类")]
@@ -194,6 +195,28 @@ namespace NatashaUT
 
         }
 
+        
+
+        [Fact(DisplayName = "内部程序集内友元类")]
+        public void Test15()
+        {
+
+            Assert.True(typeof(OITR).IsNested);
+            Assert.True(typeof(OITR).IsNestedAssembly);
+
+            Assert.False(typeof(OITR).IsNestedFamANDAssem);
+            Assert.False(typeof(OITR).IsPublic);
+            Assert.False(typeof(OITR).IsNotPublic);
+            Assert.False(typeof(OITR).IsSealed);
+            Assert.False(typeof(OITR).IsAbstract);
+            Assert.False(typeof(OITR).IsValueType);
+            Assert.False(typeof(OITR).IsInterface);
+            Assert.False(typeof(OITR).IsNestedFamORAssem);
+            Assert.False(typeof(OITR).IsNestedFamily);
+            Assert.False(typeof(OITR).IsNestedPrivate);
+
+        }
+
         [Fact(DisplayName = "内部友元类")]
         public void Test5()
         {
@@ -294,10 +317,12 @@ namespace NatashaUT
         {
             Assert.Null(typeof(RPSTRUCT).GetCustomAttribute<IsReadOnlyAttribute>());
             Assert.True(typeof(RPSTRUCT).IsPublic);
-            Assert.False(typeof(RPSTRUCT).IsNotPublic);
             Assert.True(typeof(RPSTRUCT).IsSealed);
-            Assert.False(typeof(RPSTRUCT).IsAbstract);
             Assert.True(typeof(RPSTRUCT).IsValueType);
+            Assert.True(typeof(RPSTRUCT).IsByRefLike);
+
+            Assert.False(typeof(RPSTRUCT).IsNotPublic);
+            Assert.False(typeof(RPSTRUCT).IsAbstract);
             Assert.False(typeof(RPSTRUCT).IsInterface);
             Assert.False(typeof(RPSTRUCT).IsNested);
             Assert.False(typeof(RPSTRUCT).IsNestedAssembly);
@@ -306,10 +331,19 @@ namespace NatashaUT
             Assert.False(typeof(RPSTRUCT).IsNestedPrivate);
             Assert.False(typeof(RPSTRUCT).IsNestedFamORAssem);
             Assert.False(typeof(RPSTRUCT).IsByRef);
-            Assert.True(typeof(RPSTRUCT).IsByRefLike);
             Assert.False(typeof(RPSTRUCT).IsMarshalByRef);
 
         }
+
+
+
+        internal class OITR
+        {
+
+            protected class OIPTR { }
+        }
+
+
 
         protected class PPTR { }
 
@@ -319,5 +353,7 @@ namespace NatashaUT
 
 
     }
+
+
 
 }

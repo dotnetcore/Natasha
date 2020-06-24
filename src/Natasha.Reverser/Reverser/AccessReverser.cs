@@ -71,6 +71,12 @@ namespace Natasha.Reverser
                 return "private ";
 
             }
+            else if (reflectMethodInfo.IsAssembly)
+            {
+
+                return "internal ";
+
+            }
             else if (reflectMethodInfo.IsFamily)
             {
 
@@ -159,28 +165,10 @@ namespace Natasha.Reverser
                 return "public ";
 
             }
-            else if (type.IsNotPublic || type.IsNestedFamORAssem)
+            else if (type.IsNotPublic)
             {
 
                 return "internal ";
-
-            }
-            else if (type.IsNestedFamily)
-            {
-
-                return "protected ";
-
-            }
-            else if (type.IsNestedFamANDAssem)
-            {
-
-                return "internal protected ";
-
-            }
-            else if (type.IsNestedPrivate)
-            {
-
-                return "private ";
 
             }
 
