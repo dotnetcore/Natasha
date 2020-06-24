@@ -37,24 +37,37 @@ namespace NatashaUT.Model
 
     public class TFieldClass
     {
-        public int A;
-        protected int B;
-        internal int C;
-        private int D;
-        protected internal int E;
-        internal protected int F;
+        public int publicA;
+        protected int protectedA;
+        internal int internalA;
+        private int privateA;
+        protected internal int protectedinternalA;
+        internal protected int internalprotectedA;
         public readonly int G;
         public static readonly int H;
     }
 
     public class TPropertyClass
     {
-        public int A { get; set; }
-        protected int B { get; set; }
-        internal int C { get; set; }
-        private int D { get; set; }
+        public int publicA { get; set; }
+        protected int protectedA { get; set; }
+        internal int internalA { get; set; }
+        private int privateA { get; set; }
         protected internal int E { get; set; }
         internal protected int F { get; set; }
-        public int GetD { get { return D; } }
+        public int GetD { get { return privateA; } }
     }
+
+    public class TMethodClass 
+    {
+
+        public int publicA() { return default; }
+        protected int protectedA() { return default; }
+        internal int internalA() { return default; }
+        private int privateA() { return default; }
+        protected internal int protectedinternalA() { return default; }
+        internal protected int internalprotectedA() { return default; }
+
+    }
+
 }

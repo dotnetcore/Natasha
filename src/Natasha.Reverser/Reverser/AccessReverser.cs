@@ -77,16 +77,10 @@ namespace Natasha.Reverser
                 return "protected ";
 
             }
-            else if (reflectMethodInfo.IsAssembly || reflectMethodInfo.IsFamilyOrAssembly)
+            else if (reflectMethodInfo.IsFamilyOrAssembly)
             {
 
-                return "internal ";
-
-            }
-            else if (reflectMethodInfo.IsFamilyAndAssembly)
-            {
-
-                return "internal protected";
+                return "internal protected ";
 
             }
 
@@ -133,7 +127,7 @@ namespace Natasha.Reverser
             else if (reflectFieldInfo.IsFamilyOrAssembly)
             {
 
-                return "internal protected";
+                return "internal protected ";
 
             }
 

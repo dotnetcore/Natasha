@@ -16,6 +16,7 @@ namespace NatashaUT
         {
 
             Assert.True(typeof(PublicTR).IsPublic);
+
             Assert.False(typeof(PublicTR).IsSealed);
             Assert.False(typeof(PublicTR).IsAbstract);
             Assert.False(typeof(PublicTR).IsValueType);
@@ -35,6 +36,8 @@ namespace NatashaUT
 
             Assert.True(typeof(PSTR).IsPublic);
             Assert.True(typeof(PSTR).IsSealed);
+
+
             Assert.False(typeof(PSTR).IsAbstract);
             Assert.False(typeof(PSTR).IsValueType);
             Assert.False(typeof(PSTR).IsInterface);
@@ -53,8 +56,9 @@ namespace NatashaUT
         {
 
             Assert.True(typeof(PATR).IsPublic);
-            Assert.False(typeof(PATR).IsSealed);
             Assert.True(typeof(PATR).IsAbstract);
+
+            Assert.False(typeof(PATR).IsSealed);
             Assert.False(typeof(PATR).IsValueType);
             Assert.False(typeof(PATR).IsInterface);
             Assert.False(typeof(PATR).IsNested);
@@ -74,6 +78,7 @@ namespace NatashaUT
             Assert.True(typeof(STR).IsPublic);
             Assert.True(typeof(STR).IsSealed);
             Assert.True(typeof(STR).IsAbstract);
+
             Assert.False(typeof(STR).IsValueType);
             Assert.False(typeof(STR).IsInterface);
             Assert.False(typeof(STR).IsNested);
@@ -91,10 +96,12 @@ namespace NatashaUT
         {
 
             Assert.True(typeof(IPT).IsPublic);
-            Assert.False(typeof(IPT).IsSealed);
-            Assert.True(typeof(IPT).IsAbstract);
-            Assert.False(typeof(IPT).IsValueType);
             Assert.True(typeof(IPT).IsInterface);
+            Assert.True(typeof(IPT).IsAbstract);
+
+
+            Assert.False(typeof(IPT).IsSealed);
+            Assert.False(typeof(IPT).IsValueType);
             Assert.False(typeof(IPT).IsNested);
             Assert.False(typeof(IPT).IsNestedAssembly);
             Assert.False(typeof(IPT).IsNestedFamANDAssem);
@@ -112,8 +119,9 @@ namespace NatashaUT
             Assert.True(typeof(EPT).IsPublic);
             Assert.True(typeof(EPT).IsEnum);
             Assert.True(typeof(EPT).IsSealed);
-            Assert.False(typeof(EPT).IsAbstract);
             Assert.True(typeof(EPT).IsValueType);
+
+            Assert.False(typeof(EPT).IsAbstract);
             Assert.False(typeof(EPT).IsInterface);
             Assert.False(typeof(EPT).IsNested);
             Assert.False(typeof(EPT).IsNestedAssembly);
@@ -127,8 +135,10 @@ namespace NatashaUT
         [Fact(DisplayName = "普通类")]
         public void Test2()
         {
-            Assert.False(typeof(InternalTR).IsPublic);
+
             Assert.True(typeof(InternalTR).IsNotPublic);
+
+            Assert.False(typeof(InternalTR).IsPublic);
             Assert.False(typeof(InternalTR).IsSealed);
             Assert.False(typeof(InternalTR).IsAbstract);
             Assert.False(typeof(InternalTR).IsValueType);
@@ -146,16 +156,19 @@ namespace NatashaUT
         [Fact(DisplayName = "内部保护类")]
         public void Test3()
         {
+
+            Assert.True(typeof(PPTR).IsNested);
+            Assert.True(typeof(PPTR).IsNestedFamily);
+
+
             Assert.False(typeof(PPTR).IsPublic);
             Assert.False(typeof(PPTR).IsNotPublic);
             Assert.False(typeof(PPTR).IsSealed);
             Assert.False(typeof(PPTR).IsAbstract);
             Assert.False(typeof(PPTR).IsValueType);
             Assert.False(typeof(PPTR).IsInterface);
-            Assert.True(typeof(PPTR).IsNested);
             Assert.False(typeof(PPTR).IsNestedAssembly);
             Assert.False(typeof(PPTR).IsNestedFamANDAssem);
-            Assert.True(typeof(PPTR).IsNestedFamily);
             Assert.False(typeof(PPTR).IsNestedPrivate);
             Assert.False(typeof(PPTR).IsNestedFamORAssem);
 
@@ -164,17 +177,19 @@ namespace NatashaUT
         [Fact(DisplayName = "内部私有类")]
         public void Test4()
         {
+
+            Assert.True(typeof(PPrivateTR).IsNested);
+            Assert.True(typeof(PPrivateTR).IsNestedPrivate);
+
             Assert.False(typeof(PPrivateTR).IsPublic);
             Assert.False(typeof(PPrivateTR).IsNotPublic);
             Assert.False(typeof(PPrivateTR).IsSealed);
             Assert.False(typeof(PPrivateTR).IsAbstract);
             Assert.False(typeof(PPrivateTR).IsValueType);
             Assert.False(typeof(PPrivateTR).IsInterface);
-            Assert.True(typeof(PPrivateTR).IsNested);
             Assert.False(typeof(PPrivateTR).IsNestedAssembly);
             Assert.False(typeof(PPrivateTR).IsNestedFamANDAssem);
             Assert.False(typeof(PPrivateTR).IsNestedFamily);
-            Assert.True(typeof(PPrivateTR).IsNestedPrivate);
             Assert.False(typeof(PPrivateTR).IsNestedFamORAssem);
 
         }
@@ -182,19 +197,21 @@ namespace NatashaUT
         [Fact(DisplayName = "内部友元类")]
         public void Test5()
         {
+
+            Assert.True(typeof(IIPTR).IsNested);
+            Assert.True(typeof(IIPTR).IsNestedFamORAssem);
+
             Assert.False(typeof(IIPTR).IsPublic);
             Assert.False(typeof(IIPTR).IsNotPublic);
             Assert.False(typeof(IIPTR).IsSealed);
             Assert.False(typeof(IIPTR).IsAbstract);
             Assert.False(typeof(IIPTR).IsValueType);
             Assert.False(typeof(IIPTR).IsInterface);
-            Assert.True(typeof(IIPTR).IsNested);
             Assert.False(typeof(IIPTR).IsNestedAssembly);
             Assert.False(typeof(IIPTR).IsNestedFamANDAssem);
             Assert.False(typeof(IIPTR).IsNestedFamily);
             Assert.False(typeof(IIPTR).IsNestedPrivate);
-            Assert.True(typeof(IIPTR).IsNestedFamORAssem);
-
+            
         }
 
 
@@ -202,13 +219,16 @@ namespace NatashaUT
         [Fact(DisplayName = "只读结构体类")]
         public void Test11()
         {
-            
-            Assert.NotNull(typeof(RDSTRUCT).GetCustomAttribute<IsReadOnlyAttribute>());
+
+
             Assert.True(typeof(RDSTRUCT).IsPublic);
-            Assert.False(typeof(RDSTRUCT).IsNotPublic);
+            Assert.NotNull(typeof(RDSTRUCT).GetCustomAttribute<IsReadOnlyAttribute>());
             Assert.True(typeof(RDSTRUCT).IsSealed);
-            Assert.False(typeof(RDSTRUCT).IsAbstract);
             Assert.True(typeof(RDSTRUCT).IsValueType);
+
+
+            Assert.False(typeof(RDSTRUCT).IsNotPublic);
+            Assert.False(typeof(RDSTRUCT).IsAbstract);
             Assert.False(typeof(RDSTRUCT).IsInterface);
             Assert.False(typeof(RDSTRUCT).IsNested);
             Assert.False(typeof(RDSTRUCT).IsNestedAssembly);
@@ -221,16 +241,18 @@ namespace NatashaUT
             Assert.False(typeof(RDSTRUCT).IsMarshalByRef);
             
         }
-        [Fact(DisplayName = "栈上结构体类")]
+        [Fact(DisplayName = "栈上只读结构体类")]
         public void Test14()
         {
 
             Assert.NotNull(typeof(RPDSTRUCT).GetCustomAttribute<IsReadOnlyAttribute>());
             Assert.True(typeof(RPDSTRUCT).IsPublic);
-            Assert.False(typeof(RPDSTRUCT).IsNotPublic);
-            Assert.True(typeof(RPDSTRUCT).IsSealed);
-            Assert.False(typeof(RPDSTRUCT).IsAbstract);
             Assert.True(typeof(RPDSTRUCT).IsValueType);
+            Assert.True(typeof(RPDSTRUCT).IsSealed);
+            Assert.True(typeof(RPDSTRUCT).IsByRefLike);
+
+            Assert.False(typeof(RPDSTRUCT).IsNotPublic);
+            Assert.False(typeof(RPDSTRUCT).IsAbstract);
             Assert.False(typeof(RPDSTRUCT).IsInterface);
             Assert.False(typeof(RPDSTRUCT).IsNested);
             Assert.False(typeof(RPDSTRUCT).IsNestedAssembly);
@@ -239,7 +261,6 @@ namespace NatashaUT
             Assert.False(typeof(RPDSTRUCT).IsNestedPrivate);
             Assert.False(typeof(RPDSTRUCT).IsNestedFamORAssem);
             Assert.False(typeof(RPDSTRUCT).IsByRef);
-            Assert.True(typeof(RPDSTRUCT).IsByRefLike);
             Assert.False(typeof(RPDSTRUCT).IsMarshalByRef);
 
         }
@@ -247,12 +268,12 @@ namespace NatashaUT
         public void Test12()
         {
             Assert.Null(typeof(PSTRUCT).GetCustomAttribute<IsReadOnlyAttribute>());
-            var a = typeof(PSTRUCT).Attributes;
             Assert.True(typeof(PSTRUCT).IsPublic);
-            Assert.False(typeof(PSTRUCT).IsNotPublic);
             Assert.True(typeof(PSTRUCT).IsSealed);
-            Assert.False(typeof(PSTRUCT).IsAbstract);
             Assert.True(typeof(PSTRUCT).IsValueType);
+
+            Assert.False(typeof(PSTRUCT).IsNotPublic);
+            Assert.False(typeof(PSTRUCT).IsAbstract);
             Assert.False(typeof(PSTRUCT).IsInterface);
             Assert.False(typeof(PSTRUCT).IsNested);
             Assert.False(typeof(PSTRUCT).IsNestedAssembly);
@@ -289,105 +310,12 @@ namespace NatashaUT
             Assert.False(typeof(RPSTRUCT).IsMarshalByRef);
 
         }
+
         protected class PPTR { }
 
         private class PPrivateTR { }
 
         internal protected class IIPTR { }
-
-
-        [Fact(DisplayName = "公有字段")]
-        public void Test15()
-        {
-            var info = typeof(TFieldClass).GetField("A");
-            Assert.True(info.IsPublic);
-            Assert.False(info.IsPrivate);
-            Assert.False(info.IsFamily);
-            Assert.False(info.IsSpecialName);
-            Assert.False(info.IsAssembly);
-            Assert.False(info.IsFamilyAndAssembly);
-            Assert.False(info.IsFamilyOrAssembly);
-
-        }
-        [Fact(DisplayName = "保护字段")]
-        public void Test16()
-        {
-            var info = typeof(TFieldClass).GetField("B",BindingFlags.NonPublic | BindingFlags.Instance);
-            Assert.False(info.IsPublic);
-            Assert.False(info.IsPrivate);
-            Assert.True(info.IsFamily);
-            Assert.False(info.IsSpecialName);
-            Assert.False(info.IsAssembly);
-            Assert.False(info.IsFamilyAndAssembly);
-            Assert.False(info.IsFamilyOrAssembly);
-
-        }
-
-        [Fact(DisplayName = "私有字段")]
-        public void Test18()
-        {
-            var info = typeof(TFieldClass).GetField("D", BindingFlags.NonPublic |
-
-BindingFlags.Instance);
-            Assert.False(info.IsPublic);
-            Assert.True(info.IsPrivate);
-            Assert.False(info.IsFamily);
-            Assert.False(info.IsSpecialName);
-            Assert.False(info.IsAssembly);
-            Assert.False(info.IsFamilyAndAssembly);
-            Assert.False(info.IsFamilyOrAssembly);
-
-        }
-
-        [Fact(DisplayName = "程序集字段")]
-        public void Test17()
-        {
-            var info = typeof(TFieldClass).GetField("C", BindingFlags.NonPublic |
-
-BindingFlags.Instance);
-            Assert.False(info.IsPublic);
-            Assert.False(info.IsPrivate);
-            Assert.False(info.IsFamily);
-            Assert.False(info.IsSpecialName);
-            Assert.True(info.IsAssembly);
-            Assert.False(info.IsFamilyAndAssembly);
-            Assert.False(info.IsFamilyOrAssembly);
-
-        }
-
-
-
-        [Fact(DisplayName = "保护程序集字段")]
-        public void Test19()
-        {
-            var info = typeof(TFieldClass).GetField("E", BindingFlags.NonPublic |
-
-BindingFlags.Instance);
-            Assert.False(info.IsPublic);
-            Assert.False(info.IsPrivate);
-            Assert.False(info.IsFamily);
-            Assert.False(info.IsSpecialName);
-            Assert.False(info.IsAssembly);
-            Assert.False(info.IsFamilyAndAssembly);
-            Assert.True(info.IsFamilyOrAssembly);
-
-        }
-
-        [Fact(DisplayName = "程序集保护字段")]
-        public void Test20()
-        {
-            var info = typeof(TFieldClass).GetField("F", BindingFlags.NonPublic |
-
-BindingFlags.Instance);
-            Assert.False(info.IsPublic);
-            Assert.False(info.IsPrivate);
-            Assert.False(info.IsFamily);
-            Assert.False(info.IsSpecialName);
-            Assert.False(info.IsAssembly);
-            Assert.False(info.IsFamilyAndAssembly);
-            Assert.True(info.IsFamilyOrAssembly);
-
-        }
 
 
     }
