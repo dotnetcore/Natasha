@@ -21,7 +21,7 @@ namespace NatashaUT.Reverser
             var baseInfo = info
                 .DeclaringType
                 .BaseType
-                .GetMethod(info.Name, BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
+                .GetMethod(info.Name, BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.FlattenHierarchy);
 
             return info == baseInfo;
 
