@@ -5,12 +5,12 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Xunit;
-using static NatashaUT.TypeReflectorTest;
+using static NatashaUT.TypeReverserUT;
 
 namespace NatashaUT
 {
     [Trait("反解器", "类型元数据")]
-    public class TypeReflectorTest : PrepareTest
+    public class TypeReverserUT : PrepareTest
     {
         [Fact(DisplayName = "共有类")]
         public void Test1()

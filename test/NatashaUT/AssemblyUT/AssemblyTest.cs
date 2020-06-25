@@ -243,7 +243,7 @@ public class Test{}
             var action = NDelegate
                 .RandomDomain()
                 .SetClass(item=>item.AllowPrivate<TPropertyClass>())
-                .Action<TPropertyClass>("obj.A = 2; obj.D=1 ;");
+                .Action<TPropertyClass>("obj.publicA = 2; obj.privateA=1;");
             action(test);
             Assert.Equal(1, test.GetD);
         }

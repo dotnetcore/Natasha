@@ -15,7 +15,7 @@ namespace NatashaUT
         [Fact(DisplayName = "参数与类型反解 in")]
         public void TestIn()
         {
-            var info = typeof(ReverserTestModel).GetMethod("Test1");
+            var info = typeof(MethodSpecialTestModel).GetMethod("Test1");
             Assert.Equal("in NatashaUT.Model.Rsm<NatashaUT.Model.GRsm>", DeclarationReverser.GetParametersType(info.GetParameters()[0]));
         }
 
@@ -25,7 +25,7 @@ namespace NatashaUT
         [Fact(DisplayName = "参数与类型反解 out")]
         public void TestOut()
         {
-            var info = typeof(ReverserTestModel).GetMethod("Test2");
+            var info = typeof(MethodSpecialTestModel).GetMethod("Test2");
             Assert.Equal("out NatashaUT.Model.Rsm<NatashaUT.Model.Rsm<NatashaUT.Model.GRsm>[]>", DeclarationReverser.GetParametersType(info.GetParameters()[0]));
         }
 
@@ -35,7 +35,7 @@ namespace NatashaUT
         [Fact(DisplayName = "参数与类型反解 ref")]
         public void TestRef()
         {
-            var info = typeof(ReverserTestModel).GetMethod("Test3");
+            var info = typeof(MethodSpecialTestModel).GetMethod("Test3");
             Assert.Equal("ref NatashaUT.Model.Rsm<NatashaUT.Model.Rsm<NatashaUT.Model.GRsm>[]>[]", DeclarationReverser.GetParametersType(info.GetParameters()[0]));
         }
 
@@ -89,39 +89,39 @@ namespace NatashaUT
         }
 
 
-        [Fact(DisplayName = "方法承解析1")]
-        public void TestMethodProtected1()
-        {
+        //[Fact(DisplayName = "方法承解析1")]
+        //public void TestMethodProtected1()
+        //{
 
-            var a = typeof(MethodModel).GetMethod("M");
-            Assert.Equal("virtual ", ModifierReverser.GetModifier(a));
-            Assert.False(a.IsAbstract);
+        //    var a = typeof(MethodModel).GetMethod("M");
+        //    Assert.Equal("virtual ", ModifierReverser.GetModifier(a));
+        //    Assert.False(a.IsAbstract);
 
-        }
-        [Fact(DisplayName = "方法承解析2")]
-        public void TestMethodProtected2()
-        {
+        //}
+        //[Fact(DisplayName = "方法承解析2")]
+        //public void TestMethodProtected2()
+        //{
 
-            var a = typeof(MethodModel2).GetMethod("M");
-            Assert.Equal("abstract ", ModifierReverser.GetModifier(a));
-            Assert.True(a.IsVirtual);
+        //    var a = typeof(MethodModel2).GetMethod("M");
+        //    Assert.Equal("abstract ", ModifierReverser.GetModifier(a));
+        //    Assert.True(a.IsVirtual);
 
-        }
-        [Fact(DisplayName = "方法承解析3")]
-        public void TestMethodProtected3()
-        {
+        //}
+        //[Fact(DisplayName = "方法承解析3")]
+        //public void TestMethodProtected3()
+        //{
 
-            var a = typeof(MethodModel3).GetMethod("M");
-            Assert.Equal("override ", ModifierReverser.GetModifier(a));
+        //    var a = typeof(MethodModel3).GetMethod("M");
+        //    Assert.Equal("override ", ModifierReverser.GetModifier(a));
 
-        }
-        [Fact(DisplayName = "方法承解析4")]
-        public void TestMethodProtected4()
-        {
-            var a = typeof(IMethodModel4).GetMethod("M");
-            Assert.Equal(null, ModifierReverser.GetModifier(a));
+        //}
+        //[Fact(DisplayName = "方法承解析4")]
+        //public void TestMethodProtected4()
+        //{
+        //    var a = typeof(IMethodModel4).GetMethod("M");
+        //    Assert.Equal(null, ModifierReverser.GetModifier(a));
 
-        }
+        //}
         //[Fact(DisplayName = "方法承解析4")]
         //public void TestMethodProtected4()
         //{

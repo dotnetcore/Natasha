@@ -4,7 +4,7 @@ using System.Text;
 
 namespace NatashaUT.Model
 {
-    public class TypeReflectModel
+    public class ReveserModel
     {
 
     }
@@ -68,6 +68,74 @@ namespace NatashaUT.Model
         protected internal int protectedinternalA() { return default; }
         internal protected int internalprotectedA() { return default; }
 
+    }
+
+
+    public class MFieldClass
+    {
+        public static int staticA;
+        public readonly int readonlyA;
+        public const int constA = 1;
+    }
+
+
+
+    public class VirtualMethodModel
+    {
+        public virtual void M() { }
+    }
+
+    public interface InterfaceMethodModel
+    {
+        void M();
+    }
+
+
+    public abstract class AbstractMethodModel
+    {
+        public abstract void M();
+    }
+
+
+    public class ImplementMethodModel : InterfaceMethodModel
+    {
+        public virtual void M()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class VirtualInterfaceMethodModel : InterfaceMethodModel
+    {
+        public virtual void M()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class OverrideVirtualMethodModel : VirtualMethodModel
+    {
+        public override void M()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class OverrideMethodModel : AbstractMethodModel
+    {
+        public override void M()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
+    public class NewMethodModel : ImplementMethodModel
+    {
+        public new void M()
+        {
+
+        }
     }
 
 }
