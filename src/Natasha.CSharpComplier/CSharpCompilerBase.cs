@@ -40,7 +40,7 @@ namespace Natasha.CSharpCompiler
 
         public override CSharpCompilation GetCompilation()
         {
-
+            //CS0012  DesktopAssembly
             var compilationOptions = new CSharpCompilationOptions(
                                    concurrentBuild: true,
                                    metadataImportOptions: MetadataImportOptions.All,
