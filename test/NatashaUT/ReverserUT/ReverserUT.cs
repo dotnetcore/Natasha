@@ -6,10 +6,10 @@ using System.Collections;
 using System.Collections.Generic;
 using Xunit;
 
-namespace NatashaUT
+namespace NatashaUT.ReverserUT
 {
     [Trait("反解测试","参数")]
-    public class ReverserTest : PrepareTest
+    public class ReverserUT : PrepareTest
     {
 
         [Fact(DisplayName = "参数与类型反解 in")]

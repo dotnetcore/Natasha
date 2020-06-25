@@ -157,4 +157,52 @@ namespace NatashaUT.Model
 
     }
 
+
+    public class G1 { }
+    public abstract class G2 { }
+    public interface G3 { }
+    public interface G4 { }
+
+
+    public class UnmanagedT<T> where T : unmanaged 
+    {
+
+    }
+    public class StructT<T> where T: struct
+    { 
+    
+    }
+    public class ClassT<T> where T : class
+    {
+
+    }
+    public class NewT<T> where T : new()
+    {
+
+    }
+    public class ClassNewT<T> where T : class,new()
+    {
+
+    }
+
+    public class ClassNewClassInterfaceT<T> where T : G2, G3, G4, new()
+    {
+
+    }
+
+    public interface InInterfaceT<in T>
+    {
+
+    }
+
+    public interface OutInterfaceT<out T>
+    {
+
+    }
+
+    public interface InOutInterfaceT<in T, out S> where T : G2, G3, G4, new() where S : G2, G3, G4, new()
+    {
+
+    }
+
 }

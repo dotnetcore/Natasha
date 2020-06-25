@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using Xunit;
 
-namespace NatashaUT.Reverser
+namespace NatashaUT.ReverserUT
 {
 
     [Trait("反解器", "方法修饰符")]

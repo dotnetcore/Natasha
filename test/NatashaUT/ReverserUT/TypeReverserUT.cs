@@ -5,9 +5,9 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Xunit;
-using static NatashaUT.TypeReverserUT;
+using static NatashaUT.ReverserUT.TypeReverserUT;
 
-namespace NatashaUT
+namespace NatashaUT.ReverserUT
 {
     [Trait("反解器", "类型元数据")]
     public class TypeReverserUT : PrepareTest
