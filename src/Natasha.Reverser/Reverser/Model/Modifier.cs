@@ -6,6 +6,7 @@
     public enum Modifiers
     {
         None,
+        Const,
         Static,
         Virtual,
         New,

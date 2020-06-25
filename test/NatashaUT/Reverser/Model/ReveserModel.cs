@@ -79,7 +79,10 @@ namespace NatashaUT.Model
     }
 
 
-
+    public class MethodModel
+    {
+        public void M() { }
+    }
     public class VirtualMethodModel
     {
         public virtual void M() { }
@@ -99,7 +102,7 @@ namespace NatashaUT.Model
 
     public class ImplementMethodModel : InterfaceMethodModel
     {
-        public virtual void M()
+        public void M()
         {
             throw new NotImplementedException();
         }
@@ -113,15 +116,23 @@ namespace NatashaUT.Model
         }
     }
 
+
+    public abstract class AbstractInterfaceMethodModel : InterfaceMethodModel
+    {
+        public abstract void M();
+    }
+
     public class OverrideVirtualMethodModel : VirtualMethodModel
     {
+
         public override void M()
         {
             throw new NotImplementedException();
         }
+
     }
 
-    public class OverrideMethodModel : AbstractMethodModel
+    public class OverrideAbstractMethodModel : AbstractMethodModel
     {
         public override void M()
         {
@@ -130,12 +141,20 @@ namespace NatashaUT.Model
     }
 
 
-    public class NewMethodModel : ImplementMethodModel
+    public class NewMethodModel : MethodModel
     {
         public new void M()
         {
 
         }
+    }
+
+
+    public class FFieldModel
+    {
+        public const int constA = 0;
+        public readonly int readonlyA;
+
     }
 
 }
