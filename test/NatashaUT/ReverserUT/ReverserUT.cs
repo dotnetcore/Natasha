@@ -52,7 +52,7 @@ namespace NatashaUT.ReverserUT
             Assert.Equal("<>f__AnonymousType1<System.String,System.Int32,System.DateTime>", temp1.GetType().GetDevelopName());
             Assert.Equal("System.ValueTuple<System.Int32,System.ValueTuple<System.Int32,System.Int32>>", typeof((int, (int,int))).GetDevelopName());
             Assert.Equal("System.ValueTuple<System.Int32,System.Int32>", typeof((int,int)).GetDevelopName());
-            Assert.Equal("NatashaUT.ReverserTest.Inline<TT>", typeof(Inline<>).GetDevelopName());
+            Assert.Equal("NatashaUT.ReverserUT.ReverserUT.Inline<TT>", typeof(Inline<>).GetDevelopName());
             Assert.Equal("System.Collections.Generic.Dictionary<TKey,TValue>", typeof(Dictionary<,>).GetDevelopName());
             Assert.Equal("System.Collections.Generic.List<T>", typeof(List<>).GetDevelopName());
             Assert.Equal("System.Collections.Generic.List<System.Int32>", typeof(List<int>).GetDevelopName());
