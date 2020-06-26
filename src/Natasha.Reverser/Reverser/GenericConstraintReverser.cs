@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Natasha.Reverser.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -9,6 +10,24 @@ namespace Natasha.Reverser
     public static class GenericConstraintReverser
     {
 
+
+        public static string GetConstraint(ConstraintFlags type)
+        {
+            switch (type)
+            {
+                case ConstraintFlags.Class:
+                    return "class";
+                case ConstraintFlags.Struct:
+                    return "struct";
+                case ConstraintFlags.Unmanaged:
+                    return "unmanaged";
+                case ConstraintFlags.New:
+                    return "new()";
+                default:
+                    break;
+            }
+            return default;
+        }
 
         /// <summary>
         /// 获取参数泛型约束，例如”out T“

@@ -16,23 +16,23 @@ namespace Natasha.Reverser
         /// </summary>
         /// <param name="enumModifier">修饰符枚举</param>
         /// <returns></returns>
-        public static string GetModifier(Modifiers enumModifier)
+        public static string GetModifier(ModifierFlags enumModifier)
         {
             switch (enumModifier)
             {
-                case Modifiers.Static:
+                case ModifierFlags.Static:
                     return "static ";
-                case Modifiers.Virtual:
+                case ModifierFlags.Virtual:
                     return "virtual ";
-                case Modifiers.New:
+                case ModifierFlags.New:
                     return "new ";
-                case Modifiers.Abstract:
+                case ModifierFlags.Abstract:
                     return "abstract ";
-                case Modifiers.Override:
+                case ModifierFlags.Override:
                     return "override ";
-                case Modifiers.Async:
+                case ModifierFlags.Async:
                     return "async ";
-                case Modifiers.Const:
+                case ModifierFlags.Const:
                     return "const ";
                 default:
                     return "";

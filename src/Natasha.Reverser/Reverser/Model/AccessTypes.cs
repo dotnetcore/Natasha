@@ -3,7 +3,7 @@
     /// <summary>
     /// 访问级别枚举
     /// </summary>
-    public enum AccessTypes
+    public enum AccessFlags
     {
         None,
         Public,

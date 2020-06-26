@@ -76,6 +76,21 @@ namespace Natasha.CSharp.Builder
 
 
 
+        public virtual T Constraint(Action<ConstraintBuilder> constraintAction = null)
+        {
+
+            if (constraintAction!=null)
+            {
+                var instance = new ConstraintBuilder();
+                constraintAction.Invoke(instance);
+                return Constraint(instance.GetScript());
+
+            }
+            return Link;
+        }
+
+
+
 
         /// <summary>
         /// 初始化器构建

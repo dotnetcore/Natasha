@@ -185,7 +185,7 @@ namespace NatashaUT
                 Assembly result1;
 
 
-                    var domain = DomainManagement.CurrentDomain;
+                    var domain = DomainManagement.Random;
                     //var assembly = domain.CreateAssembly("AsmTest1");
                     //assembly.AddScript("using System;namespace ClassLibrary1{ public class Class1{public string name;}}");
                     //var result2 = assembly.Compiler();
@@ -203,9 +203,9 @@ namespace NatashaUT
 
 
 
-                var func = NDelegate.DefaultDomain().Func<object>("return new Class1();", "ClassLibrary1");
+                var func = NDelegate.UseDomain(domain).Func<object>("return new Class1();", "ClassLibrary1");
                 Assert.Equal(result1, func().GetType().Assembly);
-                DomainManagement.Default.Remove(path);
+                domain.Remove(path);
             }
 #endif
 

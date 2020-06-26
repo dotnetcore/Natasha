@@ -15,29 +15,29 @@ namespace Natasha.Reverser
         /// </summary>
         /// <param name="enumAccess">访问级别枚举</param>
         /// <returns></returns>
-        public static string GetAccess(AccessTypes enumAccess)
+        public static string GetAccess(AccessFlags enumAccess)
         {
 
             switch (enumAccess)
             {
 
-                case AccessTypes.Public:
+                case AccessFlags.Public:
                     return "public ";
 
 
-                case AccessTypes.Private:
+                case AccessFlags.Private:
                     return "private ";
 
 
-                case AccessTypes.Protected:
+                case AccessFlags.Protected:
                     return "protected ";
 
 
-                case AccessTypes.Internal:
+                case AccessFlags.Internal:
                     return "internal ";
 
 
-                case AccessTypes.InternalAndProtected:
+                case AccessFlags.InternalAndProtected:
                     return "internal protected ";
 
 

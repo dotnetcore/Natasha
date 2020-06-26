@@ -17,8 +17,8 @@ namespace NatashaUT
 
             OopBuilder builder = new OopBuilder();
             var script = builder
-                .Access(Natasha.Reverser.Model.AccessTypes.Public)
-                .Modifier(Natasha.Reverser.Model.Modifiers.Static)
+                .Access(Natasha.Reverser.Model.AccessFlags.Public)
+                .Modifier(Natasha.Reverser.Model.ModifierFlags.Static)
                 .Class()
                 .CustomUsing()
                 .Using<OopTemplateTest>()
@@ -40,8 +40,8 @@ namespace NatashaUT
 
             OopBuilder builder = new OopBuilder();
             var script = builder
-                .Access(Natasha.Reverser.Model.AccessTypes.Public)
-                .Modifier(Natasha.Reverser.Model.Modifiers.Static)
+                .Access(Natasha.Reverser.Model.AccessFlags.Public)
+                .Modifier(Natasha.Reverser.Model.ModifierFlags.Static)
                 .Class()
                 .CustomUsing()
                 .Using<OopTemplateTest>()
@@ -49,7 +49,7 @@ namespace NatashaUT
                 .Inheritance<int>()
                 .Namespace("TestNamespace")
                 .Name("TestUt1<T>")
-                .Constraint(typeof(List<>))
+                .ConstraintFrom(typeof(List<>))
                 .Body("public static void Test(){}")
                 .Script;
             Assert.Equal($@"using NatashaUT;{Environment.NewLine}using System;{Environment.NewLine}namespace TestNamespace{{public static class TestUt1<T> : System.Int32 {{{Environment.NewLine}public static void Test(){{}}}}}}", script);
@@ -62,8 +62,8 @@ namespace NatashaUT
 
             OopBuilder builder = new OopBuilder();
             var script = builder
-                .Access(Natasha.Reverser.Model.AccessTypes.Public)
-                .Modifier(Natasha.Reverser.Model.Modifiers.Static)
+                .Access(Natasha.Reverser.Model.AccessFlags.Public)
+                .Modifier(Natasha.Reverser.Model.ModifierFlags.Static)
                 .Class()
                 .CustomUsing()
                 .Using<OopTemplateTest>()
@@ -71,10 +71,38 @@ namespace NatashaUT
                 .Inheritance<int>()
                 .Namespace("TestNamespace")
                 .Name("TestUt1<T>")
-                .Constraint(typeof(InOutInterfaceT<,>))
+                .ConstraintFrom(typeof(InOutInterfaceT<,>))
                 .Body("public static void Test(){}")
                 .Script;
             Assert.Equal($@"using NatashaUT;{Environment.NewLine}using System;{Environment.NewLine}namespace TestNamespace{{public static class TestUt1<T> : System.Int32 where T : NatashaUT.Model.G2, NatashaUT.Model.G3, NatashaUT.Model.G4, new() where S : NatashaUT.Model.G2, NatashaUT.Model.G3, NatashaUT.Model.G4, new() {{{Environment.NewLine}public static void Test(){{}}}}}}", script);
+
+        }
+
+        [Fact(DisplayName = "构建类4")]
+        public void TestBuilder4()
+        {
+
+            OopBuilder builder = new OopBuilder();
+            var script = builder
+                .Access(Natasha.Reverser.Model.AccessFlags.Public)
+                .Modifier(Natasha.Reverser.Model.ModifierFlags.Static)
+                .Class()
+                .CustomUsing()
+                .Using<OopTemplateTest>()
+                .Using<int>()
+                .Inheritance<int>()
+                .Namespace("TestNamespace")
+                .Name("TestUt1<T>")
+                .Constraint(item=>
+                    item
+                    .SetType("T")
+                    .Constraint(Natasha.Reverser.Model.ConstraintFlags.New)
+                    .Constraint<Int32>()
+                    .Constraint(typeof(string))
+                    .Constraint(Natasha.Reverser.Model.ConstraintFlags.Class))
+                .Body("public static void Test(){}")
+                .Script;
+            Assert.Equal($@"using NatashaUT;{Environment.NewLine}using System;{Environment.NewLine}namespace TestNamespace{{public static class TestUt1<T> : System.Int32 where T : class,new(),System.Int32,System.String{{{Environment.NewLine}public static void Test(){{}}}}}}", script);
 
         }
 
