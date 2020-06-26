@@ -58,6 +58,14 @@
  - 向引擎中注入定制的域：  
   - 3.10.0.0 版本以前： DomainManagement.RegisterDefault< AssemblyDomain >();
   - 3.10.0.0 版本及以后： AssemblyDomain.Init();
+  
+ - 配置文件：
+ ```C#
+    //如果你觉得发布文件夹下关于本地化的文件夹太多，您可以选择如下节点
+    //选项：cs / de / es / fr / it / ja / ko / pl / ru / tr / zh-Hans / zh-Hant
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+ ```
+ 
 
  - 敲代码  
  
@@ -96,9 +104,9 @@
  - [x] 发布针对 Roslyn 可继承成的编译环境包
  - [x] 增加泛型约束模板
  - [ ] 生存下来，挣钱
- - [ ] 反解器增加泛型类型约束反解
+ - [x] 反解器增加泛型类型约束反解
  - [ ] 增加反解枚举，增强模板构造的状态机
- - [ ] 重新检查反解器是否违反了单一职责（D2R）
+ - [x] 重新检查反解器是否违反了单一职责（D2R）
  - [ ] 改造 [R2D](https://github.com/night-moon-studio/RuntimeToDynamic)
     - [x] 持续性能优化
     - [ ] 评估模板职责
