@@ -158,7 +158,8 @@ namespace HelloWorld{
 
 ";
             //根据脚本创建动态类
-            Assert.Equal("TestIndex4", ScriptHelper.GetClassName(text, 1, 2));
+            Assert.Equal("TestIndex2", ScriptHelper.GetClassName(text, 1, 2));
+            Assert.Equal("TestIndex4", ScriptHelper.GetClassName(text, 2, 1));
             Assert.Equal("TestStruct2", ScriptHelper.GetStructName(text, 2, 2));
         }
     }

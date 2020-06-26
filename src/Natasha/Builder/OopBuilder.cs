@@ -242,7 +242,7 @@ namespace Natasha.CSharp.Builder
         /// <param name="classIndex">类索引，1开始</param>
         /// <param name="namespaceIndex">命名空间索引，1开始</param>
         /// <returns></returns>
-        public virtual Type GetType(OopType oopType, int classIndex = 1, int namespaceIndex = 1)
+        public virtual Type GetType(OopType oopType, int namespaceIndex = 1, int classIndex = 1)
         {
 
             Exception = AssemblyBuilder.Add(this);
@@ -254,22 +254,22 @@ namespace Natasha.CSharp.Builder
 
                     case OopType.Class:
 
-                        name = ScriptHelper.GetClassName(Script, classIndex, namespaceIndex);
+                        name = ScriptHelper.GetClassName(Script, namespaceIndex, classIndex);
                         break;
 
                     case OopType.Struct:
 
-                        name = ScriptHelper.GetStructName(Script, classIndex, namespaceIndex);
+                        name = ScriptHelper.GetStructName(Script, namespaceIndex, classIndex);
                         break;
 
                     case OopType.Interface:
 
-                        name = ScriptHelper.GetInterfaceName(Script, classIndex, namespaceIndex);
+                        name = ScriptHelper.GetInterfaceName(Script, namespaceIndex, classIndex);
                         break;
 
                     case OopType.Enum:
 
-                        name = ScriptHelper.GetEnumName(Script, classIndex, namespaceIndex);
+                        name = ScriptHelper.GetEnumName(Script, namespaceIndex, classIndex);
                         break;
                 }
 

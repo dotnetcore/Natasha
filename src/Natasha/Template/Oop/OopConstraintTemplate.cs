@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Natasha.Reverser;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -8,6 +9,18 @@ namespace Natasha.CSharp.Template
     {
 
         public string ConstraintScript;
+
+
+        public T Constraint<TConstraint>()
+        {
+            ConstraintScript = GenericConstraintReverser.GetTypeConstraints<TConstraint>();
+            return Link;
+        }
+        public T Constraint(Type type)
+        {
+            ConstraintScript = GenericConstraintReverser.GetTypeConstraints(type);
+            return Link;
+        }
 
         public T Constraint(string constraint)
         {
@@ -20,6 +33,8 @@ namespace Natasha.CSharp.Template
             ConstraintScript += constraint;
             return Link;
         }
+
+
 
         public override T BuilderScript()
         {

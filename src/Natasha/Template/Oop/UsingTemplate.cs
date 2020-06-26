@@ -283,10 +283,12 @@ namespace Natasha.CSharp.Template
 
                 //使用全局Using
                 UsingScript.Append(GlobalUsing.DefaultScript);
+
                 //把当前域中的using全部加上
                 Using(AssemblyBuilder.Compiler.Domain.GetPluginAssemblies());
                 foreach (var @using in _usings)
                 {
+
                     //如果全局已经存在using了，就不加了
                     if (!GlobalUsing.HasElement(@using))
                     {
