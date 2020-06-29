@@ -21,13 +21,19 @@ namespace Core22
             action();
 
 
-            FakeMethodOperator.DefaultDomain()
+            FakeMethodOperator.RandomDomain(item=> {
+                item.AssemblyName = "1";
+                item.OutputToFile = true;
+                })
                .UseMethod<TestB>("TestMethod")
                .StaticMethodBody($@"Console.WriteLine(""Hello World!"");")
                .Compile<Action>();
 
 
-            FakeMethodOperator.DefaultDomain()
+            FakeMethodOperator.RandomDomain(item => {
+                item.AssemblyName = "1";
+                item.OutputToFile = true;
+            })
                 .UseMethod<TestB>("TestMethod")
                 .MethodBody($@"Console.WriteLine(""Hello World!"");")
                 .Compile<Action>(new TestA());

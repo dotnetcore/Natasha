@@ -38,8 +38,8 @@ namespace NatashaUT
             var template = new PropertyBuilder();
             var result = template
                 .Attribute("[Test][Test1]")
-                .Access(Natasha.Reverser.Model.AccessTypes.Public)
-                .Modifier(Natasha.Reverser.Model.Modifiers.Static)
+                .Access(Natasha.Reverser.Model.AccessFlags.Public)
+                .Modifier(Natasha.Reverser.Model.ModifierFlags.Static)
                 .Name("Age")
                 .Type(typeof(int))
                 .Script;
@@ -59,7 +59,7 @@ namespace NatashaUT
             PropertyBuilder template = new PropertyBuilder();
             var result = template
                 .Attribute("[Test]")
-                .Access(Natasha.Reverser.Model.AccessTypes.Public)
+                .Access(Natasha.Reverser.Model.AccessFlags.Public)
                 .Name("Name")
                 .Type<string>()
                 .Script;
@@ -78,7 +78,7 @@ namespace NatashaUT
             PropertyBuilder template = new PropertyBuilder();
             var result = template
                 .Attribute<ClassDataAttribute>()
-                .Access(Natasha.Reverser.Model.AccessTypes.Public)
+                .Access(Natasha.Reverser.Model.AccessFlags.Public)
                 .Name("Name")
                 .Type<string>()
                 .Script;

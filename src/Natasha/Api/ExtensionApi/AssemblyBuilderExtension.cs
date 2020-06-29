@@ -143,7 +143,7 @@ namespace Natasha.CSharp
         
         
         
-        public static Delegate GetDelegateFromFullName(this AssemblyCSharpBuilder builder, string typeName, string methodName, Type delegateType, object binder = null)
+        public static Delegate GetDelegateFromFullName(this AssemblyCSharpBuilder builder, string typeName, string methodName, Type delegateType, object target = null)
         {
 
             var info = builder.GetMethodFromFullName(typeName, methodName);
@@ -156,7 +156,7 @@ namespace Natasha.CSharp
             try
             {
 
-                return info.CreateDelegate(delegateType, binder);
+                return info.CreateDelegate(delegateType, target);
 
             }
             catch (Exception ex)
@@ -177,11 +177,11 @@ namespace Natasha.CSharp
             return null;
 
         }
-        public static T GetDelegateFromFullName<T>(this AssemblyCSharpBuilder builder, string typeName, string methodName, object binder = null) where T : Delegate
+        public static T GetDelegateFromFullName<T>(this AssemblyCSharpBuilder builder, string typeName, string methodName, object target = null) where T : Delegate
         {
-            return (T)GetDelegateFromFullName(builder,typeName, methodName, typeof(T), binder);
+            return (T)GetDelegateFromFullName(builder,typeName, methodName, typeof(T), target);
         }
-        public static Delegate GetDelegateFromShortName(this AssemblyCSharpBuilder builder, string typeName, string methodName, Type delegateType, object binder = null)
+        public static Delegate GetDelegateFromShortName(this AssemblyCSharpBuilder builder, string typeName, string methodName, Type delegateType, object target = null)
         {
 
             var info = builder.GetMethodFromShortName(typeName, methodName);
@@ -194,7 +194,7 @@ namespace Natasha.CSharp
             try
             {
 
-                return info.CreateDelegate(delegateType, binder);
+                return info.CreateDelegate(delegateType, target);
   
             }
             catch (Exception ex)
@@ -215,9 +215,9 @@ namespace Natasha.CSharp
             return null;
 
         }
-        public static T GetDelegateFromShortName<T>(this AssemblyCSharpBuilder builder, string typeName, string methodName, object binder = null) where T : Delegate
+        public static T GetDelegateFromShortName<T>(this AssemblyCSharpBuilder builder, string typeName, string methodName, object target = null) where T : Delegate
         {
-            return (T)GetDelegateFromShortName(builder, typeName, methodName, typeof(T), binder);
+            return (T)GetDelegateFromShortName(builder, typeName, methodName, typeof(T), target);
         }
 
 

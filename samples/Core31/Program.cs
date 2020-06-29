@@ -19,8 +19,8 @@ namespace Core31
                 .Body("return str1+str2;")
                 .Return<string>()
                 .Compile<Func<string, string, string>>();
-            Console.WriteLine(hwFunc("Hello"," World!"));
-                
+            Console.WriteLine(hwFunc("Hello", " World!"));
+
 
             var a123 = NClass.UseDomain(typeof(Program).GetDomain());
             var domain = DomainManagement.Random;
@@ -29,7 +29,7 @@ namespace Core31
             Console.WriteLine(type.FullName);
             Console.WriteLine(func());
 
-            //type.RemoveReferences();
+            type.RemoveReferences();
             type = NDelegate.UseDomain(domain).GetType("public class A{ public A(){Name=\"2\"; }public string Name;}");
             func = NDelegate.UseDomain(domain).Func<string>("return (new A()).Name;");
             Console.WriteLine(type.FullName);
@@ -40,6 +40,8 @@ namespace Core31
             {
                 Console.WriteLine(domain == (AssemblyDomain)AssemblyLoadContext.CurrentContextualReflectionContext);
             }
+
+            Console.ReadKey();
         }
     }
 }

@@ -11,11 +11,10 @@ namespace NatashaUT
     [Trait("程序集编译测试", "插件")]
     public class AssemblyPluginTest : PrepareTest
     {
+
 #if !NETCOREAPP2_2
 
         
-
-
         [Fact(DisplayName = "不可回收：MySql插件")]
         public void Test1()
         {

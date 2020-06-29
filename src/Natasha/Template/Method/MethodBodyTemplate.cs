@@ -4,13 +4,18 @@ namespace Natasha.CSharp.Template
 {
 
     //temp 临时的，后面再改，排除掉原来的类改动太大了
-    public class MethodBodyTemplate<T> : ParameterTemplate<T> where T : MethodBodyTemplate<T>, new()
+    public class MethodBodyTemplate<T> : MethodConstraintTemplate<T> where T : MethodBodyTemplate<T>, new()
     {
 
-        public StringBuilder BodyScript;
+        private bool _useNoBody;
+        public string BodyScript
+        {
+            get { return _useNoBody ? _bodyScript : $"{{{_bodyScript}}}"; }
+        }
+        private string _bodyScript;
         public MethodBodyTemplate()
         {
-            BodyScript = new StringBuilder();
+
         }
 
 
@@ -23,31 +28,20 @@ namespace Natasha.CSharp.Template
         /// <returns></returns>
         public T Body(string bodyString)
         {
-
-            BodyScript.Clear();
-            BodyScript.Append('{');
-            BodyScript.Append(bodyString);
-            BodyScript.Append("}");
+            _bodyScript = bodyString;
             return Link;
 
         }
         public T BodyAppend(string bodyString)
         {
-
-            if (BodyScript[0] == '{')
-            {
-                BodyScript.Insert(BodyScript.Length - 1,bodyString);
-            }
-            else
-            {
-                Body(bodyString);
-            }
+            _bodyScript += bodyString;
             return Link;
 
         }
         public T NoBody(string suffix)
         {
-            BodyScript.Clear().Append(suffix);
+            _useNoBody = true;
+            _bodyScript = suffix;
             return Link;
         }
 

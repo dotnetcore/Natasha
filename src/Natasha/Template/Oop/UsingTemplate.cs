@@ -10,7 +10,7 @@ namespace Natasha.CSharp.Template
     public class UsingTemplate<T> : FlagTemplate<T> where T : UsingTemplate<T>, new()
     {
 
-        public readonly StringBuilder UsingScript;
+        public StringBuilder UsingScript;
         internal readonly HashSet<string> _usings;
         internal readonly HashSet<Type> _usingTypes;
 
@@ -18,7 +18,6 @@ namespace Natasha.CSharp.Template
         {
 
             UsingScript = new StringBuilder();
-            UsingScript.Append(GlobalUsing.DefaultScript);
             _usings = new HashSet<string>();
             _usingTypes = new HashSet<Type>();
 
@@ -266,10 +265,11 @@ namespace Natasha.CSharp.Template
         {
 
             Using(UsingRecoder.Types);
+            //如果用户想使用自定义的Using
             if (AssemblyBuilder.CustomUsingShut)
             {
 
-                UsingScript.Clear();
+                UsingScript = new StringBuilder();
                 foreach (var @using in _usings)
                 {
 
@@ -280,11 +280,16 @@ namespace Natasha.CSharp.Template
             }
             else
             {
-               
+
+                //使用全局Using
+                UsingScript.Append(GlobalUsing.DefaultScript);
+
+                //把当前域中的using全部加上
                 Using(AssemblyBuilder.Compiler.Domain.GetPluginAssemblies());
                 foreach (var @using in _usings)
                 {
 
+                    //如果全局已经存在using了，就不加了
                     if (!GlobalUsing.HasElement(@using))
                     {
 

@@ -101,13 +101,19 @@ namespace Natasha.CSharp.Template
         {
 
             RecoderType(type);
-            if (ParametersScript.Length>0)
+            return Param($"{keywords}{type.GetDevelopName()} {paramName}");
+
+        }
+
+
+        public virtual T Param(string script)
+        {
+            if (ParametersScript.Length > 0)
             {
                 ParametersScript.Append(',');
             }
-            ParametersScript.Append($"{keywords}{type.GetDevelopName()} {paramName}");
+            ParametersScript.Append(script);
             return Link;
-
         }
 
 

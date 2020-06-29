@@ -15,30 +15,30 @@ namespace Natasha.Reverser
         /// </summary>
         /// <param name="enumAccess">访问级别枚举</param>
         /// <returns></returns>
-        public static string GetAccess(AccessTypes enumAccess)
+        public static string GetAccess(AccessFlags enumAccess)
         {
 
             switch (enumAccess)
             {
 
-                case AccessTypes.Public:
+                case AccessFlags.Public:
                     return "public ";
 
 
-                case AccessTypes.Private:
+                case AccessFlags.Private:
                     return "private ";
 
 
-                case AccessTypes.Protected:
+                case AccessFlags.Protected:
                     return "protected ";
 
 
-                case AccessTypes.Internal:
+                case AccessFlags.Internal:
                     return "internal ";
 
 
-                case AccessTypes.InternalAndProtected:
-                    return "internal protected";
+                case AccessFlags.InternalAndProtected:
+                    return "internal protected ";
 
 
                 default:
@@ -71,22 +71,22 @@ namespace Natasha.Reverser
                 return "private ";
 
             }
+            else if (reflectMethodInfo.IsAssembly)
+            {
+
+                return "internal ";
+
+            }
             else if (reflectMethodInfo.IsFamily)
             {
 
                 return "protected ";
 
             }
-            else if (reflectMethodInfo.IsAssembly || reflectMethodInfo.IsFamilyOrAssembly)
+            else if (reflectMethodInfo.IsFamilyOrAssembly)
             {
 
-                return "internal ";
-
-            }
-            else if (reflectMethodInfo.IsFamilyAndAssembly)
-            {
-
-                return "internal protected";
+                return "internal protected ";
 
             }
 
@@ -133,7 +133,7 @@ namespace Natasha.Reverser
             else if (reflectFieldInfo.IsFamilyOrAssembly)
             {
 
-                return "internal protected";
+                return "internal protected ";
 
             }
 
@@ -165,28 +165,10 @@ namespace Natasha.Reverser
                 return "public ";
 
             }
-            else if (type.IsNotPublic || type.IsNestedFamORAssem)
+            else if (type.IsNotPublic)
             {
 
                 return "internal ";
-
-            }
-            else if (type.IsNestedFamily)
-            {
-
-                return "protected ";
-
-            }
-            else if (type.IsNestedFamANDAssem)
-            {
-
-                return "internal protected ";
-
-            }
-            else if (type.IsNestedPrivate)
-            {
-
-                return "private ";
 
             }
 

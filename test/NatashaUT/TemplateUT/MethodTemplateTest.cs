@@ -38,8 +38,8 @@ namespace NatashaUT
             MethodBuilder template = MethodBuilder.RandomDomain();
             var result = template
                 .Attribute("[Test][Test1]")
-                .Access(Natasha.Reverser.Model.AccessTypes.Public)
-                .Modifier(Natasha.Reverser.Model.Modifiers.Static)
+                .Access(Natasha.Reverser.Model.AccessFlags.Public)
+                .Modifier(Natasha.Reverser.Model.ModifierFlags.Static)
                 .Name("Age")
                 .Param<int>("p")
                 .Return<int>()
@@ -62,7 +62,7 @@ namespace NatashaUT
             var result = template
                 .Attribute("[Test]")
                 .Async()
-                .Access(Natasha.Reverser.Model.AccessTypes.Public)
+                .Access(Natasha.Reverser.Model.AccessFlags.Public)
                 .Name("Name")
                 .Return(typeof(MethodBuilder))
                 .Body("int a = 0;")
@@ -85,11 +85,12 @@ namespace NatashaUT
                 .Attribute<ClassDataAttribute>()
                 .Unsafe()
                 .Async()
-                .Access(Natasha.Reverser.Model.AccessTypes.Public)
+                .Constraint("where T : class")
+                .Access(Natasha.Reverser.Model.AccessFlags.Public)
                 .Name("Name")
                 .Script;
 
-            Assert.Equal($"[Xunit.ClassDataAttribute]{Environment.NewLine}public unsafe async void Name(){{}}", result);
+            Assert.Equal($"[Xunit.ClassDataAttribute]{Environment.NewLine}public unsafe async void Name() where T : class{{}}", result);
             Assert.Equal(typeof(Action), template.DelegateType);
 
         }
@@ -102,7 +103,7 @@ namespace NatashaUT
 
             MethodBuilder template = MethodBuilder.RandomDomain();
             var result = template
-                .Access(Natasha.Reverser.Model.AccessTypes.Public)
+                .Access(Natasha.Reverser.Model.AccessFlags.Public)
                 .Name("Name")
                 .NoUseType()
                 .Script;
@@ -118,7 +119,7 @@ namespace NatashaUT
 
             MethodBuilder template = MethodBuilder.RandomDomain();
             var result = template
-                .Modifier(Natasha.Reverser.Model.Modifiers.Static)
+                .Modifier(Natasha.Reverser.Model.ModifierFlags.Static)
                 .Name("Name")
                 .NoUseType()
                 .Script;
@@ -134,7 +135,7 @@ namespace NatashaUT
 
             MethodBuilder template = MethodBuilder.RandomDomain();
             var result = template
-                .Modifier(Natasha.Reverser.Model.Modifiers.Static)
+                .Modifier(Natasha.Reverser.Model.ModifierFlags.Static)
                 .Name("Name")
                 .NoUseType()
                 .Param<int>("age")

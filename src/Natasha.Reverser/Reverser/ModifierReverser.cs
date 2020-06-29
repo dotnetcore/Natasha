@@ -16,26 +16,62 @@ namespace Natasha.Reverser
         /// </summary>
         /// <param name="enumModifier">修饰符枚举</param>
         /// <returns></returns>
-        public static string GetModifier(Modifiers enumModifier)
+        public static string GetModifier(ModifierFlags enumModifier)
         {
             switch (enumModifier)
             {
-                case Modifiers.Static:
+                case ModifierFlags.Static:
                     return "static ";
-                case Modifiers.Virtual:
+                case ModifierFlags.Virtual:
                     return "virtual ";
-                case Modifiers.New:
+                case ModifierFlags.New:
                     return "new ";
-                case Modifiers.Abstract:
+                case ModifierFlags.Abstract:
                     return "abstract ";
-                case Modifiers.Override:
+                case ModifierFlags.Override:
                     return "override ";
-                case Modifiers.Async:
+                case ModifierFlags.Async:
                     return "async ";
+                case ModifierFlags.Const:
+                    return "const ";
                 default:
                     return "";
             }
         }
+
+
+
+        /// <summary>
+        /// 获取方法的修饰符
+        /// </summary>
+        /// <param name="reflectMethodInfo">方法反射信息</param>
+        /// <returns></returns>
+        public static string GetCanOverrideModifier(MethodInfo reflectMethodInfo)
+        {
+
+            //如果没有被重写
+            if (reflectMethodInfo.Equals(reflectMethodInfo.GetBaseDefinition()))
+            {
+
+                string result = AsyncReverser.GetAsync(reflectMethodInfo);
+                if (reflectMethodInfo.DeclaringType.IsInterface)
+                {
+                    return result;
+                }
+                else if (reflectMethodInfo.IsAbstract)
+                {
+                    return "abstract " + result;
+                }
+                else if (reflectMethodInfo.IsVirtual)
+                {
+                    return "virtual " + result;
+                }
+
+            }
+            return null;
+
+        }
+
 
 
 
@@ -49,68 +85,57 @@ namespace Natasha.Reverser
         {
 
             string result = AsyncReverser.GetAsync(reflectMethodInfo);
-            // 没有相应的信息，说明没有使用以上关键字修饰
-            if (!reflectMethodInfo.IsHideBySig)
+
+            if (reflectMethodInfo.IsStatic)
             {
 
-                return result;
+                return "static " + result;
 
-            }
-                
-
-            if (!reflectMethodInfo.DeclaringType.IsInterface)
+            }else if (!reflectMethodInfo.DeclaringType.IsInterface)
             {
 
-                //此段代码由工良提供
-                if (reflectMethodInfo.IsStatic)
+                //如果没有被重写
+                if (reflectMethodInfo.Equals(reflectMethodInfo.GetBaseDefinition()))
                 {
 
-                    return "static " + result;
-
-                }
-
-
-
-
-                // 是否抽象方法
-                if (reflectMethodInfo.IsAbstract)
-                {
-
-                    return "abstract " + result;
-
-                }
-                    
-
-
-                // virtual、override、实现接口的方法
-                if (reflectMethodInfo.IsVirtual)
-                {
-
-                    // 实现接口的方法
-                    if (reflectMethodInfo.IsFinal)
+                    if (reflectMethodInfo.IsAbstract)
                     {
-                        return result;
+                        return "abstract " + result;
                     }
-
-
-                    // 没有被重写，则为 virtual
-                    if (reflectMethodInfo.Equals(reflectMethodInfo.GetBaseDefinition()))
-                    { 
+                    else if (!reflectMethodInfo.IsFinal && reflectMethodInfo.IsVirtual)
+                    {
                         return "virtual " + result;
                     }
-                    else 
-                    { 
-                        return "override " + result; 
-                    }
+                    else
+                    {
+
+                        var baseType = reflectMethodInfo.DeclaringType.BaseType;
+                        if (baseType != null && baseType != typeof(object) )
+                        {
+                            var baseInfo = reflectMethodInfo
+                            .DeclaringType
+                            .BaseType
+                            .GetMethod(reflectMethodInfo.Name, BindingFlags.Public
+                            | BindingFlags.Instance
+                            | BindingFlags.NonPublic);
+                            if (reflectMethodInfo != baseInfo)
+                            {
+                                return "new " + result;
+                            }
+                        }
                         
+                    }
+
+                }
+                else
+                {
+                    return result + "override ";
                 }
 
             }
-           
-            return result;
+            return result+"";
 
         }
-
 
 
 
@@ -122,10 +147,19 @@ namespace Natasha.Reverser
         public static string GetModifier(FieldInfo reflectFieldInfo)
         {
 
+            if (reflectFieldInfo.IsLiteral)
+            {
+
+                return "const ";
+
+            }
+
+
+            var result = "";
             if (reflectFieldInfo.IsStatic)
             {
 
-                return "static ";
+                result = "static ";
 
             }
 
@@ -133,12 +167,12 @@ namespace Natasha.Reverser
             if (reflectFieldInfo.IsInitOnly)
             {
 
-                return "readonly ";
+                result += "readonly ";
 
             }
 
 
-            return "";
+            return result;
         }
 
 

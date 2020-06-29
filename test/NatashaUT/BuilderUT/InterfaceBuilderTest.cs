@@ -17,7 +17,7 @@ namespace NatashaUT.BuilderUT
             var script = builder
                 .CustomUsing()
                 .HiddenNamespace()
-                .Access(Natasha.Reverser.Model.AccessTypes.Public)
+                .Access(Natasha.Reverser.Model.AccessFlags.Public)
                 .Name("Interface1")
                 .Property(item=>item.Type<string>().Name("Abc"))
                 .Method(item=>item.Name("Test").Param<string>("p").Return<int>())

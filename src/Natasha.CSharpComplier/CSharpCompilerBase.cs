@@ -40,8 +40,7 @@ namespace Natasha.CSharpCompiler
 
         public override CSharpCompilation GetCompilation()
         {
-            //..ComparisonResult = AssemblyIdentityComparer.ComparisonResult.EquivalentIgnoringVersion;
-            //var a = new AssemblyIdentityComparer();
+            //CS0012  DesktopAssembly
             var compilationOptions = new CSharpCompilationOptions(
                                    concurrentBuild: true,
                                    metadataImportOptions: MetadataImportOptions.All,

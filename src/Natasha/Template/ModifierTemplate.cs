@@ -14,13 +14,13 @@ namespace Natasha.CSharp.Template
 
         public string ModifierScript { get { return GetModifyBuilder(); } }
         private string _modifierScript;
-        private readonly HashSet<Modifiers> _status;
+        private readonly HashSet<ModifierFlags> _status;
 
 
 
         public ModifierTemplate()
         {
-            _status = new HashSet<Modifiers>();
+            _status = new HashSet<ModifierFlags>();
         }
 
 
@@ -28,14 +28,14 @@ namespace Natasha.CSharp.Template
         public T Static()
         {
 
-            _status.Add(Modifiers.Static);
+            _status.Add(ModifierFlags.Static);
             return Link;
 
         }
         public T Abstract()
         {
 
-            _status.Add(Modifiers.Abstract);
+            _status.Add(ModifierFlags.Abstract);
             return Link;
 
         }
@@ -47,35 +47,35 @@ namespace Natasha.CSharp.Template
         public T New()
         {
 
-            _status.Add(Modifiers.New);
+            _status.Add(ModifierFlags.New);
             return Link;
 
         }
         public T Virtrual()
         {
 
-            _status.Add(Modifiers.Virtual);
+            _status.Add(ModifierFlags.Virtual);
             return Link;
 
         }
         public T Override()
         {
 
-            _status.Add(Modifiers.Override);
+            _status.Add(ModifierFlags.Override);
             return Link;
 
         }
         public T Async()
         {
 
-            _status.Add(Modifiers.Async);
+            _status.Add(ModifierFlags.Async);
             return Link;
 
         }
         public T Unsafe()
         {
 
-            _status.Add(Modifiers.Unsafe);
+            _status.Add(ModifierFlags.Unsafe);
             return Link;
 
         }
@@ -118,7 +118,7 @@ namespace Natasha.CSharp.Template
         /// </summary>
         /// <param name="modifierEnum">特殊修饰符枚举</param>
         /// <returns></returns>
-        public T Modifier(Modifiers modifierEnum)
+        public T Modifier(ModifierFlags modifierEnum)
         {
 
             _status.Add(modifierEnum);
@@ -153,7 +153,7 @@ namespace Natasha.CSharp.Template
         {
 
             StringBuilder builder = new StringBuilder();
-            if (_status.Contains(Modifiers.Static))
+            if (_status.Contains(ModifierFlags.Static))
             {
 
                 builder.Append("static ");
@@ -161,7 +161,7 @@ namespace Natasha.CSharp.Template
             }
 
 
-            if (_status.Contains(Modifiers.Unsafe))
+            if (_status.Contains(ModifierFlags.Unsafe))
             {
 
                 builder.Append("unsafe ");
@@ -172,7 +172,7 @@ namespace Natasha.CSharp.Template
             foreach (var item in _status)
             {
 
-                if (item != Modifiers.Static && item != Modifiers.Unsafe)
+                if (item != ModifierFlags.Static && item != ModifierFlags.Unsafe)
                 {
 
                     builder.Append(ModifierReverser.GetModifier(item));

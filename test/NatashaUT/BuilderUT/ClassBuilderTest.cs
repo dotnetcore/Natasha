@@ -16,7 +16,7 @@ namespace NatashaUT.BuilderUT
             var script = builder
                 .CustomUsing()
                 .HiddenNamespace()
-                .Access(Natasha.Reverser.Model.AccessTypes.Public)
+                .Access(Natasha.Reverser.Model.AccessFlags.Public)
                 .Name("EnumUT1")
                 .Field(item=> { item.Public().Name("Apple").Type<int>(); })
                 .Field(item => { item.Public().Name("Orange").Type<string>(); })
@@ -38,7 +38,7 @@ namespace NatashaUT.BuilderUT
             var script = builder
                 .CustomUsing()
                 .HiddenNamespace()
-                .Access(Natasha.Reverser.Model.AccessTypes.Public)
+                .Access(Natasha.Reverser.Model.AccessFlags.Public)
                 .Name("EnumUT1")
                 .Method(item => { item.Public().Name("Apple").Type<int>().Body("return 0;"); })
                 .Property(item => { item
@@ -73,7 +73,7 @@ namespace NatashaUT.BuilderUT
             var script = builder
                 .CustomUsing()
                 .HiddenNamespace()
-                .Access(Natasha.Reverser.Model.AccessTypes.Public)
+                .Access(Natasha.Reverser.Model.AccessFlags.Public)
                 .Name("EnumUT1")
                 .Script;
             
