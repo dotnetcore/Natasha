@@ -49,15 +49,42 @@
 
 ### 使用方法(User Api)：  
 
+### v3.10.0.0 版本之前
+
  <br/>  
  
  - 引入 动态构建库： DotNetCore.Natasha
 
  - 引入 编译环境库： DotNetCore.Compile.Environment
 
- - 向引擎中注入定制的域：  
-  - 3.10.0.0 版本以前： DomainManagement.RegisterDefault< AssemblyDomain >();
-  - 3.10.0.0 版本及以后： AssemblyDomain.Init();
+ - 向引擎中注入定制的域：  DomainManagement.RegisterDefault< AssemblyDomain >();
+  
+ - 敲代码  
+ 
+ <br/>  
+ 
+#### v3.10.0.0 版本：
+ 
+ - 引入 动态构建库： DotNetCore.Natasha
+
+ - 引入 编译环境库： DotNetCore.Compile.Environment
+
+ - 向引擎中注入定制的域： AssemblyDomain.Init();
+  
+ - 敲代码  
+ 
+ <br/>  
+ 
+#### v3.10.0.0 版本以后
+
+ - 引入 动态构建库： DotNetCore.Natasha
+
+ - 向引擎中注入定制的域： AssemblyDomain.Init();
+  
+ - 敲代码  
+ 
+ <br/>  
+ 
   
  - 配置文件：
  ```C#
@@ -67,9 +94,6 @@
  ```
  
 
- - 敲代码  
- 
- 
  > 更多更新的参考文档：https://natasha.dotnetcore.xyz/  
  
 <br/>  
