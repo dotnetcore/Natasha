@@ -47,17 +47,43 @@
 
 <br/>    
 
-### 使用方法(User Api)：  
+### 使用方法(User Api)：   
 
+
+#### v3.10.0.0 版本之前
+
+ - 引入 动态构建库： DotNetCore.Natasha
+
+ - 引入 编译环境库： DotNetCore.Compile.Environment
+
+ - 向引擎中注入定制的域：  DomainManagement.RegisterDefault< AssemblyDomain >();
+  
+ - 敲代码  
+ 
  <br/>  
+ 
+#### v3.10.0.0 版本：
  
  - 引入 动态构建库： DotNetCore.Natasha
 
  - 引入 编译环境库： DotNetCore.Compile.Environment
 
- - 向引擎中注入定制的域：  
-  - 3.10.0.0 版本以前： DomainManagement.RegisterDefault< AssemblyDomain >();
-  - 3.10.0.0 版本及以后： AssemblyDomain.Init();
+ - 向引擎中注入定制的域： AssemblyDomain.Init();
+  
+ - 敲代码  
+ 
+ <br/>  
+ 
+#### v3.10.0.0 版本以后
+
+ - 引入 动态构建库： DotNetCore.Natasha
+
+ - 向引擎中注入定制的域： AssemblyDomain.Init();
+  
+ - 敲代码  
+ 
+ <br/>  
+ 
   
  - 配置文件：
  ```C#
@@ -67,21 +93,13 @@
  ```
  
 
- - 敲代码  
- 
- 
  > 更多更新的参考文档：https://natasha.dotnetcore.xyz/  
  
 <br/>  
 
 
 ### 发布日志  
-      
-  
-  - 2020-05-01 ： 发布v3.0.0.0, 重构所有模块，上层API几乎没变，底层可以继承重写，移除部分 API。  
-  
-  - 2020-05-06 ： 发布v3.0.2.0, 修复 修饰符模板状态机BUG, 增加 语法树选项 ForceAddSyntax 不管对错强制添加语法树。  
-  
+        
   - 2020-05-12 ： 发布v3.2.0.0，增加插件自动装载 using 的功能，修复部分字段命名，Domain 部分抽象实现将在 AssemblyDomain 中实现，增加 GetPluginAssembies 抽象方法以返回插件带来的程序集，需要子类实现。
     
   - 2020-06-01 ： 发布v3.4.0.0，Oop 模板增加两种内容构造API , nclass.GetXXXBuilder 返回构造器，用户可以在外随意定制， nclass.Property/Field/Method/Ctor( builder) 支持直接传一个完好的 builder 进去。
@@ -89,6 +107,8 @@
   - 2020-06-06 ： 发布v3.8.0.0，修复模板状态机操作； 模板中API调整：DefinedName -> Name, DefinedType -> Type; 调整引擎 API 结构，减少 AssemblyCSharpBuilder 类 API 操作的层级；增加对私有字段动态调用的支持，OOP 模板新增API AllowPrivate； 由于精力有限周边项目将只对 R2D \ DynamicaCache 进行更新。
   
   - 2020-06-07 ： 发布v3.10.0.0，分离 SDK / SHARE 运行时库引用，以便支持系统类库的私有字段。调整初始化 API `DomainManagement.RegiestDefault` => ` AssemblyDomain.Init();`； 引擎继续调整 API 结构，提升部分属性的暴露层级： AllowUnsafe 属性以支持非安全代码编译；OutputToFile 切换内存及文件编译模式；UseRelease 是否使用优化编译；OutputKind 编译类型的枚举，包括 dll / exe 等； Domain 域设置； AssemblyName 程序集名。精简引擎部分冗余代码。
+  
+  - 2020-07-02 ： 发布v3.14.0.0，部分操作类提升到全局引用，AssemblyDomain \ DomainManagement \ AssemblyCSharpBuilder; 使用可继承的编译环境包；使用可继承的调试环境包。 AssemblyCSharpBuilder 引擎继续调整 API 结构，提升部分选项属性的暴露层级；引擎规避一些常见的编译警告；模板增加泛型约束模板，反解器增加泛型约束反解功能；修复部分模板状态机操作；增加CS0012错误重定向。
   
  <br/>  
  
