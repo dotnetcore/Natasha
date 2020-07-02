@@ -47,12 +47,11 @@
 
 <br/>    
 
-### 使用方法(User Api)：  
+### 使用方法(User Api)：   
 
-### v3.10.0.0 版本之前
 
- <br/>  
- 
+#### v3.10.0.0 版本之前
+
  - 引入 动态构建库： DotNetCore.Natasha
 
  - 引入 编译环境库： DotNetCore.Compile.Environment
