@@ -65,7 +65,7 @@ namespace Natasha.CSharp.Template
         /// </summary>
         /// <param name="accessEnum">访问的枚举</param>
         /// <returns></returns>
-        public T Access(AccessTypes accessEnum = AccessTypes.Internal)
+        public T Access(AccessFlags accessEnum = AccessFlags.Internal)
         {
 
             AccessScript = AccessReverser.GetAccess(accessEnum);
@@ -95,31 +95,31 @@ namespace Natasha.CSharp.Template
         public T Public()
         {
 
-            return Access(Reverser.Model.AccessTypes.Public);
+            return Access(Reverser.Model.AccessFlags.Public);
 
         }
         public T Private()
         {
 
-            return Access(Reverser.Model.AccessTypes.Private);
+            return Access(Reverser.Model.AccessFlags.Private);
 
         }
         public T Protected()
         {
 
-            return Access(Reverser.Model.AccessTypes.Protected);
+            return Access(Reverser.Model.AccessFlags.Protected);
 
         }
         public T Internal()
         {
 
-            return Access(Reverser.Model.AccessTypes.Internal);
+            return Access(Reverser.Model.AccessFlags.Internal);
 
         }
         public T InternalAndProtected()
         {
 
-            return Access(Reverser.Model.AccessTypes.InternalAndProtected);
+            return Access(Reverser.Model.AccessFlags.InternalAndProtected);
 
         }
 

@@ -1,6 +1,6 @@
 ﻿namespace NatashaUT.Model
 {
-    public class ReverserTestModel
+    public class MethodSpecialTestModel
     {
         public void Test1(in Rsm<GRsm> rsm) { }
         public void Test2(out Rsm<Rsm<GRsm>[]> rsm) { rsm = new Rsm<Rsm<GRsm>[]>(); }

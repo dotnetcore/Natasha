@@ -22,5 +22,14 @@ namespace NatashaUT
             Assert.True(typeof(Delegate).IsSimpleType());
 
         }
+
+        [Fact(DisplayName = "继承类")]
+        public void Test2()
+        {
+
+            Assert.True(typeof(object).IsAssignableFrom(typeof(List<>)));
+            Assert.False(typeof(IList<>).IsAssignableFrom(typeof(List<>)));
+
+        }
     }
 }

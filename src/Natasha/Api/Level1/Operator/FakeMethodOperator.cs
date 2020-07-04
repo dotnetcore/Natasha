@@ -27,11 +27,11 @@ namespace Natasha.CSharp
         {
 
             ClassOptions(item => item
-            .Modifier(Reverser.Model.Modifiers.Static)
+            .Modifier(Reverser.Model.ModifierFlags.Static)
             .Class()
             .UseRandomName()
             .HiddenNamespace()
-            .Access(Reverser.Model.AccessTypes.Public)
+            .Access(Reverser.Model.AccessFlags.Public)
             );
 
         }
@@ -109,7 +109,7 @@ namespace Natasha.CSharp
         {
 
             MethodCopy();
-            Modifier(Reverser.Model.Modifiers.Static);
+            Modifier(Reverser.Model.ModifierFlags.Static);
             ModifierAppend(AsyncReverser.GetAsync(_method_info));
             return Body(body);
 

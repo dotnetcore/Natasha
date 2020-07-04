@@ -125,7 +125,7 @@ namespace Natasha.CSharp.Builder
 
 
 
-        public Delegate Compile(object binder = null)
+        public Delegate Compile(object target = null)
         {
 
             if (OopHandler.NamespaceScript == default)
@@ -140,7 +140,7 @@ namespace Natasha.CSharp.Builder
 
             if (!Exception.HasError)
             {
-                var @delegate = AssemblyBuilder.GetDelegateFromShortName(OopHandler.NameScript, NameScript, DelegateType, binder);
+                var @delegate = AssemblyBuilder.GetDelegateFromShortName(OopHandler.NameScript, NameScript, DelegateType, target);
                 if (@delegate == null)
                 {
                     Exception = AssemblyBuilder.Exceptions[0];
@@ -155,7 +155,7 @@ namespace Natasha.CSharp.Builder
 
 
 
-        public S Compile<S>(object binder = null) where S : Delegate
+        public S Compile<S>(object target = null) where S : Delegate
         {
 
 
@@ -192,7 +192,7 @@ namespace Natasha.CSharp.Builder
 
             if (!Exception.HasError)
             {
-                S @delegate = AssemblyBuilder.GetDelegateFromShortName<S>(OopHandler.NameScript, NameScript, binder);
+                S @delegate = AssemblyBuilder.GetDelegateFromShortName<S>(OopHandler.NameScript, NameScript, target);
                 if (@delegate == null)
                 {
                     Exception = AssemblyBuilder.Exceptions[0];

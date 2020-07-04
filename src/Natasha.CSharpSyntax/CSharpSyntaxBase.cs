@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Formatting;
+using Microsoft.CodeAnalysis.Options;
 using Natasha.Framework;
 
 namespace Natasha.CSharpSyntax
@@ -8,14 +9,14 @@ namespace Natasha.CSharpSyntax
     public abstract class CSharpSyntaxBase : SyntaxBase
     {
         
-        private readonly static AdhocWorkspace _workSpace;
+        //private readonly static AdhocWorkspace _workSpace;
         private readonly static CSharpParseOptions _options;
 
         static CSharpSyntaxBase()
         {
 
-            _workSpace = new AdhocWorkspace();
-            _workSpace.AddSolution(SolutionInfo.Create(SolutionId.CreateNewId("formatter"), VersionStamp.Default));
+            //_workSpace = new AdhocWorkspace();
+            //_workSpace.AddSolution(SolutionInfo.Create(SolutionId.CreateNewId("formatter"), VersionStamp.Default));
             _options = new CSharpParseOptions(LanguageVersion.Latest, preprocessorSymbols: new[] { "RELEASE" });
 
         }
@@ -25,15 +26,21 @@ namespace Natasha.CSharpSyntax
 
         public override SyntaxTree LoadTreeFromScript(string script)
         {
-            var tree = CSharpSyntaxTree.ParseText(script.Trim(), _options);
+            
+            var tree = SyntaxFactory.ParseSyntaxTree(script.Trim(), _options); ;
             return LoadTree(tree);
+
         }
         public override SyntaxTree LoadTree(SyntaxTree tree)
         {
-            SyntaxNode root = Formatter.Format(tree.GetCompilationUnitRoot(), _workSpace);
-            tree = root.SyntaxTree;
-            _workSpace.ClearSolution();
+
+            using (var workspace = new AdhocWorkspace())
+            {
+                SyntaxNode root = Formatter.Format(tree.GetRoot(), workspace);
+                tree = root.SyntaxTree;
+            }
             return tree;
+
         }
 
     }
