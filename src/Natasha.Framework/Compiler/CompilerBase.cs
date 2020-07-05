@@ -9,14 +9,20 @@ using System.Runtime.Loader;
 
 namespace Natasha.Framework
 {
-    public abstract class CompilerBase<T> where T : Compilation
+    public abstract class CompilerBase<TCompilation, TCompilationOptions> where TCompilation : Compilation where TCompilationOptions : CompilationOptions
     {
+
         public string AssemblyName;
         public Assembly Assembly;
         public AssemblyBuildKind AssemblyOutputKind;
         public string DllPath;
         public string PdbPath;
-
+        public bool AllowUnsafe;
+        public OutputKind Enum_OutputKind;
+        public Platform Enum_Platform;
+        public OptimizationLevel Enum_OptimizationLevel;
+        public Action<TCompilationOptions> OptionAction;
+        public TCompilation Compilation;
         public CompilerBase()
         {
             _domain = null;
@@ -37,10 +43,10 @@ namespace Natasha.Framework
                     }
                     else
                     {
-                        _domain = DomainManagement.Default;
+                        _domain = DomainBase.DefaultDomain;
                     }
 #else
-                    _domain = DomainManagement.Default;
+                    _domain = (DomainBase)(DomainBase.Default);
 #endif
                 }
                 return _domain;
@@ -49,10 +55,15 @@ namespace Natasha.Framework
             {
                 if (value == default)
                 {
-                    value = DomainManagement.Default;
+                    value = (DomainBase)(DomainBase.Default);
                 }
                 _domain = value;
             }
+        }
+
+        public void AddOption(Action<TCompilationOptions> action)
+        {
+            OptionAction += action;
         }
 
         public virtual bool PreCompiler()
@@ -60,19 +71,19 @@ namespace Natasha.Framework
             return true;
         }
 
-        public abstract T GetCompilation();
-        public abstract EmitResult EmitToFile(T compilation);
-        public abstract EmitResult EmitToStream(T compilation, MemoryStream stream);
+        public abstract TCompilation GetCompilation();
+        public abstract EmitResult EmitToFile(TCompilation compilation);
+        public abstract EmitResult EmitToStream(TCompilation compilation, MemoryStream stream);
 
         public IEnumerable<SyntaxTree> CompileTrees;
 
-        public event Action<string, string, T> FileCompileSucceedHandler;
+        public event Action<string, string, TCompilation> FileCompileSucceedHandler;
 
-        public event Action<Stream, T> StreamCompileSucceedHandler;
+        public event Action<Stream, TCompilation> StreamCompileSucceedHandler;
 
-        public event Action<string, string, ImmutableArray<Diagnostic>, T> FileCompileFailedHandler;
+        public event Action<string, string, ImmutableArray<Diagnostic>, TCompilation> FileCompileFailedHandler;
 
-        public event Action<Stream, ImmutableArray<Diagnostic>, T> StreamCompileFailedHandler;
+        public event Action<Stream, ImmutableArray<Diagnostic>, TCompilation> StreamCompileFailedHandler;
 
         public virtual void CompileToFile()
         {
@@ -82,7 +93,6 @@ namespace Natasha.Framework
 
                 var compilation = GetCompilation();
                 var CompileResult = EmitToFile(compilation);
-
 
                 if (CompileResult.Success)
                 {

@@ -1,5 +1,4 @@
-﻿using Natasha;
-using Natasha.CSharp;
+﻿using Natasha.CSharp;
 using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -14,8 +13,9 @@ namespace UnloadTest31
         static Type tempType;
         static void Main(string[] args)
         {
-
-            DomainManagement.RegisterDefault<AssemblyDomain>();
+            ComponentRegister.RegistDomain<NatashaAssemblyDomain>();
+            ComponentRegister.RegistCompiler<NatashaCSharpCompiler>();
+            ComponentRegister.RegisteSyntax<NatashaCSharpSyntax>();
 
             NErrorLog.Enabled = false;
             NSucceedLog.Enabled = false;

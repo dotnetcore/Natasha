@@ -4,7 +4,7 @@
     {
         static DomainInitTemplate()
         {
-            AssemblyDomain.Init();
+            //AssemblyDomain.Init();
         }
     }
 }

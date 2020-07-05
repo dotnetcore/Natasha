@@ -53,14 +53,14 @@ namespace Natasha.CSharp
         public NDelegate SetClass(Func<OopBuilder, OopBuilder> classAction)
         {
 
-            _oopAction = classAction;
+            _oopAction += classAction;
             return this;
 
         }
         public NDelegate SetMethod(Func<FakeMethodOperator, FakeMethodOperator> methodAction)
         {
 
-            _methodAction = methodAction;
+            _methodAction += methodAction;
             return this;
 
         }

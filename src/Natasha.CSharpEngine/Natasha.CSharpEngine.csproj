@@ -22,9 +22,11 @@
   </ItemGroup>-->
 
   <ItemGroup>
-    <ProjectReference Include="..\Natasha.CSharpComplier\Natasha.CSharpCompiler.csproj" />
-    <ProjectReference Include="..\Natasha.CSharpSyntax\Natasha.CSharpSyntax.csproj" />
-    <ProjectReference Include="..\Natasha.Domain\Natasha.Domain.csproj" />
+    <Folder Include="Syntax\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Natasha.Framework\Natasha.Framework.csproj" />
   </ItemGroup>
 
 

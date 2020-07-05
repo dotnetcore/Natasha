@@ -1,6 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
 using Natasha.CSharpEngine;
-using Natasha.CSharpEngine.Syntax;
 using Natasha.Error;
 using Natasha.Error.Model;
 using Natasha.Framework;
@@ -319,7 +318,7 @@ namespace Natasha.CSharp
         }
         #endregion
 
-        public static AssemblyCSharpBuilder AddRetryHandler(this AssemblyCSharpBuilder builder, string key, Action<CompilationException, Diagnostic, NatashaCSharpSyntax, Dictionary<string, string>> action)
+        public static AssemblyCSharpBuilder AddRetryHandler(this AssemblyCSharpBuilder builder, string key, Action<CompilationException, Diagnostic, SyntaxBase, Dictionary<string, string>> action)
         {
             NatashaCSharpEngine.ErrorHandlers[key] = action;
             return builder;

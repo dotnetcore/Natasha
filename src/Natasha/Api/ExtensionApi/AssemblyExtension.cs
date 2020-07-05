@@ -25,15 +25,15 @@ namespace Natasha
 
 
 
-        public static AssemblyDomain GetDomain(this Assembly assembly)
+        public static DomainBase GetDomain(this Assembly assembly)
         {
 
             var assemblyDomain = AssemblyLoadContext.GetLoadContext(assembly);
             if (assemblyDomain == AssemblyLoadContext.Default)
             {
-                return (AssemblyDomain)DomainManagement.Default;
+                return DomainManagement.Default;
             }
-            return (AssemblyDomain)assemblyDomain;
+            return (DomainBase)assemblyDomain;
 
         }
 

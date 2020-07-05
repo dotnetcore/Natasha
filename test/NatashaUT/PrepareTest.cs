@@ -9,7 +9,9 @@ namespace NatashaUT
     {
         static PrepareTest()
         {
-            AssemblyDomain.Init();
+            ComponentRegister.RegistDomain<NatashaAssemblyDomain>();
+            ComponentRegister.RegistCompiler<NatashaCSharpCompiler>();
+            ComponentRegister.RegisteSyntax<NatashaCSharpSyntax>();
         }
     }
 }

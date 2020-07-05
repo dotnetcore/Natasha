@@ -18,7 +18,19 @@
     <Authors>NMSAzulX</Authors>
     <FileVersion>3.11.0.0</FileVersion>
     <AssemblyVersion>3.11.0.0</AssemblyVersion>
+    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile>natasha.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="natasha.snk" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="natasha.snk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
 
   <ItemGroup>

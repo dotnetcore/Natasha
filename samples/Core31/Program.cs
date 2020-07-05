@@ -10,27 +10,29 @@ namespace Core31
         static void Main(string[] args)
         {
 
-            AssemblyDomain.Init();
+            ComponentRegister.RegistDomain<NatashaAssemblyDomain>();
+            ComponentRegister.RegistCompiler<NatashaCSharpCompiler>();
+            ComponentRegister.RegisteSyntax<NatashaCSharpSyntax>();
 
-            var hwFunc = FastMethodOperator
-                .RandomDomain()
-                .Param(typeof(string), "str1")
-                .Param<string>("str2")
-                .Body("return str1+str2;")
-                .Return<string>()
-                .Compile<Func<string, string, string>>();
-            Console.WriteLine(hwFunc("Hello", " World!"));
+            //var hwFunc = FastMethodOperator
+            //    .RandomDomain()
+            //    .Param(typeof(string), "str1")
+            //    .Param<string>("str2")
+            //    .Body("return str1+str2;")
+            //    .Return<string>()
+            //    .Compile<Func<string, string, string>>();
+            //Console.WriteLine(hwFunc("Hello", " World!"));
 
 
             var a123 = NClass.UseDomain(typeof(Program).GetDomain());
             var domain = DomainManagement.Random;
-            var type = NDelegate.UseDomain(domain).GetType("public class A{ public A(){Name=\"1\"; }public string Name;}");
+            var type = NDelegate.UseDomain(domain,item=>item.AssemblyName="a").GetType($"[assembly: AssemblyKeyFileAttribute(\"c:\\\\vs2019\\\\natasha.snk\")]" +"[assembly: AssemblyVersion(\"1.3.3.3\")]public class A{ public A(){Name=\"1\"; }public string Name;}");
             var func = NDelegate.UseDomain(domain).Func<string>("return (new A()).Name;");
             Console.WriteLine(type.FullName);
             Console.WriteLine(func());
 
-            type.RemoveReferences();
-            type = NDelegate.UseDomain(domain).GetType("public class A{ public A(){Name=\"2\"; }public string Name;}");
+            //type.RemoveReferences();
+            type = NDelegate.UseDomain(domain,item=>item.AssemblyName="a").GetType($"[assembly: AssemblyKeyFileAttribute(\"c:\\\\vs2019\\\\natasha.snk\")]" + "[assembly: AssemblyVersion(\"2.3.3.4\")]public class A{ public A(){Name=\"2\"; }public string Name;}");
             func = NDelegate.UseDomain(domain).Func<string>("return (new A()).Name;");
             Console.WriteLine(type.FullName);
             Console.WriteLine(func());
@@ -38,7 +40,7 @@ namespace Core31
             domain = DomainManagement.Create("a");
             using (DomainManagement.Lock("a"))
             {
-                Console.WriteLine(domain == (AssemblyDomain)AssemblyLoadContext.CurrentContextualReflectionContext);
+                Console.WriteLine(domain == (NatashaAssemblyDomain)AssemblyLoadContext.CurrentContextualReflectionContext);
             }
 
             Console.ReadKey();
