@@ -46,7 +46,7 @@ namespace Natasha.Framework
                         _domain = DomainBase.DefaultDomain;
                     }
 #else
-                    _domain = (DomainBase)(DomainBase.Default);
+                    _domain = DomainBase.DefaultDomain;
 #endif
                 }
                 return _domain;
@@ -55,7 +55,7 @@ namespace Natasha.Framework
             {
                 if (value == default)
                 {
-                    value = (DomainBase)(DomainBase.Default);
+                    value = DomainBase.DefaultDomain;
                 }
                 _domain = value;
             }
