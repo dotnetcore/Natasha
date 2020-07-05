@@ -28,7 +28,7 @@ public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompi
 
 
     public bool ReferencesSupersedeLowerVersions;
-    public uint Flags;
+    public CompilerBinderFlags CompileFlags;
 
 
     static NatashaCSharpCompiler()
@@ -71,7 +71,7 @@ public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompi
 
     public NatashaCSharpCompiler()
     {
-        Flags = (uint)(CompilerBinderFlags.IgnoreAccessibility | CompilerBinderFlags.IgnoreCorLibraryDuplicatedTypes);
+        CompileFlags = CompilerBinderFlags.IgnoreAccessibility | CompilerBinderFlags.IgnoreCorLibraryDuplicatedTypes;
         ReferencesSupersedeLowerVersions = true;
         AllowUnsafe = true;
         Enum_OutputKind = OutputKind.DynamicallyLinkedLibrary;
@@ -83,14 +83,12 @@ public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompi
 
     }
 
-
-    public override CSharpCompilation GetCompilation()
+    public override CSharpCompilationOptions GetCompilationOptions()
     {
-        var a = new DesktopStrongNameProvider(ImmutableArray.Create(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "natasha.snk")));
-
+        //var a = new DesktopStrongNameProvider(ImmutableArray.Create(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "natasha.snk")));
         //CS0012  DesktopAssembly
         var compilationOptions = new CSharpCompilationOptions(
-                              strongNameProvider: a,
+                               //strongNameProvider: a,
                                concurrentBuild: true,
                                moduleName: Guid.NewGuid().ToString(),
                                reportSuppressedDiagnostics: false,
@@ -102,23 +100,34 @@ public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompi
                                checkOverflow: false,
                                assemblyIdentityComparer: DesktopAssemblyIdentityComparer.Default,
                                specificDiagnosticOptions: SuppressDiagnostics);
-        if (Flags != 0)
+        if (CompileFlags != 0)
         {
-            SetTopLevelBinderFlagDelegate(compilationOptions, Flags);
+            SetTopLevelBinderFlagDelegate(compilationOptions, (uint)CompileFlags);
         }
         SetReferencesSupersedeLowerVersionsDelegate(compilationOptions, ReferencesSupersedeLowerVersions);
-        OptionAction?.Invoke(compilationOptions);
-        Compilation = CSharpCompilation.Create(AssemblyName, CompileTrees, Domain.GetCompileReferences(), compilationOptions);
+        return compilationOptions;
+
+    }
+
+
+    public override CSharpCompilation GetCompilation(CSharpCompilationOptions options)
+    {
+       
+        Compilation = CSharpCompilation.Create(AssemblyName, CompileTrees, Domain.GetCompileReferences(), options);
         return Compilation;
 
     }
 
     public void SetBindingFlag(CompilerBinderFlags flags)
     {
-        Flags = (uint)flags;
+        CompileFlags = flags;
+    }
+    public void SetReferencesSupersedeLowerVersions(bool value)
+    {
+        ReferencesSupersedeLowerVersions = value;
     }
 
-    public override EmitResult EmitToFile(CSharpCompilation compilation)
+    public override EmitResult CompileEmitToFile(CSharpCompilation compilation)
     {
 
         EmitResult CompileResult;
@@ -133,7 +142,8 @@ public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompi
         return CompileResult;
 
     }
-    public override EmitResult EmitToStream(CSharpCompilation compilation, MemoryStream stream)
+
+    public override EmitResult CompileEmitToStream(CSharpCompilation compilation, MemoryStream stream)
     {
         EmitResult CompileResult;
         if (Environment.OSVersion.Platform == PlatformID.Win32NT)

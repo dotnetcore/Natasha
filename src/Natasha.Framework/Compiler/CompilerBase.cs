@@ -13,7 +13,7 @@ namespace Natasha.Framework
     {
 
         public string AssemblyName;
-        public Assembly Assembly;
+        public Assembly AssemblyResult;
         public AssemblyBuildKind AssemblyOutputKind;
         public string DllPath;
         public string PdbPath;
@@ -65,15 +65,15 @@ namespace Natasha.Framework
         {
             OptionAction += action;
         }
-
+        public abstract TCompilationOptions GetCompilationOptions();
         public virtual bool PreCompiler()
         {
             return true;
         }
 
-        public abstract TCompilation GetCompilation();
-        public abstract EmitResult EmitToFile(TCompilation compilation);
-        public abstract EmitResult EmitToStream(TCompilation compilation, MemoryStream stream);
+        public abstract TCompilation GetCompilation(TCompilationOptions options);
+        public abstract EmitResult CompileEmitToFile(TCompilation compilation);
+        public abstract EmitResult CompileEmitToStream(TCompilation compilation, MemoryStream stream);
 
         public IEnumerable<SyntaxTree> CompileTrees;
 
@@ -91,12 +91,14 @@ namespace Natasha.Framework
             if (PreCompiler())
             {
 
-                var compilation = GetCompilation();
-                var CompileResult = EmitToFile(compilation);
+                var options = GetCompilationOptions();
+                OptionAction?.Invoke(options);
+                var compilation = GetCompilation(options);
+                var CompileResult = CompileEmitToFile(compilation);
 
                 if (CompileResult.Success)
                 {
-                    Assembly = Domain.CompileFileHandler(DllPath, PdbPath, AssemblyName);
+                    AssemblyResult = Domain.CompileFileHandler(DllPath, PdbPath, AssemblyName);
                     FileCompileSucceedHandler?.Invoke(DllPath, PdbPath, compilation);
                 }
                 else
@@ -114,9 +116,11 @@ namespace Natasha.Framework
             if (PreCompiler())
             {
 
-                var compilation = GetCompilation();
+                var options = GetCompilationOptions();
+                OptionAction?.Invoke(options);
+                var compilation = GetCompilation(options);
                 MemoryStream stream = new MemoryStream();
-                var CompileResult = EmitToStream(compilation, stream);
+                var CompileResult = CompileEmitToStream(compilation, stream);
 
 
                 if (CompileResult.Success)
@@ -125,7 +129,7 @@ namespace Natasha.Framework
                     MemoryStream copyStream = new MemoryStream();
                     stream.CopyTo(copyStream);
                     stream.Seek(0, SeekOrigin.Begin);
-                    Assembly = Domain.CompileStreamHandler(stream, AssemblyName);
+                    AssemblyResult = Domain.CompileStreamHandler(stream, AssemblyName);
                     StreamCompileSucceedHandler?.Invoke(copyStream, compilation);
                     copyStream.Dispose();
                 }

@@ -173,7 +173,7 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
 
 
         //如果编译出错
-        if (Compiler.Assembly == null && Exceptions != null && Exceptions.Count > 0)
+        if (Compiler.AssemblyResult == null && Exceptions != null && Exceptions.Count > 0)
         {
 
             switch (CompileErrorBehavior)
@@ -199,7 +199,7 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
             LogOperator.SucceedRecoder(Compiler.Compilation);
 
         }
-        return Compiler.Assembly;
+        return Compiler.AssemblyResult;
 
     }
 
