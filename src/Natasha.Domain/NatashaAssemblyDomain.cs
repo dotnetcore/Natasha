@@ -11,34 +11,14 @@ using System.Reflection;
 using System.Runtime.Loader;
 
 
-public class NatashaAssemblyDomain : DomainBase<NatashaAssemblyDomain>
+public class NatashaAssemblyDomain : DomainBase
 {
-    
+
     public readonly ConcurrentDictionary<string, Assembly> DllAssemblies;
-    public readonly ShortNameReference ShortReferences;
-
-    public NatashaAssemblyDomain()
-    {
-
-    }
-
-
-    public override HashSet<PortableExecutableReference> GetDefaultReferences()
-    {
-        return new HashSet<PortableExecutableReference>(DefaultDomain.AssemblyReferences.Values);
-    }
 
 
 
-    /// <summary>
-    /// 让父类通过此方法获取当前类型域
-    /// </summary>
-    /// <returns></returns>
-    public override NatashaAssemblyDomain GetInstance(string name)
-    {
-        return new NatashaAssemblyDomain(name);
-    }
-
+    #region 加载程序集
     /// <summary>
     /// 从外部文件获取程序集，并添加引用信息
     /// </summary>
@@ -48,10 +28,11 @@ public class NatashaAssemblyDomain : DomainBase<NatashaAssemblyDomain>
         var assembly = base.LoadAssemblyFromFile(path);
         if (assembly != null)
         {
-            AssemblyReferences[assembly] = MetadataReference.CreateFromFile(path);
+            AddReferencesFromDllFile(path);
         }
         return assembly;
     }
+
 
     /// <summary>
     /// 从外部文件以流的方式获取程序集，并添加引用信息
@@ -62,6 +43,7 @@ public class NatashaAssemblyDomain : DomainBase<NatashaAssemblyDomain>
     {
         return LoadAssemblyFromStream(new FileStream(path, FileMode.Open, FileAccess.Read));
     }
+
 
     /// <summary>
     /// 以流的方式获取程序集，并添加引用信息
@@ -77,13 +59,15 @@ public class NatashaAssemblyDomain : DomainBase<NatashaAssemblyDomain>
             if (assembly != null)
             {
                 stream.Seek(0, SeekOrigin.Begin);
-                AssemblyReferences[assembly] = MetadataReference.CreateFromStream(stream);
+                AddReferencesFromAssemblyStream(assembly, stream);
             }
             return assembly;
         }
     }
+    #endregion
 
 
+    #region 加载插件
     public override Assembly LoadPluginFromFile(string path, params string[] excludePaths)
     {
 
@@ -106,6 +90,10 @@ public class NatashaAssemblyDomain : DomainBase<NatashaAssemblyDomain>
         }
 
     }
+    #endregion
+
+
+    public bool UseNewVersionAssmebly;
     /// <summary>
     /// 获取编译所需的引用库
     /// </summary>
@@ -113,38 +101,73 @@ public class NatashaAssemblyDomain : DomainBase<NatashaAssemblyDomain>
     public override HashSet<PortableExecutableReference> GetCompileReferences()
     {
 
-        var sets = base.GetCompileReferences();
-        if (Name != "Default")
+        var defaultNode = (NatashaAssemblyDomain)DefaultDomain;
+        if (Name != "default")
         {
-            if (!UseCustomReferences)
+
+            //去除剩余的部分
+            var sets = new HashSet<PortableExecutableReference>(defaultNode.ReferencesFromStream.Values);
+            foreach (var item in defaultNode.ReferencesFromStream.Keys)
             {
 
-                //将系统域的短名引用缓存起来
-                var dict = new Dictionary<string, PortableExecutableReference>(((NatashaAssemblyDomain)DefaultDomain).ShortReferences.References);
-                foreach (var item in ShortReferences.References)
+                foreach (var current in ReferencesFromStream.Keys)
                 {
-                    
-                    //用当前域的引用集合覆盖系统域的集合
-                    dict[item.Key] = item.Value;
 
+                    //如果程序集名相同
+                    if (item.GetName().Name == current.GetName().Name)
+                    {
+
+                        //是否选用最新程序集
+                        if (UseNewVersionAssmebly)
+                        {
+
+                            //如果默认域版本小
+                            if (item.GetName().Version < current.GetName().Version)
+                            {
+
+                                //使用现有域的程序集版本
+                                sets.Remove(defaultNode.ReferencesFromStream[item]);
+                                break;
+
+                            }
+                        }
+                        else
+                        {
+                            sets.Remove(defaultNode.ReferencesFromStream[item]);
+                            break;
+                        }
+                    }
                 }
-                //将处理后的名引用加载进来
-                sets.UnionWith(dict.Values);
             }
-            else
+
+            //先添加流编译的引用
+            sets.UnionWith(ReferencesFromStream.Values);
+            sets.UnionWith(defaultNode.ReferencesFromFile.Values);
+            foreach (var item in defaultNode.ReferencesFromFile.Keys)
             {
-                sets.UnionWith(ShortReferences.References.Values);
+                foreach (var current in ReferencesFromFile.Keys)
+                {
+                    if (item == current) 
+                    {
+                        sets.Remove(defaultNode.ReferencesFromFile[item]);
+                    }
+                }
             }
+            sets.UnionWith(ReferencesFromFile.Values);
+            return sets;
 
         }
         else
         {
             //如果是系统域则直接拼接自己的引用库
-            sets.UnionWith(ShortReferences.References.Values);
+            var sets = new HashSet<PortableExecutableReference>(defaultNode.ReferencesFromStream.Values);
+            sets.UnionWith(defaultNode.ReferencesFromFile.Values);
+            return sets;
         }
-        return sets;
+
     }
 
+    #region 编译成功事件
     /// <summary>
     /// 当拿到动态编译生成的文件时调用
     /// </summary>
@@ -157,6 +180,7 @@ public class NatashaAssemblyDomain : DomainBase<NatashaAssemblyDomain>
         return LoadAssemblyFromFile(dllFile);
     }
 
+
     /// <summary>
     /// 当拿到动态编译生成的流时调用
     /// </summary>
@@ -167,7 +191,10 @@ public class NatashaAssemblyDomain : DomainBase<NatashaAssemblyDomain>
     {
         return LoadAssemblyFromStream(stream);
     }
+    #endregion
 
+
+    #region 移除引用
     /// <summary>
     /// 移除对应的短名程序集引用，移除插件方式加载的引用才会用到该方法
     /// </summary>
@@ -179,7 +206,8 @@ public class NatashaAssemblyDomain : DomainBase<NatashaAssemblyDomain>
 
             if (DllAssemblies.ContainsKey(path))
             {
-                ShortReferences.Remove(path);
+                var shortName = Path.GetFileNameWithoutExtension(path);
+                while (!ReferencesFromFile.TryRemove(shortName, out _)) { }
                 while (!DllAssemblies.TryRemove(path, out _)) { }
             }
         }
@@ -195,9 +223,9 @@ public class NatashaAssemblyDomain : DomainBase<NatashaAssemblyDomain>
     {
         if (assembly != null)
         {
-            if (AssemblyReferences.ContainsKey(assembly))
+            if (ReferencesFromStream.ContainsKey(assembly))
             {
-                while (!AssemblyReferences.TryRemove(assembly, out _)) { }
+                while (!ReferencesFromStream.TryRemove(assembly, out _)) { }
             }
             else if (assembly.Location != "" && assembly.Location != default)
             {
@@ -205,40 +233,34 @@ public class NatashaAssemblyDomain : DomainBase<NatashaAssemblyDomain>
             }
         }
     }
+    #endregion
+
 
     public NatashaAssemblyDomain(string key) : base(key)
     {
 #if !NETSTANDARD2_0
-            _load_resolver = new AssemblyDependencyResolver(AppDomain.CurrentDomain.BaseDirectory);
+        DependencyResolver = new AssemblyDependencyResolver(AppDomain.CurrentDomain.BaseDirectory);
 #endif
-
-        ShortReferences = new ShortNameReference();
         DllAssemblies = new ConcurrentDictionary<string, Assembly>();
 
     }
 
     public override void Dispose()
     {
-#if !NETSTANDARD2_0
-            _load_resolver = null;
-#endif
         DllAssemblies.Clear();
-        ShortReferences.Dispose();
         base.Dispose();
     }
 
-#if !NETSTANDARD2_0
-        private AssemblyDependencyResolver _load_resolver;
-#endif
+
 
     protected override Assembly Load(AssemblyName assemblyName)
     {
 #if !NETSTANDARD2_0
-            string assemblyPath = _load_resolver.ResolveAssemblyToPath(assemblyName);
-            if (assemblyPath != null)
-            {
-                return LoadAssemblyFromStream(assemblyPath);
-            }
+        string assemblyPath = DependencyResolver.ResolveAssemblyToPath(assemblyName);
+        if (assemblyPath != null)
+        {
+            return LoadAssemblyFromStream(assemblyPath);
+        }
 #endif
         return null;
     }
@@ -251,11 +273,11 @@ public class NatashaAssemblyDomain : DomainBase<NatashaAssemblyDomain>
     protected override IntPtr LoadUnmanagedDll(string unmanagedDllName)
     {
 #if !NETSTANDARD2_0
-            string libraryPath = _load_resolver.ResolveUnmanagedDllToPath(unmanagedDllName);
-            if (libraryPath != null)
-            {
-                return LoadUnmanagedDllFromPath(libraryPath);
-            }
+        string libraryPath = DependencyResolver.ResolveUnmanagedDllToPath(unmanagedDllName);
+        if (libraryPath != null)
+        {
+            return LoadUnmanagedDllFromPath(libraryPath);
+        }
 #endif
         return IntPtr.Zero;
     }
@@ -263,90 +285,6 @@ public class NatashaAssemblyDomain : DomainBase<NatashaAssemblyDomain>
     public override IntPtr Default_ResolvingUnmanagedDll(Assembly arg1, string arg2)
     {
         return LoadUnmanagedDll(arg2);
-    }
-
-
-
-    /// <summary>
-    /// 使用外部文件路径添加引用
-    /// </summary>
-    /// <param name="path">文件路径</param>
-    /// <param name="excludePaths"></param>
-    public override void AddReferencesFromDllFile(string path, params string[] excludePaths)
-    {
-
-        HashSet<string> exclude;
-        if (excludePaths == default)
-        {
-            exclude = new HashSet<string>();
-        }
-        else
-        {
-            exclude = new HashSet<string>(excludePaths);
-        }
-
-        if (!exclude.Contains(path))
-        {
-            ShortReferences.Add(path);
-        }
-
-    }
-
-    public override void AddReferencesFromFolder(string path, bool subFolder = true, params string[] excludePaths)
-    {
-
-        HashSet<string> exclude;
-        if (excludePaths == default)
-        {
-            exclude = new HashSet<string>();
-        }
-        else
-        {
-            exclude = new HashSet<string>(excludePaths);
-        }
-
-
-        var dllPath = Path.GetDirectoryName(path);
-        string[] dllFiles = Directory.GetFiles(dllPath, "*.dll", subFolder ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
-        for (int i = 0; i < dllFiles.Length; i++)
-        {
-            if (!exclude.Contains(dllFiles[i]))
-            {
-                ShortReferences.Add(dllFiles[i]);
-            }
-        }
-
-    }
-
-    public override void AddReferencesFromDepsJsonFile(string path, params string[] excludePaths)
-    {
-
-        HashSet<string> exclude;
-        if (excludePaths == default)
-        {
-            exclude = new HashSet<string>();
-        }
-        else
-        {
-            exclude = new HashSet<string>(excludePaths);
-        }
-
-
-#if !NETSTANDARD2_0
-
-            _load_resolver = new AssemblyDependencyResolver(path);
-            var newMapping = GetDictionary(_load_resolver);
-
-            foreach (var item in newMapping)
-            {
-                if (!exclude.Contains(item.Value))
-                {
-                    ShortReferences.Add(item.Value);
-                }
-            }
-
-#endif
-
     }
 
     public override IEnumerable<Assembly> GetPluginAssemblies()

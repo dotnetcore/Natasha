@@ -12,8 +12,8 @@ public static class ComponentRegister
         CompilerManagement.RegisterDefault<TCompiler>();
     }
 
-    public static void RegistDomain<TDomain>() where TDomain : DomainBase<TDomain>, new()
-    {
+    public static void RegistDomain<TDomain>() where TDomain : DomainBase
+    { 
         DomainManagement.RegisterDefault<TDomain>();
     }
 
