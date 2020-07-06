@@ -1,4 +1,5 @@
 ﻿using Natasha;
+using Natasha.Framework;
 
 namespace System
 {
@@ -6,7 +7,7 @@ namespace System
     {
 
 
-        public static AssemblyDomain GetDomain(this Type type)
+        public static DomainBase GetDomain(this Type type)
         {
 
             return type.Assembly.GetDomain();

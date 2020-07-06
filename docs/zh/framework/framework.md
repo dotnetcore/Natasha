@@ -37,10 +37,11 @@
   
 <br/>  
    
- - CompilerBase<T>: 编译器抽象， T 被约束为 Compilation 类型，该类为编译的基础类，在构建编译信息时，每种语言都会对该类进行继承改造，因此它是编译基础。
+ - CompilerBase<TCompilation, TCompilationOptions> where TCompilation : Compilation where TCompilationOptions : CompilationOptions: 编译器抽象， TCompilation 被约束为 Compilation 类型，该类为编译的基础类，在构建编译信息时，每种语言都会对该类进行继承改造，因此它是编译基础。TCompilationOptions 被约束为 CompilationOptions 类型, 改类为构建编译信息的选项类，在构建编译信息时，
+ 
  
     - AssemblyName : 编译器会对当前代码进行整程序集编译，需要指定程序集名。
-    - Assembly : 编译结果。
+    - AssemblyResult : 编译结果。
     - AssemblyOutputKind ：Assembly 输出的方式，编译到文件 file / 编译到流 stream。
     - Domain : 该属性承载了 DomainBase 实例。
     - PreComplier ： 该方法在编译前执行，如果返回 false 将阻止编译， 可重写。
@@ -48,9 +49,13 @@
     - CompileToStream : 该方法实现了将以上信息编译到流的功能，可重写。
     - Compile ：该方法实现了根据输出方式（AssemblyOutputKind）进行自动编译，file 调用 CompileToFile 方法， stream 调用 CompileToStream 方法。
     - CompileTrees ： 需要被编译的语法树。
-    - GetCompilation ：返回不同语言的编译信息集，必须重写。
-    - EmitToFile： 将 compilation 编译到文件，必须重新写。
-    - EmitToStream: 将 compilation 编译到内存流，必须重写。
+    
+    - GetCompilationOptions ：返回编译选项，必须重写。 
+    - AddOption ：选项设置方法，在获取到 CompilationOptions 之后对其进行自定义操作。
+    - GetCompilation ：根据拿到的 CompilationOptions 返回不同语言的编译信息集，必须重写。
+    
+    - CompileEmitToFile： 将 compilation 编译到文件，必须重新写。
+    - CompileEmitToStream: 将 compilation 编译到内存流，必须重写。
     
     - FileCompileSucceedHandler ： 当文件形式编译成功之后引发的事件。
     - StreamCompileSucceedHandler ：当流形式编译成功之后引发的事件。

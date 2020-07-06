@@ -64,22 +64,12 @@ namespace NatashaUT
             Assert.Equal(0, func());
         }
 
-        //[Fact(DisplayName = "CS0433 List")]
-        //public void Test4()
-        //{
-        //    var func = NDelegate
-        //        .RandomDomain(item => item.UseShareLibraries = true)
-        //        .Func<int>("return (new List<string>()).Count;");
-        //    Assert.Equal(0, func());
-        //    func = NDelegate
-        //        .RandomDomain()
-        //        .Func<int>("return (new List<string>()).Count;");
-        //    Assert.Equal(0, func());
-        //}
+
 
         //[Fact(DisplayName = "CS1705 未知错误")]
         //public void TestUnknow()
         //{
+
         //    var getMembers = NDelegate.RandomDomain().Func<Type, object>($@"
         //    var type = typeof(Int32);
         //    return  (

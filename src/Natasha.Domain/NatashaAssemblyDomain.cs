@@ -11,83 +11,32 @@ using System.Reflection;
 using System.Runtime.Loader;
 
 
-public class AssemblyDomain : DomainBase
+public class NatashaAssemblyDomain : DomainBase<NatashaAssemblyDomain>
 {
-    private bool _customReferences;
+    
     public readonly ConcurrentDictionary<string, Assembly> DllAssemblies;
     public readonly ShortNameReference ShortReferences;
-    private static readonly AssemblyDomain _defaultDomain;
-    private static readonly ConcurrentQueue<string> _shareLibraries;
-    public AssemblyDomain()
+
+    public NatashaAssemblyDomain()
     {
 
     }
 
-    static AssemblyDomain()
+
+    public override HashSet<PortableExecutableReference> GetDefaultReferences()
     {
-
-        _defaultDomain = DomainManagement.RegisterDefault<AssemblyDomain>();
-        _shareLibraries = new ConcurrentQueue<string>();
-        var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-        foreach (var asm in assemblies)
-        {
-
-            try
-            {
-                _shareLibraries.Enqueue(asm.Location);
-            }
-            catch (Exception)
-            {
-
-            }
-
-        }
-
+        return new HashSet<PortableExecutableReference>(DefaultDomain.AssemblyReferences.Values);
     }
 
 
-    public static void Init()
-    {
-
-        UseSdkLibraries();
-
-    }
-    private static void UseSdkLibraries()
-    {
-
-        foreach (var asm in DependencyContext
-.Default
-.CompileLibraries
-.SelectMany(cl => cl.ResolveReferencePaths()))
-        {
-            _defaultDomain.ShortReferences.Add(asm);
-        }
-
-
-    }
-    public void UseShareLibraries()
-    {
-
-        foreach (var asmPath in _shareLibraries)
-        {
-
-            ShortReferences.Add(asmPath);
-
-        }
-
-    }
-    public void CustomReferences()
-    {
-        _customReferences = true;
-    }
 
     /// <summary>
     /// 让父类通过此方法获取当前类型域
     /// </summary>
     /// <returns></returns>
-    public override DomainBase GetInstance(string name)
+    public override NatashaAssemblyDomain GetInstance(string name)
     {
-        return new AssemblyDomain(name);
+        return new NatashaAssemblyDomain(name);
     }
 
     /// <summary>
@@ -167,16 +116,17 @@ public class AssemblyDomain : DomainBase
         var sets = base.GetCompileReferences();
         if (Name != "Default")
         {
-            if (!_customReferences)
+            if (!UseCustomReferences)
             {
-                //拿到系统域
-                var @default = DomainManagement.Default;
+
                 //将系统域的短名引用缓存起来
-                var dict = new Dictionary<string, PortableExecutableReference>(_defaultDomain.ShortReferences.References);
+                var dict = new Dictionary<string, PortableExecutableReference>(((NatashaAssemblyDomain)DefaultDomain).ShortReferences.References);
                 foreach (var item in ShortReferences.References)
                 {
+                    
                     //用当前域的引用集合覆盖系统域的集合
                     dict[item.Key] = item.Value;
+
                 }
                 //将处理后的名引用加载进来
                 sets.UnionWith(dict.Values);
@@ -256,7 +206,7 @@ public class AssemblyDomain : DomainBase
         }
     }
 
-    public AssemblyDomain(string key) : base(key)
+    public NatashaAssemblyDomain(string key) : base(key)
     {
 #if !NETSTANDARD2_0
             _load_resolver = new AssemblyDependencyResolver(AppDomain.CurrentDomain.BaseDirectory);
@@ -264,7 +214,7 @@ public class AssemblyDomain : DomainBase
 
         ShortReferences = new ShortNameReference();
         DllAssemblies = new ConcurrentDictionary<string, Assembly>();
-        DomainManagement.Add(key, this);
+
     }
 
     public override void Dispose()

@@ -1,10 +1,9 @@
 ﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Natasha;
 using Natasha.CSharpEngine;
-using Natasha.CSharpEngine.Compile;
 using Natasha.CSharpEngine.Error;
 using Natasha.CSharpEngine.Log;
-using Natasha.CSharpEngine.Syntax;
 using Natasha.Error;
 using Natasha.Error.Model;
 using Natasha.Framework;
@@ -34,55 +33,8 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
     }
 
 
-    public string OutputFolder;
-    public bool CustomUsingShut;
-    public ExceptionBehavior CompileErrorBehavior;
-    public ExceptionBehavior SyntaxErrorBehavior;
-    public bool OutputToFile
-    {
 
-        get { return Compiler.AssemblyOutputKind == AssemblyBuildKind.File; }
-        set { Compiler.AssemblyOutputKind = value ? AssemblyBuildKind.File : AssemblyBuildKind.Stream; }
 
-    }
-
-    public bool AllowUnsafe
-    {
-
-        get { return Compiler.AllowUnsafe; }
-        set { Compiler.AllowUnsafe = true; }
-
-    }
-
-    public bool UseRelease
-    {
-
-        get { return Compiler.Enum_OptimizationLevel == OptimizationLevel.Release; }
-        set { Compiler.Enum_OptimizationLevel = value ? OptimizationLevel.Release : OptimizationLevel.Debug; }
-
-    }
-
-    public OutputKind OutputKind
-    {
-
-        get { return Compiler.Enum_OutputKind; }
-        set { Compiler.Enum_OutputKind = value; }
-
-    }
-
-    public DomainBase Domain
-    {
-
-        get { return Compiler.Domain; }
-        set { Compiler.Domain = value; }
-
-    }
-
-    public string AssemblyName
-    {
-        get { return Compiler.AssemblyName; }
-        set { Compiler.AssemblyName = value; }
-    }
 
     public AssemblyCSharpBuilder() : this(Guid.NewGuid().ToString("N")) { }
     public AssemblyCSharpBuilder(string name) : base(name)
@@ -95,11 +47,11 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
         RetryLimit = 2;
 
     }
-    public void CompilerOption(Action<NatashaCSharpCompiler> action)
+    public void CompilerOption(Action<CompilerBase<CSharpCompilation, CSharpCompilationOptions>> action)
     {
         action?.Invoke(Compiler);
     }
-    public void SyntaxOptions(Action<NatashaCSharpSyntax> action)
+    public void SyntaxOptions(Action<SyntaxBase> action)
     {
         action?.Invoke(Syntax);
     }
@@ -112,7 +64,7 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
         if (!exception.HasError || SyntaxErrorBehavior == ExceptionBehavior.Ignore)
         {
             Syntax.AddTreeToCache(tree);
-            Syntax.UsingCache[exception.Formatter] = sets;
+            Syntax.ReferenceCache[exception.Formatter] = sets;
 
         }
         else
@@ -221,7 +173,7 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
 
 
         //如果编译出错
-        if (Compiler.Assembly == null && Exceptions != null && Exceptions.Count > 0)
+        if (Compiler.AssemblyResult == null && Exceptions != null && Exceptions.Count > 0)
         {
 
             switch (CompileErrorBehavior)
@@ -247,7 +199,7 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
             LogOperator.SucceedRecoder(Compiler.Compilation);
 
         }
-        return Compiler.Assembly;
+        return Compiler.AssemblyResult;
 
     }
 

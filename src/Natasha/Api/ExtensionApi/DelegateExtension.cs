@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Natasha.Framework;
+using System;
 
 namespace Natasha.CSharp
 {
@@ -19,7 +20,7 @@ namespace Natasha.CSharp
 
 
 
-        public static AssemblyDomain GetDomain(this Delegate @delegate)
+        public static DomainBase GetDomain(this Delegate @delegate)
         {
 
             return @delegate.Method.Module.Assembly.GetDomain();

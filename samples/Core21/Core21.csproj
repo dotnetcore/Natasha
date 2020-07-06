@@ -10,6 +10,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Natasha.CSharpComplier\Natasha.CSharpCompiler.csproj" />
+    <ProjectReference Include="..\..\src\Natasha.CSharpSyntax\Natasha.CSharpSyntax.csproj" />
+    <ProjectReference Include="..\..\src\Natasha.Domain\Natasha.Domain.csproj" />
     <ProjectReference Include="..\..\src\Natasha\Natasha.csproj" />
   </ItemGroup>
 

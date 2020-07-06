@@ -1,10 +1,10 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using Natasha.CSharpEngine.Compile;
 using Natasha.CSharpEngine.Error;
-using Natasha.CSharpEngine.Syntax;
 using Natasha.Engine.Utils;
 using Natasha.Error;
+using Natasha.Error.Model;
+using Natasha.Framework;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -17,16 +17,16 @@ namespace Natasha.CSharpEngine
     public class NatashaCSharpEngine
     {
 
-        public static ConcurrentDictionary<string, Action<CompilationException, Diagnostic, NatashaCSharpSyntax, Dictionary<string, string>>> ErrorHandlers;
+        public static ConcurrentDictionary<string, Action<CompilationException, Diagnostic, SyntaxBase, Dictionary<string, string>>> ErrorHandlers;
         static NatashaCSharpEngine()
         {
 
-            ErrorHandlers = new ConcurrentDictionary<string, Action<CompilationException, Diagnostic, NatashaCSharpSyntax, Dictionary<string, string>>>();
+            ErrorHandlers = new ConcurrentDictionary<string, Action<CompilationException, Diagnostic, SyntaxBase, Dictionary<string, string>>>();
             ErrorHandlers["CS0104"] = (exception, diagnostic, syntax, dict) =>
             {
 
                 var (str1, str2) = CS0104Helper.Handler(diagnostic);
-                var sets = syntax.UsingCache[exception.Formatter];
+                var sets = syntax.ReferenceCache[exception.Formatter];
                 if (sets.Contains(str1))
                 {
 
@@ -93,23 +93,76 @@ namespace Natasha.CSharpEngine
         }
 
 
-        public NatashaCSharpSyntax Syntax;
-        public NatashaCSharpCompiler Compiler;
+        public SyntaxBase Syntax;
+        public CompilerBase<CSharpCompilation,CSharpCompilationOptions> Compiler;
         public List<CompilationException> Exceptions;
 
 
-        public int RetryLimit;
-        public int RetryCount;
-        public bool CanRetry;
-        public bool CustomReferences;
-        public bool UseShareLibraries;
+        public string OutputFolder;
+        public bool CustomUsingShut;
+        public ExceptionBehavior CompileErrorBehavior;
+        public ExceptionBehavior SyntaxErrorBehavior;
+        public bool OutputToFile
+        {
+
+            get { return Compiler.AssemblyOutputKind == AssemblyBuildKind.File; }
+            set { Compiler.AssemblyOutputKind = value ? AssemblyBuildKind.File : AssemblyBuildKind.Stream; }
+
+        }
+
+        public bool AllowUnsafe
+        {
+
+            get { return Compiler.AllowUnsafe; }
+            set { Compiler.AllowUnsafe = true; }
+
+        }
+
+        public bool UseRelease
+        {
+
+            get { return Compiler.Enum_OptimizationLevel == OptimizationLevel.Release; }
+            set { Compiler.Enum_OptimizationLevel = value ? OptimizationLevel.Release : OptimizationLevel.Debug; }
+
+        }
+
+        public OutputKind OutputKind
+        {
+
+            get { return Compiler.Enum_OutputKind; }
+            set { Compiler.Enum_OutputKind = value; }
+
+        }
+
+        public DomainBase Domain
+        {
+
+            get { return Compiler.Domain; }
+            set { Compiler.Domain = value; }
+
+        }
+
+
+
+        public string AssemblyName
+        {
+            get { return Compiler.AssemblyName; }
+            set { Compiler.AssemblyName = value; }
+        }
+
+        public int RetryLimit { get; set; }
+        public int RetryCount { get; set; }
+        public bool CanRetry { get; set; }
+        public bool UseCustomReferences { get; set; }
+        public bool UseShareLibraries { get; set; }
+
 
 
         public NatashaCSharpEngine(string name)
         {
 
-            Syntax = new NatashaCSharpSyntax();
-            Compiler = new NatashaCSharpCompiler();
+            Syntax = SyntaxManagement.GetSyntax();
+            Compiler = CompilerManagement.GetCompiler();
             Compiler.AssemblyName = name;
             Compiler.StreamCompileFailedHandler += NatashaEngine_StreamCompileFailedHandler;
             Compiler.FileCompileFailedHandler += NatashaEngine_FileCompileFailedHandler; ;
@@ -212,13 +265,13 @@ namespace Natasha.CSharpEngine
         internal virtual void Compile()
         {
 
-            if (CustomReferences)
+            if (UseCustomReferences)
             {
-                ((AssemblyDomain)Compiler.Domain).CustomReferences();
+                Compiler.Domain.CustomReferences();
             }
             if (UseShareLibraries)
             {
-                ((AssemblyDomain)Compiler.Domain).UseShareLibraries();
+                Compiler.Domain.UseShareLibraries();
             }
             Exceptions = null;
             Compiler.CompileTrees = Syntax.TreeCache.Values;

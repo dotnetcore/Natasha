@@ -10,7 +10,9 @@ namespace Core21
     {
         static void Main(string[] args)
         {
-            DomainManagement.RegisterDefault<AssemblyDomain>();
+            ComponentRegister.RegistDomain<NatashaAssemblyDomain>();
+            ComponentRegister.RegistCompiler<NatashaCSharpCompiler>();
+            ComponentRegister.RegisteSyntax<NatashaCSharpSyntax>();
             //var @operator = FastMethodOperator.DefaultDomain();
             //var actionDelegate = @operator
             //    .Param(typeof(string), "parameter")

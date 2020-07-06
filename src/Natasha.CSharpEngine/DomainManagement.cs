@@ -1,11 +1,14 @@
-﻿using Natasha.Framework;
+﻿using Microsoft.Extensions.DependencyModel;
+using Natasha.Framework;
 using System;
 using System.Collections.Concurrent;
+using System.Linq;
 using static System.Runtime.Loader.AssemblyLoadContext;
 
 
 public class DomainManagement
 {
+
     public static DomainBase Default;
     public static readonly ConcurrentDictionary<string, WeakReference> Cache;
 
@@ -14,40 +17,49 @@ public class DomainManagement
         Cache = new ConcurrentDictionary<string, WeakReference>();
     }
 
-    public static T RegisterDefault<T>() where T : DomainBase, new()
+
+    public static TDomain RegisterDefault<TDomain>() where TDomain : DomainBase<TDomain>, new()
     {
 
         if (Default != null)
         {
-            if (typeof(T) != Default.GetType())
+
+            if (typeof(TDomain) != Default.GetType())
             {
-                Default = (new T()).GetInstance("Default");
+
+                Default = (new TDomain()).GetInstance("Default");
+
             }
+
         }
         else
         {
-            Default = (new T()).GetInstance("Default");
+
+            Default = (new TDomain()).GetInstance("Default");
+
         }
-        return (T)Default;
 
-    }
 
-    internal static void RegisterDefault(Type type)
-    {
-        DomainBase domain = (DomainBase)type.Assembly.CreateInstance(type.FullName);
-        if (Default == null || (Default != null && Default.GetType() != type))
+        foreach (var asm in DependencyContext
+        .Default
+        .CompileLibraries
+        .SelectMany(cl => cl.ResolveReferencePaths()))
         {
-            if (domain != null)
-            {
-                Default = domain.GetInstance("Default");
-            }
+            Default.AddReferencesFromDllFile(asm);
         }
+
+
+        return (TDomain)Default;
+
     }
+
+
 
     public static DomainBase Random
     {
-        get { return Default.GetInstance("N" + Guid.NewGuid().ToString("N")); }
+        get { return Default.GetBaseInstance("N" + Guid.NewGuid().ToString("N")); }
     }
+
 
     public static DomainBase Create(string key)
     {
@@ -58,9 +70,12 @@ public class DomainManagement
         else
         {
             Clear();
-            return Default.GetInstance(key);
+            var domain = Default.GetBaseInstance(key);
+            Add(key, domain);
+            return domain;
         }
     }
+
 
     public static void Clear()
     {

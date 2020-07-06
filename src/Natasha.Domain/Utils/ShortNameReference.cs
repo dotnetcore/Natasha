@@ -18,12 +18,14 @@ namespace Natasha.Core
 
         public PortableExecutableReference Add(string path)
         {
+
             var reference = MetadataReference.CreateFromFile(path);
             if (reference != default)
             {
                 References[Path.GetFileName(path)] = reference;
             }
             return reference;
+
         }
 
         public bool HasValue(string path)

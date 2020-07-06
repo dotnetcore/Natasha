@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 namespace Natasha.Framework
 {
@@ -8,12 +9,13 @@ namespace Natasha.Framework
     {
 
         public readonly ConcurrentDictionary<string, SyntaxTree> TreeCache;
-        
+        public readonly ConcurrentDictionary<string, HashSet<string>> ReferenceCache;
 
         public SyntaxBase()
         {
 
             TreeCache = new ConcurrentDictionary<string, SyntaxTree>();
+            ReferenceCache = new ConcurrentDictionary<string, HashSet<string>>();
 
         }
 
@@ -52,6 +54,9 @@ namespace Natasha.Framework
             return AddTreeToCache(node.ToString());
 
         }
+
+
+        public abstract void Update(string old, string @new, HashSet<string> sets = default);
 
     }
 
