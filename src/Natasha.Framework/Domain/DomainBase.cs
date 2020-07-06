@@ -9,7 +9,9 @@ using System.Runtime.Loader;
 namespace Natasha.Framework
 {
 
-
+    /// <summary>
+    /// 程序域的基础类，需要继承实现
+    /// </summary>
     public abstract class DomainBase : AssemblyLoadContext, IDisposable
     {
 

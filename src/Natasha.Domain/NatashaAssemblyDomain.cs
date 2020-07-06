@@ -7,12 +7,13 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.Loader;
 
-
+/// <summary>
+/// Natasha域实现
+/// </summary>
 public class NatashaAssemblyDomain : DomainBase
 {
 
     public readonly ConcurrentDictionary<string, Assembly> DllAssemblies;
-
 
 
     #region 加载程序集
