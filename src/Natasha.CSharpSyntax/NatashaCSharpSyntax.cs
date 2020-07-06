@@ -28,6 +28,13 @@ public class NatashaCSharpSyntax : SyntaxBase
         return LoadTree(tree);
 
     }
+
+
+    /// <summary>
+    /// 直接加载树，并缓存
+    /// </summary>
+    /// <param name="tree"></param>
+    /// <returns></returns>
     public override SyntaxTree LoadTree(SyntaxTree tree)
     {
 
@@ -41,28 +48,34 @@ public class NatashaCSharpSyntax : SyntaxBase
     }
 
 
-    public override void Update(string old, string @new, HashSet<string> sets = default)
+    /// <summary>
+    /// 更新语法树
+    /// </summary>
+    /// <param name="oldCode">旧代码</param>
+    /// <param name="newCode">新代码</param>
+    /// <param name="sets">新的引用</param>
+    public override void Update(string oldCode, string newCode, HashSet<string> sets = default)
     {
 
-        if (TreeCache.ContainsKey(old))
+        if (TreeCache.ContainsKey(oldCode))
         {
 
-            while (!TreeCache.TryRemove(old, out _)) { };
+            while (!TreeCache.TryRemove(oldCode, out _)) { };
 
         }
         if (sets == default)
         {
 
-            if (ReferenceCache.ContainsKey(old))
+            if (ReferenceCache.ContainsKey(oldCode))
             {
-                sets = ReferenceCache[old];
-                while (!ReferenceCache.TryRemove(old, out _)) { };
+                sets = ReferenceCache[oldCode];
+                while (!ReferenceCache.TryRemove(oldCode, out _)) { };
             }
 
         }
 
-        AddTreeToCache(@new);
-        ReferenceCache[@new] = sets;
+        AddTreeToCache(newCode);
+        ReferenceCache[newCode] = sets;
 
     }
 

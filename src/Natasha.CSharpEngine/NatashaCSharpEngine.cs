@@ -102,6 +102,10 @@ namespace Natasha.CSharpEngine
         public bool CustomUsingShut;
         public ExceptionBehavior CompileErrorBehavior;
         public ExceptionBehavior SyntaxErrorBehavior;
+
+        /// <summary>
+        /// 是否要编译到文件中
+        /// </summary>
         public bool OutputToFile
         {
 
@@ -110,6 +114,10 @@ namespace Natasha.CSharpEngine
 
         }
 
+
+        /// <summary>
+        /// 是否允许非安全编译
+        /// </summary>
         public bool AllowUnsafe
         {
 
@@ -118,6 +126,10 @@ namespace Natasha.CSharpEngine
 
         }
 
+
+        /// <summary>
+        /// 是否使用 Release 优化
+        /// </summary>
         public bool UseRelease
         {
 
@@ -126,6 +138,10 @@ namespace Natasha.CSharpEngine
 
         }
 
+
+        /// <summary>
+        /// 程序集输出类型，DLL/控制台/等等
+        /// </summary>
         public OutputKind OutputKind
         {
 
@@ -134,6 +150,10 @@ namespace Natasha.CSharpEngine
 
         }
 
+
+        /// <summary>
+        /// 当前域
+        /// </summary>
         public DomainBase Domain
         {
 
@@ -143,17 +163,47 @@ namespace Natasha.CSharpEngine
         }
 
 
-
+        /// <summary>
+        /// 程序集名称
+        /// </summary>
         public string AssemblyName
         {
             get { return Compiler.AssemblyName; }
             set { Compiler.AssemblyName = value; }
         }
 
+
+        /// <summary>
+        /// 是否使用新版本程序集
+        /// </summary>
+        public bool UseNewVersionAssmebly
+        {
+            get { return Domain.UseNewVersionAssmebly; }
+            set { Domain.UseNewVersionAssmebly = value; }
+        }
+
+
+        /// <summary>
+        /// 编译容错次数
+        /// </summary>
         public int RetryLimit { get; set; }
-        public int RetryCount { get; set; }
+
+
+        /// <summary>
+        /// 当前编译错误次数
+        /// </summary>
+        private int _retryCount;
+
+
+        /// <summary>
+        /// 是否开启容错模式
+        /// </summary>
         public bool CanRetry { get; set; }
-        public bool UseCustomReferences { get; set; }
+
+
+        /// <summary>
+        /// 是否使用共享库引用
+        /// </summary>
         public bool UseShareLibraries { get; set; }
 
 
@@ -237,8 +287,8 @@ namespace Natasha.CSharpEngine
             {
 
                 CanRetry = false;
-                RetryCount += 1;
-                if (RetryCount < RetryLimit)
+                _retryCount += 1;
+                if (_retryCount < RetryLimit)
                 {
 
                     foreach (var item in codeMappings)
@@ -265,14 +315,11 @@ namespace Natasha.CSharpEngine
         internal virtual void Compile()
         {
 
-            if (UseCustomReferences)
-            {
-                Compiler.Domain.CustomReferences();
-            }
             if (UseShareLibraries)
             {
                 Compiler.Domain.UseShareLibraries();
             }
+            
             Exceptions = null;
             Compiler.CompileTrees = Syntax.TreeCache.Values;
             Compiler.Compile();

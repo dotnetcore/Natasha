@@ -1,12 +1,9 @@
 ﻿using Microsoft.CodeAnalysis;
-using Microsoft.Extensions.DependencyModel;
-using Natasha.Core;
 using Natasha.Framework;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 
@@ -68,6 +65,31 @@ public class NatashaAssemblyDomain : DomainBase
 
 
     #region 加载插件
+
+
+    /// <summary>
+    /// 如何添加插件引用
+    /// </summary>
+    /// <param name="path">插件路径</param>
+    /// <param name="excludePaths">需要排除的引用路径</param>
+    public virtual void AddDeps(string path, params string[] excludePaths)
+    {
+
+#if !NETSTANDARD2_0
+        AddReferencesFromDepsJsonFile(path, excludePaths);
+#else
+            AddReferencesFromFileStream(path, excludePaths);
+#endif
+
+    }
+
+
+    /// <summary>
+    /// 如何加载从文件过来的插件
+    /// </summary>
+    /// <param name="path">插件路径</param>
+    /// <param name="excludePaths">需要排除的引用路径</param>
+    /// <returns></returns>
     public override Assembly LoadPluginFromFile(string path, params string[] excludePaths)
     {
 
@@ -78,6 +100,13 @@ public class NatashaAssemblyDomain : DomainBase
 
     }
 
+
+    /// <summary>
+    /// 如何加载从内存过来的插件
+    /// </summary>
+    /// <param name="path">插件路径</param>
+    /// <param name="excludePaths">需要排除的引用路径</param>
+    /// <returns></returns>
     public override Assembly LoadPluginFromStream(string path, params string[] excludePaths)
     {
 
@@ -93,7 +122,6 @@ public class NatashaAssemblyDomain : DomainBase
     #endregion
 
 
-    public bool UseNewVersionAssmebly;
     /// <summary>
     /// 获取编译所需的引用库
     /// </summary>
@@ -245,6 +273,10 @@ public class NatashaAssemblyDomain : DomainBase
 
     }
 
+
+    /// <summary>
+    /// 销毁函数
+    /// </summary>
     public override void Dispose()
     {
         DllAssemblies.Clear();
@@ -252,7 +284,11 @@ public class NatashaAssemblyDomain : DomainBase
     }
 
 
-
+    /// <summary>
+    /// 对程序集上下文的重载函数，注：系统规定需要重载
+    /// </summary>
+    /// <param name="assemblyName">程序集名</param>
+    /// <returns></returns>
     protected override Assembly Load(AssemblyName assemblyName)
     {
 #if !NETSTANDARD2_0
@@ -264,12 +300,17 @@ public class NatashaAssemblyDomain : DomainBase
 #endif
         return null;
     }
-
     public override Assembly Default_Resolving(AssemblyLoadContext arg1, AssemblyName arg2)
     {
         return Load(arg2);
     }
 
+
+    /// <summary>
+    /// 对程序集上下文非托管插件的函数重载，注：系统规定需要重载
+    /// </summary>
+    /// <param name="unmanagedDllName">路径</param>
+    /// <returns></returns>
     protected override IntPtr LoadUnmanagedDll(string unmanagedDllName)
     {
 #if !NETSTANDARD2_0
@@ -281,12 +322,16 @@ public class NatashaAssemblyDomain : DomainBase
 #endif
         return IntPtr.Zero;
     }
-
     public override IntPtr Default_ResolvingUnmanagedDll(Assembly arg1, string arg2)
     {
         return LoadUnmanagedDll(arg2);
     }
 
+
+    /// <summary>
+    /// 获取当前加载插件的所有程序集
+    /// </summary>
+    /// <returns></returns>
     public override IEnumerable<Assembly> GetPluginAssemblies()
     {
         return DllAssemblies.Values;

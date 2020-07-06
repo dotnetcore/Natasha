@@ -4,16 +4,16 @@ using Microsoft.CodeAnalysis.Emit;
 using Natasha.Framework;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Immutable;
 using System.IO;
 using System.Reflection;
-using System.Transactions;
 
 
 
 public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompilationOptions>
 {
-
+    /// <summary>
+    /// 被禁断的错误代码
+    /// </summary>
     public readonly static ConcurrentDictionary<string, ReportDiagnostic> GlobalSuppressDiagnostics;
 
     public static void AddGlobalSupperess(string errorcode)
@@ -22,13 +22,11 @@ public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompi
     }
 
 
+    public CompilerBinderFlags CompileFlags;
+    public bool ReferencesSupersedeLowerVersions;
     public ConcurrentDictionary<string, ReportDiagnostic> SuppressDiagnostics;
     public static readonly Action<CSharpCompilationOptions, uint> SetTopLevelBinderFlagDelegate;
     public static readonly Action<CSharpCompilationOptions, bool> SetReferencesSupersedeLowerVersionsDelegate;
-
-
-    public bool ReferencesSupersedeLowerVersions;
-    public CompilerBinderFlags CompileFlags;
 
 
     static NatashaCSharpCompiler()
@@ -83,6 +81,11 @@ public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompi
 
     }
 
+
+    /// <summary>
+    /// 获取构建编译信息的选项
+    /// </summary>
+    /// <returns></returns>
     public override CSharpCompilationOptions GetCompilationOptions()
     {
         //var a = new DesktopStrongNameProvider(ImmutableArray.Create(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "natasha.snk")));
@@ -110,6 +113,11 @@ public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompi
     }
 
 
+    /// <summary>
+    /// 获取编译选项
+    /// </summary>
+    /// <param name="options"></param>
+    /// <returns></returns>
     public override CSharpCompilation GetCompilation(CSharpCompilationOptions options)
     {
        
@@ -118,15 +126,32 @@ public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompi
 
     }
 
-    public void SetBindingFlag(CompilerBinderFlags flags)
+
+    /// <summary>
+    /// 绑定编译标识
+    /// </summary>
+    /// <param name="flags"></param>
+    public void SetCompilerBindingFlag(CompilerBinderFlags flags)
     {
         CompileFlags = flags;
     }
+
+
+    /// <summary>
+    /// 自动禁用低版本程序集
+    /// </summary>
+    /// <param name="value"></param>
     public void SetReferencesSupersedeLowerVersions(bool value)
     {
         ReferencesSupersedeLowerVersions = value;
     }
 
+
+    /// <summary>
+    /// 重写方法，将编译信息编译到文件
+    /// </summary>
+    /// <param name="compilation"></param>
+    /// <returns></returns>
     public override EmitResult CompileEmitToFile(CSharpCompilation compilation)
     {
 
@@ -143,6 +168,13 @@ public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompi
 
     }
 
+
+    /// <summary>
+    /// 重写方法，将编译信息编译到内存流
+    /// </summary>
+    /// <param name="compilation"></param>
+    /// <param name="stream"></param>
+    /// <returns></returns>
     public override EmitResult CompileEmitToStream(CSharpCompilation compilation, MemoryStream stream)
     {
         EmitResult CompileResult;
