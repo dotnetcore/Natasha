@@ -57,6 +57,7 @@ public class NatashaCSharpSyntax : SyntaxBase
     public override void Update(string oldCode, string newCode, HashSet<string> sets = default)
     {
 
+        //先移除
         if (TreeCache.ContainsKey(oldCode))
         {
 
@@ -74,6 +75,7 @@ public class NatashaCSharpSyntax : SyntaxBase
 
         }
 
+        //再添加
         AddTreeToCache(newCode);
         ReferenceCache[newCode] = sets;
 

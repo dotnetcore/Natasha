@@ -46,7 +46,9 @@ namespace Core31WebApi
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
-            AssemblyDomain.Init();
+            NatashaComponentRegister.RegistDomain<NatashaAssemblyDomain>();
+            NatashaComponentRegister.RegistCompiler<NatashaCSharpCompiler>();
+            NatashaComponentRegister.RegistSyntax<NatashaCSharpSyntax>();
             NatashaController.Builder = (ApplicationBuilder)app;
             
             if (env.IsDevelopment())

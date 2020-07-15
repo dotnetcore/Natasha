@@ -13,9 +13,9 @@ namespace UnloadTest31
         static Type tempType;
         static void Main(string[] args)
         {
-            ComponentRegister.RegistDomain<NatashaAssemblyDomain>();
-            ComponentRegister.RegistCompiler<NatashaCSharpCompiler>();
-            ComponentRegister.RegisteSyntax<NatashaCSharpSyntax>();
+            NatashaComponentRegister.RegistDomain<NatashaAssemblyDomain>();
+            NatashaComponentRegister.RegistCompiler<NatashaCSharpCompiler>();
+            NatashaComponentRegister.RegistSyntax<NatashaCSharpSyntax>();
 
             NErrorLog.Enabled = false;
             NSucceedLog.Enabled = false;

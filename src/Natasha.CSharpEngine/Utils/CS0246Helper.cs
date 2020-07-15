@@ -25,31 +25,28 @@ namespace Natasha.Engine.Utils
 
             string formart = diagnostic.Descriptor.MessageFormat.ToString();
             string text = diagnostic.GetMessage();
-            lock (UsingCache)
+
+            if (!RegCache.ContainsKey(formart))
             {
-                if (!RegCache.ContainsKey(formart))
-                {
 
-                    var deal = RegexHelper.GetRealRegexString(formart).Replace("\\{0\\}", "(?<result0>.*)");
-                    Regex regex = new Regex(deal, RegexOptions.Singleline | RegexOptions.Compiled);
-                    RegCache[formart] = regex;
-                    UsingCache[formart] = new List<Regex>();
-
-                }
-
-
-                var matches = RegCache[formart].Matches(text);
-                for (int i = 0; i < matches.Count; i++)
-                {
-
-                    var tempReg = $"using (?<result0>{matches[i].Groups["result0"].Value}.*?);";
-                    UsingCache[formart].Add(new Regex(tempReg, RegexOptions.Singleline | RegexOptions.Compiled));
-
-                }
-                return UsingCache[formart];
+                var deal = RegexHelper.GetRealRegexString(formart).Replace("\\{0\\}", "(?<result0>.*)");
+                Regex regex = new Regex(deal, RegexOptions.Singleline | RegexOptions.Compiled);
+                RegCache[formart] = regex;
+                UsingCache[formart] = new List<Regex>();
 
             }
-            
+
+
+            var matches = RegCache[formart].Matches(text);
+            for (int i = 0; i < matches.Count; i++)
+            {
+
+                var tempReg = $"using (?<result0>{matches[i].Groups["result0"].Value}.*?);";
+                UsingCache[formart].Add(new Regex(tempReg, RegexOptions.Singleline | RegexOptions.Compiled));
+
+            }
+            return UsingCache[formart];
+
         }
 
 
@@ -59,25 +56,21 @@ namespace Natasha.Engine.Utils
         {
 
             string formart = diagnostic.Descriptor.MessageFormat.ToString();
-
-            lock (UsingCache)
+            HashSet<string> sets = new HashSet<string>();
+            var usingHandlers = UsingCache[formart].ToArray();
+            foreach (var item in usingHandlers)
             {
 
-                HashSet<string> sets = new HashSet<string>();
-                foreach (var item in UsingCache[formart])
+                var matches = item.Matches(code);
+                for (int i = 0; i < matches.Count; i += 1)
                 {
 
-                    var matches = item.Matches(code);
-                    for (int i = 0; i < matches.Count; i += 1)
-                    {
-
-                        sets.Add(matches[i].Groups["result0"].Value);
-
-                    }
+                    sets.Add(matches[i].Groups["result0"].Value);
 
                 }
-                return sets;
+
             }
+            return sets;
 
         }
 

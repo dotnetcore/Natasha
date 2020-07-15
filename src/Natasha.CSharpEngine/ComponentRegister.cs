@@ -4,7 +4,7 @@ using Natasha.Framework;
 
 
 
-public static class ComponentRegister
+public static class NatashaComponentRegister
 {
 
     public static void RegistCompiler<TCompiler>() where TCompiler : CompilerBase<CSharpCompilation, CSharpCompilationOptions>, new()
@@ -17,7 +17,7 @@ public static class ComponentRegister
         DomainManagement.RegisterDefault<TDomain>();
     }
 
-    public static void RegisteSyntax<TSyntax>() where TSyntax : SyntaxBase, new()
+    public static void RegistSyntax<TSyntax>() where TSyntax : SyntaxBase, new()
     {
         SyntaxManagement.RegisterDefault<TSyntax>();
     }
