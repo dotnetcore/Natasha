@@ -8,7 +8,13 @@ namespace Natasha.Framework
     public abstract class SyntaxBase
     {
 
+        /// <summary>
+        /// 语法树缓存
+        /// </summary>
         public readonly ConcurrentDictionary<string, SyntaxTree> TreeCache;
+        /// <summary>
+        /// 引用缓存
+        /// </summary>
         public readonly ConcurrentDictionary<string, HashSet<string>> ReferenceCache;
 
         public SyntaxBase()
@@ -20,12 +26,27 @@ namespace Natasha.Framework
         }
 
 
+        /// <summary>
+        /// 从脚本中加载语法树，需要重载
+        /// </summary>
+        /// <param name="script">脚本代码</param>
+        /// <returns></returns>
         public abstract SyntaxTree LoadTreeFromScript(string script);
+        /// <summary>
+        /// 直接加载语法树，需要重载
+        /// </summary>
+        /// <param name="tree">语法树</param>
+        /// <returns></returns>
         public abstract SyntaxTree LoadTree(SyntaxTree tree);
 
 
 
-
+        /// <summary>
+        /// 从脚本中添加语法树，并缓存
+        /// 该方法对外暴露，但需要重载 LoadTreeFromScrip 来实现内部功能
+        /// </summary>
+        /// <param name="script"></param>
+        /// <returns></returns>
         public virtual SyntaxTree AddTreeToCache(string script)
         {
             
@@ -47,7 +68,12 @@ namespace Natasha.Framework
 
 
 
-
+        /// <summary>
+        /// 加载语法树并缓存
+        /// 该方法对外暴露，但需要重载 LoadTree 来实现内部功能
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
         public virtual SyntaxTree AddTreeToCache(SyntaxTree node)
         {
 
@@ -56,7 +82,13 @@ namespace Natasha.Framework
         }
 
 
-        public abstract void Update(string old, string @new, HashSet<string> sets = default);
+        /// <summary>
+        /// 更新语法树
+        /// </summary>
+        /// <param name="oldCode">旧代码</param>
+        /// <param name="newCode">新代码</param>
+        /// <param name="sets">新的引用</param>
+        public abstract void Update(string oldCode, string newCode, HashSet<string> sets = default);
 
     }
 

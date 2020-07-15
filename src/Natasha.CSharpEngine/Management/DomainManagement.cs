@@ -3,6 +3,8 @@ using Natasha.Framework;
 using System;
 using System.Collections.Concurrent;
 using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
 using static System.Runtime.Loader.AssemblyLoadContext;
 
 
@@ -11,6 +13,7 @@ public class DomainManagement
 
     public static DomainBase Default;
     public static readonly ConcurrentDictionary<string, WeakReference> Cache;
+    public static Func<string, DomainBase> CreateDomain;
 
     static DomainManagement()
     {
@@ -18,28 +21,18 @@ public class DomainManagement
     }
 
 
-    public static TDomain RegisterDefault<TDomain>() where TDomain : DomainBase<TDomain>, new()
+    public static TDomain RegisterDefault<TDomain>() where TDomain : DomainBase
     {
 
-        if (Default != null)
-        {
+        DynamicMethod method = new DynamicMethod("Domain" + Guid.NewGuid().ToString(), typeof(DomainBase), new Type[] { typeof(string) });
+        ILGenerator il = method.GetILGenerator();
+        ConstructorInfo ctor = typeof(TDomain).GetConstructor(BindingFlags.Instance | BindingFlags.Public, null, new Type[] { typeof(string) }, null);
+        il.Emit(OpCodes.Ldarg_0);
+        il.Emit(OpCodes.Newobj, ctor);
+        il.Emit(OpCodes.Ret);
+        CreateDomain = (Func<string, DomainBase>)(method.CreateDelegate(typeof(Func<string, DomainBase>)));
 
-            if (typeof(TDomain) != Default.GetType())
-            {
-
-                Default = (new TDomain()).GetInstance("Default");
-
-            }
-
-        }
-        else
-        {
-
-            Default = (new TDomain()).GetInstance("Default");
-
-        }
-
-
+        Default = CreateDomain("Default");
         foreach (var asm in DependencyContext
         .Default
         .CompileLibraries
@@ -57,7 +50,7 @@ public class DomainManagement
 
     public static DomainBase Random
     {
-        get { return Default.GetBaseInstance("N" + Guid.NewGuid().ToString("N")); }
+        get { return CreateDomain("N" + Guid.NewGuid().ToString("N")); }
     }
 
 
@@ -70,7 +63,7 @@ public class DomainManagement
         else
         {
             Clear();
-            var domain = Default.GetBaseInstance(key);
+            var domain = CreateDomain(key);
             Add(key, domain);
             return domain;
         }

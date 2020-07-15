@@ -10,9 +10,9 @@ namespace Core31
         static void Main(string[] args)
         {
 
-            ComponentRegister.RegistDomain<NatashaAssemblyDomain>();
-            ComponentRegister.RegistCompiler<NatashaCSharpCompiler>();
-            ComponentRegister.RegisteSyntax<NatashaCSharpSyntax>();
+            NatashaComponentRegister.RegistDomain<NatashaAssemblyDomain>();
+            NatashaComponentRegister.RegistCompiler<NatashaCSharpCompiler>();
+            NatashaComponentRegister.RegistSyntax<NatashaCSharpSyntax>();
 
             //var hwFunc = FastMethodOperator
             //    .RandomDomain()

@@ -23,13 +23,13 @@ namespace Natasha.Framework
         public OptimizationLevel Enum_OptimizationLevel;
         public Action<TCompilationOptions> OptionAction;
         public TCompilation Compilation;
+
         public CompilerBase()
         {
             _domain = null;
         }
 
         private DomainBase _domain;
-
         public DomainBase Domain
         {
             get
@@ -61,30 +61,92 @@ namespace Natasha.Framework
             }
         }
 
+
+        /// <summary>
+        /// 在构建选项创建之后，对选项进行的操作
+        /// </summary>
+        /// <param name="action"></param>
         public void AddOption(Action<TCompilationOptions> action)
         {
             OptionAction += action;
         }
+
+
+        /// <summary>
+        /// 获取构建编译信息的编译选项
+        /// </summary>
+        /// <returns></returns>
         public abstract TCompilationOptions GetCompilationOptions();
+
+
+        /// <summary>
+        /// 构建编译信息之前需要做什么
+        /// </summary>
+        /// <returns></returns>
         public virtual bool PreCompiler()
         {
             return true;
         }
 
+
+        /// <summary>
+        /// 获取构建编译信息的选项
+        /// </summary>
+        /// <returns></returns>
         public abstract TCompilation GetCompilation(TCompilationOptions options);
+
+
+        /// <summary>
+        /// 重写方法，将编译信息编译到文件
+        /// </summary>
+        /// <param name="compilation"></param>
+        /// <returns></returns>
         public abstract EmitResult CompileEmitToFile(TCompilation compilation);
+
+
+
+        /// <summary>
+        /// 重写方法，将编译信息编译到内存流
+        /// </summary>
+        /// <param name="compilation"></param>
+        /// <param name="stream"></param>
+        /// <returns></returns>
         public abstract EmitResult CompileEmitToStream(TCompilation compilation, MemoryStream stream);
 
+
+        /// <summary>
+        /// 获取语法树
+        /// </summary>
         public IEnumerable<SyntaxTree> CompileTrees;
 
+
+        /// <summary>
+        /// 文件编译成功之后触发的事件
+        /// </summary>
         public event Action<string, string, TCompilation> FileCompileSucceedHandler;
 
+
+        /// <summary>
+        /// 流编译成功之后触发的事件
+        /// </summary>
         public event Action<Stream, TCompilation> StreamCompileSucceedHandler;
 
+
+        /// <summary>
+        /// 文件编译失败之后触发的事件
+        /// </summary>
         public event Action<string, string, ImmutableArray<Diagnostic>, TCompilation> FileCompileFailedHandler;
 
+        
+        /// <summary>
+        /// 流编译失败之后触发的事件
+        /// </summary>
         public event Action<Stream, ImmutableArray<Diagnostic>, TCompilation> StreamCompileFailedHandler;
 
+        
+        /// <summary>
+        /// 文件编译流程
+        /// </summary>
         public virtual void CompileToFile()
         {
 
@@ -110,6 +172,10 @@ namespace Natasha.Framework
 
         }
 
+
+        /// <summary>
+        /// 流编译流程
+        /// </summary>
         public virtual void CompileToStream()
         {
 
@@ -144,8 +210,9 @@ namespace Natasha.Framework
 
         }
 
+
         /// <summary>
-        /// 对语法树进行编译
+        /// 编译入口，对语法树进行编译
         /// </summary>
         public virtual void Compile()
         {

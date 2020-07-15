@@ -14,19 +14,20 @@ using System.Text.RegularExpressions;
 
 namespace Natasha.CSharpEngine
 {
+
     public class NatashaCSharpEngine
     {
 
-        public static ConcurrentDictionary<string, Action<CompilationException, Diagnostic, SyntaxBase, Dictionary<string, string>>> ErrorHandlers;
+        public static ConcurrentDictionary<string, Func<Diagnostic, SyntaxBase, string, string>> ErrorHandlers;
         static NatashaCSharpEngine()
         {
 
-            ErrorHandlers = new ConcurrentDictionary<string, Action<CompilationException, Diagnostic, SyntaxBase, Dictionary<string, string>>>();
-            ErrorHandlers["CS0104"] = (exception, diagnostic, syntax, dict) =>
+            ErrorHandlers = new ConcurrentDictionary<string, Func<Diagnostic, SyntaxBase, string, string>>();
+            ErrorHandlers["CS0104"] = (diagnostic, syntax, sourceCode) =>
             {
 
                 var (str1, str2) = CS0104Helper.Handler(diagnostic);
-                var sets = syntax.ReferenceCache[exception.Formatter];
+                var sets = syntax.ReferenceCache[diagnostic.Location.SourceTree.ToString()];
                 if (sets.Contains(str1))
                 {
 
@@ -36,13 +37,13 @@ namespace Natasha.CSharpEngine
                         if (str2 == "System")
                         {
 
-                            dict[exception.Formatter] = dict[exception.Formatter].Replace($"using {str2};", "");
+                            return sourceCode.Replace($"using {str2};", "");
 
                         }
                         else
                         {
 
-                            dict[exception.Formatter] = dict[exception.Formatter].Replace($"using {str1};", "");
+                            return sourceCode.Replace($"using {str1};", "");
 
                         }
 
@@ -50,7 +51,7 @@ namespace Natasha.CSharpEngine
                     else
                     {
 
-                        dict[exception.Formatter] = dict[exception.Formatter].Replace($"using {str2};", "");
+                        return sourceCode.Replace($"using {str2};", "");
 
                     }
 
@@ -59,34 +60,35 @@ namespace Natasha.CSharpEngine
                 else
                 {
 
-                    dict[exception.Formatter] = dict[exception.Formatter].Replace($"using {str1};", "");
+                    return sourceCode.Replace($"using {str1};", "");
 
                 }
 
             };
 
 
-            ErrorHandlers["CS0234"] = (exception, diagnostic, syntax, dict) =>
+            ErrorHandlers["CS0234"] = (diagnostic, syntax, sourceCode) =>
             {
 
                 var tempResult = CS0234Helper.Handler(diagnostic);
                 GlobalUsing.Remove(tempResult);
-                dict[exception.Formatter] = Regex.Replace(dict[exception.Formatter], $"using {tempResult}(.*?);", "");
+                return Regex.Replace(sourceCode, $"using {tempResult}(.*?);", "");
 
             };
 
 
-            ErrorHandlers["CS0246"] = (exception, diagnostic, syntax, dict) =>
+            ErrorHandlers["CS0246"] = (diagnostic, syntax, sourceCode) =>
             {
 
                 CS0246Helper.Handler(diagnostic);
-                foreach (var @using in CS0246Helper.GetUsings(diagnostic, dict[exception.Formatter]))
+                foreach (var @using in CS0246Helper.GetUsings(diagnostic, sourceCode))
                 {
 
                     GlobalUsing.Remove(@using);
-                    dict[exception.Formatter] = dict[exception.Formatter].Replace($"using {@using};", "");
+                    sourceCode = sourceCode.Replace($"using {@using};", "");
 
                 }
+                return sourceCode;
 
             };
 
@@ -102,6 +104,10 @@ namespace Natasha.CSharpEngine
         public bool CustomUsingShut;
         public ExceptionBehavior CompileErrorBehavior;
         public ExceptionBehavior SyntaxErrorBehavior;
+
+        /// <summary>
+        /// 是否要编译到文件中
+        /// </summary>
         public bool OutputToFile
         {
 
@@ -110,6 +116,10 @@ namespace Natasha.CSharpEngine
 
         }
 
+
+        /// <summary>
+        /// 是否允许非安全编译
+        /// </summary>
         public bool AllowUnsafe
         {
 
@@ -118,6 +128,10 @@ namespace Natasha.CSharpEngine
 
         }
 
+
+        /// <summary>
+        /// 是否使用 Release 优化
+        /// </summary>
         public bool UseRelease
         {
 
@@ -126,6 +140,10 @@ namespace Natasha.CSharpEngine
 
         }
 
+
+        /// <summary>
+        /// 程序集输出类型，DLL/控制台/等等
+        /// </summary>
         public OutputKind OutputKind
         {
 
@@ -134,6 +152,10 @@ namespace Natasha.CSharpEngine
 
         }
 
+
+        /// <summary>
+        /// 当前域
+        /// </summary>
         public DomainBase Domain
         {
 
@@ -143,17 +165,47 @@ namespace Natasha.CSharpEngine
         }
 
 
-
+        /// <summary>
+        /// 程序集名称
+        /// </summary>
         public string AssemblyName
         {
             get { return Compiler.AssemblyName; }
             set { Compiler.AssemblyName = value; }
         }
 
+
+        /// <summary>
+        /// 是否使用新版本程序集
+        /// </summary>
+        public bool UseNewVersionAssmebly
+        {
+            get { return Domain.UseNewVersionAssmebly; }
+            set { Domain.UseNewVersionAssmebly = value; }
+        }
+
+
+        /// <summary>
+        /// 编译容错次数
+        /// </summary>
         public int RetryLimit { get; set; }
-        public int RetryCount { get; set; }
+
+
+        /// <summary>
+        /// 当前编译错误次数
+        /// </summary>
+        private int _retryCount;
+
+
+        /// <summary>
+        /// 是否开启容错模式
+        /// </summary>
         public bool CanRetry { get; set; }
-        public bool UseCustomReferences { get; set; }
+
+
+        /// <summary>
+        /// 是否使用共享库引用
+        /// </summary>
         public bool UseShareLibraries { get; set; }
 
 
@@ -171,21 +223,32 @@ namespace Natasha.CSharpEngine
 
 
 
-
-        private void NatashaEngine_FileCompileFailedHandler(string arg1, string arg2, ImmutableArray<Diagnostic> arg3, CSharpCompilation arg4)
+        /// <summary>
+        /// 文件编译失败之后调用的方法
+        /// </summary>
+        /// <param name="arg1">Dll 文件路径</param>
+        /// <param name="arg2">Pdb 文件路径</param>
+        /// <param name="arg3">编译出现的错误</param>
+        /// <param name="arg4">编译信息</param>
+        private void NatashaEngine_FileCompileFailedHandler(string dllPath, string pdbPath, ImmutableArray<Diagnostic> diagnostics, CSharpCompilation compilation)
         {
 
-            if (CanRetryCompile(arg3))
+            if (CanRetryCompile(diagnostics))
             {
                 Compile();
             }
 
         }
-
-        private void NatashaEngine_StreamCompileFailedHandler(Stream arg1, ImmutableArray<Diagnostic> arg2, CSharpCompilation arg3)
+        /// <summary>
+        /// 流编译失败之后调用的方法
+        /// </summary>
+        /// <param name="stream">失败的流</param>
+        /// <param name="diagnostics">编译出现的错误</param>
+        /// <param name="compilation">编译信息</param>
+        private void NatashaEngine_StreamCompileFailedHandler(Stream stream, ImmutableArray<Diagnostic> diagnostics, CSharpCompilation compilation)
         {
 
-            if (CanRetryCompile(arg2))
+            if (CanRetryCompile(diagnostics))
             {
                 Compile();
             }
@@ -203,43 +266,33 @@ namespace Natasha.CSharpEngine
         private bool CanRetryCompile(ImmutableArray<Diagnostic> errors)
         {
 
-            Exceptions = NatashaException.GetCompileException(Compiler.AssemblyName, errors);
-            Dictionary<string, string> codeMappings = new Dictionary<string, string>();
-            foreach (var item in Exceptions)
-            {
-
-                if (item.Formatter != default)
-                {
-
-                    codeMappings[item.Formatter] = item.Formatter;
-                    if (item.HasError)
-                    {
-
-                        foreach (var error in item.Diagnostics)
-                        {
-
-
-                            if (ErrorHandlers.ContainsKey(error.Id))
-                            {
-
-                                CanRetry = true;
-                                ErrorHandlers[error.Id](item, error, Syntax, codeMappings);
-
-                            }
-
-                        }
-                    }
-
-                }
-                
-            }
             if (CanRetry)
             {
 
-                CanRetry = false;
-                RetryCount += 1;
-                if (RetryCount < RetryLimit)
+                _retryCount += 1;
+                if (_retryCount < RetryLimit)
                 {
+
+                    Dictionary<string, string> codeMappings = new Dictionary<string, string>();
+                    foreach (var item in errors)
+                    {
+
+                        if (item.Location.SourceTree != null)
+                        {
+
+                            var sourceCode = item.Location.SourceTree.ToString();
+                            if (!codeMappings.ContainsKey(sourceCode))
+                            {
+                                codeMappings[sourceCode] = sourceCode;
+                            }
+                            if (ErrorHandlers.ContainsKey(item.Id))
+                            {
+                                codeMappings[sourceCode] = ErrorHandlers[item.Id](item, Syntax, codeMappings[sourceCode]);
+                            }
+
+                        }
+
+                    }
 
                     foreach (var item in codeMappings)
                     {
@@ -252,6 +305,7 @@ namespace Natasha.CSharpEngine
                 
 
             }
+            Exceptions = NatashaException.GetCompileException(Compiler.AssemblyName, errors);
             return false;
 
         }
@@ -265,14 +319,11 @@ namespace Natasha.CSharpEngine
         internal virtual void Compile()
         {
 
-            if (UseCustomReferences)
-            {
-                Compiler.Domain.CustomReferences();
-            }
             if (UseShareLibraries)
             {
                 Compiler.Domain.UseShareLibraries();
             }
+            
             Exceptions = null;
             Compiler.CompileTrees = Syntax.TreeCache.Values;
             Compiler.Compile();

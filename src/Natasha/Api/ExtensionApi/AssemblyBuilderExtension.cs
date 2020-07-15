@@ -318,7 +318,7 @@ namespace Natasha.CSharp
         }
         #endregion
 
-        public static AssemblyCSharpBuilder AddRetryHandler(this AssemblyCSharpBuilder builder, string key, Action<CompilationException, Diagnostic, SyntaxBase, Dictionary<string, string>> action)
+        public static AssemblyCSharpBuilder AddRetryHandler(this AssemblyCSharpBuilder builder, string key, Func<Diagnostic, SyntaxBase, string, string> action)
         {
             NatashaCSharpEngine.ErrorHandlers[key] = action;
             return builder;
