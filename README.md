@@ -48,48 +48,10 @@
 ### 使用方法(User Api)：   
 
 
-#### v3.10.0.0 版本之前
+#### v3.0+ [版本文档](https://github.com/dotnetcore/Natasha/tree/v3.0+final)  
 
- - 引入 动态构建库： DotNetCore.Natasha
+#### v4.0+ [版本文档](https://github.com/dotnetcore/Natasha/tree/v4.0+dev)
 
- - 引入 编译环境库： DotNetCore.Compile.Environment
-
- - 向引擎中注入定制的域：  DomainManagement.RegisterDefault< AssemblyDomain >();
-  
- - 敲代码  
- 
- <br/>  
- 
-#### v3.10.0.0 版本：
- 
- - 引入 动态构建库： DotNetCore.Natasha
-
- - 引入 编译环境库： DotNetCore.Compile.Environment
-
- - 向引擎中注入定制的域： AssemblyDomain.Init();
-  
- - 敲代码  
- 
- <br/>  
- 
-#### v3.10.0.0 版本以后
-
- - 引入 动态构建库： DotNetCore.Natasha
-
- - 向引擎中注入定制的域： AssemblyDomain.Init();
-  
- - 敲代码  
- 
- <br/>  
- 
-  
- - 配置文件：
- ```C#
-    //如果你觉得发布文件夹下关于本地化的文件夹太多，您可以选择如下节点
-    //选项：cs / de / es / fr / it / ja / ko / pl / ru / tr / zh-Hans / zh-Hant
-    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
- ```
- 
 
  > 更多更新的参考文档：https://natasha.dotnetcore.xyz/  
  
