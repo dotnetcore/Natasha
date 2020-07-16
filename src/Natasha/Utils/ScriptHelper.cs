@@ -4,8 +4,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Natasha.Engine.Utils
-{
+
     public static class ScriptHelper
     {
 
@@ -177,4 +176,3 @@ namespace Natasha.Engine.Utils
 
     }
 
-}
