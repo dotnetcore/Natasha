@@ -1,5 +1,4 @@
 ﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Natasha;
 using Natasha.CSharpEngine;
 using Natasha.CSharpEngine.Error;
@@ -46,7 +45,7 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
         RetryLimit = 2;
 
     }
-    public void CompilerOption(Action<CompilerBase<CSharpCompilation, CSharpCompilationOptions>> action)
+    public void CompilerOption(Action<CompilerBase<Compilation, CompilationOptions>> action)
     {
         action?.Invoke(Compiler);
     }
