@@ -1,6 +1,8 @@
 ﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Natasha.Log;
 using Natasha.Log.Model;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -31,7 +33,7 @@ namespace System
 
 
 
-        public void Handler(Compilation compilation, List<Diagnostic> diagnostics)
+        public void Handler(CSharpCompilation compilation, List<Diagnostic> diagnostics)
         {
 
             Buffer.AppendLine($"\r\n\r\n========================Error : {compilation.AssemblyName}========================\r\n");
@@ -67,7 +69,7 @@ namespace System
                 Buffer.Append(AddLineNumber(item.Key));
                 Buffer.AppendLine("\r\n\r\n-----------------------------------------------error---------------------------------------------------");
                 Buffer.AppendLine($"\r\n    Time :\t\t{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}");
-                //Buffer.AppendLine($"\r\n    Lauguage :\t{compilation.Language} & {compilation.LanguageVersion}");
+                Buffer.AppendLine($"\r\n    Lauguage :\t{compilation.Language} & {compilation.LanguageVersion}");
                 Buffer.AppendLine($"\r\n    Target:\t\t{compilation.AssemblyName}");
                 Buffer.AppendLine($"\r\n    Error:\t\t共{item.Value.Count}处错误！");
 

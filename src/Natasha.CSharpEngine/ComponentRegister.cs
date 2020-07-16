@@ -1,4 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis.CSharp;
 using Natasha.CSharpEngine;
 using Natasha.Framework;
 
@@ -7,7 +7,7 @@ using Natasha.Framework;
 public static class NatashaComponentRegister
 {
 
-    public static void RegistCompiler<TCompiler>() where TCompiler : CompilerBase<Compilation, CompilationOptions>, new()
+    public static void RegistCompiler<TCompiler>() where TCompiler : CompilerBase<CSharpCompilation, CSharpCompilationOptions>, new()
     {
         CompilerManagement.RegisterDefault<TCompiler>();
     }
