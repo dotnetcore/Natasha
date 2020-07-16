@@ -47,10 +47,28 @@
 
 ### 使用方法(User Api)：   
 
+#### v4.0.0.0 版本
 
-#### v3.0+ [版本文档](https://github.com/dotnetcore/Natasha/tree/v3.0+final)  
+ - 引入 动态构建库： DotNetCore.Natasha
 
-#### v4.0+ [版本文档](https://github.com/dotnetcore/Natasha/tree/v4.0+dev)
+ - 引入 编译组件库：  
+ 
+    - DotNetCore.Natasha.CSharpSyntax  语法组件库
+    - DotNetCore.Natasha.Domain 域组件库
+    - DotNetCore.Natasha.CSharpCompiler 编译组件库
+
+- 注册组件：
+
+  ```C#
+  NatashaComponentRegister.RegistDomain<NatashaAssemblyDomain>();
+  NatashaComponentRegister.RegistCompiler<NatashaCSharpCompiler>();
+  NatashaComponentRegister.RegistSyntax<NatashaCSharpSyntax>();
+  ```
+
+  
+ - 敲代码  
+ 
+ <br/>  
 
 
  > 更多更新的参考文档：https://natasha.dotnetcore.xyz/  
