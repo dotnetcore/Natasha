@@ -20,17 +20,10 @@
     <AssemblyVersion>3.14.0.0</AssemblyVersion>
   </PropertyGroup>
 
-  <ItemGroup>
-    <!--<PackageReference Include="DotNetCore.Natasha.CSharpEngine" Version="1.1.0" />-->
-    <!--<PackageReference Include="DotNetCore.Natasha.CSharpEngine" Version="1.2.0" />-->
-    <PackageReference Include="DotNetCore.Natasha.CSharpEngine" Version="1.4.0" />
-    <PackageReference Include="DotNetCore.Natasha.Reverser" Version="2.5.0" />
-  </ItemGroup>
 
   <ItemGroup>
-    <!--<ProjectReference Include="..\Natasha.CSharpEngine\Natasha.CSharpEngine.csproj" />
-    <ProjectReference Include="..\Natasha.Reverser\Natasha.Reverser.csproj" />-->
-    <!--<ProjectReference Include="..\Natasha.Reverser\Natasha.Reverser.csproj" />-->
+    <ProjectReference Include="..\Natasha.CSharpEngine\Natasha.CSharpEngine.csproj" />
+    <ProjectReference Include="..\Natasha.Reverser\Natasha.Reverser.csproj" />
   </ItemGroup>
 
 
