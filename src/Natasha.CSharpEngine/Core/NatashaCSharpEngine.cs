@@ -1,5 +1,4 @@
 ﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Natasha.CSharpEngine.Error;
 using Natasha.Engine.Utils;
 using Natasha.Error;
@@ -65,8 +64,6 @@ namespace Natasha.CSharpEngine
                 }
 
             };
-
-
             ErrorHandlers["CS0234"] = (diagnostic, syntax, sourceCode) =>
             {
 
@@ -75,8 +72,6 @@ namespace Natasha.CSharpEngine
                 return Regex.Replace(sourceCode, $"using {tempResult}(.*?);", "");
 
             };
-
-
             ErrorHandlers["CS0246"] = (diagnostic, syntax, sourceCode) =>
             {
 
@@ -96,7 +91,7 @@ namespace Natasha.CSharpEngine
 
 
         public SyntaxBase Syntax;
-        public CompilerBase<CSharpCompilation,CSharpCompilationOptions> Compiler;
+        public CompilerBase<Compilation,CompilationOptions> Compiler;
         public List<CompilationException> Exceptions;
 
 
@@ -230,7 +225,7 @@ namespace Natasha.CSharpEngine
         /// <param name="arg2">Pdb 文件路径</param>
         /// <param name="arg3">编译出现的错误</param>
         /// <param name="arg4">编译信息</param>
-        private void NatashaEngine_FileCompileFailedHandler(string dllPath, string pdbPath, ImmutableArray<Diagnostic> diagnostics, CSharpCompilation compilation)
+        private void NatashaEngine_FileCompileFailedHandler(string dllPath, string pdbPath, ImmutableArray<Diagnostic> diagnostics, Compilation compilation)
         {
 
             if (CanRetryCompile(diagnostics))
@@ -245,7 +240,7 @@ namespace Natasha.CSharpEngine
         /// <param name="stream">失败的流</param>
         /// <param name="diagnostics">编译出现的错误</param>
         /// <param name="compilation">编译信息</param>
-        private void NatashaEngine_StreamCompileFailedHandler(Stream stream, ImmutableArray<Diagnostic> diagnostics, CSharpCompilation compilation)
+        private void NatashaEngine_StreamCompileFailedHandler(Stream stream, ImmutableArray<Diagnostic> diagnostics, Compilation compilation)
         {
 
             if (CanRetryCompile(diagnostics))

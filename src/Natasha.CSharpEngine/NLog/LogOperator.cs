@@ -1,4 +1,4 @@
-﻿using Microsoft.CodeAnalysis.CSharp;
+﻿using Microsoft.CodeAnalysis;
 using Natasha.Error;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ namespace Natasha.CSharpEngine.Log
     public static class LogOperator
     {
 
-        public static void ErrorRecoder(CSharpCompilation compilation, List<CompilationException> exceptions)
+        public static void ErrorRecoder(Compilation compilation, List<CompilationException> exceptions)
         {
 
             if (NErrorLog.Enabled)
@@ -41,7 +41,7 @@ namespace Natasha.CSharpEngine.Log
             }
 
         }
-        public static void SucceedRecoder(CSharpCompilation compilation)
+        public static void SucceedRecoder(Compilation compilation)
         {
 
             if (NSucceedLog.Enabled)

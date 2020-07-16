@@ -6,7 +6,7 @@
     <PackageId>DotNetCore.Natasha.CSharpCompiler</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageReleaseNotes>发布正式版</PackageReleaseNotes>
-    <Version>1.3.0</Version>
+    <Version>2.0.0-alpha1</Version>
     <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
     <PackageTags>oslyn ; IL ; Scripte ; Dynamic ; </PackageTags>
@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <!--<PackageReference Include="DotNetCore.Natasha.Framework" Version="1.0.3" />-->
-    <PackageReference Include="DotNetCore.Natasha.Framework" Version="1.3.0" />
+    <PackageReference Include="DotNetCore.Natasha.Framework" Version="2.0.0-alpha2" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.6.0" />
   </ItemGroup>
 

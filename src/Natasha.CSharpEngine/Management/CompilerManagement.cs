@@ -1,18 +1,16 @@
-﻿using Microsoft.CodeAnalysis.CSharp;
+﻿using Microsoft.CodeAnalysis;
 using Natasha.Framework;
 using System;
-using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Text;
 
 namespace Natasha.CSharpEngine
 {
 
     public static class CompilerManagement
     {
-        public static Func<CompilerBase<CSharpCompilation, CSharpCompilationOptions>> GetCompiler;
-        public static void RegisterDefault<T>() where T : CompilerBase<CSharpCompilation, CSharpCompilationOptions>, new()
+        public static Func<CompilerBase<Compilation, CompilationOptions>> GetCompiler;
+        public static void RegisterDefault<T>() where T : CompilerBase<Compilation, CompilationOptions>, new()
         {
 
             DynamicMethod method = new DynamicMethod("Compilation" + Guid.NewGuid().ToString(), typeof(T), new Type[0]);
