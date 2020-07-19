@@ -35,15 +35,24 @@ Emit 和表达式树的使用场景，Natasha 均适用。
 
 ## 准备工作
 
-1、引入 DotNetCore.Natasha 库  
+ - 引入 动态构建库： DotNetCore.Natasha
 
-2、引入 编译环境库 ： DotNetCore.Compile.Environment  
+ - 引入 编译组件库：  
+ 
+    - DotNetCore.Natasha.CSharpSyntax  语法组件库
+    - DotNetCore.Natasha.Domain 域组件库
+    - DotNetCore.Natasha.CSharpCompiler 编译组件库
 
-3、向引擎中注入定制的域：  
-  - 3.10.0.0 版本以前： DomainManagement.RegisterDefault< AssemblyDomain >();
-  - 3.10.0.0 版本及以后： AssemblyDomain.Init();
+- 注册组件：
 
-4、敲代码
+  ```C#
+  NatashaComponentRegister.RegistDomain<NatashaAssemblyDomain>();
+  NatashaComponentRegister.RegistCompiler<NatashaCSharpCompiler>();
+  NatashaComponentRegister.RegistSyntax<NatashaCSharpSyntax>();
+  ```
+
+  
+ - 敲代码  
 
 <br/>  
 
@@ -162,11 +171,11 @@ NClass nClass = NClass.DefaultDomain();
 nClass
   .Namespace("MyNamespace")
   .Public()
-  .DefinedName("MyClass")
+  .Name("MyClass")
   .Ctor(ctor=>ctor.Public().Body("MyField=\"Hello\";"))
   .Property(prop => prop
-    .DefinedType(typeof(string))
-    .DefinedName("MyProperty")
+    .Type(typeof(string))
+    .Name("MyProperty")
     .Public()
     OnlyGetter("return \"World!\";")
   );
@@ -177,7 +186,7 @@ MethodBuilder mb = new MethodBuilder();
 mb
   .Public()
   .Override()
-  .DefinedName("ToString")
+  .Name("ToString")
   .Body("return MyField+\" \"+MyProperty;")
   .Return(typeof(string));
  nClass.Method(mb);
@@ -186,8 +195,8 @@ mb
 //添加字段（3.4.00之前的版本请参照上述属性的API）
 FieldBuilder fb = nClass.GetFieldBuilder();
 fb.Public()
-  .DefinedName("MyField")
-  .DefinedType<string>();
+  .Name("MyField")
+  .Type<string>();
 
 
 //动态调用动态创建的类
