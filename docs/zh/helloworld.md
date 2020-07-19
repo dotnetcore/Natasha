@@ -162,11 +162,11 @@ NClass nClass = NClass.DefaultDomain();
 nClass
   .Namespace("MyNamespace")
   .Public()
-  .DefinedName("MyClass")
+  .Name("MyClass")
   .Ctor(ctor=>ctor.Public().Body("MyField=\"Hello\";"))
   .Property(prop => prop
-    .DefinedType(typeof(string))
-    .DefinedName("MyProperty")
+    .Type(typeof(string))
+    .Name("MyProperty")
     .Public()
     OnlyGetter("return \"World!\";")
   );
@@ -177,7 +177,7 @@ MethodBuilder mb = new MethodBuilder();
 mb
   .Public()
   .Override()
-  .DefinedName("ToString")
+  .Name("ToString")
   .Body("return MyField+\" \"+MyProperty;")
   .Return(typeof(string));
  nClass.Method(mb);
@@ -186,8 +186,8 @@ mb
 //添加字段（3.4.00之前的版本请参照上述属性的API）
 FieldBuilder fb = nClass.GetFieldBuilder();
 fb.Public()
-  .DefinedName("MyField")
-  .DefinedType<string>();
+  .Name("MyField")
+  .Type<string>();
 
 
 //动态调用动态创建的类
