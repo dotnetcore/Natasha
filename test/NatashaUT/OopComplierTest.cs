@@ -7,7 +7,7 @@ using Xunit;
 namespace NatashaUT
 {
     [Trait("快速构建","完整类")]
-    public class DynamicClassTest : PrepareTest
+    public class OopComplierTest : PrepareTest
     {
 
 
