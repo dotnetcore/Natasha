@@ -1,7 +1,7 @@
 ﻿public static class StringExtension
 {
 
-    public static string ReadOnlyScript(this string field)
+    public static string ReadonlyScript(this string field)
     {
 
         return $"Unsafe.AsRef({field})";
