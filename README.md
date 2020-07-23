@@ -75,39 +75,12 @@
  
 <br/>  
 
-
-### 发布日志  
-        
-  - 2020-05-12 ： 发布v3.2.0.0，增加插件自动装载 using 的功能，修复部分字段命名，Domain 部分抽象实现将在 AssemblyDomain 中实现，增加 GetPluginAssembies 抽象方法以返回插件带来的程序集，需要子类实现。
-    
-  - 2020-06-01 ： 发布v3.4.0.0，Oop 模板增加两种内容构造API , nclass.GetXXXBuilder 返回构造器，用户可以在外随意定制， nclass.Property/Field/Method/Ctor( builder) 支持直接传一个完好的 builder 进去。
-
-  - 2020-06-06 ： 发布v3.8.0.0，修复模板状态机操作； 模板中API调整：DefinedName -> Name, DefinedType -> Type; 调整引擎 API 结构，减少 AssemblyCSharpBuilder 类 API 操作的层级；增加对私有字段动态调用的支持，OOP 模板新增API AllowPrivate； 由于精力有限周边项目将只对 R2D \ DynamicaCache 进行更新。
-  
-  - 2020-06-07 ： 发布v3.10.0.0，分离 SDK / SHARE 运行时库引用，以便支持系统类库的私有字段。调整初始化 API `DomainManagement.RegiestDefault` => ` AssemblyDomain.Init();`； 引擎继续调整 API 结构，提升部分属性的暴露层级： AllowUnsafe 属性以支持非安全代码编译；OutputToFile 切换内存及文件编译模式；UseRelease 是否使用优化编译；OutputKind 编译类型的枚举，包括 dll / exe 等； Domain 域设置； AssemblyName 程序集名。精简引擎部分冗余代码。
-  
-  - 2020-07-02 ： 发布v3.14.0.0，部分操作类提升到全局引用，AssemblyDomain \ DomainManagement \ AssemblyCSharpBuilder; 使用可继承的编译环境包；使用可继承的调试环境包。 AssemblyCSharpBuilder 引擎继续调整 API 结构，提升部分选项属性的暴露层级；引擎规避一些常见的编译警告；模板增加泛型约束模板，反解器增加泛型约束反解功能；修复部分模板状态机操作；增加CS0012错误重定向。
-  
- <br/>  
  
 ### 开发计划  
 
 > 目前主分支为 4.0 版本，原 3.0 版本在另个分支上。
 
 #### 分支 NoPublish  
-
-##### 3.0+ 计划  
-
- - [x] 分离 share 库，并作为域操作的一个选项
- - [x] 使用委托或Emit优化部分反射操作
- - [x] 增加并发库/常见内置类型的 share 引用测试 
- - [x] 编译异常信息作为 Message 直接展示 
- - [x] 调研编译环境继承的解决方案
- - [x] 发布针对 Roslyn 可继承成的编译环境包
- - [x] 增加泛型约束模板
- - [x] 反解器增加泛型类型约束反解
- - [x] 增加反解枚举，增强模板构造的状态机
- - [x] 重新检查反解器是否违反了单一职责（D2R）
  
 ##### 4.0+ 计划  
 
