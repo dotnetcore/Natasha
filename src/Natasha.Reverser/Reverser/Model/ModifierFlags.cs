@@ -1,19 +1,19 @@
-﻿namespace Natasha.Reverser.Model
+﻿
+/// <summary>
+/// 修饰符枚举
+/// </summary>
+public enum ModifierFlags
 {
-    /// <summary>
-    /// 修饰符枚举
-    /// </summary>
-    public enum ModifierFlags
-    {
-        None,
-        Const,
-        Static,
-        Virtual,
-        New,
-        Override,
-        Abstract,
-        Async,
-        Unsafe
+    None,
+    Const,
+    Static,
+    Virtual,
+    New,
+    Override,
+    Abstract,
+    Async,
+    Unsafe,
+    Readonly
 
-    }
 }
+

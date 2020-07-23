@@ -1,15 +1,13 @@
-﻿namespace Natasha.Reverser.Model
+﻿/// <summary>
+/// 访问级别枚举
+/// </summary>
+public enum AccessFlags
 {
-    /// <summary>
-    /// 访问级别枚举
-    /// </summary>
-    public enum AccessFlags
-    {
-        None,
-        Public,
-        Private,
-        Protected,
-        Internal,
-        InternalAndProtected
-    }
+    None,
+    Public,
+    Private,
+    Protected,
+    Internal,
+    InternalAndProtected
 }
+

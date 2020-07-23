@@ -1,13 +1,15 @@
 ﻿using Natasha.CSharp;
 using Natasha.Engine.Utils;
+using NatashaUT.Model;
 using System;
 using Xunit;
 
 
 namespace NatashaUT
 {
+
     [Trait("快速构建","完整类")]
-    public class DynamicClassTest : PrepareTest
+    public class OopComplierTest : PrepareTest
     {
 
 
@@ -159,6 +161,100 @@ namespace HelloWorld{
             Assert.Equal("TestIndex2", ScriptHelper.GetClassName(text, 1, 2));
             Assert.Equal("TestIndex4", ScriptHelper.GetClassName(text, 2, 1));
             Assert.Equal("TestStruct2", ScriptHelper.GetStructName(text, 2, 2));
+        }
+
+
+        [Fact(DisplayName = "字符串格式化测试1")]
+        public void RunClassName5()
+        {
+            
+          var content = @"unsafe class C
+{
+    delegate * < int,  int> functionPointer;
+}";
+
+            var expected = @"unsafe class C
+{
+    delegate * < int, int> functionPointer;
+}";
+
+
+        NatashaCSharpSyntax syntax = new NatashaCSharpSyntax();
+            syntax.AddTreeToCache(content);
+            var result = syntax.TreeCache[expected].ToString();
+            Assert.Equal(expected, result);
+        }
+        [Fact(DisplayName = "字符串格式化测试2")]
+        public void RunClassName6()
+        {
+
+            var content = @"class A
+            {        
+int             i               =               20          ;           int             j           =           1           +           2       ;
+                        T           .               S           =           Test            (           10              )           ;
+                        }";
+
+            var expected = @"class A
+{
+    int i = 20; int j = 1 + 2;
+    T.S           =           Test(           10              );
+}";
+
+            NatashaCSharpSyntax syntax = new NatashaCSharpSyntax();
+            syntax.AddTreeToCache(content);
+            var result = syntax.TreeCache[expected].ToString();
+            Assert.Equal(expected, result);
+        }
+
+
+   
+
+//        [Fact(DisplayName = "字符串格式化测试3")]
+//        public void RunClassName7()
+//        {
+
+//            var initial =
+//@"using A = B;
+//using C;
+//using D = E;
+//using F;";
+
+//            var final =
+//    @"using C;
+//using F;
+//using A = B;
+//using D = E;
+//";
+
+//            NatashaCSharpSyntax syntax = new NatashaCSharpSyntax();
+//            syntax.AddTreeToCache(initial);
+//            var result = syntax.TreeCache[final].ToString();
+//            Assert.Equal(final, result);
+//        }
+
+
+        [Fact(DisplayName = "字符串格式化测试4")]
+        public void RunClassName8()
+        {
+
+            var initial ="int i=0 ; var t=new{Name=\"\"};";
+
+            var final = "int i = 0; var t = new { Name = \"\" };";
+
+            NatashaCSharpSyntax syntax = new NatashaCSharpSyntax();
+            syntax.AddTreeToCache(initial);
+            var result = syntax.TreeCache[final].ToString();
+            Assert.Equal(final, result);
+        }
+
+
+        [Fact(DisplayName = "Release测试")]
+        public void ReleaseTest()
+        {
+
+            var script = "NormalTestModel result = new NormalTestModel();return result;";
+            NDelegate.RandomDomain(item=>item.UseFileCompile()).Func<NormalTestModel>(script)();
+            Assert.Equal(0, 0);
         }
     }
 }

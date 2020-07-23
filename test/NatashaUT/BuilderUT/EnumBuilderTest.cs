@@ -16,7 +16,7 @@ namespace NatashaUT
             var script = builder
                 .CustomUsing()
                 .HiddenNamespace()
-                .Access(Natasha.Reverser.Model.AccessFlags.Public)
+                .Access(AccessFlags.Public)
                 .Name("EnumUT1")
                 .EnumField("Apple", 1)
                 .EnumField("Orange", 2)
@@ -37,7 +37,7 @@ namespace NatashaUT
             var script = builder
                 .CustomUsing()
                 .Namespace("haha")
-                .Access(Natasha.Reverser.Model.AccessFlags.Public)
+                .Access(AccessFlags.Public)
                 .Name("EnumUT1")
                 .EnumField("Apple", 1)
                 .EnumField("Orange", 2)

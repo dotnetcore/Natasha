@@ -1,5 +1,4 @@
 ﻿using Natasha.Reverser;
-using Natasha.Reverser.Model;
 using System;
 using System.Reflection;
 
@@ -95,31 +94,31 @@ namespace Natasha.CSharp.Template
         public T Public()
         {
 
-            return Access(Reverser.Model.AccessFlags.Public);
+            return Access(AccessFlags.Public);
 
         }
         public T Private()
         {
 
-            return Access(Reverser.Model.AccessFlags.Private);
+            return Access(AccessFlags.Private);
 
         }
         public T Protected()
         {
 
-            return Access(Reverser.Model.AccessFlags.Protected);
+            return Access(AccessFlags.Protected);
 
         }
         public T Internal()
         {
 
-            return Access(Reverser.Model.AccessFlags.Internal);
+            return Access(AccessFlags.Internal);
 
         }
         public T InternalAndProtected()
         {
 
-            return Access(Reverser.Model.AccessFlags.InternalAndProtected);
+            return Access(AccessFlags.InternalAndProtected);
 
         }
 

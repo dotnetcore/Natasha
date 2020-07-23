@@ -3,11 +3,21 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 
+
 namespace Natasha.Framework
 {
+
+//#if NET472 || NET461 || NET462
+//    public abstract class AssemblyLoadContext : Assembly
+//    {
+//        public readonly string Name;
+//        public AssemblyLoadContext(string name,bool )
+//    }
+//#endif
 
     /// <summary>
     /// 程序域的基础类，需要继承实现
@@ -45,18 +55,16 @@ namespace Natasha.Framework
             var methodInfo = typeof(AssemblyDependencyResolver).GetField("_assemblyPaths", BindingFlags.NonPublic | BindingFlags.Instance);
             GetDictionary = item => (Dictionary<string, string>)methodInfo.GetValue(item);
             _shareLibraries = new ConcurrentQueue<string>();
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            var assemblies = AppDomain
+                .CurrentDomain
+                .GetAssemblies()
+                .Where(asm => !asm.IsDynamic && !string.IsNullOrWhiteSpace(asm.Location))
+                .Distinct();
+
             foreach (var asm in assemblies)
             {
 
-                try
-                {
-                    _shareLibraries.Enqueue(asm.Location);
-                }
-                catch (Exception)
-                {
-
-                }
+                _shareLibraries.Enqueue(asm.Location);
 
             }
 

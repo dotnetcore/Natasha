@@ -1,9 +1,16 @@
 ﻿using Natasha;
+using Natasha.CSharp;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 using Xunit;
-
+#if BIT64
+    using nuint = System.UInt64;
+#else // BIT64
+using nuint = System.UInt32;
+#endif // BIT64
 namespace NatashaUT
 {
     [Trait("类型测试", "")]
@@ -12,7 +19,7 @@ namespace NatashaUT
         [Fact(DisplayName = "简单类")]
         public void Test1()
         {
-            
+
             Assert.True(typeof(Func<int>).IsSimpleType());
             Assert.True(typeof(Type).IsSimpleType());
             Assert.True(typeof(MulticastDelegate).IsSimpleType());
@@ -31,5 +38,7 @@ namespace NatashaUT
             Assert.False(typeof(IList<>).IsAssignableFrom(typeof(List<>)));
 
         }
+
     }
+
 }

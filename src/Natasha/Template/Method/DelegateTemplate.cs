@@ -18,7 +18,22 @@ namespace Natasha.CSharp.Template
 
 
 
-
+        public T ReadonlyReturn<S>()
+        {
+            return this.ReadonlyReturn(typeof(S));
+        }
+        public T ReadonlyReturn(Type type)
+        {
+            if (type != typeof(void))
+            {
+                Modifier(ModifierFlags.Readonly);
+            }
+            return Type(type);
+        }
+        public T ReadonlyReturn(MethodInfo info)
+        {
+            return ReadonlyReturn(info.ReturnType);
+        }
         public T Return<S>()
         {
             return this.Return(typeof(S));
