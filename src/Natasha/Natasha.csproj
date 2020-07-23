@@ -8,7 +8,7 @@
     <PackageId>DotNetCore.Natasha</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageReleaseNotes>修复 修饰符模板状态机BUG, 增加 语法树选项 ForceAddSyntax 不管对错强制添加语法树。</PackageReleaseNotes>
-    <Version>4.0.0-alpha1</Version>
+    <Version>4.0.0</Version>
     <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
     <PackageTags>Roslyn ; IL ; Scripte ; Dynamic ; </PackageTags>
@@ -21,8 +21,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DotNetCore.Natasha.CSharpEngine" Version="2.0.0-alpha3" />
-    <PackageReference Include="DotNetCore.Natasha.Reverser" Version="2.5.0.1" />
+    <PackageReference Include="DotNetCore.Natasha.CSharpEngine" Version="2.0.0" />
+    <PackageReference Include="DotNetCore.Natasha.Reverser" Version="2.5.2" />
   </ItemGroup>
 
 
