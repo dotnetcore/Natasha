@@ -6,8 +6,17 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.Loader;
 
+
 namespace Natasha.Framework
 {
+
+//#if NET472 || NET461 || NET462
+//    public abstract class AssemblyLoadContext : Assembly
+//    {
+//        public readonly string Name;
+//        public AssemblyLoadContext(string name,bool )
+//    }
+//#endif
 
     /// <summary>
     /// 程序域的基础类，需要继承实现

@@ -267,6 +267,7 @@ public class NatashaAssemblyDomain : DomainBase
 
     public NatashaAssemblyDomain(string key) : base(key)
     {
+        UseNewVersionAssmebly = true;
 #if !NETSTANDARD2_0
         DependencyResolver = new AssemblyDependencyResolver(AppDomain.CurrentDomain.BaseDirectory);
 #endif
