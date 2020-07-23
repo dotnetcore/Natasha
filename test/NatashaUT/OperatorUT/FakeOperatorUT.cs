@@ -27,7 +27,7 @@ namespace NatashaUT.OperatorUT
         public void MakerStaticCode1()
         {
 
-            var builder = FakeMethodOperator.RandomDomain();
+            var builder = FakeMethodOperator.RandomDomain(item=>item.LogCompilerError());
             builder
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite1"))
                 .StaticMethodBody(@"Console.WriteLine(""hello world"");");

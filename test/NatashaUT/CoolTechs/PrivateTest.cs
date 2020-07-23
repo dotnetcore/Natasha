@@ -38,17 +38,5 @@ namespace NatashaUT
         }
 
 
-        [Fact(DisplayName = "只读成员调用2")]
-        public void Test9()
-        {
-
-            var action = NDelegate
-                .RandomDomain(item => item.UseShareLibraries = true)
-                .SetClass(item => item.AllowPrivate<List<int>>())
-                .Func<int>("return (new List<int>())._size;");
-            Assert.Equal(0, action());
-
-        }
-
     }
 }

@@ -1,8 +1,7 @@
-﻿using Natasha.Reverser.Model;
-using System;
+﻿using System;
 using System.Reflection;
-using System.Text;
 using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace Natasha.Reverser
 {
@@ -34,6 +33,8 @@ namespace Natasha.Reverser
                     return "async ";
                 case ModifierFlags.Const:
                     return "const ";
+                case ModifierFlags.Readonly:
+                    return "readonly ";
                 default:
                     return "";
             }

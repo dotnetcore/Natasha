@@ -37,8 +37,8 @@ namespace NatashaUT
             FieldBuilder template = new FieldBuilder();
             var result = template
                 .Attribute("[Test][Test1]")
-                .Access(Natasha.Reverser.Model.AccessFlags.Public)
-                .Modifier( Natasha.Reverser.Model.ModifierFlags.Static)
+                .Access(AccessFlags.Public)
+                .Modifier( ModifierFlags.Static)
                 .Name("Age")
                 .Type(typeof(int))
                 .Script;
@@ -58,7 +58,7 @@ namespace NatashaUT
             FieldBuilder template = new FieldBuilder();
             var result = template
                 .Attribute("[Test]")
-                .Access(Natasha.Reverser.Model.AccessFlags.Public)
+                .Access(AccessFlags.Public)
                 .Name("Name")
                 .Type<string>()
                 .Script;
@@ -77,7 +77,7 @@ namespace NatashaUT
             FieldBuilder template = new FieldBuilder();
             var result = template
                 .Attribute<ClassDataAttribute>()
-                .Access(Natasha.Reverser.Model.AccessFlags.Public)
+                .Access(AccessFlags.Public)
                 .Name("Name")
                 .Type<string>()
                 .Script;
@@ -95,7 +95,7 @@ namespace NatashaUT
             FieldBuilder template = new FieldBuilder();
             var result = template
                 .Attribute<ClassDataAttribute>()
-                .Access(Natasha.Reverser.Model.AccessFlags.Public)
+                .Access(AccessFlags.Public)
                 .Static()
                 .ModifierAppend("readonly")
                 .Name("Name")

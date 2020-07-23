@@ -17,8 +17,8 @@ namespace NatashaUT
 
             OopBuilder builder = new OopBuilder();
             var script = builder
-                .Access(Natasha.Reverser.Model.AccessFlags.Public)
-                .Modifier(Natasha.Reverser.Model.ModifierFlags.Static)
+                .Access(AccessFlags.Public)
+                .Modifier(ModifierFlags.Static)
                 .Class()
                 .CustomUsing()
                 .Using<OopTemplateTest>()
@@ -40,8 +40,8 @@ namespace NatashaUT
 
             OopBuilder builder = new OopBuilder();
             var script = builder
-                .Access(Natasha.Reverser.Model.AccessFlags.Public)
-                .Modifier(Natasha.Reverser.Model.ModifierFlags.Static)
+                .Access(AccessFlags.Public)
+                .Modifier(ModifierFlags.Static)
                 .Class()
                 .CustomUsing()
                 .Using<OopTemplateTest>()
@@ -62,8 +62,8 @@ namespace NatashaUT
 
             OopBuilder builder = new OopBuilder();
             var script = builder
-                .Access(Natasha.Reverser.Model.AccessFlags.Public)
-                .Modifier(Natasha.Reverser.Model.ModifierFlags.Static)
+                .Access(AccessFlags.Public)
+                .Modifier(ModifierFlags.Static)
                 .Class()
                 .CustomUsing()
                 .Using<OopTemplateTest>()
@@ -84,8 +84,8 @@ namespace NatashaUT
 
             OopBuilder builder = new OopBuilder();
             var script = builder
-                .Access(Natasha.Reverser.Model.AccessFlags.Public)
-                .Modifier(Natasha.Reverser.Model.ModifierFlags.Static)
+                .Access(AccessFlags.Public)
+                .Modifier(ModifierFlags.Static)
                 .Class()
                 .CustomUsing()
                 .Using<OopTemplateTest>()
@@ -96,10 +96,10 @@ namespace NatashaUT
                 .Constraint(item=>
                     item
                     .SetType("T")
-                    .Constraint(Natasha.Reverser.Model.ConstraintFlags.New)
+                    .Constraint(ConstraintFlags.New)
                     .Constraint<Int32>()
                     .Constraint(typeof(string))
-                    .Constraint(Natasha.Reverser.Model.ConstraintFlags.Class))
+                    .Constraint(ConstraintFlags.Class))
                 .Body("public static void Test(){}")
                 .Script;
             Assert.Equal($@"using NatashaUT;{Environment.NewLine}using System;{Environment.NewLine}namespace TestNamespace{{public static class TestUt1<T> : System.Int32 where T : class,new(),System.Int32,System.String{{{Environment.NewLine}public static void Test(){{}}}}}}", script);

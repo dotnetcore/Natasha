@@ -52,12 +52,12 @@ namespace NatashaUT
         {
 
             NSucceedLog.Enabled = true;
-            Func<string, string, string> action = NDelegate.RandomDomain(builder=>builder.UseFileCompile()).UnsafeFunc<string, string, string>(@"
+            Func<string, string, string> action = NDelegate.RandomDomain(builder=>builder.LogSyntaxError().LogCompilerError().UseFileCompile()).UnsafeFunc<string, string, string>(@"
                             string result = arg1 +"" ""+ arg2;
                             Console.WriteLine(result);
                             return result;");
 
-            Func<string, string, string> action2 = NDelegate.RandomDomain(builder => builder.UseFileCompile()).UnsafeFunc<string, string, string>(@"
+            Func<string, string, string> action2 = NDelegate.RandomDomain(builder => builder.LogSyntaxError().LogCompilerError().UseFileCompile()).UnsafeFunc<string, string, string>(@"
                             string result = arg1 + "" "" + arg2 + ""1"";
                             Console.WriteLine(result);
                             return result;");

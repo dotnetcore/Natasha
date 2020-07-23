@@ -11,8 +11,8 @@ namespace Natasha.CSharp
         public FastMethodOperator()
         {
             Link = this;
-            this.Access(Reverser.Model.AccessFlags.Public)
-                .Modifier(Reverser.Model.ModifierFlags.Static);
+            this.Access(AccessFlags.Public)
+                .Modifier(ModifierFlags.Static);
         }
 
 
@@ -22,11 +22,11 @@ namespace Natasha.CSharp
         {
 
             ClassOptions(item => item
-            .Modifier(Reverser.Model.ModifierFlags.Static)
+            .Modifier(ModifierFlags.Static)
             .Class()
             .UseRandomName()
             .HiddenNamespace()
-            .Access(Reverser.Model.AccessFlags.Public)
+            .Access(AccessFlags.Public)
             );
 
         }

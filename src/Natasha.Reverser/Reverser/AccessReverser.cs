@@ -1,5 +1,4 @@
-﻿using Natasha.Reverser.Model;
-using System;
+﻿using System;
 using System.Reflection;
 
 namespace Natasha.Reverser
