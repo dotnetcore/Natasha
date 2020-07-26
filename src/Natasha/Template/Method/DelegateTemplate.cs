@@ -1,4 +1,5 @@
 ﻿using Natasha.CSharp.Builder;
+using Natasha.Reverser;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -32,6 +33,7 @@ namespace Natasha.CSharp.Template
         }
         public T ReadonlyReturn(MethodInfo info)
         {
+            ModifierAppend(DeclarationReverser.GetReturnPrefix(info)); 
             return ReadonlyReturn(info.ReturnType);
         }
         public T Return<S>()
@@ -44,6 +46,7 @@ namespace Natasha.CSharp.Template
         }
         public T Return(MethodInfo info)
         {
+            ModifierAppend(DeclarationReverser.GetReturnPrefix(info));
             return this.Return(info.ReturnType);
         }
 

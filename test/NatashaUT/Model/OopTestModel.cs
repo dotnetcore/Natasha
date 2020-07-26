@@ -19,6 +19,13 @@ namespace NatashaUT.Model
 
         }
 
+
+        public virtual ref int ReWrite4(ref int i,out string temp)
+        {
+            temp = default;
+            return ref i;
+        }
+
         public class InnerClass 
         {
 

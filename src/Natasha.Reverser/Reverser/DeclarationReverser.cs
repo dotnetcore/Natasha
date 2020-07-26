@@ -21,7 +21,7 @@ namespace Natasha.Reverser
             StringBuilder declaration = new StringBuilder();
             declaration.Append(AccessReverser.GetAccess(methodInfo));
             declaration.Append(ModifierReverser.GetModifier(methodInfo));
-            declaration.Append(methodInfo.ReturnType.GetDevelopName());
+            declaration.Append(GetReturnPrefix(methodInfo) + methodInfo.ReturnType.GetDevelopName());
             declaration.Append(methodInfo.Name);
             declaration.Append(GetParameters(methodInfo));
             return declaration.ToString();
@@ -29,6 +29,46 @@ namespace Natasha.Reverser
         }
 
 
+        /// <summary>
+        /// 获取返回值的修饰符
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public static string GetReturnPrefix(MethodInfo info)
+        {
+            var parameterInfo = info.ReturnParameter;
+            //特殊类型反解
+            if (parameterInfo.ParameterType.Name.EndsWith("&"))
+            {
+
+                //前
+                if (parameterInfo.IsIn)
+                {
+
+                    return "in ";
+
+                }
+                else if (parameterInfo.IsOut)
+                {
+
+                    return "out ";
+
+                }
+                else
+                {
+
+                    return "ref ";
+
+                }
+
+            }
+            else
+            {
+
+                return default;
+
+            }
+        }
 
         public static string GetParametePrefix(ParameterInfo parameterInfo)
         {
