@@ -97,5 +97,18 @@ namespace NatashaUT.OperatorUT
 
         }
 
+        private delegate ref int TestDelegate1(ref int i,out string temp);
+        [Fact(DisplayName = "静态虚函数克隆态")]
+        public void MakerStaticCode4()
+        {
+
+            var builder = FakeMethodOperator.RandomDomain();
+            builder
+                .UseMethod(typeof(OopTestModel).GetMethod("ReWrite4"))
+                .StaticMethodBody(@"temp = default;return ref i;");
+            Assert.Equal($@"public static ref System.Int32 ReWrite4(ref System.Int32 i,out System.String temp){{temp = default;return ref i;}}", builder.Script);
+            Assert.NotNull(builder.Compile<TestDelegate1>());
+
+        }
     }
 }
