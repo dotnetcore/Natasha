@@ -8,7 +8,6 @@ namespace Natasha.CSharp
     public static class DelegateOperator<T> where T : Delegate
     {
 
-        
         public static T Delegate(string content, 
             DomainBase domain = default, 
             Action<AssemblyCSharpBuilder> option = default, 
