@@ -207,7 +207,7 @@ namespace Natasha.Framework
 
                     var shortName = Path.GetFileNameWithoutExtension(path);
                     while (!ReferencesFromFile.TryRemove(shortName, out _)) { }
-                    Assembly assembly = default;
+                    Assembly assembly;
                     while (!DllAssemblies.TryRemove(path, out assembly)) { }
                     RemoveAssemblyEvent?.Invoke(assembly);
                 }

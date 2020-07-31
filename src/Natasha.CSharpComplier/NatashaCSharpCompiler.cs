@@ -107,6 +107,7 @@ public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompi
         {
             SetTopLevelBinderFlagDelegate(compilationOptions, (uint)CompileFlags);
         }
+        //CS1704
         SetReferencesSupersedeLowerVersionsDelegate(compilationOptions, ReferencesSupersedeLowerVersions);
         return compilationOptions;
 
