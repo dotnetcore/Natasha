@@ -99,7 +99,7 @@ public class NatashaAssemblyDomain : DomainBase
 
         AddDeps(path, excludePaths);
         var assembly = base.LoadAssemblyFromFile(path);
-        DllAssemblies[path] = assembly;
+        DllAssemblies[path + Guid.NewGuid().ToString()] = assembly;
         return assembly;
 
     }
@@ -118,7 +118,7 @@ public class NatashaAssemblyDomain : DomainBase
         using (FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
         {
             var assembly = base.LoadAssemblyFromStream(stream);
-            DllAssemblies[path] = assembly;
+            DllAssemblies[path+Guid.NewGuid().ToString()] = assembly;
             return assembly;
         }
 

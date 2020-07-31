@@ -83,6 +83,33 @@
 
   
   <ItemGroup>
+    <None Update="Lib\Diff\fileV1\asmV1\TestDifferentLibrary.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Lib\Diff\fileV1\asmV1\TestRefererenceLibrary.deps.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Lib\Diff\fileV1\asmV1\TestRefererenceLibrary.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Lib\Diff\fileV1\asmV2\TestDifferentLibrary.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Lib\Diff\fileV1\asmV2\TestReferenceLibrary2.deps.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Lib\Diff\fileV1\asmV2\TestReferenceLibrary2.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Lib\Diff\fileV1\asmV3\TestDifferentLibrary.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Lib\Diff\fileV2\asmV1\TestDifferentLibrary.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Lib\Diff\fileV2\asmV2\TestDifferentLibrary.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Lib\Repeate\ClassLibrary1.deps.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
