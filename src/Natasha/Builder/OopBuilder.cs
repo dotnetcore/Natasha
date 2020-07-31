@@ -3,6 +3,7 @@ using Natasha.Error;
 using Natasha.CSharp.Template;
 using System;
 using System.Collections.Concurrent;
+using System.Linq;
 
 namespace Natasha.CSharp.Builder
 {
@@ -260,6 +261,7 @@ namespace Natasha.CSharp.Builder
         public virtual Type GetType(OopType oopType, int namespaceIndex = 1, int classIndex = 1)
         {
 
+            Using(AssemblyBuilder.Compiler.Domain.DllAssemblies.Values.ToArray());
             Exception = AssemblyBuilder.Add(this);
             if (!Exception.HasError)
             {
@@ -288,7 +290,6 @@ namespace Natasha.CSharp.Builder
                         break;
                 }
 
-
                 var type = AssemblyBuilder.GetTypeFromShortName(name);
                 if (type == null)
                 {
@@ -304,6 +305,7 @@ namespace Natasha.CSharp.Builder
         public virtual Type GetType(int classIndex = 1, int namespaceIndex = 1)
         {
 
+            Using(AssemblyBuilder.Compiler.Domain.GetReferenceElements().ToArray());
             Exception = AssemblyBuilder.Add(this);
             if (!Exception.HasError)
             {

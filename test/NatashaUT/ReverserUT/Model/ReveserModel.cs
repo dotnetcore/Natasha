@@ -184,6 +184,9 @@ namespace NatashaUT.Model
     {
 
     }
+    public class NotNull<T> where T: notnull,new()
+    { }
+
 
     public class ClassNewClassInterfaceT<T> where T : G2, G3, G4, new()
     {
@@ -200,7 +203,7 @@ namespace NatashaUT.Model
 
     }
 
-    public interface InOutInterfaceT<in T, out S> where T : G2, G3, G4, new() where S : G2, G3, G4, new()
+    public interface InOutInterfaceT<in T, out S> where T : notnull, G2, G3, G4, new() where S : G2, G3, G4, new()
     {
 
     }
