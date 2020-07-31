@@ -113,17 +113,11 @@ namespace Natasha.Reverser
             type.GenericParameterAttributes
             & GenericParameterAttributes.SpecialConstraintMask;
 
-                if (constraints == GenericParameterAttributes.None)
-                {
 
-                    return "";
-
-                }
                 if ((constraints & GenericParameterAttributes.ReferenceTypeConstraint) != 0)
                 {
 
                     result = "class";
-
 
                 }
                 else if ((constraints & GenericParameterAttributes.NotNullableValueTypeConstraint) != 0)
@@ -184,6 +178,13 @@ namespace Natasha.Reverser
             {
 
                 StringBuilder typeBuilder = new StringBuilder();
+                if (item.GetCustomAttributes().Any(attr => attr.GetType().Name == "NullableAttribute"))
+                {
+
+                    typeBuilder.Append("notnull, ");
+
+                }
+
                 Type[] tpConstraints = item.GetGenericParameterConstraints();
                 foreach (Type tpc in tpConstraints)
                 {

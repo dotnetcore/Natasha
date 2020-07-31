@@ -68,7 +68,7 @@ namespace NatashaUT
 
             var builder = FastMethodOperator.DefaultDomain();
             builder.AssemblyBuilder.Compiler.Domain = domain;
-            var @delegate = builder.Using(type).Body(@"
+            var @delegate = builder.Body(@"
             ClassAsm obj = new ClassAsm();
             return obj.ShowMethod(""Hello"");
             ").Compile<Func<string, string>>();
@@ -153,8 +153,6 @@ namespace NatashaUT
 
             result = assembly.GetAssembly();
             type = assembly.GetTypeFromFullName(@class.NamespaceScript+".ClassAsm");
-
-
 
 
             var builder = FastMethodOperator.DefaultDomain();
@@ -287,7 +285,6 @@ public class Test{}
 
                 //单独创建一个程序集​方法
                var func = FastMethodOperator.UseDomain(domain)
-                  .Using(type)
                   .Body(@"
 TestClass obj = new TestClass​();
 return obj.ShowMethod(arg);")

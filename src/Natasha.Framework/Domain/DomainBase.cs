@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.Loader;
 
 
@@ -26,20 +27,29 @@ namespace Natasha.Framework
     {
 
         public static DomainBase DefaultDomain;
-
-
+        public event Action<Assembly> AddAssemblyEvent;
+        public event Action<Assembly> RemoveAssemblyEvent;
         /// <summary>
         /// 是否使用最新程序集
         /// </summary>
         public bool UseNewVersionAssmebly;
 
+        /// <summary>
+        /// 返回当前域的引用元素 C# 里如 using [xxx];
+        /// </summary>
+        /// <returns></returns>
+        public abstract HashSet<string> GetReferenceElements();
 
         /// <summary>
         /// 存放内存流编译过来的程序集与引用
         /// </summary>
         public readonly ConcurrentDictionary<Assembly, PortableExecutableReference> ReferencesFromStream;
-        
-        
+
+        /// <summary>
+        /// 从插件加载来的程序集
+        /// </summary>
+        public readonly ConcurrentDictionary<string, Assembly> DllAssemblies;
+
         /// <summary>
         /// 存放文件过来的程序集与引用
         /// </summary>
@@ -86,7 +96,7 @@ namespace Natasha.Framework
 #if NETSTANDARD2_0
             Name = key;
 #endif
-            
+            DllAssemblies = new ConcurrentDictionary<string, Assembly>();
             ReferencesFromStream = new ConcurrentDictionary<Assembly, PortableExecutableReference>();
             ReferencesFromFile = new ConcurrentDictionary<string, PortableExecutableReference>();
             if (key == "Default")
@@ -188,14 +198,42 @@ namespace Natasha.Framework
         /// 移除文件对应的引用
         /// </summary>
         /// <param name="path">文件路径，插件或者生成的DLL</param>
-        public abstract void Remove(string path);
+        public virtual void Remove(string path)
+        {
+            if (path != null)
+            {
+                if (DllAssemblies.ContainsKey(path))
+                {
+
+                    var shortName = Path.GetFileNameWithoutExtension(path);
+                    while (!ReferencesFromFile.TryRemove(shortName, out _)) { }
+                    Assembly assembly = default;
+                    while (!DllAssemblies.TryRemove(path, out assembly)) { }
+                    RemoveAssemblyEvent?.Invoke(assembly);
+                }
+            }
+        }
 
 
         /// <summary>
         /// 移除程序集对应的引用
         /// </summary>
         /// <param name="assembly">程序集</param>
-        public abstract void Remove(Assembly assembly);
+        public virtual void Remove(Assembly assembly)
+        {
+            if (assembly != null)
+            {
+                if (ReferencesFromStream.ContainsKey(assembly))
+                {
+                    while (!ReferencesFromStream.TryRemove(assembly, out _)) { }
+                    RemoveAssemblyEvent?.Invoke(assembly);
+                }
+                else if (assembly.Location != "" && assembly.Location != default)
+                {
+                    Remove(assembly.Location);
+                }
+            }
+        }
 
 
         /// <summary>
@@ -416,14 +454,17 @@ namespace Natasha.Framework
         /// <returns></returns>
         public virtual Assembly LoadAssemblyFromFile(string path)
         {
+            Assembly assembly;
             if (Name == "Default")
             {
-                return Default.LoadFromAssemblyPath(path);
+                assembly = Default.LoadFromAssemblyPath(path);
             }
             else
             {
-                return LoadFromAssemblyPath(path);
+                assembly = LoadFromAssemblyPath(path);
             }
+            AddAssemblyEvent?.Invoke(assembly);
+            return assembly;
         }
 
 
@@ -435,14 +476,17 @@ namespace Natasha.Framework
         /// <returns></returns>
         public virtual Assembly LoadAssemblyFromStream(Stream stream)
         {
+            Assembly assembly;
             if (Name == "Default")
             {
-                return Default.LoadFromStream(stream);
+                assembly = Default.LoadFromStream(stream);
             }
             else
             {
-                return LoadFromStream(stream);
+                assembly = LoadFromStream(stream);
             }
+            AddAssemblyEvent?.Invoke(assembly);
+            return assembly;
         }
 
 

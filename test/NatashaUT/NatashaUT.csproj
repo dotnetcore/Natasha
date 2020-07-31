@@ -26,6 +26,7 @@
     <None Remove="Lib\Static\ClassLibrary5.deps.json" />
     <None Remove="Lib\Static\ClassLibrary5.dll" />
     <None Remove="Lib\Static\ClassLibrary5.pdb" />
+    <None Remove="Lib\Static\ClassLibrary6.dll" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,6 +49,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Lib\Sql\ClassLibrary2.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\Static\ClassLibrary6.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Lib\Static\ClassLibrary5.deps.json">

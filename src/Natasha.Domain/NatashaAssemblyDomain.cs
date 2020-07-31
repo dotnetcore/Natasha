@@ -1,7 +1,8 @@
 ﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Operations;
+using Natasha.Domain.Template;
 using Natasha.Framework;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -12,9 +13,11 @@ using System.Runtime.Loader;
 /// </summary>
 public class NatashaAssemblyDomain : DomainBase
 {
-
-    public readonly ConcurrentDictionary<string, Assembly> DllAssemblies;
-
+    private readonly UsingTemplate _usingsTemplate;
+    public override HashSet<string> GetReferenceElements()
+    {
+        return _usingsTemplate._usings;
+    }
 
     #region 加载程序集
     /// <summary>
@@ -79,7 +82,7 @@ public class NatashaAssemblyDomain : DomainBase
 #if !NETSTANDARD2_0
         AddReferencesFromDepsJsonFile(path, excludePaths);
 #else
-            AddReferencesFromFileStream(path, excludePaths);
+        AddReferencesFromFileStream(path, excludePaths);
 #endif
 
     }
@@ -223,47 +226,6 @@ public class NatashaAssemblyDomain : DomainBase
     #endregion
 
 
-    #region 移除引用
-    /// <summary>
-    /// 移除对应的短名程序集引用，移除插件方式加载的引用才会用到该方法
-    /// </summary>
-    /// <param name="path">文件路径</param>
-    public override void Remove(string path)
-    {
-        if (path != null)
-        {
-
-            if (DllAssemblies.ContainsKey(path))
-            {
-                var shortName = Path.GetFileNameWithoutExtension(path);
-                while (!ReferencesFromFile.TryRemove(shortName, out _)) { }
-                while (!DllAssemblies.TryRemove(path, out _)) { }
-            }
-        }
-    }
-
-    /// <summary>
-    /// 移除程序集对应的引用
-    /// 优先：移除动态编译的引用
-    /// 其次：移除插件加载方式的引用
-    /// </summary>
-    /// <param name="assembly"></param>
-    public override void Remove(Assembly assembly)
-    {
-        if (assembly != null)
-        {
-            if (ReferencesFromStream.ContainsKey(assembly))
-            {
-                while (!ReferencesFromStream.TryRemove(assembly, out _)) { }
-            }
-            else if (assembly.Location != "" && assembly.Location != default)
-            {
-                Remove(assembly.Location);
-            }
-        }
-    }
-    #endregion
-
 
     public NatashaAssemblyDomain(string key) : base(key)
     {
@@ -271,8 +233,26 @@ public class NatashaAssemblyDomain : DomainBase
 #if !NETSTANDARD2_0
         DependencyResolver = new AssemblyDependencyResolver(AppDomain.CurrentDomain.BaseDirectory);
 #endif
-        DllAssemblies = new ConcurrentDictionary<string, Assembly>();
+        _usingsTemplate = new UsingTemplate();
+        AddAssemblyEvent += NatashaAssemblyDomain_AddAssemblyEvent; ;
+        RemoveAssemblyEvent += NatashaAssemblyDomain_RemoveAssemblyEvent; ;
+    }
 
+    private void NatashaAssemblyDomain_RemoveAssemblyEvent(Assembly obj)
+    {
+        foreach (var item in ReferencesFromStream)
+        {
+            _usingsTemplate.Using(item.Key);
+        }
+        foreach (var item in DllAssemblies)
+        {
+            _usingsTemplate.Using(item.Value);
+        }
+    }
+
+    private void NatashaAssemblyDomain_AddAssemblyEvent(Assembly obj)
+    {
+        _usingsTemplate.Using(obj);
     }
 
 
@@ -281,6 +261,7 @@ public class NatashaAssemblyDomain : DomainBase
     /// </summary>
     public override void Dispose()
     {
+        _usingsTemplate._usingTypes.Clear();
         DllAssemblies.Clear();
         base.Dispose();
     }

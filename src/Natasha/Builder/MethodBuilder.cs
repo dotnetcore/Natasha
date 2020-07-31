@@ -1,6 +1,7 @@
 ﻿using Natasha.Error;
 using Natasha.CSharp.Template;
 using System;
+using System.Linq;
 
 namespace Natasha.CSharp.Builder
 {
@@ -128,6 +129,7 @@ namespace Natasha.CSharp.Builder
         public Delegate Compile(object target = null)
         {
 
+            Using(AssemblyBuilder.Compiler.Domain.DllAssemblies.Values.ToArray());
             if (OopHandler.NamespaceScript == default)
             {
                 OopHandler.HiddenNamespace();
@@ -158,7 +160,7 @@ namespace Natasha.CSharp.Builder
         public S Compile<S>(object target = null) where S : Delegate
         {
 
-
+            Using(AssemblyBuilder.Compiler.Domain.GetReferenceElements().ToArray());
             if (OopHandler.NamespaceScript == default)
             {
 
