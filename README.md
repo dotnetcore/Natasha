@@ -60,15 +60,12 @@
 
 ### 发布日志  
 
-  - 2020-06-06 ： 发布v3.8.0.0，修复模板状态机操作； 模板中API调整：DefinedName -> Name, DefinedType -> Type; 调整引擎 API 结构，减少 AssemblyCSharpBuilder 类 API 操作的层级；增加对私有字段动态调用的支持，OOP 模板新增API AllowPrivate； 由于精力有限周边项目将只对 R2D \ DynamicaCache 进行更新。
-  
-  - 2020-06-07 ： 发布v3.10.0.0，分离 SDK / SHARE 运行时库引用，以便支持系统类库的私有字段。调整初始化 API `DomainManagement.RegiestDefault` => ` AssemblyDomain.Init();`； 引擎继续调整 API 结构，提升部分属性的暴露层级： AllowUnsafe 属性以支持非安全代码编译；OutputToFile 切换内存及文件编译模式；UseRelease 是否使用优化编译；OutputKind 编译类型的枚举，包括 dll / exe 等； Domain 域设置； AssemblyName 程序集名。精简引擎部分冗余代码。
-  
-  - 2020-07-02 ： 发布v3.14.0.0，部分操作类提升到全局引用，AssemblyDomain \ DomainManagement \ AssemblyCSharpBuilder; 使用可继承的编译环境包；使用可继承的调试环境包。 AssemblyCSharpBuilder 引擎继续调整 API 结构，提升部分选项属性的暴露层级；引擎规避一些常见的编译警告；模板增加泛型约束模板，反解器增加泛型约束反解功能；修复部分模板状态机操作；增加CS0012错误重定向。
   
   - 2020-07-02 ： 发布v3.14.0.0，部分操作类提升到全局引用，AssemblyDomain \ DomainManagement \ AssemblyCSharpBuilder; 使用可继承的编译环境包；使用可继承的调试环境包。 AssemblyCSharpBuilder 引擎继续调整 API 结构，提升部分选项属性的暴露层级；引擎规避一些常见的编译警告；模板增加泛型约束模板，反解器增加泛型约束反解功能；修复部分模板状态机操作；增加CS0012错误重定向。
   
   - 2020-07-24 ： 发布v4.0.0.0，升级 Natasha.Framework;重构 AssemblyDomain 为 NatashaAssemblyDomain;重构 NatashaCSharpSyntax;重构 NatashaCSharpCompiler ;解耦出编译组件,注册后采用 Emit 初始化;CSharp编译器开放本地编译标识;增加 ReadonlyScript 的字符串方法扩展以便支持对 Readonly 的赋值;优化引擎性能;调整部分模板标识的命名空间为全局。
+  
+  - 2020-08-06 ： 发布 v4.1.0.0，支持域内动态编程时插件 Using 引用覆盖 以及 动态生成程序集的 Using 引用覆盖， 减少开发者在域内编程时对 Using 的过多关注。 升级 Natasha.Framework; 添加 GetReferenceElements API 以便返回当前域所有的引用，增加 AddAssemblyEvent/RemoveAssemblyEvent 事件，在程序集加载与移除操作时触发。 增加方法返回值的 ref 修饰的反解。
   
  <br/>  
  
