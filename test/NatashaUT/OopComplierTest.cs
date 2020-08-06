@@ -8,7 +8,7 @@ using Xunit;
 namespace NatashaUT
 {
 
-    [Trait("快速构建","完整类")]
+    [Trait("快速构建", "完整类")]
     public class OopComplierTest : PrepareTest
     {
 
@@ -167,19 +167,19 @@ namespace HelloWorld{
         [Fact(DisplayName = "字符串格式化测试1")]
         public void RunClassName5()
         {
-            
-          var content = @"unsafe class C
+
+            var content = @"unsafe class C
 {
     delegate * < int,  int> functionPointer;
 }";
 
             var expected = @"unsafe class C
 {
-    delegate * < int, int> functionPointer;
+    delegate*<int, int> functionPointer;
 }";
 
 
-        NatashaCSharpSyntax syntax = new NatashaCSharpSyntax();
+            NatashaCSharpSyntax syntax = new NatashaCSharpSyntax();
             syntax.AddTreeToCache(content);
             var result = syntax.TreeCache[expected].ToString();
             Assert.Equal(expected, result);
@@ -207,37 +207,37 @@ int             i               =               20          ;           int     
         }
 
 
-   
 
-//        [Fact(DisplayName = "字符串格式化测试3")]
-//        public void RunClassName7()
-//        {
 
-//            var initial =
-//@"using A = B;
-//using C;
-//using D = E;
-//using F;";
+        //        [Fact(DisplayName = "字符串格式化测试3")]
+        //        public void RunClassName7()
+        //        {
 
-//            var final =
-//    @"using C;
-//using F;
-//using A = B;
-//using D = E;
-//";
+        //            var initial =
+        //@"using A = B;
+        //using C;
+        //using D = E;
+        //using F;";
 
-//            NatashaCSharpSyntax syntax = new NatashaCSharpSyntax();
-//            syntax.AddTreeToCache(initial);
-//            var result = syntax.TreeCache[final].ToString();
-//            Assert.Equal(final, result);
-//        }
+        //            var final =
+        //    @"using C;
+        //using F;
+        //using A = B;
+        //using D = E;
+        //";
+
+        //            NatashaCSharpSyntax syntax = new NatashaCSharpSyntax();
+        //            syntax.AddTreeToCache(initial);
+        //            var result = syntax.TreeCache[final].ToString();
+        //            Assert.Equal(final, result);
+        //        }
 
 
         [Fact(DisplayName = "字符串格式化测试4")]
         public void RunClassName8()
         {
 
-            var initial ="int i=0 ; var t=new{Name=\"\"};";
+            var initial = "int i=0 ; var t=new{Name=\"\"};";
 
             var final = "int i = 0; var t = new { Name = \"\" };";
 
@@ -253,7 +253,7 @@ int             i               =               20          ;           int     
         {
 
             var script = "NormalTestModel result = new NormalTestModel();return result;";
-            NDelegate.RandomDomain(item=>item.UseFileCompile()).Func<NormalTestModel>(script)();
+            NDelegate.RandomDomain(item => item.UseFileCompile()).Func<NormalTestModel>(script)();
             Assert.Equal(0, 0);
         }
     }
