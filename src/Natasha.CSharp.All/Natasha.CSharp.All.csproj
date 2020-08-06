@@ -1,24 +1,27 @@
-<<<<<<< HEAD
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-  </PropertyGroup>
-
-=======
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
 	  <TargetFrameworks>netstandard2.0;netcoreapp3.0;</TargetFrameworks>
+	  <Description>Natasha C# 组件库全引用</Description>
+	  <PackageId>DotNetCore.Natasha.CSharp.All</PackageId>
+	  <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+	  <PackageReleaseNotes>发布正式版</PackageReleaseNotes>
+	  <Version>1.0.0</Version>
+	  <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
+	  <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
+	  <PackageTags>Roslyn;IL;Scripte;Dynamic;NCC;Framework;Natasha;</PackageTags>
+	  <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+	  <FileVersion>1.0.0</FileVersion>
+	  <PackageIconUrl>https://avatars2.githubusercontent.com/u/19404084</PackageIconUrl>
+	  <AssemblyVersion>1.0.0</AssemblyVersion>
+	  <Copyright>.NET Core Community and Contributors</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Natasha.CSharpComplier\Natasha.CSharpCompiler.csproj" />
-    <ProjectReference Include="..\Natasha.CSharpEngine\Natasha.CSharpEngine.csproj" />
-    <ProjectReference Include="..\Natasha.CSharpSyntax\Natasha.CSharpSyntax.csproj" />
-    <ProjectReference Include="..\Natasha.Domain\Natasha.Domain.csproj" />
-    <ProjectReference Include="..\Natasha\Natasha.csproj" />
+    <PackageReference Include="DotNetCore.Natasha" Version="4.1.0" />
+    <PackageReference Include="DotNetCore.Natasha.CSharpCompiler" Version="2.0.0.1" />
+    <PackageReference Include="DotNetCore.Natasha.CSharpSyntax" Version="2.0.0.1" />
+    <PackageReference Include="DotNetCore.Natasha.Domain" Version="2.1.0" />
   </ItemGroup>
 
->>>>>>> v4.0+dev
 </Project>

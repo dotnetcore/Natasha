@@ -2,18 +2,18 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netcoreapp3.0;</TargetFrameworks>
-    <Description>Natasha 编译框架以及各个操作类的标准</Description>
+    <Description>Natasha 编译框架以及各组件的实现标准</Description>
     <PackageId>DotNetCore.Natasha.Framework</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageReleaseNotes>发布正式版</PackageReleaseNotes>
-    <Version>2.0.0</Version>
+    <Version>2.1.0</Version>
     <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
     <PackageTags>Roslyn;IL;Scripte;Dynamic;NCC;Framework;Natasha;</PackageTags>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-    <FileVersion>2.0.0.0</FileVersion>
+    <FileVersion>2.1.0.0</FileVersion>
     <PackageIconUrl>https://avatars2.githubusercontent.com/u/19404084</PackageIconUrl>
-    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <AssemblyVersion>2.1.0.0</AssemblyVersion>
     <Copyright>.NET Core Community and Contributors</Copyright>
     <!--<PackageIcon>19404084.png</PackageIcon>
     <PackageLicenseFile>License.txt</PackageLicenseFile>-->
@@ -28,7 +28,7 @@
   <ItemGroup>
     <PackageReference Include="DotNetCore.Compile.Environment" Version="2.0.0" />
     <PackageReference Include="DotNetCore.SourceLink.Environment" Version="1.0.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="3.6.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="3.7.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="3.1.6" />
   </ItemGroup>
 
