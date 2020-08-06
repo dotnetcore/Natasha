@@ -69,7 +69,21 @@
  - 敲代码  
  
  <br/>  
+ 
+#### v4.1.0.0 版本
 
+- 引入 打包好的动态构建库： DotNetCore.Natasha.CSharp.All  
+
+- 初始化操作：
+
+  ```C#
+  //仅仅注册组件
+  NatashaInitializer.Initialize();
+  //注册+预热组件 , 之后编译会更加快速
+  await NatashaInitializer.InitializeAndPreheating();`
+  ```
+   
+ - 敲代码  
 
  > 更多更新的参考文档：https://natasha.dotnetcore.xyz/  
  
