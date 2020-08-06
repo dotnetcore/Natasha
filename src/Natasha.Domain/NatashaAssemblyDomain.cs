@@ -262,7 +262,6 @@ public class NatashaAssemblyDomain : DomainBase
     public override void Dispose()
     {
         _usingsTemplate._usingTypes.Clear();
-        DllAssemblies.Clear();
         base.Dispose();
     }
 
