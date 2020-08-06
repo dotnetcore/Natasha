@@ -65,7 +65,7 @@
   
   - 2020-07-24 ： 发布v4.0.0.0，升级 Natasha.Framework;重构 AssemblyDomain 为 NatashaAssemblyDomain;重构 NatashaCSharpSyntax;重构 NatashaCSharpCompiler ;解耦出编译组件,注册后采用 Emit 初始化;CSharp编译器开放本地编译标识;增加 ReadonlyScript 的字符串方法扩展以便支持对 Readonly 的赋值;优化引擎性能;调整部分模板标识的命名空间为全局。
   
-  - 2020-08-06 ： 发布 v4.1.0.0，支持域内动态编程时插件 Using 引用覆盖 以及 动态生成程序集的 Using 引用覆盖， 减少开发者在域内编程时对 Using 的过多关注。 升级 Natasha.Framework; 添加 GetReferenceElements API 以便返回当前域所有的引用，增加 AddAssemblyEvent/RemoveAssemblyEvent 事件，在程序集加载与移除操作时触发。 增加方法返回值的 ref 修饰的反解。
+  - 2020-08-06 ： 发布 v4.1.0.0，支持域内动态编程时插件 Using 引用覆盖 以及 动态生成程序集的 Using 引用覆盖， 减少开发者在域内编程时对 Using 的过多关注。 升级 Natasha.Framework; 添加 GetReferenceElements API 以便返回当前域所有的引用，增加 AddAssemblyEvent/RemoveAssemblyEvent 事件，在程序集加载与移除操作时触发。 增加方法返回值的 ref 修饰的反解。增加 Natasha.CSharp.All 库，提供组件库的自动引用。
   
  <br/>  
  
