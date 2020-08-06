@@ -12,13 +12,13 @@ using System.Runtime.Loader;
 namespace Natasha.Framework
 {
 
-//#if NET472 || NET461 || NET462
-//    public abstract class AssemblyLoadContext : Assembly
-//    {
-//        public readonly string Name;
-//        public AssemblyLoadContext(string name,bool )
-//    }
-//#endif
+    //#if NET472 || NET461 || NET462
+    //    public abstract class AssemblyLoadContext : Assembly
+    //    {
+    //        public readonly string Name;
+    //        public AssemblyLoadContext(string name,bool )
+    //    }
+    //#endif
 
     /// <summary>
     /// 程序域的基础类，需要继承实现
@@ -58,12 +58,14 @@ namespace Natasha.Framework
         public string Name;
 #else
         public readonly static Func<AssemblyDependencyResolver, Dictionary<string, string>> GetDictionary;
+#endif
         static DomainBase()
         {
-
+#if !NETSTANDARD2_0
             //从依赖中拿到所有的路径，该属性未开放
             var methodInfo = typeof(AssemblyDependencyResolver).GetField("_assemblyPaths", BindingFlags.NonPublic | BindingFlags.Instance);
             GetDictionary = item => (Dictionary<string, string>)methodInfo.GetValue(item);
+#endif
             _shareLibraries = new ConcurrentQueue<string>();
             var assemblies = AppDomain
                 .CurrentDomain
@@ -79,7 +81,7 @@ namespace Natasha.Framework
             }
 
         }
-#endif
+
 
 
         /// <summary>
@@ -253,6 +255,7 @@ namespace Natasha.Framework
 #if !NETSTANDARD2_0
             DependencyResolver = null;
 #endif
+            DllAssemblies.Clear();
             ReferencesFromStream.Clear();
             ReferencesFromFile.Clear();
         }
@@ -322,8 +325,8 @@ namespace Natasha.Framework
             }
 
         }
-        
-        
+
+
         /// <summary>
         /// 将程序集和内存流添加到引用缓存
         /// </summary>
@@ -335,8 +338,8 @@ namespace Natasha.Framework
             ReferencesFromStream[assembly] = MetadataReference.CreateFromStream(stream);
 
         }
-        
-        
+
+
         /// <summary>
         /// 扫描文件夹，并将文件夹下的DLL文件添加到引用
         /// </summary>

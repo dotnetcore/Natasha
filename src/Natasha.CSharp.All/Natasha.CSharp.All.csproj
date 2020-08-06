@@ -1,7 +1,24 @@
+<<<<<<< HEAD
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+=======
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <TargetFrameworks>netstandard2.0;netcoreapp3.0;</TargetFrameworks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Natasha.CSharpComplier\Natasha.CSharpCompiler.csproj" />
+    <ProjectReference Include="..\Natasha.CSharpEngine\Natasha.CSharpEngine.csproj" />
+    <ProjectReference Include="..\Natasha.CSharpSyntax\Natasha.CSharpSyntax.csproj" />
+    <ProjectReference Include="..\Natasha.Domain\Natasha.Domain.csproj" />
+    <ProjectReference Include="..\Natasha\Natasha.csproj" />
+  </ItemGroup>
+
+>>>>>>> v4.0+dev
 </Project>
