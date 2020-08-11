@@ -81,6 +81,7 @@ public class DomainManagement
         }
     }
 
+
 #if !NETSTANDARD2_0
         public static ContextualReflectionScope Lock(string key)
         {
@@ -109,6 +110,7 @@ public class DomainManagement
         }
 #endif
 
+
     public static void Add(string key, DomainBase domain)
     {
         if (Cache.ContainsKey(key))
@@ -123,6 +125,7 @@ public class DomainManagement
             Cache[key] = new WeakReference(domain, trackResurrection: true);
         }
     }
+
 
     public static WeakReference Remove(string key)
     {
@@ -139,6 +142,7 @@ public class DomainManagement
         throw new System.Exception($"Can't find key : {key}!");
     }
 
+
     public static bool IsDeleted(string key)
     {
         if (Cache.ContainsKey(key))
@@ -148,6 +152,7 @@ public class DomainManagement
         return true;
     }
 
+
     public static DomainBase Get(string key)
     {
         if (Cache.ContainsKey(key))
@@ -156,6 +161,7 @@ public class DomainManagement
         }
         return null;
     }
+
 
     public static int Count(string key)
     {
