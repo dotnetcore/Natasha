@@ -28,7 +28,6 @@ namespace NatashaBenchmark
             func.Invoke = &(TestModel.Get);
             func2 = TestModel.Get;
             point = &(TestModel.Get);
-            point1 = &Get;
 
 
         }
