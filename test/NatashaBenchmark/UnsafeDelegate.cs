@@ -4,6 +4,7 @@ using BenchmarkDotNet.Mathematics;
 using BenchmarkDotNet.Order;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace NatashaBenchmark
@@ -77,9 +78,13 @@ namespace NatashaBenchmark
     
         public static string Get(int a,int b)
         {
-            //return (a + b).ToString();
-            return default;
+            return a.ToString();
         }
+        //[UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvCdecl) })]
+        //public static string Get2(int a,int b)
+        //{
+        //    return a.ToString();
+        //}
     }
 
 }
