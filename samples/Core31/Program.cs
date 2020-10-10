@@ -1,5 +1,4 @@
-﻿using Natasha;
-using Natasha.CSharp;
+﻿using Natasha.CSharp;
 using System;
 using System.Runtime.Loader;
 
@@ -9,10 +8,8 @@ namespace Core31
     {
         static void Main(string[] args)
         {
+            NatashaInitializer.InitializeAndPreheating();
 
-            NatashaComponentRegister.RegistDomain<NatashaAssemblyDomain>();
-            NatashaComponentRegister.RegistCompiler<NatashaCSharpCompiler>();
-            NatashaComponentRegister.RegistSyntax<NatashaCSharpSyntax>();
 
             //var hwFunc = FastMethodOperator
             //    .RandomDomain()

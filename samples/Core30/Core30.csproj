@@ -40,11 +40,12 @@
   </ItemGroup>
 
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\Natasha\Natasha.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\Natasha.CSharp\Natasha.CSharp.All\Natasha.CSharp.All.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
+
+	<ItemGroup>
     <None Update="Lib\Repeate\ClassLibrary1.deps.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

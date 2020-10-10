@@ -53,17 +53,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Natasha.CSharpComplier\Natasha.CSharpCompiler.csproj">
+    <ProjectReference Include="..\..\src\Natasha.CSharp\Natasha.CSharp.Complier\Natasha.CSharp.Compiler.csproj">
       <Project>{acf4e84b-e06c-4a40-9aad-5c1712c2ef30}</Project>
-      <Name>Natasha.CSharpCompiler</Name>
+      <Name>Natasha.CSharp.Compiler</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\Natasha.CSharpEngine\Natasha.CSharpEngine.csproj">
+    <ProjectReference Include="..\..\src\Natasha.CSharp\Natasha.CSharp.Engine\Natasha.CSharp.Engine.csproj">
       <Project>{3cdb55e8-f29b-4d87-952a-5cc379ec9a10}</Project>
-      <Name>Natasha.CSharpEngine</Name>
+      <Name>Natasha.CSharp.Engine</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\Natasha.CSharpSyntax\Natasha.CSharpSyntax.csproj">
+    <ProjectReference Include="..\..\src\Natasha.CSharp\Natasha.CSharp.Syntax\Natasha.CSharp.Syntax.csproj">
       <Project>{a01a98d3-de40-4afb-856b-6c05a48d6028}</Project>
-      <Name>Natasha.CSharpSyntax</Name>
+      <Name>Natasha.CSharp.Syntax</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\Natasha.Domain\Natasha.Domain.csproj">
       <Project>{e9e2dc38-de80-445c-b2f8-0a7b47d0a44d}</Project>
@@ -73,13 +73,13 @@
       <Project>{64e17c84-9fb3-453f-b279-493d31f7b518}</Project>
       <Name>Natasha.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\Natasha.Reverser\Natasha.Reverser.csproj">
+    <ProjectReference Include="..\..\src\Natasha.CSharp\Natasha.CSharp.Reverser\Natasha.CSharp.Reverser.csproj">
       <Project>{3c7d4af7-eac3-4906-b430-6e9cc1b24f95}</Project>
-      <Name>Natasha.Reverser</Name>
+      <Name>Natasha.CSharp.Reverser</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\Natasha\Natasha.csproj">
+    <ProjectReference Include="..\..\src\Natasha.CSharp\Natasha.CSharp.Template\Natasha.CSharp.Template.csproj">
       <Project>{d167177f-6761-4b1c-bc07-6d73b918ab99}</Project>
-      <Name>Natasha</Name>
+      <Name>Natasha.CSharp.Template</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

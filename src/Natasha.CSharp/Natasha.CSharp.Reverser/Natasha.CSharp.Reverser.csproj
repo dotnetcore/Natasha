@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;netcoreapp3.0;</TargetFrameworks>
+    <Product>Natasha.Reverser</Product>
+    <Description>Natasha 的运行时反解器模块</Description>
+    <Copyright>.NET Core Community and Contributors</Copyright>
+    <PackageId>DotNetCore.Natasha.CSharp.Reverser</PackageId>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <PackageReleaseNotes> 项目分离 </PackageReleaseNotes>
+    <Version>2.2.0</Version>
+    <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
+    <PackageTags>Roslyn ; IL ; Scripte ; Dynamic ; </PackageTags>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <Company>.NET Core Community</Company>
+    <PackageIconUrl>https://avatars2.githubusercontent.com/u/19404084</PackageIconUrl>
+    <Authors>NMSAzulX</Authors>
+    <FileVersion>2.2.0.0</FileVersion>
+    <AssemblyVersion>2.2.0.0</AssemblyVersion>
+  </PropertyGroup>
+
+</Project>

@@ -1,9 +1,4 @@
-﻿using Natasha.Reverser;
-using NatashaUT.Model;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
+﻿using NatashaUT.Model;
 using Xunit;
 
 namespace NatashaUT.ReverserUT
