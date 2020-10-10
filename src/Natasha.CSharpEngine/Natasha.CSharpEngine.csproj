@@ -6,7 +6,7 @@
     <PackageId>DotNetCore.Natasha.CSharpEngine</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageReleaseNotes>发布正式版</PackageReleaseNotes>
-    <Version>2.0.0.1</Version>
+    <Version>1.3.0-alpha1</Version>
     <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
     <PackageTags>Roslyn ; IL ; Scripte ; Dynamic ; </PackageTags>
@@ -32,9 +32,9 @@
     <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.7.0" />
   </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="DotNetCore.Natasha.Framework" Version="2.1.0" />
-	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Natasha.Framework\Natasha.Framework.csproj" />
+  </ItemGroup>
 
 
 </Project>
