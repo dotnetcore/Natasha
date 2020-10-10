@@ -32,7 +32,7 @@ public class DomainManagement
         il.Emit(OpCodes.Ret);
         CreateDomain = (Func<string, DomainBase>)(method.CreateDelegate(typeof(Func<string, DomainBase>)));
 
-        Default = CreateDomain("Default");
+        Default = Create("Default");
         foreach (var asm in DependencyContext
         .Default
         .CompileLibraries
@@ -50,7 +50,7 @@ public class DomainManagement
 
     public static DomainBase Random
     {
-        get { return CreateDomain("N" + Guid.NewGuid().ToString("N")); }
+        get { return Create("N" + Guid.NewGuid().ToString("N")); }
     }
 
 
