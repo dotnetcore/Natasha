@@ -29,7 +29,7 @@ Emit 和表达式树的使用场景，Natasha 均适用。
 
 ## 版本通告
 
-请慎用 V3.10.0.0 版本，建议使用 v3.8.0.0 版。
+请使用 v4.1.0.0 稳定版。
 
 <br/>  
 
@@ -54,6 +54,26 @@ Emit 和表达式树的使用场景，Natasha 均适用。
   
  - 敲代码  
 
+<br/>  
+
+ 
+#### v4.1.0.0 版本
+
+- 引入 打包好的动态构建库： DotNetCore.Natasha.CSharp.All  
+
+- 初始化操作：
+
+  ```C#
+  //仅仅注册组件
+  NatashaInitializer.Initialize();
+  //注册+预热组件 , 之后编译会更加快速
+  await NatashaInitializer.InitializeAndPreheating();`
+  ```
+   
+ - 敲代码  
+
+ > 更多更新的参考文档：https://natasha.dotnetcore.xyz/  
+ 
 <br/>  
 
 
