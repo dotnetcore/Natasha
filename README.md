@@ -47,6 +47,23 @@
 
 ### 使用方法(User Api)：   
 
+#### 最新版本
+
+- 引入 打包好的动态构建库： DotNetCore.Natasha.CSharp.All  
+
+- 初始化操作：
+
+  ```C#
+  //仅仅注册组件
+  NatashaInitializer.Initialize();
+  //注册+预热组件 , 之后编译会更加快速
+  await NatashaInitializer.InitializeAndPreheating();
+  ```
+   
+ - 敲代码  
+ 
+<br/>  
+
 
 #### v3.0+ [版本文档](https://github.com/dotnetcore/Natasha/tree/v3.0+final)  
 
