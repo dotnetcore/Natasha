@@ -9,7 +9,7 @@
     <Version>2.2.0</Version>
     <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
-    <PackageTags>oslyn ; IL ; Scripte ; Dynamic ; </PackageTags>
+    <PackageTags>Roslyn;IL;Script;Dynamic;Natasha </PackageTags>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <PackageIconUrl>https://avatars2.githubusercontent.com/u/19404084</PackageIconUrl>
   </PropertyGroup>
