@@ -148,7 +148,7 @@ func.DisposeDomain();
 //例子中传了 typeof(string), 参数为可变参数，可以无限追加
 
 var func = NDelegate.RandomDomain(
-builder=>buidler
+builder=>builder
   .CustomUsing()
   .UseFileCompile()
   ).Func<string>("return \"Hello World!\";", typeof(string));
