@@ -7,7 +7,9 @@ namespace Core31Mvc
     public class Program
     {
         public static void Main(string[] args)
-        {
+        { 
+
+            NatashaInitializer.InitializeAndPreheating();
             string result = NDelegate.RandomDomain().Func<string>("return \"a\";")();
             CreateHostBuilder(args).Build().Run();
         }

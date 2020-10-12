@@ -1,10 +1,6 @@
-﻿using Natasha;
-using Natasha.CSharp;
+﻿using Natasha.CSharp;
 using NatashaUT.Model;
-using System;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 using Xunit;
 
 namespace NatashaUT

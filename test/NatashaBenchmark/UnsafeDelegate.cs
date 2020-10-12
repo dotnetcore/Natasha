@@ -47,6 +47,11 @@ namespace NatashaBenchmark
         {
             point(10, 10);
         }
+        [Benchmark(Description = "normalcall")]
+        public void UseNormalPoint()
+        {
+            func.Get(10, 10);
+        }
 
         [Benchmark(Description = "system")]
         public void UseSystem()
@@ -54,7 +59,7 @@ namespace NatashaBenchmark
             func2(10, 10);
         }
 
-        [Benchmark(Description = "origin")]
+        [Benchmark(Description = "staticcall")]
         public void UseOrigin()
         {
             TestModel.Get(10, 10);
@@ -66,10 +71,15 @@ namespace NatashaBenchmark
     public unsafe class ActionHandler<T1,T2>
     {
         public delegate* managed<T1, T2, void> Invoke;
+        
     }
     public unsafe class FuncHandler<T1, T2, T3>
     {
         public delegate* managed<T1,T2,T3> Invoke;
+        public string Get(int a, int b)
+        {
+            return a.ToString();
+        }
     }
 
 

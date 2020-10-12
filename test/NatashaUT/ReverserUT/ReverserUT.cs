@@ -1,8 +1,6 @@
-﻿using Natasha;
-using Natasha.Reverser;
+﻿using Natasha.CSharp.Reverser;
 using NatashaUT.Model;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Xunit;
 

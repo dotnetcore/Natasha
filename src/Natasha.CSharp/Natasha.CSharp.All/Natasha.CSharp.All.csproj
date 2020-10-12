@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <TargetFrameworks>netstandard2.0;netcoreapp3.0;</TargetFrameworks>
+	  <Description>发布最新版 Natasha</Description>
+	  <PackageId>DotNetCore.Natasha.CSharp.All</PackageId>
+	  <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+	  <PackageReleaseNotes>发布整合之后的 Natasha C# 集合</PackageReleaseNotes>
+	  <Version>2.0.0</Version>
+	  <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
+	  <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
+	  <PackageTags>Roslyn;IL;Script;Dynamic;Natasha </PackageTags>
+	  <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+	  <PackageIconUrl>https://avatars2.githubusercontent.com/u/19404084</PackageIconUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Natasha.Domain\Natasha.Domain.csproj" />
+    <ProjectReference Include="..\Natasha.CSharp.Complier\Natasha.CSharp.Compiler.csproj" />
+    <ProjectReference Include="..\Natasha.CSharp.Syntax\Natasha.CSharp.Syntax.csproj" />
+    <ProjectReference Include="..\Natasha.CSharp.Template\Natasha.CSharp.Template.csproj" />
+  </ItemGroup>
+
+</Project>

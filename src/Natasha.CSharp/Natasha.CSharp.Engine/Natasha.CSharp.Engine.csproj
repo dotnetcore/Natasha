@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;netcoreapp3.0;</TargetFrameworks>
+    <Description>Natasha C#编译引擎</Description>
+    <PackageId>DotNetCore.Natasha.CSharp.Engine</PackageId>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <PackageReleaseNotes>发布正式版</PackageReleaseNotes>
+    <Version>2.2.0</Version>
+    <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
+    <PackageTags>Roslyn ; IL ; Scripte ; Dynamic ; </PackageTags>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <PackageIconUrl>https://avatars2.githubusercontent.com/u/19404084</PackageIconUrl>
+    <Copyright>.NET Core Community and Contributors</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Syntax\**" />
+    <EmbeddedResource Remove="Syntax\**" />
+    <None Remove="Syntax\**" />
+  </ItemGroup>
+
+  <!--<ItemGroup>
+    <PackageReference Include="DotNetCore.Natasha.CSharpCompiler" Version="1.3.0-alpha1" />
+    <PackageReference Include="DotNetCore.Natasha.CSharpSyntax" Version="1.3.0-alpha1" />
+    <PackageReference Include="DotNetCore.Natasha.Domain" Version="1.3.0-alpha1" />
+  </ItemGroup>-->
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.7.0" />
+    <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Natasha.Framework\Natasha.Framework.csproj" />
+  </ItemGroup>
+
+
+</Project>

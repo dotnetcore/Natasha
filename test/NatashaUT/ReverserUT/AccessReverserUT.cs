@@ -1,8 +1,5 @@
-﻿using Natasha.Reverser;
+﻿using Natasha.CSharp.Reverser;
 using NatashaUT.Model;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace NatashaUT.Reverser

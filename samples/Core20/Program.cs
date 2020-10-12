@@ -11,7 +11,7 @@ namespace Core20
         static void Main(string[] args)
         {
 
-
+            NatashaInitializer.InitializeAndPreheating();
             string text = @"namespace HelloWorld
 {
     public class Test
@@ -34,6 +34,7 @@ namespace Core20
             var action = NDelegate.RandomDomain().Action("");
             var a = action.Method;
             Console.WriteLine(action.Method.Module.Assembly);
+            Console.WriteLine(DomainManagement.IsDeleted(action.GetDomain().Name));
             Console.ReadKey();
         }
 

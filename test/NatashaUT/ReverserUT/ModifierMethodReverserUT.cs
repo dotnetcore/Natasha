@@ -1,9 +1,6 @@
-﻿using Natasha.Reverser;
+﻿using Natasha.CSharp.Reverser;
 using NatashaUT.Model;
-using System;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 using Xunit;
 
 namespace NatashaUT.ReverserUT
@@ -38,7 +35,7 @@ namespace NatashaUT.ReverserUT
             Assert.False(info.IsAbstract);
             Assert.False(info.IsFinal);
             Assert.False(IsNotNewMethod(info));
-            Assert.Equal("virtual ", Natasha.Reverser.ModifierReverser.GetModifier(info));
+            Assert.Equal("virtual ", ModifierReverser.GetModifier(info));
         }
 
         [Fact(DisplayName = "接口方法元数据判别")]
@@ -51,7 +48,7 @@ namespace NatashaUT.ReverserUT
             Assert.True(info.IsAbstract);
             Assert.True(info.GetBaseDefinition() == info);
             Assert.False(info.IsFinal);
-            Assert.Equal("", Natasha.Reverser.ModifierReverser.GetModifier(info));
+            Assert.Equal("", ModifierReverser.GetModifier(info));
         }
 
 
@@ -65,7 +62,7 @@ namespace NatashaUT.ReverserUT
             Assert.True(info.GetBaseDefinition() == info);
             Assert.False(info.IsFinal);
             Assert.False(IsNotNewMethod(info));
-            Assert.Equal("abstract ", Natasha.Reverser.ModifierReverser.GetModifier(info));
+            Assert.Equal("abstract ", ModifierReverser.GetModifier(info));
         }
 
         [Fact(DisplayName = "普通方法元数据判别")]
@@ -82,7 +79,7 @@ namespace NatashaUT.ReverserUT
             Assert.False(info.IsFinal);
 
             Assert.False(IsNotNewMethod(info));
-            Assert.Equal("", Natasha.Reverser.ModifierReverser.GetModifier(info));
+            Assert.Equal("", ModifierReverser.GetModifier(info));
         }
 
         [Fact(DisplayName = "重写抽象方法元数据判别")]
@@ -99,7 +96,7 @@ namespace NatashaUT.ReverserUT
             Assert.False(info.IsFinal);
             Assert.False(info.IsAbstract);
             Assert.False(IsNotNewMethod(info));
-            Assert.Equal("override ", Natasha.Reverser.ModifierReverser.GetModifier(info));
+            Assert.Equal("override ", ModifierReverser.GetModifier(info));
         }
 
         [Fact(DisplayName = "重写虚方法元数据判别")]
@@ -115,7 +112,7 @@ namespace NatashaUT.ReverserUT
             Assert.False(info.IsAbstract);
             Assert.False(info.IsFinal);
             Assert.False(IsNotNewMethod(info));
-            Assert.Equal("override ", Natasha.Reverser.ModifierReverser.GetModifier(info));
+            Assert.Equal("override ", ModifierReverser.GetModifier(info));
 
         }
 
@@ -132,7 +129,7 @@ namespace NatashaUT.ReverserUT
             Assert.False(info.IsAbstract);
             Assert.False(info.IsFinal);
             Assert.False(IsNotNewMethod(info));
-            Assert.Equal("virtual ", Natasha.Reverser.ModifierReverser.GetModifier(info));
+            Assert.Equal("virtual ", ModifierReverser.GetModifier(info));
 
         }
 
@@ -151,7 +148,7 @@ namespace NatashaUT.ReverserUT
             Assert.True(info.GetBaseDefinition() == info);
             Assert.False(info.IsAbstract);
             Assert.False(IsNotNewMethod(info));
-            Assert.Equal("", Natasha.Reverser.ModifierReverser.GetModifier(info));
+            Assert.Equal("", ModifierReverser.GetModifier(info));
 
         }
 
@@ -168,7 +165,7 @@ namespace NatashaUT.ReverserUT
             Assert.True(info.GetBaseDefinition() == info);
             Assert.False(info.IsFinal);
             Assert.False(IsNotNewMethod(info));
-            Assert.Equal("abstract ", Natasha.Reverser.ModifierReverser.GetModifier(info));
+            Assert.Equal("abstract ", ModifierReverser.GetModifier(info));
         }
 
         [Fact(DisplayName = "New方法元数据判别")]
@@ -184,7 +181,7 @@ namespace NatashaUT.ReverserUT
             Assert.False(info.IsVirtual);
             Assert.False(info.IsFinal);
             Assert.False(IsNotNewMethod(info));
-            Assert.Equal("new ", Natasha.Reverser.ModifierReverser.GetModifier(info));
+            Assert.Equal("new ", ModifierReverser.GetModifier(info));
 
         }
     }

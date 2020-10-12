@@ -5,15 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DotNetCore.Natasha" Version="3.11.0-alpha1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.4.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Natasha.CSharpComplier\Natasha.CSharpCompiler.csproj" />
-    <ProjectReference Include="..\..\src\Natasha.CSharpSyntax\Natasha.CSharpSyntax.csproj" />
-    <ProjectReference Include="..\..\src\Natasha.Domain\Natasha.Domain.csproj" />
-    <ProjectReference Include="..\..\src\Natasha\Natasha.csproj" />
+    <ProjectReference Include="..\..\src\Natasha.CSharp\Natasha.CSharp.All\Natasha.CSharp.All.csproj" />
   </ItemGroup>
 
 
