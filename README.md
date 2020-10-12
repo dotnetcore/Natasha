@@ -93,44 +93,25 @@
 > 目前主分支为 4.0 版本，原 3.0 版本在另个分支上。
 
 #### 分支 NoPublish  
-
-##### 3.0+ 计划  
-
- - [x] 分离 share 库，并作为域操作的一个选项
- - [x] 使用委托或Emit优化部分反射操作
- - [x] 增加并发库/常见内置类型的 share 引用测试 
- - [x] 编译异常信息作为 Message 直接展示 
- - [x] 调研编译环境继承的解决方案
- - [x] 发布针对 Roslyn 可继承成的编译环境包
- - [x] 增加泛型约束模板
- - [x] 反解器增加泛型类型约束反解
- - [x] 增加反解枚举，增强模板构造的状态机
- - [x] 重新检查反解器是否违反了单一职责（D2R）
  
-##### 4.0+ 计划  
+##### 2.0+ 计划  
 
- - [x] 暴露 roslyn 未开放的编译绑定标志给用户
- - [x] 暴露 roslyn 未开放标志 `ReferencesSupersedeLowerVersions` 给用户
- - [x] 重新设计框架，解耦域/编译器/语法树
- - [x] 增加组件管理类注入方法，使用 Emit 进行初始化构造
- - [x] 改造域管理，以支持新程序集覆盖，简化 API 调用链条
- - [x] 增加 编译基础类 / 域基础类 的功能，暴露更多的抽象功能给外界使用
- - [x] 填补框架引擎注释
- - [x] 反解增加 Return 参数的 ref/in/out/readonly 复合修饰符
+ - [ ] 调研 .NET5 中性能优化的新特性。
  - [ ] 完善 UT 测试
  - [ ] 生存下来，挣钱
  
 ##### 周边项目计划
 
  - [x] 持续支持 NatashaPad
- - [ ] 改造 [R2D](https://github.com/night-moon-studio/RuntimeToDynamic)
+ - [x] 改造 [R2D](https://github.com/night-moon-studio/RuntimeToDynamic)
     - [x] 持续性能优化
-    - [ ] 评估模板职责
-    - [ ] 评估扩展方向
-    - [ ] 评估 [NCaller](https://github.com/night-moon-studio/NCaller) 项目新需求的抽象
- - [ ] 改造 [DynmaicCache](https://github.com/night-moon-studio/DynamicCache) 
+    - [x] 评估模板职责
+    - [x] 评估扩展方向
+    - [x] 评估 [NCaller](https://github.com/night-moon-studio/NCaller) 项目新需求的抽象
+ - [x] 改造 [DynmaicCache](https://github.com/night-moon-studio/DynamicCache) 
     - [x] 持续优化性能
-    - [ ] 优化静态自动机
+    - [x] 优化静态自动机
+    - [x] 实用委托指针优化性能
  - [ ] BTF 算法
     - [ ] 每周定时跑算法随机测试程序
     - [ ] 持续评估 `span` 序列比较方法 及 指针转换比较 的性能
@@ -144,13 +125,16 @@
     - [ ] 私有支持
     - [ ] 设计动态变现功能和实现
     - [ ] 设计只读功能维度和实现
-    - [ ] 评估 [NCaller](https://github.com/night-moon-studio/NCaller) 代理方式 和 [DynmaicCache](https://github.com/night-moon-studio/DynamicCache) 代理方式 在 R2D 模板下的异同及抽象
-    - [ ] 优化静态自动机代码
+    - [x] 评估 [NCaller](https://github.com/night-moon-studio/NCaller) 代理方式 和 [DynmaicCache](https://github.com/night-moon-studio/DynamicCache) 代理方式 在 R2D 模板下的异同及抽象
+    - [x] 优化静态自动机代码
+    - [x] 实用委托指针优化性能
+    
  - [ ] 依赖还原库
     - [ ] NET 模块
     - [ ] NUGET 模块
     - [ ] FOLDER SCAN 模块
     - [ ] 跨平台 模块
+    
  - [ ] 定制语法/语法糖 to Natasha
  - [ ] 持续评估 Natasha 在灵活授权模型上的应用
  - [ ] 持续搜集反编译的需求
@@ -198,11 +182,15 @@ Teng(359768998@qq.com)
  
   <br/>  
 
-
-  #### Natasha的动态调用模块:  已移至[【NCaller】](https://github.com/night-moon-studio/NCaller)
-  #### Natasha的动态克隆模块:  已移至[【DeepClone】](https://github.com/night-moon-studio/DeepClone)  
+  #### NatashaPad:  [【NatashaPad】](https://github.com/night-moon-studio/NatashaPad) 
+  #### Natasha的动态调用模块:  [【NCaller】](https://github.com/night-moon-studio/NCaller)
+  #### Natasha的动态克隆模块:  [【DeepClone】](https://github.com/night-moon-studio/DeepClone)  
   #### 查找树算法:  [【BTFindTreee】](https://github.com/dotnet-lab/BTFindTreee)  
+  #### 语法树解析:  [【Papper】](https://github.com/dotnet-lab/Papper)
+  #### 运行时数据映射:  [【R2D】](https://github.com/night-moon-studio/RuntimeToDynamic)
   #### 快速动态缓存:  [【DynamicCache】](https://github.com/night-moon-studio/DynamicCache)  
+  #### FreeSql的高度封装:  [【Aries】](https://github.com/night-moon-studio/Aries)  
+   
   
 <br/>
 <br/>    
