@@ -99,6 +99,8 @@
  - [ ] 完善 UT 测试
  - [ ] 生存下来，挣钱
  
+<br/>  
+
 ##### 周边项目计划
 
  - [x] 持续支持 NatashaPad
@@ -144,7 +146,12 @@
  
 > 欢迎大家提交PR 
 
-  <br/>  
+<br/>  
+ 
+##### 赞助：
+
+![赞助](https://github.com/dotnetcore/Natasha/blob/master/Image/%E8%B5%9E%E5%8A%A9.jpg)
+ 
  
   
 ### 性能测试
