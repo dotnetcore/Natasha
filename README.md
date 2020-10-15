@@ -67,8 +67,7 @@
 
 #### v3.0+ [版本文档](https://github.com/dotnetcore/Natasha/tree/v3.0+final)  
 
-#### v4.0+ [版本文档](https://github.com/dotnetcore/Natasha/tree/v4.0+dev)
-
+#### vCSharp2.0 [版本文档](https://github.com/dotnetcore/Natasha/tree/CSharp2.0)
 
  > 更多更新的参考文档：https://natasha.dotnetcore.xyz/  
  
@@ -90,7 +89,7 @@
  
 ### 开发计划  
 
-> 目前主分支为 4.0 版本，原 3.0 版本在另个分支上。
+> 目前主分支为 CSharp 2.0 分支，原 3.0 版本在另个分支上。
 
 #### 分支 NoPublish  
  
