@@ -150,10 +150,8 @@
  
 ##### 赞助：
 
-![赞助](https://github.com/dotnetcore/Natasha/blob/master/Image/%E8%B5%9E%E5%8A%A9.jpg)
- 
- 
-  
+<img width=200 src="./Image/%E8%B5%9E%E5%8A%A9.jpg" title="Scan and donate"/>
+
 ### 性能测试
       
    - [x]  **动态调用性能测试（对照组： emit, origin）**  
