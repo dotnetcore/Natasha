@@ -29,35 +29,12 @@ Emit 和表达式树的使用场景，Natasha 均适用。
 
 ## 版本通告
 
-请使用 v4.1.0.0 稳定版。
+请使用 DotNetCore.Natasha.CSharp.All v2.0.0.0 整合稳定版。
 
 <br/>  
 
 ## 准备工作
 
- - 引入 动态构建库： DotNetCore.Natasha
-
- - 引入 编译组件库：  
- 
-    - DotNetCore.Natasha.CSharpSyntax  语法组件库
-    - DotNetCore.Natasha.Domain 域组件库
-    - DotNetCore.Natasha.CSharpCompiler 编译组件库
-
-- 注册组件：
-
-  ```C#
-  NatashaComponentRegister.RegistDomain<NatashaAssemblyDomain>();
-  NatashaComponentRegister.RegistCompiler<NatashaCSharpCompiler>();
-  NatashaComponentRegister.RegistSyntax<NatashaCSharpSyntax>();
-  ```
-
-  
- - 敲代码  
-
-<br/>  
-
- 
-#### v4.1.0.0 版本
 
 - 引入 打包好的动态构建库： DotNetCore.Natasha.CSharp.All  
 
@@ -67,13 +44,12 @@ Emit 和表达式树的使用场景，Natasha 均适用。
   //仅仅注册组件
   NatashaInitializer.Initialize();
   //注册+预热组件 , 之后编译会更加快速
-  await NatashaInitializer.InitializeAndPreheating();`
+  await NatashaInitializer.InitializeAndPreheating();
   ```
-   
+  
  - 敲代码  
-
- > 更多更新的参考文档：https://natasha.dotnetcore.xyz/  
  
+
 <br/>  
 
 
@@ -156,7 +132,15 @@ Console.WriteLine(func());
 func.DisposeDomain();
 
 ```  
-
+```C#
+//异步委托
+public static async void Test()
+{
+    await NDelegate
+           .RandomDomain()
+           .AsyncFunc<Task>("Console.WriteLine(Thread.CurrentThread.ManagedThreadId);")();
+}
+```
 <br/>  
 
 
