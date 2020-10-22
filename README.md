@@ -1,3 +1,5 @@
+# 不要因为个别事件对 NCC 品头论足，有实力咱们用代码来说话。
+
 <p align="center">
   <span>中文</span> |  
   <a href="https://github.com/dotnetcore/natasha/tree/master/lang/english">English</a>
