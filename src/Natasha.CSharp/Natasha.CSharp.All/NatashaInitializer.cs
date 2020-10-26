@@ -2,17 +2,23 @@
 using System;
 using System.Threading.Tasks;
 
-public class NatashaInitializer
+public static class NatashaInitializer
 {
-
+    private static bool _hasInitialize;
     /// <summary>
     /// 初始化 Natasha 组件
     /// </summary>
-    public static void Initialize()
+    public static async Task Initialize()
     {
-        NatashaComponentRegister.RegistDomain<NatashaAssemblyDomain>();
-        NatashaComponentRegister.RegistCompiler<NatashaCSharpCompiler>();
-        NatashaComponentRegister.RegistSyntax<NatashaCSharpSyntax>();
+
+        if (!_hasInitialize)
+        {
+            NatashaComponentRegister.RegistDomain<NatashaAssemblyDomain>();
+            NatashaComponentRegister.RegistCompiler<NatashaCSharpCompiler>();
+            NatashaComponentRegister.RegistSyntax<NatashaCSharpSyntax>();
+            _hasInitialize = true;
+        }
+
     }
 
     /// <summary>
@@ -21,10 +27,15 @@ public class NatashaInitializer
     /// <returns></returns>
     public static async Task InitializeAndPreheating()
     {
-        Initialize();
-        var action = NDelegate.RandomDomain().Action("");
-        action();
-        action.DisposeDomain();
+
+        if (!_hasInitialize)
+        {
+            Initialize();
+            var action = NDelegate.RandomDomain().Action("");
+            action();
+            action.DisposeDomain();
+        }
+
     }
 }
 
