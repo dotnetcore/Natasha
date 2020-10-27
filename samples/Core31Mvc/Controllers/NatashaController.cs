@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Autofac.Core;
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +22,7 @@ namespace Core31WebApi.Controllers
     public class NatashaController : Controller
     {
         private readonly IComponentContext _icoContext;
-        public static IServiceCollection services;
+        private readonly IServiceProvider serviceProvider;
         public static ICollection<EndpointDataSource> Endpoints;
         public static ApplicationBuilder Builder;
         public static ContainerBuilder AutoFacBuilder;
@@ -30,9 +31,10 @@ namespace Core31WebApi.Controllers
         {
             AssemblyCache = new ConcurrentQueue<AssemblyPart>();
         }
-        public NatashaController(IComponentContext component)
+        public NatashaController(IComponentContext component, IServiceProvider a)
         {
             _icoContext = component;
+            serviceProvider = a;
         }
         [HttpPost]
         public string Post(string csharpCode,
@@ -51,12 +53,17 @@ namespace Core31WebApi.Controllers
             tokenProvider.NotifyChanges();
             //AutoFac.RegisterType(assembly.GetTypes().First(item=>item.Name=="TestController")).SingleInstance();
             //icoContext.Resolve(assembly.GetTypes().First(item => item.Name == "TestController"));
-            
-            AutoFacBuilder.RegisterAssemblyModules(assembly);
+
+            //AutoFacBuilder.RegisterAssemblyModules(assembly);
+            //StaticAssemblyProvider
             var controllerType = assembly.GetTypes().First(item => item.Name == "TestController");
-            AutoFacBuilder.RegisterType(controllerType).AsSelf().InstancePerLifetimeScope();
-            _icoContext.ResolveOptional(controllerType);
-            _icoContext.Resolve(controllerType);
+            ////AutoFacBuilder.IfNotRegistered(controllerType);
+            //AutoFacBuilder.RegisterType(controllerType).AsSelf().PropertiesAutowired();
+            //services.AddControllers().AddControllersAsServices();
+            //AutoFacBuilder.RegisterType(controllerType).AsSelf().InstancePerLifetimeScope();
+            //_icoContext.ResolveOptional(controllerType);
+            //_icoContext.Resolve(controllerType);
+            //_icoContext.TryResolve(controllerType, out var provider);
 
             return controllerType.ToString();
 
