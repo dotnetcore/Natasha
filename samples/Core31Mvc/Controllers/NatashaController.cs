@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Natasha.CSharp;
@@ -49,14 +50,26 @@ namespace Core31WebApi.Controllers
             var assembly = builder.GetAssembly();
             var assemblyPart = new AssemblyPart(assembly);
             AssemblyCache.Enqueue(assemblyPart);
-            manager.ApplicationParts.Add(assemblyPart);
+            //manager.ApplicationParts.Add(assemblyPart);
+            IControllerFactoryProvider a;
+
+            var controllerType = assembly.GetTypes().First(item => item.Name == "TestController");
+            //AutoFacBuilder.RegisterType(controllerType).AsSelf();
+            //var result = _icoContext.Resolve<IApplicationFeatureProvider>();
+            manager.ApplicationParts.Add(new AssemblyPart(assembly));
+            manager.FeatureProviders.Add(new ControllerFeatureProvider());
+            var feature = new ControllerFeature();
+            manager.PopulateFeature(feature);
+
+            AutoFacBuilder.RegisterTypes(feature.Controllers.Select(ti => ti.AsType()).ToArray()).PropertiesAutowired();
             tokenProvider.NotifyChanges();
+
             //AutoFac.RegisterType(assembly.GetTypes().First(item=>item.Name=="TestController")).SingleInstance();
             //icoContext.Resolve(assembly.GetTypes().First(item => item.Name == "TestController"));
 
             //AutoFacBuilder.RegisterAssemblyModules(assembly);
             //StaticAssemblyProvider
-            var controllerType = assembly.GetTypes().First(item => item.Name == "TestController");
+            
             ////AutoFacBuilder.IfNotRegistered(controllerType);
             //AutoFacBuilder.RegisterType(controllerType).AsSelf().PropertiesAutowired();
             //services.AddControllers().AddControllersAsServices();

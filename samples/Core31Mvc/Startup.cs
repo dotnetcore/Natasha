@@ -8,9 +8,12 @@ using Core31WebApi.Controllers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -29,7 +32,8 @@ namespace Core31Mvc
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            NatashaController.services = services;
+            //NatashaController.services = services;
+            services.Replace(ServiceDescriptor.Transient<IControllerActivator, ServiceBasedControllerActivator>());
             services.AddOptions();
             services.AddControllersWithViews().AddControllersAsServices();
             services.AddRazorPages();
@@ -40,10 +44,14 @@ namespace Core31Mvc
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
             });
+
+            
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
+
+            //builder.RegisterType<ApplicationPartManager>().AsSelf().SingleInstance();
             Core31WebApi.Controllers.NatashaController.AutoFacBuilder = builder;
             //builder.RegisterType
             // Register your own things directly with Autofac here. Don't
