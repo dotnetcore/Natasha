@@ -16,6 +16,7 @@
   </ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\src\Natasha.CSharp\Natasha.CSharp.All\Natasha.CSharp.All.csproj" />
+		<ProjectReference Include="..\Test1702\Test1702.csproj" />
 	</ItemGroup>
 
 

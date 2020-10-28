@@ -1,15 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netcoreapp3.0;</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netcoreapp3.0;netcoreapp3.1;</TargetFrameworks>
     <Description>Natasha 编译域的实现</Description>
     <PackageId>DotNetCore.Natasha.Domain</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <PackageReleaseNotes>发布最新版</PackageReleaseNotes>
-    <Version>2.2.0</Version>
+    <PackageReleaseNotes>增加NETCORE3.1 Runtime 支持</PackageReleaseNotes>
+    <Version>2.2.0.1</Version>
     <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
-    <PackageTags>Roslyn ; IL ; Scripte ; Dynamic ;</PackageTags>
+    <PackageTags>Roslyn;IL;Scripte;Dynamic;Natasha;Domain;</PackageTags>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <PackageIconUrl>https://avatars2.githubusercontent.com/u/19404084</PackageIconUrl>
   </PropertyGroup>
