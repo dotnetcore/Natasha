@@ -83,7 +83,9 @@
   
   - 2020-08-06 ： 发布 v4.1.0.0，支持域内动态编程时插件 Using 引用覆盖 以及 动态生成程序集的 Using 引用覆盖， 减少开发者在域内编程时对 Using 的过多关注。 升级 Natasha.Framework; 添加 GetReferenceElements API 以便返回当前域所有的引用，增加 AddAssemblyEvent/RemoveAssemblyEvent 事件，在程序集加载与移除操作时触发。 增加方法返回值的 ref 修饰的反解。增加 Natasha.CSharp.All 库，提供组件库的自动引用。
 
-  - 2020-10-10 ： 发布 Natasha.CSharp.All v2.0.0.0，重整项目结构，分离出 C# 相关组件，修复域管理操作类对域的弱引用关系，完善周边类库。
+  - 2020-10-10 ： 发布 Natasha.CSharp.All v2.0.0.0，重整项目结构，分离出 C# 相关组件，修复域管理操作类对域的弱引用关系，完善周边类库。 
+  
+  - 2020-10-27 ： 发布 Natasha.CSharp.All v2.0.1.0，使用初始化开关，避免多次初始化调用。
   
  <br/>  
  
