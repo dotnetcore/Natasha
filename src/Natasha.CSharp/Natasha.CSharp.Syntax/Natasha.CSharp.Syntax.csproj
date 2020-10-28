@@ -1,19 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netcoreapp3.0;</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netcoreapp3.0;netcoreapp3.1;</TargetFrameworks>
     <Description>Natasha的C#语法库实现</Description>
     <PackageId>DotNetCore.Natasha.CSharp.Syntax</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <PackageReleaseNotes>发布正式版</PackageReleaseNotes>
-    <Version>2.2.0</Version>
+    <PackageReleaseNotes>增加netcoreapp3.1 新 runtime 的支持</PackageReleaseNotes>
+    <Version>2.2.0.1</Version>
     <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
-    <PackageTags>Roslyn ; IL ; Scripte ; Dynamic ; </PackageTags>
+    <PackageTags>Roslyn;IL;Scripte;Dynamic;Natasha;</PackageTags>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <PackageIconUrl>https://avatars2.githubusercontent.com/u/19404084</PackageIconUrl>
-    <FileVersion>2.2.0.0</FileVersion>
-    <AssemblyVersion>2.2.0.0</AssemblyVersion>
+    <FileVersion>2.2.0.1</FileVersion>
+    <AssemblyVersion>2.2.0.1</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
