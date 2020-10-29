@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 public static class NatashaInitializer
 {
     private static bool _hasInitialize;
-<<<<<<< HEAD
-=======
     private static readonly object _lock;
 
     static NatashaInitializer()
@@ -17,25 +15,12 @@ public static class NatashaInitializer
         _lock = new object();
     }
 
->>>>>>> CSharp2.0
     /// <summary>
     /// 初始化 Natasha 组件
     /// </summary>
     public static async Task Initialize()
     {
 
-<<<<<<< HEAD
-        if (!_hasInitialize)
-        {
-            NatashaComponentRegister.RegistDomain<NatashaAssemblyDomain>();
-            NatashaComponentRegister.RegistCompiler<NatashaCSharpCompiler>();
-            NatashaComponentRegister.RegistSyntax<NatashaCSharpSyntax>();
-            _hasInitialize = true;
-        }
-        
-=======
-
->>>>>>> CSharp2.0
     }
 
     /// <summary>
@@ -47,14 +32,6 @@ public static class NatashaInitializer
 
         if (!_hasInitialize)
         {
-<<<<<<< HEAD
-            Initialize();
-            var action = NDelegate.RandomDomain().Action("");
-            action();
-            action.DisposeDomain();
-        }
-        
-=======
             lock (_lock)
             {
                 if (!_hasInitialize)
@@ -65,9 +42,7 @@ public static class NatashaInitializer
                     action.DisposeDomain();
                 }
             }
-        }
-            
->>>>>>> CSharp2.0
+        }  
     }
 }
 
