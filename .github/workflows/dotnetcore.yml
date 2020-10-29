@@ -18,7 +18,7 @@ jobs:
         run: dotnet build './src/Natasha.CSharp/Natasha.CSharp.All/Natasha.CSharp.All.csproj' --configuration Release
       - name: Test
         run: dotnet test './test/NatashaUT'
-        
+     
   windows:
       runs-on: windows-latest
       steps:
@@ -28,10 +28,7 @@ jobs:
          uses: actions/setup-dotnet@v1
          with:
           dotnet-version: 3.1.100
-       - name: Setup DotNet2.1.4
-         uses: actions/setup-dotnet@v2
-         with:
-             dotnet-version: 2.1.4
+    
        
        - name: Setup Opencover
          uses: crazy-max/ghaction-chocolatey@v1
