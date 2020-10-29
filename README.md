@@ -75,11 +75,6 @@
 
 
 ### 发布日志  
-
-  
-  - 2020-07-02 ： 发布v3.14.0.0，部分操作类提升到全局引用，AssemblyDomain \ DomainManagement \ AssemblyCSharpBuilder; 使用可继承的编译环境包；使用可继承的调试环境包。 AssemblyCSharpBuilder 引擎继续调整 API 结构，提升部分选项属性的暴露层级；引擎规避一些常见的编译警告；模板增加泛型约束模板，反解器增加泛型约束反解功能；修复部分模板状态机操作；增加CS0012错误重定向。
-  
-  - 2020-07-24 ： 发布v4.0.0.0，升级 Natasha.Framework;重构 AssemblyDomain 为 NatashaAssemblyDomain;重构 NatashaCSharpSyntax;重构 NatashaCSharpCompiler ;解耦出编译组件,注册后采用 Emit 初始化;CSharp编译器开放本地编译标识;增加 ReadonlyScript 的字符串方法扩展以便支持对 Readonly 的赋值;优化引擎性能;调整部分模板标识的命名空间为全局。
   
   - 2020-08-06 ： 发布 v4.1.0.0，支持域内动态编程时插件 Using 引用覆盖 以及 动态生成程序集的 Using 引用覆盖， 减少开发者在域内编程时对 Using 的过多关注。 升级 Natasha.Framework; 添加 GetReferenceElements API 以便返回当前域所有的引用，增加 AddAssemblyEvent/RemoveAssemblyEvent 事件，在程序集加载与移除操作时触发。 增加方法返回值的 ref 修饰的反解。增加 Natasha.CSharp.All 库，提供组件库的自动引用。
 
@@ -105,16 +100,6 @@
 
 ##### 周边项目计划
 
- - [x] 持续支持 NatashaPad
- - [x] 改造 [R2D](https://github.com/night-moon-studio/RuntimeToDynamic)
-    - [x] 持续性能优化
-    - [x] 评估模板职责
-    - [x] 评估扩展方向
-    - [x] 评估 [NCaller](https://github.com/night-moon-studio/NCaller) 项目新需求的抽象
- - [x] 改造 [DynmaicCache](https://github.com/night-moon-studio/DynamicCache) 
-    - [x] 持续优化性能
-    - [x] 优化静态自动机
-    - [x] 实用委托指针优化性能
  - [ ] BTF 算法
     - [ ] 每周定时跑算法随机测试程序
     - [ ] 持续评估 `span` 序列比较方法 及 指针转换比较 的性能
@@ -167,36 +152,33 @@
 
 <br/>    
 
-### Wiki审核
-                             
-Teng(359768998@qq.com)
-
-<br/>
 
  ### 升级日志
  
  - [[2019]](https://github.com/dotnetcore/Natasha/blob/master/docs/zh/update/2019.md)
- - [[2020]](https://github.com/dotnetcore/Natasha/blob/master/docs/zh/update/2020.md)
+ - [[2020]](https://github.com/dotnetcore/Natasha/blob/master/docs/zh/update/2020.md)  
+ 
  <br/>  
- 
- 
 
  ### 生态微信群  
  
 为防止广告骚扰，微信群已关闭，进群请发送您的微信号到 2765968624@qq.com 并说明进群原因。
-如果未及时处理，请在 issue 中提醒我，QQ我平时不上了。  (发广告的先死个妈) 
+如果未及时处理，请在 issue 中提醒我，QQ我平时不上了。  (刷广告的先死个妈) 
  
  
   <br/>  
+  
+| 项目名称 | 项目地址 | 项目简介 |
+|------------- |---------| --------|
+| NatashaPad | [Github](https://github.com/night-moon-studio/NatashaPad) | 由Roslyn和Natasha支持的另一种dotnet调试工具，如LinqPad和dotnet fiddle。 |
+| NCaller | [Github](https://github.com/night-moon-studio/NCaller) | 基于 Natasha 和 查找树算法的高速反射类，可以操作对象的属性以及字段。 |
+| DeepClone | [Github](https://github.com/night-moon-studio/DeepClone) | 由 Natasha 的高性能深度克隆库。 |
+| BTFindTreee | [Github](https:https://github.com/dotnet-lab/BTFindTreee) | 快速查找算法的构建，包括哈希二分查找，字串模糊查找，字串归并精确查找。 |
+| Papper | [Github](https:https://github.com/dotnet-lab/Papper) | 对语法树解析库，主要目标时服务于 SG(Source Generator)技术。 |
+| RuntimeToDynamic | [Github](https://github.com/night-moon-studio/RuntimeToDynamic) | 将运行时数据压入到动态代理类中，以方便其他动态构建时对其进行复用。|
+| DynamicCache | [Github](https://github.com/night-moon-studio/DynamicCache) | 高速动态缓存，在只读并发场景中提供超高性能的数据查找功能。|
+| Aries | [Github](https://github.com/night-moon-studio/Aries) | 对 FreeSql 的高度封装，提供高性能、直观的 外联 / 乐观锁 / CURD 操作。|
 
-  #### NatashaPad:  [【NatashaPad】](https://github.com/night-moon-studio/NatashaPad) 
-  #### Natasha的动态调用模块:  [【NCaller】](https://github.com/night-moon-studio/NCaller)
-  #### Natasha的动态克隆模块:  [【DeepClone】](https://github.com/night-moon-studio/DeepClone)  
-  #### 查找树算法:  [【BTFindTreee】](https://github.com/dotnet-lab/BTFindTreee)  
-  #### 语法树解析:  [【Papper】](https://github.com/dotnet-lab/Papper)
-  #### 运行时数据映射:  [【R2D】](https://github.com/night-moon-studio/RuntimeToDynamic)
-  #### 快速动态缓存:  [【DynamicCache】](https://github.com/night-moon-studio/DynamicCache)  
-  #### FreeSql的高度封装:  [【Aries】](https://github.com/night-moon-studio/Aries)  
    
   
 <br/>
