@@ -15,7 +15,7 @@ jobs:
         with:
           dotnet-version: 3.1.100
       - name: Build
-        run: dotnet build './src/Natasha/Natasha.csproj' --configuration Release
+        run: dotnet build './src/Natasha.CSharp/Natasha.CSharp.All.csproj' --configuration Release
       - name: Test
         run: dotnet test './test/NatashaUT'
         
@@ -42,7 +42,7 @@ jobs:
             args: install codecov
      
        - name: Build
-         run: dotnet build './src/Natasha/Natasha.csproj' --configuration Release
+         run: dotnet build './src/Natasha.CSharp/Natasha.CSharp.All.csproj' --configuration Release
          
        - name: Test
          run: 
@@ -61,6 +61,6 @@ jobs:
         with:
           dotnet-version: 3.1.100
       - name: Build
-        run: dotnet build './src/Natasha/Natasha.csproj' --configuration Release
+        run: dotnet build './src/Natasha.CSharp/Natasha.CSharp.All.csproj' --configuration Release
       - name: Test
         run: dotnet test './test/NatashaUT'
