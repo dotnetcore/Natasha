@@ -24,9 +24,12 @@ jobs:
       steps:
        - name : CheckOut Code
          uses: actions/checkout@v1
-       
-       - name: Setup DotNet2.1.4
+       - name: Setup
          uses: actions/setup-dotnet@v1
+         with:
+          dotnet-version: 3.1.100
+       - name: Setup DotNet2.1.4
+         uses: actions/setup-dotnet@v2
          with:
              dotnet-version: 2.1.4
        
