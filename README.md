@@ -53,12 +53,25 @@
 <br/>
 
 | 顺序 | 操作行为 | 操作内容 | 说明 |
-|-- |------------- |---------| --------|
+|-- |-------- |--------------| --------|
 | 1 | 引类库 | DotNetCore.Natasha.CSharp.All | 该页面提供最新版操作，[旧版详见](https://github.com/dotnetcore/Natasha/tree/v3.0+final) |
-| 2 | 初始化 | NatashaInitializer.InitializeAndPreheating() / Initialize() | 预热会慢一点，后面编译就快了，也可以只初始化不预热 |
-| 3 | 写代码 | [使用说明](https://natasha.dotnetcore.xyz/) | 可以及时联系作者: 2765968624@qq.com 或者 [提出问题](https://github.com/dotnetcore/Natasha/issues/new) |
+| 2 | 初始化 | NatashaInitializer.InitializeAndPreheating(); / Initialize(); | 预热会慢一点，后面编译就快了，也可以只初始化不预热 |
+| 3 | 写代码 | 使用说明 [https://natasha.dotnetcore.xyz/](https://natasha.dotnetcore.xyz/) | 可联系作者: 2765968624@qq.com 或 [查看FAQ](https://github.com/dotnetcore/Natasha/blob/master/docs/FAQ.md) 或 [提出问题](https://github.com/dotnetcore/Natasha/issues/new) |
 
 <br/>  
+
+### 发布日志  
+
+   - 2019年发布日志 [[已归档]](https://github.com/dotnetcore/Natasha/blob/master/docs/zh/update/2019.md)
+   - 2020年发布日志 [[进行中]](https://github.com/dotnetcore/Natasha/blob/master/docs/zh/update/2020.md)  
+     - 2020-08-06 ： 发布 v4.1.0.0，支持域内动态编程时插件 Using 引用覆盖 以及 动态生成程序集的 Using 引用覆盖， 减少开发者在域内编程时对 Using 的过多关注。 升级 Natasha.Framework; 添加 GetReferenceElements API 以便返回当前域所有的引用，增加 AddAssemblyEvent/RemoveAssemblyEvent 事件，在程序集加载与移除操作时触发。 增加方法返回值的 ref 修饰的反解。增加 Natasha.CSharp.All 库，提供组件库的自动引用。  
+    
+     - 2020-10-10 ： 发布 Natasha.CSharp.All v2.0.0.0，重整项目结构，分离出 C# 相关组件，修复域管理操作类对域的弱引用关系，完善周边类库。   
+    
+     - 2020-10-28 ： 发布 Natasha.CSharp.All v2.0.1.1，使用初始化开关，避免多次初始化调用，支持 netcore3.1 Runtime 版本。  
+    
+  
+ <br/>  
 
 ### 生态周边  
  
@@ -77,22 +90,6 @@
 
 <br/>
 
-### 发布日志  
-  
-  - 2020-08-06 ： 发布 v4.1.0.0，支持域内动态编程时插件 Using 引用覆盖 以及 动态生成程序集的 Using 引用覆盖， 减少开发者在域内编程时对 Using 的过多关注。 升级 Natasha.Framework; 添加 GetReferenceElements API 以便返回当前域所有的引用，增加 AddAssemblyEvent/RemoveAssemblyEvent 事件，在程序集加载与移除操作时触发。 增加方法返回值的 ref 修饰的反解。增加 Natasha.CSharp.All 库，提供组件库的自动引用。
-
-  - 2020-10-10 ： 发布 Natasha.CSharp.All v2.0.0.0，重整项目结构，分离出 C# 相关组件，修复域管理操作类对域的弱引用关系，完善周边类库。 
-  
-  - 2020-10-28 ： 发布 Natasha.CSharp.All v2.0.1.1，使用初始化开关，避免多次初始化调用，支持 netcore3.1 Runtime 版本。
-  
- <br/>  
- 
- ### 升级日志
- 
- - [[2019]](https://github.com/dotnetcore/Natasha/blob/master/docs/zh/update/2019.md)
- - [[2020]](https://github.com/dotnetcore/Natasha/blob/master/docs/zh/update/2020.md)  
- 
-<br/>  
 
 ### 开发计划  
  
@@ -155,17 +152,15 @@
 
 <br/>    
 
-##### 赞助：
+### 赞助：
 
 <img width=200 src="./Image/%E8%B5%9E%E5%8A%A9.jpg" title="Scan and donate"/>
 
-<br/>
-
-### 捐助明细  
-
+#### 捐助明细  
 
 - ****天下 10元  
 - **航 5元
+
 
 ---------------------  
 
