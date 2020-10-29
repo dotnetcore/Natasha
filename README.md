@@ -1,3 +1,5 @@
+# 本库将于 2021年1月1日 下架 Natasha.CSharp.All 2.0 之前的版本，望各位互相转告，与贡献者们及时沟通并做出调整。  
+
 <p align="center">
   <span>中文</span> |  
   <a href="https://github.com/dotnetcore/natasha/tree/master/lang/english">English</a>
@@ -135,9 +137,6 @@
 
 <br/>  
  
-##### 赞助：
-
-<img width=200 src="./Image/%E8%B5%9E%E5%8A%A9.jpg" title="Scan and donate"/>
 
 
 ### 性能测试
@@ -183,6 +182,12 @@
   
 <br/>
 <br/>    
+
+##### 赞助：
+
+<img width=200 src="./Image/%E8%B5%9E%E5%8A%A9.jpg" title="Scan and donate"/>
+
+<br/>
 
 ### 捐助明细  
 
