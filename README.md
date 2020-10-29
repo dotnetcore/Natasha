@@ -50,14 +50,32 @@
 
 ### 使用方法(User Api)：   
 
+<br/>
+
 | 顺序 | 操作行为 | 操作内容 | 说明 |
 |-- |------------- |---------| --------|
-| 1 | 引用类库 | DotNetCore.Natasha.CSharp.All | 该页面提供最新版操作，[旧版详见](https://github.com/dotnetcore/Natasha/tree/v3.0+final) |
+| 1 | 引类库 | DotNetCore.Natasha.CSharp.All | 该页面提供最新版操作，[旧版详见](https://github.com/dotnetcore/Natasha/tree/v3.0+final) |
 | 2 | 初始化 | NatashaInitializer.InitializeAndPreheating() / Initialize() | 预热会慢一点，后面编译就快了，也可以只初始化不预热 |
 | 3 | 写代码 | [使用说明](https://natasha.dotnetcore.xyz/) | 可以及时联系作者: 2765968624@qq.com 或者 [提出问题](https://github.com/dotnetcore/Natasha/issues/new) |
 
 <br/>  
 
+### 生态周边  
+ 
+<br/>  
+  
+| 项目名称 | 项目地址 | 项目简介 |
+|------------- |---------| --------|
+| NatashaPad | [Github](https://github.com/night-moon-studio/NatashaPad) | 由Roslyn和Natasha支持的另一种dotnet调试工具，如LinqPad和dotnet fiddle。 |
+| NCaller | [Github](https://github.com/night-moon-studio/NCaller) | 基于 Natasha 和 查找树算法的高速反射类，可以操作对象的属性以及字段。 |
+| DeepClone | [Github](https://github.com/night-moon-studio/DeepClone) | 由 Natasha 的高性能深度克隆库。 |
+| BTFindTreee | [Github](https:https://github.com/dotnet-lab/BTFindTreee) | 快速查找算法的构建，包括哈希二分查找，字串模糊查找，字串归并精确查找。 |
+| Papper | [Github](https:https://github.com/dotnet-lab/Papper) | 对语法树解析库，主要目标时服务于 SG(Source Generator)技术。 |
+| RuntimeToDynamic | [Github](https://github.com/night-moon-studio/RuntimeToDynamic) | 将运行时数据压入到动态代理类中，以方便其他动态构建时对其进行复用。|
+| DynamicCache | [Github](https://github.com/night-moon-studio/DynamicCache) | 高速动态缓存，在只读并发场景中提供超高性能的数据查找功能。|
+| Aries | [Github](https://github.com/night-moon-studio/Aries) | 对 FreeSql 的高度封装，提供高性能、直观的 外联 / 乐观锁 / CURD 操作。|
+
+<br/>
 
 ### 发布日志  
   
@@ -69,12 +87,16 @@
   
  <br/>  
  
+ ### 升级日志
+ 
+ - [[2019]](https://github.com/dotnetcore/Natasha/blob/master/docs/zh/update/2019.md)
+ - [[2020]](https://github.com/dotnetcore/Natasha/blob/master/docs/zh/update/2020.md)  
+ 
+<br/>  
+
 ### 开发计划  
-
-> 目前主分支为 CSharp 2.0 分支，原 3.0 版本在另个分支上。  
-
-
-#### 分支 CSharp2.0  
+ 
+<br/>  
  
 ##### 2.0+ 计划  
 
@@ -122,7 +144,6 @@
 <br/>  
  
 
-
 ### 性能测试
       
    - [x]  **动态调用性能测试（对照组： emit, origin）**  
@@ -130,41 +151,8 @@
    - [x]  **动态初始化性能测试（对照组： emit, origin）**  
      ![初始化性能测试](https://github.com/dotnetcore/Natasha/blob/master/Image/Natasha%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%952.png)
    - [x]  **内存及CPU监测截图**  
-     ![内存及CPU](https://github.com/dotnetcore/Natasha/blob/master/Image/%E8%B5%84%E6%BA%90%E7%9B%91%E6%B5%8B.png) 
-     
+     ![内存及CPU](https://github.com/dotnetcore/Natasha/blob/master/Image/%E8%B5%84%E6%BA%90%E7%9B%91%E6%B5%8B.png)      
 
-<br/>    
-
-
- ### 升级日志
- 
- - [[2019]](https://github.com/dotnetcore/Natasha/blob/master/docs/zh/update/2019.md)
- - [[2020]](https://github.com/dotnetcore/Natasha/blob/master/docs/zh/update/2020.md)  
- 
- <br/>  
-
- ### 生态微信群  
- 
-为防止广告骚扰，微信群已关闭，进群请发送您的微信号到 2765968624@qq.com 并说明进群原因。
-如果未及时处理，请在 issue 中提醒我，QQ我平时不上了。  (刷广告的先死个妈) 
- 
- 
-  <br/>  
-  
-| 项目名称 | 项目地址 | 项目简介 |
-|------------- |---------| --------|
-| NatashaPad | [Github](https://github.com/night-moon-studio/NatashaPad) | 由Roslyn和Natasha支持的另一种dotnet调试工具，如LinqPad和dotnet fiddle。 |
-| NCaller | [Github](https://github.com/night-moon-studio/NCaller) | 基于 Natasha 和 查找树算法的高速反射类，可以操作对象的属性以及字段。 |
-| DeepClone | [Github](https://github.com/night-moon-studio/DeepClone) | 由 Natasha 的高性能深度克隆库。 |
-| BTFindTreee | [Github](https:https://github.com/dotnet-lab/BTFindTreee) | 快速查找算法的构建，包括哈希二分查找，字串模糊查找，字串归并精确查找。 |
-| Papper | [Github](https:https://github.com/dotnet-lab/Papper) | 对语法树解析库，主要目标时服务于 SG(Source Generator)技术。 |
-| RuntimeToDynamic | [Github](https://github.com/night-moon-studio/RuntimeToDynamic) | 将运行时数据压入到动态代理类中，以方便其他动态构建时对其进行复用。|
-| DynamicCache | [Github](https://github.com/night-moon-studio/DynamicCache) | 高速动态缓存，在只读并发场景中提供超高性能的数据查找功能。|
-| Aries | [Github](https://github.com/night-moon-studio/Aries) | 对 FreeSql 的高度封装，提供高性能、直观的 外联 / 乐观锁 / CURD 操作。|
-
-   
-  
-<br/>
 <br/>    
 
 ##### 赞助：
