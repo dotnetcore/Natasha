@@ -45,34 +45,17 @@
 | Azure |  Mac |[![Build Status](https://dev.azure.com/NightMoonStudio/Natasha/_apis/build/status/dotnetcore.Natasha?branchName=master&jobName=macOS)](https://dev.azure.com/NightMoonStudio/Natasha/_build/latest?definitionId=3&branchName=master)|[![Build Status](https://img.shields.io/azure-devops/tests/NightMoonStudio/Natasha/3/master.svg)](https://dev.azure.com/NightMoonStudio/Natasha/_build/latest?definitionId=3&branchName=master) | 
 
 
-<br/>    
+<br/>      
+
 
 ### 使用方法(User Api)：   
 
-#### 最新版本
+| 顺序 | 操作行为 | 操作内容 | 说明 |
+|-- |------------- |---------| --------|
+| 1 | 引用类库 | DotNetCore.Natasha.CSharp.All | 该页面提供最新版操作，[旧版详见](https://github.com/dotnetcore/Natasha/tree/v3.0+final) |
+| 2 | 初始化 | NatashaInitializer.InitializeAndPreheating() / Initialize() | 预热会慢一点，后面编译就快了，也可以只初始化不预热 |
+| 3 | 写代码 | [使用说明](https://natasha.dotnetcore.xyz/) | 可以及时联系作者: 2765968624@qq.com 或者 [提出问题](https://github.com/dotnetcore/Natasha/issues/new) |
 
-- 引入 打包好的动态构建库： DotNetCore.Natasha.CSharp.All  
-
-- 初始化操作：
-
-  ```C#
-  //仅仅注册组件
-  NatashaInitializer.Initialize();
-  //注册+预热组件 , 之后编译会更加快速
-  await NatashaInitializer.InitializeAndPreheating();
-  ```
-   
- - 敲代码  
- 
-<br/>  
-
-
-#### v3.0+ [版本文档](https://github.com/dotnetcore/Natasha/tree/v3.0+final)  
-
-#### vCSharp2.0 [版本文档](https://github.com/dotnetcore/Natasha/tree/CSharp2.0)
-
- > 更多更新的参考文档：https://natasha.dotnetcore.xyz/  
- 
 <br/>  
 
 
@@ -88,15 +71,16 @@
  
 ### 开发计划  
 
-> 目前主分支为 CSharp 2.0 分支，原 3.0 版本在另个分支上。
+> 目前主分支为 CSharp 2.0 分支，原 3.0 版本在另个分支上。  
 
-#### 分支 NoPublish  
+
+#### 分支 CSharp2.0  
  
 ##### 2.0+ 计划  
 
  - [ ] 调研 .NET5 中性能优化的新特性。
  - [ ] 完善 UT 测试
- - [ ] 生存下来，挣钱
+ - [ ] 挣钱, 生存下来
  
 <br/>  
 
