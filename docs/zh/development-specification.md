@@ -51,10 +51,8 @@ Operator 作为动态构建对外使用的操作类，一个 Operator 可大致�
 
 <br/>  
 
-   - Builder 
-     
-        直接使用 Natasha 内置的 Builder 可以快速实现定制，例如： OopBuilder<TOperator> ，MethodBuilder<TOperator>。
-        前者为其提供对象构造模板，后者专注构建方法。   
+     直接使用 Natasha 内置的 Builder 可以快速实现定制，例如： OopBuilder<TOperator> ，MethodBuilder<TOperator>。
+     前者为其提供对象构造模板，后者专注构建方法。   
  
 
 <br/>
