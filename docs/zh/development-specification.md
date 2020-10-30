@@ -62,18 +62,16 @@ Operator 作为动态构建对外使用的操作类，一个 Operator 可大致�
 ## 操作类（Operator）
 
 Operator 在 Builder 的基础上进行了 Package 封装，Operator 存储了 Builder 提供的编译结果，对外暴漏用户级别的 API 。
-
 <br/>
- 
 #### 案例  
 
-例如 Natasha 内置的 [FastMethodOperator](https://github.com/dotnetcore/Natasha/blob/master/src/Natasha.CSharp/Natasha.CSharp.Template/Api/Level1/Operator/FastMethodOperator.cs) 在 [MethodBuilder](https://github.com/dotnetcore/Natasha/blob/master/src/Natasha.CSharp/Natasha.CSharp.Template/Builder/MethodBuilder.cs) 的基础上进行了包装和简化，FastMethodOpeartor 的初始化函数中定制了一个专属自己的脚本构建流程，如下定义方法的访问级别与修饰 `public static` ：
+例如 Natasha 内置的 [FastMethodOperator](https://github.com/dotnetcore/Natasha/blob/master/src/Natasha.CSharp/Natasha.CSharp.Template/Api/Level1/Operator/FastMethodOperator.cs) 在 [MethodBuilder](https://github.com/dotnetcore/Natasha/blob/master/src/Natasha.CSharp/Natasha.CSharp.Template/Builder/MethodBuilder.cs) 的基础上进行了包装和简化，FastMethodOpeartor 的初始化函数中定制了一个专属自己的脚本构建流程，如下模板翻译成 `public static` ：
 ```C# 
 this.Access(AccessFlags.Public)
 .Modifier(ModifierFlags.Static);
 ```  
 
-同时 MethodBuilder 的方法脚本需要 “寄生” 在一个类/接口/结构体中才能进行编译和使用，因此 MethodBuilder 内部有宿主 [OopBuilder](https://github.com/dotnetcore/Natasha/blob/master/src/Natasha.CSharp/Natasha.CSharp.Template/Builder/MethodBuilder.cs#L24) 来接收 MethodBuilder 产生的脚本，最后进行编译的是 OopBuilder , 同时 OopBuilder 有如下初始化，定义了类：`public static class {randomname} {}`，这里使用了 `HiddentNamespace` 方法来去掉命名空间，其实去不去掉都无所谓。  
+同时 MethodBuilder 的方法脚本需要 “寄生” 在一个类/接口/结构体中才能进行编译和使用，因此 MethodBuilder 内部有宿主 [OopBuilder](https://github.com/dotnetcore/Natasha/blob/master/src/Natasha.CSharp/Natasha.CSharp.Template/Builder/MethodBuilder.cs#L24) 来接收 MethodBuilder 产生的脚本，最后进行编译的是 OopBuilder , 同时 OopBuilder 有如下初始化：`public static class {randomname} {}`。  
 
 ```C#
  ClassOptions(item => item
