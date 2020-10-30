@@ -2,88 +2,93 @@
  <a href="https://natasha.dotnetcore.xyz/"> 返回 </a> |  <a href="https://natasha.dotnetcore.xyz/en/development-specification.html">English</a>
 </p>  
 
+# 如何使用 Natasha 封装类库  
+
 
 ## Natasha  封装规约
 
 Natasha有自己的封装规则，这可以让封装者思路更加清晰，并让作品更加容易维护。
 
-
 <br/>
 
 ## 一个完整的Operator
 
-完整的Operator包括三部分：
+Operator 作为动态构建对外使用的操作类，一个 Operator 可大致由以下 3 部分组成：
 
--  Builer
--  Extension (为了方便可以写些扩展)
--  Function (根据自己的需求定制)
+-  Template
+-  Builder
+-  Package / Extension
 
 <br/>
 
-
 ## 脚本构建器（Builder）  
 
-作为Operator最重要的核心部分，Builder分为两部分 模板与编译器：
+作为 Operator 最重要的核心部分，Builder 主要为 Operator 提供委托，可以从外部接收配置，可以在内部组合模板并进行编译。   
+其大致分为两部分 Template 模板与 Compiler 编译器：
  
 <br/>  
 
    - Template 构建模板  
         
-        使用 Template 模板构建运行时脚本字符串，Natasha内置了诸多模板，可以方便使用者构建脚本。          
+        使用 Template 模板构建运行时脚本字符串，模板对外暴漏 API 以方便使用者组成编译字符串。          
         
-       - Oop(class/struct/interface) 集成了类、结构体、接口的脚本模板，可以对面向对象的结构进行动态构建。
+       - UsingTemplat 是 Natasha 内置模板，提供了从命名空间到完整对象的代码构建。
          
-       - OnceMethod 为快速构建一个方法的模板，继承了Oop模板，可以解决常用一次性委托构建的问题。  
+       - DelegateTemplate 是 Natasha 内置模板，提供了方法代码的构建。  
        
-       - Member 为了给成员提供一个公用的保护级别、修饰符等必备构建信息。
-         
-       - Method/Ctor/Field/Property 是继承了Member模板，生成的结果为单个的函数/字段体/属性，可以结合Oop模板完整的构建面向对象的结构。
+       - FieldTemplate 是 Natasha 内置模板，提供了字段代码的构建。  
+       
+       - PropertyTemplate 是 Natasha 内置模板，提供了属性代码的构建。
          
 <br/>  
      
-   - Complier 编译器
+   - Compiler 编译器
      
-        为了对接编译引擎和搜集异常，Natasha使用抽象类IComplier进行基础的编译工作，
-        包括：选择编译方式/获取程序集/获取类型/获取方法元数据/获取委托。  
-        引擎之外便是编译层，Natasha统一采用AssemblyComplier编译器。
+        编译器接收模板提供的字符串并进行编译，完成 Builder 的编译任务。
         
-      - AssemblyComplier : 在抽象编译器的基础上，区分了获取类、结构体以及接口的方法，并对获取委托方法进行了包装。  
-        
+      - AssemblyCSharpBuilder  : 使用 Natasha 的 CSharp 编译器可以轻松的完成字符串的编译和元数据的提取。
         
 
-<br/>
+<br/>  
 
-
+   - Builder 
+     
+        直接使用 Natasha 内置的 Builder 可以快速实现定制，例如： OopBuilder<TOperator> ，MethodBuilder<TOperator>。
+        前者为其提供对象构造模板，后者专注构建方法。   
+ 
+        
 ## Operator
 
-Operator 在 Builder 的基础上进行封装，Builder提供了脚本构建以及编译的大部分功能，因此，Operator的封装需要更专注功能及扩展的开发。    
-对于扩展而言，Operator或者Builder写好之后，可以根据需要，封装一个扩展方法，给用户使用。  
-Operator的功能是根据自己的需求进行定制的。
+Operator 在 Builder 的基础上进行了 Package 封装，Operator 存储了 Builder 提供的编译结果，对外暴漏用户级别的 API 。
 
 
 #### 案例  
 
-例如 FastMethodOperator 在 OnceMethodBuilder 的基础上进行了包装和简化，FastMethodOpeartor 的初始化函数中定制了一个专属自己的脚本构建流程，如下图：
+例如 FastMethodOperator 在 MethodBuilder 的基础上进行了包装和简化，FastMethodOpeartor 的初始化函数中定制了一个专属自己的脚本构建流程，如下图：
 
-```C#
-HiddenNameSpace()
- .OopAccess(AccessTypes.Public)
- .OopModifier(Modifiers.Static)
- .MethodAccess(AccessTypes.Public)
- .MethodModifier(Modifiers.Static);
+定义方法的访问级别与修饰 `public static`  
+
+```C# 
+
+this.Access(AccessFlags.Public)
+.Modifier(ModifierFlags.Static);
 
 ```  
 
-隐藏命名空间，类使用Public保护级别和静态修饰符，方法使用Public保护级别和静态修饰符，那么这个固定的构造流程将生成如下代码：
+同时 MethodBuilder 的方法脚本需要 “寄生” 在一个类/接口/结构体中才能进行编译和使用，  
+因此 MethodBuilder 内部有宿主 OopBuilder 来接收 MethodBuilder 产生的脚本，
+最后进行编译的是 OopBuilder , 同时 OopBuilder 有如下初始化：
+
+定义了类：`public static class {randomname} {}`
+注意这里使用了 `HiddentNamespace` 方法来去掉命名空间，去不去掉都无所谓。  
 
 ```C#
-
-using XXXX;
-public static class XXXXX{
- public static X Invoke(){
-   xxxxxx
- }
-}
-
+ ClassOptions(item => item
+.Modifier(ModifierFlags.Static)
+.Class()
+.UseRandomName()
+.HiddenNamespace()
+.Access(AccessFlags.Public)
+);
 ```
-在编译之后，我们可以拿到Invoke委托函数，就可以直接用了。
+
