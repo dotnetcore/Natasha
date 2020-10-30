@@ -18,7 +18,7 @@ string text = @"
 AssemblyCSharpBuilder oop = new AssemblyCSharpBuilder();
 
 //这里就算你添加100个类，最终编译的时候都会在一个程序集中
-oop.Syntax.Add(text);
+oop.Add(text);
 
 //下面的程序集里会有你在 Syntax 中添加的类
 Assembly assembly = oop.GetAssembly();
