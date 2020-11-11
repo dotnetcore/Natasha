@@ -2,17 +2,19 @@
 
   <PropertyGroup>
 
-	  <TargetFrameworks>netstandard2.0;netcoreapp3.0;netcoreapp3.1;</TargetFrameworks>
+	  <TargetFrameworks>netstandard2.0;netcoreapp3.0;netcoreapp3.1;net5.0;</TargetFrameworks>
 	  <Description>发布最新版 Natasha</Description>
 	  <PackageId>DotNetCore.Natasha.CSharp.All</PackageId>
 	  <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-	  <PackageReleaseNotes>增加 netcore3.1 版本的 runtime 支持.</PackageReleaseNotes>
-	  <Version>2.0.1.1</Version>
+	  <PackageReleaseNotes>增加 .NET5 支持.</PackageReleaseNotes>
+	  <Version>2.0.2</Version>
 	  <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
 	  <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
 	  <PackageTags>Roslyn;IL;Script;Dynamic;Natasha;NMS;</PackageTags>
 	  <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 	  <PackageIconUrl>https://avatars2.githubusercontent.com/u/19404084</PackageIconUrl>
+	  <FileVersion>2.0.2</FileVersion>
+	  <AssemblyVersion>2.0.2</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>

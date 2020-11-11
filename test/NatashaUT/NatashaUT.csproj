@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.0;</TargetFrameworks>
+    <TargetFrameworks>net5.0;</TargetFrameworks>
     <IsPackable>false</IsPackable>
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
@@ -64,7 +64,7 @@
 
   
   <ItemGroup>
-    <PackageReference Include="DotNetCore.Compile.Environment" Version="2.0.0" />
+    <!--<PackageReference Include="DotNetCore.Compile.Environment" Version="2.2.0" />-->
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
