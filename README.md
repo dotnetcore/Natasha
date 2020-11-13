@@ -95,16 +95,15 @@
     - [ ] 评估 Trie 及变种 与 BTF 算法的性能差距
  - [ ] 元数据
     - [ ] 优化性能
-    - [ ] 精确解析
+    - [x] 精确解析
     - [x] 持续评估封装架构的设计方案
  - [ ] 改造 [NCaller](https://github.com/night-moon-studio/NCaller) 
     - [x] 持续优化性能
-    - [ ] 私有支持
-    - [ ] 设计动态变现功能和实现
-    - [ ] 设计只读功能维度和实现
+    - [x] 私有支持
+    - [ ] 评估是否支持 AOP 
     - [x] 评估 [NCaller](https://github.com/night-moon-studio/NCaller) 代理方式 和 [DynmaicCache](https://github.com/night-moon-studio/DynamicCache) 代理方式 在 R2D 模板下的异同及抽象
     - [x] 优化静态自动机代码
-    - [x] 实用委托指针优化性能
+    - [x] 使用委托指针优化性能
     
  - [ ] 依赖还原库
     - [ ] NET 模块
