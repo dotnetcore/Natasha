@@ -9,28 +9,15 @@ public static class NatashaInitializer
 
     static NatashaInitializer()
     {
-        NatashaComponentRegister.RegistDomain<NatashaAssemblyDomain>();
-        NatashaComponentRegister.RegistCompiler<NatashaCSharpCompiler>();
-        NatashaComponentRegister.RegistSyntax<NatashaCSharpSyntax>();
+        
         _lock = new object();
     }
 
     /// <summary>
     /// 初始化 Natasha 组件
     /// </summary>
-    public static async Task Initialize()
+    public static async Task Initialize(bool initializeReference = true)
     {
-
-
-    }
-
-    /// <summary>
-    /// 初始化 Natasha 组件并预热
-    /// </summary>
-    /// <returns></returns>
-    public static async Task InitializeAndPreheating()
-    {
-
         if (!_hasInitialize)
         {
             lock (_lock)
@@ -38,13 +25,30 @@ public static class NatashaInitializer
                 if (!_hasInitialize)
                 {
                     _hasInitialize = true;
-                    var action = NDelegate.RandomDomain().Action("");
-                    action();
-                    action.DisposeDomain();
+                    NatashaComponentRegister.RegistDomain<NatashaAssemblyDomain>(initializeReference);
+                    NatashaComponentRegister.RegistCompiler<NatashaCSharpCompiler>();
+                    NatashaComponentRegister.RegistSyntax<NatashaCSharpSyntax>();
                 }
             }
-        }
             
+        }
+       
+    }
+
+    /// <summary>
+    /// 初始化 Natasha 组件并预热
+    /// </summary>
+    /// <returns></returns>
+    public static async Task InitializeAndPreheating(bool initializeReference = true)
+    {
+
+        Initialize(initializeReference);
+        var domain = DomainManagement.Random;
+        domain.AddReferencesFromDllFile(typeof(object).Assembly.Location);
+        var action = NDelegate.UseDomain(domain).Action("");
+        action();
+        action.DisposeDomain();     
+
     }
 }
 

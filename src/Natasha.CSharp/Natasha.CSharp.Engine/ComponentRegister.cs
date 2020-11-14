@@ -12,9 +12,9 @@ public static class NatashaComponentRegister
         CompilerManagement.RegisterDefault<TCompiler>();
     }
 
-    public static void RegistDomain<TDomain>() where TDomain : DomainBase
+    public static void RegistDomain<TDomain>(bool initializeReference = true) where TDomain : DomainBase
     { 
-        DomainManagement.RegisterDefault<TDomain>();
+        DomainManagement.RegisterDefault<TDomain>(initializeReference);
     }
 
     public static void RegistSyntax<TSyntax>() where TSyntax : SyntaxBase, new()

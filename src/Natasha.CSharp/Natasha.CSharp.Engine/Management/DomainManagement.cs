@@ -21,7 +21,7 @@ public class DomainManagement
     }
 
 
-    public static TDomain RegisterDefault<TDomain>() where TDomain : DomainBase
+    public static TDomain RegisterDefault<TDomain>(bool initializeReference= true) where TDomain : DomainBase
     {
 
         DynamicMethod method = new DynamicMethod("Domain" + Guid.NewGuid().ToString(), typeof(DomainBase), new Type[] { typeof(string) });
@@ -33,13 +33,17 @@ public class DomainManagement
         CreateDomain = (Func<string, DomainBase>)(method.CreateDelegate(typeof(Func<string, DomainBase>)));
 
         Default = Create("Default");
-        foreach (var asm in DependencyContext
-        .Default
-        .CompileLibraries
-        .SelectMany(cl => cl.ResolveReferencePaths()))
+        if (initializeReference)
         {
-            Default.AddReferencesFromDllFile(asm);
+            foreach (var asm in DependencyContext
+            .Default
+            .CompileLibraries
+            .SelectMany(cl => cl.ResolveReferencePaths()))
+                {
+                    Default.AddReferencesFromDllFile(asm);
+                }
         }
+        
 
 
         return (TDomain)Default;
