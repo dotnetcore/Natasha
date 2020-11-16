@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Natasha.CSharp\Natasha.CSharp.All\Natasha.CSharp.All.csproj" />
+    <PackageReference Include="DotNetCore.Natasha.CSharp.All" Version="2.0.2.1" />
   </ItemGroup>
 
 

@@ -5,7 +5,7 @@
     <Description>Natasha 编译框架以及各个操作类的标准</Description>
     <PackageId>DotNetCore.Natasha.Framework</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <PackageReleaseNotes>增加 NETCOREAPP 3.1 Runtime 支持</PackageReleaseNotes>
+    <PackageReleaseNotes>增加 NETCOREAPP 3.1 .NET5 Runtime 支持</PackageReleaseNotes>
     <Version>2.3.0</Version>
     <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
