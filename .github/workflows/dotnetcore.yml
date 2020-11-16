@@ -13,7 +13,7 @@ jobs:
       - name: Setup
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 3.1.100
+          dotnet-version: 5.0.100
       - name: Build
         run: dotnet build './src/Natasha.CSharp/Natasha.CSharp.All/Natasha.CSharp.All.csproj' --configuration Release
       - name: Test
@@ -27,7 +27,7 @@ jobs:
        - name: Setup
          uses: actions/setup-dotnet@v1
          with:
-          dotnet-version: 3.1.100
+          dotnet-version: 5.0.100
     
        
        - name: Setup Opencover
@@ -59,7 +59,7 @@ jobs:
       - name: Setup
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 3.1.100
+          dotnet-version: 5.0.100
       - name: Build
         run: dotnet build './src/Natasha.CSharp/Natasha.CSharp.All/Natasha.CSharp.All.csproj' --configuration Release
       - name: Test
