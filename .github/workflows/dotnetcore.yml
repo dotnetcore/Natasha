@@ -29,13 +29,6 @@ jobs:
          with:
           dotnet-version: 5.0.100
     
-       
-       - name: Setup Opencover
-         uses: crazy-max/ghaction-chocolatey@v1
-         with:
-             args: install opencover.portable
-             env: Setup DotNet2.1.4
-       
        - name: Setup Cover
          uses: crazy-max/ghaction-chocolatey@v1
          with: 
@@ -45,12 +38,10 @@ jobs:
          run: dotnet build './src/Natasha.CSharp/Natasha.CSharp.All/Natasha.CSharp.All.csproj' --configuration Release
          
        - name: Test
-         run: 
-             OpenCover.Console.exe -register:user -target:"dotnet.exe" -targetargs:"test ./test/NatashaUT" -output:".\coverage.xml" -oldstyle
+         run: dotnet test  "./test/NatashaUT/NatashaUT.csproj" /p:CollectCoverage=true /p:CoverletOutputFormat=json  --collect:"XPlat Code Coverage" -r:"./result/" --no-build -m
        
        - name: Upload Report
-         run:
-            codecov -f "coverage.xml" -t ${{ secrets.COVERAGE_KEY }}
+         run: codecov -f "*.cobertura.xml" -t ${{ secrets.COVERAGE_KEY }}
    
   mac:
       runs-on: macos-latest
