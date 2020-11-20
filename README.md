@@ -64,7 +64,7 @@
   
   - 2020-11-14 ： 发布 Natasha.CSharp.All v2.0.2.1，支持 .NET5 ，初始化函数增加参数，false 代表不初始化默认域的引用，此时引用需要在域中手动添加。 
   
-  - 2020-11-20 ： 发布 Natasha.CSharp.All v2.0.2.2，支持 .NET5 / C# 9 ；增加 NRecord 构建模板；增加 RecordProperty<T>(name) 只读包装属性，增加 OOP 模板 Property 构建是关于 init 类型的 API； 增加支持 fixed 修饰符；.NET5 版本 增加 SkipInit 特性（注解），可用在存储结构构建以及方法上。
+  - 2020-11-20 ： 发布 Natasha.CSharp.All v2.0.2.2，支持 .NET5 / C# 9 ；增加 NRecord 构建模板；增加 RecordProperty<T>(name) 只读包装属性，增加 OOP 模板 Property 构建是关于 init 类型的 API； 增加支持 fixed 修饰符；.NET5 版本 增加 SkipInit 特性（注解），可用在存储结构构建以及方法上；修复日志输出格式。
     
 <br/>  
 <br/>  
