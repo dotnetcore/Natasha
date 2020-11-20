@@ -6,6 +6,13 @@ namespace Natasha.CSharp
     public static class OopDefinedTypeExtension
     {
 
+        public static T Record<T>(this DefinedTypeTemplate<T> defined) where T : DefinedTypeTemplate<T>, new()
+        {
+
+            return defined.Type("record");
+
+        }
+
         public static T Class<T>(this DefinedTypeTemplate<T> defined) where T : DefinedTypeTemplate<T>, new()
         {
 

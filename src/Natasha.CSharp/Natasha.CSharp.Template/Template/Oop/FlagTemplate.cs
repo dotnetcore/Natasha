@@ -49,11 +49,13 @@ namespace Natasha.CSharp.Template
         {
             return SetFlag("assembly:"+script);
         }
+
         public T AllowPrivate(string assemblyName)
         {
             SetAssemblyFlag<IgnoresAccessChecksToAttribute>(assemblyName);
             return Link;
         }
+
         public T AllowPrivate(Assembly assembly)
         {
             if (!AssemblyCache.Contains(assembly))
@@ -75,8 +77,6 @@ namespace Natasha.CSharp.Template
         {
             return AllowPrivate(info.DeclaringType);
         }
-
-
 
         public override T BuilderScript()
         {

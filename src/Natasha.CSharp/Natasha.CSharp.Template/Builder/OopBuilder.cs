@@ -4,6 +4,7 @@ using Natasha.CSharp.Template;
 using System;
 using System.Collections.Concurrent;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Natasha.CSharp.Builder
 {
@@ -74,6 +75,13 @@ namespace Natasha.CSharp.Builder
 
         }
 
+#if NET5_0
+        public T SkipInit()
+        {
+            this.Attribute<SkipLocalsInitAttribute>();
+            return Link;
+        }
+#endif
 
 
 
@@ -515,6 +523,32 @@ namespace Natasha.CSharp.Builder
             return CreateField("protected", "static", type, name, attribute);
         }
 
+
+        /// <summary>
+        /// 只读包装属性
+        /// </summary>
+        /// <typeparam name="S"></typeparam>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public T RecordProperty<S>(string name)
+        {
+            return RecordProperty(typeof(S), name);
+        }
+        /// <summary>
+        /// 只读包装属性
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public T RecordProperty(Type type, string name)
+        {
+            return Property(item => item
+            .Public()
+            .Name(name)
+            .Type(type)
+            .Getter()
+            .InitSetter());
+        }
     }
 
 

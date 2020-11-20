@@ -31,6 +31,13 @@ namespace Natasha.CSharp.Template
             return Link;
 
         }
+        public T Fixed()
+        {
+
+            _status.Add(ModifierFlags.Abstract);
+            return Link;
+
+        }
         public T Abstract()
         {
 

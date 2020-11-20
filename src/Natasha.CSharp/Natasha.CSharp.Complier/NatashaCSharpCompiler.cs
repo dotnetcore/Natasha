@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
+using Natasha.CSharp.Compiler;
 using Natasha.Framework;
 using System;
 using System.Collections.Concurrent;
@@ -192,94 +193,4 @@ public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompi
 }
 
 
-
-//
-// 摘要:
-//     A specific location for binding.
-[Flags]
-public enum CompilerBinderFlags : uint
-{
-    None = 0x0,
-    SuppressConstraintChecks = 0x1,
-    SuppressObsoleteChecks = 0x2,
-    ConstructorInitializer = 0x4,
-    FieldInitializer = 0x8,
-    ObjectInitializerMember = 0x10,
-    CollectionInitializerAddMethod = 0x20,
-    AttributeArgument = 0x40,
-    GenericConstraintsClause = 0x80,
-    Cref = 0x100,
-    CrefParameterOrReturnType = 0x200,
-    //
-    // 摘要:
-    //     Indicates that the current context allows unsafe constructs.
-    //
-    // 言论：
-    //     NOTE: Dev10 doesn't seem to treat attributes as being within the unsafe region.
-    //     Fortunately, not following this behavior should not be a breaking change since
-    //     attribute arguments have to be constants and there are no constants of unsafe
-    //     types.
-    UnsafeRegion = 0x400,
-    //
-    // 摘要:
-    //     Indicates that the unsafe diagnostics are not reported in the current context,
-    //     regardless of whether or not it is (part of) an unsafe region.
-    SuppressUnsafeDiagnostics = 0x800,
-    //
-    // 摘要:
-    //     Indicates that this binder is being used to answer SemanticModel questions (i.e.
-    //     not for batch compilation).
-    //
-    // 言论：
-    //     Imports touched by a binder with this flag set are not consider "used".
-    SemanticModel = 0x1000,
-    EarlyAttributeBinding = 0x2000,
-    //
-    // 摘要:
-    //     Remarks, mutually exclusive with Microsoft.CodeAnalysis.CSharp.BinderFlags.UncheckedRegion.
-    CheckedRegion = 0x4000,
-    //
-    // 摘要:
-    //     Remarks, mutually exclusive with Microsoft.CodeAnalysis.CSharp.BinderFlags.CheckedRegion.
-    UncheckedRegion = 0x8000,
-    InLockBody = 0x10000,
-    InCatchBlock = 0x20000,
-    InFinallyBlock = 0x40000,
-    InTryBlockOfTryCatch = 0x80000,
-    InCatchFilter = 0x100000,
-    InNestedFinallyBlock = 0x200000,
-    IgnoreAccessibility = 0x400000,
-    ParameterDefaultValue = 0x800000,
-    //
-    // 摘要:
-    //     In the debugger, one can take the address of a managed object.
-    AllowManagedAddressOf = 0x1000000,
-    //
-    // 摘要:
-    //     In the debugger, the context is always unsafe, but one can still await.
-    AllowAwaitInUnsafeContext = 0x2000000,
-    //
-    // 摘要:
-    //     Ignore duplicate types from the cor library.
-    IgnoreCorLibraryDuplicatedTypes = 0x4000000,
-    //
-    // 摘要:
-    //     When binding imports in scripts/submissions, using aliases (other than from the
-    //     current submission) are considered but other imports are not.
-    InScriptUsing = 0x8000000,
-    //
-    // 摘要:
-    //     In a file that has been included in the compilation via #load.
-    InLoadedSyntaxTree = 0x10000000,
-    //
-    // 摘要:
-    //     This is a Microsoft.CodeAnalysis.CSharp.ContextualAttributeBinder, or has Microsoft.CodeAnalysis.CSharp.ContextualAttributeBinder
-    //     as its parent.
-    InContextualAttributeBinder = 0x20000000,
-    //
-    // 摘要:
-    //     Are we binding for the purpose of an Expression Evaluator
-    InEEMethodBinder = 0x40000000,
-    AllClearedAtExecutableCodeBoundary = 0x3F0000
-}
 

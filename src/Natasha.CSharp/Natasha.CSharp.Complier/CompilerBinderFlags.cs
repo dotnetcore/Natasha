@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Natasha.CSharp.Compiler
 {
+
     [Flags]
     public enum CompilerBinderFlags : uint
     {

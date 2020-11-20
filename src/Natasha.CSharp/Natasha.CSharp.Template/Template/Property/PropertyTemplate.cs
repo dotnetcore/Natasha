@@ -11,29 +11,35 @@ namespace Natasha.CSharp.Template
         internal StringBuilder _setter;
         private bool _onlyGetter;
         private bool _onlySetter;
+        private string _setterWordkey;
+        
 
         public PropertyTemplate()
         {
+            _setterWordkey = "set";
             _getter = new StringBuilder();
             _setter = new StringBuilder();
         }
 
 
 
-
+        public T InitSetter(string body = default)
+        {
+            _setterWordkey = "init";
+            return Setter(body);
+        }
         /// <summary>
         /// 直接传属性Set方法的内容字符串
         /// </summary>
         /// <param name="body">属性Set内容</param>
         /// <returns></returns>
-        public T Setter(string body)
+        public T Setter(string body = default)
         {
-
             _setter_body = body;
             return Link;
 
         }
-        public T OnlySetter(string body)
+        public T OnlySetter(string body = default)
         {
             _onlySetter = true;
             return Setter(body);
@@ -43,14 +49,14 @@ namespace Natasha.CSharp.Template
         /// </summary>
         /// <param name="body">属性Set内容</param>
         /// <returns></returns>
-        public T Getter(string body)
+        public T Getter(string body = default)
         {
 
             _getter_body = body;
             return Link;
 
         }
-        public T OnlyGetter(string body)
+        public T OnlyGetter(string body = default)
         {
             _onlyGetter = true;
             return Getter(body);
@@ -94,13 +100,13 @@ namespace Natasha.CSharp.Template
                 if (_setter_body == default)
                 {
 
-                    _setter.AppendLine("set;");
+                    _setter.AppendLine($"{_setterWordkey};");
 
                 }
                 else
                 {
 
-                    _getter.Append("set{");
+                    _getter.Append($"{_setterWordkey}{{");
                     _getter.Append(_setter_body);
                     _setter.AppendLine("}");
 

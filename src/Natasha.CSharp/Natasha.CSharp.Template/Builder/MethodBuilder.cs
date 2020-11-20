@@ -2,6 +2,7 @@
 using Natasha.CSharp.Template;
 using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Natasha.CSharp.Builder
 {
@@ -34,6 +35,13 @@ namespace Natasha.CSharp.Builder
         }
 
 
+#if NET5_0
+        public T SkipInit()
+        {
+            this.Attribute<SkipLocalsInitAttribute>();
+            return Link;
+        }
+#endif
 
 
         public T Using<S>()

@@ -1,7 +1,9 @@
 ﻿
+using System;
 /// <summary>
 /// 修饰符枚举
 /// </summary>
+[Flags]
 public enum ModifierFlags
 {
     None,
@@ -13,7 +15,8 @@ public enum ModifierFlags
     Abstract,
     Async,
     Unsafe,
-    Readonly
+    Readonly,
+    Fixed
 
 }
 

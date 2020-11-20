@@ -35,6 +35,8 @@ namespace Natasha.CSharp.Reverser
                     return "const ";
                 case ModifierFlags.Readonly:
                     return "readonly ";
+                case ModifierFlags.Fixed:
+                    return "fixed ";
                 default:
                     return "";
             }
