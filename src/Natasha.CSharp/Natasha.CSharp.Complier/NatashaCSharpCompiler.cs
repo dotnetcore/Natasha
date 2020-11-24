@@ -78,7 +78,7 @@ public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompi
         AssemblyOutputKind = AssemblyBuildKind.Stream;
         SuppressDiagnostics = GlobalSuppressDiagnostics;
         Enum_Platform = Platform.AnyCpu;
-        SuppressDiagnostics = new ConcurrentDictionary<string, ReportDiagnostic>();
+        //SuppressDiagnostics = new ConcurrentDictionary<string, ReportDiagnostic>();
 
     }
 
