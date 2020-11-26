@@ -115,9 +115,7 @@ namespace Natasha.CSharp.Reverser
                         var baseType = reflectMethodInfo.DeclaringType.BaseType;
                         if (baseType != null && baseType != typeof(object) )
                         {
-                            var baseInfo = reflectMethodInfo
-                            .DeclaringType
-                            .BaseType
+                            var baseInfo = baseType
                             .GetMethod(reflectMethodInfo.Name, BindingFlags.Public
                             | BindingFlags.Instance
                             | BindingFlags.NonPublic);
