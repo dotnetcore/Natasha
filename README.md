@@ -103,11 +103,11 @@
     - [ ] 优化性能
     - [x] 精确解析
     - [x] 持续评估封装架构的设计方案
- - [ ] 改造 [NCaller](https://github.com/night-moon-studio/NCaller) 
+ - [ ] 改造 [Leo](https://github.com/night-moon-studio/Leo) 
     - [x] 持续优化性能
     - [x] 私有支持
     - [ ] 评估是否支持 AOP 
-    - [x] 评估 [NCaller](https://github.com/night-moon-studio/NCaller) 代理方式 和 [DynmaicCache](https://github.com/night-moon-studio/DynamicCache) 代理方式 在 R2D 模板下的异同及抽象
+    - [x] 评估 [Leo](https://github.com/night-moon-studio/Leo) 代理方式 和 [DynmaicDictionary](https://github.com/night-moon-studio/DynmaicDictionary) 代理方式 在 R2D 模板下的异同及抽象
     - [x] 优化静态自动机代码
     - [x] 使用委托指针优化性能
     
