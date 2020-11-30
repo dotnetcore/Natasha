@@ -147,6 +147,24 @@ namespace NatashaUT
 
         }
 
+        [Fact(DisplayName = "泛型方法")]
+        public void Test8()
+        {
+
+            MethodBuilder template = MethodBuilder.RandomDomain();
+            var result = template
+                .Modifier(ModifierFlags.Static)
+                .Name("Name<T,S>")
+                .Type("(T key,S value)")
+                .Param("T t")
+                .Param("S s")
+                .Script;
+
+            Assert.Equal($"static (T key,S value) Name<T,S>(T t,S s){{}}", result);
+            
+
+        }
+
     }
 
 }
