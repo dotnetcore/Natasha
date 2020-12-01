@@ -18,8 +18,7 @@
 &ensp;&ensp;&ensp;&ensp;基于 [Roslyn](https://github.com/dotnet/roslyn) 的 C# 动态程序集构建库，该库允许开发者在运行时使用 C# 代码构建域 / 程序集 / 类 / 结构体 / 枚举 / 接口 / 方法等，使得程序在运行的时候可以增加新的模块及功能。Natasha 集成了域管理/插件管理，可以实现域隔离，域卸载，热拔插等功能。 该库遵循完整的编译流程，提供完整的错误提示， 可自动添加引用，完善的数据结构构建模板让开发者只专注于程序集脚本的编写，兼容 netcoreapp2.0+ / netcoreapp3.0+, 跨平台，统一、简便的链式 API。 且我们会尽快修复您的问题及回复您的 [issue](https://github.com/dotnetcore/Natasha/issues/new).   
 [更多的动图展示](https://github.com/dotnetcore/Natasha/blob/master/docs/zh/gif.md)
 
-
- ![展示](https://gitee.com/NMSLanX/my-project-images/blob/master/Project/NCC/Natasha/Natasha.gif)  
+<img src="https://images.gitee.com/uploads/images/2020/1201/161046_e8f52622_1478282.gif" />
  
 <br/>
 <br/>
@@ -134,16 +133,17 @@
 ### 性能测试
       
    - [x]  **动态初始化性能测试（对照组： emit, origin）**  
-     ![初始化性能测试](https://gitee.com/NMSLanX/my-project-images/blob/master/Project/NCC/Natasha/Natasha%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%951.png)
+     ![初始化性能测试](https://images.gitee.com/uploads/images/2020/1201/161738_b54dd1ad_1478282.png)
    - [x]  **内存及CPU监测截图**  
-     ![内存及CPU](https://gitee.com/NMSLanX/my-project-images/blob/master/Project/NCC/Natasha/%E8%B5%84%E6%BA%90%E7%9B%91%E6%B5%8B.png)      
+     ![内存及CPU](https://images.gitee.com/uploads/images/2020/1201/161450_96e70709_1478282.png)      
 
 <br/>    
 <br/> 
 
 ### 赞助：
 
-<img width=180 src="https://gitee.com/NMSLanX/my-project-images/blob/master/Project/NCC/Natasha/%E8%B5%9E%E5%8A%A9.jpg" title="Scan and donate"/>
+<img width=200 height=200 src="https://images.gitee.com/uploads/images/2020/1201/163955_a29c0b44_1478282.png" title="Scan and donate"/><img width=200 height=200 src="https://images.gitee.com/uploads/images/2020/1201/164809_5a67d5e2_1478282.png" title="Scan and donate"/>
+
 
 #### 捐助明细  
 
