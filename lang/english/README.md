@@ -16,426 +16,141 @@ Make your dynamic approach easier to write, track, and maintain.  Welcome to dis
 
 <br/>
 
-### Library Info  
+### Library Info 
+ 
 
-[![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/dotnetcore/natasha.svg)](https://github.com/dotnetcore/Natasha/releases) ![GitHub repo size](https://img.shields.io/github/repo-size/dotnetcore/Natasha.svg) [![GitHub commit activity](https://img.shields.io/github/commit-activity/m/dotnetcore/natasha.svg)](https://github.com/dotnetcore/Natasha/commits/master) [![Codecov](https://img.shields.io/codecov/c/github/dotnetcore/natasha.svg)](https://codecov.io/gh/dotnetcore/Natasha)  
+[![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/dotnetcore/natasha.svg)](https://github.com/dotnetcore/Natasha/releases) ![GitHub repo size](https://img.shields.io/github/repo-size/dotnetcore/Natasha.svg) [![GitHub commit activity](https://img.shields.io/github/commit-activity/m/dotnetcore/natasha.svg)](https://github.com/dotnetcore/Natasha/commits/master) [![Codecov](https://img.shields.io/codecov/c/github/dotnetcore/natasha.svg)](https://codecov.io/gh/dotnetcore/Natasha) 
 
-| Scan Name | Status |
-|--------- |------------- |
-| Document | [![wiki](https://img.shields.io/badge/wiki-ch-blue.svg)](https://github.com/dotnetcore/Natasha/wiki) |
-| Lang | ![Complie](https://img.shields.io/badge/script-csharp-green.svg)|
-| Rumtime | ![standard](https://img.shields.io/badge/platform-standard2.0-blue.svg) | 
-| OS | ![Windows](https://img.shields.io/badge/os-windows-black.svg) ![linux](https://img.shields.io/badge/os-linux-black.svg) ![mac](https://img.shields.io/badge/os-mac-black.svg)|   
+| Script | .NET Env | Document |
+| ------ | -------- | -------- |  
+| ![Compile](https://img.shields.io/badge/script-csharp-green.svg) | ![standard](https://img.shields.io/badge/platform-standard2.0-blue.svg) ![standard](https://img.shields.io/badge/platform-netcore3.0-blue.svg) ![standard](https://img.shields.io/badge/platform-netcore3.1-blue.svg) ![standard](https://img.shields.io/badge/platform-net5.0-blue.svg)| [![wiki](https://img.shields.io/badge/wiki-ch-blue.svg)](https://natasha.dotnetcore.xyz/)  |
 
+| CI Platform | Build Server | Master Build  |
+|--------- |--------- |---------|
+| Github |![os](https://img.shields.io/badge/os-all-black.svg)| [![Build status](https://img.shields.io/github/workflow/status/dotnetcore/Natasha/.NET%20Core/master)](https://github.com/dotnetcore/Natasha/actions) |
+| Azure |![Windows](https://img.shields.io/badge/os-win-black.svg) | [![Build Status](https://dev.azure.com/NightMoonStudio/Natasha/_apis/build/status/dotnetcore.Natasha?branchName=master&jobName=Windows)](https://dev.azure.com/NightMoonStudio/Natasha/_build/latest?definitionId=3&branchName=master)|
+| Azure |![linux](https://img.shields.io/badge/os-linux-black.svg) |[![Build Status](https://dev.azure.com/NightMoonStudio/Natasha/_apis/build/status/dotnetcore.Natasha?branchName=master&jobName=Linux)](https://dev.azure.com/NightMoonStudio/Natasha/_build/latest?definitionId=3&branchName=master)|
+| Azure |![mac](https://img.shields.io/badge/os-mac-black.svg)| [![Build Status](https://dev.azure.com/NightMoonStudio/Natasha/_apis/build/status/dotnetcore.Natasha?branchName=master&jobName=macOS)](https://dev.azure.com/NightMoonStudio/Natasha/_build/latest?definitionId=3&branchName=master)|
+
+<br/>      
 <br/>  
 
-### CI Build Status  
+### User Api：   
+| Order | Operation | Target | Description |
+|-- |-------- |--------------| --------|
+| 1 | Reference Library | DotNetCore.Natasha.CSharp.All |  |
+| 2 | Initialization | NatashaInitializer.InitializeAndPreheating(); / Initialize(); | Preheating will take some time, and later compilation will be fast, or you can only initialize without preheating. |
+| 3 | Write code | instructions [https://natasha.dotnetcore.xyz/](https://natasha.dotnetcore.xyz/) | Contact me: 2765968624@qq.com or [FAQ](https://github.com/dotnetcore/Natasha/blob/master/docs/FAQ.md) or [create issue](https://github.com/dotnetcore/Natasha/issues/new) |
 
-| CI Platform | Build Server | Master Build  | Master Test |
-|--------- |------------- |---------| --------|
-| Travis | Linux/OSX | [![Build status](https://travis-ci.org/dotnetcore/Natasha.svg?branch=master)](https://travis-ci.org/dotnetcore/Natasha) | |
-| AppVeyor | Windows/Linux |[![Build status](https://ci.appveyor.com/api/projects/status/5ydt5yvb9lwfqocw?svg=true)](https://ci.appveyor.com/project/NMSAzulX/natasha)|[![Build status](https://img.shields.io/appveyor/tests/NMSAzulX/Natasha.svg)](https://ci.appveyor.com/project/NMSAzulX/natasha)|
-| Azure |  Windows |[![Build Status](https://dev.azure.com/NightMoonStudio/Natasha/_apis/build/status/dotnetcore.Natasha?branchName=master&jobName=Windows)](https://dev.azure.com/NightMoonStudio/Natasha/_build/latest?definitionId=3&branchName=master)|[![Build Status](https://img.shields.io/azure-devops/tests/NightMoonStudio/Natasha/3/master.svg)](https://dev.azure.com/NightMoonStudio/Natasha/_build/latest?definitionId=3&branchName=master) |
-| Azure |  Linux |[![Build Status](https://dev.azure.com/NightMoonStudio/Natasha/_apis/build/status/dotnetcore.Natasha?branchName=master&jobName=Linux)](https://dev.azure.com/NightMoonStudio/Natasha/_build/latest?definitionId=3&branchName=master)|[![Build Status](https://img.shields.io/azure-devops/tests/NightMoonStudio/Natasha/3/master.svg)](https://dev.azure.com/NightMoonStudio/Natasha/_build/latest?definitionId=3&branchName=master) | 
-| Azure |  Mac |[![Build Status](https://dev.azure.com/NightMoonStudio/Natasha/_apis/build/status/dotnetcore.Natasha?branchName=master&jobName=macOS)](https://dev.azure.com/NightMoonStudio/Natasha/_build/latest?definitionId=3&branchName=master)|[![Build Status](https://img.shields.io/azure-devops/tests/NightMoonStudio/Natasha/3/master.svg)](https://dev.azure.com/NightMoonStudio/Natasha/_build/latest?definitionId=3&branchName=master) | 
+<br/>  
+<br/>  
 
-<br/>    
-
-### Wiki Review  
-
-Teng(359768998@qq.com)  
-
- 
- <br/>  
- 
- 
-### Code Review  
-
-WeihanLi
-
- <br/> 
- 
- 
-### Publish Plan  
-
- - 2019-08-01 ： Release v1.0.0.0，The first official stable version.  
- - 2019-08-02 ： Release v1.0.4.0，Support asynchronous methods, support attributes.
- - 2019-08-04 ： Release v1.1.0.0，Optimize the compilation engine, distinguish OS characters, and increase exception capture.
- - 2019-08-05 ： Release v1.2.0.0，Support for compiling class/interface/struct, add FieldTemplate, add string extension method.  
- - 2019-08-06 ： Release v1.2.1.0，Scrap RuntimeComplier and switch to OopComplier. Mixed compilation of scripts and DLL files is supported.
- - 2019-08-09 ： Release v1.3.2.0，Support for compiling `unsafe` Method. MethodTemplate/OnceMethodTempalte add `UseUnsafe` Method.  
- - 2019-08-11 ： Release v1.3.4.0，Add NFunc/NAction Method, implement a delegate quickly. 
- - 2019-08-16 ： Release v1.3.6.0，Support for compiling enum type, log has added one folder names 'hh:mm'.  
- 
- <br/>  
- 
----------------------  
- <br/>  
- 
-
-### User Api：  
-
- <br/>  
- 
- > More new reference documentation：https://github.com/dotnetcore/Natasha/tree/master/article/en
-
-
-<br/>    
-
- 
-#### First edit your project file *.csproj：
-
-```C#
-
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
-    <PreserveCompilationContext>true</PreserveCompilationContext>   <--- Must.
-    <MvcRazorExcludeRefAssembliesFromPublish>false</MvcRazorExcludeRefAssembliesFromPublish> <---- WEB Publish Must.
-  </PropertyGroup>
-  
-```  
-
-<br/>
-<br/> 
-
-
-#### Mixed compilation of Script and Dll
-
-```C#
-
-//.dll content：
-using System;
-
-namespace ClassLibrary1
-{
-    public class Class1
-    {
-        public void Show1()
-        {
-            Console.WriteLine("RunShow1");
-        }
-
-        public static void Show2()
-        {
-            Console.WriteLine("RunShow2");
-        }
-    }
-}
-
-```
-
-```C#
-
-string text = @"
-    using System;
-    using System.Collections;
-    using System.Linq;
-    using System.Text;
-    using ClassLibrary1;
- 
-    namespace HelloWorld
-    {
-       public class Test
-       {
-            public Test(){
-               Name=""111"";
-            }
-
-           public string Name;
-           public int Age{get;set;}
-
-            public override string ToString(){
-
-                Class1 a = new Class1();
-                a.Show1();
-                Class1.Show2();
-                return ""11"";
-
-            }
-       }
-    }";
+### 发布日志  
+- Release log in 2019 [[Done]](https://github.com/dotnetcore/Natasha/blob/master/docs/zh/update/2019.md)
+- Release log in 2020 [[In process]](https://github.com/dotnetcore/Natasha/blob/master/docs/zh/update/2020.md)  
+  - 2020-08-06 ： 发布 v4.1.0.0，支持域内动态编程时插件 Using 引用覆盖 以及 动态生成程序集的 Using 引用覆盖， 减少开发者在域内编程时对 Using 的过多关注。 升级 Natasha.Framework; 添加 GetReferenceElements API 以便返回当前域所有的引用，增加 AddAssemblyEvent/RemoveAssemblyEvent 事件，在程序集加载与移除操作时触发。 增加方法返回值的 ref 修饰的反解。增加 Natasha.CSharp.All 库，提供组件库的自动引用。  
     
-//Class1 included ClassLibrary1.dll
-
-
-//add dll files/ complie
-OopComplier oop = new OopComplier();
-oop.LoadFile(@"D:\Project\IlTest\ClassLibrary1\bin\Debug\netstandard2.0\ClassLibrary1.dll");
-Type type = oop.GetClassType(text);
-
-
-//call
-var a = Activator.CreateInstance(type);
-Console.WriteLine(a.ToString());
-
-```
-
-<br/>
-<br/> 
-
-
-
-#### Catch exception：
-
-```C#
-  var fastBuilder = FastMethodOperator.New;
-  fastBuilder.Complier.Exception;             
-  if(fastBuilder.Complier.Exception.ErrorFlag == ComplieError.None) 
-  {
-        //Compiled successfully!
-  }
+  - 2020-10-10 ： 发布 Natasha.CSharp.All v2.0.0.0，重整项目结构，分离出 C# 相关组件，修复域管理操作类对域的弱引用关系，完善周边类库。   
+    
+  - 2020-10-28 ： 发布 Natasha.CSharp.All v2.0.1.1，使用初始化开关，避免多次初始化调用，支持 netcore3.1 Runtime 版本。  
   
+  - 2020-11-14 ： 发布 Natasha.CSharp.All v2.0.2.1，支持 .NET5 ，初始化函数增加参数，false 代表不初始化默认域的引用，此时引用需要在域中手动添加。 
   
-  var fakeBuilder = FakeMethodOpeartor.New;
-  fakeBuilder.Complier.Exception;
+  - 2020-11-20 ： 发布 Natasha.CSharp.All v2.0.2.2，支持 .NET5 / C# 9 ；增加 NRecord 构建模板；增加 RecordProperty<T>(name) 只读包装属性，增加 OOP 模板 Property 构建是关于 init 类型的 API； 增加支持 fixed 修饰符；.NET5 版本 增加 SkipInit 方法跳过初始化，即 SkipLocalsInit 特性（注解），可用在存储结构构建以及方法上；修复日志输出格式。
   
-  
-  var classBuilder = New ClassBuilder();
-  classBuilder.Complier.Exception;
-  
-```  
-<br/>
-<br/> 
-
-
-#### Using FastMethodOperator to build dynamic functions quickly：  
-  
-  
-```C#
-var action = FastMethodOperator.New
-             .Param<string>("str1")
-             .Param(typeof(string),"str2")
-             .MethodBody("return str1+str2;")
-             .Return<string>()
-             .Complie<Func<string,string,string>>();
-                    
-string result = action("Hello ","World!");    //result:   "Hello World!"
-
-
-
-
-//Enhanced implementation and asynchronous support
-
-
-//Complie<T> ： This method detects the parameters and the return type, and if any of them is not specified, the Complie method populates it with its own default parameter or return value
-//If it is a Action < int > with 1 parameter, use "arg".
-var delegateAction = FastMethodOperator.New
-
-       .UseAsync()
-       .MethodBody(@"
-               await Task.Delay(100);
-               string result = arg1 +"" ""+ arg2;  
-               Console.WriteLine(result);
-               return result;")
-
-       .Complie<Func<string, string, Task<string>>>();
-  
-string result = await delegateAction?.Invoke("Hello", "World2!");   //result:   "Hello World2!"
-
-
-//If you want to use asynchronous methods, use either the UseAsync method or the AsyncFrom<Class>(methodName) method.
-//The returned parameter requires you to specify Task < >. Remember that the outer layer method should have the async keyword.
-
-```
-<br/>
+  - 2020-11-24 ： 发布 Natasha.CSharp.All v2.0.2.3，修复禁断警告功能，升级周边类库依赖。
+    
 <br/>  
-
-#### Fast implementation of delegation using DelegateOperator：  
-
-```C# 
-
-//Define a delegate
-public delegate string GetterDelegate(int value);
-     
-     
-     
-//Usage 1    
-var action = DelegateOperator<GetterDelegate>.Create("value += 101; return value.ToString();");
-string result = action(1);              //result: "102"
-
-
-
-//Usage 2
-var action = "value += 101; return value.ToString();".Create<GetterDelegate>();
-string result = action(1);              //result: "102"
-     
-```  
+<br/>  
+  
+### 生态周边  
+| 项目名称 | 项目地址 | 项目简介 |
+|------------- |-----------| --------|
+| NatashaPad | [Github](https://github.com/night-moon-studio/NatashaPad) | 由 Roslyn 和 Natasha 支持的另一种dotnet调试工具，如 LinqPad 和 dotnet fiddle。 |
+| Leo | [Github](https://github.com/night-moon-studio/NCaller) | 基于 Natasha 和 查找树算法的高速反射类，可以操作对象的属性以及字段。 |
+| DeepClone | [Github](https://github.com/night-moon-studio/DeepClone) | 由 Natasha 的高性能深度克隆库。 |
+| BTFindTreee | [Github](https:https://github.com/dotnet-lab/BTFindTreee) | 快速查找算法的构建，包括哈希二分查找，字串模糊查找，字串归并精确查找。 |
+| Papper | [Github](https:https://github.com/dotnet-lab/Papper) | 对语法树解析库，主要目标时服务于 SG(Source Generator)技术。 |
+| RuntimeToDynamic | [Github](https://github.com/night-moon-studio/RuntimeToDynamic) | 将运行时数据压入到动态代理类中，以方便其他动态构建时对其进行复用。|
+| DynamicDictionary | [Github](https://github.com/night-moon-studio/DynamicCache) | 高速动态缓存，在只读并发场景中提供超高性能的数据查找功能。|
+| Aries | [Github](https://github.com/night-moon-studio/Aries) | 对 FreeSql 的高度封装，提供高性能、直观的 外联 / 乐观锁 / CURD 操作。|
 
 <br/>
 <br/>  
 
-#### Using FakeMethodOperator to build dynamic functions quickly：  
+### 开发计划
+#### 2.0+ 计划  
 
-```C#
-public class Test
-{ 
-   public string Handler(string str)
-   { 
-        retrurn null; 
-   }
-}
+ - [ ] 编写英文文档，以后将以英文文档为主
+ - [x] 调研 .NET6 中性能优化的新特性
+ - [ ] 完善 UT 测试
+ - [ ] 挣钱, 生存下来
+ 
+#### 周边项目计划
 
-```
-```C#
-var action = FakeMethodOperator.New
-             .UseMethod(typeof(Test).GetMethod("Handler"))
-             .StaticMethodContent(" str += "" is xxx;"",return str; ")
-             .Complie<Func<string,string>>();
-                  
-string result = action("xiao");              //result: "xiao is xxx;"          
-```
-  
-<br/>
+ - [ ] BTF 算法
+    - [ ] 每周定时跑算法随机测试程序
+    - [x] 持续评估 `span` 序列比较方法 及 指针转换比较 的性能
+    - [ ] 评估 Trie 及变种 与 BTF 算法的性能差距
+ - [ ] 元数据
+    - [ ] 优化性能
+    - [x] 精确解析
+    - [x] 持续评估封装架构的设计方案
+ - [ ] 改造 [Leo](https://github.com/night-moon-studio/Leo) 
+    - [x] 持续优化性能
+    - [x] 私有支持
+    - [ ] 评估是否支持 AOP 
+    - [x] 评估 [Leo](https://github.com/night-moon-studio/Leo) 代理方式 和 [DynmaicDictionary](https://github.com/night-moon-studio/DynmaicDictionary) 代理方式 在 R2D 模板下的异同及抽象
+    - [x] 优化静态自动机代码
+    - [x] 使用委托指针优化性能
+    
+ - [ ] 依赖还原库
+    - [ ] NET 模块
+    - [ ] NUGET 模块
+    - [ ] FOLDER SCAN 模块
+    - [ ] 跨平台 模块
+    
+ - [ ] 定制语法/语法糖 to Natasha
+ - [ ] 持续评估 Natasha 在灵活授权模型上的应用
+ - [ ] 持续搜集反编译的需求
+ - [ ] 调研 JAVA to C#
+ - [ ] 调研 GO to C#
+ - [ ] 考虑要不要调研 PHP to C#
+ - [ ] 谁能来帮我一起搞，帮我点上左边的小对号？
+ 
+> 欢迎大家提交PR 
+
+<br/>  
 <br/>  
 
-
-### Convenient extension  
- <br/>  
- 
-
-#### Class extension of Natasha:  
-
-```C#
-
-Example:          
-         
-         
-        typeof(Dictionary<string,List<int>>[]).GetDevelopName();
-        //result:  "Dictionary<String,List<Int32>>[]"
-        
-              
-        typeof(Dictionary<string,List<int>>[]).GetAvailableName();
-        //result:  "Dictionary_String_List_Int32____"
-        
-           
-        typeof(Dictionary<string,List<int>>).GetAllGenericTypes(); 
-        //result:  [string,list<>,int]
-        
-        
-        typeof(Dictionary<string,List<int>>).IsImplementFrom<IDictionary>(); 
-        //result: true
-        
-        
-        typeof(Dictionary<string,List<int>>).IsOnceType();         
-        //result: false
-        
-        
-        typeof(List<>).With(typeof(int));                          
-        //result: List<int>
-
-```
-<br/>
-<br/>    
-
-#### Method extension of Natasha:  
-
-```C#
-
-Example:  
-
-        Using : Natasha.Method; 
-        public delegate int AddOne(int value);
-        
-        
-        var action = "return value + 1;".Create<AddOne>();
-        var result = action(9);
-        //result : 10
-        
-        
-        var action = typeof(AddOne).Create("return value + 1;");
-        var result = action(9);
-        //result : 10
-
-
-        //use string exntesion method.
-         @"string result = str1 +"" ""+ str2;
-           Console.WriteLine(result);
-           return result;".FastOperator()
-               .Param<string>("str1")
-               .Param<string>("str2")
-               .Return<string>()
-               .Complie<Func<string, string, string>>()
-```
-
-<br/>
-<br/>    
- 
- #### Cloning extension of Natasha:  
-
-```C#
-
-Example:  
-
-        Using : Natasha.Clone; 
-        var instance = new ClassA();
-        var result = instance.Clone();
-```
-<br/>
-<br/>    
- 
-  #### Snapshot extension of Natasha:  
-
-```C#
-
-Example:  
-
-        Using : Natasha.Snapshot; 
-        var instance = new ClassA();
-        
-        instance.MakeSnapshot();
-        
-        // ********
-        //  do sth
-        // ********
-        
-        var result = instance.Compare();
-```
-
-<br/>
-<br/>    
-
-  #### Dynamic call extension of Natasha:  
-
-```C#
-
-Example:  
-
-        Using : Natasha.Caller; 
-        var instance = new ClassA();
-        
-        //Get DynamicHandler on the instance.
-        var handler = instance.Caller();
-        
-        //Get Operation
-        handler.Get<string>("MemberName");
-        handler["MemberName"].Get<string>();
-        
-        //Set Operation
-        handler.Set("MemberName",AnythingValue);
-        handler["MemberName"].Set(AnythingValue);
-
-```
-
-<br/>
-<br/>    
-
-#### Natasha Dynamic Module:  Moved to [【NCaller】](https://github.com/night-moon-studio/NCaller)
-<br/>    
-
----------------------  
-
-
-- **Benchmark test plan（Waiting for the next version of bechmark）**：
+### 性能测试
       
-     - [ ]  **Dynamic function performance test（control group： emit, origin）**  
-     - [ ]  **Dynamic call performance test（control group： dynamic direct call，dynamic proxy call，emit, origin）**  
-     - [ ]  **Dynamic cloning performance test（control group： origin）**
-     - [ ]  **Performance test of remote module（control group： emit, origin）**
+   - [x]  **动态初始化性能测试（对照组： emit, origin）**  
+     ![初始化性能测试](https://images.gitee.com/uploads/images/2020/1201/161738_b54dd1ad_1478282.png)
+   - [x]  **内存及CPU监测截图**  
+     ![内存及CPU](https://images.gitee.com/uploads/images/2020/1201/161450_96e70709_1478282.png)      
+
+<br/>    
+<br/> 
+
+### 赞助：
+
+<img width=200 height=200 src="https://images.gitee.com/uploads/images/2020/1201/163955_a29c0b44_1478282.png" title="Scan and donate"/><img width=200 height=200 src="https://images.gitee.com/uploads/images/2020/1201/164809_5a67d5e2_1478282.png" title="Scan and donate"/>
+
+
+#### 捐助明细  
+
+- ****天下 10元  
+- **航 5元
+
+<br/>  
 
 ---------------------  
+
 
 ## License
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdotnetcore%2FNatasha.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fdotnetcore%2FNatasha?ref=badge_large)          
+      
+       
       
      
