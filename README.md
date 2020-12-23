@@ -47,7 +47,7 @@
 |-- |-------- |--------------| --------|
 | 1 | 引类库 | DotNetCore.Natasha.CSharp.All | 该页面提供最新版操作，[旧版详见](https://github.com/dotnetcore/Natasha/tree/v3.0+final) |
 | 2 | 初始化 | NatashaInitializer.InitializeAndPreheating(); / Initialize(); | 预热会慢一点，后面编译就快了，也可以只初始化不预热 |
-| 3 | 写代码 | 使用说明 [https://natasha.dotnetcore.xyz/](https://natasha.dotnetcore.xyz/) | 可联系作者: 2765968624@qq.com 或 [查看FAQ](https://github.com/dotnetcore/Natasha/blob/master/docs/FAQ.md) 或 [提出问题](https://github.com/dotnetcore/Natasha/issues/new) |
+| 3 | 写代码 | 使用说明 [https://natasha.dotnetcore.xyz/](https://natasha.dotnetcore.xyz/) | 可联系作者: 1648107003@qq.com 或 [查看FAQ](https://github.com/dotnetcore/Natasha/blob/master/docs/FAQ.md) 或 [提出问题](https://github.com/dotnetcore/Natasha/issues/new) |
 
 <br/>  
 <br/>  
