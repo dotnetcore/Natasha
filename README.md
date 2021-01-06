@@ -1,5 +1,3 @@
-# 本库将于 2021年1月1日 下架 Natasha.CSharp.All 2.0 之前的版本，望各位互相转告，与贡献者们及时沟通并做出调整。  
-
 <p align="center">
   <span>中文</span> |  
   <a href="https://github.com/dotnetcore/natasha/tree/master/lang/english">English</a>
