@@ -36,7 +36,7 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
 
 
     public AssemblyCSharpBuilder() : this(Guid.NewGuid().ToString("N")) { }
-    public AssemblyCSharpBuilder(string name) : base(name)
+    public AssemblyCSharpBuilder(string assemblyName) : base(assemblyName)
     {
         CanRetry = true;
         CompileErrorBehavior = ExceptionBehavior.Throw;

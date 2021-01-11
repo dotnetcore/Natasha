@@ -210,12 +210,12 @@ namespace Natasha.CSharpEngine
 
 
 
-        public NatashaCSharpEngine(string name)
+        public NatashaCSharpEngine(string assemblyName)
         {
 
             Syntax = SyntaxManagement.GetSyntax();
             Compiler = CompilerManagement.GetCompiler();
-            Compiler.AssemblyName = name;
+            Compiler.AssemblyName = assemblyName;
             Compiler.StreamCompileFailedHandler += NatashaEngine_StreamCompileFailedHandler;
             Compiler.FileCompileFailedHandler += NatashaEngine_FileCompileFailedHandler; ;
 

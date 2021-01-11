@@ -37,6 +37,20 @@ namespace Core20
             var a = action.Method;
             Console.WriteLine(action.Method.Module.Assembly);
             Console.WriteLine(DomainManagement.IsDeleted(action.GetDomain().Name));
+
+            //var nClass = NClass
+            //    .RandomDomain();
+            //nClass.DelegateHandler.
+            //type = NClass
+            //    .RandomDomain().Namespace("")
+            //    .Name("Test")
+            //    .Ctor(item => item
+            //        .Public()
+            //        .Body("Name = null;")
+            //    )
+            //    .PublicField<string>("Name")
+            //    .GetType();
+            //type.Assembly
             Console.ReadKey();
         }
 
