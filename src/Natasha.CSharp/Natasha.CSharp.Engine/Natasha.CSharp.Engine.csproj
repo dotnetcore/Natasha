@@ -5,22 +5,24 @@
 		<Description>Natasha C#编译引擎</Description>
 		<PackageId>DotNetCore.Natasha.CSharp.Engine</PackageId>
 		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-		<PackageReleaseNotes>增加 .NET5 支持.</PackageReleaseNotes>
-		<Version>2.4.2</Version>
+		<PackageReleaseNotes>增加 .NET5 支持., 增加强签名, 升级依赖.</PackageReleaseNotes>
+		<Version>2.4.2.1</Version>
 		<PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
 		<PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
 		<PackageTags>Roslyn;IL;Script;Dynamic;Natasha;</PackageTags>
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 		<PackageIconUrl>https://avatars2.githubusercontent.com/u/19404084</PackageIconUrl>
 		<Copyright>.NET Core Community and Contributors</Copyright>
-		<FileVersion>2.4.2</FileVersion>
-		<AssemblyVersion>2.4.2</AssemblyVersion>
+		<FileVersion>2.4.2.1</FileVersion>
+		<AssemblyVersion>2.4.2.1</AssemblyVersion>
+		<SignAssembly>true</SignAssembly>
+		<AssemblyOriginatorKeyFile>natasha.pfx</AssemblyOriginatorKeyFile>
 	</PropertyGroup>
 
 
 	<ItemGroup>
 		<PackageReference Include="DotNetCore.Compile.Environment" Version="2.2.0" />
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.8.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.9.0" />
 		<PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.7.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="5.0.0" />
 	</ItemGroup>

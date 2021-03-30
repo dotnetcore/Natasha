@@ -5,16 +5,18 @@
     <Description>Natasha 编译框架以及各个操作类的标准</Description>
     <PackageId>DotNetCore.Natasha.Framework</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <PackageReleaseNotes>增加 NETCOREAPP 3.1 .NET5 Runtime 支持</PackageReleaseNotes>
-    <Version>2.4.0</Version>
+    <PackageReleaseNotes>增加 NETCOREAPP 3.1 .NET5 Runtime 支持 ,增加强签名, 升级依赖</PackageReleaseNotes>
+    <Version>2.4.0.1</Version>
     <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
     <PackageTags>Roslyn;IL;Scripte;Dynamic;NCC;Framework;Natasha;</PackageTags>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-    <FileVersion>2.4.0.0</FileVersion>
+    <FileVersion>2.4.0.1</FileVersion>
     <PackageIconUrl>https://avatars2.githubusercontent.com/u/19404084</PackageIconUrl>
-    <AssemblyVersion>2.4.0.0</AssemblyVersion>
+    <AssemblyVersion>2.4.0.1</AssemblyVersion>
     <Copyright>.NET Core Community and Contributors</Copyright>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>natasha.pfx</AssemblyOriginatorKeyFile>
     <!--<PackageIcon>19404084.png</PackageIcon>
     <PackageLicenseFile>License.txt</PackageLicenseFile>-->
   </PropertyGroup>
@@ -27,7 +29,7 @@
 
   <ItemGroup>
     <PackageReference Include="DotNetCore.SourceLink.Environment" Version="2.2.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="3.8.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="3.9.0" />
   </ItemGroup>
 
   
