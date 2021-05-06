@@ -23,7 +23,7 @@ namespace Natasha.CSharp.Builder
 
 
         public readonly OopBuilder OopHandler;
-        public CompilationException Exception;
+        public NatashaException Exception;
 
         public MethodBuilder()
         {

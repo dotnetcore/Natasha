@@ -55,11 +55,11 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
         action?.Invoke(Syntax);
     }
 
-    public CompilationException Add(string script, HashSet<string> sets = default)
+    public NatashaException Add(string script, HashSet<string> sets = default)
     {
 
         var tree = Syntax.LoadTreeFromScript(script);
-        var exception = NatashaException.GetSyntaxException(tree);
+        var exception = NatashaExceptionAnalyzer.GetSyntaxException(tree);
         if (!exception.HasError || SyntaxErrorBehavior == ExceptionBehavior.Ignore)
         {
             Syntax.AddTreeToCache(tree);
@@ -79,7 +79,7 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
 
 
 
-    public CompilationException Add(SyntaxTree node, HashSet<string> sets = default)
+    public NatashaException Add(SyntaxTree node, HashSet<string> sets = default)
     {
 
         return Add(node.ToString(), sets);
@@ -89,7 +89,7 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
 
 
 
-    public CompilationException Add(IScript node)
+    public NatashaException Add(IScript node)
     {
 
         return Add(node.Script, node.Usings);
@@ -99,7 +99,7 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
 
 
 
-    public CompilationException AddFile(string filePath)
+    public NatashaException AddFile(string filePath)
     {
 
         return Add(File.ReadAllText(filePath));
@@ -109,7 +109,7 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
 
 
 
-    private void HandlerErrors(CompilationException exception)
+    private void HandlerErrors(NatashaException exception)
     {
 
         if (SyntaxErrorBehavior == ExceptionBehavior.Throw)
@@ -168,11 +168,11 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
         }
 
         //进入编译流程
-        Compile();
+        var assembly = Compile();
 
 
         //如果编译出错
-        if (Compiler.AssemblyResult == null && Exceptions != null && Exceptions.Count > 0)
+        if (assembly == null && Exceptions != null && Exceptions.Count > 0)
         {
 
             switch (CompileErrorBehavior)
@@ -198,7 +198,7 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
             LogOperator.SucceedRecoder(Compiler.Compilation);
 
         }
-        return Compiler.AssemblyResult;
+        return assembly;
 
     }
 

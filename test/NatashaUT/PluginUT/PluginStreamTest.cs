@@ -16,7 +16,7 @@ namespace NatashaUT
         public void LoadFromDll1()
         {
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Static", "ClassLibrary6.dll");
-            var domain = DomainManagement.Random;
+            var domain = DomainComponent.Random;
             var assemebly = domain.LoadPluginFromStream(path);
             var action = NDelegate
                 .UseDomain(domain)
@@ -29,7 +29,7 @@ namespace NatashaUT
         public void LoadFromDll2()
         {
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Static", "ClassLibrary6.dll");
-            var domain = DomainManagement.Random;
+            var domain = DomainComponent.Random;
             var assemebly = domain.LoadPluginFromStream(path);
             assemebly = domain.LoadPluginFromStream(path);
             assemebly = domain.LoadPluginFromStream(path);
@@ -47,7 +47,7 @@ namespace NatashaUT
             string path1 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Diff", "fileV1", "asmV1", "TestRefererenceLibrary.dll");
             string path2 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Diff", "fileV1", "asmV2", "TestReferenceLibrary2.dll");
 
-            var domain = DomainManagement.Random;
+            var domain = DomainComponent.Random;
 
             //Load A => C v2.0
             var assembly2 = domain.LoadPluginFromStream(path2);
@@ -66,7 +66,7 @@ namespace NatashaUT
             string path1 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Diff", "fileV1", "asmV1", "TestRefererenceLibrary.dll");
             string path2 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Diff", "fileV1", "asmV2", "TestReferenceLibrary2.dll");
     
-            var domain = DomainManagement.Random;
+            var domain = DomainComponent.Random;
             
             //Load B => C v1.0
             var assembly = domain.LoadPluginFromStream(path1);
@@ -85,7 +85,7 @@ namespace NatashaUT
             string path1 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Diff", "fileV1", "asmV1", "TestRefererenceLibrary.dll");
             string path2 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Diff", "fileV1", "asmV2", "TestReferenceLibrary2.dll");
             string path3 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Diff", "fileV1", "asmV3", "TestDifferentLibrary.dll");
-            var domain = DomainManagement.Random;
+            var domain = DomainComponent.Random;
 
             //Load B => C v1.0
             var assembly = domain.LoadPluginFromStream(path1);

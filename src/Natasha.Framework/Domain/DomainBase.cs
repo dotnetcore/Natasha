@@ -12,14 +12,6 @@ using System.Runtime.Loader;
 namespace Natasha.Framework
 {
 
-    //#if NET472 || NET461 || NET462
-    //    public abstract class AssemblyLoadContext : Assembly
-    //    {
-    //        public readonly string Name;
-    //        public AssemblyLoadContext(string name,bool )
-    //    }
-    //#endif
-
     /// <summary>
     /// 程序域的基础类，需要继承实现
     /// </summary>
@@ -169,6 +161,38 @@ namespace Natasha.Framework
 
 
         /// <summary>
+        /// 添加该类型所在程序集的引用
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        public void AddReferencesFromType<T>()
+        {
+            AddReferencesFromType(typeof(T));
+        }
+
+        /// <summary>
+        /// 添加该类型所在程序集的引用
+        /// </summary>
+        /// <param name="type"></param>
+        public void AddReferencesFromType(Type type)
+        {
+            AddReferencesFromAssembly(type.Assembly);
+        }
+
+
+        /// <summary>
+        /// 添加该程序集的引用
+        /// </summary>
+        /// <param name="assembly"></param>
+        public void AddReferencesFromAssembly(Assembly assembly)
+        {
+            if (!assembly.IsDynamic && !string.IsNullOrEmpty(assembly.Location))
+            {
+                AddReferencesFromDllFile(assembly.Location);
+            }
+        }
+
+
+        /// <summary>
         /// 文件编译流过来之后需要如何处理
         /// </summary>
         /// <param name="dllFile">编译后的文件路径</param>
@@ -205,12 +229,10 @@ namespace Natasha.Framework
             if (path != null)
             {
                 if (DllAssemblies.ContainsKey(path))
-                {
-
+                { 
                     var shortName = Path.GetFileNameWithoutExtension(path);
-                    while (!ReferencesFromFile.TryRemove(shortName, out _)) { }
-                    Assembly assembly;
-                    while (!DllAssemblies.TryRemove(path, out assembly)) { }
+                    ReferencesFromFile.Remove(shortName);
+                    Assembly assembly = DllAssemblies.Remove(path);
                     RemoveAssemblyEvent?.Invoke(assembly);
                 }
             }
@@ -227,7 +249,7 @@ namespace Natasha.Framework
             {
                 if (ReferencesFromStream.ContainsKey(assembly))
                 {
-                    while (!ReferencesFromStream.TryRemove(assembly, out _)) { }
+                    ReferencesFromStream.Remove(assembly);
                     RemoveAssemblyEvent?.Invoke(assembly);
                 }
                 else if (assembly.Location != "" && assembly.Location != default)

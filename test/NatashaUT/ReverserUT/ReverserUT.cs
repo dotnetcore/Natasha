@@ -54,14 +54,14 @@ namespace NatashaUT.ReverserUT
             Assert.Equal("System.Collections.Generic.Dictionary<TKey,TValue>", typeof(Dictionary<,>).GetDevelopName());
             Assert.Equal("System.Collections.Generic.List<T>", typeof(List<>).GetDevelopName());
             Assert.Equal("System.Collections.Generic.List<System.Int32>", typeof(List<int>).GetDevelopName());
-            Assert.Equal("System.Collections.Generic.List<>", typeof(List<>).GetRuntimeName());
-            Assert.Equal("System.Collections.Generic.List<System.Int32>[]", typeof(List<int>[]).GetRuntimeName());
-            Assert.Equal("System.Collections.Generic.List<System.Int32>[,]", typeof(List<int>[,]).GetRuntimeName());
-            Assert.Equal("System.Collections.Generic.List<System.Int32>[,][][,,,,]", typeof(List<int>[,][][,,,,]).GetRuntimeName());
-            Assert.Equal("System.Int32[,]", typeof(int[,]).GetRuntimeName());
-            Assert.Equal("System.Int32[][]", typeof(int[][]).GetRuntimeName());
-            Assert.Equal("System.Int32[][,,,]", typeof(int[][,,,]).GetRuntimeName());
-            Assert.Equal("System.Collections.Generic.Dictionary<System.Int32[][,,,],System.String[,,,][]>[]", typeof(Dictionary<int[][,,,], string[,,,][]>[]).GetRuntimeName());
+            Assert.Equal("System.Collections.Generic.List<>", typeof(List<>).GetDevelopNameWithoutFlag());
+            Assert.Equal("System.Collections.Generic.List<System.Int32>[]", typeof(List<int>[]).GetDevelopNameWithoutFlag());
+            Assert.Equal("System.Collections.Generic.List<System.Int32>[,]", typeof(List<int>[,]).GetDevelopNameWithoutFlag());
+            Assert.Equal("System.Collections.Generic.List<System.Int32>[,][][,,,,]", typeof(List<int>[,][][,,,,]).GetDevelopNameWithoutFlag());
+            Assert.Equal("System.Int32[,]", typeof(int[,]).GetDevelopNameWithoutFlag());
+            Assert.Equal("System.Int32[][]", typeof(int[][]).GetDevelopNameWithoutFlag());
+            Assert.Equal("System.Int32[][,,,]", typeof(int[][,,,]).GetDevelopNameWithoutFlag());
+            Assert.Equal("System.Collections.Generic.Dictionary<System.Int32[][,,,],System.String[,,,][]>[]", typeof(Dictionary<int[][,,,], string[,,,][]>[]).GetDevelopNameWithoutFlag());
         }
 
 
@@ -71,7 +71,7 @@ namespace NatashaUT.ReverserUT
         public void TestInnerType()
         {
 
-            Assert.Equal("NatashaUT.Model.OopTestModel.InnerClass", typeof(OopTestModel.InnerClass).GetRuntimeName());
+            Assert.Equal("NatashaUT.Model.OopTestModel.InnerClass", typeof(OopTestModel.InnerClass).GetDevelopNameWithoutFlag());
 
         }
 
@@ -82,7 +82,7 @@ namespace NatashaUT.ReverserUT
         {
             var a = typeof(InheritanceTest).GetInterfaces();
             var b = typeof(InheritanceTest).BaseType;
-            Assert.Equal("NatashaUT.Model.OopTestModel.InnerClass", typeof(OopTestModel.InnerClass).GetRuntimeName());
+            Assert.Equal("NatashaUT.Model.OopTestModel.InnerClass", typeof(OopTestModel.InnerClass).GetDevelopNameWithoutFlag());
 
         }
 

@@ -26,7 +26,7 @@ namespace Natasha.CSharp.Builder
     {
 
         private readonly ConcurrentQueue<IScriptBuilder> _script_cache;
-        public CompilationException Exception;
+        public NatashaException Exception;
         public OopBuilder()
         {
             _script_cache = new ConcurrentQueue<IScriptBuilder>();

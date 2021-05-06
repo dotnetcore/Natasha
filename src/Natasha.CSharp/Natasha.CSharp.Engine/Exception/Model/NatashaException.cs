@@ -6,20 +6,20 @@ using System.Collections.Generic;
 namespace Natasha.Error
 {
     [Serializable]
-    public class CompilationException : Exception
+    public class NatashaException : Exception
     {
 
-        public CompilationException(string message) : base(message)
+        public NatashaException(string message) : base(message)
         {
             Diagnostics = new List<Diagnostic>();
             ErrorFlag = ExceptionKind.None;
         }
-        public CompilationException(string message, Exception inner) : base(message, inner)
+        public NatashaException(string message, Exception inner) : base(message, inner)
         {
             Diagnostics = new List<Diagnostic>();
             ErrorFlag = ExceptionKind.None;
         }
-        protected CompilationException(
+        protected NatashaException(
           System.Runtime.Serialization.SerializationInfo info,
           System.Runtime.Serialization.StreamingContext context) : base(info, context)
         {
@@ -28,7 +28,7 @@ namespace Natasha.Error
         }
 
 
-        public CompilationException()
+        public NatashaException()
         {
 
             Diagnostics = new List<Diagnostic>();

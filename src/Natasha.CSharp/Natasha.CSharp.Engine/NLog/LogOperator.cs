@@ -9,7 +9,7 @@ namespace Natasha.CSharpEngine.Log
     public static class LogOperator
     {
 
-        public static void ErrorRecoder(CSharpCompilation compilation, List<CompilationException> exceptions)
+        public static void ErrorRecoder(CSharpCompilation compilation, List<NatashaException> exceptions)
         {
 
             if (NErrorLog.Enabled)
@@ -25,7 +25,7 @@ namespace Natasha.CSharpEngine.Log
             }
 
         }
-        public static void ErrorRecoder(params CompilationException[] exceptions)
+        public static void ErrorRecoder(params NatashaException[] exceptions)
         {
 
             if (NErrorLog.Enabled)

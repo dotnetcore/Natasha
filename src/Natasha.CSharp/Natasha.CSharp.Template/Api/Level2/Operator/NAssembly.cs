@@ -57,7 +57,7 @@ namespace Natasha.CSharp
         /// </summary>
         /// <param name="script">脚本代码</param>
         /// <returns></returns>
-        public CompilationException AddScript(string script)
+        public NatashaException AddScript(string script)
         {
             return AssemblyBuilder.Add(script);
         }
@@ -70,7 +70,7 @@ namespace Natasha.CSharp
         /// </summary>
         /// <param name="path">代码文件路径</param>
         /// <returns></returns>
-        public CompilationException AddFile(string path)
+        public NatashaException AddFile(string path)
         {
             return AssemblyBuilder.AddFile(path);
         }
@@ -188,10 +188,10 @@ namespace Natasha.CSharp
         /// 进行语法检查
         /// </summary>
         /// <returns></returns>
-        public List<CompilationException> Check()
+        public List<NatashaException> Check()
         {
 
-            var list = new List<CompilationException>();
+            var list = new List<NatashaException>();
             HasChecked = true;
             foreach (var item in _builderCache)
             {

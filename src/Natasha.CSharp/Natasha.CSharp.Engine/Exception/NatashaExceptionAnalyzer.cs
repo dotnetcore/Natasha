@@ -7,18 +7,18 @@ using System.Text;
 
 namespace Natasha.CSharpEngine.Error
 {
-    public class NatashaException
+    public class NatashaExceptionAnalyzer
     {
 
-        public static CompilationException GetSyntaxException(SyntaxTree tree)
+        public static NatashaException GetSyntaxException(SyntaxTree tree)
         {
 
-            CompilationException exception;
+            NatashaException exception;
             var diagnostics = tree.GetDiagnostics();
             if (diagnostics==null)
             {
 
-                exception = new CompilationException();
+                exception = new NatashaException();
             }
             else
             {
@@ -28,7 +28,7 @@ namespace Natasha.CSharpEngine.Error
                 {
                     builder.AppendLine(item.GetMessage());
                 }
-                exception = new CompilationException(builder.ToString());
+                exception = new NatashaException(builder.ToString());
                 exception.Formatter = tree.ToString();
                 builder.Insert(0, exception.Formatter);
                 exception.Log = builder.ToString();
@@ -40,11 +40,11 @@ namespace Natasha.CSharpEngine.Error
             return exception;
 
         }
-        public static List<CompilationException> GetCompileException(string assemblyName, ImmutableArray<Diagnostic> errors)
+        public static List<NatashaException> GetCompileException(string assemblyName, ImmutableArray<Diagnostic> errors)
         {
 
-            var exceptions = new Dictionary<string, CompilationException>();
-            var results = new List<CompilationException>();
+            var exceptions = new Dictionary<string, NatashaException>();
+            var results = new List<NatashaException>();
             foreach (var item in errors)
             {
 
@@ -54,7 +54,7 @@ namespace Natasha.CSharpEngine.Error
 
                     if (results.Count == 0)
                     {
-                        results.Add(new CompilationException($"编译错误 : {item.Id} {item.GetMessage()}") { ErrorFlag = ExceptionKind.Compile, Name = assemblyName });
+                        results.Add(new NatashaException($"编译错误 : {item.Id} {item.GetMessage()}") { ErrorFlag = ExceptionKind.Compile, Name = assemblyName });
                     }
                     results[0].Diagnostics.Add(item);
 
@@ -64,7 +64,7 @@ namespace Natasha.CSharpEngine.Error
                     var key = tree.ToString();
                     if (!exceptions.ContainsKey(key))
                     {
-                        exceptions[key] = new CompilationException($"编译错误 : {item.Id} {item.GetMessage()}") { ErrorFlag = ExceptionKind.Compile, Name = assemblyName, Formatter = key };
+                        exceptions[key] = new NatashaException($"编译错误 : {item.Id} {item.GetMessage()}") { ErrorFlag = ExceptionKind.Compile, Name = assemblyName, Formatter = key };
                     }
                     exceptions[key].Diagnostics.Add(item);
 

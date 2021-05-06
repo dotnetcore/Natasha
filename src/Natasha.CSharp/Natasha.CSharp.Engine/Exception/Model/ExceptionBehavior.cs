@@ -2,9 +2,9 @@
 {
     public enum ExceptionBehavior
     {
-        None,
-        Log,
-        Throw,
-        Ignore
+        None = 1,
+        Log = 2,
+        Throw = 4,
+        Ignore = 8
     }
 }

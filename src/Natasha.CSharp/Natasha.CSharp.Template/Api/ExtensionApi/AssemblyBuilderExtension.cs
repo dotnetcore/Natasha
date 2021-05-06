@@ -29,7 +29,7 @@ namespace Natasha.CSharp
             if (type == null)
             {
 
-                CompilationException exception = new CompilationException($"无法在程序集 {builder.Compiler.AssemblyName} 中找到该类型 {typeName}！");
+                NatashaException exception = new NatashaException($"无法在程序集 {builder.Compiler.AssemblyName} 中找到该类型 {typeName}！");
                 if (builder.Exceptions.Count == 0)
                 {
                     exception.ErrorFlag = ExceptionKind.Type;
@@ -60,7 +60,7 @@ namespace Natasha.CSharp
             if (type == null)
             {
 
-                CompilationException exception = new CompilationException($"无法在程序集 {builder.Compiler.AssemblyName} 中找到该类型 {typeName}！");
+                NatashaException exception = new NatashaException($"无法在程序集 {builder.Compiler.AssemblyName} 中找到该类型 {typeName}！");
                 if (builder.Exceptions.Count == 0)
                 {
                     exception.ErrorFlag = ExceptionKind.Type;
@@ -93,7 +93,7 @@ namespace Natasha.CSharp
             if (info == null)
             {
 
-                CompilationException exception = new CompilationException($"无法在类型 {typeName} 中找到该方法 {methodName}！");
+                NatashaException exception = new NatashaException($"无法在类型 {typeName} 中找到该方法 {methodName}！");
                 if (builder.Exceptions.Count == 0)
                 {
                     exception.ErrorFlag = ExceptionKind.Method;
@@ -122,7 +122,7 @@ namespace Natasha.CSharp
             if (info == null)
             {
 
-                CompilationException exception = new CompilationException($"无法在类型 {typeName} 中找到该方法 {methodName}！");
+                NatashaException exception = new NatashaException($"无法在类型 {typeName} 中找到该方法 {methodName}！");
                 if (builder.Exceptions.Count == 0)
                 {
                     exception.ErrorFlag = ExceptionKind.Method;
@@ -160,7 +160,7 @@ namespace Natasha.CSharp
             catch (Exception ex)
             {
 
-                CompilationException exception = new CompilationException($"在类型 {typeName} 中找到的方法 {methodName} 向 {delegateType.FullName} 转换时出错！");
+                NatashaException exception = new NatashaException($"在类型 {typeName} 中找到的方法 {methodName} 向 {delegateType.FullName} 转换时出错！");
                 if (builder.Exceptions.Count == 0)
                 {
                     exception.ErrorFlag = ExceptionKind.Delegate;
@@ -198,7 +198,7 @@ namespace Natasha.CSharp
             catch (Exception ex)
             {
 
-                CompilationException exception = new CompilationException($"在类型 {typeName} 中找到的方法 {methodName} 向 {delegateType.FullName} 转换时出错！");
+                NatashaException exception = new NatashaException($"在类型 {typeName} 中找到的方法 {methodName} 向 {delegateType.FullName} 转换时出错！");
                 if (builder.Exceptions.Count == 0)
                 {
                     exception.ErrorFlag = ExceptionKind.Delegate;

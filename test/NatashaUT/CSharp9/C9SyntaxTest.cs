@@ -7,7 +7,7 @@ namespace NatashaUT
 {
 
     [Trait("CSharp9测试", "语法")]
-    
+
     public class C9SyntaxTest : PrepareTest
     {
         [Fact(DisplayName = "Recoder 编译")]
@@ -20,13 +20,13 @@ namespace NatashaUT
     public string LastName { get; init; }
 }";
             AssemblyCSharpBuilder builder = new AssemblyCSharpBuilder();
-            builder.Domain = DomainManagement.Random;
+            builder.Domain = DomainComponent.Random;
             builder.Add(script);
             var type = builder.GetType();
             Assert.NotNull(type);
 
         }
-        
+
         [Fact(DisplayName = "Recoder 脚本")]
         public void Test2()
         {
@@ -90,7 +90,7 @@ namespace NatashaUT
 #endif
 
     }
-
+#if NET5_0
     public interface a { }
 
     
@@ -112,5 +112,5 @@ namespace NatashaUT
         public string FirstName { get { return _name; } init { _name = value; } }
         
     }
-
+#endif
 }

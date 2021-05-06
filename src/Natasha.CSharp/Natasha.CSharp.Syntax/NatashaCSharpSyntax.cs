@@ -107,19 +107,14 @@ public class NatashaCSharpSyntax : SyntaxBase
     {
 
         //先移除
-        if (TreeCache.ContainsKey(oldCode))
-        {
-
-            while (!TreeCache.TryRemove(oldCode, out _)) { };
-
-        }
+        TreeCache.Remove(oldCode);
         if (sets == default)
         {
 
             if (ReferenceCache.ContainsKey(oldCode))
             {
                 sets = ReferenceCache[oldCode];
-                while (!ReferenceCache.TryRemove(oldCode, out _)) { };
+                ReferenceCache.Remove(oldCode);
             }
 
         }

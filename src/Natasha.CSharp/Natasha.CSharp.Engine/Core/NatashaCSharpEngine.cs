@@ -10,6 +10,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
+using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace Natasha.CSharpEngine
@@ -97,7 +98,7 @@ namespace Natasha.CSharpEngine
 
         public SyntaxBase Syntax;
         public CompilerBase<CSharpCompilation,CSharpCompilationOptions> Compiler;
-        public List<CompilationException> Exceptions;
+        public List<NatashaException> Exceptions;
 
 
         public string OutputFolder;
@@ -213,8 +214,8 @@ namespace Natasha.CSharpEngine
         public NatashaCSharpEngine(string assemblyName)
         {
 
-            Syntax = SyntaxManagement.GetSyntax();
-            Compiler = CompilerManagement.GetCompiler();
+            Syntax = SyntaxComponent.GetSyntax();
+            Compiler = CompilerComponent.GetCompiler();
             Compiler.AssemblyName = assemblyName;
             Compiler.StreamCompileFailedHandler += NatashaEngine_StreamCompileFailedHandler;
             Compiler.FileCompileFailedHandler += NatashaEngine_FileCompileFailedHandler; ;
@@ -230,13 +231,14 @@ namespace Natasha.CSharpEngine
         /// <param name="arg2">Pdb 文件路径</param>
         /// <param name="arg3">编译出现的错误</param>
         /// <param name="arg4">编译信息</param>
-        private void NatashaEngine_FileCompileFailedHandler(string dllPath, string pdbPath, ImmutableArray<Diagnostic> diagnostics, CSharpCompilation compilation)
+        private Assembly NatashaEngine_FileCompileFailedHandler(string dllPath, string pdbPath, ImmutableArray<Diagnostic> diagnostics, CSharpCompilation compilation)
         {
 
             if (CanRetryCompile(diagnostics))
             {
-                Compile();
+                return Compile();
             }
+            return null;
 
         }
         /// <summary>
@@ -245,14 +247,14 @@ namespace Natasha.CSharpEngine
         /// <param name="stream">失败的流</param>
         /// <param name="diagnostics">编译出现的错误</param>
         /// <param name="compilation">编译信息</param>
-        private void NatashaEngine_StreamCompileFailedHandler(Stream stream, ImmutableArray<Diagnostic> diagnostics, CSharpCompilation compilation)
+        private Assembly NatashaEngine_StreamCompileFailedHandler(Stream stream, ImmutableArray<Diagnostic> diagnostics, CSharpCompilation compilation)
         {
 
             if (CanRetryCompile(diagnostics))
             {
-                Compile();
+                return Compile();
             }
-
+            return null;
         }
 
 
@@ -305,7 +307,7 @@ namespace Natasha.CSharpEngine
                 
 
             }
-            Exceptions = NatashaException.GetCompileException(Compiler.AssemblyName, errors);
+            Exceptions = NatashaExceptionAnalyzer.GetCompileException(Compiler.AssemblyName, errors);
             return false;
 
         }
@@ -316,7 +318,7 @@ namespace Natasha.CSharpEngine
         /// <summary>
         /// 对语法树进行编译
         /// </summary>
-        internal virtual void Compile()
+        internal virtual Assembly Compile()
         {
 
             if (UseShareLibraries)
@@ -326,7 +328,7 @@ namespace Natasha.CSharpEngine
             
             Exceptions = null;
             Compiler.CompileTrees = Syntax.TreeCache.Values;
-            Compiler.Compile();
+            return Compiler.Compile();
 
         }
     }

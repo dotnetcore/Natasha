@@ -43,7 +43,7 @@ public static class NatashaInitializer
     {
 
         Initialize(initializeReference);
-        var domain = DomainManagement.Random;
+        var domain = DomainComponent.Random;
         if (initializeReference)
         {
             domain.AddReferencesFromDllFile(typeof(object).Assembly.Location);

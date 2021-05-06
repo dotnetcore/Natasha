@@ -8,14 +8,14 @@ using System.Reflection.Emit;
 using static System.Runtime.Loader.AssemblyLoadContext;
 
 
-public class DomainManagement
+public class DomainComponent
 {
 
     public static DomainBase Default;
     public static readonly ConcurrentDictionary<string, WeakReference> Cache;
     public static Func<string, DomainBase> CreateDomain;
 
-    static DomainManagement()
+    static DomainComponent()
     {
         Cache = new ConcurrentDictionary<string, WeakReference>();
     }
@@ -80,7 +80,7 @@ public class DomainManagement
         {
             if (!item.Value.IsAlive)
             {
-                Cache.TryRemove(item.Key, out _);
+                Cache.Remove(item.Key);
             }
         }
     }
@@ -135,7 +135,7 @@ public class DomainManagement
     {
         if (Cache.ContainsKey(key))
         {
-            Cache.TryRemove(key, out var result);
+            var result = Cache.Remove(key);
             if (result != default)
             {
                 ((DomainBase)(result.Target)).Dispose();
