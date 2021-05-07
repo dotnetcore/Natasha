@@ -30,7 +30,7 @@ namespace Natasha.CSharp
             var assemblyDomain = AssemblyLoadContext.GetLoadContext(assembly);
             if (assemblyDomain == AssemblyLoadContext.Default)
             {
-                return DomainComponent.Default;
+                return DomainManagement.Default;
             }
             return (DomainBase)assemblyDomain;
 

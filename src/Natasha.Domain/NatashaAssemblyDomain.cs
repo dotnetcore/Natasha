@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Operations;
 using Natasha.Domain.Template;
+using Natasha.Domain.Utils;
 using Natasha.Framework;
 using System;
 using System.Collections.Generic;
@@ -132,71 +133,7 @@ public class NatashaAssemblyDomain : DomainBase
     /// <returns></returns>
     public override HashSet<PortableExecutableReference> GetCompileReferences()
     {
-
-        var defaultNode = (NatashaAssemblyDomain)DefaultDomain;
-        if (Name != "default")
-        {
-
-            //去除剩余的部分
-            var sets = new HashSet<PortableExecutableReference>(defaultNode.ReferencesFromStream.Values);
-            foreach (var item in defaultNode.ReferencesFromStream.Keys)
-            {
-
-                foreach (var current in ReferencesFromStream.Keys)
-                {
-
-                    //如果程序集名相同
-                    if (item.GetName().Name == current.GetName().Name)
-                    {
-
-                        //是否选用最新程序集
-                        if (UseNewVersionAssmebly)
-                        {
-
-                            //如果默认域版本小
-                            if (item.GetName().Version < current.GetName().Version)
-                            {
-
-                                //使用现有域的程序集版本
-                                sets.Remove(defaultNode.ReferencesFromStream[item]);
-                                break;
-
-                            }
-                        }
-                        else
-                        {
-                            sets.Remove(defaultNode.ReferencesFromStream[item]);
-                            break;
-                        }
-                    }
-                }
-            }
-
-            //先添加流编译的引用
-            sets.UnionWith(ReferencesFromStream.Values);
-            sets.UnionWith(defaultNode.ReferencesFromFile.Values);
-            foreach (var item in defaultNode.ReferencesFromFile.Keys)
-            {
-                foreach (var current in ReferencesFromFile.Keys)
-                {
-                    if (item == current) 
-                    {
-                        sets.Remove(defaultNode.ReferencesFromFile[item]);
-                    }
-                }
-            }
-            sets.UnionWith(ReferencesFromFile.Values);
-            return sets;
-
-        }
-        else
-        {
-            //如果是系统域则直接拼接自己的引用库
-            var sets = new HashSet<PortableExecutableReference>(defaultNode.ReferencesFromStream.Values);
-            sets.UnionWith(defaultNode.ReferencesFromFile.Values);
-            return sets;
-        }
-
+        return ReferenceHandler.GetCompileReferences(DefaultDomain, this);
     }
 
     #region 编译成功事件

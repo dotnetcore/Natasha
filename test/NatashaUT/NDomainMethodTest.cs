@@ -97,7 +97,7 @@ namespace NatashaUT
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
             }
-            Assert.True(DomainComponent.IsDeleted("NDelegate6"));
+            Assert.True(DomainManagement.IsDeleted("NDelegate6"));
 #endif
         }
 
@@ -119,7 +119,7 @@ namespace NatashaUT
         [Fact(DisplayName = "类型比域")]
         public void TestTypeEqual()
         {
-            var domain = DomainComponent.Random;
+            var domain = DomainManagement.Random;
             var type = NDelegate.UseDomain(domain,builder => {
                 builder
                 .CustomUsing()                    //使用用户自定义的Using
@@ -140,7 +140,7 @@ namespace NatashaUT
         [Fact(DisplayName = "委托比域")]
         public void TestDelegateEqual()
         {
-            var domain = DomainComponent.Random;
+            var domain = DomainManagement.Random;
             var action = NDelegate.UseDomain(domain).Action(
                 @"int i = 1+1;");
             Assert.Equal(domain, action.GetDomain());

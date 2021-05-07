@@ -62,11 +62,11 @@ namespace Natasha.CSharp.Template
 
             if (domainName == default || domainName.ToLower() == "default")
             {
-                return UseDomain(DomainComponent.Default, option);
+                return UseDomain(DomainManagement.Default, option);
             }
             else
             {
-                return UseDomain(DomainComponent.Create(domainName), option);
+                return UseDomain(DomainManagement.Create(domainName), option);
             }
 
         }
@@ -87,7 +87,7 @@ namespace Natasha.CSharp.Template
         public static T DefaultDomain(Action<AssemblyCSharpBuilder> option = default)
         {
 
-            return UseDomain(DomainComponent.Default, option);
+            return UseDomain(DomainManagement.Default, option);
 
         }
 
@@ -97,7 +97,7 @@ namespace Natasha.CSharp.Template
         public static T RandomDomain(Action<AssemblyCSharpBuilder> option = default)
         {
 
-            return UseDomain(DomainComponent.Random, option);
+            return UseDomain(DomainManagement.Random, option);
 
         }
         #endregion

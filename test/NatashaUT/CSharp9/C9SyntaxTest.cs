@@ -20,7 +20,7 @@ namespace NatashaUT
     public string LastName { get; init; }
 }";
             AssemblyCSharpBuilder builder = new AssemblyCSharpBuilder();
-            builder.Domain = DomainComponent.Random;
+            builder.Domain = DomainManagement.Random;
             builder.Add(script);
             var type = builder.GetType();
             Assert.NotNull(type);
@@ -39,7 +39,7 @@ namespace NatashaUT
                 .RecordProperty<string>("P1")
                 .RecordProperty<int>("P2")
                 .Script;
-            Assert.Contains(@$"public record TRecord{{{Environment.NewLine}public System.String P1{{{Environment.NewLine}get;{Environment.NewLine}init;{Environment.NewLine}}}{Environment.NewLine}public System.Int32 P2{{{Environment.NewLine}get;{Environment.NewLine}init;{Environment.NewLine}}}{Environment.NewLine}}}", script);
+            Assert.Contains($@"public record TRecord{{{Environment.NewLine}public System.String P1{{{Environment.NewLine}get;{Environment.NewLine}init;{Environment.NewLine}}}{Environment.NewLine}public System.Int32 P2{{{Environment.NewLine}get;{Environment.NewLine}init;{Environment.NewLine}}}{Environment.NewLine}}}", script);
 
         }
 
