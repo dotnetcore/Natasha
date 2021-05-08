@@ -122,9 +122,8 @@ public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompi
     /// <returns></returns>
     public override CSharpCompilation GetCompilation(CSharpCompilationOptions options)
     {
-       
-        Compilation = CSharpCompilation.Create(AssemblyName, CompileTrees, Domain.GetCompileReferences(), options);
-        return Compilation;
+
+        return CSharpCompilation.Create(AssemblyName, CompileTrees, Domain.GetCompileReferences(), options);
 
     }
 

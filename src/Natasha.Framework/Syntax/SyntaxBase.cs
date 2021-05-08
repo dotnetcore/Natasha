@@ -32,6 +32,8 @@ namespace Natasha.Framework
         /// <param name="script">脚本代码</param>
         /// <returns></returns>
         public abstract SyntaxTree LoadTreeFromScript(string script);
+
+
         /// <summary>
         /// 直接加载语法树，需要重载
         /// </summary>

@@ -6,14 +6,16 @@ using System.Text;
 
 namespace Natasha.Domain.Template
 {
-
-    internal class UsingTemplate
+    /// <summary>
+    /// 引用模板
+    /// </summary>
+    internal class UsingRecoder
     {
 
         internal readonly HashSet<string> _usings;
         internal readonly HashSet<Type> _usingTypes;
 
-        public UsingTemplate()
+        public UsingRecoder()
         {
 
             _usings = new HashSet<string>();
@@ -21,7 +23,7 @@ namespace Natasha.Domain.Template
 
         }
 
-        public UsingTemplate Using(string @using)
+        public UsingRecoder Using(string @using)
         {
 
             if (@using != default)
@@ -47,7 +49,7 @@ namespace Natasha.Domain.Template
         /// </summary>
         /// <param name="assembly">程序集</param>
         /// <returns></returns>
-        public UsingTemplate Using(Assembly assembly)
+        public UsingRecoder Using(Assembly assembly)
         {
 
             if (assembly != default)
@@ -65,7 +67,7 @@ namespace Natasha.Domain.Template
         /// </summary>
         /// <param name="namespaces">命名空间</param>
         /// <returns></returns>
-        public UsingTemplate Using(params Assembly[] namespaces)
+        public UsingRecoder Using(params Assembly[] namespaces)
         {
 
             for (int i = 0; i < namespaces.Length; i++)
@@ -77,7 +79,7 @@ namespace Natasha.Domain.Template
             return this;
 
         }
-        public UsingTemplate Using(IEnumerable<Assembly> namespaces)
+        public UsingRecoder Using(IEnumerable<Assembly> namespaces)
         {
 
             foreach (var item in namespaces)
@@ -91,7 +93,7 @@ namespace Natasha.Domain.Template
 
 
 
-        public UsingTemplate Using(IEnumerable<Type> namespaces)
+        public UsingRecoder Using(IEnumerable<Type> namespaces)
         {
 
             foreach (var item in namespaces)
@@ -107,7 +109,7 @@ namespace Natasha.Domain.Template
 
 
 
-        public UsingTemplate Using(Type type)
+        public UsingRecoder Using(Type type)
         {
 
             if (type != null && !_usingTypes.Contains(type))

@@ -47,6 +47,11 @@ namespace System
         }
 
 
+        /// <summary>
+        /// 获取与该类型相关的所有类型,例如 List<int> => List<> / int32
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public static HashSet<Type> GetAllTypes(this Type type)
         {
             HashSet<Type> result = new HashSet<Type> { type };

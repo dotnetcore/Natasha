@@ -102,18 +102,18 @@ public class NatashaCSharpSyntax : SyntaxBase
     /// </summary>
     /// <param name="oldCode">旧代码</param>
     /// <param name="newCode">新代码</param>
-    /// <param name="sets">新的引用</param>
-    public override void Update(string oldCode, string newCode, HashSet<string> sets = default)
+    /// <param name="usings">新的引用</param>
+    public override void Update(string oldCode, string newCode, HashSet<string> usings = default)
     {
 
         //先移除
         TreeCache.Remove(oldCode);
-        if (sets == default)
+        if (usings == default)
         {
 
             if (ReferenceCache.ContainsKey(oldCode))
             {
-                sets = ReferenceCache[oldCode];
+                usings = ReferenceCache[oldCode];
                 ReferenceCache.Remove(oldCode);
             }
 
@@ -121,7 +121,7 @@ public class NatashaCSharpSyntax : SyntaxBase
 
         //再添加
         AddTreeToCache(newCode);
-        ReferenceCache[newCode] = sets;
+        ReferenceCache[newCode] = usings;
 
     }
 

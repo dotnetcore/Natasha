@@ -13,7 +13,9 @@ using System.IO;
 using System.Reflection;
 
 
-
+/// <summary>
+/// 程序集编译构建器
+/// </summary>
 public class AssemblyCSharpBuilder : NatashaCSharpEngine
 {
 
@@ -46,16 +48,34 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
         RetryLimit = 2;
 
     }
+
+    /// <summary>
+    /// 配置编译选项
+    /// </summary>
+    /// <param name="action"></param>
     public void CompilerOption(Action<CompilerBase<CSharpCompilation, CSharpCompilationOptions>> action)
     {
         action?.Invoke(Compiler);
     }
+
+
+    /// <summary>
+    /// 配置语法树选项
+    /// </summary>
+    /// <param name="action"></param>
     public void SyntaxOptions(Action<SyntaxBase> action)
     {
         action?.Invoke(Syntax);
     }
 
-    public NatashaException Add(string script, HashSet<string> sets = default)
+
+    /// <summary>
+    /// 增加 脚本和 using 引用到构建器中
+    /// </summary>
+    /// <param name="script">代码脚本</param>
+    /// <param name="usings">using 引用</param>
+    /// <returns></returns>
+    public NatashaException Add(string script, HashSet<string> usings = default)
     {
 
         var tree = Syntax.LoadTreeFromScript(script);
@@ -63,7 +83,7 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
         if (!exception.HasError || SyntaxErrorBehavior == ExceptionBehavior.Ignore)
         {
             Syntax.AddTreeToCache(tree);
-            Syntax.ReferenceCache[exception.Formatter] = sets;
+            Syntax.ReferenceCache[exception.Formatter] = usings;
 
         }
         else
@@ -78,7 +98,12 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
 
 
 
-
+    /// <summary>
+    /// 添加 语法树节点 和 using 引用到构建器中
+    /// </summary>
+    /// <param name="node">语法树节点</param>
+    /// <param name="sets"></param>
+    /// <returns></returns>
     public NatashaException Add(SyntaxTree node, HashSet<string> sets = default)
     {
 
@@ -88,7 +113,11 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
 
 
 
-
+    /// <summary>
+    /// 添加语法模板到构建器中
+    /// </summary>
+    /// <param name="node">语法模板</param>
+    /// <returns></returns>
     public NatashaException Add(IScript node)
     {
 
@@ -98,7 +127,11 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
 
 
 
-
+    /// <summary>
+    /// 从文件中添加代码到构建器中
+    /// </summary>
+    /// <param name="filePath"></param>
+    /// <returns></returns>
     public NatashaException AddFile(string filePath)
     {
 
@@ -108,7 +141,10 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
 
 
 
-
+    /// <summary>
+    /// 错误处理
+    /// </summary>
+    /// <param name="exception"></param>
     private void HandlerErrors(NatashaException exception)
     {
 
@@ -136,7 +172,10 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
 
 
 
-
+    /// <summary>
+    /// 获取程序集
+    /// </summary>
+    /// <returns></returns>
     public Assembly GetAssembly()
     {
 

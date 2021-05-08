@@ -1,5 +1,4 @@
 ﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Operations;
 using Natasha.Domain.Template;
 using Natasha.Domain.Utils;
 using Natasha.Framework;
@@ -11,13 +10,14 @@ using System.Runtime.Loader;
 
 /// <summary>
 /// Natasha域实现
+/// C# 的引用代码是通过 Using 来完成的,该域实现增加了 Using 记录
 /// </summary>
 public class NatashaAssemblyDomain : DomainBase
 {
-    private readonly UsingTemplate _usingsTemplate;
+    private readonly UsingRecoder _usingsRecoder;
     public override HashSet<string> GetReferenceElements()
     {
-        return _usingsTemplate._usings;
+        return _usingsRecoder._usings;
     }
 
     #region 加载程序集
@@ -170,7 +170,7 @@ public class NatashaAssemblyDomain : DomainBase
 #if !NETSTANDARD2_0
         DependencyResolver = new AssemblyDependencyResolver(AppDomain.CurrentDomain.BaseDirectory);
 #endif
-        _usingsTemplate = new UsingTemplate();
+        _usingsRecoder = new UsingRecoder();
         AddAssemblyEvent += NatashaAssemblyDomain_AddAssemblyEvent; ;
         RemoveAssemblyEvent += NatashaAssemblyDomain_RemoveAssemblyEvent; ;
     }
@@ -179,17 +179,17 @@ public class NatashaAssemblyDomain : DomainBase
     {
         foreach (var item in ReferencesFromStream)
         {
-            _usingsTemplate.Using(item.Key);
+            _usingsRecoder.Using(item.Key);
         }
         foreach (var item in DllAssemblies)
         {
-            _usingsTemplate.Using(item.Value);
+            _usingsRecoder.Using(item.Value);
         }
     }
 
     private void NatashaAssemblyDomain_AddAssemblyEvent(Assembly obj)
     {
-        _usingsTemplate.Using(obj);
+        _usingsRecoder.Using(obj);
     }
 
 
@@ -198,7 +198,7 @@ public class NatashaAssemblyDomain : DomainBase
     /// </summary>
     public override void Dispose()
     {
-        _usingsTemplate._usingTypes.Clear();
+        _usingsRecoder._usingTypes.Clear();
         base.Dispose();
     }
 

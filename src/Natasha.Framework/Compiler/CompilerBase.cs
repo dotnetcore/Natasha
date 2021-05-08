@@ -129,7 +129,7 @@ namespace Natasha.Framework
 
                 var options = GetCompilationOptions();
                 OptionAction?.Invoke(options);
-                var compilation = GetCompilation(options);
+                Compilation = GetCompilation(options);
                 Stream outputStream = new MemoryStream();
 
                 if (AssemblyOutputKind == AssemblyBuildKind.File)
@@ -138,7 +138,7 @@ namespace Natasha.Framework
                     outputStream = File.Create(DllPath);
                     using (var pdbStream = File.Create(PdbPath))
                     {
-                        compileResult = compilation.Emit(
+                        compileResult = Compilation.Emit(
                        outputStream,
                        pdbStream: pdbStream,
                        options: new EmitOptions(pdbFilePath: PdbPath, debugInformationFormat: DebugInformationFormat.PortablePdb));
@@ -148,7 +148,7 @@ namespace Natasha.Framework
                 }
                 else
                 {
-                    compileResult = compilation.Emit(
+                    compileResult = Compilation.Emit(
                             outputStream,
                             options: new EmitOptions(false, debugInformationFormat: DebugInformationFormat.PortablePdb));
                 }
@@ -167,11 +167,11 @@ namespace Natasha.Framework
 
                     if (AssemblyOutputKind == AssemblyBuildKind.File)
                     {
-                        FileCompileSucceedHandler?.Invoke(DllPath, PdbPath, compilation);
+                        FileCompileSucceedHandler?.Invoke(DllPath, PdbPath, Compilation);
                     }
                     else
                     {
-                        StreamCompileSucceedHandler?.Invoke(copyStream, compilation);
+                        StreamCompileSucceedHandler?.Invoke(copyStream, Compilation);
                     }
                     copyStream.Dispose();
 
@@ -179,7 +179,7 @@ namespace Natasha.Framework
                 else
                 {
 
-                    assembly = CompileFailedHandler?.Invoke(outputStream, compileResult.Diagnostics, compilation);
+                    assembly = CompileFailedHandler?.Invoke(outputStream, compileResult.Diagnostics, Compilation);
 
                 }
                 outputStream.Dispose();
