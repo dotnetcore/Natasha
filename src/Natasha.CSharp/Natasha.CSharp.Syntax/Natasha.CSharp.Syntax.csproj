@@ -15,7 +15,7 @@
     <FileVersion>2.4.0.2</FileVersion>
     <AssemblyVersion>2.4.0.2</AssemblyVersion>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>natasha.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>natasha.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>

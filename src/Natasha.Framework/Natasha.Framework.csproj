@@ -16,7 +16,7 @@
     <AssemblyVersion>2.4.0.1</AssemblyVersion>
     <Copyright>.NET Core Community and Contributors</Copyright>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>natasha.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>natasha.snk</AssemblyOriginatorKeyFile>
     <!--<PackageIcon>19404084.png</PackageIcon>
     <PackageLicenseFile>License.txt</PackageLicenseFile>-->
   </PropertyGroup>
