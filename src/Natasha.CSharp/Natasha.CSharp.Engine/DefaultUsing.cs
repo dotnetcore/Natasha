@@ -6,14 +6,16 @@ using System.Text;
 
 namespace Natasha
 {
-
-    public static class GlobalUsing
+    /// <summary>
+    /// 全局 using, 初始化时会通过 DependencyModel 获取主域所需的引用 using 字符串.
+    /// </summary>
+    public static class DefaultUsing
     {
 
         private readonly static HashSet<string> DefaultNamesapce;
         public readonly static StringBuilder DefaultScript;
 
-        static GlobalUsing()
+        static DefaultUsing()
         {
 
             DefaultScript = new StringBuilder();
@@ -44,11 +46,8 @@ namespace Natasha
                     catch (Exception)
                     {
 
-                        
-
                     }
                     
-
                 }
 
             }
@@ -73,7 +72,11 @@ namespace Natasha
         }
 
 
-
+        /// <summary>
+        /// 查询是否存在该命名空间
+        /// </summary>
+        /// <param name="namespace"></param>
+        /// <returns></returns>
         public static bool HasElement(string @namespace)
         {
             lock (DefaultNamesapce)
@@ -82,6 +85,11 @@ namespace Natasha
             }
         }
 
+
+        /// <summary>
+        /// 移除命名空间
+        /// </summary>
+        /// <param name="namespace"></param>
         public static void Remove(string @namespace)
         {
             lock (DefaultNamesapce)

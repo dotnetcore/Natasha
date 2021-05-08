@@ -96,24 +96,6 @@ namespace Natasha.Framework
 
 
         /// <summary>
-        /// 重写方法，将编译信息编译到文件
-        /// </summary>
-        /// <param name="compilation"></param>
-        /// <returns></returns>
-        public abstract EmitResult CompileEmitToFile(TCompilation compilation);
-
-
-
-        /// <summary>
-        /// 重写方法，将编译信息编译到内存流
-        /// </summary>
-        /// <param name="compilation"></param>
-        /// <param name="stream"></param>
-        /// <returns></returns>
-        public abstract EmitResult CompileEmitToStream(TCompilation compilation, MemoryStream stream);
-
-
-        /// <summary>
         /// 获取语法树
         /// </summary>
         public IEnumerable<SyntaxTree> CompileTrees;
@@ -132,100 +114,79 @@ namespace Natasha.Framework
 
 
         /// <summary>
-        /// 文件编译失败之后触发的事件
-        /// </summary>
-        public event Func<string, string, ImmutableArray<Diagnostic>, TCompilation, Assembly> FileCompileFailedHandler;
-
-        
-        /// <summary>
         /// 流编译失败之后触发的事件
         /// </summary>
-        public event Func<Stream, ImmutableArray<Diagnostic>, TCompilation, Assembly> StreamCompileFailedHandler;
+        public event Func<Stream, ImmutableArray<Diagnostic>, TCompilation, Assembly> CompileFailedHandler;
 
-        
-        /// <summary>
-        /// 文件编译流程
-        /// </summary>
-        public virtual Assembly CompileToFile()
+
+
+        public virtual Assembly ComplieToAssembly()
         {
             Assembly assembly = null;
+            EmitResult compileResult = null;
             if (PreCompiler())
             {
 
                 var options = GetCompilationOptions();
                 OptionAction?.Invoke(options);
                 var compilation = GetCompilation(options);
-                var CompileResult = CompileEmitToFile(compilation);
+                Stream outputStream = new MemoryStream();
 
-                if (CompileResult.Success)
+                if (AssemblyOutputKind == AssemblyBuildKind.File)
                 {
-                    assembly = Domain.CompileFileHandler(DllPath, PdbPath, AssemblyName);
-                    FileCompileSucceedHandler?.Invoke(DllPath, PdbPath, compilation);
+
+                    outputStream = File.Create(DllPath);
+                    using (var pdbStream = File.Create(PdbPath))
+                    {
+                        compileResult = compilation.Emit(
+                       outputStream,
+                       pdbStream: pdbStream,
+                       options: new EmitOptions(pdbFilePath: PdbPath, debugInformationFormat: DebugInformationFormat.PortablePdb));
+
+                    }
+
                 }
                 else
                 {
-                    assembly = FileCompileFailedHandler?.Invoke(DllPath, PdbPath, CompileResult.Diagnostics, compilation);
+                    compileResult = compilation.Emit(
+                            outputStream,
+                            options: new EmitOptions(false, debugInformationFormat: DebugInformationFormat.PortablePdb));
                 }
 
-            }
-            return assembly;
-        }
-
-
-        /// <summary>
-        /// 流编译流程
-        /// </summary>
-        public virtual Assembly CompileToStream()
-        {
-
-            Assembly assembly = null;
-            if (PreCompiler())
-            {
-
-                var options = GetCompilationOptions();
-                OptionAction?.Invoke(options);
-                var compilation = GetCompilation(options);
-                MemoryStream stream = new MemoryStream();
-                var CompileResult = CompileEmitToStream(compilation, stream);
-
-
-                if (CompileResult.Success)
+                if (compileResult.Success)
                 {
-                    stream.Seek(0, SeekOrigin.Begin);
+
+
+                    outputStream.Seek(0, SeekOrigin.Begin);
                     MemoryStream copyStream = new MemoryStream();
-                    stream.CopyTo(copyStream);
-                    stream.Seek(0, SeekOrigin.Begin);
-                    assembly = Domain.CompileStreamHandler(stream, AssemblyName);
-                    StreamCompileSucceedHandler?.Invoke(copyStream, compilation);
+                    outputStream.CopyTo(copyStream);
+
+
+                    outputStream.Seek(0, SeekOrigin.Begin);
+                    assembly = Domain.CompileStreamCallback(outputStream, AssemblyName);
+
+                    if (AssemblyOutputKind == AssemblyBuildKind.File)
+                    {
+                        FileCompileSucceedHandler?.Invoke(DllPath, PdbPath, compilation);
+                    }
+                    else
+                    {
+                        StreamCompileSucceedHandler?.Invoke(copyStream, compilation);
+                    }
                     copyStream.Dispose();
+
                 }
                 else
                 {
-                    stream.Seek(0, SeekOrigin.Begin);
-                    assembly = StreamCompileFailedHandler?.Invoke(stream, CompileResult.Diagnostics, compilation);
+
+                    assembly = CompileFailedHandler?.Invoke(outputStream, compileResult.Diagnostics, compilation);
+
                 }
-                stream.Dispose();
+                outputStream.Dispose();
 
             }
             return assembly;
-
         }
 
-
-        /// <summary>
-        /// 编译入口，对语法树进行编译
-        /// </summary>
-        public virtual Assembly Compile()
-        {
-            switch (AssemblyOutputKind)
-            {
-                case AssemblyBuildKind.File:
-                    return CompileToFile();
-
-                case AssemblyBuildKind.Stream:
-                    return CompileToStream();
-            }
-            return null;
-        }
     }
 }

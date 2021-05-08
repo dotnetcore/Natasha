@@ -276,27 +276,30 @@ namespace Natasha.CSharp
             builder.SyntaxErrorBehavior = ExceptionBehavior.Log;
             return builder;
         }
+
         public static AssemblyCSharpBuilder IgnoreSyntaxError(this AssemblyCSharpBuilder builder)
         {
             builder.SyntaxErrorBehavior = ExceptionBehavior.None;
             return builder;
         }
+
         public static AssemblyCSharpBuilder SetAssemblyName(this AssemblyCSharpBuilder builder,string assemblyName)
         {
             builder.Compiler.AssemblyName = assemblyName;
             return builder;
         }
+
         public static AssemblyCSharpBuilder SetRetryLimit(this AssemblyCSharpBuilder builder,int maxRetry)
         {
             builder.RetryLimit = maxRetry;
             return builder;
         }
+
         public static AssemblyCSharpBuilder SetOutputFolder(this AssemblyCSharpBuilder builder,string folder)
         {
             builder.OutputFolder = folder;
             return builder;
         }
-
 
 
         public static AssemblyCSharpBuilder UseFileCompile(this AssemblyCSharpBuilder builder, string folder = default)
@@ -317,9 +320,16 @@ namespace Natasha.CSharp
         }
         #endregion
 
+        /// <summary>
+        /// 添加编译错误处理程序
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="key">错误ID,例如:CS0246</param>
+        /// <param name="action"> Func<错误集合,语法树控制器,源代码,新代码(返回)> </param>
+        /// <returns></returns>
         public static AssemblyCSharpBuilder AddRetryHandler(this AssemblyCSharpBuilder builder, string key, Func<Diagnostic, SyntaxBase, string, string> action)
         {
-            NatashaCSharpEngine.ErrorHandlers[key] = action;
+            ErrorHandler.Add(key, action);
             return builder;
         }
 

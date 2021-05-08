@@ -1,100 +1,20 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Natasha.CSharp.Engine.Utils;
 using Natasha.CSharpEngine.Error;
-using Natasha.Engine.Utils;
 using Natasha.Error;
 using Natasha.Error.Model;
 using Natasha.Framework;
-using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Reflection;
-using System.Text.RegularExpressions;
 
 namespace Natasha.CSharpEngine
 {
 
     public class NatashaCSharpEngine
     {
-
-        public static ConcurrentDictionary<string, Func<Diagnostic, SyntaxBase, string, string>> ErrorHandlers;
-        static NatashaCSharpEngine()
-        {
-
-            ErrorHandlers = new ConcurrentDictionary<string, Func<Diagnostic, SyntaxBase, string, string>>();
-            ErrorHandlers["CS0104"] = (diagnostic, syntax, sourceCode) =>
-            {
-
-                var (str1, str2) = CS0104Helper.Handler(diagnostic);
-                var sets = syntax.ReferenceCache[diagnostic.Location.SourceTree.ToString()];
-                if (sets.Contains(str1))
-                {
-
-                    if (sets.Contains(str2))
-                    {
-
-                        if (str2 == "System")
-                        {
-
-                            return sourceCode.Replace($"using {str2};", "");
-
-                        }
-                        else
-                        {
-
-                            return sourceCode.Replace($"using {str1};", "");
-
-                        }
-
-                    }
-                    else
-                    {
-
-                        return sourceCode.Replace($"using {str2};", "");
-
-                    }
-
-
-                }
-                else
-                {
-
-                    return sourceCode.Replace($"using {str1};", "");
-
-                }
-
-            };
-
-
-            ErrorHandlers["CS0234"] = (diagnostic, syntax, sourceCode) =>
-            {
-
-                var tempResult = CS0234Helper.Handler(diagnostic);
-                GlobalUsing.Remove(tempResult);
-                return Regex.Replace(sourceCode, $"using {tempResult}(.*?);", "");
-
-            };
-
-
-            ErrorHandlers["CS0246"] = (diagnostic, syntax, sourceCode) =>
-            {
-
-                CS0246Helper.Handler(diagnostic);
-                foreach (var @using in CS0246Helper.GetUsings(diagnostic, sourceCode))
-                {
-
-                    GlobalUsing.Remove(@using);
-                    sourceCode = sourceCode.Replace($"using {@using};", "");
-
-                }
-                return sourceCode;
-
-            };
-
-        }
-
 
         public SyntaxBase Syntax;
         public CompilerBase<CSharpCompilation,CSharpCompilationOptions> Compiler;
@@ -217,37 +137,18 @@ namespace Natasha.CSharpEngine
             Syntax = SyntaxComponent.GetSyntax();
             Compiler = CompilerComponent.GetCompiler();
             Compiler.AssemblyName = assemblyName;
-            Compiler.StreamCompileFailedHandler += NatashaEngine_StreamCompileFailedHandler;
-            Compiler.FileCompileFailedHandler += NatashaEngine_FileCompileFailedHandler; ;
+            Compiler.CompileFailedHandler += NatashaEngine_CompileFailedHandler;
 
         }
 
 
-
-        /// <summary>
-        /// 文件编译失败之后调用的方法
-        /// </summary>
-        /// <param name="arg1">Dll 文件路径</param>
-        /// <param name="arg2">Pdb 文件路径</param>
-        /// <param name="arg3">编译出现的错误</param>
-        /// <param name="arg4">编译信息</param>
-        private Assembly NatashaEngine_FileCompileFailedHandler(string dllPath, string pdbPath, ImmutableArray<Diagnostic> diagnostics, CSharpCompilation compilation)
-        {
-
-            if (CanRetryCompile(diagnostics))
-            {
-                return Compile();
-            }
-            return null;
-
-        }
         /// <summary>
         /// 流编译失败之后调用的方法
         /// </summary>
         /// <param name="stream">失败的流</param>
         /// <param name="diagnostics">编译出现的错误</param>
         /// <param name="compilation">编译信息</param>
-        private Assembly NatashaEngine_StreamCompileFailedHandler(Stream stream, ImmutableArray<Diagnostic> diagnostics, CSharpCompilation compilation)
+        private Assembly NatashaEngine_CompileFailedHandler(Stream stream, ImmutableArray<Diagnostic> diagnostics, CSharpCompilation compilation)
         {
 
             if (CanRetryCompile(diagnostics))
@@ -256,8 +157,6 @@ namespace Natasha.CSharpEngine
             }
             return null;
         }
-
-
 
 
         /// <summary>
@@ -287,9 +186,9 @@ namespace Natasha.CSharpEngine
                             {
                                 codeMappings[sourceCode] = sourceCode;
                             }
-                            if (ErrorHandlers.ContainsKey(item.Id))
+                            if (ErrorHandler.CanHandle(item.Id))
                             {
-                                codeMappings[sourceCode] = ErrorHandlers[item.Id](item, Syntax, codeMappings[sourceCode]);
+                                codeMappings[sourceCode] = ErrorHandler.GetHandlerCode(item.Id, item, Syntax, codeMappings[sourceCode]);
                             }
 
                         }
@@ -313,8 +212,6 @@ namespace Natasha.CSharpEngine
         }
 
 
-
-
         /// <summary>
         /// 对语法树进行编译
         /// </summary>
@@ -325,10 +222,9 @@ namespace Natasha.CSharpEngine
             {
                 Compiler.Domain.UseShareLibraries();
             }
-            
             Exceptions = null;
             Compiler.CompileTrees = Syntax.TreeCache.Values;
-            return Compiler.Compile();
+            return Compiler.ComplieToAssembly();
 
         }
     }

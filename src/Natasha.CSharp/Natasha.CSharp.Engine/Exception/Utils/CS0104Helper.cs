@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using System.Text.RegularExpressions;
 
-namespace Natasha.Engine.Utils
+namespace Natasha.CSharp.Engine.Utils
 {
 
     internal static class CS0104Helper

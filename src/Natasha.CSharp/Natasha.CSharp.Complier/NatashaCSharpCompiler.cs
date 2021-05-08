@@ -148,48 +148,6 @@ public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompi
         ReferencesSupersedeLowerVersions = value;
     }
 
-
-    /// <summary>
-    /// 重写方法，将编译信息编译到文件
-    /// </summary>
-    /// <param name="compilation"></param>
-    /// <returns></returns>
-    public override EmitResult CompileEmitToFile(CSharpCompilation compilation)
-    {
-
-        EmitResult CompileResult;
-        if (Environment.OSVersion.Platform == PlatformID.Win32NT)
-        {
-            CompileResult = compilation.Emit(DllPath, PdbPath);
-        }
-        else
-        {
-            CompileResult = compilation.UnixEmit(DllPath, PdbPath);
-        }
-        return CompileResult;
-
-    }
-
-
-    /// <summary>
-    /// 重写方法，将编译信息编译到内存流
-    /// </summary>
-    /// <param name="compilation"></param>
-    /// <param name="stream"></param>
-    /// <returns></returns>
-    public override EmitResult CompileEmitToStream(CSharpCompilation compilation, MemoryStream stream)
-    {
-        EmitResult CompileResult;
-        if (Environment.OSVersion.Platform == PlatformID.Win32NT)
-        {
-            CompileResult = compilation.Emit(stream);
-        }
-        else
-        {
-            CompileResult = compilation.Emit(stream, options: new EmitOptions(false, DebugInformationFormat.PortablePdb));
-        }
-        return CompileResult;
-    }
 }
 
 

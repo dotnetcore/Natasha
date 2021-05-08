@@ -144,7 +144,7 @@ public class NatashaAssemblyDomain : DomainBase
     /// <param name="pdbFile">pdb文件位置</param>
     /// <param name="AssemblyName">程序集名</param>
     /// <returns></returns>
-    public override Assembly CompileFileHandler(string dllFile, string pdbFile, string AssemblyName)
+    public override Assembly CompileFileCallback(string dllFile, string pdbFile, string AssemblyName)
     {
         return LoadAssemblyFromFile(dllFile);
     }
@@ -156,7 +156,7 @@ public class NatashaAssemblyDomain : DomainBase
     /// <param name="stream">流</param>
     /// <param name="AssemblyName">程序集名</param>
     /// <returns></returns>
-    public override Assembly CompileStreamHandler(Stream stream, string AssemblyName)
+    public override Assembly CompileStreamCallback(Stream stream, string AssemblyName)
     {
         return LoadAssemblyFromStream(stream);
     }

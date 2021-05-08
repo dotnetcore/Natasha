@@ -157,7 +157,7 @@ namespace Natasha.Framework
         /// <param name="stream">编译后的内存流</param>
         /// <param name="AssemblyName">程序集名</param>
         /// <returns></returns>
-        public abstract Assembly CompileStreamHandler(Stream stream, string AssemblyName);
+        public abstract Assembly CompileStreamCallback(Stream stream, string AssemblyName);
 
 
         /// <summary>
@@ -199,7 +199,7 @@ namespace Natasha.Framework
         /// <param name="pdbFile">编译后的PDB文件</param>
         /// <param name="AssemblyName">程序集名</param>
         /// <returns></returns>
-        public abstract Assembly CompileFileHandler(string dllFile, string pdbFile, string AssemblyName);
+        public abstract Assembly CompileFileCallback(string dllFile, string pdbFile, string AssemblyName);
 
 
         /// <summary>

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netcoreapp3.0;netcoreapp3.1;net5.0;</TargetFrameworks>
-    <Description>Natasha  C#编译库的实现</Description>
+    <Description>Natasha C#编译库的实现</Description>
     <PackageId>DotNetCore.Natasha.CSharp.Compiler</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageReleaseNotes>增加 netcore3.1 版本的 runtime 支持. , 增加强签名, 升级依赖.</PackageReleaseNotes>
