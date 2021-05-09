@@ -5,15 +5,15 @@
     <Description>Natasha C#编译库的实现</Description>
     <PackageId>DotNetCore.Natasha.CSharp.Compiler</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <PackageReleaseNotes>增加 netcore3.1 版本的 runtime 支持. , 增加强签名, 升级依赖.</PackageReleaseNotes>
-    <Version>2.4.1.1</Version>
+    <PackageReleaseNotes>增加 netcore3.1 版本的 runtime 支持. , 增加强签名.</PackageReleaseNotes>
+    <Version>2.5.0</Version>
     <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
     <PackageTags>Roslyn;IL;Script;Dynamic;Natasha;</PackageTags>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <PackageIconUrl>https://avatars2.githubusercontent.com/u/19404084</PackageIconUrl>
-    <FileVersion>2.4.1.1</FileVersion>
-    <AssemblyVersion>2.4.1.1</AssemblyVersion>
+    <FileVersion>2.5.0.0</FileVersion>
+    <AssemblyVersion>2.5.0.0</AssemblyVersion>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>natasha.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>

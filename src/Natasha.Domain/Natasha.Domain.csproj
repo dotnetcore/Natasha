@@ -5,15 +5,15 @@
     <Description>Natasha 编译域的实现</Description>
     <PackageId>DotNetCore.Natasha.Domain</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <PackageReleaseNotes>兼容 .NET5,增加强签名, 升级依赖</PackageReleaseNotes>
-    <Version>2.4.0.1</Version>
+    <PackageReleaseNotes>兼容 .NET5,增加强签名</PackageReleaseNotes>
+    <Version>2.5.0</Version>
     <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
     <PackageTags>Roslyn;IL;Scripte;Dynamic;Natasha;Domain;</PackageTags>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <PackageIconUrl>https://avatars2.githubusercontent.com/u/19404084</PackageIconUrl>
-    <FileVersion>2.4.0.1</FileVersion>
-    <AssemblyVersion>2.4.0.1</AssemblyVersion>
+    <FileVersion>2.5.0.0</FileVersion>
+    <AssemblyVersion>2.5.0.0</AssemblyVersion>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>natasha.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>

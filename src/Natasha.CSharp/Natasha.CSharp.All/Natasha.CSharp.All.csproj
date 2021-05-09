@@ -7,14 +7,14 @@
 	  <PackageId>DotNetCore.Natasha.CSharp.All</PackageId>
 	  <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
 	  <PackageReleaseNotes>增加 .NET5 支持. 增加强签名, 升级依赖.</PackageReleaseNotes>
-	  <Version>2.0.2.4</Version>
+	  <Version>2.1.0</Version>
 	  <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
 	  <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
 	  <PackageTags>Roslyn;IL;Script;Dynamic;Natasha;NMS;</PackageTags>
 	  <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 	  <PackageIconUrl>https://avatars2.githubusercontent.com/u/19404084</PackageIconUrl>
-	  <FileVersion>2.0.2.4</FileVersion>
-	  <AssemblyVersion>2.0.2.4</AssemblyVersion>
+	  <FileVersion>2.1.0.0</FileVersion>
+	  <AssemblyVersion>2.1.0.0</AssemblyVersion>
 	  <SignAssembly>true</SignAssembly>
 	  <AssemblyOriginatorKeyFile>natasha.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
