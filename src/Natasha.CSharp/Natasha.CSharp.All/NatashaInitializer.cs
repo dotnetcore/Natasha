@@ -16,7 +16,7 @@ public static class NatashaInitializer
     /// <summary>
     /// 初始化 Natasha 组件
     /// </summary>
-    public static async Task Initialize(bool initializeReference = true)
+    public static Task Initialize(bool initializeReference = true)
     {
         if (!_hasInitialize)
         {
@@ -32,7 +32,7 @@ public static class NatashaInitializer
             }
             
         }
-       
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -42,7 +42,7 @@ public static class NatashaInitializer
     public static async Task InitializeAndPreheating(bool initializeReference = true)
     {
 
-        Initialize(initializeReference);
+        await Initialize(initializeReference);
         var domain = DomainManagement.Random;
         if (initializeReference)
         {
