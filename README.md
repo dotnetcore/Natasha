@@ -82,6 +82,7 @@
 ### 生态周边  
 | 项目名称 | 项目地址 | 项目简介 |
 |------------- |-----------| --------|
+| Libra | [Github](https://github.com/night-moon-studio/Libra) | 基于 Natasha 和 DynamicDictionary 的高性能,弱约束的 Http 协议 RPC 库 | 
 | NatashaPad | [Github](https://github.com/night-moon-studio/NatashaPad) | 由 Roslyn 和 Natasha 支持的另一种dotnet调试工具，如 LinqPad 和 dotnet fiddle。 |
 | Leo | [Github](https://github.com/night-moon-studio/NCaller) | 基于 Natasha 和 查找树算法的高速反射类，可以操作对象的属性以及字段。 |
 | DeepClone | [Github](https://github.com/night-moon-studio/DeepClone) | 由 Natasha 的高性能深度克隆库。 |
