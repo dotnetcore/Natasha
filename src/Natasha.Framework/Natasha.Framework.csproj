@@ -20,6 +20,10 @@
     <!--<PackageIcon>19404084.png</PackageIcon>
     <PackageLicenseFile>License.txt</PackageLicenseFile>-->
   </PropertyGroup>
+
+  <PropertyGroup>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
   
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
@@ -29,7 +33,7 @@
 
   <ItemGroup>
     <PackageReference Include="DotNetCore.SourceLink.Environment" Version="2.2.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="3.9.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="3.10.0" />
   </ItemGroup>
 
   

@@ -1,4 +1,6 @@
-﻿using Natasha.CSharp;
+﻿using Microsoft.CodeAnalysis.CSharp.Scripting;
+using Microsoft.CodeAnalysis.Scripting;
+using Natasha.CSharp;
 using System;
 using System.Runtime.Loader;
 
@@ -8,7 +10,7 @@ namespace Core31
     {
         static void Main(string[] args)
         {
-            NatashaInitializer.InitializeAndPreheating();
+            //NatashaInitializer.InitializeAndPreheating();
 
 
             //var hwFunc = FastMethodOperator
@@ -20,9 +22,10 @@ namespace Core31
             //    .Compile<Func<string, string, string>>();
             //Console.WriteLine(hwFunc("Hello", " World!"));
 
-            
-            string temp = NDelegate.RandomDomain().Func<string>("return (new A()).Name;")();
-            Console.WriteLine(temp);
+
+
+            //string temp = NDelegate.RandomDomain().Func<string>("return (new A()).Name;")();
+            //Console.WriteLine(temp);
 
             //var a123 = NClass.UseDomain(typeof(Program).GetDomain());
             //var domain = DomainManagement.Random;
@@ -42,10 +45,31 @@ namespace Core31
             //{
             //    Console.WriteLine(domain == (NatashaAssemblyDomain)AssemblyLoadContext.CurrentContextualReflectionContext);
             //}
+            var temp1 = new Test (){ X = 1, Y = 2 };
+            Console.WriteLine(CSharpScript.EvaluateAsync<int>(@"
+var result = X+Y;
+result+=""X"".Length;
+result+=""Y"".Length;
+result+=""XY"".Length;
+X = X * Y;
+result+=X;
+result+=X.Y;
+return result;
+", 
+
+ScriptOptions
+.Default
+.AddReferences(typeof(Test).Assembly)
+.WithImports("Core31"),
+
+
+globals: temp1).Result);
+
 
             Console.ReadKey();
         }
 
+       
 
     }
 

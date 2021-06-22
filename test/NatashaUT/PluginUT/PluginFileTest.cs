@@ -1,8 +1,11 @@
-﻿using Natasha.CSharp;
+﻿using Microsoft.CodeAnalysis;
+using Natasha.CSharp;
 using NatashaUT.Model;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
+using System.Reflection.Metadata;
 using Xunit;
 
 namespace NatashaUT
@@ -10,7 +13,25 @@ namespace NatashaUT
     [Trait("插件测试", "文件方式")]
     public class PluginFileTest : PrepareTest
     {
+       
 
+         [Fact(DisplayName = "引用加载对比")]
+        public unsafe void LoadFromDll0()
+        {
+
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Static", "ClassLibrary6.dll");
+            var domain1 = DomainManagement.Random;
+            var assembly = domain1.LoadPluginFromFile(path);
+
+
+            var domain = DomainManagement.Random;
+            domain.AddReferencesFromImage(assembly);
+
+            var action = NDelegate
+               .UseDomain(domain)
+               .Func<string>("Test.Instance.Name=\"11\"; return Test.Instance.Name;", assembly);
+            Assert.Equal("11", action());
+        }
 
         [Fact(DisplayName = "单次加载插件")]
         public void LoadFromDll1()

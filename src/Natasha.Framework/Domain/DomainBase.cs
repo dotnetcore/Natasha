@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
 using System.Runtime.Loader;
-
 
 namespace Natasha.Framework
 {
@@ -312,6 +312,22 @@ namespace Natasha.Framework
                     ReferencesFromFile[Path.GetFileNameWithoutExtension(path)] = MetadataReference.CreateFromFile(path);
                 }
             }
+
+        }
+
+        /// <summary>
+        /// 根据DLL路径添加单个的引用，以流的方式加载
+        /// </summary>
+        /// <param name="path">DLL文件路径</param>
+        /// <param name="excludePaths">需要排除的依赖文件路径</param>
+        public virtual unsafe void AddReferencesFromImage(Assembly assembly)
+        {
+
+            if (assembly.TryGetRawMetadata(out var bytePtr, out var length))
+            {
+                ReferencesFromStream[assembly] = MetadataReference.CreateFromImage((new Span<byte>(bytePtr, length)).ToArray());
+            }
+            
 
         }
 
