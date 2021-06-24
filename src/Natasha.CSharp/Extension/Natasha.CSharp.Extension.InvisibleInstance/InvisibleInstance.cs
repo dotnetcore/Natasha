@@ -33,6 +33,8 @@ internal static class InvisibleInstance
                 var body = methodNode.Body;
                 var nodes = from needNode in body.DescendantNodes().OfType<IdentifierNameSyntax>()
                             where needNode.Parent.Kind() != SyntaxKind.VariableDeclaration
+                            && needNode.Kind() != SyntaxKind.VariableDeclarator
+                            && !needNode.IsVar
                             select needNode;
 
                 foreach (var node in nodes)
@@ -42,19 +44,17 @@ internal static class InvisibleInstance
                     if (symbolInfo.Symbol == null)
                     {
 
-                        if (node.Kind() != SyntaxKind.VariableDeclaration)
-                        {
-                            var member = SyntaxFactory.IdentifierName(node.GetText().ToString().Trim());
-                            var newNode = SyntaxFactory.MemberAccessExpression(
-                                SyntaxKind.SimpleMemberAccessExpression,
-                                instance,
-                                member);
-                            eiditor.ReplaceNode(node, newNode);
-                        }
+                        var member = SyntaxFactory.IdentifierName(node.Identifier.ValueText.Trim());
+                        var newNode = SyntaxFactory.MemberAccessExpression(
+                            SyntaxKind.SimpleMemberAccessExpression,
+                            instance,
+                            member);
+                        eiditor.ReplaceNode(node, newNode);
 
                     }
                 }
             }
+
             return compilation.ReplaceSyntaxTree(tree, eiditor.GetChangedRoot().SyntaxTree);
 
         };
@@ -91,6 +91,8 @@ internal static class InvisibleInstance
                 var body = methodNode.Body;
                 var nodes = from needNode in body.DescendantNodes().OfType<IdentifierNameSyntax>()
                             where needNode.Parent.Kind() != SyntaxKind.VariableDeclaration
+                            && needNode.Kind() != SyntaxKind.VariableDeclarator
+                            && !needNode.IsVar
                             select needNode;
 
 
@@ -101,15 +103,12 @@ internal static class InvisibleInstance
                     if (symbolInfo.Symbol == null)
                     {
 
-                        if (node.Kind() != SyntaxKind.VariableDeclaration)
-                        {
-                            var member = SyntaxFactory.IdentifierName(node.GetText().ToString().Trim());
-                            var newNode = SyntaxFactory.MemberAccessExpression(
-                                SyntaxKind.SimpleMemberAccessExpression,
-                                instance,
-                                member);
-                            eiditor.ReplaceNode(node, newNode);
-                        }
+                        var member = SyntaxFactory.IdentifierName(node.Identifier.ValueText.Trim());
+                        var newNode = SyntaxFactory.MemberAccessExpression(
+                            SyntaxKind.SimpleMemberAccessExpression,
+                            instance,
+                            member);
+                        eiditor.ReplaceNode(node, newNode);
 
                     }
                 }
