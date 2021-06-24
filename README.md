@@ -62,14 +62,22 @@
 
  - ##### 2021/06/25
  
-    - 重构引擎, 增加语义分析API, 用户可编写语义解析扩展, 得益于强大的语义分析器, 我们对编译引擎进行了升级和重构.
-    - 内置 CS0246/CS0234 语义分析处理器.
-    - 移除 CS0104 处理到 `Natasha.CSharp.Extension.Ambiguity` 扩展包中, 我们认为二义性引用不应该成为普遍的问题.
-    - 新增 CS8019 无用 using 的处理, 精简生成的代码, 处理后脚本的 using 为按需引用,需要什么 using 脚本会自动呈现什么 using.
-    - 更改 NDelegate 操作类中传递域为传递编译器, 新增 AddUsing API, 尽管你可能永远用不到.
-    - 移除 standard2.0 支持, 改为 netcoreapp2.0/2.1/2.2 具体版本支持.
-    - 开放了 netcore2.1/2.2 版本对 readonly / ref 结构体的反解支持.
-    - 发布 `Natasha.CSharp.Extension.InvisibleInstance` 扩展包, 免去脚本中的方法第一个参数的引用调用, 比如: arg.Show 可以直接写为 Show.
+    - 重构引擎, 增加语义分析API, 用户可编写语义解析扩展, 得益于强大的语义分析器, 我们对编译引擎进行了升级和重构.  
+
+    - 内置 CS0246/CS0234 语义分析处理器.  
+
+    - 移除 CS0104 处理到 `Natasha.CSharp.Extension.Ambiguity` 扩展包中, 我们认为二义性引用不应该成为普遍的问题.  
+
+    - 新增 CS8019 无用 using 的处理, 精简生成的代码, 处理后脚本的 using 为按需引用,需要什么 using 脚本会自动呈现什么 using.  
+
+    - 更改 NDelegate 操作类中传递域为传递编译器, 新增 AddUsing API, 尽管你可能永远用不到.  
+
+    - 移除 standard2.0 支持, 改为 netcoreapp2.0/2.1/2.2 具体版本支持.  
+
+    - 开放了 netcore2.1/2.2 版本对 readonly / ref 结构体的反解支持.  
+
+    - 发布 `Natasha.CSharp.Extension.InvisibleInstance` 扩展包, 免去脚本中的方法第一个参数的引用调用, 比如: arg.Show 可以直接写为 Show.  
+
 
 
   ## v2.1.0.0
