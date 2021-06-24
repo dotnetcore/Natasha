@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -19,6 +19,7 @@
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="3.10.0" />
   </ItemGroup>
 	<ItemGroup>
+		<ProjectReference Include="..\..\src\Natasha.CSharp\Extension\Natasha.CSharp.Extension.InvisibleInstance\Natasha.CSharp.Extension.InvisibleInstance.csproj" />
 		<ProjectReference Include="..\..\src\Natasha.CSharp\Natasha.CSharp.All\Natasha.CSharp.All.csproj" />
 	</ItemGroup>
 

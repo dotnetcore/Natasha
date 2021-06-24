@@ -1,9 +1,12 @@
 ﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Editing;
 using Natasha.CSharpEngine;
 using Natasha.Error;
 using Natasha.Error.Model;
 using Natasha.Framework;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -327,9 +330,9 @@ namespace Natasha.CSharp
         /// <param name="key">错误ID,例如:CS0246</param>
         /// <param name="action"> Func<错误集合,语法树控制器,源代码,新代码(返回)> </param>
         /// <returns></returns>
-        public static AssemblyCSharpBuilder AddRetryHandler(this AssemblyCSharpBuilder builder, string key, Func<Diagnostic, SyntaxBase, string, string> action)
+        public static AssemblyCSharpBuilder AddUsingAnalysistor(this AssemblyCSharpBuilder builder, string key, Func<Diagnostic, IEnumerable<UsingDirectiveSyntax>> action)
         {
-            ErrorHandler.Add(key, action);
+            UsingAnalysistorManagement.Add(key, action);
             return builder;
         }
 

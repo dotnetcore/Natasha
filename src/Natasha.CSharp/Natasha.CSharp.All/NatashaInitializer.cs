@@ -1,4 +1,5 @@
 ﻿using Natasha.CSharp;
+using Natasha.CSharp.Engine.SemanticAnalaysis;
 using System;
 using System.Threading.Tasks;
 
@@ -24,10 +25,12 @@ public static class NatashaInitializer
             {
                 if (!_hasInitialize)
                 {
+
                     _hasInitialize = true;
                     NatashaComponentRegister.RegistDomain<NatashaAssemblyDomain>(initializeReference);
                     NatashaComponentRegister.RegistCompiler<NatashaCSharpCompiler>();
                     NatashaComponentRegister.RegistSyntax<NatashaCSharpSyntax>();
+                    NatashaCSharpCompiler.AddSemanticAnalysistor(UsingAnalysistor.Creator());
                 }
             }
             

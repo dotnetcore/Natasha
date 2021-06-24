@@ -79,6 +79,7 @@
 
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\src\Natasha.CSharp\Extension\Natasha.CSharp.Extension.Ambiguity\Natasha.CSharp.Extension.Ambiguity.csproj" />
 		<ProjectReference Include="..\..\src\Natasha.CSharp\Natasha.CSharp.All\Natasha.CSharp.All.csproj" />
 	</ItemGroup>
 

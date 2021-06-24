@@ -12,28 +12,33 @@ using System.Reflection;
 
 public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompilationOptions>
 {
+
     /// <summary>
     /// 被禁断的错误代码
     /// </summary>
-    public readonly static ConcurrentDictionary<string, ReportDiagnostic> GlobalSuppressDiagnostics;
-
+    private readonly static ConcurrentDictionary<string, ReportDiagnostic> _globalSuppressDiagnostics;
+    private static Func<CSharpCompilation, CSharpCompilation> _globalSemanticHandler;
     public static void AddGlobalSupperess(string errorcode)
     {
-        GlobalSuppressDiagnostics[errorcode] = ReportDiagnostic.Suppress;
+        _globalSuppressDiagnostics[errorcode] = ReportDiagnostic.Suppress;
+    }
+    public static void AddSemanticAnalysistor(Func<CSharpCompilation, CSharpCompilation> globalSemanticHandler)
+    {
+        _globalSemanticHandler = globalSemanticHandler;
     }
 
-
+    
     public CompilerBinderFlags CompileFlags;
     public bool ReferencesSupersedeLowerVersions;
     public ConcurrentDictionary<string, ReportDiagnostic> SuppressDiagnostics;
     public static readonly Action<CSharpCompilationOptions, uint> SetTopLevelBinderFlagDelegate;
     public static readonly Action<CSharpCompilationOptions, bool> SetReferencesSupersedeLowerVersionsDelegate;
-
+    private CSharpCompilation _compilation;
 
     static NatashaCSharpCompiler()
     {
 
-        GlobalSuppressDiagnostics = new ConcurrentDictionary<string, ReportDiagnostic>();
+        _globalSuppressDiagnostics = new ConcurrentDictionary<string, ReportDiagnostic>();
         AddGlobalSupperess("CS1701");
         AddGlobalSupperess("CS1702");
         AddGlobalSupperess("CS1705");
@@ -46,7 +51,7 @@ public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompi
         AddGlobalSupperess("CS1591");
         AddGlobalSupperess("CS1998");
 
-
+        // CS8019
         // CS0162 - Unreachable code detected.
         // CS0219 - The variable 'V' is assigned but its value is never used.
         // CS0414 - The private field 'F' is assigned but its value is never used.
@@ -76,8 +81,9 @@ public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompi
         Enum_OutputKind = OutputKind.DynamicallyLinkedLibrary;
         Enum_OptimizationLevel = OptimizationLevel.Release;
         AssemblyOutputKind = AssemblyBuildKind.Stream;
-        SuppressDiagnostics = GlobalSuppressDiagnostics;
+        SuppressDiagnostics = _globalSuppressDiagnostics;
         Enum_Platform = Platform.AnyCpu;
+        SetSemanticAnalysistor(_globalSemanticHandler);
         //SuppressDiagnostics = new ConcurrentDictionary<string, ReportDiagnostic>();
 
     }
@@ -122,8 +128,11 @@ public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompi
     /// <returns></returns>
     public override CSharpCompilation GetCompilation(CSharpCompilationOptions options)
     {
-
-        return CSharpCompilation.Create(AssemblyName, CompileTrees, Domain.GetCompileReferences(), options);
+        if (_compilation==default)
+        {
+            _compilation = CSharpCompilation.Create(AssemblyName, null, Domain.GetCompileReferences(), options);
+        }
+        return _compilation;
 
     }
 
@@ -132,9 +141,10 @@ public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompi
     /// 绑定编译标识
     /// </summary>
     /// <param name="flags"></param>
-    public void SetCompilerBindingFlag(CompilerBinderFlags flags)
+    public NatashaCSharpCompiler SetCompilerBindingFlag(CompilerBinderFlags flags)
     {
         CompileFlags = flags;
+        return this;
     }
 
 
@@ -142,11 +152,14 @@ public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompi
     /// 自动禁用低版本程序集
     /// </summary>
     /// <param name="value"></param>
-    public void SetReferencesSupersedeLowerVersions(bool value)
+    public NatashaCSharpCompiler SetReferencesSupersedeLowerVersions(bool value)
     {
         ReferencesSupersedeLowerVersions = value;
+        return this;
     }
 
+
+    
 }
 
 

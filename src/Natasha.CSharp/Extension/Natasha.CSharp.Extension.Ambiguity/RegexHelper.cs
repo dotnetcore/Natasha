@@ -1,4 +1,4 @@
-﻿namespace Natasha.CSharp.Engine.Utils
+﻿namespace Natasha.CSharp.Extension.Ambiguity
 {
     internal static class RegexHelper
     {

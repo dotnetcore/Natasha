@@ -80,7 +80,7 @@ public class NatashaAssemblyDomain : DomainBase
     public virtual void AddDeps(string path, params string[] excludePaths)
     {
 
-#if !NETSTANDARD2_0
+#if NETCOREAPP3_0_OR_GREATER
         AddReferencesFromDepsJsonFile(path, excludePaths);
 #else
         AddReferencesFromFileStream(path, excludePaths);
@@ -167,7 +167,7 @@ public class NatashaAssemblyDomain : DomainBase
     public NatashaAssemblyDomain(string key) : base(key)
     {
         UseNewVersionAssmebly = true;
-#if !NETSTANDARD2_0
+#if NETCOREAPP3_0_OR_GREATER
         DependencyResolver = new AssemblyDependencyResolver(AppDomain.CurrentDomain.BaseDirectory);
 #endif
         _usingsRecoder = new UsingRecoder();
@@ -210,7 +210,7 @@ public class NatashaAssemblyDomain : DomainBase
     /// <returns></returns>
     protected override Assembly Load(AssemblyName assemblyName)
     {
-#if !NETSTANDARD2_0
+#if NETCOREAPP3_0_OR_GREATER
         string assemblyPath = DependencyResolver.ResolveAssemblyToPath(assemblyName);
         if (assemblyPath != null)
         {
@@ -232,7 +232,7 @@ public class NatashaAssemblyDomain : DomainBase
     /// <returns></returns>
     protected override IntPtr LoadUnmanagedDll(string unmanagedDllName)
     {
-#if !NETSTANDARD2_0
+#if NETCOREAPP3_0_OR_GREATER
         string libraryPath = DependencyResolver.ResolveUnmanagedDllToPath(unmanagedDllName);
         if (libraryPath != null)
         {

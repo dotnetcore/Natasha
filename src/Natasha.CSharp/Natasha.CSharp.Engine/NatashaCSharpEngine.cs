@@ -1,6 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using Natasha.CSharp.Engine.Utils;
 using Natasha.CSharpEngine.Error;
 using Natasha.Error;
 using Natasha.Error.Model;
@@ -173,38 +172,10 @@ namespace Natasha.CSharpEngine
                 _retryCount += 1;
                 if (_retryCount < RetryLimit)
                 {
-
-                    Dictionary<string, string> codeMappings = new Dictionary<string, string>();
-                    foreach (var item in errors)
-                    {
-
-                        if (item.Location.SourceTree != null)
-                        {
-
-                            var sourceCode = item.Location.SourceTree.ToString();
-                            if (!codeMappings.ContainsKey(sourceCode))
-                            {
-                                codeMappings[sourceCode] = sourceCode;
-                            }
-                            if (ErrorHandler.CanHandle(item.Id))
-                            {
-                                codeMappings[sourceCode] = ErrorHandler.GetHandlerCode(item.Id, item, Syntax, codeMappings[sourceCode]);
-                            }
-
-                        }
-
-                    }
-
-                    foreach (var item in codeMappings)
-                    {
-
-                        Syntax.Update(item.Key, item.Value);
-
-                    }
+                   
                     return true;
                 }
                 
-
             }
             Exceptions = NatashaExceptionAnalyzer.GetCompileException(Compiler.AssemblyName, errors);
             return false;
@@ -223,8 +194,9 @@ namespace Natasha.CSharpEngine
                 Compiler.Domain.UseShareLibraries();
             }
             Exceptions = null;
-            Compiler.CompileTrees = Syntax.TreeCache.Values;
-            return Compiler.ComplieToAssembly();
+            var trees = Syntax.TreeCache.Values;
+            Syntax.Clear();
+            return Compiler.ComplieToAssembly(trees);
 
         }
     }

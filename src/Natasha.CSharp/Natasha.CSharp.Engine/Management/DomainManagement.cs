@@ -55,7 +55,7 @@ public class DomainManagement
     }
 
 
-#if !NETSTANDARD2_0
+#if NETCOREAPP3_0_OR_GREATER
         public static ContextualReflectionScope Lock(string key)
         {
             if (Cache.ContainsKey(key))

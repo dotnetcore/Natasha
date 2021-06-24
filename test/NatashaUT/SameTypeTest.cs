@@ -43,7 +43,7 @@ namespace NatashaUT
                     Assert.Equal(type1.Name, type2.Name);
 
 
-                    var func = NDelegate.UseDomain(domain).Func<object>("return new Class1();", "ClassLibrary1");
+                    var func = NDelegate.UseDomain(domain).AddUsing("ClassLibrary1").Func<object>("return new Class1();");
                     Assert.Equal(result2, func().GetType().Assembly);
                 }
 
@@ -78,7 +78,9 @@ namespace NatashaUT
                     Assert.Equal(type1.Name, type2.Name);
                     lock (obj)
                     {
-                        var func = NDelegate.UseDomain(domain).Func<object>("return new Class1();", "ClassLibrary1");
+                        var func = NDelegate.UseDomain(domain)
+                            .AddUsing("ClassLibrary1")
+                            .Func<object>("return new Class1();");
                         Assert.Equal(result2, func().GetType().Assembly);
                     }
                 }
@@ -125,7 +127,7 @@ namespace NatashaUT
                 lock (obj)
                 {
                     //Class1 同时存在于 ClassLibrary1 和 AsmTest22 中
-                    var func = NDelegate.UseDomain(domain).Func<object>("return new Class1();", "ClassLibrary1");
+                    var func = NDelegate.UseDomain(domain).AddUsing("ClassLibrary1").Func<object>("return new Class1();");
                     Assert.Equal(result1, func().GetType().Assembly);
                 }
 
@@ -165,7 +167,7 @@ namespace NatashaUT
 
 
                 //}
-                var func = NDelegate.DefaultDomain().Func<object>("return new Class1();", "ClassLibrary1");
+                var func = NDelegate.DefaultDomain().AddUsing("ClassLibrary1").Func<object>("return new Class1();");
                 Assert.Equal(result1, func().GetType().Assembly);
                 DomainManagement.Default.Remove(result1);
             }
@@ -202,7 +204,10 @@ namespace NatashaUT
 
 
 
-                var func = NDelegate.UseDomain(domain).Func<object>("return new Class1();", "ClassLibrary1");
+                var func = NDelegate.
+                    UseDomain(domain)
+                    .AddUsing("ClassLibrary1")
+                    .Func<object>("return new Class1();");
                 Assert.Equal(result1, func().GetType().Assembly);
                 domain.Remove(path);
             }

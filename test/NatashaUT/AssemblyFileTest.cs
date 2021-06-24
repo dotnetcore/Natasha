@@ -31,7 +31,7 @@ namespace NatashaUT
             Assert.Equal("TestFileModel", type.Name);
 
 
-            var @delegate = NDelegate.RandomDomain().Func<string>("return new TestFileModel().Name;", result);
+            var @delegate = NDelegate.RandomDomain().AddUsing(type).Func<string>("return new TestFileModel().Name;");
             Assert.Equal("aaa",@delegate());
         }
     }

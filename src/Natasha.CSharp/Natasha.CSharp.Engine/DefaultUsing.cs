@@ -13,7 +13,7 @@ namespace Natasha
     {
 
         private readonly static HashSet<string> DefaultNamesapce;
-        public readonly static StringBuilder DefaultScript;
+        public static StringBuilder DefaultScript;
 
         static DefaultUsing()
         {
@@ -97,11 +97,26 @@ namespace Natasha
                 if (DefaultNamesapce.Contains(@namespace))
                 {
                     DefaultNamesapce.Remove(@namespace);
-                    DefaultScript.Replace($"using {@namespace};{Environment.NewLine}", string.Empty);
+                    DefaultScript = DefaultScript.Replace($"using {@namespace};{Environment.NewLine}", string.Empty);
                 }
             }
         }
+        public static void Remove(IEnumerable<string> namespaces)
+        {
 
+            if (namespaces!=null)
+            {
+                lock (DefaultNamesapce)
+                {
+                    DefaultNamesapce.ExceptWith(namespaces);
+                    foreach (var item in namespaces)
+                    {
+                        DefaultScript.Replace($"using {item};{Environment.NewLine}", string.Empty);
+                    }
+                }
+            }
+            
+        }
     }
 
 }

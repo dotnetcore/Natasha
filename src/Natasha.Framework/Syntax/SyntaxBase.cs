@@ -25,13 +25,19 @@ namespace Natasha.Framework
 
         }
 
+        public void Clear()
+        {
+            TreeCache.Clear();
+            ReferenceCache.Clear();
+        }
+
 
         /// <summary>
         /// 从脚本中加载语法树，需要重载
         /// </summary>
         /// <param name="script">脚本代码</param>
         /// <returns></returns>
-        public abstract SyntaxTree LoadTreeFromScript(string script);
+        public abstract SyntaxTree ConvertToCSharpTree(string script);
 
 
         /// <summary>
@@ -39,7 +45,7 @@ namespace Natasha.Framework
         /// </summary>
         /// <param name="tree">语法树</param>
         /// <returns></returns>
-        public abstract SyntaxTree LoadTree(SyntaxTree tree);
+        public abstract SyntaxTree FormartTree(SyntaxTree tree);
 
 
 
@@ -55,7 +61,7 @@ namespace Natasha.Framework
             if (script!=default && script != "")
             {
 
-                SyntaxTree tree = LoadTreeFromScript(script);
+                SyntaxTree tree = ConvertToCSharpTree(script);
                 var key = tree.ToString();
                 if (!TreeCache.ContainsKey(key))
                 {

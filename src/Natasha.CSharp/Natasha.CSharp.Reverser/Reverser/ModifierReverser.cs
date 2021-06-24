@@ -211,7 +211,7 @@ namespace Natasha.CSharp.Reverser
 
             }
 
-#if !NETSTANDARD2_0
+#if NETCOREAPP2_1_OR_GREATER
             else if (info.IsValueType)
             {
 

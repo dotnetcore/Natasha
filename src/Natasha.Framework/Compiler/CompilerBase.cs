@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 
@@ -22,10 +23,10 @@ namespace Natasha.Framework
         public OptimizationLevel Enum_OptimizationLevel;
         public Action<TCompilationOptions> OptionAction;
         public TCompilation Compilation;
-
         public CompilerBase()
         {
             _domain = null;
+            _semanticAnalysistor = new List<Func<TCompilation, TCompilation>>();
         }
 
         private DomainBase _domain;
@@ -35,7 +36,7 @@ namespace Natasha.Framework
             {
                 if (_domain == null)
                 {
-#if !NETSTANDARD2_0
+#if NETCOREAPP3_0_OR_GREATER
                     if (AssemblyLoadContext.CurrentContextualReflectionContext != default)
                     {
                         _domain = (DomainBase)(AssemblyLoadContext.CurrentContextualReflectionContext);
@@ -88,6 +89,9 @@ namespace Natasha.Framework
         }
 
 
+        public IEnumerable<SyntaxTree> SyntaxTrees { get { return Compilation.SyntaxTrees; } }
+
+
         /// <summary>
         /// 获取构建编译信息的选项
         /// </summary>
@@ -118,20 +122,50 @@ namespace Natasha.Framework
         /// </summary>
         public event Func<Stream, ImmutableArray<Diagnostic>, TCompilation, Assembly> CompileFailedHandler;
 
+        /// <summary>
+        /// 用户定义的语义分析器
+        /// </summary>
+        public List<Func<TCompilation, TCompilation>> _semanticAnalysistor;
 
 
-        public virtual Assembly ComplieToAssembly()
+        /// <summary>
+        /// 设置语义分析
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public void AppendSemanticAnalysistor(Func<TCompilation, TCompilation> action)
+        {
+            _semanticAnalysistor.Add(action);
+        }
+        public void SetSemanticAnalysistor(Func<TCompilation, TCompilation> action)
+        {
+            _semanticAnalysistor.Clear();
+            _semanticAnalysistor.Add(action);
+        }
+
+        public virtual Assembly ComplieToAssembly(IEnumerable<SyntaxTree> trees)
         {
             Assembly assembly = null;
             EmitResult compileResult = null;
             if (PreCompiler())
             {
 
+                if (trees == default)
+                {
+                    return null;
+                }
+
                 var options = GetCompilationOptions();
                 OptionAction?.Invoke(options);
                 Compilation = GetCompilation(options);
-                Stream outputStream = new MemoryStream();
+                Compilation = (TCompilation)Compilation.AddSyntaxTrees(trees);
+                foreach (var item in _semanticAnalysistor)
+                {
+                    Compilation = item(Compilation);
+                }
 
+
+                Stream outputStream = new MemoryStream();
                 if (AssemblyOutputKind == AssemblyBuildKind.File)
                 {
 
@@ -156,7 +190,7 @@ namespace Natasha.Framework
                 if (compileResult.Success)
                 {
 
-
+                    Compilation.RemoveAllSyntaxTrees();
                     outputStream.Seek(0, SeekOrigin.Begin);
                     MemoryStream copyStream = new MemoryStream();
                     outputStream.CopyTo(copyStream);

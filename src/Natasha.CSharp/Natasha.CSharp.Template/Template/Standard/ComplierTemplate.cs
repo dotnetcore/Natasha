@@ -1,4 +1,5 @@
-﻿using Natasha.Framework;
+﻿using Microsoft.CodeAnalysis.CSharp;
+using Natasha.Framework;
 using System;
 
 namespace Natasha.CSharp.Template
@@ -7,13 +8,24 @@ namespace Natasha.CSharp.Template
     {
 
         //使用默认编译器
-        public readonly AssemblyCSharpBuilder AssemblyBuilder;
+        public AssemblyCSharpBuilder AssemblyBuilder;
         public Action<AssemblyCSharpBuilder> OptionAction;
         public CompilerTemplate()
         {
 
             AssemblyBuilder = new AssemblyCSharpBuilder();
 
+        }
+
+
+
+        public T ConfigComplier(Func<CSharpCompilation, CSharpCompilation> compilerFunc)
+        {
+            if (compilerFunc!=null)
+            {
+                AssemblyBuilder.Compiler.Compilation = compilerFunc(AssemblyBuilder.Compiler.Compilation);
+            }
+            return Link;
         }
 
 

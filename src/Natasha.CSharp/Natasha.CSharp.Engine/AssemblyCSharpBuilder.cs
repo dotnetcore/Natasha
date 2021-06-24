@@ -45,7 +45,7 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
         SyntaxErrorBehavior = ExceptionBehavior.Throw;
         OutputFolder = GlobalOutputFolder;
         CustomUsingShut = false;
-        RetryLimit = 2;
+        RetryLimit = 0;
 
     }
 
@@ -78,7 +78,7 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
     public NatashaException Add(string script, HashSet<string> usings = default)
     {
 
-        var tree = Syntax.LoadTreeFromScript(script);
+        var tree = Syntax.ConvertToCSharpTree(script);
         var exception = NatashaExceptionAnalyzer.GetSyntaxException(tree);
         if (!exception.HasError || SyntaxErrorBehavior == ExceptionBehavior.Ignore)
         {

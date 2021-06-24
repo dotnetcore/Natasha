@@ -15,23 +15,23 @@ namespace NatashaUT
     {
        
 
-         [Fact(DisplayName = "引用加载对比")]
-        public unsafe void LoadFromDll0()
-        {
+        // [Fact(DisplayName = "引用加载对比")]
+        //public unsafe void LoadFromDll0()
+        //{
 
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Static", "ClassLibrary6.dll");
-            var domain1 = DomainManagement.Random;
-            var assembly = domain1.LoadPluginFromFile(path);
+        //    string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Static", "ClassLibrary6.dll");
+        //    var domain1 = DomainManagement.Random;
+        //    var assembly = domain1.LoadPluginFromFile(path);
 
 
-            var domain = DomainManagement.Random;
-            domain.AddReferencesFromImage(assembly);
+        //    var domain = DomainManagement.Random;
+        //    domain.AddReferencesFromImage(assembly);
 
-            var action = NDelegate
-               .UseDomain(domain)
-               .Func<string>("Test.Instance.Name=\"11\"; return Test.Instance.Name;", assembly);
-            Assert.Equal("11", action());
-        }
+        //    var action = NDelegate
+        //       .UseDomain(domain)
+        //       .Func<string>("Test.Instance.Name=\"11\"; return Test.Instance.Name;", assembly);
+        //    Assert.Equal("11", action());
+        //}
 
         [Fact(DisplayName = "单次加载插件")]
         public void LoadFromDll1()
@@ -41,7 +41,8 @@ namespace NatashaUT
             var assemebly = domain.LoadPluginFromFile(path);
             var action = NDelegate
                 .UseDomain(domain)
-                .Func<string>("Test.Instance.Name=\"11\"; return Test.Instance.Name;",assemebly);
+                .AddUsing(assemebly)
+                .Func<string>("Test.Instance.Name=\"11\"; return Test.Instance.Name;");
             Assert.Equal("11", action());
         }
 
@@ -57,7 +58,8 @@ namespace NatashaUT
             assemebly = domain.LoadPluginFromFile(path);
             var action = NDelegate
                 .UseDomain(domain)
-                .Func<string>("Test.Instance.Name=\"11\"; return Test.Instance.Name;", assemebly);
+                .AddUsing(assemebly)
+                .Func<string>("Test.Instance.Name=\"11\"; return Test.Instance.Name;");
             Assert.Equal("11", action());
         }
 

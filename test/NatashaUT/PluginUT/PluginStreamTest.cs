@@ -20,7 +20,8 @@ namespace NatashaUT
             var assemebly = domain.LoadPluginFromStream(path);
             var action = NDelegate
                 .UseDomain(domain)
-                .Func<string>("Test.Instance.Name=\"11\"; return Test.Instance.Name;",assemebly);
+                .AddUsing(assemebly)
+                .Func<string>("Test.Instance.Name=\"11\"; return Test.Instance.Name;");
             Assert.Equal("11", action());
         }
 
@@ -36,7 +37,8 @@ namespace NatashaUT
             assemebly = domain.LoadPluginFromStream(path);
             var action = NDelegate
                 .UseDomain(domain)
-                .Func<string>("Test.Instance.Name=\"11\"; return Test.Instance.Name;", assemebly);
+                .AddUsing(assemebly)
+                .Func<string>("Test.Instance.Name=\"11\"; return Test.Instance.Name;");
             Assert.Equal("11", action());
         }
 

@@ -1,4 +1,5 @@
-﻿using Natasha.CSharp.Builder;
+﻿using Microsoft.CodeAnalysis.CSharp;
+using Natasha.CSharp.Builder;
 using Natasha.Framework;
 using System;
 
@@ -8,8 +9,8 @@ namespace Natasha.CSharp
     public static class DelegateOperator<T> where T : Delegate
     {
 
-        public static T Delegate(string content, 
-            DomainBase domain = default, 
+        public static T Delegate(string content,
+            AssemblyCSharpBuilder builder, 
             Action<AssemblyCSharpBuilder> option = default, 
             Func<FakeMethodOperator, FakeMethodOperator> methodAction = null, 
             Func<OopBuilder,OopBuilder> oopAction = null, 
@@ -17,7 +18,8 @@ namespace Natasha.CSharp
         {
 
             var method = typeof(T).GetMethod("Invoke");
-            var @operator = FakeMethodOperator.UseDomain(domain, option);
+            var @operator = FakeMethodOperator.UseDomain(builder.Compiler.Domain, option);
+            @operator.AssemblyBuilder = builder;
             @operator
                 .UseMethod(method)
                 .Using(usings)
@@ -31,8 +33,8 @@ namespace Natasha.CSharp
 
 
 
-        public static T AsyncDelegate(string content, 
-            DomainBase domain = default, 
+        public static T AsyncDelegate(string content,
+           AssemblyCSharpBuilder builder,
             Action<AssemblyCSharpBuilder> option = default, 
             Func<FakeMethodOperator, FakeMethodOperator> methodAction = null,
             Func<OopBuilder, OopBuilder> oopAction = null,
@@ -40,7 +42,8 @@ namespace Natasha.CSharp
         {
 
             var method = typeof(T).GetMethod("Invoke");
-            var @operator = FakeMethodOperator.UseDomain(domain, option);
+            var @operator = FakeMethodOperator.UseDomain(builder.Compiler.Domain, option);
+            @operator.AssemblyBuilder = builder;
             @operator
                 .UseMethod(method)
                 .Async()
@@ -55,8 +58,8 @@ namespace Natasha.CSharp
 
 
 
-        public static T UnsafeDelegate(string content, 
-            DomainBase domain = default, 
+        public static T UnsafeDelegate(string content,
+            AssemblyCSharpBuilder builder,
             Action<AssemblyCSharpBuilder> option = default, 
             Func<FakeMethodOperator, FakeMethodOperator> methodAction = null,
             Func<OopBuilder, OopBuilder> oopAction = null,
@@ -64,7 +67,8 @@ namespace Natasha.CSharp
         {
 
             var method = typeof(T).GetMethod("Invoke");
-            var @operator = FakeMethodOperator.UseDomain(domain, option);
+            var @operator = FakeMethodOperator.UseDomain(builder.Compiler.Domain, option);
+            @operator.AssemblyBuilder = builder;
             @operator
                 .UseMethod(method)
                 .Unsafe()
@@ -79,8 +83,8 @@ namespace Natasha.CSharp
 
 
 
-        public static T UnsafeAsyncDelegate(string content, 
-            DomainBase domain = default, 
+        public static T UnsafeAsyncDelegate(string content,
+           AssemblyCSharpBuilder builder,
             Action<AssemblyCSharpBuilder> option = default, 
             Func<FakeMethodOperator, FakeMethodOperator> methodAction = null,
             Func<OopBuilder, OopBuilder> oopAction = null,
@@ -88,7 +92,8 @@ namespace Natasha.CSharp
         {
 
             var method = typeof(T).GetMethod("Invoke");
-            var @operator = FakeMethodOperator.UseDomain(domain, option);
+            var @operator = FakeMethodOperator.UseDomain(builder.Compiler.Domain, option);
+            @operator.AssemblyBuilder = builder;
             @operator
                 .UseMethod(method)
                 .Unsafe()

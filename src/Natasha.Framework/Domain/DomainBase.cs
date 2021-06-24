@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Metadata;
-using System.Runtime.CompilerServices;
 using System.Runtime.Loader;
 
 namespace Natasha.Framework
@@ -46,14 +45,15 @@ namespace Natasha.Framework
         /// 存放文件过来的程序集与引用
         /// </summary>
         public readonly ConcurrentDictionary<string, PortableExecutableReference> ReferencesFromFile;
-#if NETSTANDARD2_0
-        public string Name;
+#if NETCOREAPP3_0_OR_GREATER
+     public readonly static Func<AssemblyDependencyResolver, Dictionary<string, string>> GetDictionary;
+       
 #else
-        public readonly static Func<AssemblyDependencyResolver, Dictionary<string, string>> GetDictionary;
+        public string Name;
 #endif
         static DomainBase()
         {
-#if !NETSTANDARD2_0
+#if NETCOREAPP3_0_OR_GREATER
             //从依赖中拿到所有的路径，该属性未开放
             var methodInfo = typeof(AssemblyDependencyResolver).GetField("_assemblyPaths", BindingFlags.NonPublic | BindingFlags.Instance);
             GetDictionary = item => (Dictionary<string, string>)methodInfo.GetValue(item);
@@ -81,13 +81,12 @@ namespace Natasha.Framework
         /// </summary>
         /// <param name="key"></param>
         public DomainBase(string key)
-
-#if  !NETSTANDARD2_0
+#if  NETCOREAPP3_0_OR_GREATER
             : base(isCollectible: true, name: key)
 #endif
 
         {
-#if NETSTANDARD2_0
+#if !NETCOREAPP3_0_OR_GREATER
             Name = key;
 #endif
             DllAssemblies = new ConcurrentDictionary<string, Assembly>();
@@ -97,7 +96,7 @@ namespace Natasha.Framework
             {
                 DefaultDomain = this;
                 Default.Resolving += Default_Resolving;
-#if !NETSTANDARD2_0
+#if NETCOREAPP3_0_OR_GREATER
                 Default.ResolvingUnmanagedDll += Default_ResolvingUnmanagedDll;
 #endif
             }
@@ -229,7 +228,7 @@ namespace Natasha.Framework
             if (path != null)
             {
                 if (DllAssemblies.ContainsKey(path))
-                { 
+                {
                     var shortName = Path.GetFileNameWithoutExtension(path);
                     ReferencesFromFile.Remove(shortName);
                     Assembly assembly = DllAssemblies.Remove(path);
@@ -274,7 +273,7 @@ namespace Natasha.Framework
         /// </summary>
         public virtual void Dispose()
         {
-#if !NETSTANDARD2_0
+#if  NETCOREAPP3_0_OR_GREATER
             DependencyResolver = null;
 #endif
             DllAssemblies.Clear();
@@ -327,7 +326,7 @@ namespace Natasha.Framework
             {
                 ReferencesFromStream[assembly] = MetadataReference.CreateFromImage((new Span<byte>(bytePtr, length)).ToArray());
             }
-            
+
 
         }
 
@@ -427,10 +426,7 @@ namespace Natasha.Framework
 
         }
 
-
-
-
-#if !NETSTANDARD2_0
+#if NETCOREAPP3_0_OR_GREATER
         public AssemblyDependencyResolver DependencyResolver;
 #endif
         /// <summary>
@@ -444,7 +440,7 @@ namespace Natasha.Framework
             if (excludePaths.Length == 0)
             {
 
-#if !NETSTANDARD2_0
+#if NETCOREAPP3_0_OR_GREATER
 
                 DependencyResolver = new AssemblyDependencyResolver(path);
                 var newMapping = GetDictionary(DependencyResolver);
@@ -470,7 +466,7 @@ namespace Natasha.Framework
                     exclude = new HashSet<string>(excludePaths);
                 }
 
-#if !NETSTANDARD2_0
+#if NETCOREAPP3_0_OR_GREATER
 
                 DependencyResolver = new AssemblyDependencyResolver(path);
                 var newMapping = GetDictionary(DependencyResolver);

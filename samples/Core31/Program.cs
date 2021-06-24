@@ -1,8 +1,15 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Scripting;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Scripting;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Editing;
 using Microsoft.CodeAnalysis.Scripting;
 using Natasha.CSharp;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Loader;
+using System.Threading.Tasks;
 
 namespace Core31
 {
@@ -10,8 +17,7 @@ namespace Core31
     {
         static void Main(string[] args)
         {
-            //NatashaInitializer.InitializeAndPreheating();
-
+            NatashaInitializer.InitializeAndPreheating();
 
             //var hwFunc = FastMethodOperator
             //    .RandomDomain()
@@ -45,26 +51,47 @@ namespace Core31
             //{
             //    Console.WriteLine(domain == (NatashaAssemblyDomain)AssemblyLoadContext.CurrentContextualReflectionContext);
             //}
-            var temp1 = new Test (){ X = 1, Y = 2 };
-            Console.WriteLine(CSharpScript.EvaluateAsync<int>(@"
-var result = X+Y;
-result+=""X"".Length;
-result+=""Y"".Length;
-result+=""XY"".Length;
-X = X * Y;
-result+=X;
-result+=X.Y;
-return result;
-", 
+            //            var temp1 = new Test (){ X = 1, Y = 2 };
+            //            Console.WriteLine(CSharpScript.EvaluateAsync<int>(@"
+            //var result = X+Y;
+            //result+=""X"".Length;
+            //result+=""Y"".Length;
+            //result+=""XY"".Length;
+            //X = X * Y;
+            //result+=X;
+            //result+=X.Y;
+            //return result;
+            //", 
 
-ScriptOptions
-.Default
-.AddReferences(typeof(Test).Assembly)
-.WithImports("Core31"),
+            //ScriptOptions
+            //.Default
+            //.AddReferences(typeof(Test).Assembly)
+            //.WithImports("Core31"),
+            //globals: temp1).Result);
+
+            NDelegate
+                .RandomDomain()
+                .WithFirstArgInvisible()
+                .Func<Test,int>(@"
+            arg.Show();
+            //var a = Show();
+            var b = c;
+            Show(c);
+            Console.WriteLine(1); 
+            return 0;")(new Test());
 
 
-globals: temp1).Result);
 
+            NDelegate
+               .RandomDomain()
+               .WithFirstArgInvisible("arg")
+               .Func<Test, int>(@"
+            arg.Show();
+            //var a = Show();
+            var b = c;
+            Show(c);
+            Console.WriteLine(1); 
+            return 0;")(new Test());
 
             Console.ReadKey();
         }

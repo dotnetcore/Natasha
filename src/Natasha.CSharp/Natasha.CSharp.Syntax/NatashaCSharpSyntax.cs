@@ -72,11 +72,10 @@ public class NatashaCSharpSyntax : SyntaxBase
 }
 
 
-    public override SyntaxTree LoadTreeFromScript(string script)
+    public override SyntaxTree ConvertToCSharpTree(string script)
     {
-        var tree = SyntaxFactory.ParseSyntaxTree(script.Trim(), _options); ;
-        return LoadTree(tree);
-
+        var tree = SyntaxFactory.ParseSyntaxTree(script.Trim(), _options);
+        return FormartTree(tree);
     }
 
 
@@ -85,7 +84,7 @@ public class NatashaCSharpSyntax : SyntaxBase
     /// </summary>
     /// <param name="tree"></param>
     /// <returns></returns>
-    public override SyntaxTree LoadTree(SyntaxTree tree)
+    public override SyntaxTree FormartTree(SyntaxTree tree)
     {
         
         using (var workspace = new AdhocWorkspace())
