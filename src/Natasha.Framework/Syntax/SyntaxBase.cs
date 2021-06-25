@@ -37,7 +37,7 @@ namespace Natasha.Framework
         /// </summary>
         /// <param name="script">脚本代码</param>
         /// <returns></returns>
-        public abstract SyntaxTree ConvertToCSharpTree(string script);
+        public abstract SyntaxTree ConvertToTree(string script);
 
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Natasha.Framework
             if (script!=default && script != "")
             {
 
-                SyntaxTree tree = ConvertToCSharpTree(script);
+                SyntaxTree tree = ConvertToTree(script);
                 var key = tree.ToString();
                 if (!TreeCache.ContainsKey(key))
                 {

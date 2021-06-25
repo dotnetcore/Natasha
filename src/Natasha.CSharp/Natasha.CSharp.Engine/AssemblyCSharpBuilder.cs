@@ -78,7 +78,7 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
     public NatashaException Add(string script, HashSet<string> usings = default)
     {
 
-        var tree = Syntax.ConvertToCSharpTree(script);
+        var tree = Syntax.ConvertToTree(script);
         var exception = NatashaExceptionAnalyzer.GetSyntaxException(tree);
         if (!exception.HasError || SyntaxErrorBehavior == ExceptionBehavior.Ignore)
         {

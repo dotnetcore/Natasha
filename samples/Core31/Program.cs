@@ -69,7 +69,7 @@ namespace Core31
             //.WithImports("Core31"),
             //globals: temp1).Result);
 
-            NDelegate
+            var func = NDelegate
                 .RandomDomain()
                 .WithFirstArgInvisible()
                 .Func<Test,int>(@"
@@ -78,7 +78,8 @@ namespace Core31
             var b = c;
             Show(c);
             Console.WriteLine(1); 
-            return 0;")(new Test());
+            return 0;");
+
 
 
 

@@ -72,7 +72,7 @@ public class NatashaCSharpSyntax : SyntaxBase
 }
 
 
-    public override SyntaxTree ConvertToCSharpTree(string script)
+    public override SyntaxTree ConvertToTree(string script)
     {
         var tree = SyntaxFactory.ParseSyntaxTree(script.Trim(), _options);
         return FormartTree(tree);
