@@ -13,12 +13,12 @@ public class NatashaCSharpSyntax : SyntaxBase
 {
 
     //private readonly static AdhocWorkspace _workSpace;
-    private readonly static CSharpParseOptions _options;
+    internal readonly static CSharpParseOptions _options;
     //private readonly static OptionSet _formartOptions;
     static NatashaCSharpSyntax()
     {
 
-        _options = new CSharpParseOptions(LanguageVersion.Latest);
+        _options = new CSharpParseOptions(LanguageVersion.Preview);
         //var workspace = new AdhocWorkspace();
         //_formartOptions = workspace.Options;
         ////_formartOptions = _formartOptions.WithChangedOption(CSharpFormattingOptions.IndentBraces, true);
