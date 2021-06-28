@@ -100,7 +100,7 @@ internal static class InvisibleInstance
                 {
 
                     var symbolInfo = semantiModel.GetSymbolInfo(node);
-                    if (symbolInfo.Symbol == null)
+                    if (symbolInfo.Symbol == null && symbolInfo.CandidateSymbols.Length == 0)
                     {
 
                         var member = SyntaxFactory.IdentifierName(node.Identifier.ValueText.Trim());

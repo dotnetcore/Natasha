@@ -5,15 +5,15 @@
 	  <Description>隐藏掉第一个方法中第一个参数或者指定参数的调用头.</Description>
 	  <PackageId>Natasha.CSharp.Extension.InvisibleInstance</PackageId>
 	  <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-	  <PackageReleaseNotes>升级到最新版.</PackageReleaseNotes>
-	  <Version>1.0.0</Version>
+	  <PackageReleaseNotes>修复方法无语义判别的BUG</PackageReleaseNotes>
+	  <Version>1.1.0</Version>
 	  <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
 	  <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
 	  <PackageTags>Roslyn;IL;Script;Dynamic;Natasha;NMS;CS0104;</PackageTags>
 	  <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 	  <PackageIconUrl>https://avatars2.githubusercontent.com/u/51699821</PackageIconUrl>
-	  <FileVersion>1.0.0.0</FileVersion>
-	  <AssemblyVersion>1.0.0.0</AssemblyVersion>
+	  <FileVersion>1.1.0.0</FileVersion>
+	  <AssemblyVersion>1.1.0.0</AssemblyVersion>
 	  <Copyright>.NET Core Community and Contributors</Copyright>
 	  <Owners>.NET Core Community and Contributors</Owners>
   </PropertyGroup>

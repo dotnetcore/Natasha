@@ -73,26 +73,24 @@ namespace Core31
                 .RandomDomain()
                 .WithFirstArgInvisible()
                 .Func<Test,int>(@"
-            arg.Show();
-            //var a = Show();
             var b = c;
-            Show(c);
-            Console.WriteLine(1); 
-            return 0;");
-
-
-
-
-            NDelegate
-               .RandomDomain()
-               .WithFirstArgInvisible("arg")
-               .Func<Test, int>(@"
-            arg.Show();
-            //var a = Show();
-            var b = c;
-            Show(c);
-            Console.WriteLine(1); 
+            Show(b);
+            Task.Run(()=>{ Show(); });
             return 0;")(new Test());
+
+
+
+
+            //NDelegate
+            //   .RandomDomain()
+            //   .WithFirstArgInvisible("arg")
+            //   .Func<Test, int>(@"
+            //arg.Show();
+            ////var a = Show();
+            //var b = c;
+            //Show(c);
+            //Console.WriteLine(1); 
+            //return 0;")(new Test());
 
             Console.ReadKey();
         }
