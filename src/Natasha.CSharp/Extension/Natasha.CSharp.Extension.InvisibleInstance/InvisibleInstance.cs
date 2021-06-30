@@ -25,17 +25,16 @@ internal static class InvisibleInstance
                             .OfType<MethodDeclarationSyntax>()
                               select methodDeclaration;
 
+            var diagnostics = new HashSet<Location>(semantiModel.GetDiagnostics().Where(item => item.Id == "CS0103").Select(item => item.Location));
             var eiditor = new SyntaxEditor(root, new AdhocWorkspace());
             foreach (var methodNode in methodNodes)
             {
 
 
                 var body = methodNode.Body;
-                var nodes = from needNode in body.DescendantNodes().OfType<IdentifierNameSyntax>()
-                            where needNode.Parent.Kind() != SyntaxKind.VariableDeclaration
-                            && needNode.Kind() != SyntaxKind.VariableDeclarator
-                            && !needNode.IsVar
-                            select needNode;
+                var nodes = from CS0103Node in body.DescendantNodes().OfType<IdentifierNameSyntax>()
+                            where diagnostics.Contains(CS0103Node.GetLocation())
+                            select CS0103Node;
 
                 foreach (var node in nodes)
                 {
@@ -74,6 +73,8 @@ internal static class InvisibleInstance
                             .OfType<MethodDeclarationSyntax>()
                               select methodDeclaration;
 
+
+            var diagnostics = new HashSet<Location>(semantiModel.GetDiagnostics().Where(item=>item.Id == "CS0103").Select(item=>item.Location));
             var eiditor = new SyntaxEditor(root, new AdhocWorkspace());
             foreach (var methodNode in methodNodes)
             {
@@ -87,13 +88,10 @@ internal static class InvisibleInstance
                     }
                 }
                 IdentifierNameSyntax instance = SyntaxFactory.IdentifierName(argument);
-
                 var body = methodNode.Body;
-                var nodes = from needNode in body.DescendantNodes().OfType<IdentifierNameSyntax>()
-                            where needNode.Parent.Kind() != SyntaxKind.VariableDeclaration
-                            && needNode.Kind() != SyntaxKind.VariableDeclarator
-                            && !needNode.IsVar
-                            select needNode;
+                var nodes = from CS0103Node in body.DescendantNodes().OfType<IdentifierNameSyntax>()
+                            where diagnostics.Contains(CS0103Node.GetLocation())
+                            select CS0103Node;
 
 
                 foreach (var node in nodes)

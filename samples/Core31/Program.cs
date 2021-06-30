@@ -75,10 +75,12 @@ namespace Core31
                 .Func<Test,int>(@"
             var b = c;
             Show(b);
-            Task.Run(()=>{ Show(); });
+            //var s = new Test1();
+            Task.Run(()=>{ Show();  });
             return 0;")(new Test());
 
 
+            Console.WriteLine(1.WithScript("return arg+1;").GetResult<int>());
 
 
             //NDelegate
