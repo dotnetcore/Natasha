@@ -37,25 +37,30 @@ namespace Core31
             _script = script;
         }
 
-        public S GetResult<S>()
+        public S Execute<S>()
         {
             if (!_currentCache.TryGetValue(_script,out var @delegate))
             {
-                var action = NDelegate.RandomDomain()
+                var action = NDelegate
+                    .RandomDomain()
+                    .WithFirstArgInvisible()
                     .Func<T, S>(_script);
                 _currentCache[_script] = @delegate;
                 return action(_value);
             }
             return ((Func<T, S>)@delegate)(_value);
         }
-        public void GetResult()
+        public void Execute()
         {
             if (!_currentCache.TryGetValue(_script, out var @delegate))
             {
-                var action = NDelegate.RandomDomain()
+                var action = NDelegate
+                    .RandomDomain()
+                    .WithFirstArgInvisible()
                     .Action<T>(_script);
                 _currentCache[_script] = @delegate;
                  action(_value);
+                return;
             }
             ((Action<T>)@delegate)(_value);
         }

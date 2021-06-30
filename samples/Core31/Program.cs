@@ -80,8 +80,12 @@ namespace Core31
             return 0;")(new Test());
 
 
-            Console.WriteLine(1.WithScript("return arg+1;").GetResult<int>());
 
+
+            Console.WriteLine(1.WithScript("return arg+1;").Execute<double>());
+
+            Test instance = new Test();
+            instance.WithScript("Show();").Execute();
 
             //NDelegate
             //   .RandomDomain()
