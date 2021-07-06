@@ -150,6 +150,23 @@ namespace Natasha.CSharp.Template
         }
 
 
+        /// <summary>
+        /// 设置命名空间
+        /// </summary>
+        /// <param name="namespaces">命名空间</param>
+        /// <returns></returns>
+        public T Using(HashSet<string> namespaces)
+        {
+
+            foreach (var item in namespaces)
+            {
+                Using(item);
+            }
+            return Link;
+
+        }
+
+
 
 
         /// <summary>

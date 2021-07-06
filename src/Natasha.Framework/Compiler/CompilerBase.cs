@@ -13,21 +13,22 @@ namespace Natasha.Framework
     public abstract class CompilerBase<TCompilation, TCompilationOptions> where TCompilation : Compilation where TCompilationOptions : CompilationOptions
     {
 
-        public string AssemblyName;
-        public AssemblyBuildKind AssemblyOutputKind;
-        public string DllPath;
-        public string PdbPath;
         public bool AllowUnsafe;
-        public OutputKind Enum_OutputKind;
-        public Platform Enum_Platform;
-        public OptimizationLevel Enum_OptimizationLevel;
-        public Action<TCompilationOptions> OptionAction;
+        public string AssemblyName;
+        public string OutputFilePath;
+        public string OutputPdbPath;
         public TCompilation Compilation;
+        public OutputKind AssemblyKind;
+        public Platform ProcessorPlatform;
+        public AssemblyBuildKind AssemblyOutputKind;
+        public OptimizationLevel CodeOptimizationLevel;
+        public Action<TCompilationOptions> OptionAction;
         public CompilerBase()
         {
             _domain = null;
             _semanticAnalysistor = new List<Func<TCompilation, TCompilation>>();
         }
+
 
         private DomainBase _domain;
         public DomainBase Domain
@@ -100,27 +101,16 @@ namespace Natasha.Framework
 
 
         /// <summary>
-        /// 获取语法树
-        /// </summary>
-        public IEnumerable<SyntaxTree> CompileTrees;
-
-
-        /// <summary>
-        /// 文件编译成功之后触发的事件
-        /// </summary>
-        public event Action<string, string, TCompilation> FileCompileSucceedHandler;
-
-
-        /// <summary>
         /// 流编译成功之后触发的事件
         /// </summary>
-        public event Action<Stream, TCompilation> StreamCompileSucceedHandler;
+        public event Action<string, string, Stream, TCompilation> CompileSucceedEvent;
 
 
         /// <summary>
         /// 流编译失败之后触发的事件
         /// </summary>
-        public event Func<Stream, ImmutableArray<Diagnostic>, TCompilation, Assembly> CompileFailedHandler;
+        public event Func<Stream, ImmutableArray<Diagnostic>, TCompilation, Assembly> CompileFailedEvent;
+
 
         /// <summary>
         /// 用户定义的语义分析器
@@ -143,6 +133,12 @@ namespace Natasha.Framework
             _semanticAnalysistor.Add(action);
         }
 
+
+        /// <summary>
+        /// 将语法树生成到程序集
+        /// </summary>
+        /// <param name="trees"></param>
+        /// <returns></returns>
         public virtual Assembly ComplieToAssembly(IEnumerable<SyntaxTree> trees)
         {
             Assembly assembly = null;
@@ -168,17 +164,15 @@ namespace Natasha.Framework
                 Stream outputStream = new MemoryStream();
                 if (AssemblyOutputKind == AssemblyBuildKind.File)
                 {
-
-                    outputStream = File.Create(DllPath);
-                    using (var pdbStream = File.Create(PdbPath))
+                    outputStream = File.Create(OutputFilePath);
+                    using (var pdbStream = File.Create(OutputPdbPath))
                     {
                         compileResult = Compilation.Emit(
                        outputStream,
                        pdbStream: pdbStream,
-                       options: new EmitOptions(pdbFilePath: PdbPath, debugInformationFormat: DebugInformationFormat.PortablePdb));
+                       options: new EmitOptions(pdbFilePath: OutputPdbPath, debugInformationFormat: DebugInformationFormat.PortablePdb));
 
                     }
-
                 }
                 else
                 {
@@ -190,30 +184,27 @@ namespace Natasha.Framework
                 if (compileResult.Success)
                 {
 
-                    Compilation.RemoveAllSyntaxTrees();
                     outputStream.Seek(0, SeekOrigin.Begin);
-                    MemoryStream copyStream = new MemoryStream();
-                    outputStream.CopyTo(copyStream);
 
-
-                    outputStream.Seek(0, SeekOrigin.Begin);
-                    assembly = Domain.CompileStreamCallback(outputStream, AssemblyName);
-
-                    if (AssemblyOutputKind == AssemblyBuildKind.File)
+                    if (CompileSucceedEvent != default)
                     {
-                        FileCompileSucceedHandler?.Invoke(DllPath, PdbPath, Compilation);
+                        MemoryStream copyStream = new MemoryStream();
+                        outputStream.CopyTo(copyStream);
+                        outputStream.Seek(0, SeekOrigin.Begin);
+                        assembly = Domain.CompileStreamCallback(OutputFilePath, OutputPdbPath, outputStream, AssemblyName);
+                        CompileSucceedEvent(OutputFilePath, OutputPdbPath, copyStream, Compilation);
+                        copyStream.Dispose();
                     }
                     else
                     {
-                        StreamCompileSucceedHandler?.Invoke(copyStream, Compilation);
+                        assembly = Domain.CompileStreamCallback(OutputFilePath, OutputPdbPath, outputStream, AssemblyName);
                     }
-                    copyStream.Dispose();
 
                 }
                 else
                 {
 
-                    assembly = CompileFailedHandler?.Invoke(outputStream, compileResult.Diagnostics, Compilation);
+                    assembly = CompileFailedEvent?.Invoke(outputStream, compileResult.Diagnostics, Compilation);
 
                 }
                 outputStream.Dispose();

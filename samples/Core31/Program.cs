@@ -29,6 +29,11 @@ namespace Core31
             //Console.WriteLine(hwFunc("Hello", " World!"));
 
 
+            //var assembly = typeof(object).Assembly;
+            //var path = assembly.Location;
+            //var r1 = MetadataReference.CreateFromFile(path);
+            //MetadataReference.CreateFromAssembly
+            //MetadataReference.CreateFromStream(assembly.strea);
 
             //string temp = NDelegate.RandomDomain().Func<string>("return (new A()).Name;")();
             //Console.WriteLine(temp);
@@ -69,23 +74,23 @@ namespace Core31
             //.WithImports("Core31"),
             //globals: temp1).Result);
 
-            var func = NDelegate
-                .RandomDomain()
-                .WithFirstArgInvisible()
-                .Func<Test,int>(@"
-            var b = c;
-            Show(b);
-            //var s = new Test1();
-            Task.Run(()=>{ Show();  });
-            return 0;")(new Test());
+            //var func = NDelegate
+            //    .RandomDomain()
+            //    .WithFirstArgInvisible()
+            //    .Func<Test,int>(@"
+            //var b = c;
+            //Show(b);
+            ////var s = new Test1();
+            //Task.Run(()=>{ Show();  });
+            //return 0;")(new Test());
 
 
 
 
-            Console.WriteLine(1.WithScript("return arg+1;").Execute<double>());
+            //Console.WriteLine(1.WithScript("return arg+1;").Execute<double>());
 
-            Test instance = new Test();
-            instance.WithScript("Show();").Execute();
+            //Test instance = new Test();
+            //instance.WithScript("Show();").Execute();
 
             //NDelegate
             //   .RandomDomain()

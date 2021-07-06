@@ -33,9 +33,9 @@ namespace NatashaUT
 
 
                     string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Repeate", "ClassLibrary1.dll");
-                    var result1 = domain.LoadPluginFromStream(path);
+                    var result1 = domain.LoadPlugin(path);
                     var type1 = result1.GetTypes().First(item => item.Name == "Class1");
-                    domain.Remove(path);
+                    domain.RemovePlugin(path);
 
 
                     Assert.Equal("TestSame", DomainManagement.CurrentDomain.Name);
@@ -43,7 +43,10 @@ namespace NatashaUT
                     Assert.Equal(type1.Name, type2.Name);
 
 
-                    var func = NDelegate.UseDomain(domain).AddUsing("ClassLibrary1").Func<object>("return new Class1();");
+                    var func = NDelegate
+                        .UseDomain(domain)
+                        .AddUsing("ClassLibrary1")
+                        .Func<object>("return new Class1();");
                     Assert.Equal(result2, func().GetType().Assembly);
                 }
 
@@ -122,7 +125,7 @@ namespace NatashaUT
 
                 Assert.NotEqual(result1, result2);
                 Assert.Equal(type1.Name, type2.Name);
-                domain.Remove(result2);
+                domain.RemoveReference(result2);
 
                 lock (obj)
                 {
@@ -153,7 +156,7 @@ namespace NatashaUT
                     assembly.AddScript("using System;namespace ClassLibrary1{ public class Class1{public string name;}}");
                     var result2 = assembly.GetAssembly();
                     var type2 = result2.GetTypes().First(item => item.Name == "Class1");
-                    domain.Remove(result2);
+                    domain.RemoveReference(result2);
 
 
                     var assembly1 = domain.CreateAssembly("DAsmTest2");
@@ -169,7 +172,7 @@ namespace NatashaUT
                 //}
                 var func = NDelegate.DefaultDomain().AddUsing("ClassLibrary1").Func<object>("return new Class1();");
                 Assert.Equal(result1, func().GetType().Assembly);
-                DomainManagement.Default.Remove(result1);
+                DomainManagement.Default.RemoveReference(result1);
             }
 #endif
 
@@ -180,9 +183,12 @@ namespace NatashaUT
         public void Test5()
         {
 
+            NSucceedLog.Enabled = true;
 #if !NETCOREAPP2_2
             lock (obj)
             {
+
+                
                 Assembly result1;
 
 
@@ -195,7 +201,7 @@ namespace NatashaUT
 
 
                     string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Repeate", "ClassLibrary1.dll");
-                    result1 = domain.LoadPluginFromStream(path);
+                    result1 = domain.LoadPlugin(path);
                     var type1 = result1.GetTypes().First(item => item.Name == "Class1");
 
 
@@ -209,7 +215,7 @@ namespace NatashaUT
                     .AddUsing("ClassLibrary1")
                     .Func<object>("return new Class1();");
                 Assert.Equal(result1, func().GetType().Assembly);
-                domain.Remove(path);
+                domain.RemoveReference(path);
             }
 #endif
 

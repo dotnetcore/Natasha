@@ -54,7 +54,15 @@ namespace Natasha.Domain.Template
 
             if (assembly != default)
             {
-                Using(assembly.ExportedTypes);
+                try
+                {
+                    Using(assembly.ExportedTypes);
+                }
+                catch (Exception)
+                {
+
+                }
+                
             }
             return this;
 

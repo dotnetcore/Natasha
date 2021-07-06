@@ -15,7 +15,7 @@ namespace NatashaUT
         {
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Static", "ClassLibrary5.dll");
             var domain = DomainManagement.Random;
-            var assemebly = domain.LoadPluginFromStream(path);
+            var assemebly = domain.LoadPlugin(path);
             var action = NDelegate
                 .UseDomain(domain)
                 .AddUsing(assemebly)

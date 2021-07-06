@@ -39,7 +39,7 @@ namespace NatashaUT
             {
 
                 var domain = DomainManagement.CurrentDomain;
-                var assemebly = domain.LoadPluginFromStream(path);
+                var assemebly = domain.LoadPlugin(path);
                 var action = FastMethodOperator.UseDomain(domain)
                     .WithCS0104Handler()
                    .Body(@"
@@ -85,7 +85,7 @@ return default;").Return<string>()
             {
 
                 var domain = DomainManagement.CurrentDomain;
-                var assemebly = domain.LoadPluginFromStream(path);
+                var assemebly = domain.LoadPlugin(path);
                 var action = FastMethodOperator.UseDomain(domain)
                    .Body(@"Test.Instance.Name=""11""; return Test.Instance.Name;")
                    .Compile<Func<string>>();
@@ -122,7 +122,7 @@ return default;").Return<string>()
             {
 
                 var domain = DomainManagement.CurrentDomain;
-                var assemebly = domain.LoadPluginFromStream(path);
+                var assemebly = domain.LoadPlugin(path);
                 var action = FastMethodOperator.UseDomain(domain,
                     item =>item.LogCompilerError() 
                 )

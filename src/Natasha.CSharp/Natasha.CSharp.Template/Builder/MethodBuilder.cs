@@ -3,6 +3,7 @@ using Natasha.CSharp.Template;
 using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Collections.Generic;
 
 namespace Natasha.CSharp.Builder
 {
@@ -59,6 +60,14 @@ namespace Natasha.CSharp.Builder
 
         }
         public T Using(string @using)
+        {
+
+            OopHandler.Using(@using);
+            return Link;
+
+        }
+
+        public T Using(HashSet<string> @using)
         {
 
             OopHandler.Using(@using);
@@ -137,7 +146,7 @@ namespace Natasha.CSharp.Builder
         public Delegate Compile(object target = null)
         {
 
-            Using(AssemblyBuilder.Compiler.Domain.DllAssemblies.Values.ToArray());
+            Using(AssemblyBuilder.Compiler.Domain.GetReferenceElements().ToArray());
             if (OopHandler.NamespaceScript == default)
             {
                 OopHandler.HiddenNamespace();

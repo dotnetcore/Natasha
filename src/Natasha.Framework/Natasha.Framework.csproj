@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;netcoreapp3.0;netcoreapp3.1;net5.0;</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;netcoreapp3.0;netcoreapp3.1;net5.0;</TargetFrameworks>
     <Description>Natasha 编译框架以及各个操作类的基础类</Description>
     <PackageId>DotNetCore.Natasha.Framework</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
@@ -24,7 +24,9 @@
   <PropertyGroup>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-	
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="DotNetCore.SourceLink.Environment" Version="2.2.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="3.10.0" />

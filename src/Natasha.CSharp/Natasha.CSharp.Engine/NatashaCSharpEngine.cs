@@ -55,8 +55,8 @@ namespace Natasha.CSharpEngine
         public bool UseRelease
         {
 
-            get { return Compiler.Enum_OptimizationLevel == OptimizationLevel.Release; }
-            set { Compiler.Enum_OptimizationLevel = value ? OptimizationLevel.Release : OptimizationLevel.Debug; }
+            get { return Compiler.CodeOptimizationLevel == OptimizationLevel.Release; }
+            set { Compiler.CodeOptimizationLevel = value ? OptimizationLevel.Release : OptimizationLevel.Debug; }
 
         }
 
@@ -67,8 +67,8 @@ namespace Natasha.CSharpEngine
         public OutputKind OutputKind
         {
 
-            get { return Compiler.Enum_OutputKind; }
-            set { Compiler.Enum_OutputKind = value; }
+            get { return Compiler.AssemblyKind; }
+            set { Compiler.AssemblyKind = value; }
 
         }
 
@@ -136,7 +136,7 @@ namespace Natasha.CSharpEngine
             Syntax = SyntaxComponent.GetSyntax();
             Compiler = CompilerComponent.GetCompiler();
             Compiler.AssemblyName = assemblyName;
-            Compiler.CompileFailedHandler += NatashaEngine_CompileFailedHandler;
+            Compiler.CompileFailedEvent += NatashaEngine_CompileFailedHandler;
 
         }
 

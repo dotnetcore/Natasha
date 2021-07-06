@@ -20,6 +20,7 @@ namespace Natasha.Framework
         public static DomainBase DefaultDomain;
         public event Action<Assembly> AddAssemblyEvent;
         public event Action<Assembly> RemoveAssemblyEvent;
+
         /// <summary>
         /// 是否使用最新程序集
         /// </summary>
@@ -34,20 +35,48 @@ namespace Natasha.Framework
         /// <summary>
         /// 存放内存流编译过来的程序集与引用
         /// </summary>
-        public readonly ConcurrentDictionary<Assembly, PortableExecutableReference> ReferencesFromStream;
+        public readonly ConcurrentDictionary<Assembly, PortableExecutableReference> AssemblyReferencesCache;
 
-        /// <summary>
-        /// 从插件加载来的程序集
-        /// </summary>
-        public readonly ConcurrentDictionary<string, Assembly> DllAssemblies;
 
         /// <summary>
         /// 存放文件过来的程序集与引用
         /// </summary>
-        public readonly ConcurrentDictionary<string, PortableExecutableReference> ReferencesFromFile;
+        public readonly ConcurrentDictionary<string, PortableExecutableReference> OtherReferencesFromFile;
+
+
+        /// <summary>
+        /// 当前域引用的数量
+        /// </summary>
+        public int Count
+        {
+            get { return AssemblyReferencesCache.Count + OtherReferencesFromFile.Count; }
+        }
+
+
+        #region 共享库引用
+        /// <summary>
+        /// 共享库引用缓存
+        /// </summary>
+        private static readonly ConcurrentQueue<string> _shareLibraries;
+
+
+        /// <summary>
+        /// 使用共享库覆盖现有引用缓存
+        /// </summary>
+        public void UseShareLibraries()
+        {
+
+            foreach (var asmPath in _shareLibraries)
+            {
+
+                AddReferencesFromDllFile(asmPath);
+
+            }
+
+        }
 #if NETCOREAPP3_0_OR_GREATER
-     public readonly static Func<AssemblyDependencyResolver, Dictionary<string, string>> GetDictionary;
-       
+        public readonly static Func<AssemblyDependencyResolver, Dictionary<string, string>> GetDictionary;
+
 #else
         public string Name;
 #endif
@@ -65,6 +94,7 @@ namespace Natasha.Framework
                 .Where(asm => !asm.IsDynamic && !string.IsNullOrWhiteSpace(asm.Location))
                 .Distinct();
 
+
             foreach (var asm in assemblies)
             {
 
@@ -73,8 +103,7 @@ namespace Natasha.Framework
             }
 
         }
-
-
+        #endregion
 
         /// <summary>
         /// 构造函数，需要给当前域传key，兼容standard2.0
@@ -89,9 +118,8 @@ namespace Natasha.Framework
 #if !NETCOREAPP3_0_OR_GREATER
             Name = key;
 #endif
-            DllAssemblies = new ConcurrentDictionary<string, Assembly>();
-            ReferencesFromStream = new ConcurrentDictionary<Assembly, PortableExecutableReference>();
-            ReferencesFromFile = new ConcurrentDictionary<string, PortableExecutableReference>();
+            AssemblyReferencesCache = new ConcurrentDictionary<Assembly, PortableExecutableReference>();
+            OtherReferencesFromFile = new ConcurrentDictionary<string, PortableExecutableReference>();
             if (key == "Default")
             {
                 DefaultDomain = this;
@@ -101,6 +129,29 @@ namespace Natasha.Framework
 #endif
             }
         }
+
+        #region 功能重载
+        /// <summary>
+        /// 加载插件
+        /// </summary>
+        /// <param name="path">插件路径</param>
+        /// <param name="excludePaths">需要排除的路径</param>
+        /// <returns></returns>
+        public abstract Assembly LoadPlugin(string path, params string[] excludePaths);
+
+
+        /// <summary>
+        /// 移除插件
+        /// </summary>
+        /// <param name="path">插件路径</param>
+        public abstract void RemovePlugin(string path);
+
+
+        /// <summary>
+        /// 获取当前域内的插件程序集
+        /// </summary>
+        /// <returns></returns>
+        public abstract IEnumerable<Assembly> GetPluginAssemblies();
 
 
         /// <summary>
@@ -122,28 +173,6 @@ namespace Natasha.Framework
 
 
         /// <summary>
-        /// 共享库引用缓存
-        /// </summary>
-        private static readonly ConcurrentQueue<string> _shareLibraries;
-
-
-        /// <summary>
-        /// 使用共享库覆盖现有引用缓存
-        /// </summary>
-        public void UseShareLibraries()
-        {
-
-            foreach (var asmPath in _shareLibraries)
-            {
-
-                AddReferencesFromDllFile(asmPath);
-
-            }
-
-        }
-
-
-        /// <summary>
         /// 获取系统域+当前域的所有引用
         /// </summary>
         /// <returns></returns>
@@ -156,131 +185,63 @@ namespace Natasha.Framework
         /// <param name="stream">编译后的内存流</param>
         /// <param name="AssemblyName">程序集名</param>
         /// <returns></returns>
-        public abstract Assembly CompileStreamCallback(Stream stream, string AssemblyName);
+        public abstract Assembly CompileStreamCallback(string dllFile, string pdbFile, Stream stream, string AssemblyName);
 
+        #endregion
 
-        /// <summary>
-        /// 添加该类型所在程序集的引用
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        public void AddReferencesFromType<T>()
-        {
-            AddReferencesFromType(typeof(T));
-        }
-
-        /// <summary>
-        /// 添加该类型所在程序集的引用
-        /// </summary>
-        /// <param name="type"></param>
-        public void AddReferencesFromType(Type type)
-        {
-            AddReferencesFromAssembly(type.Assembly);
-        }
-
-
-        /// <summary>
-        /// 添加该程序集的引用
-        /// </summary>
-        /// <param name="assembly"></param>
-        public void AddReferencesFromAssembly(Assembly assembly)
-        {
-            if (!assembly.IsDynamic && !string.IsNullOrEmpty(assembly.Location))
-            {
-                AddReferencesFromDllFile(assembly.Location);
-            }
-        }
-
-
-        /// <summary>
-        /// 文件编译流过来之后需要如何处理
-        /// </summary>
-        /// <param name="dllFile">编译后的文件路径</param>
-        /// <param name="pdbFile">编译后的PDB文件</param>
-        /// <param name="AssemblyName">程序集名</param>
-        /// <returns></returns>
-        public abstract Assembly CompileFileCallback(string dllFile, string pdbFile, string AssemblyName);
-
-
-        /// <summary>
-        /// 如何加载从文件过来的插件
-        /// </summary>
-        /// <param name="path">插件路径</param>
-        /// <param name="excludePaths">需要排除的引用路径</param>
-        /// <returns></returns>
-        public abstract Assembly LoadPluginFromFile(string path, params string[] excludePaths);
-
-
-        /// <summary>
-        /// 如何加载从内存过来的插件
-        /// </summary>
-        /// <param name="path">插件路径</param>
-        /// <param name="excludePaths">需要排除的引用路径</param>
-        /// <returns></returns>
-        public abstract Assembly LoadPluginFromStream(string path, params string[] excludePaths);
-
-
+        #region 移除引用
         /// <summary>
         /// 移除文件对应的引用
         /// </summary>
         /// <param name="path">文件路径，插件或者生成的DLL</param>
-        public virtual void Remove(string path)
+        public virtual void RemoveReference(string path)
         {
             if (path != null)
             {
-                if (DllAssemblies.ContainsKey(path))
+                if (OtherReferencesFromFile.ContainsKey(path))
                 {
                     var shortName = Path.GetFileNameWithoutExtension(path);
-                    ReferencesFromFile.Remove(shortName);
-                    Assembly assembly = DllAssemblies.Remove(path);
-                    RemoveAssemblyEvent?.Invoke(assembly);
+                    OtherReferencesFromFile.Remove(shortName);
                 }
             }
         }
+
 
 
         /// <summary>
         /// 移除程序集对应的引用
         /// </summary>
         /// <param name="assembly">程序集</param>
-        public virtual void Remove(Assembly assembly)
+        public virtual void RemoveReference(Assembly assembly)
         {
             if (assembly != null)
             {
-                if (ReferencesFromStream.ContainsKey(assembly))
+                if (AssemblyReferencesCache.ContainsKey(assembly))
                 {
-                    ReferencesFromStream.Remove(assembly);
+                    AssemblyReferencesCache.Remove(assembly);
                     RemoveAssemblyEvent?.Invoke(assembly);
                 }
                 else if (assembly.Location != "" && assembly.Location != default)
                 {
-                    Remove(assembly.Location);
+                    RemoveReference(assembly.Location);
                 }
             }
         }
+        #endregion
 
-
-        /// <summary>
-        /// 当前域引用的数量
-        /// </summary>
-        public int Count
-        {
-            get { return ReferencesFromStream.Count + ReferencesFromFile.Count; }
-        }
-
+        #region 添加引用
 
         /// <summary>
-        /// 销毁函数
+        /// 添加该程序集的引用
         /// </summary>
-        public virtual void Dispose()
+        /// <param name="assembly"></param>
+        public virtual void AddReferencesFromAssembly(Assembly assembly)
         {
-#if  NETCOREAPP3_0_OR_GREATER
-            DependencyResolver = null;
-#endif
-            DllAssemblies.Clear();
-            ReferencesFromStream.Clear();
-            ReferencesFromFile.Clear();
+            if (assembly != default && !assembly.IsDynamic && !string.IsNullOrEmpty(assembly.Location))
+            {
+                AddReferencesFromDllFile(assembly.Location);
+            }
         }
-
 
         /// <summary>
         /// 根据DLL路径添加单个的引用，以文件方式加载
@@ -292,7 +253,7 @@ namespace Natasha.Framework
 
             if (excludePaths.Length == 0)
             {
-                ReferencesFromFile[Path.GetFileNameWithoutExtension(path)] = MetadataReference.CreateFromFile(path);
+                OtherReferencesFromFile[Path.GetFileNameWithoutExtension(path)] = MetadataReference.CreateFromFile(path);
             }
             else
             {
@@ -308,11 +269,12 @@ namespace Natasha.Framework
 
                 if (!exclude.Contains(path))
                 {
-                    ReferencesFromFile[Path.GetFileNameWithoutExtension(path)] = MetadataReference.CreateFromFile(path);
+                    OtherReferencesFromFile[Path.GetFileNameWithoutExtension(path)] = MetadataReference.CreateFromFile(path);
                 }
             }
 
         }
+
 
         /// <summary>
         /// 根据DLL路径添加单个的引用，以流的方式加载
@@ -324,9 +286,8 @@ namespace Natasha.Framework
 
             if (assembly.TryGetRawMetadata(out var bytePtr, out var length))
             {
-                ReferencesFromStream[assembly] = MetadataReference.CreateFromImage((new Span<byte>(bytePtr, length)).ToArray());
+                AssemblyReferencesCache[assembly] = MetadataReference.CreateFromImage((new Span<byte>(bytePtr, length)).ToArray());
             }
-
 
         }
 
@@ -341,7 +302,7 @@ namespace Natasha.Framework
 
             if (excludePaths.Length == 0)
             {
-                ReferencesFromFile[Path.GetFileNameWithoutExtension(path)] = MetadataReference.CreateFromStream(new FileStream(path, FileMode.Open, FileAccess.Read));
+                OtherReferencesFromFile[Path.GetFileNameWithoutExtension(path)] = MetadataReference.CreateFromStream(new FileStream(path, FileMode.Open, FileAccess.Read));
             }
             else
             {
@@ -357,7 +318,7 @@ namespace Natasha.Framework
 
                 if (!exclude.Contains(path))
                 {
-                    ReferencesFromFile[Path.GetFileNameWithoutExtension(path)] = MetadataReference.CreateFromStream(new FileStream(path, FileMode.Open, FileAccess.Read));
+                    OtherReferencesFromFile[Path.GetFileNameWithoutExtension(path)] = MetadataReference.CreateFromStream(new FileStream(path, FileMode.Open, FileAccess.Read));
                 }
             }
 
@@ -372,7 +333,7 @@ namespace Natasha.Framework
         public virtual void AddReferencesFromAssemblyStream(Assembly assembly, Stream stream)
         {
 
-            ReferencesFromStream[assembly] = MetadataReference.CreateFromStream(stream);
+            AssemblyReferencesCache[assembly] = MetadataReference.CreateFromStream(stream);
 
         }
 
@@ -426,9 +387,10 @@ namespace Natasha.Framework
 
         }
 
+
 #if NETCOREAPP3_0_OR_GREATER
         public AssemblyDependencyResolver DependencyResolver;
-#endif
+
         /// <summary>
         /// 解析devjson文件添加引用
         /// </summary>
@@ -440,19 +402,14 @@ namespace Natasha.Framework
             if (excludePaths.Length == 0)
             {
 
-#if NETCOREAPP3_0_OR_GREATER
-
                 DependencyResolver = new AssemblyDependencyResolver(path);
                 var newMapping = GetDictionary(DependencyResolver);
 
                 foreach (var item in newMapping)
                 {
-
                     AddReferencesFromDllFile(item.Value);
-
                 }
 
-#endif
             }
             else
             {
@@ -466,8 +423,6 @@ namespace Natasha.Framework
                     exclude = new HashSet<string>(excludePaths);
                 }
 
-#if NETCOREAPP3_0_OR_GREATER
-
                 DependencyResolver = new AssemblyDependencyResolver(path);
                 var newMapping = GetDictionary(DependencyResolver);
 
@@ -478,11 +433,12 @@ namespace Natasha.Framework
                         AddReferencesFromDllFile(item.Value);
                     }
                 }
-
-#endif
             }
         }
+#endif
+        #endregion
 
+        #region 程序集加载
 
         /// <summary>
         /// 将文件转换为程序集，并加载到域
@@ -491,6 +447,7 @@ namespace Natasha.Framework
         /// <returns></returns>
         public virtual Assembly LoadAssemblyFromFile(string path)
         {
+
             Assembly assembly;
             if (Name == "Default")
             {
@@ -500,8 +457,19 @@ namespace Natasha.Framework
             {
                 assembly = LoadFromAssemblyPath(path);
             }
+
+
+            if (assembly != null)
+            {
+                using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
+                {
+                    AddReferencesFromAssemblyStream(assembly, stream);
+                }
+            }
+
             AddAssemblyEvent?.Invoke(assembly);
             return assembly;
+
         }
 
 
@@ -513,17 +481,64 @@ namespace Natasha.Framework
         /// <returns></returns>
         public virtual Assembly LoadAssemblyFromStream(Stream stream)
         {
-            Assembly assembly;
-            if (Name == "Default")
+            using (stream)
             {
-                assembly = Default.LoadFromStream(stream);
+
+                Assembly assembly;
+                if (Name == "Default")
+                {
+                    assembly = Default.LoadFromStream(stream);
+                }
+                else
+                {
+                    assembly = LoadFromStream(stream);
+                }
+
+                if (assembly != null)
+                {
+                    stream.Seek(0, SeekOrigin.Begin);
+                    AddReferencesFromAssemblyStream(assembly, stream);
+                }
+                AddAssemblyEvent?.Invoke(assembly);
+                return assembly;
+
             }
-            else
+        }
+
+        /// <summary>
+        /// 对程序集上下文的重载函数，注：系统规定需要重载
+        /// </summary>
+        /// <param name="assemblyName">程序集名</param>
+        /// <returns></returns>
+        protected override Assembly Load(AssemblyName assemblyName)
+        {
+
+#if NETCOREAPP3_0_OR_GREATER
+            string assemblyPath = DependencyResolver.ResolveAssemblyToPath(assemblyName);
+            if (assemblyPath != null)
             {
-                assembly = LoadFromStream(stream);
+                return LoadAssemblyFromFile(assemblyPath);
             }
-            AddAssemblyEvent?.Invoke(assembly);
-            return assembly;
+#endif
+            return null;
+        }
+
+
+        /// <summary>
+        /// 对程序集上下文非托管插件的函数重载，注：系统规定需要重载
+        /// </summary>
+        /// <param name="unmanagedDllName">路径</param>
+        /// <returns></returns>
+        protected override IntPtr LoadUnmanagedDll(string unmanagedDllName)
+        {
+#if NETCOREAPP3_0_OR_GREATER
+            string libraryPath = DependencyResolver.ResolveUnmanagedDllToPath(unmanagedDllName);
+            if (libraryPath != null)
+            {
+                return LoadUnmanagedDllFromPath(libraryPath);
+            }
+#endif
+            return IntPtr.Zero;
         }
 
 
@@ -541,8 +556,19 @@ namespace Natasha.Framework
             }
         }
 
+        #endregion
 
-        public abstract IEnumerable<Assembly> GetPluginAssemblies();
+        /// <summary>
+        /// 销毁函数
+        /// </summary>
+        public virtual void Dispose()
+        {
+#if  NETCOREAPP3_0_OR_GREATER
+            DependencyResolver = null;
+#endif
+            AssemblyReferencesCache.Clear();
+            OtherReferencesFromFile.Clear();
+        }
 
     }
 }

@@ -3,6 +3,7 @@
 	<PropertyGroup>
 		<TargetFrameworks>net5.0;</TargetFrameworks>
 		<IsPackable>false</IsPackable>
+		<LangVersion>preview</LangVersion>
 		<NoWin32Manifest>true</NoWin32Manifest>
 	</PropertyGroup>
 
@@ -80,6 +81,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\src\Natasha.CSharp\Extension\Natasha.CSharp.Extension.Ambiguity\Natasha.CSharp.Extension.Ambiguity.csproj" />
+		<ProjectReference Include="..\..\src\Natasha.CSharp\Extension\Natasha.CSharp.Extension.InvisibleInstance\Natasha.CSharp.Extension.InvisibleInstance.csproj" />
 		<ProjectReference Include="..\..\src\Natasha.CSharp\Natasha.CSharp.All\Natasha.CSharp.All.csproj" />
 	</ItemGroup>
 

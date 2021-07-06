@@ -86,6 +86,14 @@ internal static class InvisibleInstance
                     {
                         argument = methodNode.ParameterList.Parameters[0].Identifier.ValueText;
                     }
+                    else
+                    {
+                        continue;
+                    }
+                }
+                else
+                {
+                    continue;
                 }
                 IdentifierNameSyntax instance = SyntaxFactory.IdentifierName(argument);
                 var body = methodNode.Body;

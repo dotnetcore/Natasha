@@ -198,10 +198,10 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
             {
                 Directory.CreateDirectory(OutputFolder);
             }
-            if (Compiler.DllPath == default)
+            if (Compiler.OutputFilePath == default)
             {
-                Compiler.DllPath = Path.Combine(OutputFolder, Compiler.AssemblyName + ".dll");
-                Compiler.PdbPath = Path.Combine(OutputFolder, Compiler.AssemblyName + ".pdb");
+                Compiler.OutputFilePath = Path.Combine(OutputFolder, Compiler.AssemblyName + ".dll");
+                Compiler.OutputPdbPath = Path.Combine(OutputFolder, Compiler.AssemblyName + ".pdb");
             }
 
         }
@@ -235,8 +235,9 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
         {
 
             LogOperator.SucceedRecoder(Compiler.Compilation);
-
+            
         }
+        Compiler.Compilation = Compiler.Compilation.RemoveAllSyntaxTrees();
         return assembly;
 
     }

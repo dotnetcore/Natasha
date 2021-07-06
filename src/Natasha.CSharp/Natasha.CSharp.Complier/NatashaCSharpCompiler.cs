@@ -75,14 +75,15 @@ public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompi
 
     public NatashaCSharpCompiler()
     {
+
         CompileFlags = CompilerBinderFlags.IgnoreAccessibility | CompilerBinderFlags.IgnoreCorLibraryDuplicatedTypes;
         ReferencesSupersedeLowerVersions = true;
         AllowUnsafe = true;
-        Enum_OutputKind = OutputKind.DynamicallyLinkedLibrary;
-        Enum_OptimizationLevel = OptimizationLevel.Release;
+        AssemblyKind = OutputKind.DynamicallyLinkedLibrary;
+        CodeOptimizationLevel = OptimizationLevel.Release;
         AssemblyOutputKind = AssemblyBuildKind.Stream;
         SuppressDiagnostics = _globalSuppressDiagnostics;
-        Enum_Platform = Platform.AnyCpu;
+        ProcessorPlatform = Platform.AnyCpu;
         SetSemanticAnalysistor(_globalSemanticHandler);
         //SuppressDiagnostics = new ConcurrentDictionary<string, ReportDiagnostic>();
 
@@ -103,10 +104,10 @@ public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompi
                                moduleName: Guid.NewGuid().ToString(),
                                reportSuppressedDiagnostics: false,
                                metadataImportOptions: MetadataImportOptions.All,
-                               outputKind: Enum_OutputKind,
-                               optimizationLevel: Enum_OptimizationLevel,
+                               outputKind: AssemblyKind,
+                               optimizationLevel: CodeOptimizationLevel,
                                allowUnsafe: AllowUnsafe,
-                               platform: Enum_Platform,
+                               platform: ProcessorPlatform,
                                checkOverflow: false,
                                assemblyIdentityComparer: DesktopAssemblyIdentityComparer.Default,
                                specificDiagnosticOptions: SuppressDiagnostics);

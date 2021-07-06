@@ -42,7 +42,7 @@ namespace Natasha.CSharp
         public static void RemoveReferences(this Assembly assembly)
         {
 
-            GetDomain(assembly).Remove(assembly);
+            GetDomain(assembly).RemoveReference(assembly);
 
         }
 

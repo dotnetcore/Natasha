@@ -38,7 +38,7 @@ namespace NatashaUT
         {
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Static", "ClassLibrary6.dll");
             var domain = DomainManagement.Random;
-            var assemebly = domain.LoadPluginFromFile(path);
+            var assemebly = domain.LoadPlugin(path);
             var action = NDelegate
                 .UseDomain(domain)
                 .AddUsing(assemebly)
@@ -52,10 +52,10 @@ namespace NatashaUT
         {
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Static", "ClassLibrary6.dll");
             var domain = DomainManagement.Random;
-            var assemebly = domain.LoadPluginFromFile(path);
-            assemebly = domain.LoadPluginFromFile(path);
-            assemebly = domain.LoadPluginFromFile(path);
-            assemebly = domain.LoadPluginFromFile(path);
+            var assemebly = domain.LoadPlugin(path);
+            assemebly = domain.LoadPlugin(path);
+            assemebly = domain.LoadPlugin(path);
+            assemebly = domain.LoadPlugin(path);
             var action = NDelegate
                 .UseDomain(domain)
                 .AddUsing(assemebly)
@@ -67,15 +67,16 @@ namespace NatashaUT
         [Fact(DisplayName = "加载不同版本插件1")]
         public void DiffDllTest()
         {
+            NSucceedLog.Enabled = true;
             string path1 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Diff", "fileV1", "asmV1", "TestRefererenceLibrary.dll");
             string path2 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Diff", "fileV1", "asmV2", "TestReferenceLibrary2.dll");
 
             var domain = DomainManagement.Random;
 
             //Load A => C v2.0
-            var assembly2 = domain.LoadPluginFromFile(path2);
+            var assembly2 = domain.LoadPlugin(path2);
             //Load B => C v1.0
-            var assembly = domain.LoadPluginFromFile(path1);
+            var assembly = domain.LoadPlugin(path1);
 
             var result = NDelegate.UseDomain(domain).Func<string>("return new TestRefererenceLibrary2.TestReference().Get();")();
             var result2 = NDelegate.UseDomain(domain).Func<string>("return new TestRefererenceLibrary.TestReference().Get();")();
@@ -92,12 +93,12 @@ namespace NatashaUT
             var domain = DomainManagement.Random;
             
             //Load B => C v1.0
-            var assembly = domain.LoadPluginFromFile(path1);
+            var assembly = domain.LoadPlugin(path1);
             //Load A => C v2.0
-            var assembly2 = domain.LoadPluginFromFile(path2);
+            var assembly2 = domain.LoadPlugin(path2);
 
-            var result = NDelegate.UseDomain(domain).Func<string>("return new TestRefererenceLibrary2.TestReference().Get();")();
-            var result2 = NDelegate.UseDomain(domain).Func<string>("return new TestRefererenceLibrary.TestReference().Get();")();
+            var result = NDelegate.UseDomain(domain,item=> item.LogCompilerError()).Func<string>("return new TestRefererenceLibrary2.TestReference().Get();")();
+            var result2 = NDelegate.UseDomain(domain, item => item.LogCompilerError()).Func<string>("return new TestRefererenceLibrary.TestReference().Get();")();
             Assert.Equal(result, result2);
             Assert.Equal("2.0.0.0", result);
         }
@@ -111,11 +112,11 @@ namespace NatashaUT
             var domain = DomainManagement.Random;
 
             //Load B => C v1.0
-            var assembly = domain.LoadPluginFromFile(path1);
+            var assembly = domain.LoadPlugin(path1);
             //Load A => C v2.0
-            var assembly2 = domain.LoadPluginFromFile(path2);
+            var assembly2 = domain.LoadPlugin(path2);
             //Load C v3.0
-            var assembly3 = domain.LoadPluginFromFile(path3);
+            var assembly3 = domain.LoadPlugin(path3);
 
             var result = NDelegate.UseDomain(domain).Func<string>("return new TestRefererenceLibrary2.TestReference().Get();")();
             var result2 = NDelegate.UseDomain(domain).Func<string>("return new TestRefererenceLibrary.TestReference().Get();")();

@@ -17,7 +17,7 @@ namespace NatashaUT
         {
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Static", "ClassLibrary6.dll");
             var domain = DomainManagement.Random;
-            var assemebly = domain.LoadPluginFromStream(path);
+            var assemebly = domain.LoadPlugin(path);
             var action = NDelegate
                 .UseDomain(domain)
                 .AddUsing(assemebly)
@@ -31,10 +31,10 @@ namespace NatashaUT
         {
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Static", "ClassLibrary6.dll");
             var domain = DomainManagement.Random;
-            var assemebly = domain.LoadPluginFromStream(path);
-            assemebly = domain.LoadPluginFromStream(path);
-            assemebly = domain.LoadPluginFromStream(path);
-            assemebly = domain.LoadPluginFromStream(path);
+            var assemebly = domain.LoadPlugin(path);
+            assemebly = domain.LoadPlugin(path);
+            assemebly = domain.LoadPlugin(path);
+            assemebly = domain.LoadPlugin(path);
             var action = NDelegate
                 .UseDomain(domain)
                 .AddUsing(assemebly)
@@ -52,9 +52,9 @@ namespace NatashaUT
             var domain = DomainManagement.Random;
 
             //Load A => C v2.0
-            var assembly2 = domain.LoadPluginFromStream(path2);
+            var assembly2 = domain.LoadPlugin(path2);
             //Load B => C v1.0
-            var assembly = domain.LoadPluginFromStream(path1);
+            var assembly = domain.LoadPlugin(path1);
 
             var result = NDelegate.UseDomain(domain).Func<string>("return new TestRefererenceLibrary2.TestReference().Get();")();
             var result2 = NDelegate.UseDomain(domain).Func<string>("return new TestRefererenceLibrary.TestReference().Get();")();
@@ -71,9 +71,9 @@ namespace NatashaUT
             var domain = DomainManagement.Random;
             
             //Load B => C v1.0
-            var assembly = domain.LoadPluginFromStream(path1);
+            var assembly = domain.LoadPlugin(path1);
             //Load A => C v2.0
-            var assembly2 = domain.LoadPluginFromStream(path2);
+            var assembly2 = domain.LoadPlugin(path2);
 
             var result = NDelegate.UseDomain(domain).Func<string>("return new TestRefererenceLibrary2.TestReference().Get();")();
             var result2 = NDelegate.UseDomain(domain).Func<string>("return new TestRefererenceLibrary.TestReference().Get();")();
@@ -90,11 +90,11 @@ namespace NatashaUT
             var domain = DomainManagement.Random;
 
             //Load B => C v1.0
-            var assembly = domain.LoadPluginFromStream(path1);
+            var assembly = domain.LoadPlugin(path1);
             //Load A => C v2.0
-            var assembly2 = domain.LoadPluginFromStream(path2);
+            var assembly2 = domain.LoadPlugin(path2);
             //Load C v3.0
-            var assembly3 = domain.LoadPluginFromStream(path3);
+            var assembly3 = domain.LoadPlugin(path3);
 
             var result = NDelegate.UseDomain(domain).Func<string>("return new TestRefererenceLibrary2.TestReference().Get();")();
             var result2 = NDelegate.UseDomain(domain).Func<string>("return new TestRefererenceLibrary.TestReference().Get();")();

@@ -19,21 +19,24 @@ namespace Natasha.Domain.Utils
             var defaultNode = (NatashaAssemblyDomain)main;
 
             //如果主从域不一样
-            if (follow.Name != "default")
+            if (follow.Name != "Default")
             {
 
-                //去除剩余的部分
-                var sets = new HashSet<PortableExecutableReference>(defaultNode.ReferencesFromStream.Values);
+                //添加主域的主要引用
+                var sets = new HashSet<PortableExecutableReference>(defaultNode.AssemblyReferencesCache.Values);
 
                 //遍历主域的流引用集合
-                foreach (var item in defaultNode.ReferencesFromStream.Keys)
+                foreach (var item in defaultNode.AssemblyReferencesCache.Keys)
                 {
+
                     //遍历从域的流引用集合
-                    foreach (var current in follow.ReferencesFromStream.Keys)
+                    foreach (var current in follow.AssemblyReferencesCache.Keys)
                     {
 
                         //如果程序集名相同
-                        if (item.GetName().Name == current.GetName().Name)
+                        var defaultAssemblyName = item.GetName();
+                        var currentAssemblyName = current.GetName();
+                        if (defaultAssemblyName.Name == currentAssemblyName.Name)
                         {
 
                             //是否选用最新程序集
@@ -41,53 +44,57 @@ namespace Natasha.Domain.Utils
                             {
 
                                 //如果主域版本小,移除主域的引用
-                                if (item.GetName().Version < current.GetName().Version)
+                                if (defaultAssemblyName.Version < currentAssemblyName.Version)
                                 {
 
                                     //使用现有域的程序集版本
-                                    sets.Remove(defaultNode.ReferencesFromStream[item]);
-                                    break;
-
+                                    sets.Remove(defaultNode.AssemblyReferencesCache[item]);
                                 }
                             }
                             else
                             {
-                                sets.Remove(defaultNode.ReferencesFromStream[item]);
-                                break;
+                                sets.Remove(defaultNode.AssemblyReferencesCache[item]);
+                                
+                            }
+                            break;
+
+                        }
+                    }
+
+                }
+
+                //添加从域的流编译的引用
+                sets.UnionWith(follow.AssemblyReferencesCache.Values);
+                //添加主域的文件编译引用
+                sets.UnionWith(defaultNode.OtherReferencesFromFile.Values);
+
+                if (follow.OtherReferencesFromFile.Count > 0)
+                {
+                    //对比主从域的文件编译引用
+                    foreach (var item in defaultNode.OtherReferencesFromFile.Keys)
+                    {
+                        foreach (var current in follow.OtherReferencesFromFile.Keys)
+                        {
+                            //如果从域指定了文件编译引用
+                            if (item == current)
+                            {
+                                //移除主域的引用
+                                sets.Remove(defaultNode.OtherReferencesFromFile[item]);
                             }
                         }
                     }
                 }
-
-                //添加从域的流编译的引用
-                sets.UnionWith(follow.ReferencesFromStream.Values);
-                //添加主域的文件编译引用
-                sets.UnionWith(defaultNode.ReferencesFromFile.Values);
-
-                //对比主从域的文件编译引用
-                foreach (var item in defaultNode.ReferencesFromFile.Keys)
-                {
-                    foreach (var current in follow.ReferencesFromFile.Keys)
-                    {
-                        //如果从域指定了文件编译引用
-                        if (item == current)
-                        {
-                            //移除主域的引用
-                            sets.Remove(defaultNode.ReferencesFromFile[item]);
-                        }
-                    }
-                }
-
+                
                 //添加从域的引用
-                sets.UnionWith(follow.ReferencesFromFile.Values);
+                sets.UnionWith(follow.OtherReferencesFromFile.Values);
                 return sets;
 
             }
             else
             {
                 //如果是系统域则直接拼接自己的引用库
-                var sets = new HashSet<PortableExecutableReference>(defaultNode.ReferencesFromStream.Values);
-                sets.UnionWith(defaultNode.ReferencesFromFile.Values);
+                var sets = new HashSet<PortableExecutableReference>(defaultNode.AssemblyReferencesCache.Values);
+                sets.UnionWith(defaultNode.OtherReferencesFromFile.Values);
                 return sets;
             }
 

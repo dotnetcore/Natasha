@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	 <TargetFrameworks>netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;netcoreapp3.0;netcoreapp3.1;net5.0;</TargetFrameworks>
+	 <TargetFrameworks>netstandard2.0;netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;netcoreapp3.0;netcoreapp3.1;net5.0;</TargetFrameworks>
     <Description>Natasha的C#语法库实现</Description>
     <PackageId>DotNetCore.Natasha.CSharp.Syntax</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>

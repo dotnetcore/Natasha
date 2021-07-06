@@ -268,7 +268,7 @@ namespace Natasha.CSharp.Builder
         public virtual Type GetType(OopType oopType, int namespaceIndex = 1, int classIndex = 1)
         {
 
-            Using(AssemblyBuilder.Compiler.Domain.DllAssemblies.Values.ToArray());
+            Using(AssemblyBuilder.Compiler.Domain.GetReferenceElements().ToArray());
             Exception = AssemblyBuilder.Add(this);
             if (!Exception.HasError)
             {

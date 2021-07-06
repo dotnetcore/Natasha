@@ -118,7 +118,7 @@ namespace NatashaUT
 
             var result = assembly.GetAssembly();
             var type = assembly.GetTypeFromFullName(@class.NamespaceScript + "."+"ClassAsm");
-            domain.Remove(type.Assembly);
+            domain.RemoveReference(type.Assembly);
 
 
             assembly = domain.CreateAssembly("AsmTest2");

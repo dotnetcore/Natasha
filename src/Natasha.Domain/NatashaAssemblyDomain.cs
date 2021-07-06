@@ -3,6 +3,7 @@ using Natasha.Domain.Template;
 using Natasha.Domain.Utils;
 using Natasha.Framework;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -15,116 +16,14 @@ using System.Runtime.Loader;
 public class NatashaAssemblyDomain : DomainBase
 {
     private readonly UsingRecoder _usingsRecoder;
+    /// <summary>
+    /// 从插件加载来的程序集
+    /// </summary>
+    private readonly ConcurrentDictionary<string, Assembly> _pluginAssemblies;
     public override HashSet<string> GetReferenceElements()
     {
         return _usingsRecoder._usings;
     }
-
-    #region 加载程序集
-    /// <summary>
-    /// 从外部文件获取程序集，并添加引用信息
-    /// </summary>
-    /// <param name="path">文件路径</param>
-    public override Assembly LoadAssemblyFromFile(string path)
-    {
-        var assembly = base.LoadAssemblyFromFile(path);
-        if (assembly != null)
-        {
-            AddReferencesFromDllFile(path);
-        }
-        return assembly;
-    }
-
-
-    /// <summary>
-    /// 从外部文件以流的方式获取程序集，并添加引用信息
-    /// [自动释放]
-    /// </summary>
-    /// <param name="path">外部文件</param>
-    public override Assembly LoadAssemblyFromStream(string path)
-    {
-        return LoadAssemblyFromStream(new FileStream(path, FileMode.Open, FileAccess.Read));
-    }
-
-
-    /// <summary>
-    /// 以流的方式获取程序集，并添加引用信息
-    /// [自动释放]
-    /// </summary>
-    /// <param name="stream">流</param>
-    /// <returns></returns>
-    public override Assembly LoadAssemblyFromStream(Stream stream)
-    {
-        using (stream)
-        {
-            var assembly = base.LoadAssemblyFromStream(stream);
-            if (assembly != null)
-            {
-                stream.Seek(0, SeekOrigin.Begin);
-                AddReferencesFromAssemblyStream(assembly, stream);
-            }
-            return assembly;
-        }
-    }
-    #endregion
-
-
-    #region 加载插件
-
-
-    /// <summary>
-    /// 如何添加插件引用
-    /// </summary>
-    /// <param name="path">插件路径</param>
-    /// <param name="excludePaths">需要排除的引用路径</param>
-    public virtual void AddDeps(string path, params string[] excludePaths)
-    {
-
-#if NETCOREAPP3_0_OR_GREATER
-        AddReferencesFromDepsJsonFile(path, excludePaths);
-#else
-        AddReferencesFromFileStream(path, excludePaths);
-#endif
-
-    }
-
-
-    /// <summary>
-    /// 如何加载从文件过来的插件
-    /// </summary>
-    /// <param name="path">插件路径</param>
-    /// <param name="excludePaths">需要排除的引用路径</param>
-    /// <returns></returns>
-    public override Assembly LoadPluginFromFile(string path, params string[] excludePaths)
-    {
-
-        AddDeps(path, excludePaths);
-        var assembly = base.LoadAssemblyFromFile(path);
-        DllAssemblies[path] = assembly;
-        return assembly;
-
-    }
-
-
-    /// <summary>
-    /// 如何加载从内存过来的插件
-    /// </summary>
-    /// <param name="path">插件路径</param>
-    /// <param name="excludePaths">需要排除的引用路径</param>
-    /// <returns></returns>
-    public override Assembly LoadPluginFromStream(string path, params string[] excludePaths)
-    {
-
-        AddDeps(path, excludePaths);
-        using (FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
-        {
-            var assembly = base.LoadAssemblyFromStream(stream);
-            DllAssemblies[path] = assembly;
-            return assembly;
-        }
-
-    }
-    #endregion
 
 
     /// <summary>
@@ -136,18 +35,9 @@ public class NatashaAssemblyDomain : DomainBase
         return ReferenceHandler.GetCompileReferences(DefaultDomain, this);
     }
 
+
     #region 编译成功事件
-    /// <summary>
-    /// 当拿到动态编译生成的文件时调用
-    /// </summary>
-    /// <param name="dllFile">dll文件位置</param>
-    /// <param name="pdbFile">pdb文件位置</param>
-    /// <param name="AssemblyName">程序集名</param>
-    /// <returns></returns>
-    public override Assembly CompileFileCallback(string dllFile, string pdbFile, string AssemblyName)
-    {
-        return LoadAssemblyFromFile(dllFile);
-    }
+
 
 
     /// <summary>
@@ -156,7 +46,7 @@ public class NatashaAssemblyDomain : DomainBase
     /// <param name="stream">流</param>
     /// <param name="AssemblyName">程序集名</param>
     /// <returns></returns>
-    public override Assembly CompileStreamCallback(Stream stream, string AssemblyName)
+    public override Assembly CompileStreamCallback(string dllFile, string pdbFile, Stream stream, string AssemblyName)
     {
         return LoadAssemblyFromStream(stream);
     }
@@ -166,31 +56,81 @@ public class NatashaAssemblyDomain : DomainBase
 
     public NatashaAssemblyDomain(string key) : base(key)
     {
+        _pluginAssemblies = new ConcurrentDictionary<string, Assembly>();
         UseNewVersionAssmebly = true;
 #if NETCOREAPP3_0_OR_GREATER
         DependencyResolver = new AssemblyDependencyResolver(AppDomain.CurrentDomain.BaseDirectory);
 #endif
         _usingsRecoder = new UsingRecoder();
-        AddAssemblyEvent += NatashaAssemblyDomain_AddAssemblyEvent; ;
-        RemoveAssemblyEvent += NatashaAssemblyDomain_RemoveAssemblyEvent; ;
+        AddAssemblyEvent += NatashaAssemblyDomain_AddAssemblyEvent;
+        RemoveAssemblyEvent += NatashaAssemblyDomain_RemoveAssemblyEvent;
     }
 
     private void NatashaAssemblyDomain_RemoveAssemblyEvent(Assembly obj)
     {
-        foreach (var item in ReferencesFromStream)
+        foreach (var item in AssemblyReferencesCache)
         {
             _usingsRecoder.Using(item.Key);
         }
-        foreach (var item in DllAssemblies)
+        foreach (var item in _pluginAssemblies)
         {
             _usingsRecoder.Using(item.Value);
         }
     }
 
+
     private void NatashaAssemblyDomain_AddAssemblyEvent(Assembly obj)
     {
         _usingsRecoder.Using(obj);
     }
+
+
+    #region 插件
+    /// <summary>
+    /// 获取当前域的程序集
+    /// </summary>
+    /// <returns></returns>
+    public override IEnumerable<Assembly> GetPluginAssemblies()
+    {
+        return _pluginAssemblies.Values;
+    }
+
+
+    /// <summary>
+    /// 加载插件
+    /// </summary>
+    /// <param name="path">插件路径</param>
+    /// <param name="excludePaths">不需要加载的依赖项</param>
+    /// <returns></returns>
+    public override Assembly LoadPlugin(string path, params string[] excludePaths)
+    {
+
+#if NETCOREAPP3_0_OR_GREATER
+        DependencyResolver = new AssemblyDependencyResolver(path);
+#endif
+        var assembly = LoadAssemblyFromStream(path);
+        if (assembly != default)
+        {
+            _pluginAssemblies[path] = assembly;
+        }
+        return assembly;
+
+    }
+
+
+    /// <summary>
+    /// 删除插件
+    /// </summary>
+    /// <param name="path"></param>
+    public override void RemovePlugin(string path)
+    {
+        if (_pluginAssemblies.TryGetValue(path, out var assembly))
+        {
+            RemoveReference(assembly);
+        }
+    }
+    #endregion
+
 
 
     /// <summary>
@@ -199,60 +139,59 @@ public class NatashaAssemblyDomain : DomainBase
     public override void Dispose()
     {
         _usingsRecoder._usingTypes.Clear();
+        _pluginAssemblies.Clear();
         base.Dispose();
     }
 
 
-    /// <summary>
-    /// 对程序集上下文的重载函数，注：系统规定需要重载
-    /// </summary>
-    /// <param name="assemblyName">程序集名</param>
-    /// <returns></returns>
-    protected override Assembly Load(AssemblyName assemblyName)
-    {
-#if NETCOREAPP3_0_OR_GREATER
-        string assemblyPath = DependencyResolver.ResolveAssemblyToPath(assemblyName);
-        if (assemblyPath != null)
-        {
-            return LoadAssemblyFromStream(assemblyPath);
-        }
-#endif
-        return null;
-    }
+
+    #region 默认域解析程序集依赖事件
     public override Assembly Default_Resolving(AssemblyLoadContext arg1, AssemblyName arg2)
     {
         return Load(arg2);
     }
 
 
-    /// <summary>
-    /// 对程序集上下文非托管插件的函数重载，注：系统规定需要重载
-    /// </summary>
-    /// <param name="unmanagedDllName">路径</param>
-    /// <returns></returns>
-    protected override IntPtr LoadUnmanagedDll(string unmanagedDllName)
-    {
-#if NETCOREAPP3_0_OR_GREATER
-        string libraryPath = DependencyResolver.ResolveUnmanagedDllToPath(unmanagedDllName);
-        if (libraryPath != null)
-        {
-            return LoadUnmanagedDllFromPath(libraryPath);
-        }
-#endif
-        return IntPtr.Zero;
-    }
+    
     public override IntPtr Default_ResolvingUnmanagedDll(Assembly arg1, string arg2)
     {
         return LoadUnmanagedDll(arg2);
     }
+    #endregion
+
+    #region 扩展API
+    /// <summary>
+    /// 添加该类型所在程序集的引用
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public void AddReferencesFromType<T>()
+    {
+        AddReferencesFromType(typeof(T));
+    }
 
 
     /// <summary>
-    /// 获取当前加载插件的所有程序集
+    /// 添加该类型所在程序集的引用
     /// </summary>
-    /// <returns></returns>
-    public override IEnumerable<Assembly> GetPluginAssemblies()
+    /// <param name="type"></param>
+    public void AddReferencesFromType(Type type)
     {
-        return DllAssemblies.Values;
+        AddReferencesFromAssembly(type.Assembly);
     }
+
+
+    /// <summary>
+    /// 移除类型所在的程序集引用
+    /// </summary>
+    /// <param name="type"></param>
+    public void RemoveReferencesFromType(Type type)
+    {
+        RemoveReference(type.Assembly);
+    }
+    public void RemoveReferencesFromType<T>()
+    {
+        RemoveReference(typeof(T).Assembly);
+    }
+
+    #endregion
 }
