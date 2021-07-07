@@ -39,6 +39,10 @@ public class NDelegate : CompilerTemplate<NDelegate>
                     if (typeName == default)
                     {
                         typeName = ScriptHelper.GetEnumName(text);
+                        if (typeName == default)
+                        {
+                            typeName = ScriptHelper.GetRecordName(text);
+                        }
                     }
                 }
             }

@@ -296,6 +296,11 @@ namespace Natasha.CSharp.Builder
 
                         name = ScriptHelper.GetEnumName(Script, namespaceIndex, classIndex);
                         break;
+
+                    case OopType.Record:
+
+                        name = ScriptHelper.GetRecordName(Script, namespaceIndex, classIndex);
+                        break;
                 }
 
                 var type = AssemblyBuilder.GetTypeFromShortName(name);
@@ -558,7 +563,8 @@ namespace Natasha.CSharp.Builder
         Class,
         Struct,
         Interface,
-        Enum
+        Enum,
+        Record
 
     }
 

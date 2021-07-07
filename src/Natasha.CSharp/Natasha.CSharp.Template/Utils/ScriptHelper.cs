@@ -63,6 +63,21 @@ public static class ScriptHelper
     }
 
 
+    /// <summary>
+    /// 根据命名空间和记录的位置获取类型
+    /// </summary>
+    /// <param name="content">脚本内容</param>
+    /// <param name="structIndex">命名空间里的第index个结构体</param>
+    /// <param name="namespaceIndex">第namespaceIndex个命名空间</param>
+    /// <returns></returns>
+    public static string GetRecordName(string content, int namespaceIndex = 1, int structIndex = 1)
+    {
+
+        return GetDataStructString<RecordDeclarationSyntax>(content, namespaceIndex, structIndex);
+
+    }
+
+
 
 
     /// <summary>
