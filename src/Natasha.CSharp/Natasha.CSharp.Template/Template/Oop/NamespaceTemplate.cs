@@ -3,7 +3,7 @@
 namespace Natasha.CSharp.Template
 {
 
-    public class NamespaceTemplate<T> : OopBodyTemplate<T> where T : NamespaceTemplate<T>, new()
+    public class NamespaceTemplate<T> : NamespaceBodyTemplate<T> where T : NamespaceTemplate<T>, new()
     {
 
         public string NamespaceScript;
@@ -73,9 +73,12 @@ namespace Natasha.CSharp.Template
         {
 
             // [{this}]
-            //  [Attribute]
-            //  [access] [modifier] [Name] [:Interface] 
-            //  [body]
+            // [Attribute]
+            // [access] [modifier] [Name] [:Interface] 
+            // {
+            //      [{body}]
+            // }
+            // [{this}]
             base.BuilderScript();
             if (!_hiddenNamesapce)
             {

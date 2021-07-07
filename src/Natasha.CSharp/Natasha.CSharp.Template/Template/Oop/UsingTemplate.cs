@@ -326,11 +326,17 @@ namespace Natasha.CSharp.Template
         public override T BuilderScript()
         {
 
-            // [{this}]
-            //  [Namespace]
+            //  [{this}]
+            //  [{Flag}]
+            //  [Namspace]
+            //  { 
             //      [Attribute]
             //      [access] [modifier] [Name] [:Interface] 
-            //      [body]
+            //      {
+            //          [body]
+            //      }
+            //      [OtherBody]
+            //  }
             base.BuilderScript();
             _script.Insert(0, GetUsingBuilder());
             return Link;

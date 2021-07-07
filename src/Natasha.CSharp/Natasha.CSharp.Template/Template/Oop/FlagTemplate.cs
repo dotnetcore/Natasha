@@ -83,9 +83,14 @@ namespace Natasha.CSharp.Template
 
             //  [{this}]
             //  [Namspace]
-            //  [Attribute]
-            //  [access] [modifier] [Name] [:Interface] 
-            //  [body]
+            //  { 
+            //      [Attribute]
+            //      [access] [modifier] [Name] [:Interface] 
+            //      {
+            //          [body]
+            //      }
+            //      [OtherBody]
+            //  }
             base.BuilderScript();
             _script.Insert(0, FlagScript);
             return Link;
