@@ -8,8 +8,23 @@ namespace Natasha.CSharp.Template
 
         public string ConstraintScript;
 
-
         public T ConstraintFrom<TConstraint>()
+        {
+
+            Constraint(GenericConstraintReverser.GetTypeConstraints<TConstraint>());
+            return Link;
+
+        }
+
+        public T ConstraintFrom(Type type)
+        {
+
+            Constraint(GenericConstraintReverser.GetTypeConstraints(type));
+            return Link;
+
+        }
+
+        public T ConstraintAppendFrom<TConstraint>()
         {
 
             ConstraintAppend(GenericConstraintReverser.GetTypeConstraints<TConstraint>());
@@ -17,7 +32,7 @@ namespace Natasha.CSharp.Template
 
         }
 
-        public T ConstraintFrom(Type type)
+        public T ConstraintAppendFrom(Type type)
         {
 
             ConstraintAppend(GenericConstraintReverser.GetTypeConstraints(type));

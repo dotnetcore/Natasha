@@ -23,7 +23,7 @@ namespace NatashaUT
                 .CustomUsing()
                 .Using<OopTemplateTest>()
                 .Using<int>()
-                .Inheritance<int>()
+                .InheritanceAppend<int>()
                 .Namespace("TestNamespace")
                 .Name("TestUt1<T>")
                 .Constraint("where T : class")
@@ -46,10 +46,10 @@ namespace NatashaUT
                 .CustomUsing()
                 .Using<OopTemplateTest>()
                 .Using<int>()
-                .Inheritance<int>()
+                .InheritanceAppend<int>()
                 .Namespace("TestNamespace")
                 .Name("TestUt1<T>")
-                .ConstraintFrom(typeof(List<>))
+                .ConstraintAppendFrom(typeof(List<>))
                 .Body("public static void Test(){}")
                 .Script;
             Assert.Equal($@"using NatashaUT;{Environment.NewLine}using System;{Environment.NewLine}namespace TestNamespace{{public static class TestUt1<T> : System.Int32 where T : notnull {{{Environment.NewLine}public static void Test(){{}}}}}}", script);
@@ -68,10 +68,10 @@ namespace NatashaUT
                 .CustomUsing()
                 .Using<OopTemplateTest>()
                 .Using<int>()
-                .Inheritance<int>()
+                .InheritanceAppend<int>()
                 .Namespace("TestNamespace")
                 .Name("TestUt1<T>")
-                .ConstraintFrom(typeof(InOutInterfaceT<,>))
+                .ConstraintAppendFrom(typeof(InOutInterfaceT<,>))
                 .Body("public static void Test(){}")
                 .Script;
             Assert.Equal($@"using NatashaUT;{Environment.NewLine}using System;{Environment.NewLine}namespace TestNamespace{{public static class TestUt1<T> : System.Int32 where T : notnull, NatashaUT.Model.G2, NatashaUT.Model.G3, NatashaUT.Model.G4, new() where S : NatashaUT.Model.G2, NatashaUT.Model.G3, NatashaUT.Model.G4, new() {{{Environment.NewLine}public static void Test(){{}}}}}}", script);
@@ -90,7 +90,7 @@ namespace NatashaUT
                 .CustomUsing()
                 .Using<OopTemplateTest>()
                 .Using<int>()
-                .Inheritance<int>()
+                .InheritanceAppend<int>()
                 .Namespace("TestNamespace")
                 .Name("TestUt1<T>")
                 .Constraint(item=>

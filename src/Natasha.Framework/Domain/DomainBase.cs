@@ -160,7 +160,7 @@ namespace Natasha.Framework
         /// <param name="arg1">当前域</param>
         /// <param name="arg2">被加载的程序集名</param>
         /// <returns></returns>
-        public abstract Assembly Default_Resolving(AssemblyLoadContext arg1, AssemblyName arg2);
+        protected abstract Assembly Default_Resolving(AssemblyLoadContext arg1, AssemblyName arg2);
 
 
         /// <summary>
@@ -169,7 +169,7 @@ namespace Natasha.Framework
         /// <param name="arg1"></param>
         /// <param name="arg2"></param>
         /// <returns></returns>
-        public abstract IntPtr Default_ResolvingUnmanagedDll(Assembly arg1, string arg2);
+        protected abstract IntPtr Default_ResolvingUnmanagedDll(Assembly arg1, string arg2);
 
 
         /// <summary>

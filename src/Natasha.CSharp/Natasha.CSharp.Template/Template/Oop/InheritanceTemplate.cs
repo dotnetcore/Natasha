@@ -13,7 +13,7 @@ namespace Natasha.CSharp.Template
 
 
 
-        public T Inheritance(string type)
+        public T InheritanceAppend(string type)
         {
 
             if (Inheritances.Length > 0)
@@ -43,7 +43,7 @@ namespace Natasha.CSharp.Template
         /// </summary>
         /// <param name="types">类型</param>
         /// <returns></returns>
-        public T Inheritance(params string[] types)
+        public T InheritanceAppend(params string[] types)
         {
 
             if (types != null && types.Length > 0)
@@ -52,7 +52,7 @@ namespace Natasha.CSharp.Template
                 for (int i = 1; i < types.Length; i++)
                 {
 
-                    Inheritance(types[i]);
+                    InheritanceAppend(types[i]);
 
                 }
 
@@ -66,7 +66,7 @@ namespace Natasha.CSharp.Template
 
 
 
-        public T Inheritance(params Type[] types)
+        public T InheritanceAppend(params Type[] types)
         {
 
             if (types != null && types.Length > 0)
@@ -75,7 +75,7 @@ namespace Natasha.CSharp.Template
                 for (int i = 0; i < types.Length; i++)
                 {
 
-                    Inheritance(types[i]);
+                    InheritanceAppend(types[i]);
 
                 }
 
@@ -88,24 +88,24 @@ namespace Natasha.CSharp.Template
 
 
 
-        public T Inheritance<S>()
+        public T InheritanceAppend<S>()
         {
 
-            return Inheritance(typeof(S));
+            return InheritanceAppend(typeof(S));
 
         }
 
 
 
 
-        public T Inheritance(Type type)
+        public T InheritanceAppend(Type type)
         {
 
             if (type == null || type == typeof(object))
             {
                 return Link;
             }
-            return Inheritance(type.GetDevelopName());
+            return InheritanceAppend(type.GetDevelopName());
 
         }
 

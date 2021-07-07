@@ -7,11 +7,8 @@ namespace Natasha.CSharp.Template
     public class DefinedTypeTemplate<T> : ModifierTemplate<T> where T: DefinedTypeTemplate<T>, new()
     {
 
-
         public string TypeScript;
         internal Type _type;
-
-
 
 
         /// <summary>
@@ -22,8 +19,6 @@ namespace Natasha.CSharp.Template
         {
             return Type(typeString: default);
         }
-
-
 
 
         /// <summary>

@@ -6,14 +6,14 @@ using System.Text;
 
 namespace Natasha.Domain.Utils
 {
-    public static class ReferenceHandler
+    internal static class ReferenceHandler
     {
 
         /// <summary>
         /// 获取编译所需的引用库
         /// </summary>
         /// <returns></returns>
-        public static HashSet<PortableExecutableReference> GetCompileReferences(DomainBase main,DomainBase follow)
+        internal static HashSet<PortableExecutableReference> GetCompileReferences(DomainBase main,DomainBase follow)
         {
 
             var defaultNode = (NatashaAssemblyDomain)main;

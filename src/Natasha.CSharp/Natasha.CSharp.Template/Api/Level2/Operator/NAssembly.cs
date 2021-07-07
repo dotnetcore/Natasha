@@ -39,6 +39,7 @@ namespace Natasha.CSharp
 
         }
 
+
         /// <summary>
         /// 移除一个构建类
         /// </summary>
@@ -48,8 +49,6 @@ namespace Natasha.CSharp
         {
             return _builderCache.Remove(builder);
         }
-
-
 
 
         /// <summary>
@@ -63,8 +62,6 @@ namespace Natasha.CSharp
         }
 
 
-
-
         /// <summary>
         /// 添加一个带有代码的文件
         /// </summary>
@@ -74,7 +71,6 @@ namespace Natasha.CSharp
         {
             return AssemblyBuilder.AddFile(path);
         }
-
 
 
         private T GetBaseOopHandler<T>(string name = default) where T : OopBuilder<T>, new()
@@ -92,8 +88,6 @@ namespace Natasha.CSharp
         }
 
 
-
-
         /// <summary>
         /// 创建一个类Operator
         /// </summary>
@@ -105,8 +99,6 @@ namespace Natasha.CSharp
             return GetBaseOopHandler<NClass>(name);
 
         }
-
-
 
 
         /// <summary>
@@ -122,8 +114,6 @@ namespace Natasha.CSharp
         }
 
 
-
-
         /// <summary>
         /// 创建一个接口Operator
         /// </summary>
@@ -135,8 +125,6 @@ namespace Natasha.CSharp
             return GetBaseOopHandler<NInterface>(name);
 
         }
-
-
 
 
         /// <summary>
@@ -152,8 +140,6 @@ namespace Natasha.CSharp
         }
 
 
-
-
         /// <summary>
         /// 创建一个FastMethodOperator
         /// </summary>
@@ -167,8 +153,6 @@ namespace Natasha.CSharp
         }
 
 
-
-
         /// <summary>
         /// 创建一个FakeMethodOperator
         /// </summary>
@@ -180,8 +164,6 @@ namespace Natasha.CSharp
             return GetBaseDelegateHandler<FakeMethodOperator>(name);
 
         }
-
-
 
 
         /// <summary>
@@ -206,8 +188,6 @@ namespace Natasha.CSharp
         }
 
 
-
-
         /// <summary>
         /// 对整个程序集进行编译
         /// </summary>
@@ -225,8 +205,6 @@ namespace Natasha.CSharp
             return Assembly;
 
         }
-
-
 
 
         /// <summary>

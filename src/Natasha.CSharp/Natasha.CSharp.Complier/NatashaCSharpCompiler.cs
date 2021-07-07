@@ -133,7 +133,7 @@ public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompi
         {
             _compilation = CSharpCompilation.Create(AssemblyName, null, Domain.GetCompileReferences(), options);
         }
-        return _compilation;
+        return _compilation.RemoveAllSyntaxTrees();
 
     }
 

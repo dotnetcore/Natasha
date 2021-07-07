@@ -146,14 +146,14 @@ public class NatashaAssemblyDomain : DomainBase
 
 
     #region 默认域解析程序集依赖事件
-    public override Assembly Default_Resolving(AssemblyLoadContext arg1, AssemblyName arg2)
+    protected override Assembly Default_Resolving(AssemblyLoadContext arg1, AssemblyName arg2)
     {
         return Load(arg2);
     }
 
 
-    
-    public override IntPtr Default_ResolvingUnmanagedDll(Assembly arg1, string arg2)
+
+    protected override IntPtr Default_ResolvingUnmanagedDll(Assembly arg1, string arg2)
     {
         return LoadUnmanagedDll(arg2);
     }

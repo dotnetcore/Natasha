@@ -29,6 +29,7 @@ namespace Natasha.CSharp.Builder
         public OopBuilder()
         {
             _script_cache = new ConcurrentQueue<IScriptBuilder>();
+            UseRandomName();
         }
         /// <summary>
         /// 指定外部类型和类型名来仿制构建结构的命名空间，保护级别，特殊修饰符，继承的结构，结构名
@@ -65,8 +66,8 @@ namespace Natasha.CSharp.Builder
             }
 
             Name(TypeName != default ? TypeName : type.GetDevelopName())
-            .Inheritance(type.BaseType)
-            .Inheritance(type.GetInterfaces())
+            .InheritanceAppend(type.BaseType)
+            .InheritanceAppend(type.GetInterfaces())
             .Namespace(type.Namespace)
            .Access(type)
            .Modifier(type);
@@ -77,7 +78,7 @@ namespace Natasha.CSharp.Builder
 #if NET5_0
         public T SkipInit()
         {
-            this.Attribute<SkipLocalsInitAttribute>();
+            this.AttributeAppend<SkipLocalsInitAttribute>();
             return Link;
         }
 #endif
@@ -268,7 +269,7 @@ namespace Natasha.CSharp.Builder
         public virtual Type GetType(OopType oopType, int namespaceIndex = 1, int classIndex = 1)
         {
 
-            Using(AssemblyBuilder.Compiler.Domain.GetReferenceElements().ToArray());
+            Using(AssemblyBuilder.Compiler.Domain.GetReferenceElements());
             Exception = AssemblyBuilder.Add(this);
             if (!Exception.HasError)
             {
@@ -312,7 +313,7 @@ namespace Natasha.CSharp.Builder
         public virtual Type GetType(int classIndex = 1, int namespaceIndex = 1)
         {
 
-            Using(AssemblyBuilder.Compiler.Domain.GetReferenceElements().ToArray());
+            Using(AssemblyBuilder.Compiler.Domain.GetReferenceElements());
             Exception = AssemblyBuilder.Add(this);
             if (!Exception.HasError)
             {
@@ -344,7 +345,7 @@ namespace Natasha.CSharp.Builder
             .Modifier(modifier)
             .Type(type)
             .Name(name)
-            .Attribute(attribute)
+            .AttributeAppend(attribute)
             );
             Using(type);
             return Link;
@@ -358,7 +359,7 @@ namespace Natasha.CSharp.Builder
             .Access(access)
             .Type(type)
             .Name(name)
-            .Attribute(attribute)
+            .AttributeAppend(attribute)
             );
             Using(type);
             return Link;

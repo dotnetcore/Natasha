@@ -237,7 +237,6 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
             LogOperator.SucceedRecoder(Compiler.Compilation);
             
         }
-        Compiler.Compilation = Compiler.Compilation.RemoveAllSyntaxTrees();
         return assembly;
 
     }

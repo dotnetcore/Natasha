@@ -15,7 +15,7 @@ namespace NatashaUT
 
             FieldBuilder template = new FieldBuilder();
             var result = template
-                .Attribute("[Test]")
+                .AttributeAppend("[Test]")
                 .Access("public")
                 .Modifier("static")
                 .Name("Name")
@@ -36,7 +36,7 @@ namespace NatashaUT
 
             FieldBuilder template = new FieldBuilder();
             var result = template
-                .Attribute("[Test][Test1]")
+                .AttributeAppend("[Test][Test1]")
                 .Access(AccessFlags.Public)
                 .Modifier( ModifierFlags.Static)
                 .Name("Age")
@@ -57,7 +57,7 @@ namespace NatashaUT
 
             FieldBuilder template = new FieldBuilder();
             var result = template
-                .Attribute("[Test]")
+                .AttributeAppend("[Test]")
                 .Access(AccessFlags.Public)
                 .Name("Name")
                 .Type<string>()
@@ -76,7 +76,7 @@ namespace NatashaUT
 
             FieldBuilder template = new FieldBuilder();
             var result = template
-                .Attribute<ClassDataAttribute>()
+                .AttributeAppend<ClassDataAttribute>()
                 .Access(AccessFlags.Public)
                 .Name("Name")
                 .Type<string>()
@@ -94,7 +94,7 @@ namespace NatashaUT
 
             FieldBuilder template = new FieldBuilder();
             var result = template
-                .Attribute<ClassDataAttribute>()
+                .AttributeAppend<ClassDataAttribute>()
                 .Access(AccessFlags.Public)
                 .Static()
                 .ModifierAppend("readonly")

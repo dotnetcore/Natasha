@@ -15,7 +15,7 @@ namespace NatashaUT
 
             MethodBuilder template = MethodBuilder.RandomDomain();
             var result = template
-                .Attribute("[Test]")
+                .AttributeAppend("[Test]")
                 .Access("public")
                 .Modifier("static")
                 .Name("Name")
@@ -37,7 +37,7 @@ namespace NatashaUT
 
             MethodBuilder template = MethodBuilder.RandomDomain();
             var result = template
-                .Attribute("[Test][Test1]")
+                .AttributeAppend("[Test][Test1]")
                 .Access(AccessFlags.Public)
                 .Modifier(ModifierFlags.Static)
                 .Name("Age")
@@ -60,7 +60,7 @@ namespace NatashaUT
 
             MethodBuilder template = MethodBuilder.RandomDomain();
             var result = template
-                .Attribute("[Test]")
+                .AttributeAppend("[Test]")
                 .Async()
                 .Access(AccessFlags.Public)
                 .Name("Name")
@@ -82,7 +82,7 @@ namespace NatashaUT
 
             MethodBuilder template = MethodBuilder.RandomDomain();
             var result = template
-                .Attribute<ClassDataAttribute>()
+                .AttributeAppend<ClassDataAttribute>()
                 .Unsafe()
                 .Async()
                 .Constraint("where T : class")

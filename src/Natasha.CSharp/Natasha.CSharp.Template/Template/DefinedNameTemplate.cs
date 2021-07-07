@@ -9,8 +9,6 @@ namespace Natasha.CSharp.Template
 
         public string NameScript;
 
-
-
         public T UseRandomName()
         {
 
@@ -53,12 +51,6 @@ namespace Natasha.CSharp.Template
 
         public override T BuilderScript()
         {
-
-            if (NameScript==default)
-            {
-                UseRandomName();
-            }
-
             // [Attribute]
             // [access] [modifier] [type] [{this}]{}
             base.BuilderScript();

@@ -39,7 +39,7 @@ namespace Natasha.CSharp.Builder
 #if NET5_0
         public T SkipInit()
         {
-            this.Attribute<SkipLocalsInitAttribute>();
+            this.AttributeAppend<SkipLocalsInitAttribute>();
             return Link;
         }
 #endif
@@ -177,7 +177,7 @@ namespace Natasha.CSharp.Builder
         public S Compile<S>(object target = null) where S : Delegate
         {
 
-            Using(AssemblyBuilder.Compiler.Domain.GetReferenceElements().ToArray());
+            Using(AssemblyBuilder.Compiler.Domain.GetReferenceElements());
             if (OopHandler.NamespaceScript == default)
             {
 

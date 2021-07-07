@@ -13,6 +13,7 @@ namespace Natasha.CSharp.Template
             OnceBodyScript = new StringBuilder();
         }
 
+
         public T BodyAppend(string body)
         {
 
@@ -20,6 +21,8 @@ namespace Natasha.CSharp.Template
             return Link;
 
         }
+
+
         public T BodyAppendLine(string body)
         {
 
@@ -27,6 +30,8 @@ namespace Natasha.CSharp.Template
             return Link;
 
         }
+
+
         public T Body(string body)
         {
 
@@ -35,6 +40,8 @@ namespace Natasha.CSharp.Template
             return Link;
 
         }
+
+
         public T OnceBodyAppend(string body)
         {
 
@@ -42,6 +49,8 @@ namespace Natasha.CSharp.Template
             return Link;
 
         }
+
+
         public T OnceBody(string body)
         {
 
@@ -50,8 +59,6 @@ namespace Natasha.CSharp.Template
             return Link;
 
         }
-
-
 
 
         public override T BuilderScript()

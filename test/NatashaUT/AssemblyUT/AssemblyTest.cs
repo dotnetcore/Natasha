@@ -47,7 +47,7 @@ namespace NatashaUT
                 .CreateClass("ClassAsm")
                 .Using("System")
                 .Public()
-                .Inheritance("IAsmT1")
+                .InheritanceAppend("IAsmT1")
                 .Method(method => method
                     .Public()
                     .Name("ShowMethod")
@@ -98,7 +98,7 @@ namespace NatashaUT
                 .CreateClass("ClassAsm")
                 .Using("System")
                 .Public()
-                .Inheritance("IAsmT1")
+                .InheritanceAppend("IAsmT1")
                 .Method(method => method
                     .Public()
                     .Name("ShowMethod")
@@ -133,7 +133,7 @@ namespace NatashaUT
                 .CreateClass("ClassAsm")
                 .Using("System")
                 .Public()
-                .Inheritance("IAsmT1")
+                .InheritanceAppend("IAsmT1")
                 .Method(method => method
                     .Public()
                     .Name("ShowMethod")
@@ -272,7 +272,7 @@ public class Test{}
                    .CreateClass("TestClass​")
                    .Using("System")
                    .Public()
-                   .Inheritance("InterfaceTest")
+                   .InheritanceAppend("InterfaceTest")
                    .Method(method => method
                      .Public()
                      .Name("ShowMethod")

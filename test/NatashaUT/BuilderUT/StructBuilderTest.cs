@@ -39,11 +39,11 @@ namespace NatashaUT.BuilderUT
             var script = builder
                 .CustomUsing()
                 .HiddenNamespace()
-                .Attribute("[StructLayout(LayoutKind.Explicit)]")
+                .AttributeAppend("[StructLayout(LayoutKind.Explicit)]")
                 .Access(AccessFlags.Public)
                 .Name("EnumUT1")
-                .Field(item => { item.Attribute<FieldOffsetAttribute>("0").Public().Name("Apple").Type<int>(); })
-                .Field(item => { item.Attribute<FieldOffsetAttribute>("0").Public().Name("Orange").Type<int>(); })
+                .Field(item => { item.AttributeAppend<FieldOffsetAttribute>("0").Public().Name("Apple").Type<int>(); })
+                .Field(item => { item.AttributeAppend<FieldOffsetAttribute>("0").Public().Name("Orange").Type<int>(); })
                 .Script;
 
             Assert.Equal($"using System.Runtime.InteropServices;{Environment.NewLine}using System;{Environment.NewLine}[StructLayout(LayoutKind.Explicit)]{Environment.NewLine}public struct EnumUT1{{{Environment.NewLine}[System.Runtime.InteropServices.FieldOffsetAttribute(0)]{Environment.NewLine}public System.Int32 Apple;{Environment.NewLine}[System.Runtime.InteropServices.FieldOffsetAttribute(0)]{Environment.NewLine}public System.Int32 Orange;{Environment.NewLine}}}", script);

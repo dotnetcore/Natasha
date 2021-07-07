@@ -12,7 +12,8 @@ namespace Natasha.CSharp
         {
             Link = this;
             this.Access(AccessFlags.Public)
-                .Modifier(ModifierFlags.Static);
+                .Modifier(ModifierFlags.Static)
+                .UseRandomName();
         }
 
 
