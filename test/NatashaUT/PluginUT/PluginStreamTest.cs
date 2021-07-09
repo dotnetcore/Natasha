@@ -59,7 +59,12 @@ namespace NatashaUT
             var result = NDelegate.UseDomain(domain).Func<string>("return new TestRefererenceLibrary2.TestReference().Get();")();
             var result2 = NDelegate.UseDomain(domain).Func<string>("return new TestRefererenceLibrary.TestReference().Get();")();
             Assert.Equal(result, result2);
+#if NETCOREAPP2_2
+            Assert.Equal("2.0.0.0", result);
+#else
             Assert.Equal("1.0.0.0", result);
+#endif
+
         }
 
         [Fact(DisplayName = "加载不同版本插件2")]
@@ -69,11 +74,12 @@ namespace NatashaUT
             string path2 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Diff", "fileV1", "asmV2", "TestReferenceLibrary2.dll");
     
             var domain = DomainManagement.Random;
-            
-            //Load B => C v1.0
-            var assembly = domain.LoadPlugin(path1);
+
             //Load A => C v2.0
             var assembly2 = domain.LoadPlugin(path2);
+            //Load B => C v1.0
+            var assembly = domain.LoadPlugin(path1);
+            
 
             var result = NDelegate.UseDomain(domain).Func<string>("return new TestRefererenceLibrary2.TestReference().Get();")();
             var result2 = NDelegate.UseDomain(domain).Func<string>("return new TestRefererenceLibrary.TestReference().Get();")();
@@ -82,7 +88,7 @@ namespace NatashaUT
         }
 
         [Fact(DisplayName = "加载不同版本插件3")]
-        public void DiffDllTest3()
+        public void DiffDllTest3()   
         {
             string path1 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Diff", "fileV1", "asmV1", "TestRefererenceLibrary.dll");
             string path2 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib", "Diff", "fileV1", "asmV2", "TestReferenceLibrary2.dll");

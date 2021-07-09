@@ -56,9 +56,9 @@ namespace Natasha.Domain.Template
             {
                 try
                 {
-                    Using(assembly.ExportedTypes);
+                    Using(assembly.GetTypes());
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
 
                 }

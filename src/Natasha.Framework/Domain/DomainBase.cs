@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -388,9 +389,9 @@ namespace Natasha.Framework
         }
 
 
-#if NETCOREAPP3_0_OR_GREATER
-        public AssemblyDependencyResolver DependencyResolver;
 
+        public AssemblyDependencyResolver DependencyResolver;
+#if NETCOREAPP3_0_OR_GREATER
         /// <summary>
         /// 解析devjson文件添加引用
         /// </summary>
@@ -448,6 +449,9 @@ namespace Natasha.Framework
         public virtual Assembly LoadAssemblyFromFile(string path)
         {
 
+#if DEBUG
+            Debug.WriteLine($"加载路径:{path}.");
+#endif
             Assembly assembly;
             if (Name == "Default")
             {
@@ -496,6 +500,9 @@ namespace Natasha.Framework
 
                 if (assembly != null)
                 {
+#if DEBUG
+                    Debug.WriteLine($"已加载程序集 {assembly.FullName}!");
+#endif
                     stream.Seek(0, SeekOrigin.Begin);
                     AddReferencesFromAssemblyStream(assembly, stream);
                 }
@@ -512,15 +519,16 @@ namespace Natasha.Framework
         /// <returns></returns>
         protected override Assembly Load(AssemblyName assemblyName)
         {
-
-#if NETCOREAPP3_0_OR_GREATER
-            string assemblyPath = DependencyResolver.ResolveAssemblyToPath(assemblyName);
-            if (assemblyPath != null)
+            var assembly = base.LoadFromAssemblyName(assemblyName);
+            if (assembly == null)
             {
-                return LoadAssemblyFromFile(assemblyPath);
+                string assemblyPath = DependencyResolver.ResolveAssemblyToPath(assemblyName);
+                if (assemblyPath != null)
+                {
+                    return LoadAssemblyFromStream(assemblyPath);
+                }
             }
-#endif
-            return null;
+            return assembly;
         }
 
 
@@ -531,13 +539,12 @@ namespace Natasha.Framework
         /// <returns></returns>
         protected override IntPtr LoadUnmanagedDll(string unmanagedDllName)
         {
-#if NETCOREAPP3_0_OR_GREATER
+
             string libraryPath = DependencyResolver.ResolveUnmanagedDllToPath(unmanagedDllName);
             if (libraryPath != null)
             {
                 return LoadUnmanagedDllFromPath(libraryPath);
             }
-#endif
             return IntPtr.Zero;
         }
 
@@ -550,6 +557,9 @@ namespace Natasha.Framework
         /// <returns></returns>
         public virtual Assembly LoadAssemblyFromStream(string path)
         {
+#if DEBUG
+            Debug.WriteLine($"加载路径:{path}.");
+#endif
             using (Stream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
                 return LoadAssemblyFromStream(stream);

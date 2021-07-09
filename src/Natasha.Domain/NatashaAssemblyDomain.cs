@@ -5,6 +5,7 @@ using Natasha.Framework;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Loader;
@@ -58,9 +59,9 @@ public class NatashaAssemblyDomain : DomainBase
     {
         _pluginAssemblies = new ConcurrentDictionary<string, Assembly>();
         UseNewVersionAssmebly = true;
-#if NETCOREAPP3_0_OR_GREATER
+
         DependencyResolver = new AssemblyDependencyResolver(AppDomain.CurrentDomain.BaseDirectory);
-#endif
+
         _usingsRecoder = new UsingRecoder();
         AddAssemblyEvent += NatashaAssemblyDomain_AddAssemblyEvent;
         RemoveAssemblyEvent += NatashaAssemblyDomain_RemoveAssemblyEvent;
@@ -105,9 +106,14 @@ public class NatashaAssemblyDomain : DomainBase
     public override Assembly LoadPlugin(string path, params string[] excludePaths)
     {
 
-#if NETCOREAPP3_0_OR_GREATER
         DependencyResolver = new AssemblyDependencyResolver(path);
+#if !NETCOREAPP3_0_OR_GREATER
+        foreach (var item in DependencyResolver.GetFilePath())
+        {
+            AddReferencesFromDllFile(item);
+        }
 #endif
+
         var assembly = LoadAssemblyFromStream(path);
         if (assembly != default)
         {
