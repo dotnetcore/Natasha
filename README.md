@@ -58,9 +58,9 @@
 <br/>  
 
 ### 发布日志  
-- 2019年发布日志 [[已归档]](https://github.com/dotnetcore/Natasha/blob/master/docs/zh/update/2019.md)
-- 2020年发布日志 [[已归档]](https://github.com/dotnetcore/Natasha/blob/master/docs/zh/update/2020.md)
-- 2021年发布日志 [[进行中]](https://github.com/dotnetcore/Natasha/blob/master/docs/zh/update/2021.md)  
+- 2019年发布日志 [[已归档]](https://natasha.dotnetcore.xyz/docs/release_notes/2019)
+- 2020年发布日志 [[已归档]](https://natasha.dotnetcore.xyz/docs/release_notes/2020)
+- 2021年发布日志 [[进行中]](https://natasha.dotnetcore.xyz/docs/release_notes/2021)  
 
 ### 最新发布  
 
@@ -87,28 +87,6 @@
     - 重命名各基础类字段及事件.
     
     - Natasha.CSharp.Extension.InvisibleInstance 扩展将以 CS0103 错误为基准,对调用链进行补充.  
-
-
-
- ## v3.0.0.0
-
- - ##### 2021/06/25
- 
-    - 重构引擎, 增加语义分析API, 用户可编写语义解析扩展, 得益于强大的语义分析器, 我们对编译引擎进行了升级和重构.  
-
-    - 内置 CS0246/CS0234 语义分析处理器.  
-
-    - 移除 CS0104 处理到 `Natasha.CSharp.Extension.Ambiguity` 扩展包中, 我们认为二义性引用不应该成为普遍的问题.  
-
-    - 新增 CS8019 无用 using 的处理, 精简生成的代码, 处理后脚本的 using 为按需引用,需要什么 using 脚本会自动呈现什么 using.  
-
-    - 更改 NDelegate 操作类中传递域为传递编译器, 新增 AddUsing API, 尽管你可能永远用不到.  
-
-    - 移除 standard2.0 支持, 改为 netcoreapp2.0/2.1/2.2 具体版本支持.  
-
-    - 开放了 netcore2.1/2.2 版本对 readonly / ref 结构体的反解支持.  
-
-    - 发布 `Natasha.CSharp.Extension.InvisibleInstance` 扩展包, 免去脚本中的方法第一个参数的引用调用, 比如: arg.Show 可以直接写为 Show.  
 
 
 <br/>  
@@ -139,55 +117,13 @@
 <br/>  
 
 ### 开发计划
-#### 近期计划
-  
+#### 近期计划  
+
+  - [ ] 挣钱, 生存下来
   - [ ] 调研 C# 10, 补充 OOP 模板.
   - [ ] 调研 .NET6.0, 增加性能优化点.
   - [ ] 搜集需求,增加语义扩展库.
-  
-#### 2.0+ 计划  
 
- - [ ] 编写英文文档，以后将以英文文档为主
- - [ ] 以微服务组件开发为主, "自研组件"作为 Natasha 的甲方.
- - [x] 调研 .NET6 中性能优化的新特性
- - [ ] 发现并补充 UT 测试
- - [ ] 挣钱, 生存下来
- 
-#### 周边项目计划
-
- - [ ] BTF 算法
-    - [ ] 每周定时跑算法随机测试程序
-    - [x] 持续评估 `span` 序列比较方法 及 指针转换比较 的性能
-    - [ ] 评估 Trie 及变种 与 BTF 算法的性能差距
- - [ ] 元数据
-    - [ ] 优化性能
-    - [x] 精确解析
-    - [x] 持续评估封装架构的设计方案
- - [ ] 改造 [Leo](https://github.com/night-moon-studio/Leo) 
-    - [x] 持续优化性能
-    - [x] 私有支持
-    - [ ] 评估是否支持 AOP 
-    - [x] 评估 [Leo](https://github.com/night-moon-studio/Leo) 代理方式 和 [DynmaicDictionary](https://github.com/night-moon-studio/DynmaicDictionary) 代理方式 在 R2D 模板下的异同及抽象
-    - [x] 优化静态自动机代码
-    - [x] 使用委托指针优化性能
-    
- - [ ] 依赖还原库
-    - [ ] NET 模块
-    - [ ] NUGET 模块
-    - [ ] FOLDER SCAN 模块
-    - [ ] 跨平台 模块
-    
- - [ ] 定制语法/语法糖 to Natasha
- - [ ] 持续评估 Natasha 在灵活授权模型上的应用
- - [x] 持续搜集反编译的需求
- - [ ] 调研 JAVA to C#
- - [ ] 调研 GO to C#
- - [ ] 考虑要不要调研 PHP to C#
- - [ ] 谁能来帮我一起搞，帮我点上左边的小对号？
- 
-> 欢迎大家提交PR 
-
-<br/>  
 <br/>  
 
 ### 性能测试
