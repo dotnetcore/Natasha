@@ -34,7 +34,6 @@ namespace NatashaUT.BuilderUT
         [Fact(DisplayName = "结构体构建与编译1")]
         public void TestStruct1()
         {
-            
             NStruct builder = NStruct.RandomDomain();
             var script = builder
                 .CustomUsing()

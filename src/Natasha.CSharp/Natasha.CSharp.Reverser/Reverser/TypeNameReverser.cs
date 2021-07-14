@@ -22,7 +22,7 @@ namespace Natasha.CSharp.Reverser
             //外部类处理
             if (type.DeclaringType != null && type.FullName != null)
             {
-                fatherString = ReverseFullName(type.DeclaringType) + ".";
+                fatherString = ReverseFullName(type.DeclaringType, ignoreFlag) + ".";
             }
 
 
@@ -69,29 +69,36 @@ namespace Natasha.CSharp.Reverser
                 {
 
                     HasWriteArguments = true;
-                    result.Append(ReverseFullName(type.GenericTypeArguments[0]));
+                    result.Append(ReverseFullName(type.GenericTypeArguments[0], ignoreFlag));
                     for (int i = 1; i < type.GenericTypeArguments.Length; i++)
                     {
 
                         result.Append(',');
-                        result.Append(ReverseFullName(type.GenericTypeArguments[i]));
+                        result.Append(ReverseFullName(type.GenericTypeArguments[i], ignoreFlag));
 
                     }
 
                 }
-                if (!ignoreFlag && !HasWriteArguments)
+                if (!HasWriteArguments)
                 {
 
                     var types = ((System.Reflection.TypeInfo)type).GenericTypeParameters;
                     if (types.Length > 0)
                     {
 
-                        result.Append(ReverseFullName(types[0], ignoreFlag));
+                        if (!ignoreFlag)
+                        {
+                            result.Append(ReverseFullName(types[0], ignoreFlag));
+                        }
+                        
                         for (int i = 1; i < types.Length; i++)
                         {
 
                             result.Append(',');
-                            result.Append(ReverseFullName(types[i], ignoreFlag));
+                            if (!ignoreFlag)
+                            {
+                                result.Append(ReverseFullName(types[i], ignoreFlag));
+                            }
 
                         }
 

@@ -54,6 +54,7 @@ namespace NatashaUT.ReverserUT
             Assert.Equal("System.Collections.Generic.Dictionary<TKey,TValue>", typeof(Dictionary<,>).GetDevelopName());
             Assert.Equal("System.Collections.Generic.List<T>", typeof(List<>).GetDevelopName());
             Assert.Equal("System.Collections.Generic.List<System.Int32>", typeof(List<int>).GetDevelopName());
+            Assert.Equal("System.Collections.Generic.Dictionary<System.Collections.Generic.List<System.Int32>[],System.Int32>", typeof(Dictionary<List<int>[], int>).GetDevelopNameWithoutFlag());
             Assert.Equal("System.Collections.Generic.List<>", typeof(List<>).GetDevelopNameWithoutFlag());
             Assert.Equal("System.Collections.Generic.List<System.Int32>[]", typeof(List<int>[]).GetDevelopNameWithoutFlag());
             Assert.Equal("System.Collections.Generic.List<System.Int32>[,]", typeof(List<int>[,]).GetDevelopNameWithoutFlag());
