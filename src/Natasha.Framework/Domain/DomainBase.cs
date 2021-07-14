@@ -571,9 +571,7 @@ namespace Natasha.Framework
         /// </summary>
         public virtual void Dispose()
         {
-#if  NETCOREAPP3_0_OR_GREATER
             DependencyResolver = null;
-#endif
             AssemblyReferencesCache.Clear();
             OtherReferencesFromFile.Clear();
         }
