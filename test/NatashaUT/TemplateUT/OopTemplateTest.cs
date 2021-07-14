@@ -52,7 +52,12 @@ namespace NatashaUT
                 .ConstraintAppendFrom(typeof(List<>))
                 .Body("public static void Test(){}")
                 .Script;
-            Assert.Equal($@"using NatashaUT;{Environment.NewLine}using System;{Environment.NewLine}namespace TestNamespace{{public static class TestUt1<T> : System.Int32 where T : notnull {{{Environment.NewLine}public static void Test(){{}}}}}}", script);
+#if NET5_0_OR_GREATER
+    Assert.Equal($@"using NatashaUT;{Environment.NewLine}using System;{Environment.NewLine}namespace TestNamespace{{public static class TestUt1<T> : System.Int32 where T : notnull {{{Environment.NewLine}public static void Test(){{}}}}}}", script);
+#else
+            Assert.Equal($@"using NatashaUT;{Environment.NewLine}using System;{Environment.NewLine}namespace TestNamespace{{public static class TestUt1<T> : System.Int32 {{{Environment.NewLine}public static void Test(){{}}}}}}", script);
+#endif
+
 
         }
 

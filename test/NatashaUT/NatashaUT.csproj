@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>netcoreapp2.2;</TargetFrameworks>
+		<TargetFrameworks>net5.0;</TargetFrameworks>
 		<IsPackable>false</IsPackable>
 		<LangVersion>preview</LangVersion>
 		<NoWin32Manifest>true</NoWin32Manifest>
@@ -114,6 +114,30 @@
 		</None>
 		<None Update="Lib\Diff\fileV2\asmV2\TestDifferentLibrary.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Lib\Diff\fileV3\v1\Dependency.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Lib\Diff\fileV3\v1\DiffVersionLibrary.deps.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Lib\Diff\fileV3\v1\DiffVersionLibrary.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Lib\Diff\fileV3\v1\MySql.Data.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Lib\Diff\fileV3\v2\Dependency.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Lib\Diff\fileV3\v2\DiffVersionLibrary.deps.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Lib\Diff\fileV3\v2\DiffVersionLibrary.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Lib\Diff\fileV3\v2\MySql.Data.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Lib\Repeate\ClassLibrary1.deps.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -61,11 +61,11 @@ public class NatashaAssemblyDomain : DomainBase
         UseNewVersionAssmebly = true;
 
         DependencyResolver = new AssemblyDependencyResolver(AppDomain.CurrentDomain.BaseDirectory);
-
         _usingsRecoder = new UsingRecoder();
         AddAssemblyEvent += NatashaAssemblyDomain_AddAssemblyEvent;
         RemoveAssemblyEvent += NatashaAssemblyDomain_RemoveAssemblyEvent;
     }
+
 
     private void NatashaAssemblyDomain_RemoveAssemblyEvent(Assembly obj)
     {
@@ -107,13 +107,6 @@ public class NatashaAssemblyDomain : DomainBase
     {
 
         DependencyResolver = new AssemblyDependencyResolver(path);
-#if !NETCOREAPP3_0_OR_GREATER
-        foreach (var item in DependencyResolver.GetFilePath())
-        {
-            AddReferencesFromDllFile(item);
-        }
-#endif
-
         var assembly = LoadAssemblyFromStream(path);
         if (assembly != default)
         {

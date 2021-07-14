@@ -519,16 +519,14 @@ namespace Natasha.Framework
         /// <returns></returns>
         protected override Assembly Load(AssemblyName assemblyName)
         {
-            var assembly = base.LoadFromAssemblyName(assemblyName);
-            if (assembly == null)
+
+            string assemblyPath = DependencyResolver.ResolveAssemblyToPath(assemblyName);
+            if (assemblyPath != null)
             {
-                string assemblyPath = DependencyResolver.ResolveAssemblyToPath(assemblyName);
-                if (assemblyPath != null)
-                {
-                    return LoadAssemblyFromStream(assemblyPath);
-                }
+                return LoadAssemblyFromStream(assemblyPath);
             }
-            return assembly;
+            return null;
+
         }
 
 
