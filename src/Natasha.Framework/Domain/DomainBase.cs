@@ -245,7 +245,7 @@ namespace Natasha.Framework
         }
 
         /// <summary>
-        /// 根据DLL路径添加单个的引用，以文件方式加载
+        /// 根据DLL路径添加单个引用
         /// </summary>
         /// <param name="path">DLL文件路径</param>
         /// <param name="excludePaths">需要排除的依赖文件路径</param>
@@ -278,7 +278,7 @@ namespace Natasha.Framework
 
 
         /// <summary>
-        /// 根据DLL路径添加单个的引用，以流的方式加载
+        /// 根据DLL路径添加单个引用，以流的方式加载
         /// </summary>
         /// <param name="path">DLL文件路径</param>
         /// <param name="excludePaths">需要排除的依赖文件路径</param>
@@ -294,7 +294,7 @@ namespace Natasha.Framework
 
 
         /// <summary>
-        /// 根据DLL路径添加单个的引用，以流的方式加载
+        /// 根据DLL路径添加单个引用，以流的方式加载
         /// </summary>
         /// <param name="path">DLL文件路径</param>
         /// <param name="excludePaths">需要排除的依赖文件路径</param>
