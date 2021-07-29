@@ -36,6 +36,10 @@ public class DomainManagement
         else
         {
             Clear();
+            if (CreateDomain == null)
+            {
+                throw new NotImplementedException("请检查组件是否被注册! 如果使用 Natasha.CSharp.All 请在初始化使用: NatashaInitializer.InitializeAndPreheating 方法进行初始化.");
+            }
             var domain = CreateDomain(key);
             Add(key, domain);
             return domain;
