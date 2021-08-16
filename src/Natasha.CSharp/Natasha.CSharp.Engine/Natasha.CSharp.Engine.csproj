@@ -6,15 +6,15 @@
 		<PackageId>DotNetCore.Natasha.CSharp.Engine</PackageId>
 		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
 		<PackageReleaseNotes>升级</PackageReleaseNotes>
-		<Version>3.1.0</Version>
+		<Version>3.4.0</Version>
 		<PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
 		<PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
 		<PackageTags>Roslyn;IL;Script;Dynamic;Natasha;</PackageTags>
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 		<PackageIconUrl>https://avatars2.githubusercontent.com/u/19404084</PackageIconUrl>
 		<Copyright>.NET Core Community and Contributors</Copyright>
-		<FileVersion>3.1.0.0</FileVersion>
-		<AssemblyVersion>3.1.0.0</AssemblyVersion>
+		<FileVersion>3.4.0.0</FileVersion>
+		<AssemblyVersion>3.4.0.0</AssemblyVersion>
 		<SignAssembly>true</SignAssembly>
 		<AssemblyOriginatorKeyFile>natasha.snk</AssemblyOriginatorKeyFile>
 	</PropertyGroup>
@@ -25,8 +25,8 @@
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="DotNetCore.Compile.Environment" Version="2.2.0" />
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.10.0" />
-		<PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="3.10.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.11.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="3.11.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="5.0.0" />
 	</ItemGroup>
 

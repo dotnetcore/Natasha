@@ -6,14 +6,14 @@
 		<PackageId>DotNetCore.Natasha.CSharp.Compiler</PackageId>
 		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
 		<PackageReleaseNotes>增加 netcore3.1 版本的 runtime 支持. 增加强签名.</PackageReleaseNotes>
-		<Version>3.1.0</Version>
+		<Version>3.4.0</Version>
 		<PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
 		<PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
 		<PackageTags>Roslyn;IL;Script;Dynamic;Natasha;</PackageTags>
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 		<PackageIconUrl>https://avatars2.githubusercontent.com/u/19404084</PackageIconUrl>
-		<FileVersion>3.1.0.0</FileVersion>
-		<AssemblyVersion>3.1.0.0</AssemblyVersion>
+		<FileVersion>3.4.0.0</FileVersion>
+		<AssemblyVersion>3.4.0.0</AssemblyVersion>
 		<SignAssembly>true</SignAssembly>
 		<Copyright>.NET Core Community and Contributors</Copyright>
 		<Owners>.NET Core Community and Contributors</Owners>
@@ -21,7 +21,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="3.10.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="3.11.0" />
 	</ItemGroup>
 
 
