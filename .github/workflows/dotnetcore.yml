@@ -9,7 +9,7 @@ jobs:
   linux:      
       runs-on: ubuntu-latest
       steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Setup
         uses: actions/setup-dotnet@v1
         with:
@@ -23,7 +23,7 @@ jobs:
       runs-on: windows-latest
       steps:
        - name : CheckOut Code
-         uses: actions/checkout@v1
+         uses: actions/checkout@v2
        - name: Setup
          uses: actions/setup-dotnet@v1
          with:
@@ -46,7 +46,7 @@ jobs:
   mac:
       runs-on: macos-latest
       steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Setup
         uses: actions/setup-dotnet@v1
         with:
