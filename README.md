@@ -50,51 +50,12 @@
 ### 使用方法(User Api)：   
 | 顺序 | 操作行为 | 操作内容 | 说明 |
 |-- |-------- |--------------| --------|
-| 1 | 引类库 | DotNetCore.Natasha.CSharp.All | 该页面提供最新版操作，[旧版详见](https://github.com/dotnetcore/Natasha/tree/v3.0+final) |
-| 2 | 初始化 | NatashaInitializer.InitializeAndPreheating(); / Initialize(); | 预热会慢一点，后面编译就快了，也可以只初始化不预热 |
-| 3 | 写代码 | 使用说明 [https://natasha.dotnetcore.xyz/](https://natasha.dotnetcore.xyz/) | 可联系作者: 1648107003@qq.com 或 [查看FAQ](https://github.com/dotnetcore/Natasha/blob/master/docs/FAQ.md) 或 [提出问题](https://github.com/dotnetcore/Natasha/issues/new) |
+| 1 | 初始化 | NatashaInitializer.InitializeAndPreheating(); / Initialize(); | 预热会慢一点，后面编译就快了，也可以只初始化不预热 |
+| 2 | 写代码 | 使用说明 [https://natasha.dotnetcore.xyz/](https://natasha.dotnetcore.xyz/) | 可联系作者: 1648107003@qq.com 或 [查看FAQ](https://github.com/dotnetcore/Natasha/blob/master/docs/FAQ.md) 或 [提出问题](https://github.com/dotnetcore/Natasha/issues/new) |
 
 <br/>  
 <br/>  
 
-### 发布日志  
-- 2019年发布日志 [[已归档]](https://natasha.dotnetcore.xyz/docs/release_notes/2019)
-- 2020年发布日志 [[已归档]](https://natasha.dotnetcore.xyz/docs/release_notes/2020)
-- 2021年发布日志 [[进行中]](https://natasha.dotnetcore.xyz/docs/release_notes/2021)  
-
-### 最新发布  
-
- ## v3.1.0.0
- 
- - ##### 2021/07/14
- 
-    - 同时支持 standard2.0 及 core2.0 以上的各版本.
- 
-    - 优化 DomainBase 类的插件引用管理方案, 进一步同意引用管理, 移除不必要的对外暴露的方法.
-    
-    - 优化 NatashaAssemblyDomain 的实现, 添加 core3.0- 版本的依赖反解, 插件行为异同: 
-  
-      - core3.0 + 解析 json 文件并加载程序集, 支持插件依赖文件版本覆盖, 对插件主体进行升级.
-  
-      - core3.0 - 仅扫描同目录下 dll 并加载程序集, 不能对插件依赖进行升级.
-    
-    - 优化 编译流程及事件调用.
-    
-    - 优化 命名空间反解流程, 屏蔽 ExportedTypes 无法导出而引发异常.
-    
-    - 优化 模板类 API 命名及归类, 区分 Set 和 Append 操作.
-    
-    - 增加 命名控件内容追加模板, 支持开发者向同一命名空间中追加代码.
-    
-    - 增加 Record 数据类型的语法节点自动获取的 API.
-    
-    - 重命名各基础类字段及事件.
-    
-    - Natasha.CSharp.Extension.InvisibleInstance 扩展将以 CS0103 错误为基准,对调用链进行补充.  
-
-
-<br/>  
-<br/>  
   
 ### 生态周边  
 | 维护状态 | 项目名称 | 项目地址 | 项目简介 | 
