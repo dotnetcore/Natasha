@@ -44,7 +44,7 @@ namespace Core20
             var domain = DomainManagement.Default;
             var subClass = NClass
                 .UseDomain(domain)
-                .Inheritance<Test>()
+                .InheritanceAppend<Test>()
                 .Body($"public override string Get(){{ {script} }}")
                 .GetType();
 

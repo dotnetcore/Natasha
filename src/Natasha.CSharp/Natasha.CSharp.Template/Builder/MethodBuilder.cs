@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Natasha.CSharp.Builder
 {
@@ -176,7 +177,10 @@ namespace Natasha.CSharp.Builder
 
         public S Compile<S>(object target = null) where S : Delegate
         {
-
+#if DEBUG
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+#endif
             Using(AssemblyBuilder.Compiler.Domain.GetReferenceElements());
             if (OopHandler.NamespaceScript == default)
             {
@@ -184,8 +188,10 @@ namespace Natasha.CSharp.Builder
                 OopHandler.HiddenNamespace();
 
             }
-
-
+#if DEBUG
+            stopwatch.StopAndShowCategoreInfo("[ Using ]", "Using填充耗时", 1);
+            stopwatch.Restart();
+#endif
             //自动判别是否有手动指定方法参数，若没有则使用方法的参数
             var method = typeof(S).GetMethod("Invoke");
             if (ParametersScript.Length == 0)
@@ -194,8 +200,6 @@ namespace Natasha.CSharp.Builder
                 Param(method);
 
             }
-
-
             //自动判别返回值类型，若没有则使用委托的返回类型
             if (_type != method.ReturnType)
             {
@@ -203,12 +207,14 @@ namespace Natasha.CSharp.Builder
                 this.Return(method.ReturnType);
 
             }
-
-
+#if DEBUG
+            stopwatch.StopAndShowCategoreInfo("[Delegate]", "委托信息反解耗时", 1);
+            Console.WriteLine();
+            stopwatch.Restart();
+#endif
+            //Mark : 11M Memory
             OopHandler.BodyAppend(Script);
             Exception = AssemblyBuilder.Add(OopHandler);
-             
-
             if (!Exception.HasError)
             {
                 S @delegate = AssemblyBuilder.GetDelegateFromShortName<S>(OopHandler.NameScript, NameScript, target);

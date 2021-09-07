@@ -1,6 +1,7 @@
 ﻿using Natasha.Template;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace Natasha.CSharp.Template
@@ -50,7 +51,21 @@ namespace Natasha.CSharp.Template
 
         public string Script
         {
-            get { _script.Clear(); BuilderScript(); _cache = _script.ToString(); return _cache; }
+
+            get {
+#if DEBUG
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+#endif
+                //Mark : 138ms
+                _script.Clear(); 
+                BuilderScript(); 
+                _cache = _script.ToString();
+#if DEBUG
+                stopwatch.StopAndShowCategoreInfo("[ Script ]", $"{this.GetType().Name} 中脚本拼接耗时", 2);
+#endif
+                return _cache; 
+            }
         }
 
         public virtual HashSet<string> Usings => default;

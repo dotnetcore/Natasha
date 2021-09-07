@@ -17,6 +17,7 @@ namespace Core31
     {
         static void Main(string[] args)
         {
+            //NatashaInitializer.Initialize();
             NatashaInitializer.InitializeAndPreheating();
 
             //var hwFunc = FastMethodOperator

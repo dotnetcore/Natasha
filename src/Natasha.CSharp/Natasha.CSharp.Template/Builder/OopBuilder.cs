@@ -248,7 +248,6 @@ namespace Natasha.CSharp.Builder
 
         public override T BuilderScript()
         {
-
             foreach (var item in _script_cache)
             {
                 UsingRecoder.Union(item.Recoder);

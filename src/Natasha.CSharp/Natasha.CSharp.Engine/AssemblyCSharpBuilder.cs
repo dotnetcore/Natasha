@@ -9,6 +9,7 @@ using Natasha.Error.Model;
 using Natasha.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 
@@ -78,20 +79,33 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
     public NatashaException Add(string script, HashSet<string> usings = default)
     {
 
+#if DEBUG
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatch.Start();
+#endif
         var tree = Syntax.ConvertToTree(script);
+#if DEBUG
+        Console.WriteLine();
+        stopwatch.StopAndShowCategoreInfo("[SyntaxTree]", "语法树转换耗时", 2);
+        stopwatch.Restart();
+#endif
         var exception = NatashaExceptionAnalyzer.GetSyntaxException(tree);
+#if DEBUG
+        stopwatch.StopAndShowCategoreInfo("[SyntaxTree]", "语法树判错耗时", 2);
+        stopwatch.Restart();
+#endif
         if (!exception.HasError || SyntaxErrorBehavior == ExceptionBehavior.Ignore)
         {
             Syntax.AddTreeToCache(tree);
             Syntax.ReferenceCache[exception.Formatter] = usings;
-
         }
         else
         {
-
             HandlerErrors(exception);
-
         }
+#if DEBUG
+        stopwatch.StopAndShowCategoreInfo("[SyntaxTree]", "语法树错误处理耗时", 2);
+#endif
         return exception;
 
     }
@@ -179,7 +193,6 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
     public Assembly GetAssembly()
     {
 
-
         if (Compiler.AssemblyName == default)
         {
             Compiler.AssemblyName = Guid.NewGuid().ToString("N");
@@ -205,11 +218,8 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
             }
 
         }
-
         //进入编译流程
         var assembly = Compile();
-
-
         //如果编译出错
         if (assembly == null && Exceptions != null && Exceptions.Count > 0)
         {

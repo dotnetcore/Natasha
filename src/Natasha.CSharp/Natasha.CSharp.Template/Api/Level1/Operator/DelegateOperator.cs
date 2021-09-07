@@ -2,6 +2,7 @@
 using Natasha.CSharp.Builder;
 using Natasha.Framework;
 using System;
+using System.Diagnostics;
 
 namespace Natasha.CSharp
 {
@@ -16,7 +17,10 @@ namespace Natasha.CSharp
             Func<OopBuilder,OopBuilder> oopAction = null, 
             params NamespaceConverter[] usings)
         {
-
+#if DEBUG
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+#endif
             var method = typeof(T).GetMethod("Invoke");
             var @operator = FakeMethodOperator.UseDomain(builder.Compiler.Domain, option);
             @operator.AssemblyBuilder = builder;
@@ -26,6 +30,9 @@ namespace Natasha.CSharp
                 .StaticMethodBody(content);
             methodAction?.Invoke(@operator);
             oopAction?.Invoke(@operator.OopHandler);
+#if DEBUG
+            stopwatch.StopAndShowCategoreInfo("[Operator]", "模板构建耗时", 1);
+#endif
             return @operator.Compile<T>();
 
         }

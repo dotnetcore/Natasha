@@ -130,7 +130,10 @@ namespace Natasha.CSharp.Template
             // [Attribute]
             // [{this}]
             base.BuilderScript();
-            _script.Append(AccessScript);
+            if (AccessScript!=default)
+            {
+                _script.Append(AccessScript);
+            }
             return Link;
 
 

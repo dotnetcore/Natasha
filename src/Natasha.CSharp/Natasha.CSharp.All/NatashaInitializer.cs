@@ -1,6 +1,7 @@
 ﻿using Natasha.CSharp;
 using Natasha.CSharp.Engine.SemanticAnalaysis;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 public static class NatashaInitializer
@@ -19,6 +20,10 @@ public static class NatashaInitializer
     /// </summary>
     public static Task Initialize(bool initializeReference = true)
     {
+#if DEBUG
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatch.Start();
+#endif
         if (!_hasInitialize)
         {
             lock (_lock)
@@ -35,6 +40,10 @@ public static class NatashaInitializer
             }
             
         }
+#if DEBUG
+        stopwatch.Stop();
+        Console.WriteLine($"\r\n================ [Regist] \t注册组件总时长: {stopwatch.ElapsedMilliseconds}ms ================ \r\n");
+#endif
         return Task.CompletedTask;
     }
 
@@ -47,11 +56,19 @@ public static class NatashaInitializer
 
         await Initialize(initializeReference);
         var domain = DomainManagement.Random;
-        if (initializeReference)
+        if (!initializeReference)
         {
             domain.AddReferencesFromDllFile(typeof(object).Assembly.Location);
         }
+#if DEBUG
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatch.Start();
+#endif
         var action = NDelegate.UseDomain(domain).Action("");
+#if DEBUG
+        stopwatch.Stop();
+        Console.WriteLine($"\r\n================ [Preheating]\t预热总时长: {stopwatch.ElapsedMilliseconds}ms ================ \r\n");
+#endif
         action();
         action.DisposeDomain();     
 

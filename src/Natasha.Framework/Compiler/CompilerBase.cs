@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis.Emit;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -141,6 +142,10 @@ namespace Natasha.Framework
         /// <returns></returns>
         public virtual Assembly ComplieToAssembly(IEnumerable<SyntaxTree> trees)
         {
+#if DEBUG
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+#endif
             Assembly assembly = null;
             EmitResult compileResult = null;
             if (PreCompiler())
@@ -150,17 +155,29 @@ namespace Natasha.Framework
                 {
                     return null;
                 }
-
+               
+                //Mark : 26ms
                 var options = GetCompilationOptions();
                 OptionAction?.Invoke(options);
                 Compilation = GetCompilation(options);
+#if DEBUG
+                Console.WriteLine();
+                stopwatch.StopAndShowCategoreInfo("[Compilation]", "获取编译单元", 2);
+                stopwatch.Restart();
+#endif
+                //Mark : 951ms
+                //Mark : 19M Memory
                 Compilation = (TCompilation)Compilation.AddSyntaxTrees(trees);
                 foreach (var item in _semanticAnalysistor)
                 {
                     Compilation = item(Compilation);
                 }
-
-
+#if DEBUG
+                stopwatch.StopAndShowCategoreInfo("[Semantic]", "语义解析排查", 2);
+                stopwatch.Restart();
+#endif
+                //Mark : 264ms
+                //Mark : 3M Memory
                 Stream outputStream = new MemoryStream();
                 if (AssemblyOutputKind == AssemblyBuildKind.File)
                 {
@@ -171,7 +188,6 @@ namespace Natasha.Framework
                        outputStream,
                        pdbStream: pdbStream,
                        options: new EmitOptions(pdbFilePath: OutputPdbPath, debugInformationFormat: DebugInformationFormat.PortablePdb));
-
                     }
                 }
                 else
@@ -208,6 +224,9 @@ namespace Natasha.Framework
 
                 }
                 outputStream.Dispose();
+#if DEBUG
+                stopwatch.StopAndShowCategoreInfo("[  Emit  ]", "编译时长", 2);
+#endif
 
             }
             return assembly;

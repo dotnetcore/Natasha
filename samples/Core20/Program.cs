@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Natasha;
 using Natasha.CSharp;
 using System;
+using System.Diagnostics;
 
 namespace Core20
 {
@@ -13,6 +14,10 @@ namespace Core20
         static void Main(string[] args)
         {
 
+            NatashaInitializer.InitializeAndPreheating();
+            var func = NDelegate.RandomDomain().Func<int>("return 1;");
+            Console.WriteLine(func());
+            /*
             NatashaInitializer.Initialize();
             string text = @"namespace HelloWorld
             {
@@ -54,7 +59,7 @@ namespace Core20
             //    .GetType();
             //type.Assembly
             //CSharpScript.EvaluateAsync
-
+            */
             Console.ReadKey();
         }
 
