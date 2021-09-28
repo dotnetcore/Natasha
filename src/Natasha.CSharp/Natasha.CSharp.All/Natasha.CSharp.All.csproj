@@ -3,28 +3,35 @@
   <PropertyGroup>
 
 	  <TargetFrameworks>netstandard2.0;netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;netcoreapp3.0;netcoreapp3.1;net5.0;</TargetFrameworks>
-	  <Description>发布最新版 Natasha</Description>
-	  <PackageId>DotNetCore.Natasha.CSharp.All</PackageId>
+	  <Description>发布最新版 Natasha 支持当前版本SG</Description>
+	  <PackageId>DotNetCore.Natasha.CSharp.All.SG</PackageId>
 	  <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
 	  <PackageReleaseNotes>升级到最新版.</PackageReleaseNotes>
-	  <Version>3.5.0</Version>
+	  <Version>1.0.0</Version>
 	  <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
 	  <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
 	  <PackageTags>Roslyn;IL;Script;Dynamic;Natasha;NMS;</PackageTags>
 	  <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 	  <PackageIconUrl>https://avatars2.githubusercontent.com/u/19404084</PackageIconUrl>
-	  <FileVersion>3.5.0.0</FileVersion>
-	  <AssemblyVersion>3.5.0.0</AssemblyVersion>
+	  <FileVersion>1.0.0.0</FileVersion>
+	  <AssemblyVersion>1.0.0.0</AssemblyVersion>
 	  <SignAssembly>true</SignAssembly>
 	  <AssemblyOriginatorKeyFile>natasha.snk</AssemblyOriginatorKeyFile>
 	  
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Natasha.Domain\Natasha.Domain.csproj" />
-    <ProjectReference Include="..\Natasha.CSharp.Complier\Natasha.CSharp.Compiler.csproj" />
-    <ProjectReference Include="..\Natasha.CSharp.Syntax\Natasha.CSharp.Syntax.csproj" />
-    <ProjectReference Include="..\Natasha.CSharp.Template\Natasha.CSharp.Template.csproj" />
-  </ItemGroup>
+  <PropertyGroup>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
 
+	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+		<PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
+		<PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.7.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="DotNetCore.Compile.Environment" Version="2.2.0" />
+		<PackageReference Include="DotNetCore.SourceLink.Environment" Version="2.2.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="3.8.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="5.0.0" />
+	</ItemGroup>
 </Project>

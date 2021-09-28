@@ -22,10 +22,5 @@
     <AssemblyOriginatorKeyFile>natasha.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Natasha.CSharp.Engine\Natasha.CSharp.Engine.csproj" />
-    <ProjectReference Include="..\Natasha.CSharp.Reverser\Natasha.CSharp.Reverser.csproj" />
-  </ItemGroup>
-
 
 </Project>

@@ -43,7 +43,7 @@ namespace Core31
             {
                 var action = NDelegate
                     .RandomDomain()
-                    .WithFirstArgInvisible()
+                    //.WithFirstArgInvisible()
                     .Func<T, S>(_script);
                 _currentCache[_script] = @delegate;
                 return action(_value);
@@ -56,7 +56,7 @@ namespace Core31
             {
                 var action = NDelegate
                     .RandomDomain()
-                    .WithFirstArgInvisible()
+                    //.WithFirstArgInvisible()
                     .Action<T>(_script);
                 _currentCache[_script] = @delegate;
                  action(_value);

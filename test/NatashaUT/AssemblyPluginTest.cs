@@ -41,7 +41,7 @@ namespace NatashaUT
                 var domain = DomainManagement.CurrentDomain;
                 var assemebly = domain.LoadPlugin(path);
                 var action = FastMethodOperator.UseDomain(domain)
-                    .WithCS0104Handler()
+                    //.WithCS0104Handler()
                    .Body(@"
 try{
 Class1 a = new Class1();

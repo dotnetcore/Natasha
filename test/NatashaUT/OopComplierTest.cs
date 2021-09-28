@@ -172,10 +172,7 @@ namespace HelloWorld{
     delegate * < int,  int> functionPointer;
 }";
 
-            var expected = @"unsafe class C
-{
-    delegate*<int, int> functionPointer;
-}";
+            var expected = $"unsafe class C{Environment.NewLine}{{{Environment.NewLine}    delegate *<int, int>functionPointer;{Environment.NewLine}}}";
 
 
             NatashaCSharpSyntax syntax = new NatashaCSharpSyntax();

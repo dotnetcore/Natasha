@@ -17,10 +17,5 @@
 	  <Copyright>.NET Core Community and Contributors</Copyright>
 	  <Owners>.NET Core Community and Contributors</Owners>
   </PropertyGroup>
-
-
-	<ItemGroup>
-	  <ProjectReference Include="..\..\Natasha.CSharp.Template\Natasha.CSharp.Template.csproj" />
-	</ItemGroup>
 	
 </Project>
