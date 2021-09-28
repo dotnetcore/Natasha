@@ -7,14 +7,14 @@
 	  <PackageId>DotNetCore.Natasha.CSharp.All.SG</PackageId>
 	  <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
 	  <PackageReleaseNotes>升级到最新版. 增加注释模板</PackageReleaseNotes>
-	  <Version>1.0.1</Version>
-	  <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
-	  <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
+	  <Version>1.0.1.1</Version>
+	  <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/SupportSG/LICENSE</PackageLicenseUrl>
+	  <PackageProjectUrl>https://github.com/dotnetcore/Natasha/tree/SupportSG</PackageProjectUrl>
 	  <PackageTags>Roslyn;IL;Script;Dynamic;Natasha;NMS;</PackageTags>
 	  <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 	  <PackageIconUrl>https://avatars2.githubusercontent.com/u/19404084</PackageIconUrl>
-	  <FileVersion>1.0.1.0</FileVersion>
-	  <AssemblyVersion>1.0.1.0</AssemblyVersion>
+	  <FileVersion>1.0.1.1</FileVersion>
+	  <AssemblyVersion>1.0.1.1</AssemblyVersion>
 	  <SignAssembly>true</SignAssembly>
 	  <AssemblyOriginatorKeyFile>natasha.snk</AssemblyOriginatorKeyFile>
 	  
