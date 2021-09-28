@@ -50,9 +50,9 @@ namespace Natasha.CSharp.Template
 
         public override T BuilderScript()
         {
-
-            // [Attribute]
-            // [access] [modifier] [type] [Name]([Parameter])[{this}]
+            // [comment]
+            // [attribute]
+            // [access] [modifier] [type] [name]([parameter])[{this}]
             base.BuilderScript();
             _script.Append(BodyScript);
             return Link;

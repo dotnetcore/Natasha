@@ -51,7 +51,8 @@ namespace Natasha.CSharp.Template
 
         public override T BuilderScript()
         {
-            // [Attribute]
+            // [comment]
+            // [attribute]
             // [access] [modifier] [type] [{this}]{}
             base.BuilderScript();
             if (NameScript != default)

@@ -82,9 +82,10 @@ namespace Natasha.CSharp.Template
         {
 
             //  [{this}]
-            //  [Namspace]
+            //  [namspace]
             //  { 
-            //      [Attribute]
+            //      [comment]
+            //      [attribute]
             //      [access] [modifier] [Name] [:Interface] 
             //      {
             //          [body]

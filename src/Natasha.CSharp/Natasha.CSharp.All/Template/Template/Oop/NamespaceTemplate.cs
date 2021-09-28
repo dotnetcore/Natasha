@@ -71,10 +71,10 @@ namespace Natasha.CSharp.Template
 
         public override T BuilderScript()
         {
-
+            // [comment]
             // [{this}]
-            // [Attribute]
-            // [access] [modifier] [Name] [:Interface] 
+            // [cttribute]
+            // [access] [modifier] [name] [:interface] 
             // {
             //      [{body}]
             // }
