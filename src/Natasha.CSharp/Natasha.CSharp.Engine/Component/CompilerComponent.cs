@@ -25,9 +25,9 @@ namespace Natasha.CSharpEngine
             il.Emit(OpCodes.Ret);
             GetCompiler = (Func<T>)(method.CreateDelegate(typeof(Func<T>)));
 
-            var compilerHandler = GetCompiler();
-            var option = compilerHandler.GetCompilationOptions();
-            var compiler = compilerHandler.GetCompilation(option);
+            //var compilerHandler = GetCompiler();
+            //var option = compilerHandler.GetCompilationOptions();
+            //var compiler = compilerHandler.GetCompilation(option);
 
 #if DEBUG
             stopwatch.StopAndShowCategoreInfo("[Compiler]", "编译器初始化", 1);
