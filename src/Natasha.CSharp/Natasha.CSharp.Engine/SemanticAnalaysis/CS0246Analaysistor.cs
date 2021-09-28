@@ -55,7 +55,7 @@ namespace Natasha.CSharp.Engine.SemanticAnalaysis
 
 
 
-        private static IEnumerable<string> GetUnableUsing(Diagnostic diagnostic, string code)
+        private static HashSet<string> GetUnableUsing(Diagnostic diagnostic, string code)
         {
             var usingHandlers = GetRegexList(diagnostic);
             HashSet<string> sets = new HashSet<string>();
@@ -80,8 +80,7 @@ namespace Natasha.CSharp.Engine.SemanticAnalaysis
         {
 
             var root = diagnostic.Location.SourceTree.GetRoot();
-            var usings = GetUnableUsing(diagnostic, root.ToFullString());
-            var sets = new HashSet<string>(usings);
+            var sets = GetUnableUsing(diagnostic, root.ToFullString());
             DefaultUsing.Remove(sets);
             return from usingDeclaration in root.DescendantNodes()
                           .OfType<UsingDirectiveSyntax>()

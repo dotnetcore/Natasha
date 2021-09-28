@@ -26,8 +26,8 @@ namespace Natasha.CSharpEngine
             il.Emit(OpCodes.Ret);
             GetSyntax = (Func<T>)(method.CreateDelegate(typeof(Func<T>)));
 
-            //var syntaxBase = GetSyntax();
-            //syntaxBase.AddTreeToCache("public class NatashaInitializerTest{}");
+            var syntaxBase = GetSyntax();
+            syntaxBase.AddTreeToCache("public class NatashaInitializerTest{}");
 
 
 #if DEBUG
