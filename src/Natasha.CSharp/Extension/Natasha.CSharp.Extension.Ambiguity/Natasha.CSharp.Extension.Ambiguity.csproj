@@ -18,4 +18,8 @@
 		<Owners>.NET Core Community and Contributors</Owners>
 	</PropertyGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Natasha.CSharp.All\Natasha.CSharp.All.csproj" />
+	</ItemGroup>
+
 </Project>
