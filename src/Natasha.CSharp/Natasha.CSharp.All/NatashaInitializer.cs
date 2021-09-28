@@ -1,4 +1,5 @@
-﻿using Natasha.CSharp;
+﻿using Microsoft.CodeAnalysis;
+using Natasha.CSharp;
 using Natasha.CSharp.Engine.SemanticAnalaysis;
 using System;
 using System.Diagnostics;
@@ -32,10 +33,17 @@ public static class NatashaInitializer
                 {
 
                     _hasInitialize = true;
-                    NatashaComponentRegister.RegistDomain<NatashaAssemblyDomain>(initializeReference);
-                    NatashaComponentRegister.RegistCompiler<NatashaCSharpCompiler>();
-                    NatashaComponentRegister.RegistSyntax<NatashaCSharpSyntax>();
-                    NatashaCSharpCompiler.AddSemanticAnalysistor(UsingAnalysistor.Creator());
+
+                    Task.Run(() => { var host = new AdhocWorkspace(); });
+                    var task1 = Task.Run(() => { NatashaComponentRegister.RegistSyntax<NatashaCSharpSyntax>(); });
+                    var task2 = Task.Run(() => {
+                        
+                        NatashaComponentRegister.RegistDomain<NatashaAssemblyDomain>(initializeReference);
+                        NatashaComponentRegister.RegistCompiler<NatashaCSharpCompiler>();
+                        NatashaCSharpCompiler.AddSemanticAnalysistor(UsingAnalysistor.Creator());
+
+                    });
+                    Task.WaitAll(task1, task2);
                 }
             }
             
@@ -53,7 +61,6 @@ public static class NatashaInitializer
     /// <returns></returns>
     public static async Task InitializeAndPreheating(bool initializeReference = true)
     {
-
         await Initialize(initializeReference);
         var domain = DomainManagement.Random;
         if (!initializeReference)

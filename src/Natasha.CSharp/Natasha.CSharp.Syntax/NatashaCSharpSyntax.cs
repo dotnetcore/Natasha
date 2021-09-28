@@ -74,7 +74,8 @@ public class NatashaCSharpSyntax : SyntaxBase
 
     public override SyntaxTree ConvertToTree(string script)
     {
-        //Mark : 647ms
+        //Mark1 : 647ms
+        //Mark2 : 128ms
         //Mark : 7M Memory
         var tree = SyntaxFactory.ParseSyntaxTree(script.Trim(), _options);
         return FormartTree(tree);
