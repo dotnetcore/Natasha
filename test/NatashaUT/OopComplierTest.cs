@@ -193,11 +193,7 @@ int             i               =               20          ;           int     
                         T           .               S           =           Test            (           10              )           ;
                         }";
 
-            var expected = @"class A
-{
-    int i = 20; int j = 1 + 2;
-    T.S           =           Test(           10              );
-}";
+            var expected = $"class A{Environment.NewLine}{{{Environment.NewLine}    int i = 20;{Environment.NewLine}    int j = 1 + 2;{Environment.NewLine}    T.S =  Test( 10);{Environment.NewLine}}}";
 
             NatashaCSharpSyntax syntax = new NatashaCSharpSyntax();
             syntax.AddTreeToCache(content);
@@ -238,7 +234,7 @@ int             i               =               20          ;           int     
 
             var initial = "int i=0 ; var t=new{Name=\"\"};";
 
-            var final = "int i = 0; var t = new { Name = \"\" };";
+            var final = $"int i = 0;{Environment.NewLine}var t = new{Environment.NewLine}{{{Environment.NewLine}Name = \"\"{Environment.NewLine}}}{Environment.NewLine}{Environment.NewLine};";
 
             NatashaCSharpSyntax syntax = new NatashaCSharpSyntax();
             syntax.AddTreeToCache(initial);

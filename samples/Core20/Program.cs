@@ -1,5 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Formatting;
 using Natasha;
 using Natasha.CSharp;
 using System;
@@ -13,10 +15,25 @@ namespace Core20
         
         static void Main(string[] args)
         {
+//            string code = @"public class A{
+//    public string A{get;set;}
+//public string B{get;set;}
 
+//public string C{get;set;}
+
+//public void  Test( ){NormalTestModel result = new NormalTestModel();int i=0 ; var t=new{Name=""""};return result;Console.WriteLine( ""aa"");}
+//}";
+//            var _options = new CSharpParseOptions(LanguageVersion.Preview);
+//            var tree = SyntaxFactory.ParseSyntaxTree(code.Trim(), _options).GetRoot().NormalizeWhitespace().SyntaxTree;
+//            using (var workspace = new AdhocWorkspace())
+//            {
+//                tree = Formatter.Format(tree.GetRoot(), workspace).SyntaxTree;
+//            }
+//            Console.WriteLine(tree.ToString());
+//            Console.WriteLine();
             NatashaInitializer.InitializeAndPreheating();
-            var func = NDelegate.RandomDomain().Func<int>("return 1;");
-            Console.WriteLine(func());
+            //var func = NDelegate.RandomDomain().Func<int>("return 1;");
+            //Console.WriteLine(func());
             /*
             NatashaInitializer.Initialize();
             string text = @"namespace HelloWorld
