@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Natasha.CSharp.Template
 {
-    public class AttributeTemplate<T> : GlobalUsingTemplate<T> where T : AttributeTemplate<T>, new()
+    public class AttributeTemplate<T> : CommentTemplate<T> where T : AttributeTemplate<T>, new()
     {
 
         public readonly StringBuilder AttributeScript;
@@ -111,7 +111,7 @@ namespace Natasha.CSharp.Template
 
         public override T BuilderScript()
         {
-
+            // [comment]
             // [{this}]
             // [access] [modifier]
             base.BuilderScript();

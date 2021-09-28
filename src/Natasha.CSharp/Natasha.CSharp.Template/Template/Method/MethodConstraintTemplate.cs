@@ -27,8 +27,8 @@ namespace Natasha.CSharp.Template
 
         public override T BuilderScript()
         {
-            // [Attribute]
-            // [access] [modifier] [type] [Name]([Parameters]) [{this}]
+            // [attribute]
+            // [access] [modifier] [type] [name]([parameters]) [{this}]
             base.BuilderScript();
             if (ConstraintScript != default)
             {

@@ -70,8 +70,9 @@ namespace Natasha.CSharp.Template
 
             _getter.Clear();
             _setter.Clear();
-            // [Attribute]
-            // [access] [modifier] [type] [Name]{[{this}]}
+            // [comment]
+            // [attribute]
+            // [access] [modifier] [type] [name]{[{this}]}
             base.BuilderScript();
             if (!_onlySetter)
             {

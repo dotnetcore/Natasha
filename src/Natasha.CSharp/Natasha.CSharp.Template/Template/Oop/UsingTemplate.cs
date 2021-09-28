@@ -328,14 +328,15 @@ namespace Natasha.CSharp.Template
 
             //  [{this}]
             //  [{Flag}]
-            //  [Namspace]
+            //  [namspace]
             //  { 
-            //      [Attribute]
-            //      [access] [modifier] [Name] [:Interface] 
+            //      [comment]
+            //      [attribute]
+            //      [access] [modifier] [name] [:interface] 
             //      {
             //          [body]
             //      }
-            //      [OtherBody]
+            //      [otherBody]
             //  }
             base.BuilderScript();
             _script.Insert(0, GetUsingBuilder());

@@ -121,9 +121,9 @@ namespace Natasha.CSharp.Template
 
         public override T BuilderScript()
         {
-
-            // [Attribute]
-            // [access] [modifier] [type] [Name][{this}]  
+            // [comment]
+            // [attribute]
+            // [access] [modifier] [type] [name][{this}]  
             base.BuilderScript();
             _script.Append($"({ParametersScript})");
             return Link;
