@@ -6,6 +6,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Natasha.CSharp.Engine.SemanticAnalaysis
 {
@@ -22,7 +23,7 @@ namespace Natasha.CSharp.Engine.SemanticAnalaysis
 
 
 
-        private static List<Regex> GetRegexList(Diagnostic diagnostic)
+        private static Regex GetRegex(Diagnostic diagnostic)
         {
 
             string formart = diagnostic.Descriptor.MessageFormat.ToString();
@@ -39,53 +40,44 @@ namespace Natasha.CSharp.Engine.SemanticAnalaysis
             }
 
 
-            var matches = regex.Matches(text);
-            List<Regex> _usingRegCache = new List<Regex>();
-            for (int i = 0; i < matches.Count; i++)
-            {
-
-                var tempReg = $"using (?<result0>{matches[i].Groups["result0"].Value}.*?);";
-                _usingRegCache.Add(new Regex(tempReg, RegexOptions.Singleline | RegexOptions.Compiled));
-
-            }
-            return _usingRegCache;
+            var match = regex.Match(text);
+            var tempReg = $"using (?<result0>{match.Groups["result0"].Value}.*?);";
+            //_usingRegCache.Add();
+            return new Regex(tempReg, RegexOptions.Singleline | RegexOptions.Compiled);
 
         }
 
 
 
 
-        private static HashSet<string> GetUnableUsing(Diagnostic diagnostic, string code)
+        internal static HashSet<string> GetUnableUsing(IEnumerable<Diagnostic> diagnostics, string code)
         {
-            var usingHandlers = GetRegexList(diagnostic);
+
             HashSet<string> sets = new HashSet<string>();
-            foreach (var item in usingHandlers)
-            {
-
-                var matches = item.Matches(code);
-                for (int i = 0; i < matches.Count; i += 1)
+            object obj = new object();
+            Parallel.ForEach(diagnostics, diagnostic => {
+                var usingHandler = GetRegex(diagnostic);
+                var matches = usingHandler.Matches(code);
+                lock (obj)
                 {
-
-                    sets.Add(matches[i].Groups["result0"].Value);
-
+                    for (int i = 0; i < matches.Count; i += 1)
+                    {
+                        sets.Add(matches[i].Groups["result0"].Value);
+                    }
                 }
-
-            }
+            });
             return sets;
 
         }
 
 
-        public static IEnumerable<UsingDirectiveSyntax> Handler(Diagnostic diagnostic)
+        internal static IEnumerable<UsingDirectiveSyntax> Handler(CompilationUnitSyntax root,HashSet<string> noUseUsings)
         {
 
-            var root = diagnostic.Location.SourceTree.GetRoot();
-            var sets = GetUnableUsing(diagnostic, root.ToFullString());
-            DefaultUsing.Remove(sets);
-            return from usingDeclaration in root.DescendantNodes()
-                          .OfType<UsingDirectiveSyntax>()
-                        where sets.Contains(usingDeclaration.Name.ToFullString())
-                        select usingDeclaration;
+            DefaultUsing.Remove(noUseUsings);
+            return from usingDeclaration in root.Usings
+                   where noUseUsings.Contains(usingDeclaration.Name.ToFullString())
+                   select usingDeclaration;
 
         }
 

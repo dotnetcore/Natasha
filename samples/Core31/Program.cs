@@ -7,6 +7,7 @@ using Microsoft.CodeAnalysis.Scripting;
 using Natasha.CSharp;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Loader;
 using System.Threading.Tasks;
@@ -20,6 +21,12 @@ namespace Core31
             //NatashaInitializer.Initialize();
             NatashaInitializer.InitializeAndPreheating();
 
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            NSucceedLog.Enabled = true;
+            NDelegate.RandomDomain(opt => opt.UseFileCompile()).Action("Console.WriteLine(\"Hello World!\");")();
+            stopwatch.Stop();
+            Console.WriteLine(stopwatch.Elapsed);
             //var hwFunc = FastMethodOperator
             //    .RandomDomain()
             //    .Param(typeof(string), "str1")

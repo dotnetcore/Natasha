@@ -330,11 +330,11 @@ namespace Natasha.CSharp
         /// <param name="key">错误ID,例如:CS0246</param>
         /// <param name="action"> Func<错误集合,语法树控制器,源代码,新代码(返回)> </param>
         /// <returns></returns>
-        public static AssemblyCSharpBuilder AddUsingAnalysistor(this AssemblyCSharpBuilder builder, string key, Func<Diagnostic, IEnumerable<UsingDirectiveSyntax>> action)
-        {
-            UsingAnalysistorManagement.Add(key, action);
-            return builder;
-        }
+        //public static AssemblyCSharpBuilder AddUsingAnalysistor(this AssemblyCSharpBuilder builder, string key, Func<Diagnostic, IEnumerable<UsingDirectiveSyntax>> action)
+        //{
+        //    UsingAnalysistorManagement.Add(key, action);
+        //    return builder;
+        //}
 
     }
 

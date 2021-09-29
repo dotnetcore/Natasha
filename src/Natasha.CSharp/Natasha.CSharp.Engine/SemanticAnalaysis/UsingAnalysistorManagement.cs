@@ -15,7 +15,6 @@ public static class UsingAnalysistorManagement
         _errorHandlers = new ConcurrentDictionary<string, Func<Diagnostic, IEnumerable<UsingDirectiveSyntax>>>();
         _errorHandlers["CS0234"] = CS0234Analaysistor.Handler;
         _errorHandlers["CS0246"] = CS0246Analaysistor.Handler;
-        _errorHandlers["CS8019"] = CS8019Analaysistor.Handler;
     }
 
     public static void Add(string code, Func<Diagnostic, IEnumerable<UsingDirectiveSyntax>> func)

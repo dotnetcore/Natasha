@@ -13,13 +13,11 @@ namespace Natasha.CSharp.Engine.SemanticAnalaysis
     public static class CS8019Analaysistor
     {
 
-        public static IEnumerable<UsingDirectiveSyntax> Handler(Diagnostic diagnostic)
+        public static IEnumerable<UsingDirectiveSyntax> Handler(CompilationUnitSyntax root, HashSet<Location> locations)
         {
 
-            var root = diagnostic.Location.SourceTree.GetRoot();
-            return from usingDeclaration in root.DescendantNodes()
-                          .OfType<UsingDirectiveSyntax>()
-                        where usingDeclaration.GetLocation() == diagnostic.Location
+            return from usingDeclaration in root.Usings
+                        where locations.Contains(usingDeclaration.GetLocation())
                         select usingDeclaration;
 
         }

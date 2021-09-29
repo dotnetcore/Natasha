@@ -35,17 +35,15 @@ namespace Natasha.CSharp.Engine.SemanticAnalaysis
             }
 
             var match = RegCache[formart].Match(text);
-            return match.Groups["result1"].Value + "." + match.Groups["result0"].Value;
+            return $"{match.Groups["result1"].Value}.{match.Groups["result0"].Value}";
 
         }
 
-        public static IEnumerable<UsingDirectiveSyntax> Handler(Diagnostic diagnostic)
+        public static IEnumerable<UsingDirectiveSyntax> Handler(CompilationUnitSyntax root, Diagnostic diagnostic)
         {
 
             var needToRemove = GetUnableUsing(diagnostic);
-            var nodes = from usingDeclaration in diagnostic.Location.SourceTree.GetRoot()
-                            .DescendantNodes()
-                            .OfType<UsingDirectiveSyntax>()
+            var nodes = from usingDeclaration in root.Usings
                         where usingDeclaration.Name.ToFullString().StartsWith(needToRemove)
                         select usingDeclaration;
             if (nodes!=null)
