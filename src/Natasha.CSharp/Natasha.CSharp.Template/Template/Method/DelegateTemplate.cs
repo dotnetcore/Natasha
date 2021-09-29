@@ -49,8 +49,10 @@ namespace Natasha.CSharp.Template
             ModifierAppend(DeclarationReverser.GetReturnPrefix(info));
             return this.Return(info.ReturnType);
         }
-
-
+        public T Return(string returnTypeString)
+        {
+            return this.Type(returnTypeString);
+        }
 
 
         public override T Param(Type type, string paramName, string keywords = default)
