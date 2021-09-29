@@ -77,7 +77,8 @@ public class NatashaCSharpSyntax : SyntaxBase
         //Mark1 : 647ms
         //Mark2 : 128ms
         //Mark : 7M Memory
-        var tree = SyntaxFactory.ParseSyntaxTree(script.Trim(), _options);
+       
+        var tree = CSharpSyntaxTree.ParseText(script.Trim(), _options);
         return FormartTree(tree);
         //Console.ReadKey();
         //return tree;

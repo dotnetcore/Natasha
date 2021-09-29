@@ -28,6 +28,9 @@ namespace Natasha.CSharpEngine
             var compilerHandler = GetCompiler();
             var option = compilerHandler.GetCompilationOptions();
             var compiler = compilerHandler.GetCompilation(option);
+            //var tree = CSharpSyntaxTree.ParseText("using System; public class natashaCompilerTest{}");
+            //compiler = compiler.AddSyntaxTrees(tree);
+            //var semantiModel = compiler.GetSemanticModel(tree);
 
 #if DEBUG
             stopwatch.StopAndShowCategoreInfo("[Compiler]", "编译器初始化", 1);
