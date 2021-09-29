@@ -18,11 +18,12 @@ namespace Natasha.CSharp.Template
         }
 
 
-
         public T ReadonlyReturn<S>()
         {
             return this.ReadonlyReturn(typeof(S));
         }
+
+
         public T ReadonlyReturn(Type type)
         {
             if (type != typeof(void))
@@ -31,24 +32,34 @@ namespace Natasha.CSharp.Template
             }
             return Type(type);
         }
+
+
         public T ReadonlyReturn(MethodInfo info)
         {
             ModifierAppend(DeclarationReverser.GetReturnPrefix(info)); 
             return ReadonlyReturn(info.ReturnType);
         }
+
+
         public T Return<S>()
         {
             return this.Return(typeof(S));
         }
+
+
         public T Return(Type type)
         {
             return Type(type);
         }
+
+
         public T Return(MethodInfo info)
         {
             ModifierAppend(DeclarationReverser.GetReturnPrefix(info));
             return this.Return(info.ReturnType);
         }
+
+
         public T Return(string returnTypeString)
         {
             return this.Type(returnTypeString);
@@ -62,8 +73,6 @@ namespace Natasha.CSharp.Template
             return base.Param(type, paramName, keywords);
 
         }
-
-
 
 
         public Type DelegateType { get { return DelegateBuilder.GetDelegate(_parametersRecoder.ToArray(), _type); } }
