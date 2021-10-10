@@ -15,15 +15,14 @@ namespace Natasha.CSharpEngine
     public class NatashaCSharpEngine
     {
 
-        public SyntaxBase Syntax;
-        public CompilerBase<CSharpCompilation,CSharpCompilationOptions> Compiler;
+        public NatashaCSharpSyntax Syntax;
+        public NatashaCSharpCompiler Compiler;
         public List<NatashaException> Exceptions;
 
 
         public string OutputFolder;
         public bool CustomUsingShut;
-        public ExceptionBehavior CompileErrorBehavior;
-        public ExceptionBehavior SyntaxErrorBehavior;
+
 
         /// <summary>
         /// 是否要编译到文件中
@@ -133,8 +132,8 @@ namespace Natasha.CSharpEngine
         public NatashaCSharpEngine(string assemblyName)
         {
 
-            Syntax = SyntaxComponent.GetSyntax();
-            Compiler = CompilerComponent.GetCompiler();
+            Syntax = new NatashaCSharpSyntax();
+            Compiler = new NatashaCSharpCompiler();
             Compiler.AssemblyName = assemblyName;
             Compiler.CompileFailedEvent += NatashaEngine_CompileFailedHandler;
 

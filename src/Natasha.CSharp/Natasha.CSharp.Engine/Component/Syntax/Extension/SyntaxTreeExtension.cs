@@ -12,11 +12,7 @@ public static class SyntaxTreeExtension
     {
 
         var tree = SyntaxFactory.ParseSyntaxTree(code.Trim(), NatashaCSharpSyntax._options);
-        using (var workspace = new AdhocWorkspace())
-        {
-            tree = Formatter.Format(tree.GetRoot(), workspace).SyntaxTree;
-        }
-        return tree;
+        return tree.GetRoot().NormalizeWhitespace().SyntaxTree;
 
     }
 }

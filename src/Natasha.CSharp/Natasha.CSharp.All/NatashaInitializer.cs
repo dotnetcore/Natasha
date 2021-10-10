@@ -35,11 +35,18 @@ public static class NatashaInitializer
                     _hasInitialize = true;
 
                     Task.Run(() => { var host = new AdhocWorkspace(); });
-                    var task1 = Task.Run(() => { NatashaComponentRegister.RegistSyntax<NatashaCSharpSyntax>(); });
+                    var task1 = Task.Run(() => {
+
+                        var syntaxBase = new NatashaCSharpSyntax();
+                        syntaxBase.AddTreeToCache("public class NatashaInitializerTest{}");
+
+                    });
                     var task2 = Task.Run(() => {
                         
                         NatashaComponentRegister.RegistDomain<NatashaAssemblyDomain>(initializeReference);
-                        NatashaComponentRegister.RegistCompiler<NatashaCSharpCompiler>();
+                        var compilerHandler = new NatashaCSharpCompiler();
+                        var option = compilerHandler.GetCompilationOptions();
+                        var compiler = compilerHandler.GetCompilation(option);
                         NatashaCSharpCompiler.AddSemanticAnalysistor(UsingAnalysistor.Creator());
 
                     });

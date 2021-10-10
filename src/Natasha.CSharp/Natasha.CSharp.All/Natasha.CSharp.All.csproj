@@ -2,7 +2,7 @@
 
   <PropertyGroup>
 
-	  <TargetFrameworks>netstandard2.0;netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;netcoreapp3.0;netcoreapp3.1;net5.0;</TargetFrameworks>
+	  <TargetFrameworks>netcoreapp3.1;net5.0;</TargetFrameworks>
 	  <Description>发布最新版 Natasha</Description>
 	  <PackageId>DotNetCore.Natasha.CSharp.All</PackageId>
 	  <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
@@ -22,8 +22,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Natasha.Domain\Natasha.Domain.csproj" />
-    <ProjectReference Include="..\Natasha.CSharp.Complier\Natasha.CSharp.Compiler.csproj" />
-    <ProjectReference Include="..\Natasha.CSharp.Syntax\Natasha.CSharp.Syntax.csproj" />
     <ProjectReference Include="..\Natasha.CSharp.Template\Natasha.CSharp.Template.csproj" />
   </ItemGroup>
 

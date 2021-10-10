@@ -35,7 +35,9 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
 
     }
 
-
+    public ExceptionBehavior CompileErrorBehavior;
+    public ExceptionBehavior SyntaxErrorBehavior;
+    public bool NeedSucceedLog;
 
 
     public AssemblyCSharpBuilder() : this(Guid.NewGuid().ToString("N")) { }
@@ -46,6 +48,7 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
         SyntaxErrorBehavior = ExceptionBehavior.Throw;
         OutputFolder = GlobalOutputFolder;
         CustomUsingShut = false;
+        NeedSucceedLog = false;
         RetryLimit = 0;
 
     }
@@ -54,7 +57,7 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
     /// 配置编译选项
     /// </summary>
     /// <param name="action"></param>
-    public void CompilerOption(Action<CompilerBase<CSharpCompilation, CSharpCompilationOptions>> action)
+    public void CompilerOption(Action<NatashaCSharpCompiler> action)
     {
         action?.Invoke(Compiler);
     }
@@ -241,7 +244,7 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
             }
 
         }
-        else
+        else if(NeedSucceedLog)
         {
 
             LogOperator.SucceedRecoder(Compiler.Compilation);

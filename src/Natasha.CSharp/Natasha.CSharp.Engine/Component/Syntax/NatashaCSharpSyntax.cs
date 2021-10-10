@@ -1,11 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Formatting;
-using Microsoft.CodeAnalysis.Formatting;
-using Microsoft.CodeAnalysis.Options;
-using Microsoft.CodeAnalysis.Text;
 using Natasha.Framework;
-using System;
 using System.Collections.Generic;
 
 
@@ -80,8 +75,7 @@ public class NatashaCSharpSyntax : SyntaxBase
        
         var tree = CSharpSyntaxTree.ParseText(script.Trim(), _options);
         return FormartTree(tree);
-        //Console.ReadKey();
-        //return tree;
+
     }
 
 
