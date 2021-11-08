@@ -51,7 +51,11 @@ namespace Natasha.CSharp
         public static void DisposeDomain(this Assembly assembly)
         {
 
-            GetDomain(assembly).Dispose();
+            var domain = GetDomain(assembly);
+            if (domain.Name != "Default")
+            {
+                domain.Dispose();
+            }
 
         }
 

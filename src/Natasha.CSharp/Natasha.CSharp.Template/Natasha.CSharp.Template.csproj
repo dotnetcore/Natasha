@@ -8,7 +8,7 @@
     <PackageId>DotNetCore.Natasha.CSharp.Template</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageReleaseNotes>增加 .NET5 支持., 增加强签名.</PackageReleaseNotes>
-    <Version>3.5.0</Version>
+    <Version>3.5.2</Version>
     <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
     <PackageTags>Roslyn;IL;Script;Dynamic;Natasha;</PackageTags>
@@ -16,8 +16,8 @@
     <Company>.NET Core Community</Company>
     <PackageIconUrl>https://avatars2.githubusercontent.com/u/19404084</PackageIconUrl>
     <Authors>NMSAzulX</Authors>
-    <FileVersion>3.5.0.0</FileVersion>
-    <AssemblyVersion>3.5.0.0</AssemblyVersion>
+    <FileVersion>3.5.2.0</FileVersion>
+    <AssemblyVersion>3.5.2.0</AssemblyVersion>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>natasha.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>

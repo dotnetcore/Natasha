@@ -255,8 +255,16 @@ namespace Natasha.CSharp
             builder.CompileErrorBehavior = ExceptionBehavior.None;
             return builder;
         }
-
-
+        public static AssemblyCSharpBuilder EnableSucceedLog(this AssemblyCSharpBuilder builder)
+        {
+            builder.NeedSucceedLog = true;
+            return builder;
+        }
+        public static AssemblyCSharpBuilder DisableSucceedLog(this AssemblyCSharpBuilder builder)
+        {
+            builder.NeedSucceedLog = false;
+            return builder;
+        }
 
 
         public static AssemblyCSharpBuilder ThrowAndLogSyntaxError(this AssemblyCSharpBuilder builder)

@@ -64,7 +64,6 @@ namespace Natasha.CSharp.Builder
                 this.Class();
 
             }
-
             Name(TypeName != default ? TypeName : type.GetDevelopName())
             .InheritanceAppend(type.BaseType)
             .InheritanceAppend(type.GetInterfaces())

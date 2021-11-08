@@ -7,7 +7,6 @@ namespace NatashaUT
 {
 
     [Trait("CSharp9测试", "语法")]
-
     public class C9SyntaxTest : PrepareTest
     {
         [Fact(DisplayName = "Recoder 编译")]

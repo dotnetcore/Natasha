@@ -27,6 +27,9 @@ namespace Core31
             NDelegate.RandomDomain(opt => opt.UseFileCompile()).Action("Console.WriteLine(\"Hello World!\");")();
             stopwatch.Stop();
             Console.WriteLine(stopwatch.Elapsed);
+
+            var action = NDelegate.DefaultDomain().Action("Console.WriteLine(1);");
+            action.DisposeDomain();
             //var hwFunc = FastMethodOperator
             //    .RandomDomain()
             //    .Param(typeof(string), "str1")

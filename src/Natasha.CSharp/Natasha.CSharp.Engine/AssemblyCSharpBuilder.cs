@@ -39,7 +39,6 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
     public ExceptionBehavior SyntaxErrorBehavior;
     public bool NeedSucceedLog;
 
-
     public AssemblyCSharpBuilder() : this(Guid.NewGuid().ToString("N")) { }
     public AssemblyCSharpBuilder(string assemblyName) : base(assemblyName)
     {

@@ -75,19 +75,13 @@ namespace Natasha.Framework
             }
 
         }
-#if NETCOREAPP3_0_OR_GREATER
-        public readonly static Func<AssemblyDependencyResolver, Dictionary<string, string>> GetDictionary;
 
-#else
-        public string Name;
-#endif
+        public readonly static Func<AssemblyDependencyResolver, Dictionary<string, string>> GetDictionary;
         static DomainBase()
         {
-#if NETCOREAPP3_0_OR_GREATER
             //从依赖中拿到所有的路径，该属性未开放
             var methodInfo = typeof(AssemblyDependencyResolver).GetField("_assemblyPaths", BindingFlags.NonPublic | BindingFlags.Instance);
             GetDictionary = item => (Dictionary<string, string>)methodInfo.GetValue(item);
-#endif
             _shareLibraries = new ConcurrentQueue<string>();
             var assemblies = AppDomain
                 .CurrentDomain
@@ -111,23 +105,17 @@ namespace Natasha.Framework
         /// </summary>
         /// <param name="key"></param>
         public DomainBase(string key)
-#if  NETCOREAPP3_0_OR_GREATER
             : base(isCollectible: true, name: key)
-#endif
 
         {
-#if !NETCOREAPP3_0_OR_GREATER
-            Name = key;
-#endif
             AssemblyReferencesCache = new ConcurrentDictionary<Assembly, PortableExecutableReference>();
             OtherReferencesFromFile = new ConcurrentDictionary<string, PortableExecutableReference>();
             if (key == "Default")
             {
                 DefaultDomain = this;
                 Default.Resolving += Default_Resolving;
-#if NETCOREAPP3_0_OR_GREATER
                 Default.ResolvingUnmanagedDll += Default_ResolvingUnmanagedDll;
-#endif
+
             }
         }
 
@@ -138,7 +126,7 @@ namespace Natasha.Framework
         /// <param name="path">插件路径</param>
         /// <param name="excludePaths">需要排除的路径</param>
         /// <returns></returns>
-        public abstract Assembly LoadPlugin(string path, params string[] excludePaths);
+        public abstract Assembly LoadPlugin(string path,bool needLoadDependence = true, params string[] excludePaths);
 
 
         /// <summary>
@@ -392,7 +380,7 @@ namespace Natasha.Framework
 
 
         public AssemblyDependencyResolver DependencyResolver;
-#if NETCOREAPP3_0_OR_GREATER
+
         /// <summary>
         /// 解析devjson文件添加引用
         /// </summary>
@@ -437,7 +425,7 @@ namespace Natasha.Framework
                 }
             }
         }
-#endif
+
         #endregion
 
         #region 程序集加载

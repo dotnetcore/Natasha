@@ -69,14 +69,14 @@ public class NatashaAssemblyDomain : DomainBase
 
     private void NatashaAssemblyDomain_RemoveAssemblyEvent(Assembly obj)
     {
-        foreach (var item in AssemblyReferencesCache)
-        {
-            _usingsRecoder.Using(item.Key);
-        }
-        foreach (var item in _pluginAssemblies)
-        {
-            _usingsRecoder.Using(item.Value);
-        }
+        //foreach (var item in AssemblyReferencesCache)
+        //{
+        //    _usingsRecoder.Using(item.Key);
+        //}
+        //foreach (var item in _pluginAssemblies)
+        //{
+        //    _usingsRecoder.Using(item.Value);
+        //}
     }
 
 
@@ -103,10 +103,12 @@ public class NatashaAssemblyDomain : DomainBase
     /// <param name="path">插件路径</param>
     /// <param name="excludePaths">不需要加载的依赖项</param>
     /// <returns></returns>
-    public override Assembly LoadPlugin(string path, params string[] excludePaths)
+    public override Assembly LoadPlugin(string path, bool needLoadDependence = true, params string[] excludePaths)
     {
-
-        DependencyResolver = new AssemblyDependencyResolver(path);
+        if (needLoadDependence)
+        {
+            DependencyResolver = new AssemblyDependencyResolver(path);
+        }
         var assembly = LoadAssemblyFromStream(path);
         if (assembly != default)
         {

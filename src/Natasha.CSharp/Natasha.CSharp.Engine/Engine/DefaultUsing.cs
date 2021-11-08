@@ -92,12 +92,15 @@ namespace Natasha
         /// <param name="namespace"></param>
         public static void Remove(string @namespace)
         {
-            lock (DefaultNamesapce)
+            if (string.IsNullOrEmpty(@namespace))
             {
-                if (DefaultNamesapce.Contains(@namespace))
+                lock (DefaultNamesapce)
                 {
-                    DefaultNamesapce.Remove(@namespace);
-                    DefaultScript = DefaultScript.Replace($"using {@namespace};{Environment.NewLine}", string.Empty);
+                    if (DefaultNamesapce.Contains(@namespace))
+                    {
+                        DefaultNamesapce.Remove(@namespace);
+                        DefaultScript = DefaultScript.Replace($"using {@namespace};{Environment.NewLine}", string.Empty);
+                    }
                 }
             }
         }
