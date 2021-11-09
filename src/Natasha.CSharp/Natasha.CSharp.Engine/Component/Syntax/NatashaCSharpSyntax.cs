@@ -98,11 +98,11 @@ public class NatashaCSharpSyntax : SyntaxBase
     /// <param name="oldCode">旧代码</param>
     /// <param name="newCode">新代码</param>
     /// <param name="usings">新的引用</param>
-    public override void Update(string oldCode, string newCode, HashSet<string> usings = default)
+    public override void Update(string oldCode, string newCode, HashSet<string>? usings = default)
     {
 
         //先移除
-        TreeCache.Remove(oldCode);
+        TreeCache!.Remove(oldCode);
         if (usings == default)
         {
 

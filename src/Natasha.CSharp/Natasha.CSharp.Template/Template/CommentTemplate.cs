@@ -9,6 +9,10 @@ namespace Natasha.CSharp.Template
 
         public string CommentScript;
 
+        public CommentTemplate()
+        {
+            CommentScript = string.Empty;
+        }
 
         /// <summary>
         /// 不使用访问级别定义
@@ -17,7 +21,7 @@ namespace Natasha.CSharp.Template
         public T NoComment()
         {
 
-            CommentScript = default;
+            CommentScript = string.Empty;
             return Link;
 
         }
@@ -47,7 +51,7 @@ namespace Natasha.CSharp.Template
             // [{this}]
             // [attribute]
             base.BuilderScript();
-            if (CommentScript != default)
+            if (CommentScript != string.Empty)
             {
                 _script.Append(CommentScript);
             }

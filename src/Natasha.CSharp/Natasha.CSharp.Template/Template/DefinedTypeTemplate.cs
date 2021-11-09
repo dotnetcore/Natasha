@@ -8,16 +8,20 @@ namespace Natasha.CSharp.Template
     {
 
         public string TypeScript;
-        internal Type _type;
+        internal Type? _type;
 
-
+        public DefinedTypeTemplate()
+        {
+            TypeScript = string.Empty;
+        }
         /// <summary>
         /// 不使用该层定义
         /// </summary>
         /// <returns></returns>
         public T NoUseType()
         {
-            return Type(typeString: default);
+            TypeScript = string.Empty;
+            return Link;
         }
 
 
@@ -86,7 +90,6 @@ namespace Natasha.CSharp.Template
 
                 case MemberTypes.Property:
                     return Type(((PropertyInfo)memberInfo).PropertyType);
-
                 default:
                     return Link;
 
@@ -96,7 +99,7 @@ namespace Natasha.CSharp.Template
 
 
 
-        
+
         public override T BuilderScript()
         {
             // [comment]

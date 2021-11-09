@@ -12,7 +12,7 @@ namespace Natasha.CSharp
     public class NAssembly : CompilerTemplate<NAssembly>
     {
 
-        public Assembly Assembly;
+        public Assembly? Assembly;
         private readonly HashSet<IScript> _builderCache;
         private bool HasChecked;
 
@@ -32,11 +32,6 @@ namespace Natasha.CSharp
 
             _builderCache = new HashSet<IScript>();
             HasChecked = false;
-            if (AssemblyBuilder.Compiler.AssemblyName == default)
-            {
-                AssemblyBuilder.Compiler.AssemblyName = Guid.NewGuid().ToString("N");
-            }
-
         }
 
 
@@ -72,20 +67,20 @@ namespace Natasha.CSharp
             return AssemblyBuilder.AddFile(path);
         }
 
-
-        private T GetBaseOopHandler<T>(string name = default) where T : OopBuilder<T>, new()
+        private T GetBaseOopHandler<T>() where T : OopBuilder<T>, new()
         {
-            var @operator = new T().Name(name).Namespace(AssemblyBuilder.Compiler.AssemblyName);
+            var @operator = new T().Namespace(AssemblyBuilder.Compiler.AssemblyName);
             _builderCache.Add(@operator);
             return @operator;
         }
-        private S GetBaseDelegateHandler<S>(string name = default) where S : MethodBuilder<S>, new()
+        private S GetBaseDelegateHandler<S>() where S : MethodBuilder<S>, new()
         {
-            var @operator = new S().Name(name).ClassOptions(item=>item.Namespace(AssemblyBuilder.Compiler.AssemblyName));
+            var @operator = new S().ClassOptions(item => item.Namespace(AssemblyBuilder.Compiler.AssemblyName));
             @operator.AssemblyBuilder.Compiler.Domain = AssemblyBuilder.Compiler.Domain;
             _builderCache.Add(@operator);
             return @operator;
         }
+       
 
 
         /// <summary>
@@ -93,10 +88,10 @@ namespace Natasha.CSharp
         /// </summary>
         /// <param name="name">类名</param>
         /// <returns></returns>
-        public NClass CreateClass(string name = default)
+        public NClass CreateClass()
         {
 
-            return GetBaseOopHandler<NClass>(name);
+            return GetBaseOopHandler<NClass>();
 
         }
 
@@ -106,10 +101,10 @@ namespace Natasha.CSharp
         /// </summary>
         /// <param name="name">枚举名</param>
         /// <returns></returns>
-        public NEnum CreateEnum(string name = default)
+        public NEnum CreateEnum()
         {
 
-            return GetBaseOopHandler<NEnum>(name);
+            return GetBaseOopHandler<NEnum>();
 
         }
 
@@ -119,10 +114,10 @@ namespace Natasha.CSharp
         /// </summary>
         /// <param name="name">接口名</param>
         /// <returns></returns>
-        public NInterface CreateInterface(string name = default)
+        public NInterface CreateInterface()
         {
 
-            return GetBaseOopHandler<NInterface>(name);
+            return GetBaseOopHandler<NInterface>();
 
         }
 
@@ -132,10 +127,10 @@ namespace Natasha.CSharp
         /// </summary>
         /// <param name="name">结构体名</param>
         /// <returns></returns>
-        public NStruct CreateStruct(string name = default)
+        public NStruct CreateStruct()
         {
 
-            return GetBaseOopHandler<NStruct>(name);
+            return GetBaseOopHandler<NStruct>();
 
         }
 
@@ -145,10 +140,10 @@ namespace Natasha.CSharp
         /// </summary>
         /// <param name="name">类名</param>
         /// <returns></returns>
-        public FastMethodOperator CreateFastMethod(string name = default)
+        public FastMethodOperator CreateFastMethod()
         {
 
-            return GetBaseDelegateHandler<FastMethodOperator>(name);
+            return GetBaseDelegateHandler<FastMethodOperator>();
 
         }
 
@@ -158,10 +153,10 @@ namespace Natasha.CSharp
         /// </summary>
         /// <param name="name">类名</param>
         /// <returns></returns>
-        public FakeMethodOperator CreateFakeMethod(string name = default)
+        public FakeMethodOperator CreateFakeMethod()
         {
 
-            return GetBaseDelegateHandler<FakeMethodOperator>(name);
+            return GetBaseDelegateHandler<FakeMethodOperator>();
 
         }
 
@@ -192,7 +187,7 @@ namespace Natasha.CSharp
         /// 对整个程序集进行编译
         /// </summary>
         /// <returns></returns>
-        public Assembly GetAssembly()
+        public Assembly? GetAssembly()
         {
 
             if (!HasChecked)
@@ -200,9 +195,7 @@ namespace Natasha.CSharp
                 Check();
             }
 
-
-            Assembly = AssemblyBuilder.GetAssembly();
-            return Assembly;
+            return Assembly = AssemblyBuilder.GetAssembly();
 
         }
 
@@ -212,22 +205,30 @@ namespace Natasha.CSharp
         /// </summary>
         /// <param name="name">类名</param>
         /// <returns></returns>
-        public Type GetTypeFromShortName(string name)
+        public Type? GetTypeFromShortName(string name)
         {
 
             if (Assembly == null)
             {
                 GetAssembly();
             }
+            if (Assembly == null)
+            {
+                return null;
+            }
             return Assembly.GetTypes().First(item => item.Name == name);
 
         }
-        public Type GetTypeFromFullName(string name)
+        public Type? GetTypeFromFullName(string name)
         {
 
             if (Assembly == null)
             {
                 GetAssembly();
+            }
+            if (Assembly == null)
+            {
+                return null;
             }
             return Assembly.GetTypes().First(item => item.GetDevelopName() == name);
 

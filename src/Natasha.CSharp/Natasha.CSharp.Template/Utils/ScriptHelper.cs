@@ -38,7 +38,7 @@ public static class ScriptHelper
     /// <param name="classIndex">命名空间里的第index个类</param>
     /// <param name="namespaceIndex">第namespaceIndex个命名空间</param>
     /// <returns></returns>
-    public static string GetClassName(string content, int namespaceIndex = 1, int classIndex = 1)
+    public static string? GetClassName(string content, int namespaceIndex = 1, int classIndex = 1)
     {
 
         return GetDataStructString<ClassDeclarationSyntax>(content, namespaceIndex, classIndex);
@@ -55,7 +55,7 @@ public static class ScriptHelper
     /// <param name="structIndex">命名空间里的第index个结构体</param>
     /// <param name="namespaceIndex">第namespaceIndex个命名空间</param>
     /// <returns></returns>
-    public static string GetStructName(string content, int namespaceIndex = 1, int structIndex = 1)
+    public static string? GetStructName(string content, int namespaceIndex = 1, int structIndex = 1)
     {
 
         return GetDataStructString<StructDeclarationSyntax>(content, namespaceIndex, structIndex);
@@ -70,7 +70,7 @@ public static class ScriptHelper
     /// <param name="structIndex">命名空间里的第index个结构体</param>
     /// <param name="namespaceIndex">第namespaceIndex个命名空间</param>
     /// <returns></returns>
-    public static string GetRecordName(string content, int namespaceIndex = 1, int structIndex = 1)
+    public static string? GetRecordName(string content, int namespaceIndex = 1, int structIndex = 1)
     {
 
         return GetDataStructString<RecordDeclarationSyntax>(content, namespaceIndex, structIndex);
@@ -87,7 +87,7 @@ public static class ScriptHelper
     /// <param name="interfaceIndex">命名空间里的第index个接口</param>
     /// <param name="namespaceIndex">第namespaceIndex个命名空间</param>
     /// <returns></returns>
-    public static string GetInterfaceName(string content, int namespaceIndex = 1, int interfaceIndex = 1)
+    public static string? GetInterfaceName(string content, int namespaceIndex = 1, int interfaceIndex = 1)
     {
 
         return GetDataStructString<InterfaceDeclarationSyntax>(content, namespaceIndex, interfaceIndex);
@@ -104,7 +104,7 @@ public static class ScriptHelper
     /// <param name="enumIndex">命名空间里的第index个枚举</param>
     /// <param name="namespaceIndex">第namespaceIndex个命名空间</param>
     /// <returns></returns>
-    public static string GetEnumName(string content, int namespaceIndex = 1, int enumIndex = 1)
+    public static string? GetEnumName(string content, int namespaceIndex = 1, int enumIndex = 1)
     {
 
         return GetDataStructString<EnumDeclarationSyntax>(content, namespaceIndex, enumIndex);
@@ -121,7 +121,7 @@ public static class ScriptHelper
     /// <param name="enumIndex">命名空间里的第index个枚举</param>
     /// <param name="namespaceIndex">第namespaceIndex个命名空间</param>
     /// <returns></returns>
-    public static string GetMethodName(string content, int enumIndex = 1, int namespaceIndex = 1)
+    public static string? GetMethodName(string content, int enumIndex = 1, int namespaceIndex = 1)
     {
 
         return GetDataMethodString(content, enumIndex, namespaceIndex);
@@ -160,15 +160,11 @@ public static class ScriptHelper
 
 
 
-    public static string GetDataStructString<T>(string content, int namespaceIndex = 1, int index = 1) where T : BaseTypeDeclarationSyntax
+    public static string? GetDataStructString<T>(string content, int namespaceIndex = 1, int index = 1) where T : BaseTypeDeclarationSyntax
     {
 
         index -= 1;
         var nodes = GetNodes<T>(GetSpecialNode(content, namespaceIndex));
-        if (nodes.Count() == 0)
-        {
-            return default;
-        }
         return nodes.ToArray()[index].Identifier.Text;
 
     }
@@ -176,15 +172,11 @@ public static class ScriptHelper
 
 
 
-    public static string GetDataMethodString(string content, int index = 1, int namespaceIndex = 1)
+    public static string? GetDataMethodString(string content, int index = 1, int namespaceIndex = 1)
     {
 
         index -= 1;
         var nodes = GetNodes<MethodDeclarationSyntax>(GetSpecialNode(content, namespaceIndex));
-        if (nodes.Count() == 0)
-        {
-            return default;
-        }
         return nodes.ToArray()[index].Identifier.Text;
 
     }

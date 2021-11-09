@@ -1,4 +1,5 @@
-﻿using PluginBase;
+﻿using Natasha.Framework;
+using PluginBase;
 using System;
 using System.Runtime.CompilerServices;
 
@@ -10,10 +11,13 @@ namespace PluginSample
         {
 
             NatashaInitializer.InitializeAndPreheating();
-            var domain = DomainManagement.Random;
-            var assmebly = domain.LoadPlugin(@"E:\OpenSource\NCCGroup\Natasha\samples\Plugin\NatashaPluginSample\bin\Debug\net5.0\ImplementPlugin.dll");
-            var type = NDelegate.UseDomain(domain).Func<Type>("return typeof(APTest);")();
-            Console.WriteLine(type == typeof(APTest));
+
+            //Console.WriteLine(DomainBase.DefaultDomain == DomainBase.DefaultDomain);
+            //Console.WriteLine(DomainBase.DefaultDomain == DomainBase.Default);
+            //var domain = DomainManagement.Random;
+            //var assmebly = domain.LoadPlugin(@"E:\OpenSource\NCCGroup\Natasha\samples\Plugin\NatashaPluginSample\bin\Debug\net5.0\ImplementPlugin.dll");
+            //var type = NDelegate.UseDomain(domain).Func<Type>("return typeof(APTest);")();
+            //Console.WriteLine(type == typeof(APTest));
             Console.Read();
 
 

@@ -8,6 +8,11 @@ namespace Natasha.CSharp.Template
 
         public string ConstraintScript;
 
+        public OopConstraintTemplate()
+        {
+            ConstraintScript = string.Empty;
+        }
+
         public T ConstraintFrom<TConstraint>()
         {
 
@@ -59,7 +64,7 @@ namespace Natasha.CSharp.Template
             // [attribute]
             // [access] [modifier] [type] [name][{this}]
             base.BuilderScript();
-            if (ConstraintScript != default)
+            if (ConstraintScript != string.Empty)
             {
                 _script.Append(' ');
                 _script.Append(ConstraintScript);

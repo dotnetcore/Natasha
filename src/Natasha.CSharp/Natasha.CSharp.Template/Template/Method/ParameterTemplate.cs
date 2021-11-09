@@ -49,7 +49,7 @@ namespace Natasha.CSharp.Template
         public T Param(ParameterInfo info)
         {
             
-            Param(info.ParameterType, info.Name, DeclarationReverser.GetParametePrefix(info));
+            Param(info.ParameterType, info.Name!, DeclarationReverser.GetParametePrefix(info));
             return Link;
 
         }
@@ -83,7 +83,7 @@ namespace Natasha.CSharp.Template
         /// <typeparam name="S">参数类型</typeparam>
         /// <param name="paramName">参数名字</param>
         /// <returns></returns>
-        public T Param<S>(string paramName, string keywords = default)
+        public T Param<S>(string paramName, string keywords = "")
         {
             return Param(typeof(S), paramName, keywords);
         }
@@ -97,7 +97,7 @@ namespace Natasha.CSharp.Template
         /// <param name="type">参数类型</param>
         /// <param name="paramName">参数名字</param>
         /// <returns></returns>
-        public virtual T Param(Type type, string paramName, string keywords = default)
+        public virtual T Param(Type type, string paramName, string keywords = "")
         {
 
             RecoderType(type);

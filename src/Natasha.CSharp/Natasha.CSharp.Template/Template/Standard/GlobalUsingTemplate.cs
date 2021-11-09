@@ -13,7 +13,7 @@ namespace Natasha.CSharp.Template
     public class GlobalUsingTemplate<T> : StringWrapperTemplate<T>, ILinkScriptBuilder<T> where T : GlobalUsingTemplate<T>, new()
     {
 
-        public StringBuilder _script;
+        public readonly StringBuilder _script;
         public readonly TypeRecoder UsingRecoder;
 
 
@@ -68,13 +68,13 @@ namespace Natasha.CSharp.Template
             }
         }
 
-        public virtual HashSet<string> Usings => default;
+        public virtual HashSet<string> Usings => new HashSet<string>();
 
         public TypeRecoder Recoder => UsingRecoder;
 
 
 
-        private string _cache;
+        private string? _cache;
 
         public string ScriptCache
         {

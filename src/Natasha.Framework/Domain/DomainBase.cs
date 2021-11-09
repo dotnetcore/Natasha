@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
+using Natasha.Framework.Domain;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Metadata;
+using System.Runtime.CompilerServices;
 using System.Runtime.Loader;
 
 namespace Natasha.Framework
@@ -19,8 +21,8 @@ namespace Natasha.Framework
     {
 
         public static DomainBase DefaultDomain;
-        public event Action<Assembly> AddAssemblyEvent;
-        public event Action<Assembly> RemoveAssemblyEvent;
+        public event Action<Assembly>? AddAssemblyEvent;
+        public event Action<Assembly>? RemoveAssemblyEvent;
 
         /// <summary>
         /// 是否使用最新程序集
@@ -80,8 +82,10 @@ namespace Natasha.Framework
         static DomainBase()
         {
             //从依赖中拿到所有的路径，该属性未开放
+
+            DefaultDomain = new FakerDomain("init_fake_domain");
             var methodInfo = typeof(AssemblyDependencyResolver).GetField("_assemblyPaths", BindingFlags.NonPublic | BindingFlags.Instance);
-            GetDictionary = item => (Dictionary<string, string>)methodInfo.GetValue(item);
+            GetDictionary = item => (Dictionary<string, string>)(methodInfo!.GetValue(item)!);
             _shareLibraries = new ConcurrentQueue<string>();
             var assemblies = AppDomain
                 .CurrentDomain
@@ -108,15 +112,25 @@ namespace Natasha.Framework
             : base(isCollectible: true, name: key)
 
         {
+
             AssemblyReferencesCache = new ConcurrentDictionary<Assembly, PortableExecutableReference>();
             OtherReferencesFromFile = new ConcurrentDictionary<string, PortableExecutableReference>();
             if (key == "Default")
             {
-                DefaultDomain = this;
-                Default.Resolving += Default_Resolving;
-                Default.ResolvingUnmanagedDll += Default_ResolvingUnmanagedDll;
+                if (DefaultDomain.Name == "init_fake_domain")
+                {
+                    DefaultDomain = this;
+                    Default.Resolving += Default_Resolving;
+                    Default.ResolvingUnmanagedDll += Default_ResolvingUnmanagedDll;
+                }
+                else
+                {
+                    throw new Exception("已经存在默认域,请勿重新创建默认域!");
+                }
+
 
             }
+
         }
 
         #region 功能重载
@@ -126,7 +140,7 @@ namespace Natasha.Framework
         /// <param name="path">插件路径</param>
         /// <param name="excludePaths">需要排除的路径</param>
         /// <returns></returns>
-        public abstract Assembly LoadPlugin(string path,bool needLoadDependence = true, params string[] excludePaths);
+        public abstract Assembly LoadPlugin(string path, bool needLoadDependence = true, params string[] excludePaths);
 
 
         /// <summary>
@@ -149,7 +163,7 @@ namespace Natasha.Framework
         /// <param name="arg1">当前域</param>
         /// <param name="arg2">被加载的程序集名</param>
         /// <returns></returns>
-        protected abstract Assembly Default_Resolving(AssemblyLoadContext arg1, AssemblyName arg2);
+        protected abstract Assembly? Default_Resolving(AssemblyLoadContext context, AssemblyName name);
 
 
         /// <summary>
@@ -185,13 +199,11 @@ namespace Natasha.Framework
         /// <param name="path">文件路径，插件或者生成的DLL</param>
         public virtual void RemoveReference(string path)
         {
-            if (path != null)
+
+            if (OtherReferencesFromFile.ContainsKey(path))
             {
-                if (OtherReferencesFromFile.ContainsKey(path))
-                {
-                    var shortName = Path.GetFileNameWithoutExtension(path);
-                    OtherReferencesFromFile.Remove(shortName);
-                }
+                var shortName = Path.GetFileNameWithoutExtension(path);
+                OtherReferencesFromFile!.Remove(shortName);
             }
         }
 
@@ -203,18 +215,17 @@ namespace Natasha.Framework
         /// <param name="assembly">程序集</param>
         public virtual void RemoveReference(Assembly assembly)
         {
-            if (assembly != null)
+
+            if (AssemblyReferencesCache.ContainsKey(assembly))
             {
-                if (AssemblyReferencesCache.ContainsKey(assembly))
-                {
-                    AssemblyReferencesCache.Remove(assembly);
-                    RemoveAssemblyEvent?.Invoke(assembly);
-                }
-                else if (assembly.Location != "" && assembly.Location != default)
-                {
-                    RemoveReference(assembly.Location);
-                }
+                AssemblyReferencesCache!.Remove(assembly);
+                RemoveAssemblyEvent?.Invoke(assembly);
             }
+            else if (assembly.Location != "" && assembly.Location != default)
+            {
+                RemoveReference(assembly.Location);
+            }
+
         }
         #endregion
 
@@ -226,7 +237,7 @@ namespace Natasha.Framework
         /// <param name="assembly"></param>
         public virtual void AddReferencesFromAssembly(Assembly assembly)
         {
-            if (assembly != default && !assembly.IsDynamic && !string.IsNullOrEmpty(assembly.Location))
+            if (!assembly.IsDynamic && !string.IsNullOrEmpty(assembly.Location))
             {
                 AddReferencesFromDllFile(assembly.Location);
             }
@@ -247,16 +258,7 @@ namespace Natasha.Framework
             }
             else
             {
-                HashSet<string> exclude;
-                if (excludePaths == default)
-                {
-                    exclude = new HashSet<string>();
-                }
-                else
-                {
-                    exclude = new HashSet<string>(excludePaths);
-                }
-
+                HashSet<string> exclude = new HashSet<string>(excludePaths);
                 if (!exclude.Contains(path))
                 {
                     OtherReferencesFromFile[Path.GetFileNameWithoutExtension(path)] = MetadataReference.CreateFromFile(path);
@@ -296,16 +298,7 @@ namespace Natasha.Framework
             }
             else
             {
-                HashSet<string> exclude;
-                if (excludePaths == default)
-                {
-                    exclude = new HashSet<string>();
-                }
-                else
-                {
-                    exclude = new HashSet<string>(excludePaths);
-                }
-
+                HashSet<string> exclude = new HashSet<string>(excludePaths);
                 if (!exclude.Contains(path))
                 {
                     OtherReferencesFromFile[Path.GetFileNameWithoutExtension(path)] = MetadataReference.CreateFromStream(new FileStream(path, FileMode.Open, FileAccess.Read));
@@ -340,7 +333,7 @@ namespace Natasha.Framework
             if (excludePaths.Length == 0)
             {
                 var dllPath = Path.GetDirectoryName(path);
-                string[] dllFiles = Directory.GetFiles(dllPath, "*.dll", subFolder ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
+                string[] dllFiles = Directory.GetFiles(dllPath!, "*.dll", subFolder ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
                 for (int i = 0; i < dllFiles.Length; i++)
                 {
 
@@ -350,19 +343,10 @@ namespace Natasha.Framework
             else
             {
 
-                HashSet<string> exclude;
-                if (excludePaths == default)
-                {
-                    exclude = new HashSet<string>();
-                }
-                else
-                {
-                    exclude = new HashSet<string>(excludePaths);
-                }
-
+                HashSet<string> exclude = new HashSet<string>(excludePaths);
 
                 var dllPath = Path.GetDirectoryName(path);
-                string[] dllFiles = Directory.GetFiles(dllPath, "*.dll", subFolder ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
+                string[] dllFiles = Directory.GetFiles(dllPath!, "*.dll", subFolder ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
                 for (int i = 0; i < dllFiles.Length; i++)
                 {
                     if (!exclude.Contains(dllFiles[i]))
@@ -379,7 +363,7 @@ namespace Natasha.Framework
 
 
 
-        public AssemblyDependencyResolver DependencyResolver;
+        public AssemblyDependencyResolver? DependencyResolver;
 
         /// <summary>
         /// 解析devjson文件添加引用
@@ -403,16 +387,7 @@ namespace Natasha.Framework
             }
             else
             {
-                HashSet<string> exclude;
-                if (excludePaths == default)
-                {
-                    exclude = new HashSet<string>();
-                }
-                else
-                {
-                    exclude = new HashSet<string>(excludePaths);
-                }
-
+                HashSet<string> exclude = new HashSet<string>(excludePaths);
                 DependencyResolver = new AssemblyDependencyResolver(path);
                 var newMapping = GetDictionary(DependencyResolver);
 
@@ -435,7 +410,7 @@ namespace Natasha.Framework
         /// </summary>
         /// <param name="path">外部文件</param>
         /// <returns></returns>
-        public virtual Assembly LoadAssemblyFromFile(string path)
+        public virtual Assembly? LoadAssemblyFromFile(string path)
         {
 
 #if DEBUG
@@ -451,13 +426,9 @@ namespace Natasha.Framework
                 assembly = LoadFromAssemblyPath(path);
             }
 
-
-            if (assembly != null)
+            using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
-                using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
-                {
-                    AddReferencesFromAssemblyStream(assembly, stream);
-                }
+                AddReferencesFromAssemblyStream(assembly, stream);
             }
 
             AddAssemblyEvent?.Invoke(assembly);
@@ -487,14 +458,12 @@ namespace Natasha.Framework
                     assembly = LoadFromStream(stream);
                 }
 
-                if (assembly != null)
-                {
+
 #if DEBUG
-                    Debug.WriteLine($"已加载程序集 {assembly.FullName}!");
+                Debug.WriteLine($"已加载程序集 {assembly.FullName}!");
 #endif
-                    stream.Seek(0, SeekOrigin.Begin);
-                    AddReferencesFromAssemblyStream(assembly, stream);
-                }
+                stream.Seek(0, SeekOrigin.Begin);
+                AddReferencesFromAssemblyStream(assembly, stream);
                 AddAssemblyEvent?.Invoke(assembly);
                 return assembly;
 
@@ -506,10 +475,10 @@ namespace Natasha.Framework
         /// </summary>
         /// <param name="assemblyName">程序集名</param>
         /// <returns></returns>
-        protected override Assembly Load(AssemblyName assemblyName)
+        protected override Assembly? Load(AssemblyName assemblyName)
         {
 
-            string assemblyPath = DependencyResolver.ResolveAssemblyToPath(assemblyName);
+            string? assemblyPath = DependencyResolver!.ResolveAssemblyToPath(assemblyName);
             if (assemblyPath != null)
             {
                 return LoadAssemblyFromStream(assemblyPath);
@@ -527,7 +496,7 @@ namespace Natasha.Framework
         protected override IntPtr LoadUnmanagedDll(string unmanagedDllName)
         {
 
-            string libraryPath = DependencyResolver.ResolveUnmanagedDllToPath(unmanagedDllName);
+            string? libraryPath = DependencyResolver!.ResolveUnmanagedDllToPath(unmanagedDllName);
             if (libraryPath != null)
             {
                 return LoadUnmanagedDllFromPath(libraryPath);

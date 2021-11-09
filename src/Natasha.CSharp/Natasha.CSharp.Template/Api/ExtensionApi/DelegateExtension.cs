@@ -6,9 +6,9 @@ namespace Natasha.CSharp
     public static class DelegateExtension
     {
 
-        public static Delegate Create(this Type instance, string content, params NamespaceConverter[] usings)
+        public static Delegate? Create(this Type instance, string content, params NamespaceConverter[] usings)
         {
-            var method = instance.GetMethod("Invoke");
+            var method = instance.GetMethod("Invoke")!;
             return FakeMethodOperator
                 .DefaultDomain()
                 .UseMethod(method)

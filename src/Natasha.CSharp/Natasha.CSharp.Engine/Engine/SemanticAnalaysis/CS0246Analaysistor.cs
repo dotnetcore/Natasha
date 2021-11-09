@@ -29,8 +29,7 @@ namespace Natasha.CSharp.Engine.SemanticAnalaysis
             string formart = diagnostic.Descriptor.MessageFormat.ToString();
             string text = diagnostic.GetMessage();
 
-
-            if (!_formartRegCache.TryGetValue(formart, out Regex regex))
+            if (!_formartRegCache.TryGetValue(formart, out Regex? regex))
             {
 
                 var deal = RegexHelper.GetRealRegexString(formart).Replace("\\{0\\}", "(?<result0>.*)");

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
 using System.Text;
 
 namespace Natasha.CSharp.Template
@@ -24,13 +23,13 @@ namespace Natasha.CSharp.Template
             return Link;
         }
 
-        public T SetFlag(Type attrType,string script, string flag = default)
+        public T SetFlag(Type attrType,string script, string flag = "")
         {
             SetFlag($"{flag}:{attrType.GetDevelopName()}(\"{script}\")");
             return Link;
         }
 
-        public T SetFlag<S>(string script, string flag = default)
+        public T SetFlag<S>(string script, string flag = "")
         {
             return SetFlag(typeof(S),script,flag);
         }
@@ -50,9 +49,12 @@ namespace Natasha.CSharp.Template
             return SetFlag("assembly:"+script);
         }
 
-        public T AllowPrivate(string assemblyName)
+        public T AllowPrivate(string? assemblyName)
         {
-            SetAssemblyFlag<IgnoresAccessChecksToAttribute>(assemblyName);
+            if (!string.IsNullOrEmpty(assemblyName))
+            {
+                SetAssemblyFlag<IgnoresAccessChecksToAttribute>(assemblyName);
+            }
             return Link;
         }
 
@@ -69,9 +71,13 @@ namespace Natasha.CSharp.Template
         {
             return AllowPrivate(typeof(S));
         }
-        public T AllowPrivate(Type type)
+        public T AllowPrivate(Type? type)
         {
-            return AllowPrivate(type.Assembly);
+            if (type!=null)
+            {
+                return AllowPrivate(type.Assembly);
+            }
+            return Link;
         }
         public T AllowPrivate(MemberInfo info)
         {

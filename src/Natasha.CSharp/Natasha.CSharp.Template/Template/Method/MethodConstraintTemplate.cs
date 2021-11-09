@@ -10,7 +10,7 @@ namespace Natasha.CSharp.Template
         public string ConstraintScript;
         public MethodConstraintTemplate()
         {
-
+            ConstraintScript = string.Empty;
         }
 
         public T Constraint(string constraint)
@@ -30,7 +30,7 @@ namespace Natasha.CSharp.Template
             // [attribute]
             // [access] [modifier] [type] [name]([parameters]) [{this}]
             base.BuilderScript();
-            if (ConstraintScript != default)
+            if (ConstraintScript != string.Empty)
             {
                 _script.Append(' ');
                 _script.Append(ConstraintScript);

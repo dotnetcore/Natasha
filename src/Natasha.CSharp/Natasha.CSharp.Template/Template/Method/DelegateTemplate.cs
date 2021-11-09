@@ -66,7 +66,7 @@ namespace Natasha.CSharp.Template
         }
 
 
-        public override T Param(Type type, string paramName, string keywords = default)
+        public override T Param(Type type, string paramName, string keywords = "")
         {
 
             _parametersRecoder.Add(type);

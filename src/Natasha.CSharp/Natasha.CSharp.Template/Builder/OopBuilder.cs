@@ -21,11 +21,11 @@ namespace Natasha.CSharp.Builder
 
 
 
-    public class OopBuilder<T> : UsingTemplate<T> where T: OopBuilder<T>, new()
+    public class OopBuilder<T> : UsingTemplate<T> where T : OopBuilder<T>, new()
     {
 
         private readonly ConcurrentQueue<IScriptBuilder> _script_cache;
-        public NatashaException Exception;
+        public NatashaException? Exception;
         public OopBuilder()
         {
             _script_cache = new ConcurrentQueue<IScriptBuilder>();
@@ -64,7 +64,7 @@ namespace Natasha.CSharp.Builder
                 this.Class();
 
             }
-            Name(TypeName != default ? TypeName : type.GetDevelopName())
+            Name(TypeName != string.Empty ? TypeName : type.GetDevelopName())
             .InheritanceAppend(type.BaseType)
             .InheritanceAppend(type.GetInterfaces())
             .Namespace(type.Namespace)
@@ -85,17 +85,13 @@ namespace Natasha.CSharp.Builder
 
 
 
-        public virtual T Constraint(Action<ConstraintBuilder> constraintAction = null)
+        public virtual T Constraint(Action<ConstraintBuilder> constraintAction)
         {
 
-            if (constraintAction!=null)
-            {
-                var instance = new ConstraintBuilder();
-                constraintAction.Invoke(instance);
-                return Constraint(instance.GetScript());
+            var instance = new ConstraintBuilder();
+            constraintAction.Invoke(instance);
+            return Constraint(instance.GetScript());
 
-            }
-            return Link;
         }
 
 
@@ -111,7 +107,7 @@ namespace Natasha.CSharp.Builder
 
             var handler = new CtorBuilder();
             handler.Name(NameScript);
-            action?.Invoke(handler);
+            action.Invoke(handler);
             _script_cache.Enqueue(handler);
             return Link;
 
@@ -145,7 +141,7 @@ namespace Natasha.CSharp.Builder
         {
 
             var handler = new MethodBuilder();
-            action?.Invoke(handler);
+            action.Invoke(handler);
             _script_cache.Enqueue(handler);
             return Link;
 
@@ -153,10 +149,7 @@ namespace Natasha.CSharp.Builder
         public virtual T Method(MethodBuilder builder)
         {
 
-            if (builder != default)
-            {
-                _script_cache.Enqueue(builder);
-            }
+            _script_cache.Enqueue(builder);
             return Link;
 
         }
@@ -180,7 +173,7 @@ namespace Natasha.CSharp.Builder
         {
 
             var handler = new FieldBuilder();
-            action?.Invoke(handler);
+            action.Invoke(handler);
             _script_cache.Enqueue(handler);
             return Link;
 
@@ -188,10 +181,8 @@ namespace Natasha.CSharp.Builder
         public virtual T Field(FieldBuilder builder)
         {
 
-            if (builder != default)
-            {
-                _script_cache.Enqueue(builder);
-            }
+
+            _script_cache.Enqueue(builder);
             return Link;
 
         }
@@ -215,7 +206,7 @@ namespace Natasha.CSharp.Builder
         {
 
             var handler = new PropertyBuilder();
-            action?.Invoke(handler);
+            action.Invoke(handler);
             _script_cache.Enqueue(handler);
             return Link;
 
@@ -265,14 +256,14 @@ namespace Natasha.CSharp.Builder
         /// <param name="classIndex">类索引，1开始</param>
         /// <param name="namespaceIndex">命名空间索引，1开始</param>
         /// <returns></returns>
-        public virtual Type GetType(OopType oopType, int namespaceIndex = 1, int classIndex = 1)
+        public virtual Type? GetType(OopType oopType, int namespaceIndex = 1, int classIndex = 1)
         {
 
             Using(AssemblyBuilder.Compiler.Domain.GetReferenceElements());
             Exception = AssemblyBuilder.Add(this);
             if (!Exception.HasError)
             {
-                string name = default;
+                string? name = default;
                 switch (oopType)
                 {
 
@@ -302,19 +293,19 @@ namespace Natasha.CSharp.Builder
                         break;
                 }
 
-                var type = AssemblyBuilder.GetTypeFromShortName(name);
+                var type = AssemblyBuilder.GetTypeFromShortName(name!);
                 if (type == null)
                 {
-                    Exception = AssemblyBuilder.Exceptions[0];
+                    Exception = AssemblyBuilder.Exceptions![0];
                 }
                 return type;
 
             }
             return null;
-            
+
 
         }
-        public virtual Type GetType(int classIndex = 1, int namespaceIndex = 1)
+        public virtual Type? GetType(int classIndex = 1, int namespaceIndex = 1)
         {
 
             Using(AssemblyBuilder.Compiler.Domain.GetReferenceElements());
@@ -324,7 +315,7 @@ namespace Natasha.CSharp.Builder
                 var type = AssemblyBuilder.GetTypeFromShortName(NameScript);
                 if (type == null)
                 {
-                    Exception = AssemblyBuilder.Exceptions[0];
+                    Exception = AssemblyBuilder.Exceptions![0];
                 }
                 return type;
             }
@@ -341,30 +332,41 @@ namespace Natasha.CSharp.Builder
         /// <param name="type"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public T CreateField(string access,string modifier, Type type, string name, string attribute)
+        public T CreateField(string access, string modifier, Type type, string name, string? attribute)
         {
 
-            Field(item => item
-            .Access(access)
-            .Modifier(modifier)
-            .Type(type)
-            .Name(name)
-            .AttributeAppend(attribute)
-            );
+            Field(item =>
+            {
+                item
+ .Access(access)
+ .Modifier(modifier)
+ .Type(type)
+ .Name(name);
+                if (!string.IsNullOrEmpty(attribute))
+                {
+                    item.AttributeAppend(attribute);
+                }
+
+            });
             Using(type);
             return Link;
 
         }
 
-        public T CreateField(string access, Type type, string name, string attribute)
+        public T CreateField(string access, Type type, string name, string? attribute)
         {
 
-            Field(item => item
-            .Access(access)
-            .Type(type)
-            .Name(name)
-            .AttributeAppend(attribute)
-            );
+            Field(item =>
+            {
+                item
+                 .Access(access)
+                 .Type(type)
+                 .Name(name);
+                if (!string.IsNullOrEmpty(attribute))
+                {
+                    item.AttributeAppend(attribute);
+                }
+            });
             Using(type);
             return Link;
 
@@ -372,157 +374,157 @@ namespace Natasha.CSharp.Builder
 
 
 
-        public T PublicReadonlyField<S>(string name, string attribute = default)
+        public T PublicReadonlyField<S>(string name, string? attribute = default)
         {
             return PublicReadonlyField(typeof(S), name, attribute);
         }
-        public T PublicReadonlyField(Type type, string name, string attribute = default)
+        public T PublicReadonlyField(Type type, string name, string? attribute = default)
         {
             return CreateField("public", "readonly", type, name, attribute);
         }
 
-        public T PublicField<S>(string name, string attribute = default)
+        public T PublicField<S>(string name, string? attribute = default)
         {
             return PublicField(typeof(S), name, attribute);
         }
-        public T PublicField(Type type, string name, string attribute = default)
+        public T PublicField(Type type, string name, string? attribute = default)
         {
             return CreateField("public", type, name, attribute);
         }
 
 
-        public T PrivateReadonlyField<S>(string name, string attribute = default)
+        public T PrivateReadonlyField<S>(string name, string? attribute = default)
         {
             return PrivateReadonlyField(typeof(S), name, attribute);
         }
-        public T PrivateReadonlyField(Type type, string name, string attribute = default)
+        public T PrivateReadonlyField(Type type, string name, string? attribute = default)
         {
             return CreateField("private", "readonly", type, name, attribute);
         }
 
-        public T PrivateField<S>(string name, string attribute = default)
+        public T PrivateField<S>(string name, string? attribute = default)
         {
             return PrivateField(typeof(S), name, attribute);
         }
 
-        public T PrivateField(Type type, string name, string attribute = default)
+        public T PrivateField(Type type, string name, string? attribute = default)
         {
             return CreateField("private", type, name, attribute);
         }
 
 
-        public T InternalReadonlyField<S>(string name, string attribute = default)
+        public T InternalReadonlyField<S>(string name, string? attribute = default)
         {
             return InternalReadonlyField(typeof(S), name, attribute);
         }
-        public T InternalReadonlyField(Type type, string name, string attribute = default)
+        public T InternalReadonlyField(Type type, string name, string? attribute = default)
         {
             return CreateField("internal", "readonly", type, name, attribute);
         }
 
-        public T InternalField<S>(string name, string attribute = default)
+        public T InternalField<S>(string name, string? attribute = default)
         {
             return InternalField(typeof(S), name, attribute);
         }
 
-        public T InternalField(Type type, string name, string attribute = default)
+        public T InternalField(Type type, string name, string? attribute = default)
         {
             return CreateField("internal", type, name, attribute);
         }
 
 
-        public T ProtectedReadonlyField<S>(string name, string attribute = default)
+        public T ProtectedReadonlyField<S>(string name, string? attribute = default)
         {
             return ProtectedReadonlyField(typeof(S), name, attribute);
         }
-        public T ProtectedReadonlyField(Type type, string name, string attribute = default)
+        public T ProtectedReadonlyField(Type type, string name, string? attribute = default)
         {
             return CreateField("protected", "readonly", type, name, attribute);
         }
 
-        public T ProtectedField<S>(string name, string attribute = default)
+        public T ProtectedField<S>(string name, string? attribute = default)
         {
             return ProtectedField(typeof(S), name, attribute);
         }
 
-        public T ProtectedField(Type type, string name, string attribute = default)
+        public T ProtectedField(Type type, string name, string? attribute = default)
         {
             return CreateField("protected", type, name, attribute);
         }
 
-        public T PublicStaticReadonlyField<S>(string name, string attribute = default)
+        public T PublicStaticReadonlyField<S>(string name, string? attribute = default)
         {
             return PublicStaticReadonlyField(typeof(S), name, attribute);
         }
 
-        public T PublicStaticReadonlyField(Type type, string name, string attribute = default)
+        public T PublicStaticReadonlyField(Type type, string name, string? attribute = default)
         {
             return CreateField("public", "static readonly", type, name, attribute);
         }
 
-        public T PublicStaticField<S>(string name, string attribute = default)
+        public T PublicStaticField<S>(string name, string? attribute = default)
         {
             return PublicStaticField(typeof(S), name, attribute);
         }
 
-        public T PublicStaticField(Type type, string name, string attribute = default)
+        public T PublicStaticField(Type type, string name, string? attribute = default)
         {
             return CreateField("public", "static", type, name, attribute);
         }
 
-        public T PrivateStaticReadonlyField<S>(string name, string attribute = default)
+        public T PrivateStaticReadonlyField<S>(string name, string? attribute = default)
         {
             return PrivateStaticReadonlyField(typeof(S), name, attribute);
         }
 
-        public T PrivateStaticReadonlyField(Type type, string name, string attribute = default)
+        public T PrivateStaticReadonlyField(Type type, string name, string? attribute = default)
         {
             return CreateField("private", "static readonly", type, name, attribute);
         }
 
-        public T PrivateStaticField<S>(string name, string attribute = default)
+        public T PrivateStaticField<S>(string name, string? attribute = default)
         {
             return PrivateStaticField(typeof(S), name, attribute);
         }
 
-        public T PrivateStaticField(Type type, string name, string attribute = default)
+        public T PrivateStaticField(Type type, string name, string? attribute = default)
         {
             return CreateField("private", "static", type, name, attribute);
         }
 
-        public T InternalStaticReadonlyField<S>(string name, string attribute = default)
+        public T InternalStaticReadonlyField<S>(string name, string? attribute = default)
         {
             return InternalStaticReadonlyField(typeof(S), name, attribute);
         }
 
-        public T InternalStaticReadonlyField(Type type, string name, string attribute = default)
+        public T InternalStaticReadonlyField(Type type, string name, string? attribute = default)
         {
             return CreateField("internal", "static readonly", type, name, attribute);
         }
-        public T InternalStaticField<S>(string name, string attribute = default)
+        public T InternalStaticField<S>(string name, string? attribute = default)
         {
             return InternalStaticField(typeof(S), name, attribute);
         }
 
-        public T InternalStaticField(Type type, string name, string attribute = default)
+        public T InternalStaticField(Type type, string name, string? attribute = default)
         {
             return CreateField("internal", "static", type, name, attribute);
         }
-        public T ProtectedStaticReadonlyField<S>(string name, string attribute = default)
+        public T ProtectedStaticReadonlyField<S>(string name, string? attribute = default)
         {
             return ProtectedStaticReadonlyField(typeof(S), name, attribute);
         }
 
-        public T ProtectedStaticReadonlyField(Type type, string name, string attribute = default)
+        public T ProtectedStaticReadonlyField(Type type, string name, string? attribute = default)
         {
             return CreateField("protected", "static readonly", type, name, attribute);
         }
-        public T ProtectedStaticField<S>(string name, string attribute = default)
+        public T ProtectedStaticField<S>(string name, string? attribute = default)
         {
             return ProtectedStaticField(typeof(S), name, attribute);
         }
 
-        public T ProtectedStaticField(Type type, string name, string attribute = default)
+        public T ProtectedStaticField(Type type, string name, string? attribute = default)
         {
             return CreateField("protected", "static", type, name, attribute);
         }

@@ -7,7 +7,8 @@ namespace Natasha.CSharp.Template
     public class DefinedNameTemplate<T> : DefinedTypeTemplate<T> where T : DefinedNameTemplate<T>, new()
     {
 
-        public string NameScript;
+        public string NameScript = string.Empty;
+
 
         public T UseRandomName()
         {
@@ -55,10 +56,7 @@ namespace Natasha.CSharp.Template
             // [attribute]
             // [access] [modifier] [type] [{this}]{}
             base.BuilderScript();
-            if (NameScript != default)
-            {
-                _script.Append(NameScript);
-            }
+            _script.Append(NameScript);
             return Link;
 
         }

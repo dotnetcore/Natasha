@@ -14,6 +14,7 @@ namespace Natasha.CSharp.Builder
 
         public ConstraintBuilder()
         {
+            _typeName = string.Empty;
             _types = new HashSet<Type>();
             _enums = new HashSet<ConstraintFlags>();
         }

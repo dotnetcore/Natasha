@@ -15,7 +15,7 @@ namespace Natasha.CSharp.Template
         private string _bodyScript;
         public MethodBodyTemplate()
         {
-
+            _bodyScript = string.Empty;
         }
 
 

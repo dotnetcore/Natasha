@@ -9,7 +9,7 @@ namespace Natasha.CSharp.Reverser
     {
 
 
-        public static string GetConstraint(ConstraintFlags type)
+        public static string? GetConstraint(ConstraintFlags type)
         {
             switch (type)
             {
@@ -73,7 +73,7 @@ namespace Natasha.CSharp.Reverser
         {
             return GetVariant(typeof(T));
         }
-        public static string[] GetVariants(Type type)
+        public static string[]? GetVariants(Type type)
         {
 
             if (type.IsGenericType)
@@ -98,14 +98,14 @@ namespace Natasha.CSharp.Reverser
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static string GetConstraints<T>()
+        public static string? GetConstraints<T>()
         {
             return GetConstraints(typeof(T));
         }  
-        public static string GetConstraints(Type type)
+        public static string? GetConstraints(Type type)
         {
 
-            string result = default;
+            string? result = default;
             if (type.IsGenericParameter)
             {
 

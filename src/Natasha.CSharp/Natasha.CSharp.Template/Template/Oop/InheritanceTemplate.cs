@@ -43,7 +43,7 @@ namespace Natasha.CSharp.Template
         /// </summary>
         /// <param name="types">类型</param>
         /// <returns></returns>
-        public T InheritanceAppend(params string[] types)
+        public T InheritanceAppend(params string[]? types)
         {
 
             if (types != null && types.Length > 0)
@@ -66,7 +66,7 @@ namespace Natasha.CSharp.Template
 
 
 
-        public T InheritanceAppend(params Type[] types)
+        public T InheritanceAppend(params Type[]? types)
         {
 
             if (types != null && types.Length > 0)
@@ -98,7 +98,7 @@ namespace Natasha.CSharp.Template
 
 
 
-        public T InheritanceAppend(Type type)
+        public T InheritanceAppend(Type? type)
         {
 
             if (type == null || type == typeof(object))

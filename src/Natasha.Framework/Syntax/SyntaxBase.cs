@@ -15,13 +15,13 @@ namespace Natasha.Framework
         /// <summary>
         /// 引用缓存
         /// </summary>
-        public readonly ConcurrentDictionary<string, HashSet<string>> ReferenceCache;
+        public readonly ConcurrentDictionary<string, HashSet<string>?> ReferenceCache;
 
         public SyntaxBase()
         {
 
             TreeCache = new ConcurrentDictionary<string, SyntaxTree>();
-            ReferenceCache = new ConcurrentDictionary<string, HashSet<string>>();
+            ReferenceCache = new ConcurrentDictionary<string, HashSet<string>?>();
 
         }
 
@@ -57,20 +57,14 @@ namespace Natasha.Framework
         /// <returns></returns>
         public virtual SyntaxTree AddTreeToCache(string script)
         {
-            
-            if (script!=default && script != "")
+
+            SyntaxTree tree = ConvertToTree(script);
+            var key = tree.ToString();
+            if (!TreeCache.ContainsKey(key))
             {
-
-                SyntaxTree tree = ConvertToTree(script);
-                var key = tree.ToString();
-                if (!TreeCache.ContainsKey(key))
-                {
-                    TreeCache[key] = tree;
-                }
-                return tree;
-
+                TreeCache[key] = tree;
             }
-            return null;
+            return tree;
 
         }
 
@@ -96,7 +90,7 @@ namespace Natasha.Framework
         /// <param name="oldCode">旧代码</param>
         /// <param name="newCode">新代码</param>
         /// <param name="sets">新的引用</param>
-        public abstract void Update(string oldCode, string newCode, HashSet<string> sets = default);
+        public abstract void Update(string oldCode, string newCode, HashSet<string>? sets);
 
     }
 

@@ -17,7 +17,7 @@ namespace Natasha.CSharpEngine
 
         public NatashaCSharpSyntax Syntax;
         public NatashaCSharpCompiler Compiler;
-        public List<NatashaException> Exceptions;
+        public List<NatashaException>? Exceptions;
 
 
         public string OutputFolder;
@@ -132,10 +132,11 @@ namespace Natasha.CSharpEngine
         public NatashaCSharpEngine(string assemblyName)
         {
 
+            OutputFolder = string.Empty;
             Syntax = new NatashaCSharpSyntax();
             Compiler = new NatashaCSharpCompiler();
             Compiler.AssemblyName = assemblyName;
-            Compiler.CompileFailedEvent += NatashaEngine_CompileFailedHandler;
+            Compiler.CompileFailedEvent += NatashaEngine_CompileFailedHandler!;
 
         }
 
@@ -146,7 +147,7 @@ namespace Natasha.CSharpEngine
         /// <param name="stream">失败的流</param>
         /// <param name="diagnostics">编译出现的错误</param>
         /// <param name="compilation">编译信息</param>
-        private Assembly NatashaEngine_CompileFailedHandler(Stream stream, ImmutableArray<Diagnostic> diagnostics, CSharpCompilation compilation)
+        private Assembly? NatashaEngine_CompileFailedHandler(Stream stream, ImmutableArray<Diagnostic> diagnostics, CSharpCompilation compilation)
         {
 
             if (CanRetryCompile(diagnostics))
@@ -185,7 +186,7 @@ namespace Natasha.CSharpEngine
         /// <summary>
         /// 对语法树进行编译
         /// </summary>
-        internal virtual Assembly Compile()
+        internal virtual Assembly? Compile()
         {
 
             if (UseShareLibraries)

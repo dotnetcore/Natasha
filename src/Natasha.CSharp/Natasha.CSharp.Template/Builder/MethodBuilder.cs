@@ -25,13 +25,11 @@ namespace Natasha.CSharp.Builder
 
 
         public readonly OopBuilder OopHandler;
-        public NatashaException Exception;
+        public NatashaException? Exception;
 
         public MethodBuilder()
         {
-
             OopHandler = new OopBuilder();
-            Body(default);
             Init();
 
         }
@@ -83,7 +81,7 @@ namespace Natasha.CSharp.Builder
             return Link;
 
         }
-        public T Using(NamespaceConverter[] @using)
+        public T Using(NamespaceConverter[]? @using)
         {
 
             OopHandler.Using(@using);
@@ -145,7 +143,7 @@ namespace Natasha.CSharp.Builder
 
 
 
-        public Delegate Compile(object target = null)
+        public Delegate? Compile(object? target = null)
         {
 
             Using(AssemblyBuilder.Compiler.Domain.GetReferenceElements().ToArray());
@@ -164,7 +162,7 @@ namespace Natasha.CSharp.Builder
                 var @delegate = AssemblyBuilder.GetDelegateFromShortName(OopHandler.NameScript, NameScript, DelegateType, target);
                 if (@delegate == null)
                 {
-                    Exception = AssemblyBuilder.Exceptions[0];
+                    Exception = AssemblyBuilder.Exceptions![0];
                 }
                 return @delegate;
             }
@@ -176,7 +174,7 @@ namespace Natasha.CSharp.Builder
 
 
 
-        public S Compile<S>(object target = null) where S : Delegate
+        public S? Compile<S>(object? target = null) where S : Delegate
         {
 #if DEBUG
             Stopwatch stopwatch = new Stopwatch();
@@ -194,7 +192,7 @@ namespace Natasha.CSharp.Builder
             stopwatch.Restart();
 #endif
             //自动判别是否有手动指定方法参数，若没有则使用方法的参数
-            var method = typeof(S).GetMethod("Invoke");
+            var method = typeof(S).GetMethod("Invoke")!;
             if (ParametersScript.Length == 0)
             {
 
@@ -218,10 +216,10 @@ namespace Natasha.CSharp.Builder
             Exception = AssemblyBuilder.Add(OopHandler);
             if (!Exception.HasError)
             {
-                S @delegate = AssemblyBuilder.GetDelegateFromShortName<S>(OopHandler.NameScript, NameScript, target);
+                S? @delegate = AssemblyBuilder.GetDelegateFromShortName<S>(OopHandler.NameScript, NameScript, target);
                 if (@delegate == null)
                 {
-                    Exception = AssemblyBuilder.Exceptions[0];
+                    Exception = AssemblyBuilder.Exceptions![0];
                 }
                 return @delegate;
             }

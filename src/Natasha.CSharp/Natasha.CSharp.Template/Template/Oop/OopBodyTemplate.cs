@@ -5,14 +5,25 @@ namespace Natasha.CSharp.Template
     public class OopBodyTemplate<T> : OopConstraintTemplate<T> where T : OopBodyTemplate<T>, new()
     {
 
-        public StringBuilder BodyScript;
-        public StringBuilder OnceBodyScript;
+        public readonly StringBuilder BodyScript;
+        public readonly StringBuilder OnceBodyScript;
+        private bool _bracket;
         public OopBodyTemplate()
         {
+            _bracket = true;
             BodyScript = new StringBuilder();
             OnceBodyScript = new StringBuilder();
         }
-
+        public T NoBodyBracket()
+        {
+            _bracket = false;
+            return Link;
+        }
+        public T HasBodyBracket()
+        {
+            _bracket = true;
+            return Link;
+        }
 
         public T BodyAppend(string body)
         {
@@ -68,10 +79,19 @@ namespace Natasha.CSharp.Template
             // [access] [modifier] [name] [:interface] 
             // [{this}]
             base.BuilderScript();
-            _script.AppendLine("{");
-            _script.Append(BodyScript);
-            _script.Append(OnceBodyScript);
-            _script.Append('}');
+            if (_bracket)
+            {
+                _script.AppendLine("{");
+                _script.Append(BodyScript);
+                _script.Append(OnceBodyScript);
+                _script.Append('}');
+            }
+            else
+            {
+                _script.Append(BodyScript);
+                _script.Append(OnceBodyScript);
+            }
+           
             OnceBodyScript.Clear();
             return Link;
         }

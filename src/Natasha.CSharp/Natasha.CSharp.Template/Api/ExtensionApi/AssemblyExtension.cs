@@ -12,7 +12,7 @@ namespace Natasha.CSharp
         /// </summary>
         /// <param name="name">程序集名字</param>
         /// <returns></returns>
-        public static NAssembly CreateAssembly(this DomainBase domain, string name = default)
+        public static NAssembly CreateAssembly(this DomainBase domain, string name)
         {
 
             NAssembly result = new NAssembly(name);
@@ -20,7 +20,14 @@ namespace Natasha.CSharp
             return result;
 
         }
+        public static NAssembly CreateAssembly(this DomainBase domain)
+        {
 
+            NAssembly result = new NAssembly();
+            result.AssemblyBuilder.Compiler.Domain = domain;
+            return result;
+
+        }
 
 
 
@@ -30,9 +37,9 @@ namespace Natasha.CSharp
             var assemblyDomain = AssemblyLoadContext.GetLoadContext(assembly);
             if (assemblyDomain == AssemblyLoadContext.Default)
             {
-                return DomainManagement.Default;
+                return DomainBase.DefaultDomain!;
             }
-            return (DomainBase)assemblyDomain;
+            return (DomainBase)assemblyDomain!;
 
         }
 

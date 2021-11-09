@@ -6,7 +6,7 @@ namespace Natasha.CSharp.Template
     public class NamespaceTemplate<T> : NamespaceBodyTemplate<T> where T : NamespaceTemplate<T>, new()
     {
 
-        public string NamespaceScript;
+        public string? NamespaceScript;
         private bool _hiddenNamesapce;
 
 
@@ -37,7 +37,7 @@ namespace Natasha.CSharp.Template
         /// </summary>
         /// <param name="namespace">命名空间</param>
         /// <returns></returns>
-        public T Namespace(string @namespace)
+        public T Namespace(string? @namespace)
         {
 
             NamespaceScript = @namespace;
@@ -80,7 +80,7 @@ namespace Natasha.CSharp.Template
             // }
             // [{this}]
             base.BuilderScript();
-            if (!_hiddenNamesapce)
+            if (!_hiddenNamesapce && !string.IsNullOrEmpty(NamespaceScript))
             {
                 _script.Insert(0,$"namespace {NamespaceScript}{{");
                 _script.Append('}');

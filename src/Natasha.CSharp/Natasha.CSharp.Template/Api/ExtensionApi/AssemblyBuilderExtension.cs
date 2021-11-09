@@ -16,10 +16,10 @@ namespace Natasha.CSharp
     public static class AssemblyBuilderExtension
     {
 
-        public static Type GetTypeFromFullName(this AssemblyCSharpBuilder builder, string typeName)
+        public static Type? GetTypeFromFullName(this AssemblyCSharpBuilder builder, string typeName)
         {
 
-            Assembly assembly = builder.GetAssembly();
+            Assembly? assembly = builder.GetAssembly();
             if (assembly == null)
             {
 
@@ -33,7 +33,7 @@ namespace Natasha.CSharp
             {
 
                 NatashaException exception = new NatashaException($"无法在程序集 {builder.Compiler.AssemblyName} 中找到该类型 {typeName}！");
-                if (builder.Exceptions.Count == 0)
+                if (builder.Exceptions!.Count == 0)
                 {
                     exception.ErrorFlag = ExceptionKind.Type;
                 }
@@ -47,10 +47,10 @@ namespace Natasha.CSharp
             return type;
 
         }
-        public static Type GetTypeFromShortName(this AssemblyCSharpBuilder builder, string typeName)
+        public static Type? GetTypeFromShortName(this AssemblyCSharpBuilder builder, string typeName)
         {
 
-            Assembly assembly = builder.GetAssembly();
+            Assembly? assembly = builder.GetAssembly();
             if (assembly == null)
             {
 
@@ -64,7 +64,7 @@ namespace Natasha.CSharp
             {
 
                 NatashaException exception = new NatashaException($"无法在程序集 {builder.Compiler.AssemblyName} 中找到该类型 {typeName}！");
-                if (builder.Exceptions.Count == 0)
+                if (builder.Exceptions!.Count == 0)
                 {
                     exception.ErrorFlag = ExceptionKind.Type;
                 }
@@ -82,7 +82,7 @@ namespace Natasha.CSharp
         
         
         
-        public static MethodInfo GetMethodFromFullName(this AssemblyCSharpBuilder builder, string typeName, string methodName)
+        public static MethodInfo? GetMethodFromFullName(this AssemblyCSharpBuilder builder, string typeName, string methodName)
         {
 
             var type = builder.GetTypeFromFullName(typeName);
@@ -97,7 +97,7 @@ namespace Natasha.CSharp
             {
 
                 NatashaException exception = new NatashaException($"无法在类型 {typeName} 中找到该方法 {methodName}！");
-                if (builder.Exceptions.Count == 0)
+                if (builder.Exceptions!.Count == 0)
                 {
                     exception.ErrorFlag = ExceptionKind.Method;
                 }
@@ -111,7 +111,7 @@ namespace Natasha.CSharp
             return info;
 
         }
-        public static MethodInfo GetMethodFromShortName(this AssemblyCSharpBuilder builder, string typeName, string methodName)
+        public static MethodInfo? GetMethodFromShortName(this AssemblyCSharpBuilder builder, string typeName, string methodName)
         {
 
             var type = builder.GetTypeFromShortName(typeName);
@@ -126,7 +126,7 @@ namespace Natasha.CSharp
             {
 
                 NatashaException exception = new NatashaException($"无法在类型 {typeName} 中找到该方法 {methodName}！");
-                if (builder.Exceptions.Count == 0)
+                if (builder.Exceptions!.Count == 0)
                 {
                     exception.ErrorFlag = ExceptionKind.Method;
                 }
@@ -144,7 +144,7 @@ namespace Natasha.CSharp
         
         
         
-        public static Delegate GetDelegateFromFullName(this AssemblyCSharpBuilder builder, string typeName, string methodName, Type delegateType, object target = null)
+        public static Delegate? GetDelegateFromFullName(this AssemblyCSharpBuilder builder, string typeName, string methodName, Type delegateType, object? target = null)
         {
 
             var info = builder.GetMethodFromFullName(typeName, methodName);
@@ -163,8 +163,8 @@ namespace Natasha.CSharp
             catch (Exception ex)
             {
 
-                NatashaException exception = new NatashaException($"在类型 {typeName} 中找到的方法 {methodName} 向 {delegateType.FullName} 转换时出错！");
-                if (builder.Exceptions.Count == 0)
+                NatashaException exception = new NatashaException($"在类型 {typeName} 中找到的方法 {methodName} 向 {delegateType.FullName} 转换时出错！错误信息:{ex.Message}");
+                if (builder.Exceptions!.Count == 0)
                 {
                     exception.ErrorFlag = ExceptionKind.Delegate;
                 }
@@ -178,11 +178,11 @@ namespace Natasha.CSharp
             return null;
 
         }
-        public static T GetDelegateFromFullName<T>(this AssemblyCSharpBuilder builder, string typeName, string methodName, object target = null) where T : Delegate
+        public static T? GetDelegateFromFullName<T>(this AssemblyCSharpBuilder builder, string typeName, string methodName, object? target = null) where T : Delegate
         {
-            return (T)GetDelegateFromFullName(builder,typeName, methodName, typeof(T), target);
+            return (T?)GetDelegateFromFullName(builder,typeName, methodName, typeof(T), target);
         }
-        public static Delegate GetDelegateFromShortName(this AssemblyCSharpBuilder builder, string typeName, string methodName, Type delegateType, object target = null)
+        public static Delegate? GetDelegateFromShortName(this AssemblyCSharpBuilder builder, string typeName, string methodName, Type delegateType, object? target = null)
         {
 
             var info = builder.GetMethodFromShortName(typeName, methodName);
@@ -201,8 +201,8 @@ namespace Natasha.CSharp
             catch (Exception ex)
             {
 
-                NatashaException exception = new NatashaException($"在类型 {typeName} 中找到的方法 {methodName} 向 {delegateType.FullName} 转换时出错！");
-                if (builder.Exceptions.Count == 0)
+                NatashaException exception = new NatashaException($"在类型 {typeName} 中找到的方法 {methodName} 向 {delegateType.FullName} 转换时出错！错误信息:{ex.Message}");
+                if (builder.Exceptions!.Count == 0)
                 {
                     exception.ErrorFlag = ExceptionKind.Delegate;
                 }
@@ -216,9 +216,9 @@ namespace Natasha.CSharp
             return null;
 
         }
-        public static T GetDelegateFromShortName<T>(this AssemblyCSharpBuilder builder, string typeName, string methodName, object target = null) where T : Delegate
+        public static T? GetDelegateFromShortName<T>(this AssemblyCSharpBuilder builder, string typeName, string methodName, object? target = null) where T : Delegate
         {
-            return (T)GetDelegateFromShortName(builder, typeName, methodName, typeof(T), target);
+            return (T?)GetDelegateFromShortName(builder, typeName, methodName, typeof(T), target);
         }
 
 
@@ -313,7 +313,7 @@ namespace Natasha.CSharp
         }
 
 
-        public static AssemblyCSharpBuilder UseFileCompile(this AssemblyCSharpBuilder builder, string folder = default)
+        public static AssemblyCSharpBuilder UseFileCompile(this AssemblyCSharpBuilder builder, string? folder = default)
         {
 
             if (folder != default)

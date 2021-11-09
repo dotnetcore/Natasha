@@ -27,7 +27,7 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
     static AssemblyCSharpBuilder()
     {
 
-        GlobalOutputFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "DynamicLibraryFolders");
+        GlobalOutputFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory!, "DynamicLibraryFolders");
         if (!Directory.Exists(GlobalOutputFolder))
         {
             Directory.CreateDirectory(GlobalOutputFolder);
@@ -58,7 +58,7 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
     /// <param name="action"></param>
     public void CompilerOption(Action<NatashaCSharpCompiler> action)
     {
-        action?.Invoke(Compiler);
+        action.Invoke(Compiler);
     }
 
 
@@ -68,7 +68,7 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
     /// <param name="action"></param>
     public void SyntaxOptions(Action<SyntaxBase> action)
     {
-        action?.Invoke(Syntax);
+        action.Invoke(Syntax);
     }
 
 
@@ -78,7 +78,7 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
     /// <param name="script">代码脚本</param>
     /// <param name="usings">using 引用</param>
     /// <returns></returns>
-    public NatashaException Add(string script, HashSet<string> usings = default)
+    public NatashaException Add(string script, HashSet<string>? usings = default)
     {
 
 #if DEBUG
@@ -99,7 +99,7 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
         if (!exception.HasError || SyntaxErrorBehavior == ExceptionBehavior.Ignore)
         {
             Syntax.AddTreeToCache(tree);
-            Syntax.ReferenceCache[exception.Formatter] = usings;
+            Syntax.ReferenceCache[exception.Formatter!] = usings;
         }
         else
         {
@@ -120,7 +120,7 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
     /// <param name="node">语法树节点</param>
     /// <param name="sets"></param>
     /// <returns></returns>
-    public NatashaException Add(SyntaxTree node, HashSet<string> sets = default)
+    public NatashaException Add(SyntaxTree node, HashSet<string>? sets = default)
     {
 
         return Add(node.ToString(), sets);
@@ -192,14 +192,8 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
     /// 获取程序集
     /// </summary>
     /// <returns></returns>
-    public Assembly GetAssembly()
+    public Assembly? GetAssembly()
     {
-
-        if (Compiler.AssemblyName == default)
-        {
-            Compiler.AssemblyName = Guid.NewGuid().ToString("N");
-        }
-
 
         //如果是文件编译，则初始化路径
         if (Compiler.AssemblyOutputKind == AssemblyBuildKind.File)
@@ -207,16 +201,16 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
 
             if (OutputFolder == GlobalOutputFolder)
             {
-                OutputFolder = Path.Combine(GlobalOutputFolder, Compiler.Domain.Name);
+                OutputFolder = Path.Combine(GlobalOutputFolder, Compiler.Domain.Name!);
             }
             if (!Directory.Exists(OutputFolder))
             {
                 Directory.CreateDirectory(OutputFolder);
             }
-            if (Compiler.OutputFilePath == default)
+            if (Compiler.OutputFilePath == string.Empty)
             {
-                Compiler.OutputFilePath = Path.Combine(OutputFolder, Compiler.AssemblyName + ".dll");
-                Compiler.OutputPdbPath = Path.Combine(OutputFolder, Compiler.AssemblyName + ".pdb");
+                Compiler.OutputFilePath = Path.Combine(OutputFolder, $"{Compiler.AssemblyName}.dll");
+                Compiler.OutputPdbPath = Path.Combine(OutputFolder, $"{Compiler.AssemblyName}.pdb");
             }
 
         }
@@ -230,10 +224,10 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
             {
 
                 case ExceptionBehavior.Log | ExceptionBehavior.Throw:
-                    LogOperator.ErrorRecoder(Compiler.Compilation, Exceptions);
+                    LogOperator.ErrorRecoder(Compiler.Compilation!, Exceptions);
                     throw Exceptions[0];
                 case ExceptionBehavior.Log:
-                    LogOperator.ErrorRecoder(Compiler.Compilation, Exceptions);
+                    LogOperator.ErrorRecoder(Compiler.Compilation!, Exceptions);
                     break;
                 case ExceptionBehavior.Throw:
                     throw Exceptions[0];
@@ -246,7 +240,7 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
         else if(NeedSucceedLog)
         {
 
-            LogOperator.SucceedRecoder(Compiler.Compilation);
+            LogOperator.SucceedRecoder(Compiler.Compilation!);
             
         }
         return assembly;

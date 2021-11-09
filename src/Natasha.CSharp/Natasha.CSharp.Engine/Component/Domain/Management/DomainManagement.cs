@@ -11,12 +11,12 @@ using static System.Runtime.Loader.AssemblyLoadContext;
 public class DomainManagement
 {
 
-    public static DomainBase Default;
     public static readonly ConcurrentDictionary<string, WeakReference> Cache;
     public static Func<string, DomainBase> CreateDomain;
 
     static DomainManagement()
     {
+        CreateDomain = (name) => { throw new NotImplementedException("创建域的方法还未实现"); };
         Cache = new ConcurrentDictionary<string, WeakReference>();
     }
 
@@ -31,15 +31,11 @@ public class DomainManagement
     {
         if (Cache.ContainsKey(key))
         {
-            return (DomainBase)(Cache[key].Target);
+            return (DomainBase)(Cache[key].Target!);
         }
         else
         {
             Clear();
-            if (CreateDomain == null)
-            {
-                throw new NotImplementedException("请检查组件是否被注册! 如果使用 Natasha.CSharp.All 请在初始化使用: NatashaInitializer.InitializeAndPreheating 方法进行初始化.");
-            }
             var domain = CreateDomain(key);
             Add(key, domain);
             return domain;
@@ -53,7 +49,7 @@ public class DomainManagement
         {
             if (!item.Value.IsAlive)
             {
-                Cache.Remove(item.Key);
+                Cache!.Remove(item.Key);
             }
         }
     }
@@ -64,7 +60,7 @@ public class DomainManagement
         {
             if (Cache.ContainsKey(key))
             {
-                return ((DomainBase)(Cache[key].Target)).EnterContextualReflection();
+                return ((DomainBase)(Cache[key].Target)!).EnterContextualReflection();
             }
             return Default.EnterContextualReflection();
         }
@@ -81,7 +77,7 @@ public class DomainManagement
             get
             {
                 return CurrentContextualReflectionContext==default?
-                    (DomainBase)Default :
+                    DomainBase.DefaultDomain :
                     (DomainBase)CurrentContextualReflectionContext;
             }
         }
@@ -108,12 +104,12 @@ public class DomainManagement
     {
         if (Cache.ContainsKey(key))
         {
-            var result = Cache.Remove(key);
+            var result = Cache!.Remove(key);
             if (result != default)
             {
-                ((DomainBase)(result.Target)).Dispose();
+                ((DomainBase)(result.Target!)).Dispose();
             }
-            return result;
+            return result!;
         }
 
         throw new System.Exception($"Can't find key : {key}!");
@@ -130,11 +126,11 @@ public class DomainManagement
     }
 
 
-    public static DomainBase Get(string key)
+    public static DomainBase? Get(string key)
     {
         if (Cache.ContainsKey(key))
         {
-            return (DomainBase)Cache[key].Target;
+            return (DomainBase)Cache[key].Target!;
         }
         return null;
     }
@@ -142,6 +138,6 @@ public class DomainManagement
 
     public static int Count(string key)
     {
-        return ((DomainBase)(Cache[key].Target)).Count;
+        return ((DomainBase)(Cache[key].Target!)).Count;
     }
 }

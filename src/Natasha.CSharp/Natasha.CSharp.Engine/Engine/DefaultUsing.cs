@@ -35,7 +35,7 @@ namespace Natasha
                         foreach (var item in types)
                         {
 
-                            if (!DefaultNamesapce.Contains(item.Namespace) && item.Namespace != default)
+                            if (!string.IsNullOrEmpty(item.Namespace) && !DefaultNamesapce.Contains(item.Namespace))
                             {
                                 DefaultNamesapce.Add(item.Namespace);
                             }
@@ -52,11 +52,11 @@ namespace Natasha
 
             }
 
-            var entryTypes = Assembly.GetEntryAssembly().GetTypes();
+            var entryTypes = Assembly.GetEntryAssembly()!.GetTypes();
             foreach (var item in entryTypes)
             {
 
-                if (!DefaultNamesapce.Contains(item.Namespace) && item.Namespace != default)
+                if (!string.IsNullOrEmpty(item.Namespace) && !DefaultNamesapce.Contains(item.Namespace))
                 {
                     DefaultNamesapce.Add(item.Namespace);
                 }

@@ -114,7 +114,12 @@ namespace Natasha.CSharp.Engine.SemanticAnalaysis
                             {
                                 lock (_lock)
                                 {
-                                    removeCache.UnionWith(CS0234Analaysistor.Handler(root, item));
+                                    var handlerResults = CS0234Analaysistor.Handler(root, item);
+                                    if (handlerResults!=null)
+                                    {
+                                        removeCache.UnionWith(handlerResults);
+                                    }
+                                    
                                 }
                             }
                         }));

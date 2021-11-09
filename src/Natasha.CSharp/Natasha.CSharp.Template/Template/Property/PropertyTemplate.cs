@@ -5,13 +5,13 @@ namespace Natasha.CSharp.Template
 
     public class PropertyTemplate<T> : DefinedNameTemplate<T> where T : PropertyTemplate<T>, new()
     {
-        internal string _getter_body;
-        internal string _setter_body;
-        internal StringBuilder _getter;
-        internal StringBuilder _setter;
+        internal string? _getter_body;
+        internal string? _setter_body;
+        internal readonly StringBuilder _getter;
+        internal readonly StringBuilder _setter;
         private bool _onlyGetter;
         private bool _onlySetter;
-        private string _setterWordkey;
+        private string? _setterWordkey;
         
 
         public PropertyTemplate()
@@ -23,7 +23,7 @@ namespace Natasha.CSharp.Template
 
 
 
-        public T InitSetter(string body = default)
+        public T InitSetter(string? body = default)
         {
             _setterWordkey = "init";
             return Setter(body);
@@ -33,13 +33,13 @@ namespace Natasha.CSharp.Template
         /// </summary>
         /// <param name="body">属性Set内容</param>
         /// <returns></returns>
-        public T Setter(string body = default)
+        public T Setter(string? body = default)
         {
             _setter_body = body;
             return Link;
 
         }
-        public T OnlySetter(string body = default)
+        public T OnlySetter(string? body = default)
         {
             _onlySetter = true;
             return Setter(body);
@@ -49,14 +49,14 @@ namespace Natasha.CSharp.Template
         /// </summary>
         /// <param name="body">属性Set内容</param>
         /// <returns></returns>
-        public T Getter(string body = default)
+        public T Getter(string? body = default)
         {
 
             _getter_body = body;
             return Link;
 
         }
-        public T OnlyGetter(string body = default)
+        public T OnlyGetter(string? body = default)
         {
             _onlyGetter = true;
             return Getter(body);
@@ -77,7 +77,7 @@ namespace Natasha.CSharp.Template
             if (!_onlySetter)
             {
 
-                if (_getter_body == default)
+                if (string.IsNullOrEmpty(_getter_body))
                 {
 
                     _getter.AppendLine("get;");
@@ -98,7 +98,7 @@ namespace Natasha.CSharp.Template
             if (!_onlyGetter)
             {
 
-                if (_setter_body == default)
+                if (string.IsNullOrEmpty(_setter_body))
                 {
 
                     _setter.AppendLine($"{_setterWordkey};");

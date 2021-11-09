@@ -20,6 +20,7 @@
     <AssemblyVersion>3.6.0.0</AssemblyVersion>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>natasha.snk</AssemblyOriginatorKeyFile>
+	  <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

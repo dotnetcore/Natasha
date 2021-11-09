@@ -9,7 +9,10 @@ namespace Natasha.CSharp.Template
 
         public string AccessScript;
 
-
+        public AccessTemplate()
+        {
+            AccessScript = string.Empty;
+        }
 
 
         /// <summary>
@@ -19,7 +22,7 @@ namespace Natasha.CSharp.Template
         public T NoUseAccess()
         {
 
-            AccessScript = default;
+            AccessScript = string.Empty;
             return Link;
 
         }
@@ -130,7 +133,7 @@ namespace Natasha.CSharp.Template
             // [attribute]
             // [{this}]
             base.BuilderScript();
-            if (AccessScript!=default)
+            if (AccessScript!=string.Empty)
             {
                 _script.Append(AccessScript);
             }

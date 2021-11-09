@@ -8,8 +8,8 @@ namespace Natasha.Log.Model
     public abstract class ALogWrite
     {
 
-        public string FormartCode;
-        public StringBuilder Buffer;
+        public string? FormartCode;
+        public readonly StringBuilder Buffer;
         public abstract void  Write();
 
 

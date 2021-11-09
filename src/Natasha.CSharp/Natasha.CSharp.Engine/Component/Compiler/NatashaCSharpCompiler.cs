@@ -17,7 +17,7 @@ public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompi
     /// 被禁断的错误代码
     /// </summary>
     private readonly static ConcurrentDictionary<string, ReportDiagnostic> _globalSuppressDiagnostics;
-    private static Func<CSharpCompilation, CSharpCompilation> _globalSemanticHandler;
+    private static Func<CSharpCompilation, CSharpCompilation>? _globalSemanticHandler;
     public static void AddGlobalSupperess(string errorcode)
     {
         _globalSuppressDiagnostics[errorcode] = ReportDiagnostic.Suppress;
@@ -33,7 +33,7 @@ public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompi
     public ConcurrentDictionary<string, ReportDiagnostic> SuppressDiagnostics;
     public static readonly Action<CSharpCompilationOptions, uint> SetTopLevelBinderFlagDelegate;
     public static readonly Action<CSharpCompilationOptions, bool> SetReferencesSupersedeLowerVersionsDelegate;
-    private CSharpCompilation _compilation;
+    private CSharpCompilation? _compilation;
 
     static NatashaCSharpCompiler()
     {
@@ -63,13 +63,13 @@ public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompi
 
         SetTopLevelBinderFlagDelegate = (Action<CSharpCompilationOptions, uint>)Delegate.CreateDelegate(
             typeof(Action<CSharpCompilationOptions, uint>), typeof(CSharpCompilationOptions)
-            .GetProperty("TopLevelBinderFlags", BindingFlags.Instance | BindingFlags.NonPublic)
-            .SetMethod);
+            .GetProperty("TopLevelBinderFlags", BindingFlags.Instance | BindingFlags.NonPublic)!
+            .SetMethod!);
 
         SetReferencesSupersedeLowerVersionsDelegate = (Action<CompilationOptions, bool>)Delegate.CreateDelegate(
             typeof(Action<CompilationOptions, bool>), typeof(CompilationOptions)
-            .GetProperty("ReferencesSupersedeLowerVersions", BindingFlags.Instance | BindingFlags.NonPublic)
-            .SetMethod);
+            .GetProperty("ReferencesSupersedeLowerVersions", BindingFlags.Instance | BindingFlags.NonPublic)!
+            .SetMethod!);
 
     }
 
@@ -84,7 +84,7 @@ public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompi
         AssemblyOutputKind = AssemblyBuildKind.Stream;
         SuppressDiagnostics = _globalSuppressDiagnostics;
         ProcessorPlatform = Platform.AnyCpu;
-        SetSemanticAnalysistor(_globalSemanticHandler);
+        SetSemanticAnalysistor(_globalSemanticHandler!);
         //SuppressDiagnostics = new ConcurrentDictionary<string, ReportDiagnostic>();
 
     }

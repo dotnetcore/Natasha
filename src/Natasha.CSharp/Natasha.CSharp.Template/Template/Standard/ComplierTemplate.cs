@@ -6,10 +6,10 @@ namespace Natasha.CSharp.Template
 {
     public class CompilerTemplate<T> : ALinkTemplate<T> where T : CompilerTemplate<T>, new()
     {
-
         //使用默认编译器
         public AssemblyCSharpBuilder AssemblyBuilder;
-        public Action<AssemblyCSharpBuilder> OptionAction;
+        public Action<AssemblyCSharpBuilder>? OptionAction;
+
         public CompilerTemplate()
         {
 
@@ -31,7 +31,7 @@ namespace Natasha.CSharp.Template
         {
             if (compilerFunc!=null)
             {
-                AssemblyBuilder.Compiler.Compilation = compilerFunc(AssemblyBuilder.Compiler.Compilation);
+                AssemblyBuilder.Compiler.Compilation = compilerFunc(AssemblyBuilder.Compiler.Compilation!);
             }
             return Link;
         }
@@ -58,10 +58,7 @@ namespace Natasha.CSharp.Template
         public T AssemblyName(string name)
         {
 
-            if (name != default)
-            {
-                AssemblyBuilder.Compiler.AssemblyName = name;
-            }
+            AssemblyBuilder.Compiler.AssemblyName = name;
             return Link;
 
         }
@@ -69,7 +66,7 @@ namespace Natasha.CSharp.Template
 
 
         #region 指定编译器的域进行创建
-        public static T UseCompiler(AssemblyCSharpBuilder builder, Action<AssemblyCSharpBuilder> option = default)
+        public static T UseCompiler(AssemblyCSharpBuilder builder, Action<AssemblyCSharpBuilder>? option = default)
         {
 
             return UseDomain(builder.Compiler.Domain, option);
@@ -77,12 +74,12 @@ namespace Natasha.CSharp.Template
         }
         #endregion
         #region 指定字符串域创建以及参数
-        public static T CreateDomain(string domainName, Action<AssemblyCSharpBuilder> option = default)
+        public static T CreateDomain(string domainName, Action<AssemblyCSharpBuilder>? option = default)
         {
 
-            if (domainName == default || domainName.ToLower() == "default")
+            if (domainName.ToLower() == "default")
             {
-                return UseDomain(DomainManagement.Default, option);
+                return UseDomain(DomainBase.DefaultDomain, option);
             }
             else
             {
@@ -92,7 +89,7 @@ namespace Natasha.CSharp.Template
         }
         #endregion
         #region 指定域创建以及参数
-        public static T UseDomain(DomainBase domain, Action<AssemblyCSharpBuilder> option = default)
+        public static T UseDomain(DomainBase domain, Action<AssemblyCSharpBuilder>? option = default)
         {
 
             T instance = new T();
@@ -104,17 +101,17 @@ namespace Natasha.CSharp.Template
         }
         #endregion
         #region  Default 默认域创建以及参数
-        public static T DefaultDomain(Action<AssemblyCSharpBuilder> option = default)
+        public static T DefaultDomain(Action<AssemblyCSharpBuilder>? option = default)
         {
 
-            return UseDomain(DomainManagement.Default, option);
+            return UseDomain(DomainBase.DefaultDomain, option);
 
         }
 
 
         #endregion
         #region 随机域创建以及参数
-        public static T RandomDomain(Action<AssemblyCSharpBuilder> option = default)
+        public static T RandomDomain(Action<AssemblyCSharpBuilder>? option = default)
         {
 
             return UseDomain(DomainManagement.Random, option);

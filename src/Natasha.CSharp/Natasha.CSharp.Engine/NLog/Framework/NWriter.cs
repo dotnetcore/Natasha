@@ -20,7 +20,7 @@ namespace Natasha.Log
             set
             {
                 string suffix = "-"+typeof(T).Name + ".log";
-                _logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"NatashaLogs");
+                _logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory!,"Natasha","Logs");
                 if (!Directory.Exists(_logPath))
                 {
 
@@ -31,8 +31,8 @@ namespace Natasha.Log
                 if (value == 1)
                 {
 
-                    _log_name = () => DateTime.Now.ToString("yyyy-MM-dd")+ suffix;
-                    _log_folder = () => default;
+                    _log_name = () => DateTime.Now.ToString("yyyy-MM-dd") + suffix;
+                    _log_folder = () => string.Empty;
 
                 }
 
@@ -87,7 +87,9 @@ namespace Natasha.Log
 
             FolderDeepth = 3;   //日志定位到 ‘月/日’文件夹
             _lock = new object();
-
+            _logPath = string.Empty;
+            _log_folder = () => string.Empty;
+            _log_name = () => string.Empty;
         }
 
 
@@ -105,13 +107,9 @@ namespace Natasha.Log
 
             lock (_lock)
             {
-                var filePath = Path.Combine(_log_folder(), _log_name());
-                using (StreamWriter LogWriter = new StreamWriter(filePath, true, Encoding.UTF8))
-                {
-
-                    LogWriter.WriteLine(buffer);
-
-                }
+                var filePath = Path.Combine(_log_folder?.Invoke()!, _log_name?.Invoke()!);
+                using StreamWriter LogWriter = new StreamWriter(filePath, true, Encoding.UTF8);
+                LogWriter.WriteLine(buffer);
 
             }
 

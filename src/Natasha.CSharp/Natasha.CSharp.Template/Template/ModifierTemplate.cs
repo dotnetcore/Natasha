@@ -19,6 +19,7 @@ namespace Natasha.CSharp.Template
 
         public ModifierTemplate()
         {
+            _modifierScript = string.Empty;
             _status = new HashSet<ModifierFlags>();
         }
 

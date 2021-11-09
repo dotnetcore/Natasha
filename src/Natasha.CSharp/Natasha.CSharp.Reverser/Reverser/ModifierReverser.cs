@@ -49,7 +49,7 @@ namespace Natasha.CSharp.Reverser
         /// </summary>
         /// <param name="reflectMethodInfo">方法反射信息</param>
         /// <returns></returns>
-        public static string GetCanOverrideModifier(MethodInfo reflectMethodInfo)
+        public static string? GetCanOverrideModifier(MethodInfo reflectMethodInfo)
         {
 
             //如果没有被重写
@@ -57,7 +57,7 @@ namespace Natasha.CSharp.Reverser
             {
 
                 string result = AsyncReverser.GetAsync(reflectMethodInfo);
-                if (reflectMethodInfo.DeclaringType.IsInterface)
+                if (reflectMethodInfo.DeclaringType!.IsInterface)
                 {
                     return result;
                 }
@@ -94,7 +94,7 @@ namespace Natasha.CSharp.Reverser
 
                 return "static " + result;
 
-            }else if (!reflectMethodInfo.DeclaringType.IsInterface)
+            }else if (!reflectMethodInfo.DeclaringType!.IsInterface)
             {
 
                 //如果没有被重写

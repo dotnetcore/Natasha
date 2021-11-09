@@ -10,18 +10,18 @@ namespace Natasha.CSharp
     public static class DelegateOperator<T> where T : Delegate
     {
 
-        public static T Delegate(string content,
+        public static T? Delegate(string content,
             AssemblyCSharpBuilder builder, 
-            Action<AssemblyCSharpBuilder> option = default, 
-            Func<FakeMethodOperator, FakeMethodOperator> methodAction = null, 
-            Func<OopBuilder,OopBuilder> oopAction = null, 
-            params NamespaceConverter[] usings)
+            Action<AssemblyCSharpBuilder>? option = default, 
+            Func<FakeMethodOperator, FakeMethodOperator>? methodAction = null, 
+            Func<OopBuilder,OopBuilder>? oopAction = null, 
+            params NamespaceConverter[]? usings)
         {
 #if DEBUG
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 #endif
-            var method = typeof(T).GetMethod("Invoke");
+            var method = typeof(T).GetMethod("Invoke")!;
             var @operator = FakeMethodOperator.UseDomain(builder.Compiler.Domain, option);
             @operator.AssemblyBuilder = builder;
             @operator
@@ -40,15 +40,15 @@ namespace Natasha.CSharp
 
 
 
-        public static T AsyncDelegate(string content,
+        public static T? AsyncDelegate(string content,
            AssemblyCSharpBuilder builder,
-            Action<AssemblyCSharpBuilder> option = default, 
-            Func<FakeMethodOperator, FakeMethodOperator> methodAction = null,
-            Func<OopBuilder, OopBuilder> oopAction = null,
-            params NamespaceConverter[] usings)
+            Action<AssemblyCSharpBuilder>? option = default, 
+            Func<FakeMethodOperator, FakeMethodOperator>? methodAction = null,
+            Func<OopBuilder, OopBuilder>? oopAction = null,
+            params NamespaceConverter[]? usings)
         {
 
-            var method = typeof(T).GetMethod("Invoke");
+            var method = typeof(T).GetMethod("Invoke")!;
             var @operator = FakeMethodOperator.UseDomain(builder.Compiler.Domain, option);
             @operator.AssemblyBuilder = builder;
             @operator
@@ -65,15 +65,15 @@ namespace Natasha.CSharp
 
 
 
-        public static T UnsafeDelegate(string content,
+        public static T? UnsafeDelegate(string content,
             AssemblyCSharpBuilder builder,
-            Action<AssemblyCSharpBuilder> option = default, 
-            Func<FakeMethodOperator, FakeMethodOperator> methodAction = null,
-            Func<OopBuilder, OopBuilder> oopAction = null,
-            params NamespaceConverter[] usings)
+            Action<AssemblyCSharpBuilder>? option = default, 
+            Func<FakeMethodOperator, FakeMethodOperator>? methodAction = null,
+            Func<OopBuilder, OopBuilder>? oopAction = null,
+            params NamespaceConverter[]? usings)
         {
 
-            var method = typeof(T).GetMethod("Invoke");
+            var method = typeof(T).GetMethod("Invoke")!;
             var @operator = FakeMethodOperator.UseDomain(builder.Compiler.Domain, option);
             @operator.AssemblyBuilder = builder;
             @operator
@@ -90,15 +90,15 @@ namespace Natasha.CSharp
 
 
 
-        public static T UnsafeAsyncDelegate(string content,
+        public static T? UnsafeAsyncDelegate(string content,
            AssemblyCSharpBuilder builder,
-            Action<AssemblyCSharpBuilder> option = default, 
-            Func<FakeMethodOperator, FakeMethodOperator> methodAction = null,
-            Func<OopBuilder, OopBuilder> oopAction = null,
-            params NamespaceConverter[] usings)
+            Action<AssemblyCSharpBuilder>? option = default, 
+            Func<FakeMethodOperator, FakeMethodOperator>? methodAction = null,
+            Func<OopBuilder, OopBuilder>? oopAction = null,
+            params NamespaceConverter[]? usings)
         {
 
-            var method = typeof(T).GetMethod("Invoke");
+            var method = typeof(T).GetMethod("Invoke")!;
             var @operator = FakeMethodOperator.UseDomain(builder.Compiler.Domain, option);
             @operator.AssemblyBuilder = builder;
             @operator

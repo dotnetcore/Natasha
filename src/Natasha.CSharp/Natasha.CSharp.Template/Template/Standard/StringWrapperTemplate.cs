@@ -7,7 +7,7 @@ namespace Natasha.Template
 
         public string ScriptWrapper(string script)
         {
-            if (script != default && !script.EndsWith(" "))
+            if (script != string.Empty && !script.EndsWith(" "))
             {
                 script += " ";
             }

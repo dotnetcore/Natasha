@@ -65,7 +65,7 @@ namespace Natasha.CSharp.Reverser
             else
             {
 
-                return default;
+                return string.Empty;
 
             }
         }
@@ -101,7 +101,7 @@ namespace Natasha.CSharp.Reverser
             else
             {
 
-                return default;
+                return string.Empty;
 
             }
 
@@ -230,15 +230,6 @@ namespace Natasha.CSharp.Reverser
         /// <returns></returns>
         public static string GetParameters(MethodInfo reflectMethodInfo)
         {
-
-            if (reflectMethodInfo == null)
-            {
-
-                throw new Exception("参数模板传参不能为空！");
-
-            }
-
-
             var parameters = reflectMethodInfo.GetParameters();
             return GetParameters(parameters);
 

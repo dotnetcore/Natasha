@@ -17,6 +17,7 @@
     <SignAssembly>true</SignAssembly>
 	 <Copyright>.NET Core Community and Contributors</Copyright>
     <AssemblyOriginatorKeyFile>natasha.snk</AssemblyOriginatorKeyFile>
+	  <Nullable>enable</Nullable>
   </PropertyGroup>
 
 	<ItemGroup>

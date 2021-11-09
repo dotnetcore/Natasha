@@ -70,7 +70,7 @@ namespace Natasha.CSharp.Template
 
 
 
-        public T Using(NamespaceConverter[] converters)
+        public T Using(NamespaceConverter[]? converters)
         {
 
             if (converters != default)
@@ -91,10 +91,10 @@ namespace Natasha.CSharp.Template
 
 
 
-        public T Using(string @using)
+        public T Using(string? @using)
         {
 
-            if (@using != default)
+            if (!string.IsNullOrEmpty(@using))
             {
 
                 if (!_usings.Contains(@using))
@@ -246,7 +246,7 @@ namespace Natasha.CSharp.Template
         public T Using(Type type)
         {
 
-            if (type != null && !_usingTypes.Contains(type))
+            if (!_usingTypes.Contains(type))
             {
 
                 _usingTypes.Add(type);
@@ -264,13 +264,8 @@ namespace Natasha.CSharp.Template
         public T Using(MethodInfo info)
         {
 
-            if (info != null)
-            {
-
-                Using(info.ReturnType);
-                Using(info.GetParameters().Select(item => item.ParameterType));
-
-            }
+            Using(info.ReturnType);
+            Using(info.GetParameters().Select(item => item.ParameterType));
             return Link;
 
         }

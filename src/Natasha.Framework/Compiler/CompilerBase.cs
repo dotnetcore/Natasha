@@ -13,25 +13,29 @@ namespace Natasha.Framework
 {
     public abstract class CompilerBase<TCompilation, TCompilationOptions> where TCompilation : Compilation where TCompilationOptions : CompilationOptions
     {
-
         public bool AllowUnsafe;
         public string AssemblyName;
         public string OutputFilePath;
         public string OutputPdbPath;
-        public TCompilation Compilation;
+        public TCompilation? Compilation;
         public OutputKind AssemblyKind;
         public Platform ProcessorPlatform;
         public AssemblyBuildKind AssemblyOutputKind;
         public OptimizationLevel CodeOptimizationLevel;
-        public Action<TCompilationOptions> OptionAction;
+        public Action<TCompilationOptions>? OptionAction;
+
+
         public CompilerBase()
         {
-            _domain = null;
+
+            OutputFilePath = string.Empty;
+            OutputPdbPath = string.Empty;
+            this.AssemblyName = Guid.NewGuid().ToString("N");
             _semanticAnalysistor = new List<Func<TCompilation, TCompilation>>();
+
         }
 
-
-        private DomainBase _domain;
+        private DomainBase? _domain;
         public DomainBase Domain
         {
             get
@@ -89,7 +93,7 @@ namespace Natasha.Framework
         }
 
 
-        public IEnumerable<SyntaxTree> SyntaxTrees { get { return Compilation.SyntaxTrees; } }
+        public IEnumerable<SyntaxTree> SyntaxTrees { get { return Compilation!.SyntaxTrees; } }
 
 
         /// <summary>
@@ -102,13 +106,13 @@ namespace Natasha.Framework
         /// <summary>
         /// 流编译成功之后触发的事件
         /// </summary>
-        public event Action<string, string, Stream, TCompilation> CompileSucceedEvent;
+        public event Action<string, string, Stream, TCompilation>? CompileSucceedEvent;
 
 
         /// <summary>
         /// 流编译失败之后触发的事件
         /// </summary>
-        public event Func<Stream, ImmutableArray<Diagnostic>, TCompilation, Assembly> CompileFailedEvent;
+        public event Func<Stream, ImmutableArray<Diagnostic>, TCompilation, Assembly>? CompileFailedEvent;
 
 
         /// <summary>
@@ -138,22 +142,17 @@ namespace Natasha.Framework
         /// </summary>
         /// <param name="trees"></param>
         /// <returns></returns>
-        public virtual Assembly ComplieToAssembly(IEnumerable<SyntaxTree> trees)
+        public virtual Assembly? ComplieToAssembly(IEnumerable<SyntaxTree> trees)
         {
 #if DEBUG
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 #endif
-            Assembly assembly = null;
-            EmitResult compileResult = null;
+            Assembly? assembly = null;
+            EmitResult compileResult;
             if (PreCompiler())
             {
 
-                if (trees == default)
-                {
-                    return null;
-                }
-               
                 //Mark : 26ms
                 var options = GetCompilationOptions();
                 OptionAction?.Invoke(options);

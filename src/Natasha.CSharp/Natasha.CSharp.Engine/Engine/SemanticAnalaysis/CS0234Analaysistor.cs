@@ -39,7 +39,7 @@ namespace Natasha.CSharp.Engine.SemanticAnalaysis
 
         }
 
-        public static IEnumerable<UsingDirectiveSyntax> Handler(CompilationUnitSyntax root, Diagnostic diagnostic)
+        public static IEnumerable<UsingDirectiveSyntax>? Handler(CompilationUnitSyntax root, Diagnostic diagnostic)
         {
 
             var needToRemove = GetUnableUsing(diagnostic);

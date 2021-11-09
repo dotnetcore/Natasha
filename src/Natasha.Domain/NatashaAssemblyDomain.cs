@@ -33,7 +33,7 @@ public class NatashaAssemblyDomain : DomainBase
     /// <returns></returns>
     public override HashSet<PortableExecutableReference> GetCompileReferences()
     {
-        return ReferenceHandler.GetCompileReferences(DefaultDomain, this);
+        return ReferenceHandler.GetCompileReferences(DefaultDomain!, this);
     }
 
 
@@ -60,7 +60,7 @@ public class NatashaAssemblyDomain : DomainBase
         _pluginAssemblies = new ConcurrentDictionary<string, Assembly>();
         UseNewVersionAssmebly = true;
 
-        DependencyResolver = new AssemblyDependencyResolver(AppDomain.CurrentDomain.BaseDirectory);
+        DependencyResolver = new AssemblyDependencyResolver(AppDomain.CurrentDomain.BaseDirectory!);
         _usingsRecoder = new UsingRecoder();
         AddAssemblyEvent += NatashaAssemblyDomain_AddAssemblyEvent;
         RemoveAssemblyEvent += NatashaAssemblyDomain_RemoveAssemblyEvent;
@@ -114,7 +114,7 @@ public class NatashaAssemblyDomain : DomainBase
         {
             _pluginAssemblies[path] = assembly;
         }
-        return assembly;
+        return assembly!;
 
     }
 
@@ -147,7 +147,7 @@ public class NatashaAssemblyDomain : DomainBase
 
 
     #region 默认域解析程序集依赖事件
-    protected override Assembly Default_Resolving(AssemblyLoadContext arg1, AssemblyName arg2)
+    protected override Assembly? Default_Resolving(AssemblyLoadContext arg1, AssemblyName arg2)
     {
         return Load(arg2);
     }

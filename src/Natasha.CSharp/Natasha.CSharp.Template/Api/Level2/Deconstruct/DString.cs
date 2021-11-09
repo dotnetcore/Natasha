@@ -9,8 +9,8 @@ namespace System
 
         public static void Deconstruct(
            this string script,
-           out Assembly Assembly,
-           out NatashaException Exception)
+           out Assembly? Assembly,
+           out NatashaException? Exception)
         {
 
             AssemblyCSharpBuilder assembly = new AssemblyCSharpBuilder();

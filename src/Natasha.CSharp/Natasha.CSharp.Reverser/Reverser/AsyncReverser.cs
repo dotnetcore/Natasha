@@ -9,7 +9,7 @@ namespace Natasha.CSharp.Reverser
         public static string GetAsync(MethodInfo info)
         {
 
-            return info.GetCustomAttribute(typeof(AsyncStateMachineAttribute)) == null ? default : "async ";
+            return info.GetCustomAttribute(typeof(AsyncStateMachineAttribute)) == null ? string.Empty : "async ";
 
         }
 

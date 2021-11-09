@@ -83,8 +83,8 @@ public static class NatashaInitializer
         stopwatch.Stop();
         Console.WriteLine($"\r\n================ [Preheating]\t预热总时长: {stopwatch.ElapsedMilliseconds}ms ================ \r\n");
 #endif
-        action();
-        action.DisposeDomain();     
+        action?.Invoke();
+        action?.DisposeDomain();     
 
     }
 }

@@ -18,7 +18,7 @@ namespace Natasha.CSharp.Reverser
         internal static string ReverseFullName(Type type, bool ignoreFlag = false)
         {
 
-            string fatherString = default;
+            string fatherString = string.Empty;
             //外部类处理
             if (type.DeclaringType != null && type.FullName != null)
             {
@@ -31,7 +31,7 @@ namespace Natasha.CSharp.Reverser
 
 
             //数组判别
-            while (type.HasElementType)
+            while (type!.HasElementType)
             {
 
                 if (type.IsArray)
@@ -47,7 +47,7 @@ namespace Natasha.CSharp.Reverser
                     Suffix.Append("]");
 
                 }
-                type = type.GetElementType();
+                type = type.GetElementType()!;
 
             }
 
@@ -57,7 +57,7 @@ namespace Natasha.CSharp.Reverser
             {
 
                 StringBuilder result = new StringBuilder();
-                if (fatherString == default && type.Namespace!= default && type.FullName != default)
+                if (string.IsNullOrEmpty(fatherString) && !string.IsNullOrEmpty(type.Namespace) && !string.IsNullOrEmpty(type.FullName))
                 {
                     result.Append(type.Namespace+".");
                 }
@@ -122,7 +122,7 @@ namespace Natasha.CSharp.Reverser
                     return "void";
 
                 }
-                if (fatherString == default && type.Namespace != default && type.FullName != default)
+                if (string.IsNullOrEmpty(fatherString) && !string.IsNullOrEmpty(type.Namespace) && !string.IsNullOrEmpty(type.FullName))
                 {
                     return type.Namespace + "." + type.Name + Suffix;
                 }
@@ -140,7 +140,7 @@ namespace Natasha.CSharp.Reverser
         public static string ReverseTypeName(Type type)
         {
 
-            string fatherString = default;
+            string fatherString = string.Empty;
             //外部类处理
             if (type.DeclaringType != null && type.FullName != null)
             {
@@ -169,7 +169,7 @@ namespace Natasha.CSharp.Reverser
                     Suffix.Append("]");
 
                 }
-                type = type.GetElementType();
+                type = type.GetElementType()!;
 
             }
 
@@ -210,7 +210,7 @@ namespace Natasha.CSharp.Reverser
                     return "void";
 
                 }
-                if (fatherString == default && type.Namespace != default && type.FullName != default)
+                if (string.IsNullOrEmpty(fatherString) && !string.IsNullOrEmpty(type.Namespace) && !string.IsNullOrEmpty(type.FullName))
                 {
                     return type.Name + Suffix;
                 }

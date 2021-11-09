@@ -58,7 +58,7 @@ namespace System
 
 
             var temp = type;
-            while (temp.HasElementType)
+            while (temp!.HasElementType)
             {
                 temp = temp.GetElementType();
             }

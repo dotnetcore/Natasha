@@ -50,7 +50,7 @@ namespace System
                 else
                 {
 
-                    string str = item.Location.SourceTree.ToString();
+                    string str = item.Location.SourceTree!.ToString();
                     if (!Errors.ContainsKey(str))
                     {
                         Errors[str] = new List<Diagnostic>();
@@ -105,7 +105,7 @@ namespace System
         public void Handler(List<Diagnostic> diagnostics)
         {
 
-            string formartCode = diagnostics[0].Location.SourceTree.ToString();
+            string formartCode = diagnostics[0].Location.SourceTree!.ToString();
             Buffer.AppendLine($"\r\n\r\n========================Error : 语法错误 ========================\r\n");
             Buffer.AppendLine();
             Buffer.Append(AddLineNumber(formartCode));

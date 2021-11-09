@@ -9,14 +9,17 @@ namespace Natasha.CSharp
     /// </summary>
     public class FakeMethodOperator : MethodBuilder<FakeMethodOperator>
     {
+        private static readonly MethodInfo _init_method;
+        static FakeMethodOperator()
+        {
+            _init_method = typeof(FakeMethodOperator).GetMethod("Init")!;
+        }
+
 
         private MethodInfo _method_info;
-
-
-        
         public FakeMethodOperator()
         {
-
+            _method_info = _init_method;
             Link = this;
 
         }
@@ -57,7 +60,7 @@ namespace Natasha.CSharp
         public FakeMethodOperator UseMethod<T>(string methodName)
         {
 
-            _method_info = typeof(T).GetMethod(methodName);
+            _method_info = typeof(T).GetMethod(methodName)!;
             return this;
 
         }
@@ -72,7 +75,7 @@ namespace Natasha.CSharp
         private FakeMethodOperator MethodCopy()
         {
 
-            if (NameScript == default)
+            if (NameScript == string.Empty)
             {
 
                 Name(_method_info);

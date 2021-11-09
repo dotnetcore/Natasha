@@ -13,12 +13,14 @@ namespace Natasha.CSharp
     public class NamespaceConverter
     {
 
-        public Assembly NamespaceAssembly;
-        public Type NamespaceType;
-        public string NamespaceString;
-        public Type[] NamespaceTypes;
-        public string[] NamespaceStrings;
-        public Assembly[] NamespaceAssemblys;
+        public Assembly? NamespaceAssembly;
+        public Type? NamespaceType;
+        public string? NamespaceString;
+        public Type[]? NamespaceTypes;
+        public string[]? NamespaceStrings;
+        public Assembly[]? NamespaceAssemblys;
+
+
 
         public static implicit operator NamespaceConverter(Assembly assembly)
         {

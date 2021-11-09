@@ -10,7 +10,7 @@ namespace Natasha.CSharp.Template
         public AttributeTemplate() => AttributeScript = new StringBuilder();
 
 
-        public T Attribute(string attrInfo = default)
+        public T Attribute(string? attrInfo = default)
         {
             AttributeScript.Clear();
             AttributeScript.AppendLine(attrInfo);
@@ -23,7 +23,7 @@ namespace Natasha.CSharp.Template
         /// <typeparam name="A">特性的类型</typeparam>
         /// <param name="ctorInfo">类型的构造参数字符串</param>
         /// <returns></returns>
-        public T Attribute<A>(string ctorInfo = default)
+        public T Attribute<A>(string? ctorInfo = default)
         {
 
             return Attribute(typeof(A), ctorInfo);
@@ -37,7 +37,7 @@ namespace Natasha.CSharp.Template
         /// <typeparam name="type">特性的类型</typeparam>
         /// <param name="ctorInfo">类型的构造参数字符串</param>
         /// <returns></returns>
-        public T Attribute(Type type, string ctorInfo = default)
+        public T Attribute(Type type, string? ctorInfo = default)
         {
 
             RecoderType(type);
@@ -59,9 +59,8 @@ namespace Natasha.CSharp.Template
         /// </summary>
         /// <param name="attrInfo">特性字符串</param>
         /// <returns></returns>
-        public T AttributeAppend(string attrInfo = default)
+        public T AttributeAppend(string attrInfo)
         {
-
             AttributeScript.AppendLine(attrInfo);
             return Link;
 
@@ -76,7 +75,7 @@ namespace Natasha.CSharp.Template
         /// <typeparam name="A">特性的类型</typeparam>
         /// <param name="ctorInfo">类型的构造参数字符串</param>
         /// <returns></returns>
-        public T AttributeAppend<A>(string ctorInfo = default)
+        public T AttributeAppend<A>(string? ctorInfo = default)
         {
 
             return AttributeAppend(typeof(A), ctorInfo);
@@ -92,7 +91,7 @@ namespace Natasha.CSharp.Template
         /// <typeparam name="type">特性的类型</typeparam>
         /// <param name="ctorInfo">类型的构造参数字符串</param>
         /// <returns></returns>
-        public T AttributeAppend(Type type, string ctorInfo = default)
+        public T AttributeAppend(Type type, string? ctorInfo = default)
         {
 
             RecoderType(type);

@@ -36,14 +36,16 @@ namespace NatashaUT
             var assembly = domain.CreateAssembly("AsmTest1");
 
             var @interface = assembly
-                .CreateInterface("IAsmT1")
+                .CreateInterface()
+                .Name("IAsmT1")
                 .Using("System")
                 .Public()
                 .BodyAppend("string ShowMethod(string str);");
 
 
             var @class = assembly
-                .CreateClass("ClassAsm")
+                .CreateClass()
+                .Name("ClassAsm")
                 .Using("System")
                 .Public()
                 .InheritanceAppend("IAsmT1")
@@ -56,7 +58,8 @@ namespace NatashaUT
                  );
 
             var @enum = assembly
-                .CreateEnum("AsmEnum")
+                .CreateEnum()
+                .Name("AsmEnum")
                 .Public()
                 .EnumField("Test")
                 .EnumField("Test1")
@@ -87,14 +90,16 @@ namespace NatashaUT
             var assembly = domain.CreateAssembly("AsmTest1");
 
             var @interface = assembly
-                .CreateInterface("IAsmT1")
+                .CreateInterface()
+                 .Name("IAsmT1")
                 .Using("System")
                 .Public()
                 .BodyAppend("string ShowMethod(string str);");
 
 
             var @class = assembly
-                .CreateClass("ClassAsm")
+                .CreateClass()
+                .Name("ClassAsm")
                 .Using("System")
                 .Public()
                 .InheritanceAppend("IAsmT1")
@@ -108,7 +113,8 @@ namespace NatashaUT
 
 
             var @enum = assembly
-               .CreateEnum("AsmEnum")
+               .CreateEnum()
+               .Name("AsmEnum")
                .Public()
                .EnumField("Test")
                .EnumField("Test1")
@@ -122,14 +128,16 @@ namespace NatashaUT
 
             assembly = domain.CreateAssembly("AsmTest2");
             @interface = assembly
-                .CreateInterface("IAsmT1")
+                .CreateInterface()
+                .Name("IAsmT1")
                 .Using("System")
                 .Public()
                 .BodyAppend("string ShowMethod(string str);");
 
 
             @class = assembly
-                .CreateClass("ClassAsm")
+                .CreateClass()
+                .Name("ClassAsm")
                 .Using("System")
                 .Public()
                 .InheritanceAppend("IAsmT1")
@@ -143,7 +151,8 @@ namespace NatashaUT
 
 
             @enum = assembly
-               .CreateEnum("AsmEnum")
+               .CreateEnum()
+               .Name("AsmEnum")
                .Public()
                .EnumField("Test")
                .EnumField("Test1")
@@ -260,7 +269,8 @@ public class Test{}
 
                 //创建一个接口
                 assembly
-                    .CreateInterface("InterfaceTest")
+                    .CreateInterface()
+                    .Name("InterfaceTest")
                     .Using("System")
                     .Public()
                     .BodyAppend("string ShowMethod(string str);");
@@ -268,7 +278,8 @@ public class Test{}
 
                 //创建一个类并实现​接口
                var nameSpace = assembly
-                   .CreateClass("TestClass​")
+                   .CreateClass()
+                    .Name("TestClass")
                    .Using("System")
                    .Public()
                    .InheritanceAppend("InterfaceTest")

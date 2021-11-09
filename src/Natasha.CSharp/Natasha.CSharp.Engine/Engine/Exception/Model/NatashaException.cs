@@ -11,11 +11,13 @@ namespace Natasha.Error
 
         public NatashaException(string message) : base(message)
         {
+            Formatter = string.Empty;
             Diagnostics = new List<Diagnostic>();
             ErrorFlag = ExceptionKind.None;
         }
         public NatashaException(string message, Exception inner) : base(message, inner)
         {
+            Formatter = string.Empty;
             Diagnostics = new List<Diagnostic>();
             ErrorFlag = ExceptionKind.None;
         }
@@ -23,6 +25,7 @@ namespace Natasha.Error
           System.Runtime.Serialization.SerializationInfo info,
           System.Runtime.Serialization.StreamingContext context) : base(info, context)
         {
+            Formatter = string.Empty;
             Diagnostics = new List<Diagnostic>();
             ErrorFlag = ExceptionKind.None;
         }
@@ -30,7 +33,7 @@ namespace Natasha.Error
 
         public NatashaException()
         {
-
+            Formatter = string.Empty;
             Diagnostics = new List<Diagnostic>();
             ErrorFlag = ExceptionKind.None;
 
@@ -44,10 +47,10 @@ namespace Natasha.Error
 
 
         //名称标识
-        public string Name;
+        public string? Name;
 
         //编译日志
-        public string Log;
+        public string? Log;
 
         //格式化后的脚本字符串
         public string Formatter;
@@ -56,7 +59,7 @@ namespace Natasha.Error
         public ExceptionKind ErrorFlag;
 
         //出错的语法树
-        public SyntaxTree Tree;
+        public SyntaxTree? Tree;
 
         //roslyn诊断集合
         public List<Diagnostic> Diagnostics;

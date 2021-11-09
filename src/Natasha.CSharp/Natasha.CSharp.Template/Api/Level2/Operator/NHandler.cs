@@ -30,7 +30,7 @@ namespace Natasha.CSharp
         }
 
 
-        public Func<T> Creator()
+        public Func<T>? Creator()
         {
             return DelegateHandler.Func<T>($"return new {NameScript}();");
         }

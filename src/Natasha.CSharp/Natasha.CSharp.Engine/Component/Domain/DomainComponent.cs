@@ -34,11 +34,11 @@ public class DomainComponent
                     .CompileLibraries.SelectMany(cl => cl.ResolveReferencePaths());
                 Parallel.ForEach(paths,
                     asm => tempCache[Path.GetFileNameWithoutExtension(asm)] = MetadataReference.CreateFromFile(asm));
-                while (DomainManagement.Default == default)
+                while (DomainBase.DefaultDomain.Name == "init_fake_domain")
                 {
-                    Task.Delay(5);
+                    Task.Delay(200);
                 }
-                Unsafe.AsRef(DomainManagement.Default.OtherReferencesFromFile) = tempCache;
+                Unsafe.AsRef(DomainBase.DefaultDomain.OtherReferencesFromFile) = tempCache;
             });
 #if DEBUG
             stopwatch.StopAndShowCategoreInfo("[Reference]", "引用扫描", 1);
@@ -51,12 +51,12 @@ public class DomainComponent
 #endif
             DynamicMethod method = new DynamicMethod("Domain" + Guid.NewGuid().ToString(), typeof(DomainBase), new Type[] { typeof(string) });
             ILGenerator il = method.GetILGenerator();
-            ConstructorInfo ctor = typeof(TDomain).GetConstructor(BindingFlags.Instance | BindingFlags.Public, null, new Type[] { typeof(string) }, null);
+            ConstructorInfo ctor = typeof(TDomain).GetConstructor(BindingFlags.Instance | BindingFlags.Public, null, new Type[] { typeof(string) }, null)!;
             il.Emit(OpCodes.Ldarg_0);
             il.Emit(OpCodes.Newobj, ctor);
             il.Emit(OpCodes.Ret);
             DomainManagement.CreateDomain = (Func<string, DomainBase>)(method.CreateDelegate(typeof(Func<string, DomainBase>)));
-            DomainManagement.Default = DomainManagement.Create("Default");
+            DomainBase.DefaultDomain = DomainManagement.Create("Default");
 
 #if DEBUG
             stopwatch2.StopAndShowCategoreInfo("[Domain]", "域初始化", 1);

@@ -1,4 +1,5 @@
 ﻿using Natasha.CSharp;
+using Natasha.Framework;
 using System;
 using System.IO;
 using System.Linq;
@@ -172,7 +173,7 @@ namespace NatashaUT
                 //}
                 var func = NDelegate.DefaultDomain().AddUsing("ClassLibrary1").Func<object>("return new Class1();");
                 Assert.Equal(result1, func().GetType().Assembly);
-                DomainManagement.Default.RemoveReference(result1);
+                DomainBase.DefaultDomain.RemoveReference(result1);
             }
 #endif
 

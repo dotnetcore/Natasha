@@ -23,10 +23,10 @@ namespace Natasha.Domain.Template
 
         }
 
-        public UsingRecoder Using(string @using)
+        public UsingRecoder Using(string? @using)
         {
 
-            if (@using != default)
+            if (!string.IsNullOrEmpty(@using))
             {
 
                 if (!_usings.Contains(@using))
@@ -58,7 +58,7 @@ namespace Natasha.Domain.Template
                 {
                     Using(assembly.GetTypes());
                 }
-                catch (Exception ex)
+                catch 
                 {
 
                 }

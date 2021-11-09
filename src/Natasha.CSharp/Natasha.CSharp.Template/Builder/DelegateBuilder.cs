@@ -47,7 +47,7 @@ namespace Natasha.CSharp.Builder
         /// <param name="parametersTypes">泛型参数</param>
         /// <param name="returnType">返回类型</param>
         /// <returns>函数委托</returns>
-        public static Type GetDelegate(Type[] parametersTypes = null, Type returnType = null)
+        public static Type GetDelegate(Type[]? parametersTypes = null, Type? returnType = null)
         {
             if (returnType == null || returnType == typeof(void))
             {
@@ -66,7 +66,7 @@ namespace Natasha.CSharp.Builder
         /// <param name="returnType">返回类型</param>
         /// <param name="parametersTypes">泛型类型</param>
         /// <returns>Func委托类型</returns>
-        public static Type GetFunc(Type returnType, params Type[] parametersTypes)
+        public static Type GetFunc(Type returnType, params Type[]? parametersTypes)
         {
             if (parametersTypes == null || parametersTypes.Length == 0)
             {
@@ -88,7 +88,7 @@ namespace Natasha.CSharp.Builder
         /// </summary>
         /// <param name="parametersTypes">泛型参数类型</param>
         /// <returns>Action委托类型</returns>
-        public static Type GetAction(params Type[] parametersTypes)
+        public static Type GetAction(params Type[]? parametersTypes)
         {
             if (parametersTypes == null || parametersTypes.Length == 0)
             {
