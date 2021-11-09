@@ -54,15 +54,13 @@ namespace NatashaUT
             var assembly = domain.LoadPlugin(path1);
             var assembly2 = domain.LoadPlugin(path2);
             var result = NDelegate.UseDomain(domain).Func<string>("return new TestRefererenceLibrary.TestReference().Get();")();
-#if !NETCOREAPP2_2
+
             //Load A => C v2.0
             
             var result2 = NDelegate.UseDomain(domain).Func<string>("return new TestRefererenceLibrary2.TestReference().Get();")();
             Assert.Equal(result, result2);
             Assert.Equal("2.0.0.0", result);
-#else
-            Assert.Equal("1.0.0.0", result);
-#endif
+
 
         }
 
@@ -104,11 +102,11 @@ namespace NatashaUT
             var assembly3 = domain.LoadPlugin(path3);
             var result = NDelegate.UseDomain(domain).Func<string>("return new TestRefererenceLibrary.TestReference().Get();")();
 
-#if !NETCOREAPP2_2
+
             //Load A => C v2.0
             var result2 = NDelegate.UseDomain(domain).Func<string>("return new TestRefererenceLibrary2.TestReference().Get();")();
             Assert.Equal(result, result2);
-#endif
+
             Assert.Equal("3.0.0.0", result);
         }
 

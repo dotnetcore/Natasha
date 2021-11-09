@@ -91,14 +91,14 @@ namespace NatashaUT
         public void UnloadDelegate()
         {
             Assert.Equal(3, RunDelegate6());
-#if !NETCOREAPP2_2
+
             for (int i = 0; i < 6; i++)
             {
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
             }
             Assert.True(DomainManagement.IsDeleted("NDelegate6"));
-#endif
+
         }
 
 

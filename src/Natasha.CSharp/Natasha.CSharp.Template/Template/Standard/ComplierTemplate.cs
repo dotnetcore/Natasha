@@ -18,8 +18,16 @@ namespace Natasha.CSharp.Template
         }
 
 
+        public T ConfigComplier(Func<NatashaCSharpCompiler, NatashaCSharpCompiler> compilerFunc)
+        {
+            if (compilerFunc != null)
+            {
+                AssemblyBuilder.Compiler = compilerFunc(AssemblyBuilder.Compiler);
+            }
+            return Link;
+        }
 
-        public T ConfigComplier(Func<CSharpCompilation, CSharpCompilation> compilerFunc)
+        public T ConfigCompilation(Func<CSharpCompilation, CSharpCompilation> compilerFunc)
         {
             if (compilerFunc!=null)
             {

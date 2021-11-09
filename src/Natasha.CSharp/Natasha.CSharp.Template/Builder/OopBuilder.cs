@@ -74,13 +74,14 @@ namespace Natasha.CSharp.Builder
 
         }
 
-#if NET5_0
+
         public T SkipInit()
         {
+            this.ConfigComplier(item => item.SupportSkipLocalInit());
             this.AttributeAppend<SkipLocalsInitAttribute>();
             return Link;
         }
-#endif
+
 
 
 

@@ -11,7 +11,7 @@ namespace NatashaUT
     public class AssemblyPluginTest : PrepareTest
     {
 
-#if  NETCOREAPP3_0_OR_GREATER
+
 
         
         [Fact(DisplayName = "不可回收：MySql插件")]
@@ -135,7 +135,6 @@ return default;").Return<string>()
             return result;
         }
 
-#endif
 
     }
 }

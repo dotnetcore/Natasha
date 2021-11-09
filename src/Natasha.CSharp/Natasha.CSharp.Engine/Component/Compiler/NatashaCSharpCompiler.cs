@@ -90,6 +90,14 @@ public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompi
     }
 
 
+    public NatashaCSharpCompiler SupportSkipLocalInit()
+    {
+        CompileFlags = (uint)CompileFlags - CompilerBinderFlags.IgnoreAccessibility;
+        return this;
+    }
+
+
+
     /// <summary>
     /// 获取构建编译信息的选项
     /// </summary>

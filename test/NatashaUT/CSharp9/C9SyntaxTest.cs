@@ -42,7 +42,7 @@ namespace NatashaUT
 
         }
 
-#if NET5_0
+
         [Fact(DisplayName = "NoInit 脚本")]
         public void Test3()
         {
@@ -86,10 +86,10 @@ namespace NatashaUT
             Assert.Equal(1, func());
 
         }
-#endif
+
 
     }
-#if NET5_0
+
     public interface a { }
 
     
@@ -111,5 +111,5 @@ namespace NatashaUT
         public string FirstName { get { return _name; } init { _name = value; } }
         
     }
-#endif
+
 }

@@ -38,7 +38,7 @@ namespace Natasha.Framework
             {
                 if (_domain == null)
                 {
-#if NETCOREAPP3_0_OR_GREATER
+
                     if (AssemblyLoadContext.CurrentContextualReflectionContext != default)
                     {
                         _domain = (DomainBase)(AssemblyLoadContext.CurrentContextualReflectionContext);
@@ -47,9 +47,7 @@ namespace Natasha.Framework
                     {
                         _domain = DomainBase.DefaultDomain;
                     }
-#else
-                    _domain = DomainBase.DefaultDomain;
-#endif
+
                 }
                 return _domain;
             }

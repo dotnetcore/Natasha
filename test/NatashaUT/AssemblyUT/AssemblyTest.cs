@@ -17,14 +17,13 @@ namespace NatashaUT
         {
             //ForTest1();
             Assert.Equal("HelloTest", ForTest1());
-#if NETCOREAPP3_0_OR_GREATER
+
             for (int i = 0; i < 10; i++)
             {
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
             }
             Assert.True(DomainManagement.IsDeleted("SingleDomainAsmTest1"));
-#endif
 
         }
 
@@ -163,7 +162,7 @@ return obj.ShowMethod(""Hello"");
 ").Compile<Func<string, string>>();
 
             Assert.Equal("HelloTest1", @delegate("hello"));
-#if NETCOREAPP3_0_OR_GREATER
+
             @delegate.DisposeDomain();
             for (int i = 0; i < 10; i++)
             {
@@ -172,11 +171,11 @@ return obj.ShowMethod(""Hello"");
             }
 
             Assert.True(DomainManagement.IsDeleted("SingleDomainAsmTest1"));
-#endif
+
 
         }
 
-#if NETCOREAPP3_0_OR_GREATER
+
         [Fact(DisplayName = "自定义域解构编译")]
         public void Test4()
         {
@@ -199,7 +198,7 @@ public class Test{
             }
         }
 
-#endif
+
         [Fact(DisplayName = "共享域解构编译")]
         public void Test5()
         {
@@ -236,7 +235,7 @@ public class Test{}
 
 
 
-#if NETCOREAPP3_0_OR_GREATER
+
 
         [Fact(DisplayName = "域锁与管理")]
         public void Test3()
@@ -294,6 +293,6 @@ return obj.ShowMethod(arg);")
             }
             
         }
-#endif
+
     }
 }
