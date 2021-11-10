@@ -79,22 +79,13 @@ namespace Natasha.CSharp.Template
         public T Type(MemberInfo memberInfo)
         {
 
-            switch (memberInfo.MemberType)
+            return memberInfo.MemberType switch
             {
-
-                case MemberTypes.Field:
-                    return Type(((FieldInfo)memberInfo).FieldType);
-
-                case MemberTypes.Method:
-                    return Type(((MethodInfo)memberInfo).ReturnType);
-
-                case MemberTypes.Property:
-                    return Type(((PropertyInfo)memberInfo).PropertyType);
-                default:
-                    return Link!;
-
-            }
-
+                MemberTypes.Field => Type(((FieldInfo)memberInfo).FieldType),
+                MemberTypes.Method => Type(((MethodInfo)memberInfo).ReturnType),
+                MemberTypes.Property => Type(((PropertyInfo)memberInfo).PropertyType),
+                _ => Link!,
+            };
         }
 
 
