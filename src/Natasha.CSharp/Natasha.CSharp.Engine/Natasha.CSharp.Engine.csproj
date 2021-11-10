@@ -22,7 +22,7 @@
 
 	
 	<ItemGroup>
-		<PackageReference Include="DotNetCore.Compile.Environment" Version="2.2.0" />
+		<PackageReference Include="DotNetCore.Compile.Environment" Version="2.3.0" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.0.1" />
 		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="6.0.0" />
 	</ItemGroup>
