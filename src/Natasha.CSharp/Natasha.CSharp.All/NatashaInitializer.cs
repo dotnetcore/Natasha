@@ -22,7 +22,7 @@ public static class NatashaInitializer
     public static Task Initialize(bool initializeReference = true)
     {
 #if DEBUG
-        Stopwatch stopwatch = new Stopwatch();
+        Stopwatch stopwatch = new();
         stopwatch.Start();
 #endif
         if (!_hasInitialize)
@@ -75,7 +75,7 @@ public static class NatashaInitializer
             domain.AddReferencesFromDllFile(typeof(object).Assembly.Location);
         }
 #if DEBUG
-        Stopwatch stopwatch = new Stopwatch();
+        Stopwatch stopwatch = new();
         stopwatch.Start();
 #endif
         var action = NDelegate.UseDomain(domain).Action("");

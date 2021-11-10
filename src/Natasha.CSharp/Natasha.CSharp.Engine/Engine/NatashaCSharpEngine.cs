@@ -17,7 +17,7 @@ namespace Natasha.CSharpEngine
 
         public NatashaCSharpSyntax Syntax;
         public NatashaCSharpCompiler Compiler;
-        public List<NatashaException>? Exceptions;
+        public List<NatashaException> Exceptions;
 
 
         public string OutputFolder;
@@ -131,7 +131,7 @@ namespace Natasha.CSharpEngine
 
         public NatashaCSharpEngine(string assemblyName)
         {
-
+            Exceptions = new List<NatashaException>();
             OutputFolder = string.Empty;
             Syntax = new NatashaCSharpSyntax();
             Compiler = new NatashaCSharpCompiler();
@@ -193,7 +193,7 @@ namespace Natasha.CSharpEngine
             {
                 Compiler.Domain.UseShareLibraries();
             }
-            Exceptions = null;
+            Exceptions.Clear();
             var trees = Syntax.TreeCache.Values;
             Syntax.Clear();
             return Compiler.ComplieToAssembly(trees);

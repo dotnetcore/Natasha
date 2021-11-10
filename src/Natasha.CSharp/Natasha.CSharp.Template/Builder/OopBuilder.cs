@@ -70,7 +70,7 @@ namespace Natasha.CSharp.Builder
             .Namespace(type.Namespace)
            .Access(type)
            .Modifier(type);
-            return Link;
+            return Link!;
 
         }
 
@@ -79,7 +79,7 @@ namespace Natasha.CSharp.Builder
         {
             this.ConfigComplier(item => item.SupportSkipLocalInit());
             this.AttributeAppend<SkipLocalsInitAttribute>();
-            return Link;
+            return Link!;
         }
 
 
@@ -109,7 +109,7 @@ namespace Natasha.CSharp.Builder
             handler.Name(NameScript);
             action.Invoke(handler);
             _script_cache.Enqueue(handler);
-            return Link;
+            return Link!;
 
         }
         public virtual T Ctor(CtorBuilder builder)
@@ -119,7 +119,7 @@ namespace Natasha.CSharp.Builder
                 builder.Name(NameScript);
             }
             _script_cache.Enqueue(builder);
-            return Link;
+            return Link!;
         }
         public virtual CtorBuilder GetCtorBuilder()
         {
@@ -143,14 +143,14 @@ namespace Natasha.CSharp.Builder
             var handler = new MethodBuilder();
             action.Invoke(handler);
             _script_cache.Enqueue(handler);
-            return Link;
+            return Link!;
 
         }
         public virtual T Method(MethodBuilder builder)
         {
 
             _script_cache.Enqueue(builder);
-            return Link;
+            return Link!;
 
         }
         public virtual MethodBuilder GetMethodBuilder()
@@ -175,7 +175,7 @@ namespace Natasha.CSharp.Builder
             var handler = new FieldBuilder();
             action.Invoke(handler);
             _script_cache.Enqueue(handler);
-            return Link;
+            return Link!;
 
         }
         public virtual T Field(FieldBuilder builder)
@@ -183,7 +183,7 @@ namespace Natasha.CSharp.Builder
 
 
             _script_cache.Enqueue(builder);
-            return Link;
+            return Link!;
 
         }
         public virtual FieldBuilder GetFieldBuilder()
@@ -208,7 +208,7 @@ namespace Natasha.CSharp.Builder
             var handler = new PropertyBuilder();
             action.Invoke(handler);
             _script_cache.Enqueue(handler);
-            return Link;
+            return Link!;
 
         }
         public virtual T Property(PropertyBuilder builder)
@@ -218,7 +218,7 @@ namespace Natasha.CSharp.Builder
             {
                 _script_cache.Enqueue(builder);
             }
-            return Link;
+            return Link!;
 
         }
         public virtual PropertyBuilder GetPropertyBuilder()
@@ -256,13 +256,12 @@ namespace Natasha.CSharp.Builder
         /// <param name="classIndex">类索引，1开始</param>
         /// <param name="namespaceIndex">命名空间索引，1开始</param>
         /// <returns></returns>
-        public virtual Type? GetType(OopType oopType, int namespaceIndex = 1, int classIndex = 1)
+        public virtual Type GetType(OopType oopType, int namespaceIndex = 1, int classIndex = 1)
         {
 
             Using(AssemblyBuilder.Compiler.Domain.GetReferenceElements());
-            Exception = AssemblyBuilder.Add(this);
-            if (!Exception.HasError)
-            {
+            AssemblyBuilder.Add(this);
+
                 string? name = default;
                 switch (oopType)
                 {
@@ -292,34 +291,15 @@ namespace Natasha.CSharp.Builder
                         name = ScriptHelper.GetRecordName(Script, namespaceIndex, classIndex);
                         break;
                 }
-
-                var type = AssemblyBuilder.GetTypeFromShortName(name!);
-                if (type == null)
-                {
-                    Exception = AssemblyBuilder.Exceptions![0];
-                }
-                return type;
-
-            }
-            return null;
-
+                return AssemblyBuilder.GetTypeFromShortName(name!);
 
         }
         public virtual Type? GetType(int classIndex = 1, int namespaceIndex = 1)
         {
 
             Using(AssemblyBuilder.Compiler.Domain.GetReferenceElements());
-            Exception = AssemblyBuilder.Add(this);
-            if (!Exception.HasError)
-            {
-                var type = AssemblyBuilder.GetTypeFromShortName(NameScript);
-                if (type == null)
-                {
-                    Exception = AssemblyBuilder.Exceptions![0];
-                }
-                return type;
-            }
-            return null;
+            AssemblyBuilder.Add(this);
+            return AssemblyBuilder.GetTypeFromShortName(NameScript);
 
         }
 
@@ -349,7 +329,7 @@ namespace Natasha.CSharp.Builder
 
             });
             Using(type);
-            return Link;
+            return Link!;
 
         }
 
@@ -368,7 +348,7 @@ namespace Natasha.CSharp.Builder
                 }
             });
             Using(type);
-            return Link;
+            return Link!;
 
         }
 

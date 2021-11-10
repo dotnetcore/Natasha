@@ -9,14 +9,14 @@ namespace System
 
         public static void Deconstruct(
            this string script,
-           out Assembly? Assembly,
+           out Assembly Assembly,
            out NatashaException? Exception)
         {
 
-            AssemblyCSharpBuilder assembly = new AssemblyCSharpBuilder();
+            AssemblyCSharpBuilder assembly = new();
             assembly.Add(script);
             Assembly = assembly.GetAssembly();
-            if (assembly.Exceptions != null)
+            if (assembly.Exceptions.Count>0)
             {
 
                 Exception = assembly.Exceptions[0];
@@ -24,11 +24,9 @@ namespace System
             }
             else
             {
-
                 Exception = null;
-
             }
-            
+
         }
 
     }

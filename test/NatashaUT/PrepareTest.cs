@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace NatashaUT
 {
@@ -10,6 +11,7 @@ namespace NatashaUT
         static PrepareTest()
         {
             NatashaInitializer.Initialize();
+            Thread.Sleep(3000);
         }
     }
 }

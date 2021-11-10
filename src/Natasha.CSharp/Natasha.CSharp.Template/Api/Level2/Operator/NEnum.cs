@@ -32,7 +32,7 @@ namespace Natasha.CSharp
                 BodyAppendLine(",");
             }
             BodyAppend($"{name}={value}");
-            return Link;
+            return Link!;
 
         }
 
@@ -52,7 +52,7 @@ namespace Natasha.CSharp
                 BodyAppendLine(",");
             }
             BodyAppend(name);
-            return Link;
+            return Link!;
 
         }
 

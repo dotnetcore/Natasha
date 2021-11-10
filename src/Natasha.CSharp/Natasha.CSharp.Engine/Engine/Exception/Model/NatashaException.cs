@@ -1,10 +1,34 @@
 ﻿using Microsoft.CodeAnalysis;
+using Natasha.Error;
 using Natasha.Error.Model;
 using System;
 using System.Collections.Generic;
 
+
+[Serializable]
+public class CompileWrapperExceptions : Exception
+{
+
+    public readonly List<NatashaException> CompilerExcpetions;
+    public ExceptionKind ErrorFlag;
+    public CompileWrapperExceptions(string message) : base(message)
+    {
+        CompilerExcpetions = new List<NatashaException>();
+    }
+
+    public void AddException(NatashaException natashaException)
+    {
+        CompilerExcpetions.Add(natashaException);
+    }
+
+    public bool HasException { get { return CompilerExcpetions.Count > 0; } }
+
+}
+
+
 namespace Natasha.Error
 {
+
     [Serializable]
     public class NatashaException : Exception
     {

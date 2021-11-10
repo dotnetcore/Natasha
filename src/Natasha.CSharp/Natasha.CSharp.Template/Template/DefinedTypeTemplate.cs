@@ -21,7 +21,7 @@ namespace Natasha.CSharp.Template
         public T NoUseType()
         {
             TypeScript = string.Empty;
-            return Link;
+            return Link!;
         }
 
 
@@ -34,7 +34,7 @@ namespace Natasha.CSharp.Template
         {
 
             TypeScript = ScriptWrapper(typeString);
-            return Link;
+            return Link!;
 
         }
 
@@ -60,7 +60,7 @@ namespace Natasha.CSharp.Template
                 Type(type.GetDevelopName());
 
             }
-            return Link;
+            return Link!;
 
         }
         public T Type<S>()
@@ -91,7 +91,7 @@ namespace Natasha.CSharp.Template
                 case MemberTypes.Property:
                     return Type(((PropertyInfo)memberInfo).PropertyType);
                 default:
-                    return Link;
+                    return Link!;
 
             }
 
@@ -110,7 +110,7 @@ namespace Natasha.CSharp.Template
             {
                 _script.Append(TypeScript);
             }
-            return Link;
+            return Link!;
 
         }
 

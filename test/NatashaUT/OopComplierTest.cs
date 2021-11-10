@@ -27,8 +27,8 @@ namespace HelloWorld
 }";
             //根据脚本创建动态类
             AssemblyCSharpBuilder oop = new AssemblyCSharpBuilder();
-            oop.LogCompilerError();
-            oop.LogSyntaxError();
+            oop.LogAndThrowCompilerError();
+            oop.LogAndThrowCompilerError();
             oop.Compiler.Domain = DomainManagement.Random;
             oop.Add(text);
             Type type = oop.GetTypeFromShortName("Test");
@@ -52,7 +52,7 @@ namespace HelloWorld
     }
 }";
             //根据脚本创建动态类
-            var oop = new NAssembly();
+            NAssembly oop = new();
             oop.AssemblyBuilder.Compiler.Domain = DomainManagement.Random;
             oop.AddScript(text);
             Type type = oop.GetTypeFromShortName("Test");

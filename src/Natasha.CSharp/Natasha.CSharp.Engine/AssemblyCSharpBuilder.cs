@@ -43,8 +43,8 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
     public AssemblyCSharpBuilder(string assemblyName) : base(assemblyName)
     {
         CanRetry = true;
-        CompileErrorBehavior = ExceptionBehavior.Throw;
-        SyntaxErrorBehavior = ExceptionBehavior.Throw;
+        CompileErrorBehavior = ExceptionBehavior.OnlyThrow;
+        SyntaxErrorBehavior = ExceptionBehavior.OnlyThrow;
         OutputFolder = GlobalOutputFolder;
         CustomUsingShut = false;
         NeedSucceedLog = false;
@@ -78,11 +78,11 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
     /// <param name="script">代码脚本</param>
     /// <param name="usings">using 引用</param>
     /// <returns></returns>
-    public NatashaException Add(string script, HashSet<string>? usings = default)
+    public void Add(string script, HashSet<string>? usings = default)
     {
 
 #if DEBUG
-        Stopwatch stopwatch = new Stopwatch();
+        Stopwatch stopwatch = new();
         stopwatch.Start();
 #endif
         var tree = Syntax.ConvertToTree(script);
@@ -96,7 +96,7 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
         stopwatch.StopAndShowCategoreInfo("[SyntaxTree]", "语法树判错耗时", 2);
         stopwatch.Restart();
 #endif
-        if (!exception.HasError || SyntaxErrorBehavior == ExceptionBehavior.Ignore)
+        if (!exception.HasError)
         {
             Syntax.AddTreeToCache(tree);
             Syntax.ReferenceCache[exception.Formatter!] = usings;
@@ -108,7 +108,6 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
 #if DEBUG
         stopwatch.StopAndShowCategoreInfo("[SyntaxTree]", "语法树错误处理耗时", 2);
 #endif
-        return exception;
 
     }
 
@@ -120,10 +119,10 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
     /// <param name="node">语法树节点</param>
     /// <param name="sets"></param>
     /// <returns></returns>
-    public NatashaException Add(SyntaxTree node, HashSet<string>? sets = default)
+    public void Add(SyntaxTree node, HashSet<string>? sets = default)
     {
 
-        return Add(node.ToString(), sets);
+        Add(node.ToString(), sets);
 
     }
 
@@ -134,10 +133,10 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
     /// </summary>
     /// <param name="node">语法模板</param>
     /// <returns></returns>
-    public NatashaException Add(IScript node)
+    public void Add(IScript node)
     {
 
-        return Add(node.Script, node.Usings);
+        Add(node.Script, node.Usings);
 
     }
 
@@ -148,10 +147,10 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
     /// </summary>
     /// <param name="filePath"></param>
     /// <returns></returns>
-    public NatashaException AddFile(string filePath)
+    public void AddFile(string filePath)
     {
 
-        return Add(File.ReadAllText(filePath));
+        Add(File.ReadAllText(filePath));
 
     }
 
@@ -164,19 +163,13 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
     private void HandlerErrors(NatashaException exception)
     {
 
-        if (SyntaxErrorBehavior == ExceptionBehavior.Throw)
+        if (SyntaxErrorBehavior == ExceptionBehavior.OnlyThrow)
         {
 
             throw exception;
 
         }
-        else if (SyntaxErrorBehavior == ExceptionBehavior.Log)
-        {
-
-            LogOperator.ErrorRecoder(exception);
-
-        }
-        else if (SyntaxErrorBehavior == (ExceptionBehavior.Log | ExceptionBehavior.Throw))
+        else if (SyntaxErrorBehavior == ExceptionBehavior.LogAndThrow)
         {
 
             LogOperator.ErrorRecoder(exception);
@@ -192,7 +185,7 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
     /// 获取程序集
     /// </summary>
     /// <returns></returns>
-    public Assembly? GetAssembly()
+    public Assembly GetAssembly()
     {
 
         //如果是文件编译，则初始化路径
@@ -217,19 +210,16 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
         //进入编译流程
         var assembly = Compile();
         //如果编译出错
-        if (assembly == null && Exceptions != null && Exceptions.Count > 0)
+        if (assembly == null && Exceptions.Count>0)
         {
 
             switch (CompileErrorBehavior)
             {
 
-                case ExceptionBehavior.Log | ExceptionBehavior.Throw:
+                case ExceptionBehavior.LogAndThrow:
                     LogOperator.ErrorRecoder(Compiler.Compilation!, Exceptions);
                     throw Exceptions[0];
-                case ExceptionBehavior.Log:
-                    LogOperator.ErrorRecoder(Compiler.Compilation!, Exceptions);
-                    break;
-                case ExceptionBehavior.Throw:
+                case ExceptionBehavior.OnlyThrow:
                     throw Exceptions[0];
                 default:
                     break;
@@ -243,7 +233,7 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
             LogOperator.SucceedRecoder(Compiler.Compilation!);
             
         }
-        return assembly;
+        return assembly!;
 
     }
 

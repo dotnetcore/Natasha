@@ -145,7 +145,7 @@ namespace Natasha.Framework
         public virtual Assembly? ComplieToAssembly(IEnumerable<SyntaxTree> trees)
         {
 #if DEBUG
-            Stopwatch stopwatch = new Stopwatch();
+            Stopwatch stopwatch = new();
             stopwatch.Start();
 #endif
             Assembly? assembly = null;
@@ -201,7 +201,7 @@ namespace Natasha.Framework
 
                     if (CompileSucceedEvent != default)
                     {
-                        MemoryStream copyStream = new MemoryStream();
+                        MemoryStream copyStream = new();
                         outputStream.CopyTo(copyStream);
                         outputStream.Seek(0, SeekOrigin.Begin);
                         assembly = Domain.CompileStreamCallback(OutputFilePath, OutputPdbPath, outputStream, AssemblyName);

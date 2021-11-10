@@ -31,7 +31,7 @@ namespace Natasha.CSharp.Template
             }
 
 
-            return Link;
+            return Link!;
 
         }
 
@@ -59,7 +59,7 @@ namespace Natasha.CSharp.Template
             }
 
 
-            return Link;
+            return Link!;
 
         }
 
@@ -81,7 +81,7 @@ namespace Natasha.CSharp.Template
 
             }
 
-            return Link;
+            return Link!;
 
         }
 
@@ -103,7 +103,7 @@ namespace Natasha.CSharp.Template
 
             if (type == null || type == typeof(object))
             {
-                return Link;
+                return Link!;
             }
             return InheritanceAppend(type.GetDevelopName());
 
@@ -119,7 +119,7 @@ namespace Natasha.CSharp.Template
             // [access] [modifier] [name] [:{this}]
             base.BuilderScript();
             _script.Append(Inheritances);
-            return Link;
+            return Link!;
 
         }
 

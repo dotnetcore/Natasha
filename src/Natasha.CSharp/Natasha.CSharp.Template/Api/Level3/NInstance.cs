@@ -6,7 +6,7 @@ namespace Natasha.CSharp
     public class NInstance
     {
 
-        public static Func<T>? Creator<T>()
+        public static Func<T> Creator<T>()
         {
 
             return NDelegate.UseDomain(typeof(T).GetDomain()).Func<T>($"return new {typeof(T).GetDevelopName()}();");
@@ -16,7 +16,7 @@ namespace Natasha.CSharp
 
 
 
-        public static Delegate? Creator(Type type)
+        public static Delegate Creator(Type type)
         {
 
             return FastMethodOperator

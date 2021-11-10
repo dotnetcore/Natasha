@@ -64,7 +64,7 @@ namespace Natasha.CSharp.Template
                 Using(converter.NamespaceTypes);
 
             }
-            return Link;
+            return Link!;
 
         }
 
@@ -84,7 +84,7 @@ namespace Natasha.CSharp.Template
                 }
 
             }
-            return Link;
+            return Link!;
 
         }
 
@@ -105,7 +105,7 @@ namespace Natasha.CSharp.Template
                 }
 
             }
-            return Link;
+            return Link!;
 
         }
 
@@ -124,7 +124,7 @@ namespace Natasha.CSharp.Template
             {
                 Using(assembly.ExportedTypes);
             }
-            return Link;
+            return Link!;
 
         }
 
@@ -145,7 +145,7 @@ namespace Natasha.CSharp.Template
                 Using(namespaces[i]);
 
             }
-            return Link;
+            return Link!;
 
         }
 
@@ -162,7 +162,7 @@ namespace Natasha.CSharp.Template
             {
                 Using(item);
             }
-            return Link;
+            return Link!;
 
         }
 
@@ -183,7 +183,7 @@ namespace Natasha.CSharp.Template
                 Using(namespaces[i]);
 
             }
-            return Link;
+            return Link!;
 
         }
         public T Using(IEnumerable<Assembly> namespaces)
@@ -193,7 +193,7 @@ namespace Natasha.CSharp.Template
             {
                 Using(item);
             }
-            return Link;
+            return Link!;
 
         }
 
@@ -213,7 +213,7 @@ namespace Natasha.CSharp.Template
                 Using(namespaces[i]);
 
             }
-            return Link;
+            return Link!;
 
         }
 
@@ -229,7 +229,7 @@ namespace Natasha.CSharp.Template
                 Using(item);
 
             }
-            return Link;
+            return Link!;
 
         }
 
@@ -240,7 +240,7 @@ namespace Natasha.CSharp.Template
         {
 
             Using(typeof(S));
-            return Link;
+            return Link!;
 
         }
         public T Using(Type type)
@@ -254,7 +254,7 @@ namespace Natasha.CSharp.Template
                 return Using(type.Namespace);
 
             }
-            return Link;
+            return Link!;
 
         }
 
@@ -266,7 +266,7 @@ namespace Natasha.CSharp.Template
 
             Using(info.ReturnType);
             Using(info.GetParameters().Select(item => item.ParameterType));
-            return Link;
+            return Link!;
 
         }
 
@@ -335,7 +335,7 @@ namespace Natasha.CSharp.Template
             //  }
             base.BuilderScript();
             _script.Insert(0, GetUsingBuilder());
-            return Link;
+            return Link!;
 
         }
 

@@ -14,7 +14,7 @@ namespace Natasha.CSharp.Template
         {
             AttributeScript.Clear();
             AttributeScript.AppendLine(attrInfo);
-            return Link;
+            return Link!;
         }
 
         // <summary>
@@ -49,7 +49,7 @@ namespace Natasha.CSharp.Template
             {
                 Attribute($"[{type.GetDevelopName()}]");
             }
-            return Link;
+            return Link!;
 
         }
 
@@ -62,7 +62,7 @@ namespace Natasha.CSharp.Template
         public T AttributeAppend(string attrInfo)
         {
             AttributeScript.AppendLine(attrInfo);
-            return Link;
+            return Link!;
 
         }
 
@@ -103,7 +103,7 @@ namespace Natasha.CSharp.Template
             {
                 AttributeAppend($"[{type.GetDevelopName()}]");
             }
-            return Link;
+            return Link!;
 
         }
 
@@ -118,7 +118,7 @@ namespace Natasha.CSharp.Template
             {
                 _script.Append(AttributeScript);
             }
-            return Link;
+            return Link!;
 
         }
 

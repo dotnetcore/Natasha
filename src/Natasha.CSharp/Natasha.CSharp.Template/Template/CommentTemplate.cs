@@ -22,7 +22,7 @@ namespace Natasha.CSharp.Template
         {
 
             CommentScript = string.Empty;
-            return Link;
+            return Link!;
 
         }
 
@@ -38,7 +38,7 @@ namespace Natasha.CSharp.Template
         {
 
             CommentScript = comment;
-            return Link;
+            return Link!;
 
         }
 
@@ -55,7 +55,7 @@ namespace Natasha.CSharp.Template
             {
                 _script.Append(CommentScript);
             }
-            return Link;
+            return Link!;
 
 
         }

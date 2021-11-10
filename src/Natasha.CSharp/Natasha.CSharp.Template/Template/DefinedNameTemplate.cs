@@ -14,7 +14,7 @@ namespace Natasha.CSharp.Template
         {
 
             NameScript = "N" + Guid.NewGuid().ToString("N");
-            return Link;
+            return Link!;
 
         }
 
@@ -29,7 +29,7 @@ namespace Natasha.CSharp.Template
         public T Name(string name)
         {
             NameScript = name;
-            return Link;
+            return Link!;
         }
 
 
@@ -57,7 +57,7 @@ namespace Natasha.CSharp.Template
             // [access] [modifier] [type] [{this}]{}
             base.BuilderScript();
             _script.Append(NameScript);
-            return Link;
+            return Link!;
 
         }
 

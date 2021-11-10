@@ -85,11 +85,12 @@ namespace Natasha.Log
         static NWriter()
         {
 
-            FolderDeepth = 3;   //日志定位到 ‘月/日’文件夹
-            _lock = new object();
             _logPath = string.Empty;
+            _lock = new object();
             _log_folder = () => string.Empty;
             _log_name = () => string.Empty;
+            FolderDeepth = 3;   //日志定位到 ‘月/日’文件夹
+
         }
 
 

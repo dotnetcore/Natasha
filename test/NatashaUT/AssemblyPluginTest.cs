@@ -124,7 +124,7 @@ return default;").Return<string>()
                 var domain = DomainManagement.CurrentDomain;
                 var assemebly = domain.LoadPlugin(path);
                 var action = FastMethodOperator.UseDomain(domain,
-                    item =>item.LogCompilerError() 
+                    item =>item.LogAndThrowCompilerError() 
                 )
                    .Body(@"Class1 obj = new Class1(); return obj.Get();")
                    .Compile<Func<string>>();

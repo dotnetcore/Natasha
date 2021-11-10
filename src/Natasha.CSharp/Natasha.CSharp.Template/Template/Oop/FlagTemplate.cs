@@ -20,13 +20,13 @@ namespace Natasha.CSharp.Template
         public T SetFlag(string script)
         {
             FlagScript.AppendLine($"[{script}]");
-            return Link;
+            return Link!;
         }
 
         public T SetFlag(Type attrType,string script, string flag = "")
         {
             SetFlag($"{flag}:{attrType.GetDevelopName()}(\"{script}\")");
-            return Link;
+            return Link!;
         }
 
         public T SetFlag<S>(string script, string flag = "")
@@ -55,7 +55,7 @@ namespace Natasha.CSharp.Template
             {
                 SetAssemblyFlag<IgnoresAccessChecksToAttribute>(assemblyName);
             }
-            return Link;
+            return Link!;
         }
 
         public T AllowPrivate(Assembly assembly)
@@ -65,7 +65,7 @@ namespace Natasha.CSharp.Template
                 AssemblyCache.Add(assembly);
                 return AllowPrivate(assembly.GetName().Name);
             }
-            return Link;
+            return Link!;
         }
         public T AllowPrivate<S>()
         {
@@ -77,7 +77,7 @@ namespace Natasha.CSharp.Template
             {
                 return AllowPrivate(type.Assembly);
             }
-            return Link;
+            return Link!;
         }
         public T AllowPrivate(MemberInfo info)
         {
@@ -100,7 +100,7 @@ namespace Natasha.CSharp.Template
             //  }
             base.BuilderScript();
             _script.Insert(0, FlagScript);
-            return Link;
+            return Link!;
 
         }
     }

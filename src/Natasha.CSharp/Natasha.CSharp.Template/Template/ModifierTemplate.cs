@@ -29,21 +29,21 @@ namespace Natasha.CSharp.Template
         {
 
             _status.Add(ModifierFlags.Static);
-            return Link;
+            return Link!;
 
         }
         public T Fixed()
         {
 
             _status.Add(ModifierFlags.Abstract);
-            return Link;
+            return Link!;
 
         }
         public T Abstract()
         {
 
             _status.Add(ModifierFlags.Abstract);
-            return Link;
+            return Link!;
 
         }
         public T Readonly()
@@ -55,35 +55,35 @@ namespace Natasha.CSharp.Template
         {
 
             _status.Add(ModifierFlags.New);
-            return Link;
+            return Link!;
 
         }
         public T Virtrual()
         {
 
             _status.Add(ModifierFlags.Virtual);
-            return Link;
+            return Link!;
 
         }
         public T Override()
         {
 
             _status.Add(ModifierFlags.Override);
-            return Link;
+            return Link!;
 
         }
         public T Async()
         {
 
             _status.Add(ModifierFlags.Async);
-            return Link;
+            return Link!;
 
         }
         public T Unsafe()
         {
 
             _status.Add(ModifierFlags.Unsafe);
-            return Link;
+            return Link!;
 
         }
 
@@ -97,7 +97,7 @@ namespace Natasha.CSharp.Template
         {
 
             _modifierScript = ModifierReverser.GetModifier(type);
-            return Link;
+            return Link!;
 
         }
 
@@ -113,7 +113,7 @@ namespace Natasha.CSharp.Template
         {
 
             _modifierScript = ModifierReverser.GetModifier(modifierInfo);
-            return Link;
+            return Link!;
 
         }
 
@@ -129,7 +129,7 @@ namespace Natasha.CSharp.Template
         {
 
             _status.Add(modifierEnum);
-            return Link;
+            return Link!;
 
         }
 
@@ -144,14 +144,14 @@ namespace Natasha.CSharp.Template
         public T Modifier(string modifierString)
         {
             _modifierScript = ScriptWrapper(modifierString);
-            return Link;
+            return Link!;
 
         }
         public T ModifierAppend(string modifierString)
         {
 
             _modifierScript += ScriptWrapper(modifierString);
-            return Link;
+            return Link!;
 
         }
 
@@ -201,7 +201,7 @@ namespace Natasha.CSharp.Template
             // [access] [{this}]
             base.BuilderScript();
             _script.Append(GetModifyBuilder());
-            return Link;
+            return Link!;
 
         }
 

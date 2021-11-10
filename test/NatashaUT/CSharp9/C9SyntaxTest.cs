@@ -18,7 +18,7 @@ namespace NatashaUT
     public string FirstName { get; init; }
     public string LastName { get; init; }
 }";
-            AssemblyCSharpBuilder builder = new AssemblyCSharpBuilder();
+            AssemblyCSharpBuilder builder = new();
             builder.Domain = DomainManagement.Random;
             builder.Add(script);
             var type = builder.GetType();

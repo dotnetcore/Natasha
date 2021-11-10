@@ -25,7 +25,7 @@ namespace Natasha.CSharp.Template
         {
 
             _hiddenNamesapce = shut;
-            return Link;
+            return Link!;
 
         }
 
@@ -41,7 +41,7 @@ namespace Natasha.CSharp.Template
         {
 
             NamespaceScript = @namespace;
-            return Link;
+            return Link!;
 
         }
 
@@ -62,7 +62,7 @@ namespace Natasha.CSharp.Template
         {
 
             NamespaceScript = type.Namespace;
-            return Link;
+            return Link!;
 
         }
 
@@ -85,7 +85,7 @@ namespace Natasha.CSharp.Template
                 _script.Insert(0,$"namespace {NamespaceScript}{{");
                 _script.Append('}');
             }
-            return Link;
+            return Link!;
 
         }
 

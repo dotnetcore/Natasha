@@ -16,13 +16,13 @@ namespace Natasha.CSharp.Template
         public T Constraint(string constraint)
         {
             ConstraintScript = constraint;
-            return Link;
+            return Link!;
         }
 
         public T ConstraintAppend(string constraint)
         {
             ConstraintScript += constraint;
-            return Link;
+            return Link!;
         }
 
         public override T BuilderScript()
@@ -35,7 +35,7 @@ namespace Natasha.CSharp.Template
                 _script.Append(' ');
                 _script.Append(ConstraintScript);
             }
-            return Link;
+            return Link!;
         }
     }
 }

@@ -23,7 +23,7 @@ namespace Natasha.CSharp.Template
         {
 
             AccessScript = string.Empty;
-            return Link;
+            return Link!;
 
         }
 
@@ -39,7 +39,7 @@ namespace Natasha.CSharp.Template
         {
 
             AccessScript = AccessReverser.GetAccess(type);
-            return Link;
+            return Link!;
 
         }
 
@@ -55,7 +55,7 @@ namespace Natasha.CSharp.Template
         {
 
             AccessScript = AccessReverser.GetAccess(accessInfo);
-            return Link;
+            return Link!;
 
         }
 
@@ -71,7 +71,7 @@ namespace Natasha.CSharp.Template
         {
 
             AccessScript = AccessReverser.GetAccess(accessEnum);
-            return Link;
+            return Link!;
 
         }
 
@@ -87,7 +87,7 @@ namespace Natasha.CSharp.Template
         {
 
             AccessScript = ScriptWrapper(accessString);
-            return Link;
+            return Link!;
 
         }
 
@@ -137,7 +137,7 @@ namespace Natasha.CSharp.Template
             {
                 _script.Append(AccessScript);
             }
-            return Link;
+            return Link!;
 
 
         }

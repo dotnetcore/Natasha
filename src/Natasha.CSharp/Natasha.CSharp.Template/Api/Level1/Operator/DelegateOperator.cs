@@ -10,7 +10,7 @@ namespace Natasha.CSharp
     public static class DelegateOperator<T> where T : Delegate
     {
 
-        public static T? Delegate(string content,
+        public static T Delegate(string content,
             AssemblyCSharpBuilder builder, 
             Action<AssemblyCSharpBuilder>? option = default, 
             Func<FakeMethodOperator, FakeMethodOperator>? methodAction = null, 
@@ -18,7 +18,7 @@ namespace Natasha.CSharp
             params NamespaceConverter[]? usings)
         {
 #if DEBUG
-            Stopwatch stopwatch = new Stopwatch();
+            Stopwatch stopwatch = new();
             stopwatch.Start();
 #endif
             var method = typeof(T).GetMethod("Invoke")!;
@@ -40,7 +40,7 @@ namespace Natasha.CSharp
 
 
 
-        public static T? AsyncDelegate(string content,
+        public static T AsyncDelegate(string content,
            AssemblyCSharpBuilder builder,
             Action<AssemblyCSharpBuilder>? option = default, 
             Func<FakeMethodOperator, FakeMethodOperator>? methodAction = null,
@@ -65,7 +65,7 @@ namespace Natasha.CSharp
 
 
 
-        public static T? UnsafeDelegate(string content,
+        public static T UnsafeDelegate(string content,
             AssemblyCSharpBuilder builder,
             Action<AssemblyCSharpBuilder>? option = default, 
             Func<FakeMethodOperator, FakeMethodOperator>? methodAction = null,
@@ -90,7 +90,7 @@ namespace Natasha.CSharp
 
 
 
-        public static T? UnsafeAsyncDelegate(string content,
+        public static T UnsafeAsyncDelegate(string content,
            AssemblyCSharpBuilder builder,
             Action<AssemblyCSharpBuilder>? option = default, 
             Func<FakeMethodOperator, FakeMethodOperator>? methodAction = null,

@@ -17,19 +17,19 @@ namespace Natasha.CSharp.Template
         public T NoBodyBracket()
         {
             _bracket = false;
-            return Link;
+            return Link!;
         }
         public T HasBodyBracket()
         {
             _bracket = true;
-            return Link;
+            return Link!;
         }
 
         public T BodyAppend(string body)
         {
 
             BodyScript.Append(body);
-            return Link;
+            return Link!;
 
         }
 
@@ -38,7 +38,7 @@ namespace Natasha.CSharp.Template
         {
 
             BodyScript.AppendLine(body);
-            return Link;
+            return Link!;
 
         }
 
@@ -48,7 +48,7 @@ namespace Natasha.CSharp.Template
 
             BodyScript.Clear();
             BodyScript.Append(body);
-            return Link;
+            return Link!;
 
         }
 
@@ -57,7 +57,7 @@ namespace Natasha.CSharp.Template
         {
 
             OnceBodyScript.AppendLine(body);
-            return Link;
+            return Link!;
 
         }
 
@@ -67,7 +67,7 @@ namespace Natasha.CSharp.Template
 
             OnceBodyScript.Clear();
             OnceBodyScript.Append(body);
-            return Link;
+            return Link!;
 
         }
 
@@ -93,7 +93,7 @@ namespace Natasha.CSharp.Template
             }
            
             OnceBodyScript.Clear();
-            return Link;
+            return Link!;
         }
 
 

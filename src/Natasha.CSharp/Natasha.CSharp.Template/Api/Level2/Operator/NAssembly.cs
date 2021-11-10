@@ -51,9 +51,9 @@ namespace Natasha.CSharp
         /// </summary>
         /// <param name="script">脚本代码</param>
         /// <returns></returns>
-        public NatashaException AddScript(string script)
+        public void AddScript(string script)
         {
-            return AssemblyBuilder.Add(script);
+            AssemblyBuilder.Add(script);
         }
 
 
@@ -62,9 +62,9 @@ namespace Natasha.CSharp
         /// </summary>
         /// <param name="path">代码文件路径</param>
         /// <returns></returns>
-        public NatashaException AddFile(string path)
+        public void AddFile(string path)
         {
-            return AssemblyBuilder.AddFile(path);
+            AssemblyBuilder.AddFile(path);
         }
 
         private T GetBaseOopHandler<T>() where T : OopBuilder<T>, new()
@@ -165,20 +165,14 @@ namespace Natasha.CSharp
         /// 进行语法检查
         /// </summary>
         /// <returns></returns>
-        public List<NatashaException> Check()
+        public void Check()
         {
 
-            var list = new List<NatashaException>();
             HasChecked = true;
             foreach (var item in _builderCache)
             {
-                var exception = AssemblyBuilder.Add(item);
-                if (exception!=null)
-                {
-                    list.Add(exception);
-                }
+                AssemblyBuilder.Add(item);
             }
-            return list;
 
         }
 
@@ -187,7 +181,7 @@ namespace Natasha.CSharp
         /// 对整个程序集进行编译
         /// </summary>
         /// <returns></returns>
-        public Assembly? GetAssembly()
+        public Assembly GetAssembly()
         {
 
             if (!HasChecked)
@@ -205,32 +199,24 @@ namespace Natasha.CSharp
         /// </summary>
         /// <param name="name">类名</param>
         /// <returns></returns>
-        public Type? GetTypeFromShortName(string name)
+        public Type GetTypeFromShortName(string name)
         {
 
             if (Assembly == null)
             {
                 GetAssembly();
             }
-            if (Assembly == null)
-            {
-                return null;
-            }
-            return Assembly.GetTypes().First(item => item.Name == name);
+            return Assembly!.GetTypes().First(item => item.Name == name);
 
         }
-        public Type? GetTypeFromFullName(string name)
+        public Type GetTypeFromFullName(string name)
         {
 
             if (Assembly == null)
             {
                 GetAssembly();
             }
-            if (Assembly == null)
-            {
-                return null;
-            }
-            return Assembly.GetTypes().First(item => item.GetDevelopName() == name);
+            return Assembly!.GetTypes().First(item => item.GetDevelopName() == name);
 
         }
 

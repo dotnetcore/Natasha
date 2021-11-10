@@ -25,7 +25,6 @@ namespace Natasha.CSharp.Builder
 
 
         public readonly OopBuilder OopHandler;
-        public NatashaException? Exception;
 
         public MethodBuilder()
         {
@@ -40,7 +39,7 @@ namespace Natasha.CSharp.Builder
         {
             this.ConfigComplier(item => item.SupportSkipLocalInit());
             this.AttributeAppend<SkipLocalsInitAttribute>();
-            return Link;
+            return Link!;
         }
 
 
@@ -49,21 +48,21 @@ namespace Natasha.CSharp.Builder
         {
 
             OopHandler.Using<S>();
-            return Link;
+            return Link!;
 
         }
         public T Using(Type @using)
         {
 
             OopHandler.Using(@using);
-            return Link;
+            return Link!;
 
         }
         public T Using(string @using)
         {
 
             OopHandler.Using(@using);
-            return Link;
+            return Link!;
 
         }
 
@@ -71,21 +70,21 @@ namespace Natasha.CSharp.Builder
         {
 
             OopHandler.Using(@using);
-            return Link;
+            return Link!;
 
         }
         public T Using(NamespaceConverter @using)
         {
 
             OopHandler.Using(@using);
-            return Link;
+            return Link!;
 
         }
         public T Using(NamespaceConverter[]? @using)
         {
 
             OopHandler.Using(@using);
-            return Link;
+            return Link!;
 
         }
 
@@ -104,7 +103,7 @@ namespace Natasha.CSharp.Builder
         {
 
             acion?.Invoke(OopHandler);
-            return Link;
+            return Link!;
 
         }
 
@@ -120,7 +119,7 @@ namespace Natasha.CSharp.Builder
         {
 
             OopHandler.Name(className);
-            return Link;
+            return Link!;
 
         }
 
@@ -136,14 +135,14 @@ namespace Natasha.CSharp.Builder
         {
 
             OopHandler.Namespace(@namespace);
-            return Link;
+            return Link!;
 
         }
 
 
 
 
-        public Delegate? Compile(object? target = null)
+        public Delegate Compile(object? target = null)
         {
 
             Using(AssemblyBuilder.Compiler.Domain.GetReferenceElements().ToArray());
@@ -154,19 +153,8 @@ namespace Natasha.CSharp.Builder
 
 
             OopHandler.BodyAppend(Script);
-            Exception = AssemblyBuilder.Add(OopHandler);
-
-
-            if (!Exception.HasError)
-            {
-                var @delegate = AssemblyBuilder.GetDelegateFromShortName(OopHandler.NameScript, NameScript, DelegateType, target);
-                if (@delegate == null)
-                {
-                    Exception = AssemblyBuilder.Exceptions![0];
-                }
-                return @delegate;
-            }
-            return null;
+            AssemblyBuilder.Add(OopHandler);
+            return AssemblyBuilder.GetDelegateFromShortName(OopHandler.NameScript, NameScript, DelegateType, target);
 
         }
 
@@ -174,10 +162,10 @@ namespace Natasha.CSharp.Builder
 
 
 
-        public S? Compile<S>(object? target = null) where S : Delegate
+        public S Compile<S>(object? target = null) where S : Delegate
         {
 #if DEBUG
-            Stopwatch stopwatch = new Stopwatch();
+            Stopwatch stopwatch = new();
             stopwatch.Start();
 #endif
             Using(AssemblyBuilder.Compiler.Domain.GetReferenceElements());
@@ -213,17 +201,8 @@ namespace Natasha.CSharp.Builder
 #endif
             //Mark : 11M Memory
             OopHandler.BodyAppend(Script);
-            Exception = AssemblyBuilder.Add(OopHandler);
-            if (!Exception.HasError)
-            {
-                S? @delegate = AssemblyBuilder.GetDelegateFromShortName<S>(OopHandler.NameScript, NameScript, target);
-                if (@delegate == null)
-                {
-                    Exception = AssemblyBuilder.Exceptions![0];
-                }
-                return @delegate;
-            }
-            return null;
+            AssemblyBuilder.Add(OopHandler);
+            return AssemblyBuilder.GetDelegateFromShortName<S>(OopHandler.NameScript, NameScript, target);
 
         }
 

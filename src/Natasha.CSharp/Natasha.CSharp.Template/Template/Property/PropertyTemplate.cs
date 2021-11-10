@@ -36,7 +36,7 @@ namespace Natasha.CSharp.Template
         public T Setter(string? body = default)
         {
             _setter_body = body;
-            return Link;
+            return Link!;
 
         }
         public T OnlySetter(string? body = default)
@@ -53,7 +53,7 @@ namespace Natasha.CSharp.Template
         {
 
             _getter_body = body;
-            return Link;
+            return Link!;
 
         }
         public T OnlyGetter(string? body = default)
@@ -121,7 +121,7 @@ namespace Natasha.CSharp.Template
             _script.Append(_getter);
             _script.Append(_setter);
             _script.Append('}');
-            return Link;
+            return Link!;
 
         }
 

@@ -13,7 +13,7 @@ namespace Natasha.CSharp.Template
         public CompilerTemplate()
         {
 
-            AssemblyBuilder = new AssemblyCSharpBuilder();
+            AssemblyBuilder = new();
 
         }
 
@@ -24,7 +24,7 @@ namespace Natasha.CSharp.Template
             {
                 AssemblyBuilder.Compiler = compilerFunc(AssemblyBuilder.Compiler);
             }
-            return Link;
+            return Link!;
         }
 
         public T ConfigCompilation(Func<CSharpCompilation, CSharpCompilation> compilerFunc)
@@ -33,7 +33,7 @@ namespace Natasha.CSharp.Template
             {
                 AssemblyBuilder.Compiler.Compilation = compilerFunc(AssemblyBuilder.Compiler.Compilation!);
             }
-            return Link;
+            return Link!;
         }
 
 
@@ -43,13 +43,13 @@ namespace Natasha.CSharp.Template
         {
 
             AssemblyBuilder.CustomUsingShut = false;
-            return Link;
+            return Link!;
 
         }
         public T CustomUsing()
         {
             AssemblyBuilder.CustomUsingShut = true;
-            return Link;
+            return Link!;
         }
 
 
@@ -59,7 +59,7 @@ namespace Natasha.CSharp.Template
         {
 
             AssemblyBuilder.Compiler.AssemblyName = name;
-            return Link;
+            return Link!;
 
         }
 
@@ -92,7 +92,7 @@ namespace Natasha.CSharp.Template
         public static T UseDomain(DomainBase domain, Action<AssemblyCSharpBuilder>? option = default)
         {
 
-            T instance = new T();
+            T instance = new();
             instance.AssemblyBuilder.Compiler.Domain = domain;
             instance.OptionAction = option;
             option?.Invoke(instance.AssemblyBuilder);

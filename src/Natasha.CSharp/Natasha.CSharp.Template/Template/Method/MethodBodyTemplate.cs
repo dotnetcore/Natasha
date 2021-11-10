@@ -29,20 +29,20 @@ namespace Natasha.CSharp.Template
         public T Body(string bodyString)
         {
             _bodyScript = bodyString;
-            return Link;
+            return Link!;
 
         }
         public T BodyAppend(string bodyString)
         {
             _bodyScript += bodyString;
-            return Link;
+            return Link!;
 
         }
         public T NoBody(string suffix)
         {
             _useNoBody = true;
             _bodyScript = suffix;
-            return Link;
+            return Link!;
         }
 
 
@@ -55,7 +55,7 @@ namespace Natasha.CSharp.Template
             // [access] [modifier] [type] [name]([parameter])[{this}]
             base.BuilderScript();
             _script.Append(BodyScript);
-            return Link;
+            return Link!;
 
         }
 

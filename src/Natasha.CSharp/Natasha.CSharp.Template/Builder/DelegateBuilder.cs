@@ -73,11 +73,13 @@ namespace Natasha.CSharp.Builder
                 return FuncMaker[0].MakeGenericType(returnType);
             }
 
-            var list = new List<Type>();
-            list.AddRange(parametersTypes);
-            list.Add(returnType);
-
-            return FuncMaker[parametersTypes.Length].MakeGenericType(list.ToArray());
+            var list = new Type[parametersTypes.Length+1];
+            for (int i = 0; i < parametersTypes.Length; i++)
+            {
+                list[i] = parametersTypes[i];
+            }
+            list[parametersTypes.Length] = returnType;
+            return FuncMaker[parametersTypes.Length].MakeGenericType(list);
         }
 
 

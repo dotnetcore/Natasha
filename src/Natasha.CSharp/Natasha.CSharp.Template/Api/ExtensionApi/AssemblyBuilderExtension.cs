@@ -16,24 +16,18 @@ namespace Natasha.CSharp
     public static class AssemblyBuilderExtension
     {
 
-        public static Type? GetTypeFromFullName(this AssemblyCSharpBuilder builder, string typeName)
+        public static Type GetTypeFromFullName(this AssemblyCSharpBuilder builder, string typeName)
         {
 
-            Assembly? assembly = builder.GetAssembly();
-            if (assembly == null)
+            Assembly assembly = builder.GetAssembly();
+            try
             {
-
-                return null;
-
+                return assembly.GetTypes().First(item => item.GetDevelopName() == typeName);
             }
-
-
-            var type = assembly.GetTypes().First(item => item.GetDevelopName() == typeName);
-            if (type == null)
+            catch (Exception ex)
             {
-
-                NatashaException exception = new NatashaException($"无法在程序集 {builder.Compiler.AssemblyName} 中找到该类型 {typeName}！");
-                if (builder.Exceptions!.Count == 0)
+                CompileWrapperExceptions exception = new($"无法在程序集 {builder.Compiler.AssemblyName} 中找到该类型 {typeName}！错误信息:{ex.Message}");
+                if (builder.Exceptions.Count > 0)
                 {
                     exception.ErrorFlag = ExceptionKind.Type;
                 }
@@ -41,30 +35,23 @@ namespace Natasha.CSharp
                 {
                     exception.ErrorFlag = ExceptionKind.Assembly;
                 }
-                builder.Exceptions.Add(exception);
-
+                exception.CompilerExcpetions.AddRange(builder.Exceptions);
+                throw exception;
             }
-            return type;
 
         }
-        public static Type? GetTypeFromShortName(this AssemblyCSharpBuilder builder, string typeName)
+        public static Type GetTypeFromShortName(this AssemblyCSharpBuilder builder, string typeName)
         {
 
-            Assembly? assembly = builder.GetAssembly();
-            if (assembly == null)
+            Assembly assembly = builder.GetAssembly();
+            try
             {
-
-                return null;
-
+                return assembly.GetTypes().First(item => item.Name == typeName);
             }
-
-
-            var type = assembly.GetTypes().First(item => item.Name == typeName);
-            if (type == null)
+            catch (Exception ex)
             {
-
-                NatashaException exception = new NatashaException($"无法在程序集 {builder.Compiler.AssemblyName} 中找到该类型 {typeName}！");
-                if (builder.Exceptions!.Count == 0)
+                CompileWrapperExceptions exception = new($"无法在程序集 {builder.Compiler.AssemblyName} 中找到该类型 {typeName}！错误信息:{ex.Message}");
+                if (builder.Exceptions.Count > 0)
                 {
                     exception.ErrorFlag = ExceptionKind.Type;
                 }
@@ -72,32 +59,30 @@ namespace Natasha.CSharp
                 {
                     exception.ErrorFlag = ExceptionKind.Assembly;
                 }
-                builder.Exceptions.Add(exception);
-
+                exception.CompilerExcpetions.AddRange(builder.Exceptions);
+                throw exception;
             }
-            return type;
 
         }
-        
-        
-        
-        
-        public static MethodInfo? GetMethodFromFullName(this AssemblyCSharpBuilder builder, string typeName, string methodName)
+
+        public static MethodInfo GetMethodFromFullName(this AssemblyCSharpBuilder builder, string typeName, string methodName)
         {
 
             var type = builder.GetTypeFromFullName(typeName);
-            if (type == null)
+            try
             {
-                return null;
+                var info = type.GetMethod(methodName);
+                if (info == null)
+                {
+                    throw new Exception("获取方法返回空!");
+                }
+                return info;
             }
-
-
-            var info = type.GetMethod(methodName);
-            if (info == null)
+            catch (Exception ex)
             {
 
-                NatashaException exception = new NatashaException($"无法在类型 {typeName} 中找到该方法 {methodName}！");
-                if (builder.Exceptions!.Count == 0)
+                CompileWrapperExceptions exception = new($"无法在类型 {typeName} 中找到该方法 {methodName}！错误信息:{ex.Message}");
+                if (builder.Exceptions.Count > 0)
                 {
                     exception.ErrorFlag = ExceptionKind.Method;
                 }
@@ -105,28 +90,30 @@ namespace Natasha.CSharp
                 {
                     exception.ErrorFlag = ExceptionKind.Assembly;
                 }
-                builder.Exceptions.Add(exception);
+                exception.CompilerExcpetions.AddRange(builder.Exceptions);
+                throw exception;
 
             }
-            return info;
 
         }
-        public static MethodInfo? GetMethodFromShortName(this AssemblyCSharpBuilder builder, string typeName, string methodName)
+        public static MethodInfo GetMethodFromShortName(this AssemblyCSharpBuilder builder, string typeName, string methodName)
         {
 
             var type = builder.GetTypeFromShortName(typeName);
-            if (type == null)
+            try
             {
-                return null;
+                var info = type.GetMethod(methodName);
+                if (info == null)
+                {
+                    throw new Exception("获取方法返回空!");
+                }
+                return info;
             }
-
-
-            var info = type.GetMethod(methodName);
-            if (info == null)
+            catch (Exception ex)
             {
 
-                NatashaException exception = new NatashaException($"无法在类型 {typeName} 中找到该方法 {methodName}！");
-                if (builder.Exceptions!.Count == 0)
+                CompileWrapperExceptions exception = new($"无法在类型 {typeName} 中找到该方法 {methodName}！错误信息:{ex.Message}");
+                if (builder.Exceptions.Count > 0)
                 {
                     exception.ErrorFlag = ExceptionKind.Method;
                 }
@@ -134,26 +121,20 @@ namespace Natasha.CSharp
                 {
                     exception.ErrorFlag = ExceptionKind.Assembly;
                 }
-                builder.Exceptions.Add(exception);
+                exception.CompilerExcpetions.AddRange(builder.Exceptions);
+                throw exception;
 
             }
-            return info;
 
         }
-        
-        
-        
-        
-        public static Delegate? GetDelegateFromFullName(this AssemblyCSharpBuilder builder, string typeName, string methodName, Type delegateType, object? target = null)
+
+
+
+
+        public static Delegate GetDelegateFromFullName(this AssemblyCSharpBuilder builder, string typeName, string methodName, Type delegateType, object? target = null)
         {
 
             var info = builder.GetMethodFromFullName(typeName, methodName);
-            if (info == null)
-            {
-                return null;
-            }
-
-
             try
             {
 
@@ -163,7 +144,7 @@ namespace Natasha.CSharp
             catch (Exception ex)
             {
 
-                NatashaException exception = new NatashaException($"在类型 {typeName} 中找到的方法 {methodName} 向 {delegateType.FullName} 转换时出错！错误信息:{ex.Message}");
+                CompileWrapperExceptions exception = new($"在类型 {typeName} 中找到的方法 {methodName} 向 {delegateType.FullName} 转换时出错！错误信息:{ex.Message}");
                 if (builder.Exceptions!.Count == 0)
                 {
                     exception.ErrorFlag = ExceptionKind.Delegate;
@@ -172,36 +153,31 @@ namespace Natasha.CSharp
                 {
                     exception.ErrorFlag = ExceptionKind.Assembly;
                 }
-                builder.Exceptions.Add(exception);
+                exception.CompilerExcpetions.AddRange(builder.Exceptions);
+                throw exception;
 
             }
-            return null;
 
         }
-        public static T? GetDelegateFromFullName<T>(this AssemblyCSharpBuilder builder, string typeName, string methodName, object? target = null) where T : Delegate
+        public static T GetDelegateFromFullName<T>(this AssemblyCSharpBuilder builder, string typeName, string methodName, object? target = null) where T : Delegate
         {
-            return (T?)GetDelegateFromFullName(builder,typeName, methodName, typeof(T), target);
+            return (T)GetDelegateFromFullName(builder, typeName, methodName, typeof(T), target);
         }
-        public static Delegate? GetDelegateFromShortName(this AssemblyCSharpBuilder builder, string typeName, string methodName, Type delegateType, object? target = null)
+        public static Delegate GetDelegateFromShortName(this AssemblyCSharpBuilder builder, string typeName, string methodName, Type delegateType, object? target = null)
         {
 
             var info = builder.GetMethodFromShortName(typeName, methodName);
-            if (info == null)
-            {
-                return null;
-            }
-
 
             try
             {
 
                 return info.CreateDelegate(delegateType, target);
-  
+
             }
             catch (Exception ex)
             {
 
-                NatashaException exception = new NatashaException($"在类型 {typeName} 中找到的方法 {methodName} 向 {delegateType.FullName} 转换时出错！错误信息:{ex.Message}");
+                CompileWrapperExceptions exception = new($"在类型 {typeName} 中找到的方法 {methodName} 向 {delegateType.FullName} 转换时出错！错误信息:{ex.Message}");
                 if (builder.Exceptions!.Count == 0)
                 {
                     exception.ErrorFlag = ExceptionKind.Delegate;
@@ -210,15 +186,15 @@ namespace Natasha.CSharp
                 {
                     exception.ErrorFlag = ExceptionKind.Assembly;
                 }
-                builder.Exceptions.Add(exception);
+                exception.CompilerExcpetions.AddRange(builder.Exceptions);
+                throw exception;
 
             }
-            return null;
 
         }
-        public static T? GetDelegateFromShortName<T>(this AssemblyCSharpBuilder builder, string typeName, string methodName, object? target = null) where T : Delegate
+        public static T GetDelegateFromShortName<T>(this AssemblyCSharpBuilder builder, string typeName, string methodName, object? target = null) where T : Delegate
         {
-            return (T?)GetDelegateFromShortName(builder, typeName, methodName, typeof(T), target);
+            return (T)GetDelegateFromShortName(builder, typeName, methodName, typeof(T), target);
         }
 
 
@@ -237,24 +213,24 @@ namespace Natasha.CSharp
         }
         public static AssemblyCSharpBuilder ThrowCompilerError(this AssemblyCSharpBuilder builder)
         {
-            builder.CompileErrorBehavior = ExceptionBehavior.Throw;
+            builder.CompileErrorBehavior = ExceptionBehavior.OnlyThrow;
             return builder;
         }
-        public static AssemblyCSharpBuilder ThrowAndLogCompilerError(this AssemblyCSharpBuilder builder)
+        public static AssemblyCSharpBuilder LogAndThrowCompilerError(this AssemblyCSharpBuilder builder)
         {
-            builder.CompileErrorBehavior = ExceptionBehavior.Log | ExceptionBehavior.Throw;
+            builder.CompileErrorBehavior = ExceptionBehavior.LogAndThrow;
             return builder;
         }
-        public static AssemblyCSharpBuilder LogCompilerError(this AssemblyCSharpBuilder builder)
-        {
-            builder.CompileErrorBehavior = ExceptionBehavior.Log;
-            return builder;
-        }
-        public static AssemblyCSharpBuilder IgnoreCompilerError(this AssemblyCSharpBuilder builder)
-        {
-            builder.CompileErrorBehavior = ExceptionBehavior.None;
-            return builder;
-        }
+        //public static AssemblyCSharpBuilder LogCompilerError(this AssemblyCSharpBuilder builder)
+        //{
+        //    builder.CompileErrorBehavior = ExceptionBehavior.Log;
+        //    return builder;
+        //}
+        //public static AssemblyCSharpBuilder IgnoreCompilerError(this AssemblyCSharpBuilder builder)
+        //{
+        //    builder.CompileErrorBehavior = ExceptionBehavior.None;
+        //    return builder;
+        //}
         public static AssemblyCSharpBuilder EnableSucceedLog(this AssemblyCSharpBuilder builder)
         {
             builder.NeedSucceedLog = true;
@@ -267,46 +243,46 @@ namespace Natasha.CSharp
         }
 
 
-        public static AssemblyCSharpBuilder ThrowAndLogSyntaxError(this AssemblyCSharpBuilder builder)
+        public static AssemblyCSharpBuilder LogAndThrowSyntaxError(this AssemblyCSharpBuilder builder)
         {
-            builder.SyntaxErrorBehavior = ExceptionBehavior.Log | ExceptionBehavior.Throw;
+            builder.SyntaxErrorBehavior = ExceptionBehavior.LogAndThrow;
             return builder;
         }
         public static AssemblyCSharpBuilder ThrowSyntaxError(this AssemblyCSharpBuilder builder)
         {
-            builder.SyntaxErrorBehavior = ExceptionBehavior.Throw;
+            builder.SyntaxErrorBehavior = ExceptionBehavior.OnlyThrow;
             return builder;
         }
-        public static AssemblyCSharpBuilder ForceAddSyntax(this AssemblyCSharpBuilder builder)
-        {
-            builder.SyntaxErrorBehavior = ExceptionBehavior.Ignore;
-            return builder;
-        }
-        public static AssemblyCSharpBuilder LogSyntaxError(this AssemblyCSharpBuilder builder)
-        {
-            builder.SyntaxErrorBehavior = ExceptionBehavior.Log;
-            return builder;
-        }
+        //public static AssemblyCSharpBuilder ForceAddSyntax(this AssemblyCSharpBuilder builder)
+        //{
+        //    builder.SyntaxErrorBehavior = ExceptionBehavior.Ignore;
+        //    return builder;
+        //}
+        //public static AssemblyCSharpBuilder LogSyntaxError(this AssemblyCSharpBuilder builder)
+        //{
+        //    builder.SyntaxErrorBehavior = ExceptionBehavior.Log;
+        //    return builder;
+        //}
 
-        public static AssemblyCSharpBuilder IgnoreSyntaxError(this AssemblyCSharpBuilder builder)
-        {
-            builder.SyntaxErrorBehavior = ExceptionBehavior.None;
-            return builder;
-        }
+        //public static AssemblyCSharpBuilder IgnoreSyntaxError(this AssemblyCSharpBuilder builder)
+        //{
+        //    builder.SyntaxErrorBehavior = ExceptionBehavior.None;
+        //    return builder;
+        //}
 
-        public static AssemblyCSharpBuilder SetAssemblyName(this AssemblyCSharpBuilder builder,string assemblyName)
+        public static AssemblyCSharpBuilder SetAssemblyName(this AssemblyCSharpBuilder builder, string assemblyName)
         {
             builder.Compiler.AssemblyName = assemblyName;
             return builder;
         }
 
-        public static AssemblyCSharpBuilder SetRetryLimit(this AssemblyCSharpBuilder builder,int maxRetry)
+        public static AssemblyCSharpBuilder SetRetryLimit(this AssemblyCSharpBuilder builder, int maxRetry)
         {
             builder.RetryLimit = maxRetry;
             return builder;
         }
 
-        public static AssemblyCSharpBuilder SetOutputFolder(this AssemblyCSharpBuilder builder,string folder)
+        public static AssemblyCSharpBuilder SetOutputFolder(this AssemblyCSharpBuilder builder, string folder)
         {
             builder.OutputFolder = folder;
             return builder;

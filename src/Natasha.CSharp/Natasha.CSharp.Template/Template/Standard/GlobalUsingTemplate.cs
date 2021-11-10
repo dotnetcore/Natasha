@@ -32,7 +32,7 @@ namespace Natasha.CSharp.Template
         {
 
             UsingRecoder.Add(type);
-            return Link;
+            return Link!;
 
         }
 
@@ -42,7 +42,7 @@ namespace Natasha.CSharp.Template
         {
 
             UsingRecoder.Union(types);
-            return Link;
+            return Link!;
 
         }
 
@@ -54,7 +54,7 @@ namespace Natasha.CSharp.Template
 
             get {
 #if DEBUG
-                Stopwatch stopwatch = new Stopwatch();
+                Stopwatch stopwatch = new();
                 stopwatch.Start();
 #endif
                 //Mark : 138ms
@@ -98,7 +98,7 @@ namespace Natasha.CSharp.Template
         public virtual T BuilderScript()
         {
 
-            return Link;
+            return Link!;
 
         }
 

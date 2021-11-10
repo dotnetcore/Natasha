@@ -19,7 +19,7 @@ namespace Natasha.CSharp.Template
         {
 
             NamespaceBodyScript.Append(body);
-            return Link;
+            return Link!;
 
         }
 
@@ -28,7 +28,7 @@ namespace Natasha.CSharp.Template
         {
 
             NamespaceBodyScript.AppendLine(body);
-            return Link;
+            return Link!;
 
         }
 
@@ -38,7 +38,7 @@ namespace Natasha.CSharp.Template
 
             NamespaceBodyScript.Clear();
             NamespaceBodyScript.Append(body);
-            return Link;
+            return Link!;
 
         }
 
@@ -47,7 +47,7 @@ namespace Natasha.CSharp.Template
         {
 
             NamespaceOnceBodyScript.AppendLine(body);
-            return Link;
+            return Link!;
 
         }
 
@@ -57,7 +57,7 @@ namespace Natasha.CSharp.Template
 
             NamespaceOnceBodyScript.Clear();
             NamespaceOnceBodyScript.Append(body);
-            return Link;
+            return Link!;
 
         }
 
@@ -75,7 +75,7 @@ namespace Natasha.CSharp.Template
             _script.Append(NamespaceBodyScript);
             _script.Append(NamespaceOnceBodyScript);
             NamespaceOnceBodyScript.Clear();
-            return Link;
+            return Link!;
         }
     }
 }

@@ -258,7 +258,7 @@ namespace Natasha.Framework
             }
             else
             {
-                HashSet<string> exclude = new HashSet<string>(excludePaths);
+                HashSet<string> exclude = new(excludePaths);
                 if (!exclude.Contains(path))
                 {
                     OtherReferencesFromFile[Path.GetFileNameWithoutExtension(path)] = MetadataReference.CreateFromFile(path);
@@ -298,7 +298,7 @@ namespace Natasha.Framework
             }
             else
             {
-                HashSet<string> exclude = new HashSet<string>(excludePaths);
+                HashSet<string> exclude = new(excludePaths);
                 if (!exclude.Contains(path))
                 {
                     OtherReferencesFromFile[Path.GetFileNameWithoutExtension(path)] = MetadataReference.CreateFromStream(new FileStream(path, FileMode.Open, FileAccess.Read));
@@ -343,7 +343,7 @@ namespace Natasha.Framework
             else
             {
 
-                HashSet<string> exclude = new HashSet<string>(excludePaths);
+                HashSet<string> exclude = new(excludePaths);
 
                 var dllPath = Path.GetDirectoryName(path);
                 string[] dllFiles = Directory.GetFiles(dllPath!, "*.dll", subFolder ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
@@ -387,7 +387,7 @@ namespace Natasha.Framework
             }
             else
             {
-                HashSet<string> exclude = new HashSet<string>(excludePaths);
+                HashSet<string> exclude = new(excludePaths);
                 DependencyResolver = new AssemblyDependencyResolver(path);
                 var newMapping = GetDictionary(DependencyResolver);
 

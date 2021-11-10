@@ -34,7 +34,7 @@ namespace Natasha.CSharp.Template
             {
                 Param(item);
             }
-            return Link;
+            return Link!;
 
         }
 
@@ -50,7 +50,7 @@ namespace Natasha.CSharp.Template
         {
             
             Param(info.ParameterType, info.Name!, DeclarationReverser.GetParametePrefix(info));
-            return Link;
+            return Link!;
 
         }
 
@@ -69,7 +69,7 @@ namespace Natasha.CSharp.Template
         //    {
         //        ParametersScript.Append(parameterString + ",");
         //    }
-        //    return Link;
+        //    return Link!;
 
         //}
 
@@ -113,7 +113,7 @@ namespace Natasha.CSharp.Template
                 ParametersScript.Append(',');
             }
             ParametersScript.Append(script);
-            return Link;
+            return Link!;
         }
 
 
@@ -126,7 +126,7 @@ namespace Natasha.CSharp.Template
             // [access] [modifier] [type] [name][{this}]  
             base.BuilderScript();
             _script.Append($"({ParametersScript})");
-            return Link;
+            return Link!;
 
         }
 

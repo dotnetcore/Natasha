@@ -11,7 +11,7 @@
             // [access] [modifier] [type] [name][{this}]  
             base.BuilderScript();
             _script.Append(';');
-            return Link;
+            return Link!;
 
         }
 

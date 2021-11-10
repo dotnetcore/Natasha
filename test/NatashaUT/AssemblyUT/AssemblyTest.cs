@@ -226,13 +226,13 @@ public class Test{}
         {
             
             string assemblyName = "tsda";
-            AssemblyCSharpBuilder builder = new AssemblyCSharpBuilder(assemblyName);
+            AssemblyCSharpBuilder builder = new(assemblyName);
             builder.Compiler.Domain = DomainManagement.Create("a");
             builder.Add("public class TSDA{}");
             var assembly = builder.GetAssembly();
             assembly.RemoveReferences();
             Assert.NotNull(assembly);
-            builder = new AssemblyCSharpBuilder();
+            builder = new();
             builder.Compiler.Domain = DomainManagement.Create("a");
             builder.Add("public class TSDA{}");
             var assembly1 = builder.GetAssembly();

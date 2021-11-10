@@ -27,7 +27,7 @@ namespace Natasha.CSharp.Engine.SemanticAnalaysis
                 {
 
 #if DEBUG
-                    Stopwatch stopwatch = new Stopwatch();
+                    Stopwatch stopwatch = new();
                     stopwatch.Start();
 #endif
                     CompilationUnitSyntax root = tree.GetCompilationUnitRoot();
