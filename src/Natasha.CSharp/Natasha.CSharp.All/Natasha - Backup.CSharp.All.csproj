@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+
 	  <Description>发布最新版 Natasha</Description>
 	  <PackageId>DotNetCore.Natasha.CSharp.All</PackageId>
 	  <PackageReleaseNotes>升级到最新版.</PackageReleaseNotes>

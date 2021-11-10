@@ -1,21 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>netcoreapp3.1;net5.0;</TargetFrameworks>
 		<Description>CS0104 问题处理扩展</Description>
 		<PackageId>Natasha.CSharp.Extension.Ambiguity</PackageId>
-		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
 		<PackageReleaseNotes>升级到最新版.</PackageReleaseNotes>
 		<Version>1.0.0.1</Version>
-		<PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
-		<PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
 		<PackageTags>Roslyn;IL;Script;Dynamic;Natasha;NMS;CS0104;</PackageTags>
-		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-		<PackageIconUrl>https://avatars2.githubusercontent.com/u/51699821</PackageIconUrl>
 		<FileVersion>1.0.0.1</FileVersion>
 		<AssemblyVersion>1.0.0.1</AssemblyVersion>
-		<Copyright>.NET Core Community and Contributors</Copyright>
-		<Owners>.NET Core Community and Contributors</Owners>
 	</PropertyGroup>
 
 

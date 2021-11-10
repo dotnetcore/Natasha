@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28803.352
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natasha.CSharp.Template", "src\Natasha.CSharp\Natasha.CSharp.Template\Natasha.CSharp.Template.csproj", "{D167177F-6761-4B1C-BC07-6D73B918AB99}"
 EndProject
@@ -10,9 +10,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{13AACED0-099F-423D-AC8A-E3067DD42A55}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		tools\19404084.png = tools\19404084.png
 		azure-pipelines.yml = azure-pipelines.yml
 		Directory.Build.props = Directory.Build.props
 		.github\workflows\dotnetcore.yml = .github\workflows\dotnetcore.yml
+		tools\LICENSE = tools\LICENSE
 		Natasha.ProjectVersion.txt = Natasha.ProjectVersion.txt
 		README.md = README.md
 	EndProjectSection
@@ -67,11 +69,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Natasha.CSharp.Extension.Pr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugin", "Plugin", "{1409A106-76BE-49EB-9A86-AF9A9110FBFD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImplementPlugin", "samples\Plugin\NatashaPluginSample\ImplementPlugin.csproj", "{6BBEA83E-F737-4B61-A62E-30577931EE5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImplementPlugin", "samples\Plugin\NatashaPluginSample\ImplementPlugin.csproj", "{6BBEA83E-F737-4B61-A62E-30577931EE5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginBase", "samples\Plugin\PluginBase\PluginBase.csproj", "{2207D4D5-BD90-412C-A77A-8042533A3095}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginBase", "samples\Plugin\PluginBase\PluginBase.csproj", "{2207D4D5-BD90-412C-A77A-8042533A3095}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginSample", "samples\Plugin\PluginSample\PluginSample.csproj", "{7CB1C9F1-66A3-4053-8AFC-ED360CBEE486}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginSample", "samples\Plugin\PluginSample\PluginSample.csproj", "{7CB1C9F1-66A3-4053-8AFC-ED360CBEE486}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "net60", "samples\net60\net60.csproj", "{A829B975-4012-4252-8353-F0B5D7502BD8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -175,6 +179,10 @@ Global
 		{7CB1C9F1-66A3-4053-8AFC-ED360CBEE486}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CB1C9F1-66A3-4053-8AFC-ED360CBEE486}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7CB1C9F1-66A3-4053-8AFC-ED360CBEE486}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A829B975-4012-4252-8353-F0B5D7502BD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A829B975-4012-4252-8353-F0B5D7502BD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A829B975-4012-4252-8353-F0B5D7502BD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A829B975-4012-4252-8353-F0B5D7502BD8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -207,6 +215,7 @@ Global
 		{6BBEA83E-F737-4B61-A62E-30577931EE5B} = {1409A106-76BE-49EB-9A86-AF9A9110FBFD}
 		{2207D4D5-BD90-412C-A77A-8042533A3095} = {1409A106-76BE-49EB-9A86-AF9A9110FBFD}
 		{7CB1C9F1-66A3-4053-8AFC-ED360CBEE486} = {1409A106-76BE-49EB-9A86-AF9A9110FBFD}
+		{A829B975-4012-4252-8353-F0B5D7502BD8} = {B4487ABB-27A2-4353-AB16-1A94B31E0210}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3004E730-B231-40FA-B75C-58D7DDE17679}

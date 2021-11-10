@@ -1,36 +1,33 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net5.0;</TargetFrameworks>
-    <Description>Natasha 编译框架以及各个操作类的基础类</Description>
-    <PackageId>DotNetCore.Natasha.Framework</PackageId>
+	<PropertyGroup>
+		
+		<Description>Natasha 编译框架以及各个操作类的基础类</Description>
+		<PackageId>DotNetCore.Natasha.Framework</PackageId>
+		<PackageReleaseNotes>增加语义分析接口</PackageReleaseNotes>
+		<Version>3.6.0</Version>
+		<PackageTags>Roslyn;IL;Scripte;Dynamic;NCC;Framework;Natasha;</PackageTags>
+		<FileVersion>3.6.0</FileVersion>
+		<AssemblyVersion>3.6.0</AssemblyVersion>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
-	  <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-	  <PackageReleaseNotes>增加语义分析接口</PackageReleaseNotes>
-	  <Version>3.6.0</Version>
-	  <PackageLicenseUrl>https://github.com/dotnetcore/Natasha/blob/master/LICENSE</PackageLicenseUrl>
-	  <PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
-	  <PackageTags>Roslyn;IL;Scripte;Dynamic;NCC;Framework;Natasha;</PackageTags>
-	  <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-	  <FileVersion>3.6.0</FileVersion>
-	  <PackageIconUrl>https://avatars2.githubusercontent.com/u/19404084</PackageIconUrl>
-	  <AssemblyVersion>3.6.0</AssemblyVersion>
-	  <Copyright>.NET Core Community and Contributors</Copyright>
-	  <SignAssembly>true</SignAssembly>
-	  <AssemblyOriginatorKeyFile>natasha.snk</AssemblyOriginatorKeyFile>
-	  <!--<PackageIcon>19404084.png</PackageIcon>
-    <PackageLicenseFile>License.txt</PackageLicenseFile>-->
-  </PropertyGroup>
+	</PropertyGroup>
 
-  <PropertyGroup>
-	  <LangVersion>preview</LangVersion>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="DotNetCore.SourceLink.Environment" Version="2.2.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.0.1" />
-  </ItemGroup>
 
-  
+	<ItemGroup>
+		<PackageReference Include="DotNetCore.SourceLink.Environment" Version="3.0.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.0.1" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <None Update="E:\OpenSource\NCCGroup\Natasha\tools\19404084.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="E:\OpenSource\NCCGroup\Natasha\tools\LICENSE">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
+
 </Project>
