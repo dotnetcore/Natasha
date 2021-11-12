@@ -5,11 +5,8 @@ using System;
 using System.Runtime.CompilerServices;
 using Xunit;
 
-
-
 namespace NatashaUT
 {
-
 
 
     [Trait("CSharp9测试", "语法")]
