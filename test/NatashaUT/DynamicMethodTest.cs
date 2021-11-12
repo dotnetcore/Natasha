@@ -12,7 +12,7 @@ namespace NatashaUT
         [Fact(DisplayName = "手动强转委托")]
         public void RunDelegate1()
         {
-            var delegateAction = FastMethodOperator
+            Delegate delegateAction = FastMethodOperator
                 .DefaultDomain()
                         .Param<string>("str1")
                         .Param<string>("str2")
@@ -23,7 +23,7 @@ namespace NatashaUT
                         .Return<string>()
                 .Compile();
 
-           string result = ((Func<string, string, string>)delegateAction)?.Invoke("Hello", "World1!");
+           string result = ((Func<string, string, string>)delegateAction)("Hello", "World1!");
            Assert.Equal("Hello World1!", result);
         }
 
@@ -32,7 +32,7 @@ namespace NatashaUT
         [Fact(DisplayName = "内部类委托")]
         public static void RunInnerDelegate()
         {
-            var delegateAction = FastMethodOperator
+            Delegate delegateAction = FastMethodOperator
                 .DefaultDomain()
                         .Body(@"
                            OopTestModel.InnerClass a = new OopTestModel.InnerClass();
@@ -40,8 +40,8 @@ namespace NatashaUT
                             return a;")
                         .Return<OopTestModel.InnerClass>()
                 .Compile();
-
-            var result = ((Func<OopTestModel.InnerClass>)delegateAction)?.Invoke();
+            var action = (Func<OopTestModel.InnerClass>)delegateAction;
+            var result = action();
             Assert.Equal("abc", result.Name);
         }
 
@@ -81,7 +81,7 @@ namespace NatashaUT
         [Fact(DisplayName = "自动泛型委托")]
         public void RunDelegate2()
         {
-            var delegateAction = FastMethodOperator
+            Func<string, string, string> delegateAction = FastMethodOperator
                 .DefaultDomain()
                         .Param<string>("str1")
                         .Param<string>("str2")
@@ -92,7 +92,7 @@ namespace NatashaUT
                         .Return<string>()
                 .Compile<Func<string, string, string>>();
 
-            string result = delegateAction?.Invoke("Hello", "World2!");
+           string result = delegateAction("Hello", "World2!");
            Assert.Equal("Hello World2!",result);
         }
 

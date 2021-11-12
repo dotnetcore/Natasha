@@ -15,7 +15,7 @@ namespace NatashaUT.OperatorUT
 
             var builder = FakeMethodOperator.RandomDomain();
             builder
-                .UseMethod(typeof(OopTestModel).GetMethod("ReWrite1"))
+                .UseMethod(typeof(OopTestModel).GetMethod("ReWrite1")!)
                 .MethodBody(@"Console.WriteLine(""hello world"");");
             Assert.Equal($@"public void ReWrite1(){{Console.WriteLine(""hello world"");}}", builder.Script);
             
@@ -29,7 +29,7 @@ namespace NatashaUT.OperatorUT
 
             var builder = FakeMethodOperator.RandomDomain();
             builder
-                .UseMethod(typeof(OopTestModel).GetMethod("ReWrite1"))
+                .UseMethod(typeof(OopTestModel).GetMethod("ReWrite1")!)
                 .StaticMethodBody(@"Console.WriteLine(""hello world"");");
             Assert.Equal($@"public static void ReWrite1(){{Console.WriteLine(""hello world"");}}", builder.Script);
             Assert.NotNull(builder.Compile());
@@ -45,7 +45,7 @@ namespace NatashaUT.OperatorUT
 
             var builder = FakeMethodOperator.RandomDomain();
             builder
-                .UseMethod(typeof(OopTestModel).GetMethod("ReWrite2"))
+                .UseMethod(typeof(OopTestModel).GetMethod("ReWrite2")!)
                 .MethodBody(@"Console.WriteLine(""hello world"");return this;");
             Assert.Equal($@"public async System.Threading.Tasks.Task<NatashaUT.Model.OopTestModel> ReWrite2(){{Console.WriteLine(""hello world"");return this;}}", builder.Script);
 
@@ -58,7 +58,7 @@ namespace NatashaUT.OperatorUT
         public void MakerStaticCode2()
         {
             var builder = FakeMethodOperator.RandomDomain()
-                .UseMethod(typeof(OopTestModel).GetMethod("ReWrite2"))
+                .UseMethod(typeof(OopTestModel).GetMethod("ReWrite2")!)
                 .StaticMethodBody(@"Console.WriteLine(""hello world"");return default;");
             Assert.Equal($@"public static async System.Threading.Tasks.Task<NatashaUT.Model.OopTestModel> ReWrite2(){{Console.WriteLine(""hello world"");return default;}}", builder.Script);
             Assert.NotNull(builder.Compile());
@@ -75,7 +75,7 @@ namespace NatashaUT.OperatorUT
             var builder = FakeMethodOperator.RandomDomain();
             builder
                 .Virtrual()
-                .UseMethod(typeof(OopTestModel).GetMethod("ReWrite3"))
+                .UseMethod(typeof(OopTestModel).GetMethod("ReWrite3")!)
                 .MethodBody(@"i++;temp+=i.ToString();");
             Assert.Equal($@"public virtual void ReWrite3(ref System.Int32 i,System.String temp){{i++;temp+=i.ToString();}}", builder.Script);
 
@@ -90,7 +90,7 @@ namespace NatashaUT.OperatorUT
 
             var builder = FakeMethodOperator.RandomDomain();
             builder
-                .UseMethod(typeof(OopTestModel).GetMethod("ReWrite3"))
+                .UseMethod(typeof(OopTestModel).GetMethod("ReWrite3")!)
                 .StaticMethodBody(@"i++;temp+=i.ToString();");
             Assert.Equal($@"public static void ReWrite3(ref System.Int32 i,System.String temp){{i++;temp+=i.ToString();}}", builder.Script);
             Assert.NotNull(builder.Compile<TestDelegate>());
@@ -104,7 +104,7 @@ namespace NatashaUT.OperatorUT
 
             var builder = FakeMethodOperator.RandomDomain();
             builder
-                .UseMethod(typeof(OopTestModel).GetMethod("ReWrite4"))
+                .UseMethod(typeof(OopTestModel).GetMethod("ReWrite4")!)
                 .StaticMethodBody(@"temp = default;return ref i;");
             Assert.Equal($@"public static ref System.Int32 ReWrite4(ref System.Int32 i,out System.String temp){{temp = default;return ref i;}}", builder.Script);
             Assert.NotNull(builder.Compile<TestDelegate1>());

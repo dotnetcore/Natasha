@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace System
 {
-    public static class TypeExtension
+    public static class TypeNatashaExtension
     {
 
         /// <summary>

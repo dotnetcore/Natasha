@@ -30,6 +30,17 @@ namespace Core31
 
             var action = NDelegate.DefaultDomain().Action("Console.WriteLine(1);");
             action.DisposeDomain();
+
+            //NullabilityInfoContext context = new();
+
+            //NullabilityInfo arrayInfo = NullabilityInfo.Create(,);
+            //Console.WriteLine(arrayInfo.ReadState);        // NotNull
+            //Console.WriteLine(arrayInfo.Element.State);    // Nullable
+
+            //NullabilityInfo tupleInfo = context.Create(tupleField);
+            //Console.WriteLine(tupleInfo.ReadState);                      // NotNull
+            //Console.WriteLine(tupleInfo.GenericTypeArguments[0].State); // Nullable
+            //Console.WriteLine(tupleInfo.GenericTypeArguments[1].State); // NotNull
             //var hwFunc = FastMethodOperator
             //    .RandomDomain()
             //    .Param(typeof(string), "str1")

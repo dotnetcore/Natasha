@@ -11,7 +11,8 @@ public class NDelegate : CompilerTemplate<NDelegate>
 
     private Func<FakeMethodOperator, FakeMethodOperator>? _methodAction;
     private Func<OopBuilder, OopBuilder>? _oopAction;
-    public NDelegate() { 
+    public NDelegate() {
+        Usings = Array.Empty<NamespaceConverter>();
         Link = this; 
     }
 

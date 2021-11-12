@@ -2,14 +2,14 @@
 using NatashaUT.Model;
 using Xunit;
 
-namespace NatashaUT.Reverser
+namespace NatashaUT.ReverserUT
 {
 
     [Trait("反解器", "访问控制")]
     public class AccessReverserUT
     {
 
-        private void TestEqual(string memberName, string key = null)
+        private void TestEqual(string memberName, string? key = null)
         {
             var field = typeof(TFieldClass).GetField(memberName + "A", 
                 System.Reflection.BindingFlags.NonPublic 
@@ -24,8 +24,8 @@ namespace NatashaUT.Reverser
             {
                 key = memberName;
             }
-            Assert.Equal(key + " ", AccessReverser.GetAccess(field));
-            Assert.Equal(key + " ", AccessReverser.GetAccess(method));
+            Assert.Equal(key + " ", AccessReverser.GetAccess(field!));
+            Assert.Equal(key + " ", AccessReverser.GetAccess(method!));
         }
 
 

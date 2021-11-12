@@ -1,10 +1,16 @@
-﻿using Natasha.CSharp;
+﻿#if NET5_0_OR_GREATER
+
+using Natasha.CSharp;
 using System;
 using System.Runtime.CompilerServices;
 using Xunit;
 
+
+
 namespace NatashaUT
 {
+
+
 
     [Trait("CSharp9测试", "语法")]
     public class C9SyntaxTest : PrepareTest
@@ -96,20 +102,21 @@ namespace NatashaUT
     public record P2:a
     {
         private readonly int test;
-        public string FirstName { get; }
-        public string LastName { get; init; }
+        public string? FirstName { get; }
+        public string? LastName { get; init; }
 
-        public string Set()
+        public string? Set()
         {
             return LastName;
         }
     }
     public class P3
     {
-        private readonly int test;
-        private string _name;
-        public string FirstName { get { return _name; } init { _name = value; } }
+        private readonly int test = 0;
+        private string? _name;
+        public string? FirstName { get { return _name; } init { _name = value; } }
         
     }
 
 }
+#endif

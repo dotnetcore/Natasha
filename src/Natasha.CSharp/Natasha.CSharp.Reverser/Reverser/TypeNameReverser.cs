@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Text;
 
 namespace Natasha.CSharp.Reverser
@@ -9,6 +12,19 @@ namespace Natasha.CSharp.Reverser
     /// </summary>
     public static class TypeNameReverser
     {
+        //private static readonly Func<string,bool> _nullableAttrCheck;
+
+        //static TypeNameReverser()
+        //{
+        //    _nullableAttrCheck = (name) =>
+        //    {
+        //        return name.Contains("MaybeNullAttribute")
+        //        || name.Contains("AllowNullAttribute")
+        //        //|| name.Contains("NullableAttribute");
+        //        || name.Contains("NullableContextAttribute");
+        //    };
+           
+        //}
 
         /// <summary>
         /// 类名反解
@@ -173,6 +189,10 @@ namespace Natasha.CSharp.Reverser
 
             }
 
+            //if (type.CustomAttributes.Any(item => _nullableAttrCheck(item.AttributeType.Name)))
+            //{
+            //    Suffix.Append('?');
+            //}
 
             //泛型判别
             if (type.IsGenericType)

@@ -74,7 +74,7 @@ namespace NatashaUT
             ClassAsm obj = new ClassAsm();
             return obj.ShowMethod(""Hello"");
             ").Compile<Func<string, string>>();
-            DomainManagement.Get("SingleDomainAsmTest1").Dispose();
+            DomainManagement.Get("SingleDomainAsmTest1")!.Dispose();
             return @delegate("hello");
 
 

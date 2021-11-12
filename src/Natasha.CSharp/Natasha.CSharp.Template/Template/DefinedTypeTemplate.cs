@@ -38,7 +38,6 @@ namespace Natasha.CSharp.Template
 
         }
 
-
         /// <summary>
         /// 根据外部类型来创建定义类型
         /// </summary>

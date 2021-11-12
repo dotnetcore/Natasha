@@ -178,6 +178,7 @@ namespace Natasha.CSharp.Reverser
             {
 
                 StringBuilder typeBuilder = new StringBuilder();
+                var attrs = item.GetCustomAttributes();
                 if (item.GetCustomAttributes().Any(attr => attr.GetType().Name == "NullableAttribute"))
                 {
 
