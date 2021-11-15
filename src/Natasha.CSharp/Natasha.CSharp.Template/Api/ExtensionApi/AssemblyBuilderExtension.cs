@@ -282,6 +282,17 @@ namespace Natasha.CSharp
             return builder;
         }
 
+        public static AssemblyCSharpBuilder EnableNullableCompile(this AssemblyCSharpBuilder builder)
+        {
+            builder.Compiler.NullableCompileOption = NullableContextOptions.Enable;
+            return builder;
+        }
+        public static AssemblyCSharpBuilder DisableNullableCompile(this AssemblyCSharpBuilder builder)
+        {
+            builder.Compiler.NullableCompileOption = NullableContextOptions.Disable;
+            return builder;
+        }
+
         public static AssemblyCSharpBuilder SetOutputFolder(this AssemblyCSharpBuilder builder, string folder)
         {
             builder.OutputFolder = folder;

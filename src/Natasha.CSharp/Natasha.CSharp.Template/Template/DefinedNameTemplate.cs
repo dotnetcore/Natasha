@@ -4,7 +4,7 @@ using System.Reflection;
 namespace Natasha.CSharp.Template
 {
 
-    public class DefinedNameTemplate<T> : DefinedTypeTemplate<T> where T : DefinedNameTemplate<T>, new()
+    public class DefinedNameTemplate<T> : DefinedNullableTemplate<T> where T : DefinedNameTemplate<T>, new()
     {
 
         public string NameScript = string.Empty;

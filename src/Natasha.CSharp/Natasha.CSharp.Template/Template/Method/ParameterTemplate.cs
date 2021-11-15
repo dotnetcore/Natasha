@@ -48,8 +48,8 @@ namespace Natasha.CSharp.Template
         /// <returns></returns>
         public T Param(ParameterInfo info)
         {
-            
-            Param(info.ParameterType, info.Name!, DeclarationReverser.GetParametePrefix(info));
+            RecoderType(info.ParameterType);
+            Param(info.GetMemberNullableDevelopName(), info.Name!, DeclarationReverser.GetParametePrefix(info));
             return Link!;
 
         }
@@ -97,10 +97,23 @@ namespace Natasha.CSharp.Template
         /// <param name="type">参数类型</param>
         /// <param name="paramName">参数名字</param>
         /// <returns></returns>
+        public virtual T Param(string type, string paramName, string keywords = "")
+        {
+
+            
+            return Param($"{keywords}{type} {paramName}");
+
+        }
+        /// <summary>
+        /// 添加参数
+        /// </summary>
+        /// <param name="type">参数类型</param>
+        /// <param name="paramName">参数名字</param>
+        /// <returns></returns>
         public virtual T Param(Type type, string paramName, string keywords = "")
         {
 
-            RecoderType(type);
+
             return Param($"{keywords}{type.GetDevelopName()} {paramName}");
 
         }

@@ -16,8 +16,9 @@ public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompi
     /// <summary>
     /// 被禁断的错误代码
     /// </summary>
-    private readonly static ConcurrentDictionary<string, ReportDiagnostic> _globalSuppressDiagnostics;
+    private static readonly ConcurrentDictionary<string, ReportDiagnostic> _globalSuppressDiagnostics;
     private static Func<CSharpCompilation, CSharpCompilation>? _globalSemanticHandler;
+
     public static void AddGlobalSupperess(string errorcode)
     {
         _globalSuppressDiagnostics[errorcode] = ReportDiagnostic.Suppress;
@@ -107,6 +108,7 @@ public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompi
         //var a = new DesktopStrongNameProvider(ImmutableArray.Create(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "natasha.snk")));
         //CS0012  DesktopAssembly
         var compilationOptions = new CSharpCompilationOptions(
+                                nullableContextOptions: NullableCompileOption,
                                //strongNameProvider: a,
                                concurrentBuild: true,
                                moduleName: Guid.NewGuid().ToString(),

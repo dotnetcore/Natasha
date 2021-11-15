@@ -23,7 +23,7 @@ namespace Natasha.Framework
         public AssemblyBuildKind AssemblyOutputKind;
         public OptimizationLevel CodeOptimizationLevel;
         public Action<TCompilationOptions>? OptionAction;
-
+        public NullableContextOptions NullableCompileOption;
 
         public CompilerBase()
         {

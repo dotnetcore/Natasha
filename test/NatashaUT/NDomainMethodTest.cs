@@ -69,7 +69,7 @@ namespace NatashaUT
         public void RunDelegate5()
         {
             NormalTestModel model = new NormalTestModel();
-            var func = NDelegate.CreateDomain("NDelegate5").Action<NormalTestModel, int>("arg1.Age=arg2;");
+            var func = NDelegate.CreateDomain("NDelegate5").Action<NormalTestModel, int?>("if(arg2.HasValue){arg1.Age=arg2;}");
             func(model, 1);
             Assert.Equal(1, model.Age);
         }

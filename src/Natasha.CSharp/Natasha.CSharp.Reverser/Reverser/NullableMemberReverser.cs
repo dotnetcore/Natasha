@@ -14,7 +14,7 @@ namespace Natasha.CSharp.Reverser
         }
         public static string GetMemberNullableDevelopName(NullabilityInfo nullInfo)
         {
-
+            var type = nullInfo.Type;
             if (nullInfo.ReadState != NullabilityState.Nullable)
             {
                 if (nullInfo.ElementType != null)
@@ -24,7 +24,6 @@ namespace Natasha.CSharp.Reverser
                 else if (nullInfo.GenericTypeArguments.Length > 0)
                 {
                     StringBuilder typeStringBuilder = new StringBuilder();
-                    var type = nullInfo.Type;
                     var typeString = (!string.IsNullOrEmpty(type.Namespace) && !string.IsNullOrEmpty(type.FullName)) ? $"{type.Namespace}.{type.Name.Split('`')[0]}" : type.Name.Split('`')[0];
                     typeStringBuilder.Append($"{typeString}<{GetMemberNullableDevelopName(nullInfo.GenericTypeArguments[0])}");
                     for (int i = 1; i < nullInfo.GenericTypeArguments.Length; i++)
@@ -34,9 +33,13 @@ namespace Natasha.CSharp.Reverser
                     typeStringBuilder.Append('>');
                     return typeStringBuilder.ToString();
                 }
-                return nullInfo.Type.GetDevelopName();
+                return type.GetDevelopName();
             }
-            return nullInfo.Type.GetDevelopName()+"?";
+            if (type.IsValueType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+            {
+                return type.GetDevelopName();
+            }
+            return type.GetDevelopName()+"?";
 
         }
 
