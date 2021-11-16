@@ -80,10 +80,10 @@ namespace Natasha.CSharp
 
                 Name(_method_info);
 
-            }
+             }
 
-            return Access(_method_info)
-            .Param(_method_info)
+            return Access(AccessFlags.Public)
+                .Param(_method_info)
             .Return(_method_info);
 
         }

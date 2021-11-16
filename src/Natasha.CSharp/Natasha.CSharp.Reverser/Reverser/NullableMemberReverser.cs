@@ -35,7 +35,7 @@ namespace Natasha.CSharp.Reverser
                 }
                 return type.GetDevelopName();
             }
-            if (type.IsValueType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+            if (type.IsValueType && type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
             {
                 return type.GetDevelopName();
             }
@@ -46,14 +46,14 @@ namespace Natasha.CSharp.Reverser
         public static string GetMemberNullableDevelopName(this ParameterInfo parameterInfo)
         {
 
-            NullabilityInfo nullInfo = _nullableContextHandler.Create(parameterInfo);
+            NullabilityInfo nullInfo = (new NullabilityInfoContext()).Create(parameterInfo);
             return GetMemberNullableDevelopName(nullInfo);
 
         }
         public static string GetMemberNullableDevelopName(this FieldInfo fieldInfo)
         {
 
-            NullabilityInfo nullInfo = _nullableContextHandler.Create(fieldInfo);
+            NullabilityInfo nullInfo = (new NullabilityInfoContext()).Create(fieldInfo);
             return GetMemberNullableDevelopName(nullInfo);
 
         }
@@ -61,7 +61,7 @@ namespace Natasha.CSharp.Reverser
         public static string GetMemberNullableDevelopName(this PropertyInfo propertyInfo)
         {
 
-            NullabilityInfo nullInfo = _nullableContextHandler.Create(propertyInfo);
+            NullabilityInfo nullInfo = (new NullabilityInfoContext()).Create(propertyInfo);
             return GetMemberNullableDevelopName(nullInfo);
 
         }
@@ -69,7 +69,7 @@ namespace Natasha.CSharp.Reverser
         public static string GetMemberNullableDevelopName(this EventInfo eventInfo)
         {
 
-            NullabilityInfo nullInfo = _nullableContextHandler.Create(eventInfo);
+            NullabilityInfo nullInfo = (new NullabilityInfoContext()).Create(eventInfo);
             return GetMemberNullableDevelopName(nullInfo);
 
         }

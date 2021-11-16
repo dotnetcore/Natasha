@@ -42,7 +42,10 @@ namespace Natasha.CSharp.Template
         /// <returns></returns>
         public T Name(MemberInfo memberInfo)
         {
-
+            if (memberInfo.Name.StartsWith('<') && memberInfo.Name.Contains('.'))
+            {
+                return Name("Invoke");
+            }
             return Name(memberInfo.Name);
 
         }

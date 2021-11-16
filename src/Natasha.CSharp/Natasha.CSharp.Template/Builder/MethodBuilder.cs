@@ -180,7 +180,7 @@ namespace Natasha.CSharp.Builder
             stopwatch.Restart();
 #endif
             //自动判别是否有手动指定方法参数，若没有则使用方法的参数
-            var method = typeof(S).GetMethod("Invoke")!;
+            var method = typeof(S).GetMethods()[0]!;
             if (ParametersScript.Length == 0)
             {
 

@@ -3,6 +3,7 @@ using Natasha.CSharp.Builder;
 using Natasha.Framework;
 using System;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace Natasha.CSharp
 {
@@ -11,7 +12,8 @@ namespace Natasha.CSharp
     {
 
         public static T Delegate(string content,
-            AssemblyCSharpBuilder builder, 
+            AssemblyCSharpBuilder builder,
+            MethodInfo? methodInfo = null,
             Action<AssemblyCSharpBuilder>? option = default, 
             Func<FakeMethodOperator, FakeMethodOperator>? methodAction = null, 
             Func<OopBuilder,OopBuilder>? oopAction = null, 
@@ -21,11 +23,14 @@ namespace Natasha.CSharp
             Stopwatch stopwatch = new();
             stopwatch.Start();
 #endif
-            var method = typeof(T).GetMethod("Invoke")!;
+            if (methodInfo==null)
+            {
+                methodInfo = typeof(T).GetMethod("Invoke")!;
+            }
             var @operator = FakeMethodOperator.UseDomain(builder.Compiler.Domain, option);
             @operator.AssemblyBuilder = builder;
             @operator
-                .UseMethod(method)
+                .UseMethod(methodInfo)
                 .Using(usings)
                 .StaticMethodBody(content);
             methodAction?.Invoke(@operator);
@@ -41,18 +46,21 @@ namespace Natasha.CSharp
 
 
         public static T AsyncDelegate(string content,
-           AssemblyCSharpBuilder builder,
+            AssemblyCSharpBuilder builder,
+            MethodInfo? methodInfo = null,
             Action<AssemblyCSharpBuilder>? option = default, 
             Func<FakeMethodOperator, FakeMethodOperator>? methodAction = null,
             Func<OopBuilder, OopBuilder>? oopAction = null,
             params NamespaceConverter[]? usings)
         {
-
-            var method = typeof(T).GetMethod("Invoke")!;
+            if (methodInfo == null)
+            {
+                methodInfo = typeof(T).GetMethod("Invoke")!;
+            }
             var @operator = FakeMethodOperator.UseDomain(builder.Compiler.Domain, option);
             @operator.AssemblyBuilder = builder;
             @operator
-                .UseMethod(method)
+                .UseMethod(methodInfo)
                 .Async()
                 .Using(usings)
                 .StaticMethodBody(content);
@@ -67,17 +75,21 @@ namespace Natasha.CSharp
 
         public static T UnsafeDelegate(string content,
             AssemblyCSharpBuilder builder,
+            MethodInfo? methodInfo = null,
             Action<AssemblyCSharpBuilder>? option = default, 
             Func<FakeMethodOperator, FakeMethodOperator>? methodAction = null,
             Func<OopBuilder, OopBuilder>? oopAction = null,
             params NamespaceConverter[]? usings)
         {
 
-            var method = typeof(T).GetMethod("Invoke")!;
+            if (methodInfo == null)
+            {
+                methodInfo = typeof(T).GetMethod("Invoke")!;
+            }
             var @operator = FakeMethodOperator.UseDomain(builder.Compiler.Domain, option);
             @operator.AssemblyBuilder = builder;
             @operator
-                .UseMethod(method)
+                .UseMethod(methodInfo)
                 .Unsafe()
                 .Using(usings)
                 .StaticMethodBody(content);
@@ -91,7 +103,8 @@ namespace Natasha.CSharp
 
 
         public static T UnsafeAsyncDelegate(string content,
-           AssemblyCSharpBuilder builder,
+            AssemblyCSharpBuilder builder,
+            MethodInfo? methodInfo = null,
             Action<AssemblyCSharpBuilder>? option = default, 
             Func<FakeMethodOperator, FakeMethodOperator>? methodAction = null,
             Func<OopBuilder, OopBuilder>? oopAction = null,
@@ -102,7 +115,7 @@ namespace Natasha.CSharp
             var @operator = FakeMethodOperator.UseDomain(builder.Compiler.Domain, option);
             @operator.AssemblyBuilder = builder;
             @operator
-                .UseMethod(method)
+                .UseMethod(methodInfo)
                 .Unsafe()
                 .Async()
                 .Using(usings)

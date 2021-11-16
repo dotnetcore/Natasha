@@ -15,7 +15,6 @@
 
 
 	<ItemGroup>
-		<PackageReference Include="DotNetCore.SourceLink.Environment" Version="3.0.0" />
 		<PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.0.1" />
 	</ItemGroup>
 

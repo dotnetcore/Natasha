@@ -48,8 +48,16 @@ namespace Natasha.CSharp.Template
         /// <returns></returns>
         public T Param(ParameterInfo info)
         {
+
             RecoderType(info.ParameterType);
-            Param(info.GetMemberNullableDevelopName(), info.Name!, DeclarationReverser.GetParametePrefix(info));
+            if (this.AssemblyBuilder.Compiler.NullableCompileOption == Microsoft.CodeAnalysis.NullableContextOptions.Enable)
+            {
+                Param(info.GetMemberNullableDevelopName(), info.Name!, DeclarationReverser.GetParametePrefix(info));
+            }
+            else
+            {
+                Param(info.ParameterType.GetDevelopName(), info.Name!, DeclarationReverser.GetParametePrefix(info));
+            }
             return Link!;
 
         }

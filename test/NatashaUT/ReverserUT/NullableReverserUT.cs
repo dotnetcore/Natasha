@@ -1,11 +1,12 @@
 ﻿using Natasha.CSharp.Reverser;
+using Natasha.CSharp.Template;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
-
+///*
 namespace NatashaUT.ReverserUT
 {
     [Trait("反解器", "可空引用")]
@@ -87,7 +88,8 @@ namespace NatashaUT.ReverserUT
         [Fact(DisplayName = "系统委托参数可空类型反解测试1")]
         public void SystemParameterInfoNullableTest1()
         {
-            var m1 = typeof(Action<NullabelTestModel>).GetMethod("Invoke");
+            Action<NullabelTestModel?> action = (arg) => { };
+            var m1 = action.Method;
             var parameters = m1.GetParameters().OrderBy(item => item.Position).ToArray();
             Assert.Equal("NatashaUT.ReverserUT.NullableReverserUT.NullabelTestModel?", parameters[0].GetMemberNullableDevelopName());
            
@@ -96,7 +98,8 @@ namespace NatashaUT.ReverserUT
         [Fact(DisplayName = "系统委托参数可空类型反解测试2")]
         public void SystemParameterInfoNullableTest2()
         {
-            var m1 = typeof(Action<NullabelTestModel, NullabelTestModel?>).GetMethod("Invoke");
+            Action<NullabelTestModel, NullabelTestModel?> action = (arg1,arg2) => { };
+            var m1 = action.Method;
             var parameters = m1.GetParameters().OrderBy(item => item.Position).ToArray();
             Assert.False(parameters[0].IsContainsNullable());
             Assert.True(parameters[1].IsContainsNullable());
@@ -109,12 +112,25 @@ namespace NatashaUT.ReverserUT
         [Fact(DisplayName = "系统委托参数可空类型反解测试3")]
         public void SystemParameterInfoNullableTest3()
         {
-            var m1 = typeof(Action<NullabelTestModel, NullabelTestModel?,int?>).GetMethod("Invoke");
+            Action<NullabelTestModel, NullabelTestModel?, int?> action = (arg1, arg2,arg3) => { };
+            var m1 = action.Method;
             var parameters = m1.GetParameters().OrderBy(item => item.Position).ToArray();
             Assert.Equal("NatashaUT.ReverserUT.NullableReverserUT.NullabelTestModel", parameters[0].GetMemberNullableDevelopName());
             Assert.Equal("NatashaUT.ReverserUT.NullableReverserUT.NullabelTestModel?", parameters[1].GetMemberNullableDevelopName());
             Assert.Equal("System.Nullable<System.Int32>", parameters[2].GetMemberNullableDevelopName());
         }
+
+        [Fact(DisplayName = "系统代理委托可空类型反解测试")]
+        public void SystemProxyParameterInfoNullableTest()
+        {
+
+            var m1 = DelegateImplementationHelper<NullabelTestModel, NullabelTestModel?, int?>.GetAction<NullabelTestModel, NullabelTestModel?, int?>();
+            var parameters = m1.GetParameters().OrderBy(item => item.Position).ToArray();
+            Assert.Equal("NatashaUT.ReverserUT.NullableReverserUT.NullabelTestModel", parameters[0].GetMemberNullableDevelopName());
+            Assert.Equal("NatashaUT.ReverserUT.NullableReverserUT.NullabelTestModel?", parameters[1].GetMemberNullableDevelopName());
+            Assert.Equal("System.Nullable<System.Int32>", parameters[2].GetMemberNullableDevelopName());
+        }
+
 
         public class NotNullabelTestModel
         {
@@ -147,3 +163,4 @@ namespace NatashaUT.ReverserUT
         }
     }
 }
+//*/
