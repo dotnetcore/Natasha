@@ -62,7 +62,7 @@ namespace Natasha.Framework
         /// </summary>
         private static readonly ConcurrentQueue<string> _shareLibraries;
 
-
+        protected HashSet<string> ExcludeAssemblies = new HashSet<string>();
         /// <summary>
         /// 使用共享库覆盖现有引用缓存
         /// </summary>
@@ -138,9 +138,9 @@ namespace Natasha.Framework
         /// 加载插件
         /// </summary>
         /// <param name="path">插件路径</param>
-        /// <param name="excludePaths">需要排除的路径</param>
+        /// <param name="excludeAssemblies">需要排除的路径</param>
         /// <returns></returns>
-        public abstract Assembly LoadPlugin(string path, bool needLoadDependence = true, params string[] excludePaths);
+        public abstract Assembly LoadPlugin(string path, params string[] excludeAssemblies);
 
 
         /// <summary>
@@ -272,7 +272,6 @@ namespace Natasha.Framework
         /// 根据DLL路径添加单个引用，以流的方式加载
         /// </summary>
         /// <param name="path">DLL文件路径</param>
-        /// <param name="excludePaths">需要排除的依赖文件路径</param>
         public virtual unsafe void AddReferencesFromImage(Assembly assembly)
         {
 
@@ -477,12 +476,32 @@ namespace Natasha.Framework
         /// <returns></returns>
         protected override Assembly? Load(AssemblyName assemblyName)
         {
+#if DEBUG
 
-            string? assemblyPath = DependencyResolver!.ResolveAssemblyToPath(assemblyName);
-            if (assemblyPath != null)
+            Console.WriteLine($"[解析]程序集:{assemblyName.Name},全名:{assemblyName.FullName}");
+#endif
+            if (!string.IsNullOrEmpty(assemblyName.Name))
             {
-                return LoadAssemblyFromStream(assemblyPath);
+                if (ExcludeAssemblies.Contains(assemblyName.Name))
+                {
+#if DEBUG
+                    Console.WriteLine($"[排除]程序集:{assemblyName.Name},全名:{assemblyName.FullName}");
+#endif
+                    return null;
+                }
             }
+            if (DependencyResolver != null)
+            {
+                string? assemblyPath = DependencyResolver!.ResolveAssemblyToPath(assemblyName);
+                if (assemblyPath != null)
+                {
+#if DEBUG
+                    Console.WriteLine($"[加载依赖]程序集:{assemblyName.Name},全名:{assemblyName.FullName}");
+#endif
+                    return LoadAssemblyFromStream(assemblyPath);
+                }
+            }
+            
             return null;
 
         }

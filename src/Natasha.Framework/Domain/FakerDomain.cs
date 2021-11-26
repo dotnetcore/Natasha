@@ -31,7 +31,7 @@ namespace Natasha.Framework.Domain
             throw new NotImplementedException();
         }
 
-        public override Assembly LoadPlugin(string path, bool needLoadDependence = true, params string[] excludePaths)
+        public override Assembly LoadPlugin(string path, params string[] excludeAssemblies)
         {
             throw new NotImplementedException();
         }

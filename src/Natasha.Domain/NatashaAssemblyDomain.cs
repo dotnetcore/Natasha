@@ -96,19 +96,27 @@ public class NatashaAssemblyDomain : DomainBase
         return _pluginAssemblies.Values;
     }
 
+    
 
     /// <summary>
     /// 加载插件
     /// </summary>
     /// <param name="path">插件路径</param>
-    /// <param name="excludePaths">不需要加载的依赖项</param>
+    /// <param name="excludeAssemblies">不需要加载的依赖项</param>
     /// <returns></returns>
-    public override Assembly LoadPlugin(string path, bool needLoadDependence = true, params string[] excludePaths)
+    public override Assembly LoadPlugin(string path, params string[] excludeAssemblies)
     {
-        if (needLoadDependence)
+
+        if (excludeAssemblies != null)
         {
-            DependencyResolver = new AssemblyDependencyResolver(path);
+            ExcludeAssemblies = new HashSet<string>(excludeAssemblies);
         }
+        else
+        {
+            ExcludeAssemblies = new HashSet<string>();
+        }
+
+        DependencyResolver = new AssemblyDependencyResolver(path);
         var assembly = LoadAssemblyFromStream(path);
         if (assembly != default)
         {
