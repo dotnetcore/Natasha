@@ -110,6 +110,7 @@ public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompi
         var compilationOptions = new CSharpCompilationOptions(
                                 nullableContextOptions: NullableCompileOption,
                                //strongNameProvider: a,
+                               deterministic:false,
                                concurrentBuild: true,
                                moduleName: Guid.NewGuid().ToString(),
                                reportSuppressedDiagnostics: false,
