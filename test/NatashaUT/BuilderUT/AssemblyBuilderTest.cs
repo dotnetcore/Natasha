@@ -22,5 +22,6 @@ namespace NatashaUT.BuilderUT
             var assembly = assemblyCSharpBuilder.GetAssembly();
             Assert.NotNull(assembly);
         }
+        
     }
 }

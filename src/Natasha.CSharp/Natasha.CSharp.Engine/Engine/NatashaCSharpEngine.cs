@@ -125,7 +125,7 @@ namespace Natasha.CSharpEngine
         /// <summary>
         /// 是否使用共享库引用
         /// </summary>
-        public bool UseShareLibraries { get; set; }
+        //public bool UseShareLibraries { get; set; }
 
 
 
@@ -189,10 +189,10 @@ namespace Natasha.CSharpEngine
         internal virtual Assembly? Compile()
         {
 
-            if (UseShareLibraries)
-            {
-                Compiler.Domain.UseShareLibraries();
-            }
+            //if (UseShareLibraries)
+            //{
+            //    Compiler.Domain.UseShareLibraries();
+            //}
             Exceptions.Clear();
             var trees = Syntax.TreeCache.Values;
             Syntax.Clear();
