@@ -21,17 +21,17 @@ namespace NatashaUT
             Assert.Equal(1, test.GetD);
         }
 
-        [Fact(DisplayName = "私有成员调用2")]
-        public void Test1()
-        {
+        //[Fact(DisplayName = "私有成员调用2")]
+        //public void Test1()
+        //{
 
-            var action = NDelegate
-                .RandomDomain(item => item.UseShareLibraries = true)
-                .SetClass(item => item.AllowPrivate<List<int>>())
-                .Func<int>("return (new List<int>())._size;");
-            Assert.Equal(0,action());
+        //    var action = NDelegate
+        //        .RandomDomain(item => item.UseShareLibraries = true)
+        //        .SetClass(item => item.AllowPrivate<List<int>>())
+        //        .Func<int>("return (new List<int>())._size;");
+        //    Assert.Equal(0,action());
 
-        }
+        //}
 
 
     }
