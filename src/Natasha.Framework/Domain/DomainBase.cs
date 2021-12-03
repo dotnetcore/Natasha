@@ -446,7 +446,7 @@ namespace Natasha.Framework
         {
             using (stream)
             {
-
+                
                 Assembly assembly;
                 if (Name == "Default")
                 {

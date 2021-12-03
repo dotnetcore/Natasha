@@ -15,12 +15,13 @@ namespace Natasha.Framework
     {
         public bool AllowUnsafe;
         public string AssemblyName;
-        public string OutputFilePath;
-        public string OutputPdbPath;
+        public string DllFilePath;
+        public string PdbFilePath;
+        public string XmlFilePath;
         public TCompilation? Compilation;
         public OutputKind AssemblyKind;
         public Platform ProcessorPlatform;
-        public AssemblyBuildKind AssemblyOutputKind;
+        //public AssemblyBuildKind AssemblyOutputKind;
         public OptimizationLevel CodeOptimizationLevel;
         public Action<TCompilationOptions>? OptionAction;
         public NullableContextOptions NullableCompileOption;
@@ -28,8 +29,10 @@ namespace Natasha.Framework
         public CompilerBase()
         {
 
-            OutputFilePath = string.Empty;
-            OutputPdbPath = string.Empty;
+            DllFilePath = string.Empty;
+            PdbFilePath = string.Empty;
+            XmlFilePath = string.Empty;
+            NullableCompileOption = NullableContextOptions.Disable;
             this.AssemblyName = Guid.NewGuid().ToString("N");
             _semanticAnalysistor = new List<Func<TCompilation, TCompilation>>();
 
@@ -175,52 +178,63 @@ namespace Natasha.Framework
 #endif
                 //Mark : 264ms
                 //Mark : 3M Memory
-                Stream outputStream = new MemoryStream();
-                if (AssemblyOutputKind == AssemblyBuildKind.File)
+                Stream dllStream;
+                Stream? pdbStream = null;
+                Stream? xmlStream = null;
+                if (DllFilePath!=string.Empty)
                 {
-                    outputStream = File.Create(OutputFilePath);
-                    using (var pdbStream = File.Create(OutputPdbPath))
-                    {
-                        compileResult = Compilation.Emit(
-                       outputStream,
-                       pdbStream: pdbStream,
-                       options: new EmitOptions(pdbFilePath: OutputPdbPath, debugInformationFormat: DebugInformationFormat.PortablePdb));
-                    }
+                    dllStream = File.Create(DllFilePath);
                 }
                 else
                 {
-                    compileResult = Compilation.Emit(
-                            outputStream,
-                            options: new EmitOptions(false, debugInformationFormat: DebugInformationFormat.PortablePdb));
+                    dllStream = new MemoryStream();
                 }
+
+                if (PdbFilePath != string.Empty)
+                {
+                    pdbStream = File.Create(PdbFilePath);
+                }
+
+                if (XmlFilePath != string.Empty)
+                {
+                    xmlStream = File.Create(XmlFilePath);
+                }
+
+                compileResult = Compilation.Emit(
+                   dllStream,
+                   pdbStream: pdbStream,
+                   xmlDocumentationStream: xmlStream,
+                   options: new EmitOptions(pdbFilePath: pdbStream == null ? null : PdbFilePath, debugInformationFormat: DebugInformationFormat.PortablePdb));
+
 
                 if (compileResult.Success)
                 {
 
-                    outputStream.Seek(0, SeekOrigin.Begin);
-
+                    dllStream.Seek(0, SeekOrigin.Begin);
                     if (CompileSucceedEvent != default)
                     {
                         MemoryStream copyStream = new();
-                        outputStream.CopyTo(copyStream);
-                        outputStream.Seek(0, SeekOrigin.Begin);
-                        assembly = Domain.CompileStreamCallback(OutputFilePath, OutputPdbPath, outputStream, AssemblyName);
-                        CompileSucceedEvent(OutputFilePath, OutputPdbPath, copyStream, Compilation);
+                        dllStream.CopyTo(copyStream);
+                        dllStream.Seek(0, SeekOrigin.Begin);
+                        assembly = Domain.CompileStreamCallback(DllFilePath, PdbFilePath, dllStream, AssemblyName);
+                        CompileSucceedEvent(DllFilePath, PdbFilePath, copyStream, Compilation);
                         copyStream.Dispose();
                     }
                     else
                     {
-                        assembly = Domain.CompileStreamCallback(OutputFilePath, OutputPdbPath, outputStream, AssemblyName);
+                        assembly = Domain.CompileStreamCallback(DllFilePath, PdbFilePath, dllStream, AssemblyName);
                     }
 
                 }
                 else
                 {
 
-                    assembly = CompileFailedEvent?.Invoke(outputStream, compileResult.Diagnostics, Compilation);
+                    assembly = CompileFailedEvent?.Invoke(dllStream, compileResult.Diagnostics, Compilation);
 
                 }
-                outputStream.Dispose();
+                dllStream.Dispose();
+                pdbStream?.Dispose();
+                xmlStream?.Dispose();
 #if DEBUG
                 stopwatch.StopAndShowCategoreInfo("[  Emit  ]", "编译时长", 2);
 #endif

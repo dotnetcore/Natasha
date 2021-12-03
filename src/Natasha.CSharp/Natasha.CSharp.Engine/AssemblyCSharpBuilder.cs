@@ -182,6 +182,22 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
 
 
 
+    public void UseNatashaFileOut()
+    {
+        if (OutputFolder == GlobalOutputFolder)
+        {
+            OutputFolder = Path.Combine(GlobalOutputFolder, Compiler.Domain.Name!);
+        }
+        if (!Directory.Exists(OutputFolder))
+        {
+            Directory.CreateDirectory(OutputFolder);
+        }
+        Compiler.DllFilePath = Path.Combine(OutputFolder, $"{Compiler.AssemblyName}.dll");
+        Compiler.PdbFilePath = Path.Combine(OutputFolder, $"{Compiler.AssemblyName}.pdb");
+        Compiler.XmlFilePath = Path.Combine(OutputFolder, $"{Compiler.AssemblyName}.xml");
+    }
+
+
     /// <summary>
     /// 获取程序集
     /// </summary>
@@ -190,24 +206,24 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
     {
 
         //如果是文件编译，则初始化路径
-        if (Compiler.AssemblyOutputKind == AssemblyBuildKind.File)
-        {
+        //if (Compiler.AssemblyOutputKind == AssemblyBuildKind.File)
+        //{
 
-            if (OutputFolder == GlobalOutputFolder)
-            {
-                OutputFolder = Path.Combine(GlobalOutputFolder, Compiler.Domain.Name!);
-            }
-            if (!Directory.Exists(OutputFolder))
-            {
-                Directory.CreateDirectory(OutputFolder);
-            }
-            if (Compiler.OutputFilePath == string.Empty)
-            {
-                Compiler.OutputFilePath = Path.Combine(OutputFolder, $"{Compiler.AssemblyName}.dll");
-                Compiler.OutputPdbPath = Path.Combine(OutputFolder, $"{Compiler.AssemblyName}.pdb");
-            }
+        //    if (OutputFolder == GlobalOutputFolder)
+        //    {
+        //        OutputFolder = Path.Combine(GlobalOutputFolder, Compiler.Domain.Name!);
+        //    }
+        //    if (!Directory.Exists(OutputFolder))
+        //    {
+        //        Directory.CreateDirectory(OutputFolder);
+        //    }
+        //    if (Compiler.DllFilePath == string.Empty)
+        //    {
+        //        Compiler.DllFilePath = Path.Combine(OutputFolder, $"{Compiler.AssemblyName}.dll");
+        //        Compiler.PdbFilePath = Path.Combine(OutputFolder, $"{Compiler.AssemblyName}.pdb");
+        //    }
 
-        }
+        //}
         //进入编译流程
         var assembly = Compile();
         //如果编译出错

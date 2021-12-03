@@ -128,7 +128,7 @@ namespace NatashaUT
                 .SetAssemblyName("MyAssemblyName")  //设置程序集名
                 .LogAndThrowCompilerError()         //抛出并记录编译器的异常 
                 .ThrowSyntaxError()                 //抛出语法树异常
-                .UseStreamCompile();                //使用流编译
+                .UseNatashaFileOut();                //使用流编译
             }).GetType(
                 @"public class  DomainTest1{
                         public string Name;

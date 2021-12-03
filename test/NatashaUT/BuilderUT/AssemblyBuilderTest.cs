@@ -11,7 +11,7 @@ namespace NatashaUT.BuilderUT
         public void TestClass()
         {
             AssemblyCSharpBuilder assemblyCSharpBuilder = new AssemblyCSharpBuilder();
-            assemblyCSharpBuilder.Compiler.AssemblyOutputKind = Natasha.Framework.AssemblyBuildKind.File;
+            assemblyCSharpBuilder.UseNatashaFileOut();
             assemblyCSharpBuilder.Domain = DomainManagement.Random;
             assemblyCSharpBuilder.Add(@"public class A {   
     /// <summary>

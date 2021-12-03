@@ -8,7 +8,7 @@ namespace NatashaUT
 {
 
     [Trait("快速构建", "完整类")]
-    public class OopComplierTest : PrepareTest
+    public class SyntaxTest : PrepareTest
     {
 
 
@@ -163,46 +163,7 @@ namespace HelloWorld{
         }
 
 
-        [Fact(DisplayName = "字符串格式化测试1")]
-        public void RunClassName5()
-        {
-
-            var content = @"unsafe class C
-{
-    delegate * < int,  int> functionPointer;
-}";
-
-            var expected = @"unsafe class C
-{
-    delegate*<int, int> functionPointer;
-}";
-
-
-            NatashaCSharpSyntax syntax = new NatashaCSharpSyntax();
-            syntax.AddTreeToCache(content);
-            var result = syntax.TreeCache[expected].ToString();
-            Assert.Equal(expected, result);
-        }
-        [Fact(DisplayName = "字符串格式化测试2")]
-        public void RunClassName6()
-        {
-
-            var content = @"class A
-            {        
-int             i               =               20          ;           int             j           =           1           +           2       ;
-                        T           .               S           =           Test            (           10              )           ;
-                        }";
-
-            var expected = $"class A{Environment.NewLine}{{{Environment.NewLine}    int i = 20;{Environment.NewLine}    int j = 1 + 2;{Environment.NewLine}    T.S =  Test( 10);{Environment.NewLine}}}";
-
-            NatashaCSharpSyntax syntax = new NatashaCSharpSyntax();
-            syntax.AddTreeToCache(content);
-            var result = syntax.TreeCache[expected].ToString();
-            Assert.Equal(expected, result);
-        }
-
-
-
+        
 
         //        [Fact(DisplayName = "字符串格式化测试3")]
         //        public void RunClassName7()
@@ -228,27 +189,12 @@ int             i               =               20          ;           int     
         //        }
 
 
-        [Fact(DisplayName = "字符串格式化测试4")]
-        public void RunClassName8()
-        {
-
-            var initial = "int i=0 ; var t=new{Name=\"\"};";
-
-            var final = $"int i = 0;{Environment.NewLine}var t = new{Environment.NewLine}{{{Environment.NewLine}Name = \"\"{Environment.NewLine}}}{Environment.NewLine}{Environment.NewLine};";
-
-            NatashaCSharpSyntax syntax = new NatashaCSharpSyntax();
-            syntax.AddTreeToCache(initial);
-            var result = syntax.TreeCache[final].ToString();
-            Assert.Equal(final, result);
-        }
-
-
         [Fact(DisplayName = "Release测试")]
         public void ReleaseTest()
         {
 
             var script = "NormalTestModel result = new NormalTestModel();return result;";
-            NDelegate.RandomDomain(item => item.UseFileCompile()).Func<NormalTestModel>(script)();
+            NDelegate.RandomDomain(item => item.UseNatashaFileOut()).Func<NormalTestModel>(script)();
             Assert.Equal(0, 0);
         }
     }

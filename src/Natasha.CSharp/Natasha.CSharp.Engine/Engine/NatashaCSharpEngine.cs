@@ -27,13 +27,13 @@ namespace Natasha.CSharpEngine
         /// <summary>
         /// 是否要编译到文件中
         /// </summary>
-        public bool OutputToFile
-        {
+        //public bool OutputToFile
+        //{
 
-            get { return Compiler.AssemblyOutputKind == AssemblyBuildKind.File; }
-            set { Compiler.AssemblyOutputKind = value ? AssemblyBuildKind.File : AssemblyBuildKind.Stream; }
+        //    get { return Compiler.AssemblyOutputKind == AssemblyBuildKind.File; }
+        //    set { Compiler.AssemblyOutputKind = value ? AssemblyBuildKind.File : AssemblyBuildKind.Stream; }
 
-        }
+        //}
 
 
         /// <summary>

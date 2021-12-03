@@ -88,7 +88,7 @@ public class NatashaCSharpSyntax : SyntaxBase
     {
         //Console.ReadKey();
         //Mark : 16M Memory
-        return tree.GetRoot().NormalizeWhitespace().SyntaxTree;
+        return CSharpSyntaxTree.ParseText(tree.GetRoot().NormalizeWhitespace().SyntaxTree.ToString());
     }
 
 

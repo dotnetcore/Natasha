@@ -82,7 +82,7 @@ public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompi
         AllowUnsafe = true;
         AssemblyKind = OutputKind.DynamicallyLinkedLibrary;
         CodeOptimizationLevel = OptimizationLevel.Release;
-        AssemblyOutputKind = AssemblyBuildKind.Stream;
+        //AssemblyOutputKind = AssemblyBuildKind.Stream;
         SuppressDiagnostics = _globalSuppressDiagnostics;
         ProcessorPlatform = Platform.AnyCpu;
         SetSemanticAnalysistor(_globalSemanticHandler!);

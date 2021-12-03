@@ -24,7 +24,7 @@ namespace Core31
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             NSucceedLog.Enabled = true;
-            NDelegate.RandomDomain(opt => opt.UseFileCompile()).Action("Console.WriteLine(\"Hello World!\");")();
+            NDelegate.RandomDomain(opt => opt.UseNatashaFileOut()).Action("Console.WriteLine(\"Hello World!\");")();
             stopwatch.Stop();
             Console.WriteLine(stopwatch.Elapsed);
 

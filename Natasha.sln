@@ -77,6 +77,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginSample", "samples\Plu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "net60", "samples\net60\net60.csproj", "{A829B975-4012-4252-8353-F0B5D7502BD8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReferenceTest50", "test\ReferenceTest50\ReferenceTest50.csproj", "{057B66E6-2491-4195-B0B0-DBA554806128}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -183,6 +185,10 @@ Global
 		{A829B975-4012-4252-8353-F0B5D7502BD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A829B975-4012-4252-8353-F0B5D7502BD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A829B975-4012-4252-8353-F0B5D7502BD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{057B66E6-2491-4195-B0B0-DBA554806128}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{057B66E6-2491-4195-B0B0-DBA554806128}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{057B66E6-2491-4195-B0B0-DBA554806128}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{057B66E6-2491-4195-B0B0-DBA554806128}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -216,6 +222,7 @@ Global
 		{2207D4D5-BD90-412C-A77A-8042533A3095} = {1409A106-76BE-49EB-9A86-AF9A9110FBFD}
 		{7CB1C9F1-66A3-4053-8AFC-ED360CBEE486} = {1409A106-76BE-49EB-9A86-AF9A9110FBFD}
 		{A829B975-4012-4252-8353-F0B5D7502BD8} = {B4487ABB-27A2-4353-AB16-1A94B31E0210}
+		{057B66E6-2491-4195-B0B0-DBA554806128} = {1F267883-0864-4C1C-AE20-E2AF5457BA54}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3004E730-B231-40FA-B75C-58D7DDE17679}

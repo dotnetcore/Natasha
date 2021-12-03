@@ -1,6 +1,4 @@
-﻿using Microsoft.CodeAnalysis.CSharp;
-using Natasha.CSharp.Builder;
-using Natasha.Framework;
+﻿using Natasha.CSharp.Builder;
 using System;
 using System.Diagnostics;
 using System.Reflection;
@@ -111,7 +109,10 @@ namespace Natasha.CSharp
             params NamespaceConverter[]? usings)
         {
 
-            var method = typeof(T).GetMethod("Invoke")!;
+            if (methodInfo == null)
+            {
+                methodInfo = typeof(T).GetMethod("Invoke")!;
+            }
             var @operator = FakeMethodOperator.UseDomain(builder.Compiler.Domain, option);
             @operator.AssemblyBuilder = builder;
             @operator
