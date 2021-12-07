@@ -305,5 +305,25 @@ return obj.ShowMethod(arg);")
             
         }
 
+        [Fact(DisplayName = "HelloWorldTest")]
+        public void TestInnerClass()
+        {
+
+            string code = @"namespace t{ public class A{ public class B{  public string Name = ""test"";}}}";
+            var domain = DomainManagement.Random;
+
+            AssemblyCSharpBuilder builder = new AssemblyCSharpBuilder();
+            builder.Domain = domain;
+            builder.Add(code);
+            var assembly = builder.GetAssembly();
+
+
+            var func = NDelegate
+                .UseDomain(domain)
+                //.AddUsing(assembly)
+                .Func<string>("return (new A.B()).Name;");
+
+            Assert.Equal("test", func());
+        }
     }
 }

@@ -43,6 +43,7 @@ namespace NatashaUT.OperatorUT
         public void RunDelegate5()
         {
             var action = NDelegate.RandomDomain().Delegate<TestDelegate>(@"
+                            List<int> list = new List<int>();
                             return value.Length;");
             int result = action("Hello");
             Assert.Equal(5, result);

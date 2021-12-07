@@ -49,8 +49,6 @@ public class AssemblyCSharpBuilder : NatashaCSharpEngine
         CustomUsingShut = false;
         NeedSucceedLog = false;
         RetryLimit = 0;
-        Compiler.NullableCompileOption = NullableContextOptions.Enable;
-
     }
 
     /// <summary>
