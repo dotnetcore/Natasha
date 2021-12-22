@@ -23,7 +23,6 @@ namespace Natasha.CSharpEngine
         public string OutputFolder;
         public bool CustomUsingShut;
 
-
         /// <summary>
         /// 是否要编译到文件中
         /// </summary>

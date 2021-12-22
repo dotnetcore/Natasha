@@ -94,7 +94,7 @@ namespace Natasha.CSharp.Engine.SemanticAnalaysis
                         }));
 
                     }
-                    if (cs0246errors.Count>0)
+                    if (cs0246errors.Count > 0)
                     {
                         tasks.Add(Task.Run(() =>
                         {
@@ -106,7 +106,7 @@ namespace Natasha.CSharp.Engine.SemanticAnalaysis
                             }
                         }));
                     }
-                    if (cs0234errors.Count>0)
+                    if (cs0234errors.Count > 0)
                     {
                         tasks.Add(Task.Run(() =>
                         {
@@ -115,11 +115,11 @@ namespace Natasha.CSharp.Engine.SemanticAnalaysis
                                 lock (_lock)
                                 {
                                     var handlerResults = CS0234Analaysistor.Handler(root, item);
-                                    if (handlerResults!=null)
+                                    if (handlerResults != null)
                                     {
                                         removeCache.UnionWith(handlerResults);
                                     }
-                                    
+
                                 }
                             }
                         }));
@@ -131,7 +131,12 @@ namespace Natasha.CSharp.Engine.SemanticAnalaysis
 #endif
                     if (removeCache.Count > 0)
                     {
+
                         var editor = new SyntaxEditor(root, new AdhocWorkspace());
+#if DEBUG
+                        stopwatch.StopAndShowCategoreInfo("[Semantic]", "创建Adhoc", 3);
+                        stopwatch.Restart();
+#endif
                         foreach (var item in removeCache)
                         {
                             editor.RemoveNode(item);

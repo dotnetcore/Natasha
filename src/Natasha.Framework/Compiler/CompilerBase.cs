@@ -25,10 +25,11 @@ namespace Natasha.Framework
         public OptimizationLevel CodeOptimizationLevel;
         public Action<TCompilationOptions>? OptionAction;
         public NullableContextOptions NullableCompileOption;
-
+        public bool EnableSemanticHandle;
         public CompilerBase()
         {
 
+            EnableSemanticHandle = true;
             DllFilePath = string.Empty;
             PdbFilePath = string.Empty;
             XmlFilePath = string.Empty;
@@ -168,14 +169,18 @@ namespace Natasha.Framework
                 //Mark : 951ms
                 //Mark : 19M Memory
                 Compilation = (TCompilation)Compilation.AddSyntaxTrees(trees);
-                foreach (var item in _semanticAnalysistor)
+                if (EnableSemanticHandle)
                 {
-                    Compilation = item(Compilation);
-                }
+                    foreach (var item in _semanticAnalysistor)
+                    {
+                        Compilation = item(Compilation);
+                    }
 #if DEBUG
-                stopwatch.StopAndShowCategoreInfo("[Semantic]", "语义解析排查", 2);
-                stopwatch.Restart();
+                    stopwatch.StopAndShowCategoreInfo("[Semantic]", "语义解析排查", 2);
+                    stopwatch.Restart();
 #endif
+                }
+
                 //Mark : 264ms
                 //Mark : 3M Memory
                 Stream dllStream;

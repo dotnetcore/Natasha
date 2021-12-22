@@ -9,7 +9,6 @@ public static class NatashaInitializer
 {
     private static bool _hasInitialize;
     private static readonly object _lock;
-
     static NatashaInitializer()
     {
         

@@ -44,7 +44,7 @@ public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompi
         AddGlobalSupperess("CS1702");
         AddGlobalSupperess("CS1705");
         AddGlobalSupperess("CS162");
-        AddGlobalSupperess("CS219");
+        AddGlobalSupperess("CS0219");
         AddGlobalSupperess("CS0414");
         AddGlobalSupperess("CS0616");
         AddGlobalSupperess("CS0649");

@@ -13,23 +13,33 @@ namespace ReferenceTest50
     {
         static void Main(string[] args)
         {
+            Nacos.Request.RequestClient request = default;
+            Nacos.Microsoft.Extensions.Configuration.ConfigListener b = default;
+            Nacos.AspNetCore.V2.NacosAspNetOptions options = default;
 
             Console.WriteLine(typeof(string).Assembly == typeof(object).Assembly && typeof(string).Namespace == typeof(object).Namespace);
             Console.WriteLine(typeof(Console).Assembly == typeof(object).Assembly && typeof(Console).Namespace == typeof(object).Namespace);
             var assemblies = System.Runtime.Loader.AssemblyLoadContext.Default.Assemblies;
+            Console.WriteLine("默认域:");
             foreach (var item in assemblies)
             {
                 Console.WriteLine(item.Location);
             }
+           
             var names = new HashSet<string>(assemblies.Select(item => item.GetName().Name));
-            Console.WriteLine(System.Runtime.Loader.AssemblyLoadContext.Default.Assemblies.Count());
-            IEnumerable<string> paths = DependencyContext
-                    .Default
-                    .CompileLibraries.SelectMany(cl => cl.ResolveReferencePaths());
+            Console.WriteLine("当前程序集:");
             foreach (var item in names)
             {
                 Console.WriteLine(item);
             }
+            Console.WriteLine(System.Runtime.Loader.AssemblyLoadContext.Default.Assemblies.Count());
+            IEnumerable<string> paths = DependencyContext
+                    .Default
+                    .CompileLibraries.SelectMany(cl => cl.ResolveReferencePaths());
+           
+
+            //重复
+            Console.WriteLine("重复:");
             foreach (var item in paths)
             {
                 //Console.WriteLine(Path.GetFileNameWithoutExtension(item));
@@ -53,14 +63,19 @@ namespace ReferenceTest50
             //    /// </summary>
             //    public Test test;
             //}";
+            Console.WriteLine("重新加载引用后,默认域程序集数:");
             Console.WriteLine(System.Runtime.Loader.AssemblyLoadContext.Default.Assemblies.Count());
             //Show();
             //            //Show(code);
 
 
             //            Show2(code);
-           
+            NatashaInitializer.InitializeAndPreheating();
+            Console.WriteLine("=====================================");
+            NDelegate.RandomDomain().Action("Console.WriteLine(1);");
+            NDelegate.RandomDomain(item=>item.DisableSemanticCheck()).Action("Console.WriteLine(1);");
             Console.WriteLine("Completed!");
+            Console.ReadKey();
         }
 
         public static void Show()

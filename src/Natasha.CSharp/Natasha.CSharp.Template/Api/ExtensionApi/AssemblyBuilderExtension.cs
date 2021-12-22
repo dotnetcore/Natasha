@@ -314,4 +314,16 @@ public static class AssemblyBuilderExtension
         builder.Compiler.XmlFilePath = xmlFilePath;
         return builder;
     }
+
+    public static AssemblyCSharpBuilder DisableSemanticCheck(this AssemblyCSharpBuilder builder)
+    {
+        builder.Compiler.EnableSemanticHandle = false;
+        return builder;
+    }
+
+    public static AssemblyCSharpBuilder EnableSemanticCheck(this AssemblyCSharpBuilder builder)
+    {
+        builder.Compiler.EnableSemanticHandle = true;
+        return builder;
+    }
 }
