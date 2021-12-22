@@ -10,4 +10,8 @@
     <AssemblyVersion>3.5.0.0</AssemblyVersion>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Update="DotNetCore.SourceLink.Environment" Version="3.1.0" />
+  </ItemGroup>
+
 </Project>

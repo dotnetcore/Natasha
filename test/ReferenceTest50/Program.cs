@@ -1,8 +1,11 @@
 ﻿using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.Extensions.DependencyModel;
 using Natasha.Framework;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace ReferenceTest50
 {
@@ -10,26 +13,77 @@ namespace ReferenceTest50
     {
         static void Main(string[] args)
         {
-            NatashaInitializer.InitializeAndPreheating();
-            string code = @"
-using ReferenceTest50;
- public class A {   
-    /// <summary>
-    ///  comment will raise a error.
-    /// </summary>
-    public string Name{get;set;}
-    /// <summary>
-    ///  comment will raise a error.
-    /// </summary>
-    public Test test;
-}";
 
+            Console.WriteLine(typeof(string).Assembly == typeof(object).Assembly && typeof(string).Namespace == typeof(object).Namespace);
+            Console.WriteLine(typeof(Console).Assembly == typeof(object).Assembly && typeof(Console).Namespace == typeof(object).Namespace);
+            var assemblies = System.Runtime.Loader.AssemblyLoadContext.Default.Assemblies;
+            foreach (var item in assemblies)
+            {
+                Console.WriteLine(item.Location);
+            }
+            var names = new HashSet<string>(assemblies.Select(item => item.GetName().Name));
+            Console.WriteLine(System.Runtime.Loader.AssemblyLoadContext.Default.Assemblies.Count());
+            IEnumerable<string> paths = DependencyContext
+                    .Default
+                    .CompileLibraries.SelectMany(cl => cl.ResolveReferencePaths());
+            foreach (var item in names)
+            {
+                Console.WriteLine(item);
+            }
+            foreach (var item in paths)
+            {
+                //Console.WriteLine(Path.GetFileNameWithoutExtension(item));
+                if (names.Contains(Path.GetFileNameWithoutExtension(item)))
+                {
+                    Console.WriteLine(item);
+                }
+                System.Runtime.Loader.AssemblyLoadContext.Default.LoadFromAssemblyPath(item);
+            }
+
+            //            NatashaInitializer.InitializeAndPreheating();
+            //            string code = @"
+            //using ReferenceTest50;
+            // public class A {   
+            //    /// <summary>
+            //    ///  comment will raise a error.
+            //    /// </summary>
+            //    public string Name{get;set;}
+            //    /// <summary>
+            //    ///  comment will raise a error.
+            //    /// </summary>
+            //    public Test test;
+            //}";
+            Console.WriteLine(System.Runtime.Loader.AssemblyLoadContext.Default.Assemblies.Count());
+            //Show();
+            //            //Show(code);
+
+
+            //            Show2(code);
            
-            //Show(code);
-            
-            
-            Show2(code);
-           
+            Console.WriteLine("Completed!");
+        }
+
+        public static void Show()
+        {
+            NatashaInitializer.InitializeAndPreheating();
+            DomainBase.DefaultDomain.AssemblyReferencesCache.Clear();
+            var assemblies = System.Runtime.Loader.AssemblyLoadContext.Default.Assemblies;
+            foreach (var item in assemblies)
+            {
+                if (item.IsDynamic)
+                {
+                    Console.WriteLine($"{item.GetName().Name} is a Dynamic Assembly!");
+                }
+                else
+                {
+                    DomainBase.DefaultDomain.AddReferencesFromFileStream(item.Location);
+                }
+                
+            }
+            AssemblyCSharpBuilder assemblyCSharpBuilder = new AssemblyCSharpBuilder();
+            assemblyCSharpBuilder.Add(@"public class A{  public async Task Show(){  }  }");
+            var assembly = assemblyCSharpBuilder.GetAssembly();
+            Console.WriteLine(assembly!=null);
         }
 
 

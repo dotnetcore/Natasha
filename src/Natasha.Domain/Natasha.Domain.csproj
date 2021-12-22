@@ -12,8 +12,24 @@
 
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Extension\PortableExecutableReferenceExtension.cs" />
+  </ItemGroup>
+
 	<ItemGroup>
 		<ProjectReference Include="..\Natasha.Framework\Natasha.Framework.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Extension\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Update="DotNetCore.SourceLink.Environment" Version="3.1.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Update="Microsoft.SourceLink.GitHub" Version="1.1.1" />
 	</ItemGroup>
 
 </Project>

@@ -19,6 +19,7 @@
 				<PackageIcon>19404084.png</PackageIcon>
 				<PackageLicenseFile>LICENSE</PackageLicenseFile>
 				<AssemblyOriginatorKeyFile>$([MSBuild]::NormalizeDirectory('$(SolutionDir)', 'tools'))natasha.snk</AssemblyOriginatorKeyFile>
+				<IncludeSymbols>true</IncludeSymbols>
 
 			</PropertyGroup>
 			<ItemGroup Condition=" '$(IsPackable)' != 'false'">
