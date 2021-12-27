@@ -1,7 +1,8 @@
 ﻿using Microsoft.CodeAnalysis.CSharp;
 using Natasha.CSharpEngine;
 using Natasha.Framework;
-
+using System;
+using System.Collections.Generic;
 
 /// <summary>
 /// 组件注册器
@@ -23,9 +24,9 @@ public static class NatashaComponentRegister
     /// </summary>
     /// <typeparam name="TDomain"></typeparam>
     /// <param name="initializeReference"></param>
-    public static void RegistDomain<TDomain>(bool initializeReference = true) where TDomain : DomainBase
+    public static void RegistDomain<TDomain>(Func<string, bool> excludeReferencesFunc) where TDomain : DomainBase
     { 
-        DomainComponent.RegisterDefault<TDomain>(initializeReference);
+        DomainComponent.RegisterDefault<TDomain>(excludeReferencesFunc);
     }
 
 

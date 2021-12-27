@@ -1,6 +1,7 @@
 ﻿using Natasha.CSharp;
 using System;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using Xunit;
 
@@ -37,10 +38,13 @@ namespace NatashaUT
             Assert.True(File.Exists(path));
             using (DomainManagement.CreateAndLock("TempDADomain11"))
             {
-
+               
                 var domain = DomainManagement.CurrentDomain;
-                var assemebly = domain.LoadPlugin(path);
-                var action = FastMethodOperator.UseDomain(domain)
+                Assert.Equal("TempDADomain11", domain.Name);
+                var assembly = domain.LoadPlugin(path);
+                var assemblyCount = domain.Assemblies.Count();
+                var operat = NatashaOperator.MethodOperator;
+                var action = operat
                     .WithCS0104Handler()
                    .Body(@"
 try{
@@ -55,6 +59,9 @@ return default;").Return<string>()
 
                    .Compile<Func<string>>();
                 result = action();
+                //Assert.Equal(assemblyCount + 1, domain.Assemblies.Count());
+                Assert.Equal("TempDADomain11", operat.AssemblyBuilder.Compiler.Domain.Name);
+                
                 domain.Dispose();
             }
             return result;
@@ -85,13 +92,17 @@ return default;").Return<string>()
             {
 
                 var domain = DomainManagement.CurrentDomain;
-                var assemebly = domain.LoadPlugin(path);
-                var action = FastMethodOperator.UseDomain(domain)
+                Assert.Equal("TempDomain12", domain.Name);
+                var assembly = domain.LoadPlugin(path);
+                var assemblyCount = domain.Assemblies.Count();
+                var operat = NatashaOperator.MethodOperator;
+                var action = operat
                    .Body(@"Test.Instance.Name=""11""; return Test.Instance.Name;")
                    .Compile<Func<string>>();
                 result = action();
                 domain.Dispose();
                 domain.Unload();
+                Assert.Equal(assemblyCount + 1, domain.Assemblies.Count());
             }
             return result;
         }
@@ -122,15 +133,18 @@ return default;").Return<string>()
             {
 
                 var domain = DomainManagement.CurrentDomain;
+                Assert.Equal("TempDomain13", domain.Name);
                 var assemebly = domain.LoadPlugin(path);
-                var action = FastMethodOperator.UseDomain(domain,
-                    item =>item.LogAndThrowCompilerError() 
-                )
+                var assemblyCount = domain.Assemblies.Count();
+                var operat = NatashaOperator.MethodOperator;
+                var action = operat
                    .Body(@"Class1 obj = new Class1(); return obj.Get();")
                    .Compile<Func<string>>();
                 result = action();
+                Assert.Equal("TempDomain13", operat.AssemblyBuilder.Compiler.Domain.Name);
                 domain.Dispose();
                 domain.Unload();
+
             }
             return result;
         }

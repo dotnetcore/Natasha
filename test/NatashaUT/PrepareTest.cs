@@ -10,7 +10,7 @@ namespace NatashaUT
     {
         static PrepareTest()
         {
-            NatashaInitializer.Initialize();
+            NatashaInitializer.InitializeAndPreheating();
             Thread.Sleep(3000);
         }
     }

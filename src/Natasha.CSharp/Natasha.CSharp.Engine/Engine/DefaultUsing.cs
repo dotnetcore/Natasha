@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyModel;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 
@@ -20,54 +22,80 @@ namespace Natasha
 
             DefaultScript = new StringBuilder();
             DefaultNamesapce = new HashSet<string>();
-            var assemblyNames = DependencyContext.Default.GetDefaultAssemblyNames();
-            foreach (var name in assemblyNames)
+#if DEBUG
+            Stopwatch stopwatch = new();
+            stopwatch.Start();
+#endif
+
+
+            IEnumerable<string> paths = DependencyContext
+                .Default
+                .CompileLibraries.SelectMany(cl => cl.ResolveReferencePaths());
+
+            var domain = DomainManagement.Random;
+            foreach (var item in paths)
             {
-
-                var assembly = Assembly.Load(name);
-                if (assembly != default)
+                try
                 {
-
-                    try
+                    Assembly? assembly = domain.LoadFromAssemblyPath(item);
+#if DEBUG
+                    Console.WriteLine($"[内部加载]:{item}");
+#endif
+                    if (assembly != null)
                     {
-
-                        var types = assembly.ExportedTypes;
-                        foreach (var item in types)
+                        try
                         {
-
-                            if (!string.IsNullOrEmpty(item.Namespace) && !DefaultNamesapce.Contains(item.Namespace))
+                            var types = assembly.GetTypes();
+                            foreach (var type in types)
                             {
-                                DefaultNamesapce.Add(item.Namespace);
+                                if (!string.IsNullOrEmpty(type.Namespace))
+                                {
+                                    DefaultNamesapce.Add(type.Namespace);
+                                }
                             }
-
                         }
-
+                        catch
+                        {
+                          
+                        }
                     }
-                    catch (Exception)
-                    {
-
-                    }
-                    
                 }
-
-            }
-
-            var entryTypes = Assembly.GetEntryAssembly()!.GetTypes();
-            foreach (var item in entryTypes)
-            {
-
-                if (!string.IsNullOrEmpty(item.Namespace) && !DefaultNamesapce.Contains(item.Namespace))
+                catch (Exception ex)
                 {
-                    DefaultNamesapce.Add(item.Namespace);
+
+//                    Assembly? assembly = Assembly.LoadFrom(item);
+//                    if (assembly != null)
+//                    {
+//#if DEBUG
+//                        Console.WriteLine($"[外部加载]:{item}");
+//#endif
+//                        try
+//                        {
+//                            var types = assembly.GetTypes();
+//                            foreach (var type in types)
+//                            {
+//                                if (!string.IsNullOrEmpty(type.Namespace))
+//                                {
+//                                    DefaultNamesapce.Add(type.Namespace);
+//                                }
+//                            }
+//                        }
+//                        catch
+//                        {
+
+//                        }
+//                    }
                 }
-
+               
             }
-
+            domain.Dispose();
             foreach (var @using in DefaultNamesapce)
             {
                 DefaultScript.AppendLine($"using {@using};");
             }
-
+#if DEBUG
+            stopwatch.StopAndShowCategoreInfo("[DefaultUsing]", "全部 Using 准备", 1);
+#endif
 
         }
 

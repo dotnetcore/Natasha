@@ -13,43 +13,20 @@ namespace ReferenceTest50
     {
         static void Main(string[] args)
         {
+            
             Nacos.Request.RequestClient request = default;
             Nacos.Microsoft.Extensions.Configuration.ConfigListener b = default;
             Nacos.AspNetCore.V2.NacosAspNetOptions options = default;
+            //Check();
+            //Console.WriteLine(typeof(string).Assembly == typeof(object).Assembly && typeof(string).Namespace == typeof(object).Namespace);
+            //Console.WriteLine(typeof(Console).Assembly == typeof(object).Assembly && typeof(Console).Namespace == typeof(object).Namespace);
 
-            Console.WriteLine(typeof(string).Assembly == typeof(object).Assembly && typeof(string).Namespace == typeof(object).Namespace);
-            Console.WriteLine(typeof(Console).Assembly == typeof(object).Assembly && typeof(Console).Namespace == typeof(object).Namespace);
-            var assemblies = System.Runtime.Loader.AssemblyLoadContext.Default.Assemblies;
-            Console.WriteLine("默认域:");
-            foreach (var item in assemblies)
-            {
-                Console.WriteLine(item.Location);
-            }
-           
-            var names = new HashSet<string>(assemblies.Select(item => item.GetName().Name));
-            Console.WriteLine("当前程序集:");
-            foreach (var item in names)
-            {
-                Console.WriteLine(item);
-            }
-            Console.WriteLine(System.Runtime.Loader.AssemblyLoadContext.Default.Assemblies.Count());
-            IEnumerable<string> paths = DependencyContext
-                    .Default
-                    .CompileLibraries.SelectMany(cl => cl.ResolveReferencePaths());
-           
-
-            //重复
-            Console.WriteLine("重复:");
-            foreach (var item in paths)
-            {
-                //Console.WriteLine(Path.GetFileNameWithoutExtension(item));
-                if (names.Contains(Path.GetFileNameWithoutExtension(item)))
-                {
-                    Console.WriteLine(item);
-                }
-                System.Runtime.Loader.AssemblyLoadContext.Default.LoadFromAssemblyPath(item);
-            }
-
+            //var assemblyNames = DependencyContext.Default.GetDefaultAssemblyNames();
+            //foreach (var item in assemblyNames)
+            //{
+            //    Console.WriteLine(item.Name);
+            //}
+            //Console.ReadKey();
             //            NatashaInitializer.InitializeAndPreheating();
             //            string code = @"
             //using ReferenceTest50;
@@ -63,21 +40,79 @@ namespace ReferenceTest50
             //    /// </summary>
             //    public Test test;
             //}";
-            Console.WriteLine("重新加载引用后,默认域程序集数:");
-            Console.WriteLine(System.Runtime.Loader.AssemblyLoadContext.Default.Assemblies.Count());
+            //Console.WriteLine("重新加载引用后,默认域程序集数:");
+            //Console.WriteLine(System.Runtime.Loader.AssemblyLoadContext.Default.Assemblies.Count());
             //Show();
             //            //Show(code);
 
 
             //            Show2(code);
+            Check();
             NatashaInitializer.InitializeAndPreheating();
-            Console.WriteLine("=====================================");
-            NDelegate.RandomDomain().Action("Console.WriteLine(1);");
-            NDelegate.RandomDomain(item=>item.DisableSemanticCheck()).Action("Console.WriteLine(1);");
+            Check();
+            //Check();
+            //Console.WriteLine("=====================================");
+            //var domain = DomainManagement.Random;
+            ////domain.AddReferencesFromAssembly(typeof(object).Assembly);
+            ////domain.AddReferencesFromAssembly(typeof(Console).Assembly);
+            //NDelegate.UseDomain(domain).Action("Console.WriteLine(1);");
+            ////NDelegate.RandomDomain(item=>item.DisableSemanticCheck()).Action("Console.WriteLine(1);");
+
+
+            NDelegate.RandomDomain().Action("Serilog.Configuration.LoggerAuditSinkConfiguration loggerAuditSinkConfiguration = default;")();
+            Check();
+
+            NDelegate.RandomDomain().Action("Serilog.Configuration.LoggerAuditSinkConfiguration loggerAuditSinkConfiguration = default;")();
+            Check();
             Console.WriteLine("Completed!");
             Console.ReadKey();
         }
 
+        public static void Check()
+        {
+            var assemblies = System.Runtime.Loader.AssemblyLoadContext.Default.Assemblies;
+            Console.WriteLine("默认域:");
+            foreach (var item in assemblies)
+            {
+                if (!item.IsDynamic)
+                {
+                    Console.WriteLine(item.Location);
+                }
+                
+            }
+            Console.WriteLine(assemblies.Count());
+            //var names = new HashSet<string>(assemblies.Select(item => item.GetName().Name));
+            //Console.WriteLine("当前程序集:");
+            //foreach (var item in names)
+            //{
+            //    Console.WriteLine(item);
+            //}
+            //Console.WriteLine(System.Runtime.Loader.AssemblyLoadContext.Default.Assemblies.Count());
+            //IEnumerable<string> paths = DependencyContext
+            //        .Default
+            //        .CompileLibraries.SelectMany(cl => cl.ResolveReferencePaths());
+
+
+            ////重复
+            //Console.WriteLine("重复:");
+            //foreach (var item in paths)
+            //{
+
+            //    //Console.WriteLine(Path.GetFileNameWithoutExtension(item));
+            //    if (names.Contains(Path.GetFileNameWithoutExtension(item)))
+            //    {
+            //        Console.ForegroundColor = ConsoleColor.Green;
+            //        Console.WriteLine(item);
+            //        Console.ResetColor();
+            //    }
+            //    else
+            //    {
+            //        //Console.ForegroundColor = ConsoleColor.Yellow;
+            //        //Console.WriteLine(item);
+            //        //Console.ResetColor();
+            //    }
+            //}
+        }
         public static void Show()
         {
             NatashaInitializer.InitializeAndPreheating();

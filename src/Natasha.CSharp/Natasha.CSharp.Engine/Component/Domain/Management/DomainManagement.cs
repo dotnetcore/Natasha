@@ -55,7 +55,7 @@ public class DomainManagement
     }
 
 
-#if NETCOREAPP3_0_OR_GREATER
+
         public static ContextualReflectionScope Lock(string key)
         {
             if (Cache.ContainsKey(key))
@@ -81,7 +81,7 @@ public class DomainManagement
                     (DomainBase)CurrentContextualReflectionContext;
             }
         }
-#endif
+
 
 
     public static void Add(string key, DomainBase domain)

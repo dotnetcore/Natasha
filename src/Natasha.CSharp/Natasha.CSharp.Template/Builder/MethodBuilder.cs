@@ -144,14 +144,19 @@ namespace Natasha.CSharp.Builder
 
         public Delegate Compile(object? target = null)
         {
-
+#if DEBUG
+            Stopwatch stopwatch = new();
+            stopwatch.Start();
+#endif
             Using(AssemblyBuilder.Compiler.Domain.GetReferenceElements().ToArray());
             if (OopHandler.NamespaceScript == default)
             {
                 OopHandler.HiddenNamespace();
             }
 
-
+#if DEBUG
+            stopwatch.StopAndShowCategoreInfo("[ Using ]", "Using填充耗时", 1);
+#endif
             OopHandler.BodyAppend(Script);
             AssemblyBuilder.Add(OopHandler);
             return AssemblyBuilder.GetDelegateFromShortName(OopHandler.NameScript, NameScript, DelegateType, target);
@@ -197,7 +202,6 @@ namespace Natasha.CSharp.Builder
 #if DEBUG
             stopwatch.StopAndShowCategoreInfo("[Delegate]", "委托信息反解耗时", 1);
             Console.WriteLine();
-            stopwatch.Restart();
 #endif
             //Mark : 11M Memory
             OopHandler.BodyAppend(Script);
