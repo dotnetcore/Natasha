@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Natasha.CSharp.Engine.SemanticAnalaysis
 {
 
-    public static class CS0246Analaysistor
+    internal static class CS0246Analaysistor
     {
 
         private static readonly ConcurrentDictionary<string, Regex> _formartRegCache;

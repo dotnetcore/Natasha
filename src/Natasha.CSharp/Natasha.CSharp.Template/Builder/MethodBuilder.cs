@@ -38,7 +38,10 @@ namespace Natasha.CSharp.Builder
         public T SkipInit()
         {
             this.ConfigComplier(item => item.SupportSkipLocalInit());
-            this.AttributeAppend<SkipLocalsInitAttribute>();
+            if (!UsingRecoder.Types.Contains(typeof(SkipLocalsInitAttribute)))
+            {
+                this.AttributeAppend<SkipLocalsInitAttribute>();
+            }
             return Link!;
         }
 

@@ -38,9 +38,9 @@ namespace Natasha
                 try
                 {
                     Assembly? assembly = domain.LoadFromAssemblyPath(item);
-#if DEBUG
-                    Console.WriteLine($"[内部加载]:{item}");
-#endif
+                    //#if DEBUG
+                    //                    Console.WriteLine($"[内部加载]:{item}");
+                    //#endif
                     if (assembly != null)
                     {
                         try
@@ -56,37 +56,37 @@ namespace Natasha
                         }
                         catch
                         {
-                          
+
                         }
                     }
                 }
                 catch (Exception ex)
                 {
 
-//                    Assembly? assembly = Assembly.LoadFrom(item);
-//                    if (assembly != null)
-//                    {
-//#if DEBUG
-//                        Console.WriteLine($"[外部加载]:{item}");
-//#endif
-//                        try
-//                        {
-//                            var types = assembly.GetTypes();
-//                            foreach (var type in types)
-//                            {
-//                                if (!string.IsNullOrEmpty(type.Namespace))
-//                                {
-//                                    DefaultNamesapce.Add(type.Namespace);
-//                                }
-//                            }
-//                        }
-//                        catch
-//                        {
+                    //                    Assembly? assembly = Assembly.LoadFrom(item);
+                    //                    if (assembly != null)
+                    //                    {
+                    //#if DEBUG
+                    //                        Console.WriteLine($"[外部加载]:{item}");
+                    //#endif
+                    //                        try
+                    //                        {
+                    //                            var types = assembly.GetTypes();
+                    //                            foreach (var type in types)
+                    //                            {
+                    //                                if (!string.IsNullOrEmpty(type.Namespace))
+                    //                                {
+                    //                                    DefaultNamesapce.Add(type.Namespace);
+                    //                                }
+                    //                            }
+                    //                        }
+                    //                        catch
+                    //                        {
 
-//                        }
-//                    }
+                    //                        }
+                    //                    }
                 }
-               
+
             }
             domain.Dispose();
             foreach (var @using in DefaultNamesapce)
@@ -120,33 +120,28 @@ namespace Natasha
         /// <param name="namespace"></param>
         public static void Remove(string @namespace)
         {
-            if (string.IsNullOrEmpty(@namespace))
+
+            lock (DefaultNamesapce)
             {
-                lock (DefaultNamesapce)
+                if (DefaultNamesapce.Contains(@namespace))
                 {
-                    if (DefaultNamesapce.Contains(@namespace))
-                    {
-                        DefaultNamesapce.Remove(@namespace);
-                        DefaultScript = DefaultScript.Replace($"using {@namespace};{Environment.NewLine}", string.Empty);
-                    }
+                    DefaultNamesapce.Remove(@namespace);
+                    DefaultScript = DefaultScript.Replace($"using {@namespace};{Environment.NewLine}", string.Empty);
                 }
             }
         }
         public static void Remove(IEnumerable<string> namespaces)
         {
 
-            if (namespaces!=null)
+            lock (DefaultNamesapce)
             {
-                lock (DefaultNamesapce)
+                DefaultNamesapce.ExceptWith(namespaces);
+                foreach (var item in namespaces)
                 {
-                    DefaultNamesapce.ExceptWith(namespaces);
-                    foreach (var item in namespaces)
-                    {
-                        DefaultScript.Replace($"using {item};{Environment.NewLine}", string.Empty);
-                    }
+                    DefaultScript.Replace($"using {item};{Environment.NewLine}", string.Empty);
                 }
             }
-            
+
         }
     }
 

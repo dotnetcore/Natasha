@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 
 namespace Natasha.CSharp.Engine.SemanticAnalaysis
 {
-    public static class CS0234Analaysistor
+    internal static class CS0234Analaysistor
     {
         private static readonly ConcurrentDictionary<string, Regex> RegCache;
         static CS0234Analaysistor()
@@ -39,7 +39,7 @@ namespace Natasha.CSharp.Engine.SemanticAnalaysis
 
         }
 
-        public static IEnumerable<UsingDirectiveSyntax>? Handler(CompilationUnitSyntax root, Diagnostic diagnostic)
+        internal static IEnumerable<UsingDirectiveSyntax>? Handler(CompilationUnitSyntax root, Diagnostic diagnostic)
         {
 
             var needToRemove = GetUnableUsing(diagnostic);

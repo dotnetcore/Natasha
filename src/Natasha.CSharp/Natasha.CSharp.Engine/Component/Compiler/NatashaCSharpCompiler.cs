@@ -77,23 +77,24 @@ public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompi
     public NatashaCSharpCompiler()
     {
 
-        CompileFlags = CompilerBinderFlags.IgnoreAccessibility | CompilerBinderFlags.IgnoreCorLibraryDuplicatedTypes;
+        CompileFlags = CompilerBinderFlags.IgnoreCorLibraryDuplicatedTypes;
         ReferencesSupersedeLowerVersions = true;
         AllowUnsafe = true;
         AssemblyKind = OutputKind.DynamicallyLinkedLibrary;
-        CodeOptimizationLevel = OptimizationLevel.Release;
-        //AssemblyOutputKind = AssemblyBuildKind.Stream;
+        CodeOptimizationLevel = OptimizationLevel.Release;;
         SuppressDiagnostics = _globalSuppressDiagnostics;
         ProcessorPlatform = Platform.AnyCpu;
         SetSemanticAnalysistor(_globalSemanticHandler!);
-        //SuppressDiagnostics = new ConcurrentDictionary<string, ReportDiagnostic>();
 
     }
 
 
     public NatashaCSharpCompiler SupportSkipLocalInit()
     {
-        CompileFlags = (uint)CompileFlags - CompilerBinderFlags.IgnoreAccessibility;
+        if (CompileFlags.HasFlag(CompilerBinderFlags.IgnoreAccessibility))
+        {
+            CompileFlags = (uint)CompileFlags - CompilerBinderFlags.IgnoreAccessibility;
+        }
         return this;
     }
 

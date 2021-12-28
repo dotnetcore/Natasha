@@ -47,9 +47,16 @@ namespace ReferenceTest50
 
 
             //            Show2(code);
-            Check();
+           // Check();
+            //Microsoft.CodeAnalysis.Workspaces.ErrorLogger
+            Stopwatch stopwatch = new();
+            stopwatch.Start();
             NatashaInitializer.InitializeAndPreheating();
-            Check();
+            stopwatch.Stop();
+            Console.WriteLine(stopwatch.ElapsedMilliseconds);
+            Console.ReadKey();
+           // Check();
+
             //Check();
             //Console.WriteLine("=====================================");
             //var domain = DomainManagement.Random;
@@ -58,12 +65,21 @@ namespace ReferenceTest50
             //NDelegate.UseDomain(domain).Action("Console.WriteLine(1);");
             ////NDelegate.RandomDomain(item=>item.DisableSemanticCheck()).Action("Console.WriteLine(1);");
 
-
+            stopwatch.Restart();
             NDelegate.RandomDomain().Action("Serilog.Configuration.LoggerAuditSinkConfiguration loggerAuditSinkConfiguration = default;")();
-            Check();
-
-            NDelegate.RandomDomain().Action("Serilog.Configuration.LoggerAuditSinkConfiguration loggerAuditSinkConfiguration = default;")();
-            Check();
+            stopwatch.Stop();
+            Console.WriteLine(stopwatch.ElapsedMilliseconds);
+            Console.ReadKey();
+            //Check();
+            stopwatch.Restart();
+            NDelegate
+                .RandomDomain(item=>item.DisableSemanticCheck())
+                .SetMethod(item=>item.SkipInit().SkipInit())
+                .Action("Serilog.Configuration.LoggerAuditSinkConfiguration loggerAuditSinkConfiguration = default;")();
+            stopwatch.Stop();
+            Console.WriteLine(stopwatch.ElapsedMilliseconds);
+            Console.ReadKey();
+            //Check();
             Console.WriteLine("Completed!");
             Console.ReadKey();
         }

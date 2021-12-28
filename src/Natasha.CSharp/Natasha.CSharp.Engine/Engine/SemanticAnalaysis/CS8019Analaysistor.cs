@@ -10,10 +10,10 @@ using System.Text.RegularExpressions;
 namespace Natasha.CSharp.Engine.SemanticAnalaysis
 {
 
-    public static class CS8019Analaysistor
+    internal static class CS8019Analaysistor
     {
 
-        public static IEnumerable<UsingDirectiveSyntax> Handler(CompilationUnitSyntax root, HashSet<Location> locations)
+        internal static IEnumerable<UsingDirectiveSyntax> Handler(CompilationUnitSyntax root, HashSet<Location> locations)
         {
 
             return from usingDeclaration in root.Usings
