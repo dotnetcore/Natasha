@@ -20,27 +20,27 @@ namespace NatashaUT
         {
 
             //Assert.Equal("Unable to connect to any of the specified MySQL hosts.",GetResult1());
-            GetResult1();
+            var name = GetResult1();
             for (int i = 0; i < 6; i++)
             {
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
             }
-            Assert.True(DomainManagement.IsDeleted("TempDADomain11"));
+            Assert.True(DomainManagement.IsDeleted(name));
 
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
         public string GetResult1()
         {
-            string result;
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib","Sql", "ClassLibrary1.dll");
             Assert.True(File.Exists(path));
-            using (DomainManagement.CreateAndLock("TempDADomain11"))
+            var name = Guid.NewGuid().ToString("N");
+            using (DomainManagement.CreateAndLock(name))
             {
                
                 var domain = DomainManagement.CurrentDomain;
-                Assert.Equal("TempDADomain11", domain.Name);
+                
                 var assembly = domain.LoadPlugin(path);
                 var assemblyCount = domain.Assemblies.Count();
                 var operat = NatashaOperator.MethodOperator;
@@ -58,13 +58,13 @@ catch(Exception e){
 return default;").Return<string>()
 
                    .Compile<Func<string>>();
-                result = action();
-                //Assert.Equal(assemblyCount + 1, domain.Assemblies.Count());
-                Assert.Equal("TempDADomain11", operat.AssemblyBuilder.Compiler.Domain.Name);
+                var result = action();
+                Assert.Equal(name, domain.Name);
+                Assert.Equal(name, operat.AssemblyBuilder.Compiler.Domain.Name);
                 
                 domain.Dispose();
             }
-            return result;
+            return name;
         }
 
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.Extensions.DependencyModel;
+using Natasha;
 using Natasha.Framework;
 using System;
 using System.Collections.Generic;
@@ -51,11 +52,17 @@ namespace ReferenceTest50
             //Microsoft.CodeAnalysis.Workspaces.ErrorLogger
             Stopwatch stopwatch = new();
             stopwatch.Start();
-            NatashaInitializer.InitializeAndPreheating();
+            NatashaInitializer.InitializeAndPreheating(asmName=>asmName.StartsWith("Nacos."));
             stopwatch.Stop();
             Console.WriteLine(stopwatch.ElapsedMilliseconds);
             Console.ReadKey();
-           // Check();
+
+
+            stopwatch.Restart();
+            Test();
+            stopwatch.Stop();
+            Console.WriteLine(stopwatch.ElapsedMilliseconds);
+            // Check();
 
             //Check();
             //Console.WriteLine("=====================================");
@@ -65,20 +72,20 @@ namespace ReferenceTest50
             //NDelegate.UseDomain(domain).Action("Console.WriteLine(1);");
             ////NDelegate.RandomDomain(item=>item.DisableSemanticCheck()).Action("Console.WriteLine(1);");
 
-            stopwatch.Restart();
-            NDelegate.RandomDomain().Action("Serilog.Configuration.LoggerAuditSinkConfiguration loggerAuditSinkConfiguration = default;")();
-            stopwatch.Stop();
-            Console.WriteLine(stopwatch.ElapsedMilliseconds);
-            Console.ReadKey();
-            //Check();
-            stopwatch.Restart();
-            NDelegate
-                .RandomDomain(item=>item.DisableSemanticCheck())
-                .SetMethod(item=>item.SkipInit().SkipInit())
-                .Action("Serilog.Configuration.LoggerAuditSinkConfiguration loggerAuditSinkConfiguration = default;")();
-            stopwatch.Stop();
-            Console.WriteLine(stopwatch.ElapsedMilliseconds);
-            Console.ReadKey();
+            //stopwatch.Restart();
+            //NDelegate.RandomDomain().Action("Serilog.Configuration.LoggerAuditSinkConfiguration loggerAuditSinkConfiguration = default;")();
+            //stopwatch.Stop();
+            //Console.WriteLine(stopwatch.ElapsedMilliseconds);
+            //Console.ReadKey();
+            ////Check();
+            //stopwatch.Restart();
+            //NDelegate
+            //    .RandomDomain(item=>item.DisableSemanticCheck())
+            //    .SetMethod(item=>item.SkipInit().SkipInit())
+            //    .Action("Serilog.Configuration.LoggerAuditSinkConfiguration loggerAuditSinkConfiguration = default;")();
+            //stopwatch.Stop();
+            //Console.WriteLine(stopwatch.ElapsedMilliseconds);
+            //Console.ReadKey();
             //Check();
             Console.WriteLine("Completed!");
             Console.ReadKey();
@@ -152,7 +159,82 @@ namespace ReferenceTest50
             Console.WriteLine(assembly!=null);
         }
 
+        public static void Test()
+        {
 
+            //预热 Natasha
+            //参数(非必要): 排除以 Nacos. 开头的文件引用.
+            //NatashaInitializer.InitializeAndPreheating(asmName => asmName.StartsWith("Nacos."));
+
+            //创建和捕捉域上下文, 在花括号内所有的构建都将在 myRandom 域中进行. (非主域可卸载)
+            using (DomainManagement.CreateAndLock("myRandom"))
+            {
+
+                //准备一段字符串脚本,创建一个类
+                string script = @"public class A
+                      { 
+                          public A(){  Address =  ""World""; }
+
+                          public string? Name{ get{ return ""Hello""; } }
+
+                          public string? Address;
+                      }";
+
+                //创建一个新的操作类 NatashaOperator.
+                //MethodOperator/ClassOperator/EnumOperator/InterfaceOperator
+                //StructOperator/RecordOperator/DelegateOperator/SharpBuilder
+
+                //创建一个手动构建脚本的编译类
+                var builder = NatashaOperator.SharpBuilder;
+                //动态编译支持可空引用
+                builder.EnableNullableCompile();
+                //设置dll输出路径
+                builder.SetDllFilePath("myRandomA.dll");
+                //设置调试信息输出路径
+                builder.SetPdbFilePath("myRandomA.pdb");
+                //设置注释文件输出路径
+                builder.SetXmlFilePath("myRandomA.xml");
+                //覆盖全局 using
+                script = DefaultUsing.DefaultScript + script;
+                //添加脚本到 编译单元 中
+                builder.Add(script);
+                //编译成程序集
+                var assembly = builder.GetAssembly();
+
+
+                //创建一个委托操作类
+                var nDelegate = NatashaOperator.DelegateOperator;
+
+                //配置编译器
+                nDelegate.AssemblyBuilder
+                    //开启成功日志记录
+                    .EnableSucceedLog()
+                    //禁用语义过滤
+                    .DisableSemanticCheck()
+                    //编译出错记录日志并抛出异常
+                    .LogAndThrowCompilerError()
+                    //语法出错记录日志并抛出异常
+                    .LogAndThrowSyntaxError()
+                    //生成注释文档
+                    .SetXmlFilePath("myDelete.xml");
+
+                var action = nDelegate
+                    .SetMethod(item => item
+                        //跳过方法栈变量初始化,即[SkipInit]
+                        .SkipInit()
+                        .Summary("这是方法的注释")
+                        .SummaryParameter("arg", "传递一个字符串,连接 Name 和 Address.")
+                        .SummaryReturn("返回 Name arg Address 拼接好的字符串.")
+                        )
+                    .Func<string, string>("var obj = new A(); return obj.Name+arg+obj.Address;");
+
+                Console.WriteLine(action("&"));
+            }
+
+            //卸载该域
+            DomainManagement.Remove("myRandom");
+
+        }
         public static void Show(string code)
         {
             var stopwatch = new Stopwatch();

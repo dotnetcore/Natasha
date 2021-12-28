@@ -10,6 +10,7 @@ public static class NatashaOperator
     public static NStruct StructOperator { get { return new(); } }
     public static NRecord RecordOperator { get { return new(); } }
     public static NDelegate DelegateOperator { get { return new(); } }
+    public static AssemblyCSharpBuilder SharpBuilder { get { return new(); } }
 
 }
 

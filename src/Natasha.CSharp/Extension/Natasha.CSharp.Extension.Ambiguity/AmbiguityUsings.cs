@@ -17,6 +17,72 @@ namespace Natasha.CSharp.Extension.Ambiguity
         {
             _usingsCache = new ConcurrentDictionary<CSharpCompilation, HashSet<string>>();
         }
+
+
+
+        public static CSharpCompilation HandlerCS0104(SyntaxTree syntaxTree, CSharpCompilation compilation,  HashSet<string> usings)
+        {
+            var semantiModel = compilation.GetSemanticModel(syntaxTree);
+            var errors = semantiModel.GetDiagnostics();
+            if (errors.Length > 0)
+            {
+                CompilationUnitSyntax root = syntaxTree.GetCompilationUnitRoot();
+                var editor = new SyntaxEditor(root, new AdhocWorkspace());
+                var removeCache = new HashSet<UsingDirectiveSyntax>();
+
+                foreach (var diagnostic in errors)
+                {
+
+                    if (diagnostic.Id == "CS0104")
+                    {
+                        var info = semantiModel.GetSymbolInfo(diagnostic.GetSyntaxNode(root));
+                        bool stepLastest = false;
+                        for (int i = 0; i < info.CandidateSymbols.Length - 1; i++)
+                        {
+                            var spaceName = info.CandidateSymbols[i]!.OriginalDefinition.ContainingNamespace.Name;
+                            if (!usings.Contains(spaceName))
+                            {
+
+                                var node = (from usingDeclaration in root.Usings
+                                            where usingDeclaration.Name.ToString() == spaceName
+                                            select usingDeclaration).FirstOrDefault();
+                                if (node != null)
+                                {
+                                    removeCache.Add(node);
+                                }
+                            }
+                            else
+                            {
+                                stepLastest = true;
+                            }
+                        }
+                        if (stepLastest)
+                        {
+                            var spaceName = info.CandidateSymbols[info.CandidateSymbols.Length - 1]!.OriginalDefinition.ContainingNamespace.ToString();
+
+                            var node = (from usingDeclaration in root.Usings
+                                        where usingDeclaration.Name.ToString() == spaceName
+                                        select usingDeclaration).FirstOrDefault();
+                            if (node != null)
+                            {
+                                removeCache.Add(node);
+                            }
+                        }
+                    }
+
+                }
+
+                foreach (var item in removeCache)
+                {
+                    editor.RemoveNode(item);
+                }
+
+                return compilation.ReplaceSyntaxTree(syntaxTree, editor.GetChangedRoot().SyntaxTree);
+            }
+            return compilation;
+        }
+           
+
         internal static Func<CSharpCompilation, CSharpCompilation> OopBuilderCreator<T>(OopBuilder<T> oopBuilder) where T : OopBuilder<T>, new()
         {
             return compilation =>
@@ -25,64 +91,17 @@ namespace Natasha.CSharp.Extension.Ambiguity
                 var trees = compilation.SyntaxTrees;
                 foreach (var tree in trees)
                 {
-                    var semantiModel = compilation.GetSemanticModel(tree);
-                    var errors = semantiModel.GetDiagnostics();
-                    CompilationUnitSyntax root = tree.GetCompilationUnitRoot();
-                    var editor = new SyntaxEditor(root, new AdhocWorkspace());
-                    var removeCache = new HashSet<UsingDirectiveSyntax>();
-                    var usings = oopBuilder.Usings;
-
-                    foreach (var diagnostic in errors)
-                    {
-
-                        if (diagnostic.Id == "CS0104")
-                        {
-                            (string str1, string str2) = CS0104Analaysistor.GetUnableUsing(diagnostic);
-                            var needToRemove = str1;
-
-                            if (usings.Contains(str1))
-                            {
-                                if (usings.Contains(str2))
-                                {
-                                    if (str2 == "System")
-                                    {
-                                        needToRemove = str2;
-                                    }
-                                    else
-                                    {
-                                        needToRemove = str1;
-                                    }
-                                }
-                                else
-                                {
-                                    needToRemove = str2;
-                                }
-                            }
-                            else
-                            {
-                                needToRemove = str1;
-                            }
-
-
-                            removeCache.UnionWith(from usingDeclaration in diagnostic.Location.SourceTree.GetRoot()
-                                        .DescendantNodes()
-                                        .OfType<UsingDirectiveSyntax>()
-                                                  where usingDeclaration.Name.ToFullString() == needToRemove
-                                                  select usingDeclaration);
-                        }
-
-                    }
-                    foreach (var item in removeCache)
-                    {
-                        editor.RemoveNode(item);
-                    }
-                    compilation = compilation.ReplaceSyntaxTree(tree, editor.GetChangedRoot().SyntaxTree);
+                    compilation = HandlerCS0104(tree, compilation, oopBuilder.Usings);
                 }
-                _usingsCache.Remove(compilation);
                 return compilation;
 
             };
         }
+
+
+
+
+
         internal static Func<CSharpCompilation, CSharpCompilation> MethodBuilderCreator<T>(MethodBuilder<T> methodBuilder) where T : MethodBuilder<T>, new()
         {
             return compilation =>
@@ -91,60 +110,10 @@ namespace Natasha.CSharp.Extension.Ambiguity
                 var trees = compilation.SyntaxTrees;
                 foreach (var tree in trees)
                 {
-                    var semantiModel = compilation.GetSemanticModel(tree);
-                    var errors = semantiModel.GetDiagnostics();
-                    CompilationUnitSyntax root = tree.GetCompilationUnitRoot();
-                    var editor = new SyntaxEditor(root, new AdhocWorkspace());
-                    var removeCache = new HashSet<UsingDirectiveSyntax>();
-                    var usings = methodBuilder.OopHandler.Usings;
 
-                    foreach (var diagnostic in errors)
-                    {
+                    compilation = HandlerCS0104(tree, compilation, methodBuilder.OopHandler.Usings);
 
-                        if (diagnostic.Id == "CS0104")
-                        {
-                            (string str1, string str2) = CS0104Analaysistor.GetUnableUsing(diagnostic);
-                            var needToRemove = str1;
-
-                            if (usings.Contains(str1))
-                            {
-                                if (usings.Contains(str2))
-                                {
-                                    if (str2 == "System")
-                                    {
-                                        needToRemove = str2;
-                                    }
-                                    else
-                                    {
-                                        needToRemove = str1;
-                                    }
-                                }
-                                else
-                                {
-                                    needToRemove = str2;
-                                }
-                            }
-                            else
-                            {
-                                needToRemove = str1;
-                            }
-
-
-                            removeCache.UnionWith(from usingDeclaration in diagnostic.Location.SourceTree.GetRoot()
-                                        .DescendantNodes()
-                                        .OfType<UsingDirectiveSyntax>()
-                                                  where usingDeclaration.Name.ToFullString() == needToRemove
-                                                  select usingDeclaration);
-                        }
-
-                    }
-                    foreach (var item in removeCache)
-                    {
-                        editor.RemoveNode(item);
-                    }
-                    compilation = compilation.ReplaceSyntaxTree(tree, editor.GetChangedRoot().SyntaxTree);
                 }
-                _usingsCache.Remove(compilation);
                 return compilation;
 
             };
@@ -157,63 +126,11 @@ namespace Natasha.CSharp.Extension.Ambiguity
                 var trees = compilation.SyntaxTrees;
                 foreach (var tree in trees)
                 {
-                    var semantiModel = compilation.GetSemanticModel(tree);
-                    var errors = semantiModel.GetDiagnostics();
-                    CompilationUnitSyntax root = tree.GetCompilationUnitRoot();
-                    var editor = new SyntaxEditor(root, new AdhocWorkspace());
-                    var removeCache = new HashSet<UsingDirectiveSyntax>();
                     var usings = nDelegate.Usings;
                     OopBuilder oopBuilder = new OopBuilder();
                     oopBuilder.Using(usings);
-                    var usingSets = oopBuilder.Usings;
-
-                    foreach (var diagnostic in errors)
-                    {
-
-                        if (diagnostic.Id == "CS0104")
-                        {
-                            (string str1, string str2) = CS0104Analaysistor.GetUnableUsing(diagnostic);
-                            var needToRemove = str1;
-
-                            if (usingSets.Contains(str1))
-                            {
-                                if (usingSets.Contains(str2))
-                                {
-                                    if (str2 == "System")
-                                    {
-                                        needToRemove = str2;
-                                    }
-                                    else
-                                    {
-                                        needToRemove = str1;
-                                    }
-                                }
-                                else
-                                {
-                                    needToRemove = str2;
-                                }
-                            }
-                            else
-                            {
-                                needToRemove = str1;
-                            }
-
-
-                            removeCache.UnionWith(from usingDeclaration in diagnostic.Location.SourceTree.GetRoot()
-                                        .DescendantNodes()
-                                        .OfType<UsingDirectiveSyntax>()
-                                                  where usingDeclaration.Name.ToFullString() == needToRemove
-                                                  select usingDeclaration);
-                        }
-
-                    }
-                    foreach (var item in removeCache)
-                    {
-                        editor.RemoveNode(item);
-                    }
-                    compilation = compilation.ReplaceSyntaxTree(tree, editor.GetChangedRoot().SyntaxTree);
+                    compilation = HandlerCS0104(tree, compilation, oopBuilder.Usings);
                 }
-                _usingsCache.Remove(compilation);
                 return compilation;
 
             };
@@ -226,59 +143,10 @@ namespace Natasha.CSharp.Extension.Ambiguity
                 var trees = compilation.SyntaxTrees;
                 foreach (var tree in trees)
                 {
-                    var semantiModel = compilation.GetSemanticModel(tree);
-                    var errors = semantiModel.GetDiagnostics();
-                    CompilationUnitSyntax root = tree.GetCompilationUnitRoot();
-                    var editor = new SyntaxEditor(root, new AdhocWorkspace());
-                    var removeCache = new HashSet<UsingDirectiveSyntax>();
-                    var usingSets = _usingsCache[compilation];
-                    foreach (var diagnostic in errors)
-                    {
+                    compilation = HandlerCS0104(tree, compilation, _usingsCache[compilation]);
 
-                        if (diagnostic.Id=="CS0104")
-                        {
-                            (string str1, string str2) = CS0104Analaysistor.GetUnableUsing(diagnostic);
-                            var needToRemove = str1;
-
-                            if (usingSets.Contains(str1))
-                            {
-                                if (usingSets.Contains(str2))
-                                {
-                                    if (str2 == "System")
-                                    {
-                                        needToRemove = str2;
-                                    }
-                                    else
-                                    {
-                                        needToRemove = str1;
-                                    }
-                                }
-                                else
-                                {
-                                    needToRemove = str2;
-                                }
-                            }
-                            else
-                            {
-                                needToRemove = str1;
-                            }
-
-
-                            removeCache.UnionWith(from usingDeclaration in diagnostic.Location.SourceTree.GetRoot()
-                                        .DescendantNodes()
-                                        .OfType<UsingDirectiveSyntax>()
-                                   where usingDeclaration.Name.ToFullString() == needToRemove
-                                   select usingDeclaration);
-                        }
-
-                    }
-                    foreach (var item in removeCache)
-                    {
-                        editor.RemoveNode(item);
-                    }
-                    compilation = compilation.ReplaceSyntaxTree(tree, editor.GetChangedRoot().SyntaxTree);
                 }
-                _usingsCache.Remove(compilation);
+                _usingsCache!.Remove(compilation);
                 return compilation;
 
             };

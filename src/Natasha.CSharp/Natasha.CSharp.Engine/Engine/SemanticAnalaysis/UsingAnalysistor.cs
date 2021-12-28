@@ -59,46 +59,19 @@ namespace Natasha.CSharp.Engine.SemanticAnalaysis
                             var error = errors[i];
                             if (error.Id == "CS0434")
                             {
-                                var usingNodes = (from usingDeclaration in root.Usings
-                                                  where usingDeclaration.Name.ToString().EndsWith(error.GetSyntaxNode(root).ToString())
-                                                  select usingDeclaration).ToList();
-
-                                if (usingNodes != null && usingNodes.Count > 0)
-                                {
-                                    errorNodes.UnionWith(usingNodes);
-                                    DefaultUsing.Remove(usingNodes.Select(item => item.Name.ToString()));
-                                }
+                                error.RemoveUsingDiagnostic(root, errorNodes);
                             }
                             else if (error.Id == "CS8019")
                             {
-                                errorNodes.Add(error.GetSyntaxNode(root));
+                                errorNodes.Add(error.GetUsingSyntaxNode(root));
                             }
                             else if (error.Id == "CS0246")
                             {
-                                var node = (IdentifierNameSyntax)error.GetSyntaxNode(root);
-                                var usingNode = (from usingDeclaration in root.Usings
-                                                 where usingDeclaration.Name == node
-                                                 select usingDeclaration).FirstOrDefault();
-
-                                if (usingNode != null)
-                                {
-                                    DefaultUsing.Remove(node.ToString());
-                                    errorNodes.Add(usingNode);
-                                }
+                                error.RemoveUsingDiagnostic(root, errorNodes);
                             }
                             else if (error.Id == "CS0234")
                             {
-                                var nodeName = ((UsingDirectiveSyntax)error.GetSyntaxNode(root)).Name.ToString();
-                                var usingNodes = (from usingDeclaration in root.Usings
-                                                  where usingDeclaration.Name.ToString().StartsWith(nodeName)
-                                                  select usingDeclaration).ToList();
-
-                                if (usingNodes != null && usingNodes.Count > 0)
-                                {
-                                    errorNodes.UnionWith(usingNodes);
-                                    DefaultUsing.Remove(usingNodes.Select(item => item.Name.ToString()));
-                                }
-
+                                error.RemoveUsingDiagnostics(root, errorNodes);
                             }
                         }
 
@@ -116,5 +89,6 @@ namespace Natasha.CSharp.Engine.SemanticAnalaysis
                 return compilation;
             };
         }
+
     }
 }

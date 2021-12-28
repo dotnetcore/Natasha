@@ -76,8 +76,12 @@ public class NatashaCSharpCompiler : CompilerBase<CSharpCompilation, CSharpCompi
 
     public NatashaCSharpCompiler()
     {
-
+#if DEBUG
+        CompileFlags = CompilerBinderFlags.IgnoreCorLibraryDuplicatedTypes | CompilerBinderFlags.IgnoreAccessibility;
+#else
         CompileFlags = CompilerBinderFlags.IgnoreCorLibraryDuplicatedTypes;
+#endif
+
         ReferencesSupersedeLowerVersions = true;
         AllowUnsafe = true;
         AssemblyKind = OutputKind.DynamicallyLinkedLibrary;

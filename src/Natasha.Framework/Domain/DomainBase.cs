@@ -412,9 +412,9 @@ namespace Natasha.Framework
         public virtual Assembly? LoadAssemblyFromFile(string path)
         {
 
-#if DEBUG
-            Debug.WriteLine($"加载路径:{path}.");
-#endif
+//#if DEBUG
+//            Debug.WriteLine($"加载路径:{path}.");
+//#endif
             Assembly assembly;
             if (Name == "Default")
             {
@@ -458,9 +458,9 @@ namespace Natasha.Framework
                 }
 
 
-#if DEBUG
-                Debug.WriteLine($"已加载程序集 {assembly.FullName}!");
-#endif
+//#if DEBUG
+//                Debug.WriteLine($"已加载程序集 {assembly.FullName}!");
+//#endif
                 stream.Seek(0, SeekOrigin.Begin);
                 AddReferencesFromAssemblyStream(assembly, stream);
                 AddAssemblyEvent?.Invoke(assembly);
@@ -476,17 +476,17 @@ namespace Natasha.Framework
         /// <returns></returns>
         protected override Assembly? Load(AssemblyName assemblyName)
         {
-#if DEBUG
+//#if DEBUG
 
-            Console.WriteLine($"[解析]程序集:{assemblyName.Name},全名:{assemblyName.FullName}");
-#endif
+//            Console.WriteLine($"[解析]程序集:{assemblyName.Name},全名:{assemblyName.FullName}");
+//#endif
             if (!string.IsNullOrEmpty(assemblyName.Name))
             {
                 if (ExcludeAssemblies.Contains(assemblyName.Name))
                 {
-#if DEBUG
-                    Console.WriteLine($"[排除]程序集:{assemblyName.Name},全名:{assemblyName.FullName}");
-#endif
+//#if DEBUG
+//                    Console.WriteLine($"[排除]程序集:{assemblyName.Name},全名:{assemblyName.FullName}");
+//#endif
                     return null;
                 }
             }
@@ -495,9 +495,9 @@ namespace Natasha.Framework
                 string? assemblyPath = DependencyResolver!.ResolveAssemblyToPath(assemblyName);
                 if (assemblyPath != null)
                 {
-#if DEBUG
-                    Console.WriteLine($"[加载依赖]程序集:{assemblyName.Name},全名:{assemblyName.FullName}");
-#endif
+//#if DEBUG
+//                    Console.WriteLine($"[加载依赖]程序集:{assemblyName.Name},全名:{assemblyName.FullName}");
+//#endif
                     return LoadAssemblyFromStream(assemblyPath);
                 }
             }
@@ -532,9 +532,9 @@ namespace Natasha.Framework
         /// <returns></returns>
         public virtual Assembly LoadAssemblyFromStream(string path)
         {
-#if DEBUG
-            Debug.WriteLine($"加载路径:{path}.");
-#endif
+//#if DEBUG
+//            Debug.WriteLine($"加载路径:{path}.");
+//#endif
             using (Stream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
                 return LoadAssemblyFromStream(stream);

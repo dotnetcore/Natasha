@@ -296,6 +296,7 @@ public class Test{}
                 //单独创建一个程序集​方法
                var func = FastMethodOperator.UseDomain(domain)
                    .WithCS0104Handler()
+                   .Using("MyAssembly")
                   .Body(@"
 TestClass obj = new TestClass​();
 return obj.ShowMethod(arg);")

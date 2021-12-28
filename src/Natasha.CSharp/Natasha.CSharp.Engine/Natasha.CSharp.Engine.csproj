@@ -11,6 +11,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Engine\SemanticAnalaysis\CS0234Analaysistor.cs" />
+	  <Compile Remove="Engine\SemanticAnalaysis\CS0246Analaysistor.cs" />
+	  <Compile Remove="Engine\SemanticAnalaysis\CS0434Analaysistor.cs" />
+	  <Compile Remove="Engine\SemanticAnalaysis\CS8019Analaysistor.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="DotNetCore.Compile.Environment" Version="3.0.0" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.0.1" />
 	</ItemGroup>
