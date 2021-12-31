@@ -7,6 +7,10 @@
 				<Copyright>.NET Core Community and Contributors</Copyright>
 				<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
+				<Version>4.0.0-alpha.1</Version>
+				<FileVersion>3.9.0</FileVersion>
+				<AssemblyVersion>3.9.0</AssemblyVersion>
+				
 				<PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
 				<IsPackable>true</IsPackable>
 				<SignAssembly>true</SignAssembly>

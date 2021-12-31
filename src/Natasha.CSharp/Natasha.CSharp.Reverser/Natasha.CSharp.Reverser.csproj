@@ -4,10 +4,7 @@
     <Description>Natasha 的运行时反解器模块</Description>
     <PackageId>DotNetCore.Natasha.CSharp.Reverser</PackageId>
     <PackageReleaseNotes>升级.</PackageReleaseNotes>
-    <Version>3.5.0</Version>
     <PackageTags>Roslyn;IL;Scripte;Dynamic;Natasha;</PackageTags>
-    <FileVersion>3.5.0.0</FileVersion>
-    <AssemblyVersion>3.5.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>

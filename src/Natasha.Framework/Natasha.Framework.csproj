@@ -5,10 +5,8 @@
 		<Description>Natasha 编译框架以及各个操作类的基础类</Description>
 		<PackageId>DotNetCore.Natasha.Framework</PackageId>
 		<PackageReleaseNotes>增加语义分析接口</PackageReleaseNotes>
-		<Version>3.6.0</Version>
+		
 		<PackageTags>Roslyn;IL;Scripte;Dynamic;NCC;Framework;Natasha;</PackageTags>
-		<FileVersion>3.6.0</FileVersion>
-		<AssemblyVersion>3.6.0</AssemblyVersion>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
 	</PropertyGroup>

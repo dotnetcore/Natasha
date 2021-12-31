@@ -4,11 +4,7 @@
 	  <Description>发布最新版 Natasha</Description>
 	  <PackageId>DotNetCore.Natasha.CSharp.All</PackageId>
 	  <PackageReleaseNotes>升级到最新版.</PackageReleaseNotes>
-	  <Version>3.6.0</Version>
 	  <PackageTags>Roslyn;IL;Script;Dynamic;Natasha;NMS;</PackageTags>
-	  <FileVersion>3.6.0.0</FileVersion>
-	  <AssemblyVersion>3.6.0.0</AssemblyVersion>
-	  
   </PropertyGroup>
 
   <ItemGroup>

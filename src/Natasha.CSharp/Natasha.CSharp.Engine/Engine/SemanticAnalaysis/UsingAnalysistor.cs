@@ -38,7 +38,7 @@ namespace Natasha.CSharp.Engine.SemanticAnalaysis
                     stopwatch.StopAndShowCategoreInfo("[Semantic]", "语义节点获取", 3);
                     stopwatch.Restart();
 #endif
-                    var errors = semantiModel.GetDiagnostics();
+                    var errors = semantiModel!.GetDiagnostics();
 
 #if DEBUG
                     stopwatch.StopAndShowCategoreInfo("[Semantic]", "语义诊断获取", 3);
