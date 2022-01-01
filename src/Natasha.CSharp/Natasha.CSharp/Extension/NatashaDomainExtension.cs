@@ -64,7 +64,7 @@ public static class NatashaDomainExtension
     /// <param name="path">插件路径</param>
     /// <param name="excludeAssembliesFunc">排除对应程序集名的依赖项</param>
     /// <returns></returns>
-    public static Assembly LoadPluginWithNewDependency(this NatashaDomain domain, string path, Func<AssemblyName, bool>? excludeAssembliesFunc = null)
+    public static Assembly LoadPluginSkipDefaultDependency(this NatashaDomain domain, string path, Func<AssemblyName, bool>? excludeAssembliesFunc = null)
     {
         domain.LoadPluginBehavior = LoadBehaviorEnum.UseBeforeIfExist;
         return domain.LoadPlugin(path, excludeAssembliesFunc);
@@ -78,7 +78,7 @@ public static class NatashaDomainExtension
     /// <param name="path">插件路径</param>
     /// <param name="excludeAssembliesFunc">排除对应程序集名的依赖项</param>
     /// <returns></returns>
-    public static Assembly LoadPluginWithAllDependency(this NatashaDomain domain, string path, Func<AssemblyName, bool>? excludeAssembliesFunc = null)
+    public static Assembly LoadPluginWithNewDependency(this NatashaDomain domain, string path, Func<AssemblyName, bool>? excludeAssembliesFunc = null)
     {
         domain.LoadPluginBehavior = LoadBehaviorEnum.None;
         return domain.LoadPlugin(path, excludeAssembliesFunc);
