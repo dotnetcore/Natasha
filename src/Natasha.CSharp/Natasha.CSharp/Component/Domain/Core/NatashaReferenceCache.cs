@@ -21,34 +21,45 @@ namespace Natasha.CSharp.Component.Domain.Core
             _referenceNameCache = new ConcurrentDictionary<string, AssemblyName>();
         }
         public int Count { get { return _referenceCache.Count; } }
-        public void AddReference(AssemblyName assemblyName,string path)
+        private void AddReference(AssemblyName assemblyName, PortableExecutableReference reference, LoadBehaviorEnum loadReferenceBehavior)
         {
-            _referenceCache[assemblyName] = MetadataReference.CreateFromFile(path);
-            if (assemblyName.Name!=null)
+            var name = assemblyName.GetUniqueName();
+            if (_referenceNameCache.TryGetValue(name, out var oldAssemblyName))
             {
-                _referenceNameCache[assemblyName.Name] = assemblyName;
+                if (oldAssemblyName.CompareWith(assemblyName, loadReferenceBehavior) == LoadVersionResultEnum.UseAfter)
+                {
+                    _referenceCache!.Remove(oldAssemblyName);
+                    _referenceNameCache[name] = assemblyName;
+                    _referenceCache[assemblyName] = reference;
+                }
             }
+            else
+            {
+                _referenceNameCache[name] = assemblyName;
+                _referenceCache[assemblyName] = reference;
+            }
+
         }
-        public void AddReference(AssemblyName assemblyName, Stream stream)
+        public void AddReference(AssemblyName assemblyName, Stream stream, LoadBehaviorEnum loadReferenceBehavior = LoadBehaviorEnum.UseBeforeIfExist)
         {
-            _referenceCache[assemblyName] = MetadataReference.CreateFromStream(stream);
-            if (assemblyName.Name != null)
-            {
-                _referenceNameCache[assemblyName.Name] = assemblyName;
-            }
+            AddReference(assemblyName, MetadataReference.CreateFromStream(stream), loadReferenceBehavior);
         }
-        public void AddReference(Assembly assembly)
+        public void AddReference(AssemblyName assemblyName, string path, LoadBehaviorEnum loadReferenceBehavior = LoadBehaviorEnum.UseBeforeIfExist)
+        {
+            AddReference(assemblyName, MetadataReference.CreateFromFile(path), loadReferenceBehavior);
+        }
+        public void AddReference(Assembly assembly, LoadBehaviorEnum loadReferenceBehavior = LoadBehaviorEnum.UseBeforeIfExist)
         {
             if (!assembly.IsDynamic && !string.IsNullOrEmpty(assembly.Location))
             {
-                AddReference(assembly.GetName(), assembly.Location);
+                AddReference(assembly.GetName(), MetadataReference.CreateFromFile(assembly.Location), loadReferenceBehavior);
             }
         }
         public void RemoveReference(AssemblyName assemblyName)
         {
             _referenceCache!.Remove(assemblyName);
             var name = assemblyName.Name;
-            if (name!=null)
+            if (name != null)
             {
                 _referenceNameCache!.Remove(name);
             }
@@ -60,7 +71,6 @@ namespace Natasha.CSharp.Component.Domain.Core
                 RemoveReference(assemblyName);
             }
         }
-
         public void Clear()
         {
             _referenceCache.Clear();
@@ -77,28 +87,11 @@ namespace Natasha.CSharp.Component.Domain.Core
             {
                 foreach (var item in _referenceNameCache)
                 {
-
                     if (cache2._referenceNameCache.TryGetValue(item.Key, out var assemblyName))
                     {
-                        switch (loadBehavior)
+                        if (assemblyName.CompareWith(item.Value, loadBehavior) == LoadVersionResultEnum.UseBefore)
                         {
-                            case LoadBehaviorEnum.UseHighVersion:
-                                if (item.Value.Version <= assemblyName.Version)
-                                {
-                                    sets.Remove(_referenceCache[item.Value]);
-                                }
-                                break;
-                            case LoadBehaviorEnum.UseLowVersion:
-                                if (item.Value.Version >= assemblyName.Version)
-                                {
-                                    sets.Remove(_referenceCache[item.Value]);
-                                }
-                                break;
-                            case LoadBehaviorEnum.UseBeforeIfExist:
-                                sets.Remove(_referenceCache[item.Value]);
-                                break;
-                            default:
-                                break;
+                            sets.Remove(_referenceCache[item.Value]);
                         }
                     }
 

@@ -20,7 +20,7 @@ public class DomainPrepare
 
     internal HashSet<PortableExecutableReference> GetPortableExecutableReferences(LoadBehaviorEnum loadBehavior)
     {
-        var domain = DomainManagement.Random;
+        var domain = DomainManagement.Random();
         domain.LoadPluginBehavior = LoadBehaviorEnum.UseHighVersion;
 
         var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory!, "Reference", "Libraries", "DNDV1.dll");

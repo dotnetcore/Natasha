@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
+using Natasha.CSharp.Component.Domain;
 using Natasha.Domain.Utils;
 using System;
 using System.Collections.Concurrent;
@@ -92,78 +93,32 @@ public partial class NatashaDomain : AssemblyLoadContext, IDisposable
 #if DEBUG
         Debug.WriteLine($"[解析]程序集:{assemblyName.Name},全名:{assemblyName.FullName}");
 #endif
-        var name = assemblyName.Name;
-        if (!string.IsNullOrEmpty(name))
+        if (LoadPluginBehavior != LoadBehaviorEnum.None)
         {
-
-            switch (LoadPluginBehavior)
+            var name = assemblyName.GetUniqueName();
+            if (!_defaultAssembliesCache.TryGetValue(name!, out var defaultCacheName))
             {
-                case LoadBehaviorEnum.None:
-                    break;
-                case LoadBehaviorEnum.UseHighVersion:
-                    if (assemblyName.Version != null)
-                    {
-                        if (_defaultAssembliesCache.TryGetValue(name, out var defaultCacheName))
-                        {
-                            if (assemblyName.Version <= defaultCacheName.Version)
-                            {
-                                return null;
-                            }
-
-                        }
-                        else if (DefaultDomain._pluginAssemblies.TryGetValue(name, out var cacheAssembly))
-                        {
-                            if (assemblyName.Version <= cacheAssembly.GetName().Version)
-                            {
-                                return null;
-                            }
-                        }
-                    }
-                    break;
-                case LoadBehaviorEnum.UseLowVersion:
-                    if (assemblyName.Version != null)
-                    {
-                        if (_defaultAssembliesCache.TryGetValue(name, out var defaultCacheName))
-                        {
-                            if (assemblyName.Version >= defaultCacheName.Version)
-                            {
-                                return null;
-                            }
-
-                        }
-                        else if (DefaultDomain._pluginAssemblies.TryGetValue(name, out var cacheAssembly))
-                        {
-                            if (assemblyName.Version >= cacheAssembly.GetName().Version)
-                            {
-                                return null;
-                            }
-                        }
-                    }
-                    break;
-                case LoadBehaviorEnum.UseBeforeIfExist:
-                    if (_defaultAssembliesCache.ContainsKey(name) || DefaultDomain._pluginAssemblies.ContainsKey(name))
-                    {
-                        return null;
-
-                    }
-                    break;
-                default:
-                    break;
-            }
-
-            //var asm = this.LoadFromAssemblyName(assemblyName);//死循环代码
-
-            var result = _excludeAssembliesFunc == null ? false : _excludeAssembliesFunc(assemblyName);
-            if (!result)
-            {
-                string? assemblyPath = _dependencyResolver!.ResolveAssemblyToPath(assemblyName);
-                if (assemblyPath != null)
+                if (DefaultDomain._pluginAssemblies.TryGetValue(name!, out var defaultCacheAssembly))
                 {
-                    var assembly = LoadAssemblyFromFile(assemblyPath);
-                    _pluginAssemblies[name] = assembly;
-                    return assembly;
-
+                    defaultCacheName = defaultCacheAssembly!.GetName();
                 }
+            }
+            if (defaultCacheName != default)
+            {
+                if (defaultCacheName.CompareWith(assemblyName, LoadPluginBehavior) == LoadVersionResultEnum.UseBefore)
+                {
+                    return null;
+                }
+            }
+            //var asm = this.LoadFromAssemblyName(assemblyName);//死循环代码
+        }
+        var result = _excludeAssembliesFunc == null ? false : _excludeAssembliesFunc(assemblyName);
+        if (!result)
+        {
+            string? assemblyPath = _dependencyResolver!.ResolveAssemblyToPath(assemblyName);
+            if (assemblyPath != null)
+            {
+                return LoadAssemblyFromFile(assemblyPath);
             }
         }
         return null;

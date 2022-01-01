@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Linq;
 using static System.Runtime.Loader.AssemblyLoadContext;
-
 
 public class DomainManagement
 {
@@ -15,9 +13,9 @@ public class DomainManagement
     }
 
 
-    public static NatashaDomain Random
+    public static NatashaDomain Random()
     {
-        get { return Create("N" + Guid.NewGuid().ToString("N")); }
+        return Create("N" + Guid.NewGuid().ToString("N")); 
     }
 
 
@@ -50,34 +48,6 @@ public class DomainManagement
 
 
 
-    public static ContextualReflectionScope Lock(string key)
-    {
-        if (Cache.ContainsKey(key))
-        {
-            return ((NatashaDomain)(Cache[key].Target)!).EnterContextualReflection();
-        }
-        return Default.EnterContextualReflection();
-    }
-    public static ContextualReflectionScope Lock(NatashaDomain domain)
-    {
-        return domain.EnterContextualReflection();
-    }
-    public static ContextualReflectionScope CreateAndLock(string key)
-    {
-        return Lock(Create(key));
-    }
-    public static NatashaDomain CurrentDomain
-    {
-        get
-        {
-            return CurrentContextualReflectionContext == default ?
-                NatashaDomain.DefaultDomain :
-                (NatashaDomain)CurrentContextualReflectionContext;
-        }
-    }
-
-
-
     public static void Add(string key, NatashaDomain domain)
     {
         if (Cache.ContainsKey(key))
@@ -90,6 +60,16 @@ public class DomainManagement
         else
         {
             Cache[key] = new WeakReference(domain, trackResurrection: true);
+        }
+    }
+
+    public static NatashaDomain CurrentDomain
+    {
+        get
+        {
+            return CurrentContextualReflectionContext == default ?
+                NatashaDomain.DefaultDomain :
+                (NatashaDomain)CurrentContextualReflectionContext;
         }
     }
 
@@ -129,9 +109,4 @@ public class DomainManagement
         return null;
     }
 
-
-    //public static int Count(string key)
-    //{
-    //    return ((NatashaDomain)(Cache[key].Target!)).Count;
-    //}
 }

@@ -29,7 +29,7 @@ namespace NatashaFunctionUT.Reference
         [Fact(DisplayName = "[默认引用]排重测试")]
         public void DefaultDistinctReference()
         {
-            var domain = DomainManagement.Random;
+            var domain = DomainManagement.Random();
             var assembilies = AssemblyLoadContext.Default.Assemblies;
             int count = 0;
             foreach (var item in assembilies)

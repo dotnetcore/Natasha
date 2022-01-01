@@ -16,7 +16,7 @@ namespace NatashaFunctionUT.Domain.Load
         public string CreateAndUnload()
         {
             NatashaDomain? domain = default;
-            using (var domainContext = DomainManagement.CreateAndLock("au_test"))
+            using (DomainManagement.Create("au_test").CreateScope())
             {
                 domain = DomainManagement.CurrentDomain;
                 Assert.Equal("au_test", domain.Name);

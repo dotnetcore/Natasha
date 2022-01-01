@@ -56,19 +56,6 @@ public partial class NatashaDomain
         return assembly!;
 
     }
-
-
-    /// <summary>
-    /// 删除插件
-    /// </summary>
-    /// <param name="name"></param>
-    public void RemovePlugin(string name)
-    {
-        if (_pluginAssemblies.TryGetValue(name, out var assembly))
-        {
-            ReferenceCache.RemoveReference(assembly.GetName());
-        }
-    }
     #endregion
 
 

@@ -33,6 +33,7 @@ public partial class NatashaDomain : AssemblyLoadContext, IDisposable
         var assemblies = Default.Assemblies;
         foreach (var item in assemblies)
         {
+            DefaultDomain.ReferenceCache.AddReference(item);
             var name = item.GetName().Name;
             if (name != null)
             {
