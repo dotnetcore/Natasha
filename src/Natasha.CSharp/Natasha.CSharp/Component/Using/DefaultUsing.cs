@@ -24,12 +24,12 @@ public static class DefaultUsing
     public static int Count { get { return _defaultNamesapce.Count; } }
 
     public static bool InitCompleted { get { return _completed; } }
-    
+
 
     /// <summary>
     /// 添加引用
     /// </summary>
-    /// <param name="path"></param>
+    /// <param name="assemblyName"></param>
     internal static void AddUsing(AssemblyName assemblyName)
     {
         try

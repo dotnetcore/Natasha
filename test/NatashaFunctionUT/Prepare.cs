@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Loader;
-using System.Threading;
 
 
 public class DomainPrepare
@@ -13,6 +12,7 @@ public class DomainPrepare
     protected static readonly int AssembliesCount;
     static DomainPrepare()
     {
+        AssembliesCount = AssemblyLoadContext.Default.Assemblies.Count();
         DomainComponent.Init();
     }
 
