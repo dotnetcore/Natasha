@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<Description>发布最新版 Natasha</Description>
+		<PackageId>DotNetCore.Natasha.CSharp.All</PackageId>
+		<PackageReleaseNotes>升级到最新版.</PackageReleaseNotes>
+		<PackageTags>Roslyn;IL;Script;Dynamic;Natasha;NMS;</PackageTags>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+	</PropertyGroup>
+	<ItemGroup>
+	  <Compile Remove="Component\Compiler\**" />
+	  <Compile Remove="Component\Syntax\**" />
+	  <Compile Remove="Engine\**" />
+	  <Compile Remove="NLog\**" />
+	  <EmbeddedResource Remove="Component\Compiler\**" />
+	  <EmbeddedResource Remove="Component\Syntax\**" />
+	  <EmbeddedResource Remove="Engine\**" />
+	  <EmbeddedResource Remove="NLog\**" />
+	  <None Remove="Component\Compiler\**" />
+	  <None Remove="Component\Syntax\**" />
+	  <None Remove="Engine\**" />
+	  <None Remove="NLog\**" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Compile Remove="AssemblyCSharpBuilder.cs" />
+	  <Compile Remove="Component\ComponentRegister.cs" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.0.1" />
+		<PackageReference Update="DotNetCore.SourceLink.Environment" Version="3.1.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="DotNetCore.Compile.Environment" Version="3.0.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.0.1" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0' OR '$(TargetFramework)' == 'netcoreapp3.1'">
+		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="3.1.6" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net5.0' OR '$(TargetFramework)' == 'net5.1'">
+		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="5.0.0" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
+		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="6.0.0" />
+	</ItemGroup>
+
+
+</Project>

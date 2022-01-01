@@ -15,9 +15,9 @@ jobs:
         with:
           dotnet-version: 5.0.100
       - name: Build
-        run: dotnet build './src/Natasha.CSharp/Natasha.CSharp.All/Natasha.CSharp.All.csproj' -f net5.0 --configuration Release
+        run: dotnet build './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj' -f net5.0 --configuration Release
       - name: Test
-        run: dotnet test './test/NatashaUT'
+        run: dotnet test './test/NatashaFunctionUT'
      
   windows:
       runs-on: windows-latest
@@ -35,10 +35,10 @@ jobs:
             args: install codecov
      
        - name: Build
-         run: dotnet build './src/Natasha.CSharp/Natasha.CSharp.All/Natasha.CSharp.All.csproj' -f net5.0 --configuration Release
+         run: dotnet build './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj' -f net5.0 --configuration Release
          
        - name: Test
-         run: dotnet test  "./test/NatashaUT/NatashaUT.csproj" /p:CollectCoverage=true /p:CoverletOutputFormat=json  --collect:"XPlat Code Coverage" -r:"./result/" --no-build -m
+         run: dotnet test  "./test/NatashaFunctionUT/NatashaFunctionUT.csproj" /p:CollectCoverage=true /p:CoverletOutputFormat=json  --collect:"XPlat Code Coverage" -r:"./result/" --no-build -m
        
        - name: Upload Report
          run: codecov -f "*.cobertura.xml" -t ${{ secrets.COVERAGE_KEY }}
@@ -52,6 +52,6 @@ jobs:
         with:
           dotnet-version: 5.0.100
       - name: Build
-        run: dotnet build './src/Natasha.CSharp/Natasha.CSharp.All/Natasha.CSharp.All.csproj' -f net5.0 --configuration Release
+        run: dotnet build './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj' -f net5.0 --configuration Release
       - name: Test
-        run: dotnet test './test/NatashaUT'
+        run: dotnet test './test/NatashaFunctionUT'

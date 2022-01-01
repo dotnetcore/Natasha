@@ -39,14 +39,14 @@ jobs:
     displayName: restore
     inputs:
       command: restore
-      projects: './src/Natasha/Natasha.csproj'
+      projects: './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj'
 
 
   - task: DotNetCoreCLI@1
     displayName: build
     inputs:
       command: build
-      projects: './src/Natasha/Natasha.csproj'
+      projects: './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj'
       arguments: '-c Release'
 
 
@@ -54,7 +54,7 @@ jobs:
     displayName: test
     inputs:
       command: test
-      projects: './test/NatashaUT'
+      projects: './test/NatashaFunctionUT'
 
 
 
@@ -77,14 +77,14 @@ jobs:
     displayName: restore
     inputs:
       command: restore
-      projects: './src/Natasha/Natasha.csproj'
+      projects: './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj'
 
 
   - task: DotNetCoreCLI@1
     displayName: build
     inputs:
       command: build
-      projects: './src/Natasha/Natasha.csproj'
+      projects: './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj'
       arguments: '-c Release'
 
 
@@ -92,7 +92,7 @@ jobs:
     displayName: test
     inputs:
       command: test
-      projects: './test/NatashaUT'
+      projects: './test/NatashaFunctionUT'
 
 
 
@@ -115,14 +115,14 @@ jobs:
     displayName: restore
     inputs:
       command: restore
-      projects: './src/Natasha/Natasha.csproj'
+      projects: './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj'
 
 
   - task: DotNetCoreCLI@1
     displayName: build
     inputs:
       command: build
-      projects: './src/Natasha/Natasha.csproj'
+      projects: './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj'
       arguments: '-c Release'
 
 
@@ -130,4 +130,4 @@ jobs:
     displayName: test
     inputs:
       command: test
-      projects: './test/NatashaUT'
+      projects: './test/NatashaFunctionUT'
