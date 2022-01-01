@@ -94,7 +94,6 @@ namespace Natasha.CSharp.Component.Domain.Core
                             sets.Remove(_referenceCache[item.Value]);
                         }
                     }
-
                 }
             }
             sets.UnionWith(cache2._referenceCache.Values);

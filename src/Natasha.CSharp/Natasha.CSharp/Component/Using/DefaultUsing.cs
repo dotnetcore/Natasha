@@ -30,24 +30,22 @@ public static class DefaultUsing
     /// 添加引用
     /// </summary>
     /// <param name="path"></param>
-    internal static void AddReference(string path)
+    internal static void AddUsing(AssemblyName assemblyName)
     {
         try
         {
-            var asmName = AssemblyName.GetAssemblyName(path);
-            NatashaDomain.DefaultDomain.ReferenceCache.AddReference(asmName, path);
-            if (asmName.Name != null)
+            if (assemblyName.Name != null)
             {
                 lock (_defaultNamesapce)
                 {
-                    _defaultNamesapce.Add(asmName.Name.ToString());
+                    _defaultNamesapce.Add(assemblyName.Name);
                 }
             }
         }
         catch(Exception ex)
         {
 #if DEBUG
-            Console.WriteLine(path + ex.Message);
+            Console.WriteLine(assemblyName.FullName + ex.Message);
 #endif
         }
     }

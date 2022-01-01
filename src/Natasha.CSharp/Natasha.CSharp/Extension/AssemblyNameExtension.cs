@@ -2,13 +2,26 @@
 using System.Reflection;
 
 
-public static class AssemblyNameExtension
+internal static class AssemblyNameExtension
 {
-    public static string GetUniqueName(this AssemblyName assemblyName)
+    /// <summary>
+    /// 获取程序集名对应的标识
+    /// </summary>
+    /// <param name="assemblyName"></param>
+    /// <returns></returns>
+    internal static string GetUniqueName(this AssemblyName assemblyName)
     {
         return string.IsNullOrEmpty(assemblyName.Name) ? assemblyName.FullName : assemblyName.Name;
     }
-    public static LoadVersionResultEnum CompareWith(this AssemblyName oldName, AssemblyName newName, LoadBehaviorEnum loadBehavior)
+
+    /// <summary>
+    /// 根据 loadBehavior 参数比较两个程序集版本
+    /// </summary>
+    /// <param name="beforeName">前一个程序集名</param>
+    /// <param name="afterName">后一个程序集名</param>
+    /// <param name="loadBehavior">加载行为</param>
+    /// <returns></returns>
+    internal static LoadVersionResultEnum CompareWith(this AssemblyName beforeName, AssemblyName afterName, LoadBehaviorEnum loadBehavior)
     {
         if (loadBehavior == LoadBehaviorEnum.None)
         {
@@ -18,18 +31,18 @@ public static class AssemblyNameExtension
         {
             return LoadVersionResultEnum.UseBefore;
         }
-        else if (oldName.Version != default && newName.Version != default)
+        else if (beforeName.Version != default && afterName.Version != default)
         {
             if (loadBehavior == LoadBehaviorEnum.UseHighVersion)
             {
-                if (oldName.Version < newName.Version)
+                if (beforeName.Version < afterName.Version)
                 {
                     return LoadVersionResultEnum.UseAfter;
                 }
             }
             else if (loadBehavior == LoadBehaviorEnum.UseLowVersion)
             {
-                if (oldName.Version > newName.Version)
+                if (beforeName.Version > afterName.Version)
                 {
                     return LoadVersionResultEnum.UseAfter;
                 }

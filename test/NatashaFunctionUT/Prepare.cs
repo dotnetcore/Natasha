@@ -13,12 +13,10 @@ public class DomainPrepare
     protected static readonly int AssembliesCount;
     static DomainPrepare()
     {
-        AssembliesCount = AssemblyLoadContext.Default.Assemblies.Count();
-        System.Console.WriteLine(AssembliesCount);
-        DomainComponent.Init(item => false);
+        DomainComponent.Init();
     }
 
-    internal HashSet<PortableExecutableReference> GetPortableExecutableReferences(LoadBehaviorEnum loadBehavior)
+    internal static HashSet<PortableExecutableReference> GetPortableExecutableReferences(LoadBehaviorEnum loadBehavior)
     {
         var domain = DomainManagement.Random();
         domain.LoadPluginBehavior = LoadBehaviorEnum.UseHighVersion;

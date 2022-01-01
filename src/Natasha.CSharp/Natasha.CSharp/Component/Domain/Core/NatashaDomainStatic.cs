@@ -24,20 +24,19 @@ public partial class NatashaDomain : AssemblyLoadContext, IDisposable
         DefaultDomain = new NatashaDomain();
         DomainManagement.Add("Default", DefaultDomain);
         _defaultAssembliesCache = new ConcurrentDictionary<string, AssemblyName>();
-        RefreshDefaultAssemblies();
     }
 
 
-    public static void RefreshDefaultAssemblies()
+    public static void RefreshDefaultAssemblies(Func<string, bool> excludeReferencesFunc)
     {
         var assemblies = Default.Assemblies;
         foreach (var item in assemblies)
         {
-            DefaultDomain.ReferenceCache.AddReference(item);
-            var name = item.GetName().Name;
-            if (name != null)
+            var name = item.GetName().GetUniqueName();
+            if (!excludeReferencesFunc(name))
             {
                 _defaultAssembliesCache[name!] = item.GetName();
+                DefaultDomain.ReferenceCache.AddReference(item);
             }
         }
     }
