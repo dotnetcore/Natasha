@@ -8,13 +8,10 @@
 
 	</PropertyGroup>
 	<ItemGroup>
-	  <Compile Remove="Component\Compiler\**" />
 	  <Compile Remove="Engine\**" />
 	  <Compile Remove="NLog\**" />
-	  <EmbeddedResource Remove="Component\Compiler\**" />
 	  <EmbeddedResource Remove="Engine\**" />
 	  <EmbeddedResource Remove="NLog\**" />
-	  <None Remove="Component\Compiler\**" />
 	  <None Remove="Engine\**" />
 	  <None Remove="NLog\**" />
 	</ItemGroup>

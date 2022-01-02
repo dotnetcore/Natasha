@@ -22,7 +22,7 @@ public partial class NatashaDomain : AssemblyLoadContext, IDisposable
         _pluginAssemblies = new();
         ReferenceCache = new();
         _usingRecoder = new();
-        LoadPluginBehavior = LoadBehaviorEnum.UseHighVersion;
+        _loadPluginBehavior = LoadBehaviorEnum.None;
         _dependencyResolver = new AssemblyDependencyResolver(AppDomain.CurrentDomain.BaseDirectory!);
     }
     public NatashaDomain(string key) : base(key, true)
@@ -32,7 +32,7 @@ public partial class NatashaDomain : AssemblyLoadContext, IDisposable
         {
             throw new Exception("不能重复创建主域!");
         }
-        LoadPluginBehavior = LoadBehaviorEnum.UseHighVersion;
+        _loadPluginBehavior = LoadBehaviorEnum.None;
         _pluginAssemblies = new();
         ReferenceCache = new();
         _usingRecoder = new();
@@ -40,13 +40,20 @@ public partial class NatashaDomain : AssemblyLoadContext, IDisposable
 
     }
 
-
-    /// <summary>
-    /// 销毁函数
-    /// </summary>
     public void Dispose()
     {
-        ReferenceCache.Clear();
-        _pluginAssemblies.Clear();
+        Dispose(true);
+        GC.SuppressFinalize(this);
     }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            _usingRecoder._usingTypes.Clear();
+            ReferenceCache.Clear();
+            _pluginAssemblies.Clear();
+        }
+    }
+
 }

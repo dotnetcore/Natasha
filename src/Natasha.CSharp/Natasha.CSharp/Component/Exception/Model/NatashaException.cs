@@ -14,6 +14,7 @@ public class NatashaException : Exception
         Formatter = string.Empty;
         Diagnostics = new List<Diagnostic>();
         ErrorKind = ExceptionKind.None;
+        CompileMessage = string.Empty;
     }
 
     //格式化后的脚本字符串
@@ -24,6 +25,11 @@ public class NatashaException : Exception
 
     //roslyn诊断集合
     public List<Diagnostic> Diagnostics;
+
+    /// <summary>
+    /// 详细的编译信息
+    /// </summary>
+    public string CompileMessage;
 
 }
 

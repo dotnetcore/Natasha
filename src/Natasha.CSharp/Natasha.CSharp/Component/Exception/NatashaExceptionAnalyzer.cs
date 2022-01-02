@@ -1,5 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Natasha.CSharp.Error.Model;
+using System.Collections.Immutable;
 using System.Linq;
 
 namespace Natasha.CSharp.Core
@@ -24,42 +26,19 @@ namespace Natasha.CSharp.Core
             return null;
 
         }
-        /*
-        public static List<NatashaException> GetCompileException(string assemblyName, ImmutableArray<Diagnostic> errors)
+       
+        public static NatashaException GetCompileException(CSharpCompilation compilation, ImmutableArray<Diagnostic> errors)
         {
-
-            var exceptions = new Dictionary<string, NatashaException>();
-            var results = new List<NatashaException>();
-            foreach (var item in errors)
+            var first = errors[0];
+            var exception = new NatashaException(first.GetMessage());
+            exception.Diagnostics.AddRange(errors);
+            if (first.Location.SourceTree!=null)
             {
-
-                var tree = item.Location.SourceTree;
-                if (tree == null)
-                {
-
-                    if (results.Count == 0)
-                    {
-                        results.Add(new NatashaException($"编译错误 : {item.Id} {item.GetMessage()}") { ErrorFlag = ExceptionKind.Compile, Name = assemblyName });
-                    }
-                    results[0].Diagnostics.Add(item);
-
-                }
-                else
-                {
-                    var key = tree.ToString();
-                    if (!exceptions.ContainsKey(key))
-                    {
-                        exceptions[key] = new NatashaException($"编译错误 : {item.Id} {item.GetMessage()}") { ErrorFlag = ExceptionKind.Compile, Name = assemblyName, Formatter = key };
-                    }
-                    exceptions[key].Diagnostics.Add(item);
-
-                }
-
+                exception.Formatter = first.Location.SourceTree.ToString();
             }
-            results.AddRange(exceptions.Values);
-            return results;
-
+            exception.CompileMessage = $"编译程序集为:{compilation.AssemblyName};CSharp版本:{compilation.LanguageVersion};";
+            exception.ErrorKind = ExceptionKind.Compile;
+            return exception;
         }
-        */
     }
 }

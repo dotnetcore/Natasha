@@ -8,6 +8,7 @@ namespace Natasha.CSharp.Component.Domain
     {
         NoAction,
         UseBefore,
-        UseAfter
+        UseAfter,
+        PassToNextHandler
     }
 }

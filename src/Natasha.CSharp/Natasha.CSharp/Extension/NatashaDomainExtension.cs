@@ -38,7 +38,7 @@ public static class NatashaDomainExtension
     /// <returns></returns>
     public static Assembly LoadPluginWithHighDependency(this NatashaDomain domain,string path, Func<AssemblyName, bool>? excludeAssembliesFunc = null)
     {
-        domain.LoadPluginBehavior = LoadBehaviorEnum.UseHighVersion;
+        domain._loadPluginBehavior = LoadBehaviorEnum.UseHighVersion;
         return domain.LoadPlugin(path, excludeAssembliesFunc);
     }
 
@@ -52,7 +52,7 @@ public static class NatashaDomainExtension
     /// <returns></returns>
     public static Assembly LoadPluginWithLowDependency(this NatashaDomain domain, string path, Func<AssemblyName, bool>? excludeAssembliesFunc = null)
     {
-        domain.LoadPluginBehavior = LoadBehaviorEnum.UseLowVersion;
+        domain._loadPluginBehavior = LoadBehaviorEnum.UseLowVersion;
         return domain.LoadPlugin(path, excludeAssembliesFunc);
     }
 
@@ -66,7 +66,7 @@ public static class NatashaDomainExtension
     /// <returns></returns>
     public static Assembly LoadPluginSkipDefaultDependency(this NatashaDomain domain, string path, Func<AssemblyName, bool>? excludeAssembliesFunc = null)
     {
-        domain.LoadPluginBehavior = LoadBehaviorEnum.UseBeforeIfExist;
+        domain._loadPluginBehavior = LoadBehaviorEnum.UseBeforeIfExist;
         return domain.LoadPlugin(path, excludeAssembliesFunc);
     }
 
@@ -78,9 +78,9 @@ public static class NatashaDomainExtension
     /// <param name="path">插件路径</param>
     /// <param name="excludeAssembliesFunc">排除对应程序集名的依赖项</param>
     /// <returns></returns>
-    public static Assembly LoadPluginWithNewDependency(this NatashaDomain domain, string path, Func<AssemblyName, bool>? excludeAssembliesFunc = null)
+    public static Assembly LoadPluginWithAllDependency(this NatashaDomain domain, string path, Func<AssemblyName, bool>? excludeAssembliesFunc = null)
     {
-        domain.LoadPluginBehavior = LoadBehaviorEnum.None;
+        domain._loadPluginBehavior = LoadBehaviorEnum.None;
         return domain.LoadPlugin(path, excludeAssembliesFunc);
     }
 }

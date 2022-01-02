@@ -4,40 +4,14 @@ using Natasha.CSharp.Core;
 using System;
 using System.Collections.Generic;
 
-
 /// <summary>
-/// 程序集编译构建器
+/// 程序集编译构建器 - 语法树相关
 /// </summary>
-public class AssemblyCSharpBuilder 
+public partial class AssemblyCSharpBuilder 
 {
 
-    //语义过滤器
-    private readonly List<Func<AssemblyCSharpBuilder, AssemblyCSharpBuilder>> _semanticAnalysistor;
-    //域
-    //添加语法方法
-    //CSharp编译器
-    //程序集编译方法
-
-
-
-
-
-    public AssemblyCSharpBuilder AddSemanticAnalysistor(Func<AssemblyCSharpBuilder, AssemblyCSharpBuilder> func)
-    {
-        _semanticAnalysistor.Add(func);
-        return this;
-    }
-
-
-    
-    public AssemblyCSharpBuilder()
-    {
-        _semanticAnalysistor = new();
-        SyntaxTrees = new();
-    }
-
-    #region 语法树相关
     public readonly List<SyntaxTree> SyntaxTrees;
+
     private CSharpParseOptions? _options;
     /// <summary>
     /// 配置语法树选项
@@ -95,7 +69,6 @@ public class AssemblyCSharpBuilder
         }
         return this;
     }
-    #endregion
 
 }
 

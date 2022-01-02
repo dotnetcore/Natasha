@@ -22,9 +22,6 @@ namespace NatashaFunctionUT.Reference
             Assert.True(DefaultUsing.HasElement("System.Threading"));
             Assert.True(DefaultUsing.HasElement("System.IO"));
             Assert.True(paths.Count() <= count);
-            //Assert.Equal(187, count);
-            Assert.Equal(AssembliesCount, AssemblyLoadContext.Default.Assemblies.Count());
-            //Assert.Equal(202, AssemblyLoadContext.Default.Assemblies.Count());
         }
         [Fact(DisplayName = "[默认引用]排重测试")]
         public void DefaultDistinctReference()

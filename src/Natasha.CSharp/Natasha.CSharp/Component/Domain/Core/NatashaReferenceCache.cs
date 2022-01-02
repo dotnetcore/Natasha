@@ -80,23 +80,59 @@ namespace Natasha.CSharp.Component.Domain.Core
         {
             return _referenceCache.Values;
         }
-        public IEnumerable<PortableExecutableReference> CombineReferences(NatashaReferenceCache cache2, LoadBehaviorEnum loadBehavior = LoadBehaviorEnum.None)
+        public IEnumerable<PortableExecutableReference> CombineReferences(NatashaReferenceCache cache2, LoadBehaviorEnum loadBehavior = LoadBehaviorEnum.None, Func<AssemblyName, AssemblyName, LoadVersionResultEnum>? useAssemblyNameFunc = null)
         {
             var sets = new HashSet<PortableExecutableReference>(_referenceCache.Values);
-            if (loadBehavior != LoadBehaviorEnum.None)
+            var excludeNods = new HashSet<PortableExecutableReference>();
+
+            if (loadBehavior != LoadBehaviorEnum.None || useAssemblyNameFunc != null)
             {
                 foreach (var item in _referenceNameCache)
                 {
                     if (cache2._referenceNameCache.TryGetValue(item.Key, out var assemblyName))
                     {
-                        if (assemblyName.CompareWith(item.Value, loadBehavior) == LoadVersionResultEnum.UseBefore)
+                        if (useAssemblyNameFunc != null)
                         {
-                            sets.Remove(_referenceCache[item.Value]);
+                            var funcResult = useAssemblyNameFunc(assemblyName, item.Value);
+                            if (funcResult == LoadVersionResultEnum.PassToNextHandler)
+                            {
+                                var result = assemblyName.CompareWith(item.Value, loadBehavior);
+                                if (result == LoadVersionResultEnum.UseBefore)
+                                {
+                                    excludeNods.Add(_referenceCache[item.Value]);
+                                }
+                                else if (result == LoadVersionResultEnum.UseAfter)
+                                {
+                                    excludeNods.Add(cache2._referenceCache[assemblyName]);
+                                }
+                            }
+                            else if (funcResult == LoadVersionResultEnum.UseBefore)
+                            {
+                                excludeNods.Add(_referenceCache[item.Value]);
+                            }
+                            else if (funcResult == LoadVersionResultEnum.UseAfter)
+                            {
+                                excludeNods.Add(cache2._referenceCache[assemblyName]);
+                            }
                         }
+                        else
+                        {
+                            var result = assemblyName.CompareWith(item.Value, loadBehavior);
+                            if (result == LoadVersionResultEnum.UseBefore)
+                            {
+                                excludeNods.Add(_referenceCache[item.Value]);
+                            }
+                            else if (result == LoadVersionResultEnum.UseAfter)
+                            {
+                                excludeNods.Add(cache2._referenceCache[assemblyName]);
+                            }
+                        }
+
                     }
                 }
             }
             sets.UnionWith(cache2._referenceCache.Values);
+            sets.ExceptWith(excludeNods);
             return sets;
         }
     }

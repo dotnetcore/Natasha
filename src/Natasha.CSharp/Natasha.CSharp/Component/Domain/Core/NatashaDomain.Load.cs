@@ -1,8 +1,6 @@
-﻿using Microsoft.CodeAnalysis;
-using Natasha.CSharp.Component.Domain;
+﻿using Natasha.CSharp.Component.Domain;
 using Natasha.Domain.Utils;
 using System;
-using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -15,7 +13,7 @@ using System.Runtime.Loader;
 public partial class NatashaDomain : AssemblyLoadContext, IDisposable
 {
 
-    public LoadBehaviorEnum LoadPluginBehavior;
+    internal LoadBehaviorEnum _loadPluginBehavior;
 
     /// <summary>
     /// 依赖解析库
@@ -93,7 +91,7 @@ public partial class NatashaDomain : AssemblyLoadContext, IDisposable
 #if DEBUG
         Debug.WriteLine($"[解析]程序集:{assemblyName.Name},全名:{assemblyName.FullName}");
 #endif
-        if (LoadPluginBehavior != LoadBehaviorEnum.None)
+        if (_loadPluginBehavior != LoadBehaviorEnum.None)
         {
             var name = assemblyName.GetUniqueName();
             if (!_defaultAssembliesCache.TryGetValue(name!, out var defaultCacheName))
@@ -105,14 +103,14 @@ public partial class NatashaDomain : AssemblyLoadContext, IDisposable
             }
             if (defaultCacheName != default)
             {
-                if (defaultCacheName.CompareWith(assemblyName, LoadPluginBehavior) == LoadVersionResultEnum.UseBefore)
+                if (defaultCacheName.CompareWith(assemblyName, _loadPluginBehavior) == LoadVersionResultEnum.UseBefore)
                 {
                     return null;
                 }
             }
             //var asm = this.LoadFromAssemblyName(assemblyName);//死循环代码
         }
-        var result = _excludeAssembliesFunc == null ? false : _excludeAssembliesFunc(assemblyName);
+        var result = _excludeAssembliesFunc != null && _excludeAssembliesFunc(assemblyName);
         if (!result)
         {
             string? assemblyPath = _dependencyResolver!.ResolveAssemblyToPath(assemblyName);

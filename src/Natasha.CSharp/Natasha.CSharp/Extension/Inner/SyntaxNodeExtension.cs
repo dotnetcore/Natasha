@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-public static class SyntaxNodeExtension
+internal static class SyntaxNodeExtension
 {
 
-    //public static CompilationUnitSyntax GetRoot(string content)
+    //internal static CompilationUnitSyntax GetRoot(string content)
     //{
 
     //    SyntaxTree tree = CSharpSyntaxTree.ParseText(content, new CSharpParseOptions(LanguageVersion.Latest));
@@ -30,7 +30,7 @@ public static class SyntaxNodeExtension
     /// <param name="namespaceNode">命名空间节点</param>
     /// <param name="index">命名空间里的第index-1个 类</param>
     /// <returns></returns>
-    public static string? GetClassName(this SyntaxNode namespaceNode, int index = 0)
+    internal static string? GetClassName(this SyntaxNode namespaceNode, int index = 0)
     {
 
         return GetDataStructString<ClassDeclarationSyntax>(namespaceNode, index);
@@ -46,7 +46,7 @@ public static class SyntaxNodeExtension
     /// <param name="namespaceNode">命名空间节点</param>
     /// <param name="index">命名空间里的第index-1个 结构体</param>
     /// <returns></returns>
-    public static string? GetStructName(this SyntaxNode namespaceNode, int index = 0)
+    internal static string? GetStructName(this SyntaxNode namespaceNode, int index = 0)
     {
 
         return GetDataStructString<StructDeclarationSyntax>(namespaceNode, index);
@@ -60,7 +60,7 @@ public static class SyntaxNodeExtension
     /// <param name="namespaceNode">命名空间节点</param>
     /// <param name="index">命名空间里的第index-1个 Record</param>
     /// <returns></returns>
-    public static string? GetRecordName(this SyntaxNode namespaceNode, int index = 0)
+    internal static string? GetRecordName(this SyntaxNode namespaceNode, int index = 0)
     {
 
         return GetDataStructString<RecordDeclarationSyntax>(namespaceNode, index);
@@ -76,7 +76,7 @@ public static class SyntaxNodeExtension
     /// <param name="namespaceNode">命名空间节点</param>
     /// <param name="index">命名空间里的第index-1个接口</param>
     /// <returns></returns>
-    public static string GetInterfaceName(this SyntaxNode namespaceNode, int index = 0)
+    internal static string GetInterfaceName(this SyntaxNode namespaceNode, int index = 0)
     {
 
         return GetDataStructString<InterfaceDeclarationSyntax>(namespaceNode, index);
@@ -92,7 +92,7 @@ public static class SyntaxNodeExtension
     /// <param name="namespaceNode">命名空间节点</param>
     /// <param name="index">命名空间里的第index-1个枚举</param>
     /// <returns></returns>
-    public static string GetEnumName(this SyntaxNode namespaceNode, int index = 0)
+    internal static string GetEnumName(this SyntaxNode namespaceNode, int index = 0)
     {
 
         return GetDataStructString<EnumDeclarationSyntax>(namespaceNode, index);
@@ -109,7 +109,7 @@ public static class SyntaxNodeExtension
     /// <param name="tree"></param>
     /// <param name="namespaceIndex"></param>
     /// <returns></returns>
-    public static SyntaxNode NamespaceNode(this SyntaxTree tree,int namespaceIndex = 0)
+    internal static SyntaxNode NamespaceNode(this SyntaxTree tree,int namespaceIndex = 0)
     {
         var root = tree.GetCompilationUnitRoot();
         var namespaceDeclarationSyntaxes = GetNodes<NamespaceDeclarationSyntax>(root);
@@ -146,7 +146,7 @@ public static class SyntaxNodeExtension
     /// </summary>
     /// <param name="namespaceNode">命名空间节点</param>
     /// <param name="index">命名空间里的第index-1个方法</param>
-    public static string GetMethodName(this SyntaxNode namespaceNode, int index = 0)
+    internal static string GetMethodName(this SyntaxNode namespaceNode, int index = 0)
     {
 
         var nodes = GetNodes<MethodDeclarationSyntax>(namespaceNode);
