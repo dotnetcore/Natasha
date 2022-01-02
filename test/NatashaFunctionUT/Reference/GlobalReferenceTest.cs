@@ -18,7 +18,7 @@ namespace NatashaFunctionUT.Reference
                 .CompileLibraries.SelectMany(cl => cl.ResolveReferencePaths());
 
 
-            var count = NatashaDomain.DefaultDomain.ReferenceCache.Count;
+            var count = NatashaDomain.DefaultDomain._referenceCache.Count;
             Assert.True(DefaultUsing.HasElement("System.Threading"));
             Assert.True(DefaultUsing.HasElement("System.IO"));
             Assert.True(paths.Count() <= count);
@@ -33,7 +33,7 @@ namespace NatashaFunctionUT.Reference
             {
                 if (!item.IsDynamic && item.Location != string.Empty)
                 {
-                    domain.ReferenceCache.AddReference(item);
+                    domain._referenceCache.AddReference(item);
                     count += 1;
                 }
                 if (count == 10)
@@ -42,8 +42,8 @@ namespace NatashaFunctionUT.Reference
                 }
             }
             //Assembly Path='C:\Program Files\dotnet\shared\Microsoft.NETCore.App\5.0.12\System.Private.CoreLib.dll'
-            var references = domain.ReferenceCache.CombineReferences(NatashaDomain.DefaultDomain.ReferenceCache, LoadBehaviorEnum.UseBeforeIfExist);
-            Assert.Equal(NatashaDomain.DefaultDomain.ReferenceCache.Count, references.Count());
+            var references = domain._referenceCache.CombineReferences(NatashaDomain.DefaultDomain._referenceCache, LoadBehaviorEnum.UseBeforeIfExist);
+            Assert.Equal(NatashaDomain.DefaultDomain._referenceCache.Count, references.Count());
         }
 
         [Fact(DisplayName = "[合并版本引用]排重测试")]

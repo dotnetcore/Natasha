@@ -66,11 +66,11 @@ public partial class AssemblyCSharpBuilder
         IEnumerable<PortableExecutableReference> references;
         if (Domain.Name == "Default")
         {
-            references = NatashaDomain.DefaultDomain.ReferenceCache.GetReferences();
+            references = NatashaDomain.DefaultDomain._referenceCache.GetReferences();
         }
         else
         {
-            references = Domain.ReferenceCache.CombineReferences(NatashaDomain.DefaultDomain.ReferenceCache, _compileReferenceBehavior, _referencePickFunc);
+            references = Domain._referenceCache.CombineReferences(NatashaDomain.DefaultDomain._referenceCache, _compileReferenceBehavior, _referencePickFunc);
         }
         var compilation = CSharpCompilation.Create(AssemblyName, SyntaxTrees, references, options);
 

@@ -15,12 +15,12 @@ public partial class NatashaDomain : AssemblyLoadContext, IDisposable
 
     private readonly static ConcurrentDictionary<string, AssemblyName> _defaultAssembliesCache;
 
-    private readonly static Func<AssemblyDependencyResolver, Dictionary<string, string>> _getDictionary;
+    //private readonly static Func<AssemblyDependencyResolver, Dictionary<string, string>> _getDictionary;
 
     static NatashaDomain()
     {
-        var methodInfo = typeof(AssemblyDependencyResolver).GetField("_assemblyPaths", BindingFlags.NonPublic | BindingFlags.Instance);
-        _getDictionary = item => (Dictionary<string, string>)(methodInfo!.GetValue(item)!);
+        //var methodInfo = typeof(AssemblyDependencyResolver).GetField("_assemblyPaths", BindingFlags.NonPublic | BindingFlags.Instance);
+        //_getDictionary = item => (Dictionary<string, string>)(methodInfo!.GetValue(item)!);
         DefaultDomain = new NatashaDomain();
         DomainManagement.Add("Default", DefaultDomain);
         _defaultAssembliesCache = new ConcurrentDictionary<string, AssemblyName>();
@@ -36,7 +36,7 @@ public partial class NatashaDomain : AssemblyLoadContext, IDisposable
             if (!excludeReferencesFunc(name))
             {
                 _defaultAssembliesCache[name!] = item.GetName();
-                DefaultDomain.ReferenceCache.AddReference(item);
+                DefaultDomain._referenceCache.AddReference(item);
             }
         }
     }

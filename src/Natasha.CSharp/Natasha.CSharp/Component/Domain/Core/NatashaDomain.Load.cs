@@ -45,7 +45,7 @@ public partial class NatashaDomain : AssemblyLoadContext, IDisposable
         {
             assembly = LoadFromAssemblyPath(path);
         }
-        ReferenceCache.AddReference(assembly.GetName(),path);
+        _referenceCache.AddReference(assembly.GetName(),path);
         _usingRecoder.Using(assembly);
         return assembly;
 
@@ -74,7 +74,7 @@ public partial class NatashaDomain : AssemblyLoadContext, IDisposable
             }
 
             stream.Seek(0, SeekOrigin.Begin);
-            ReferenceCache.AddReference(assembly.GetName(), stream);
+            _referenceCache.AddReference(assembly.GetName(), stream);
             _usingRecoder.Using(assembly);
             return assembly;
 

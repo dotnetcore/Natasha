@@ -4,23 +4,24 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Text;
 
 namespace Natasha.CSharp.Component.Domain.Core
 {
-    public class NatashaReferenceCache
+    //与元数据相关
+    //数据值与程序集及内存相关
+    internal class NatashaReferenceCache
     {
         /// <summary>
         /// 存放内存流编译过来的程序集与引用
         /// </summary>
         private readonly ConcurrentDictionary<AssemblyName, PortableExecutableReference> _referenceCache;
         private readonly ConcurrentDictionary<string, AssemblyName> _referenceNameCache;
-        public NatashaReferenceCache()
+        internal NatashaReferenceCache()
         {
             _referenceCache = new ConcurrentDictionary<AssemblyName, PortableExecutableReference>();
             _referenceNameCache = new ConcurrentDictionary<string, AssemblyName>();
         }
-        public int Count { get { return _referenceCache.Count; } }
+        internal int Count { get { return _referenceCache.Count; } }
         private void AddReference(AssemblyName assemblyName, PortableExecutableReference reference, LoadBehaviorEnum loadReferenceBehavior)
         {
             var name = assemblyName.GetUniqueName();
@@ -40,22 +41,22 @@ namespace Natasha.CSharp.Component.Domain.Core
             }
 
         }
-        public void AddReference(AssemblyName assemblyName, Stream stream, LoadBehaviorEnum loadReferenceBehavior = LoadBehaviorEnum.UseBeforeIfExist)
+        internal void AddReference(AssemblyName assemblyName, Stream stream, LoadBehaviorEnum loadReferenceBehavior = LoadBehaviorEnum.UseBeforeIfExist)
         {
             AddReference(assemblyName, MetadataReference.CreateFromStream(stream), loadReferenceBehavior);
         }
-        public void AddReference(AssemblyName assemblyName, string path, LoadBehaviorEnum loadReferenceBehavior = LoadBehaviorEnum.UseBeforeIfExist)
+        internal void AddReference(AssemblyName assemblyName, string path, LoadBehaviorEnum loadReferenceBehavior = LoadBehaviorEnum.UseBeforeIfExist)
         {
             AddReference(assemblyName, MetadataReference.CreateFromFile(path), loadReferenceBehavior);
         }
-        public void AddReference(Assembly assembly, LoadBehaviorEnum loadReferenceBehavior = LoadBehaviorEnum.UseBeforeIfExist)
+        internal void AddReference(Assembly assembly, LoadBehaviorEnum loadReferenceBehavior = LoadBehaviorEnum.UseBeforeIfExist)
         {
             if (!assembly.IsDynamic && !string.IsNullOrEmpty(assembly.Location))
             {
                 AddReference(assembly.GetName(), MetadataReference.CreateFromFile(assembly.Location), loadReferenceBehavior);
             }
         }
-        public void RemoveReference(AssemblyName assemblyName)
+        internal void RemoveReference(AssemblyName assemblyName)
         {
             _referenceCache!.Remove(assemblyName);
             var name = assemblyName.Name;
@@ -64,23 +65,23 @@ namespace Natasha.CSharp.Component.Domain.Core
                 _referenceNameCache!.Remove(name);
             }
         }
-        public void RemoveReference(string name)
+        internal void RemoveReference(string name)
         {
             if (_referenceNameCache.TryGetValue(name, out var assemblyName))
             {
                 RemoveReference(assemblyName);
             }
         }
-        public void Clear()
+        internal void Clear()
         {
             _referenceCache.Clear();
             _referenceNameCache.Clear();
         }
-        public IEnumerable<PortableExecutableReference> GetReferences()
+        internal IEnumerable<PortableExecutableReference> GetReferences()
         {
             return _referenceCache.Values;
         }
-        public IEnumerable<PortableExecutableReference> CombineReferences(NatashaReferenceCache cache2, LoadBehaviorEnum loadBehavior = LoadBehaviorEnum.None, Func<AssemblyName, AssemblyName, LoadVersionResultEnum>? useAssemblyNameFunc = null)
+        internal IEnumerable<PortableExecutableReference> CombineReferences(NatashaReferenceCache cache2, LoadBehaviorEnum loadBehavior = LoadBehaviorEnum.None, Func<AssemblyName, AssemblyName, LoadVersionResultEnum>? useAssemblyNameFunc = null)
         {
             var sets = new HashSet<PortableExecutableReference>(_referenceCache.Values);
             var excludeNods = new HashSet<PortableExecutableReference>();

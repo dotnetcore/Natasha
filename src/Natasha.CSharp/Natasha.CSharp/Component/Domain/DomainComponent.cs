@@ -43,7 +43,7 @@ public static class DomainComponent
                                     if (!excludeReferencesFunc(key))
                                     {
                                         var asmName = AssemblyName.GetAssemblyName(asmPath);
-                                        NatashaDomain.DefaultDomain.ReferenceCache.AddReference(asmName, asmPath);
+                                        NatashaDomain.DefaultDomain._referenceCache.AddReference(asmName, asmPath);
                                         DefaultUsing.AddUsing(asmName);
                                     }
                                 });

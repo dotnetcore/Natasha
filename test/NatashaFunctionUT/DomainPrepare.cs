@@ -36,9 +36,9 @@ public class DomainPrepare
         //强制加载所有引用
         var result = plugin1!.PluginMethod1();
 
-        var references = domain.ReferenceCache.CombineReferences(NatashaDomain.DefaultDomain.ReferenceCache, loadBehavior);
+        var references = domain._referenceCache.CombineReferences(NatashaDomain.DefaultDomain._referenceCache, loadBehavior);
         var sets = new HashSet<PortableExecutableReference>(references);
-        sets.ExceptWith(NatashaDomain.DefaultDomain.ReferenceCache.GetReferences());
+        sets.ExceptWith(NatashaDomain.DefaultDomain._referenceCache.GetReferences());
         return sets;
     }
 }

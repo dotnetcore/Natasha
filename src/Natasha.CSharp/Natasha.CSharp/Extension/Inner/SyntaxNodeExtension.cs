@@ -114,7 +114,7 @@ internal static class SyntaxNodeExtension
         var root = tree.GetCompilationUnitRoot();
         var namespaceDeclarationSyntaxes = GetNodes<NamespaceDeclarationSyntax>(root);
 
-        if (namespaceDeclarationSyntaxes.Count() != 0)
+        if (namespaceDeclarationSyntaxes.Any())
         {
             return namespaceDeclarationSyntaxes.ElementAt(namespaceIndex);
         }
