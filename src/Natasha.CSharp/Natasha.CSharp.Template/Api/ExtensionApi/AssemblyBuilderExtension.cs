@@ -293,22 +293,16 @@ public static class AssemblyBuilderExtension
         builder.OutputFolder = folder;
         return builder;
     }
-
-
     public static AssemblyCSharpBuilder SetDllFilePath(this AssemblyCSharpBuilder builder, string dllFilePath)
     {
         builder.Compiler.DllFilePath = dllFilePath;
         return builder;
     }
-
-
     public static AssemblyCSharpBuilder SetPdbFilePath(this AssemblyCSharpBuilder builder, string pdbFilePath)
     {
         builder.Compiler.PdbFilePath = pdbFilePath;
         return builder;
     }
-
-
     public static AssemblyCSharpBuilder SetXmlFilePath(this AssemblyCSharpBuilder builder, string xmlFilePath)
     {
         builder.Compiler.XmlFilePath = xmlFilePath;
@@ -320,7 +314,6 @@ public static class AssemblyBuilderExtension
         builder.Compiler.EnableSemanticHandle = false;
         return builder;
     }
-
     public static AssemblyCSharpBuilder EnableSemanticCheck(this AssemblyCSharpBuilder builder)
     {
         builder.Compiler.EnableSemanticHandle = true;
