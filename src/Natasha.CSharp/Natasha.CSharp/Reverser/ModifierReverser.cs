@@ -44,39 +44,71 @@ namespace Natasha.CSharp.Reverser
 
 
 
+
         /// <summary>
-        /// 获取方法的修饰符
+        /// 获取属性能否被重写
         /// </summary>
         /// <param name="reflectMethodInfo">方法反射信息</param>
-        /// <returns></returns>
+        /// <returns>修饰符</returns>
         public static string? GetCanOverrideModifier(MethodInfo reflectMethodInfo)
         {
 
             //如果没有被重写
-            if (reflectMethodInfo.Equals(reflectMethodInfo.GetBaseDefinition()))
+            var modifiter = GetModifier(reflectMethodInfo);
+            if (modifiter == "abstract " || modifiter.StartsWith("virtual ") || modifiter.StartsWith("override "))
             {
-
-                string result = AsyncReverser.GetAsync(reflectMethodInfo);
-                if (reflectMethodInfo.DeclaringType!.IsInterface)
-                {
-                    return result;
-                }
-                else if (reflectMethodInfo.IsAbstract)
-                {
-                    return "abstract " + result;
-                }
-                else if (reflectMethodInfo.IsVirtual)
-                {
-                    return "virtual " + result;
-                }
-
+                return modifiter;
             }
             return null;
 
         }
 
 
+        /// <summary>
+        /// 获取属性能否被重写
+        /// </summary>
+        /// <param name="propertyInfo">属性反射信息</param>
+        /// <returns>修饰符</returns>
+        public static string? GetCanOverrideModifier(PropertyInfo propertyInfo)
+        {
 
+            return GetCanOverrideModifier(propertyInfo.GetMethodInfo());
+
+        }
+
+
+        /// <summary>
+        /// 获取事件能否被重写
+        /// </summary>
+        /// <param name="eventInfo">事件反射信息</param>
+        /// <returns>修饰符</returns>
+        public static string? GetCanOverrideModifier(EventInfo eventInfo)
+        {
+
+            return GetCanOverrideModifier(eventInfo.GetMethodInfo());
+
+        }
+
+
+        /// <summary>
+        /// 获取属性的修饰符
+        /// </summary>
+        /// <param name="reflectPropertyInfo"></param>
+        /// <returns></returns>
+        public static string GetModifier(PropertyInfo reflectPropertyInfo)
+        {
+            return GetModifier(reflectPropertyInfo.GetMethodInfo());
+        }
+
+        /// <summary>
+        /// 获取事件的修饰符
+        /// </summary>
+        /// <param name="reflectEventInfo"></param>
+        /// <returns></returns>
+        public static string GetModifier(EventInfo reflectEventInfo)
+        {
+            return GetModifier(reflectEventInfo.GetMethodInfo());
+        }
 
 
         /// <summary>
@@ -94,7 +126,7 @@ namespace Natasha.CSharp.Reverser
 
                 return "static " + result;
 
-            }else if (!reflectMethodInfo.DeclaringType!.IsInterface)
+            }else if (reflectMethodInfo.DeclaringType != null && !reflectMethodInfo.DeclaringType!.IsInterface)
             {
 
                 //如果没有被重写
@@ -119,7 +151,7 @@ namespace Natasha.CSharp.Reverser
                             .GetMethod(reflectMethodInfo.Name, BindingFlags.Public
                             | BindingFlags.Instance
                             | BindingFlags.NonPublic);
-                            if (reflectMethodInfo != baseInfo)
+                            if (baseInfo != null && reflectMethodInfo != baseInfo)
                             {
                                 return "new " + result;
                             }
@@ -130,11 +162,11 @@ namespace Natasha.CSharp.Reverser
                 }
                 else
                 {
-                    return result + "override ";
+                    return "override " + result;
                 }
 
             }
-            return result+"";
+            return result;
 
         }
 
@@ -172,7 +204,22 @@ namespace Natasha.CSharp.Reverser
 
             }
 
-
+            if (reflectFieldInfo.DeclaringType!=null)
+            {
+                var baseType = reflectFieldInfo.DeclaringType.BaseType;
+                if (baseType != null && baseType != typeof(object))
+                {
+                    var baseInfo = baseType
+                    .GetMethod(reflectFieldInfo.Name, BindingFlags.Public
+                    | BindingFlags.Instance
+                    | BindingFlags.NonPublic);
+                    if (reflectFieldInfo != baseInfo)
+                    {
+                        return "new ";
+                    }
+                }
+            }
+            
             return result;
         }
 

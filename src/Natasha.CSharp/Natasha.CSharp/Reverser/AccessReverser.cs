@@ -47,7 +47,15 @@ namespace Natasha.CSharp.Reverser
         }
 
 
-
+        /// <summary>
+        /// 获取属性的访问级别
+        /// </summary>
+        /// <param name="reflectPropertyInfo"></param>
+        /// <returns></returns>
+        public static string GetAccess(PropertyInfo reflectPropertyInfo)
+        {
+            return GetAccess(reflectPropertyInfo.GetMethodInfo());
+        }
 
         /// <summary>
         /// 获取方法的访问级别
@@ -90,6 +98,19 @@ namespace Natasha.CSharp.Reverser
 
 
             return "internal ";
+
+        }
+
+
+        /// <summary>
+        /// 获取字段的访问级别
+        /// </summary>
+        /// <param name="reflectEventInfo">反射出的事件成员</param>
+        /// <returns></returns>
+        public static string GetAccess(EventInfo reflectEventInfo)
+        {
+
+            return GetAccess(reflectEventInfo.GetMethodInfo());
 
         }
 
