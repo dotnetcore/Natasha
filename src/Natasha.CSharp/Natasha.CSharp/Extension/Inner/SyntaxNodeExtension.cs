@@ -157,8 +157,36 @@ internal static class SyntaxNodeExtension
         }
         return string.Empty;
 
-
     }
+
+
+    internal static string GetFirstOopName(this SyntaxTree syntaxTree)
+    {
+        var node = syntaxTree.NamespaceNode();
+        var result = node.GetClassName();
+        if (string.IsNullOrEmpty(result))
+        {
+            result = node.GetStructName();
+            if (string.IsNullOrEmpty(result))
+            {
+                result = node.GetRecordName();
+                if (string.IsNullOrEmpty(result))
+                {
+                    result = node.GetInterfaceName();
+                    if (string.IsNullOrEmpty(result))
+                    {
+                        result = node.GetEnumName();
+                        if (string.IsNullOrEmpty(result))
+                        {
+                            result = "Not found oop name!";
+                        }
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
 
 }
 

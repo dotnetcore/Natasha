@@ -10,7 +10,7 @@ namespace NatashaFunctionUT.Compile
         [MethodImpl(MethodImplOptions.NoInlining)]
         internal static (string name,string currentName,bool compileSucceed) CompileMetadataDiffCode(string code, LoadBehaviorEnum referenceLoadBehavior)
         {
-            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory!, "Reference", "1.0.0.0", RuntimeVersion, "MetadataDiff.dll");
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory!,"Domain", "Reference", "1.0.0.0", _runtimeVersion, "MetadataDiff.dll");
             var name = Guid.NewGuid().ToString("N");
             var currentName = name;
             try

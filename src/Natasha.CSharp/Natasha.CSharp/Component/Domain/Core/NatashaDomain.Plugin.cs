@@ -36,7 +36,7 @@ public partial class NatashaDomain
     /// <returns></returns>
     internal Assembly LoadPlugin(string path, Func<AssemblyName, bool>? excludeAssembliesFunc = null)
     {
-
+        CheckAndIncrmentAssemblies();
         _excludeAssembliesFunc = excludeAssembliesFunc;
          _dependencyResolver = new AssemblyDependencyResolver(path);
         var assembly = LoadAssemblyFromFile(path);

@@ -7,28 +7,13 @@ using System.Linq;
 using System.Runtime.Loader;
 
 
-public class DomainPrepare
+public class ReferencePrepare : DomainPrepare
 {
-    protected static readonly int DefaultAssembliesCount;
-    internal static string RuntimeVersion;
-    static DomainPrepare()
-    {
-#if NETCOREAPP3_1
-        RuntimeVersion = "netcoreapp3.1";
-#elif NET5_0
-             RuntimeVersion = "net5.0";
-#elif NET6_0_OR_GREATER
-            RuntimeVersion = "net6.0";
-#endif
-        DefaultAssembliesCount = AssemblyLoadContext.Default.Assemblies.Count();
-        DomainComponent.Init();
-    }
-
     internal static HashSet<PortableExecutableReference> GetPortableExecutableReferences(LoadBehaviorEnum loadBehavior)
     {
         var domain = DomainManagement.Random();
 
-        var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory!, "Reference", "Libraries", "DNDV1.dll");
+        var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory!, "Domain", "Reference", "Libraries", "DNDV1.dll");
         var assembly = domain.LoadPluginWithHighDependency(path);
 
         var type1 = assembly.GetTypes().Where(item => item.Name == "P1").First();

@@ -49,7 +49,7 @@ namespace NatashaFunctionUT.Domain.Load
             using (DomainManagement.Create("au_test_plugin").CreateScope())
             {
                 domain = DomainManagement.CurrentDomain;
-                var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory!, "Reference", "Libraries", "DNDV1.dll");
+                var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory!,"Domain", "Reference", "Libraries", "DNDV1.dll");
                 var assembly = domain.LoadPluginWithHighDependency(path, item => item.Name != null && item.Name.Contains("PluginBase"));
                 var type = assembly.GetTypes().Where(item => item.Name == "P1").First();
                 IPluginBase plugin = (IPluginBase)(Activator.CreateInstance(type)!);

@@ -8,7 +8,7 @@ using Xunit;
 namespace NatashaFunctionUT.Reference
 {
     [Trait("基础功能测试", "Reference")]
-    public class GlobalReferenceTest : DomainPrepare
+    public class GlobalReferenceTest : ReferencePrepare
     {
         [Fact(DisplayName = "默认引用数量")]
         public void GlobalReference()
@@ -20,8 +20,8 @@ namespace NatashaFunctionUT.Reference
 
             var count = NatashaDomain.DefaultDomain._referenceCache.Count;
             Assert.True(DefaultUsing.HasElement("System.Threading"));
-            Assert.True(DefaultUsing.HasElement("System.IO"));
-            Assert.True(paths.Count() <= count);
+            Assert.False(DefaultUsing.HasElement("System.IO"));
+            Assert.True(paths.Count() <= NatashaDomain._excludeCount + count);
         }
         [Fact(DisplayName = "[默认引用]排重测试")]
         public void DefaultDistinctReference()

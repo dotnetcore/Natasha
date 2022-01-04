@@ -73,7 +73,6 @@
 		<Folder Include="Domain\Plugin\SNIVDV\2\netcoreapp3.1\runtimes\win-x64\native\" />
 		<Folder Include="Domain\Plugin\SNIVDV\2\netcoreapp3.1\runtimes\win-x86\native\" />
 		<Folder Include="Domain\Plugin\SNIVDV\2\netcoreapp3.1\runtimes\win\lib\netstandard2.0\" />
-		<Folder Include="Reference\1.0.0.0\" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -1061,61 +1060,61 @@
 		<None Update="natasha.snk">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="Reference\1.0.0.0\net5.0\MetadataDiff.deps.json">
+		<None Update="Domain\Reference\1.0.0.0\net5.0\MetadataDiff.deps.json">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="Reference\1.0.0.0\net5.0\MetadataDiff.dll">
+		<None Update="Domain\Reference\1.0.0.0\net5.0\MetadataDiff.dll">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="Reference\1.0.0.0\net5.0\MetadataDiff.pdb">
+		<None Update="Domain\Reference\1.0.0.0\net5.0\MetadataDiff.pdb">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="Reference\1.0.0.0\net6.0\MetadataDiff.deps.json">
+		<None Update="Domain\Reference\1.0.0.0\net6.0\MetadataDiff.deps.json">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="Reference\1.0.0.0\net6.0\MetadataDiff.dll">
+		<None Update="Domain\Reference\1.0.0.0\net6.0\MetadataDiff.dll">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="Reference\1.0.0.0\net6.0\MetadataDiff.pdb">
+		<None Update="Domain\Reference\1.0.0.0\net6.0\MetadataDiff.pdb">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="Reference\1.0.0.0\netcoreapp3.1\MetadataDiff.deps.json">
+		<None Update="Domain\Reference\1.0.0.0\netcoreapp3.1\MetadataDiff.deps.json">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="Reference\1.0.0.0\netcoreapp3.1\MetadataDiff.dll">
+		<None Update="Domain\Reference\1.0.0.0\netcoreapp3.1\MetadataDiff.dll">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="Reference\1.0.0.0\netcoreapp3.1\MetadataDiff.pdb">
+		<None Update="Domain\Reference\1.0.0.0\netcoreapp3.1\MetadataDiff.pdb">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="Reference\Libraries\Dapper.dll">
+		<None Update="Domain\Reference\Libraries\Dapper.dll">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="Reference\Libraries\DNDV1.deps.json">
+		<None Update="Domain\Reference\Libraries\DNDV1.deps.json">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="Reference\Libraries\DNDV1.dll">
+		<None Update="Domain\Reference\Libraries\DNDV1.dll">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="Reference\Libraries\DNDV1.pdb">
+		<None Update="Domain\Reference\Libraries\DNDV1.pdb">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="Reference\Libraries\DNDV1.runtimeconfig.dev.json">
+		<None Update="Domain\Reference\Libraries\DNDV1.runtimeconfig.dev.json">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="Reference\Libraries\DNDV1.runtimeconfig.json">
+		<None Update="Domain\Reference\Libraries\DNDV1.runtimeconfig.json">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="Reference\Libraries\Newtonsoft.Json.dll">
+		<None Update="Domain\Reference\Libraries\Newtonsoft.Json.dll">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="Reference\Libraries\PluginBase.dll">
+		<None Update="Domain\Reference\Libraries\PluginBase.dll">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="Reference\Libraries\PluginBase.pdb">
+		<None Update="Domain\Reference\Libraries\PluginBase.pdb">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="Reference\Libraries\System.Data.SqlClient.dll">
+		<None Update="Domain\Reference\Libraries\System.Data.SqlClient.dll">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>

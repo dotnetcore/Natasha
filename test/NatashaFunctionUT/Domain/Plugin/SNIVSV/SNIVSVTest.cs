@@ -3,7 +3,7 @@
 namespace NatashaFunctionUT.Domain.Plugin
 {
     [Trait("基础功能测试", "插件")]
-    public class SNIVSVTest: PluginBaseTest
+    public class SNIVSVTest: PluginPrepare
     {
         [Fact(DisplayName = "[同名忽略版本插件][同依赖]测试")]
         public void Test()

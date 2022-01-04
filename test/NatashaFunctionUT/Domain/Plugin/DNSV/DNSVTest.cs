@@ -6,7 +6,7 @@ using Xunit;
 namespace NatashaFunctionUT.Domain.Plugin
 {
     [Trait("基础功能测试", "插件")]
-    public class DNSVTest: PluginBaseTest
+    public class DNSVTest: PluginPrepare
     {
         [Fact(DisplayName = "[不同插件][同名同版本依赖]测试")]
         public void Test()
