@@ -8,15 +8,25 @@
 
 	</PropertyGroup>
 	<ItemGroup>
+	  <Compile Remove="Component\NLog\Base\**" />
+	  <Compile Remove="Component\NLog\Framework\**" />
 	  <Compile Remove="Engine\**" />
 	  <Compile Remove="NLog\**" />
+	  <EmbeddedResource Remove="Component\NLog\Base\**" />
+	  <EmbeddedResource Remove="Component\NLog\Framework\**" />
 	  <EmbeddedResource Remove="Engine\**" />
 	  <EmbeddedResource Remove="NLog\**" />
+	  <None Remove="Component\NLog\Base\**" />
+	  <None Remove="Component\NLog\Framework\**" />
 	  <None Remove="Engine\**" />
 	  <None Remove="NLog\**" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Compile Remove="Component\ComponentRegister.cs" />
+	  <Compile Remove="Component\NLog\LogOperator.cs" />
+	  <Compile Remove="Component\NLog\NErrorLog.cs" />
+	  <Compile Remove="Component\NLog\NSucceedLog.cs" />
+	  <Compile Remove="Component\NLog\NWarningLog.cs" />
 	</ItemGroup>
 
 
