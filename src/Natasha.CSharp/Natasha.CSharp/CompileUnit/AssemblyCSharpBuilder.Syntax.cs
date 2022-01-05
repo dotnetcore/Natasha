@@ -47,7 +47,10 @@ public partial class AssemblyCSharpBuilder
         }
         else
         {
-            SyntaxTrees.Add(tree);
+            lock (SyntaxTrees)
+            {
+                SyntaxTrees.Add(tree);
+            }
         }
         return this;
     }
@@ -65,7 +68,10 @@ public partial class AssemblyCSharpBuilder
         }
         else
         {
-            SyntaxTrees.Add(tree);
+            lock (SyntaxTrees)
+            {
+                SyntaxTrees.Add(tree);
+            }
         }
         return this;
     }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+using NLog;
+using System;
 using System.Diagnostics;
 using System.Linq;
 
@@ -53,7 +55,12 @@ namespace ReferenceTest50
             Console.WriteLine(stopwatch.ElapsedMilliseconds);
             Console.WriteLine("Completed!");
             Console.ReadKey();
-
+            //ILogger a;
+            //a.Debug("");
+            //a.INF("");
+            //a.Warning("");
+            //a.Error("");
+            //a.Fatal("");
             // Check();
 
             //Check();

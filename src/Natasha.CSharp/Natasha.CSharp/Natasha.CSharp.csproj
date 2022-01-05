@@ -23,6 +23,7 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Compile Remove="Component\ComponentRegister.cs" />
+	  <Compile Remove="Component\NLog\LoggerVirtualDelegateCreator.cs" />
 	  <Compile Remove="Component\NLog\LogOperator.cs" />
 	  <Compile Remove="Component\NLog\NErrorLog.cs" />
 	  <Compile Remove="Component\NLog\NSucceedLog.cs" />

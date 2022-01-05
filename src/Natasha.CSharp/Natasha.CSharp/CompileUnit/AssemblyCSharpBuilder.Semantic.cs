@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Natasha.CSharp.Compiler;
+using Natasha.CSharp.Compiler.SemanticAnalaysis;
 using Natasha.CSharp.Core;
 using System;
 using System.Collections.Generic;
@@ -11,31 +12,28 @@ using System.IO;
 /// </summary>
 public partial class AssemblyCSharpBuilder 
 {
-    ///// <summary>
-    ///// 被禁断的错误代码
-    ///// </summary>
-    //private static Func<CSharpCompilation, CSharpCompilation>? _globalSemanticHandler;
 
+    private readonly List<Func<AssemblyCSharpBuilder, CSharpCompilation, CSharpCompilation>> _semanticAnalysistor;
 
-    //public static void AddSemanticAnalysistor(Func<CSharpCompilation, CSharpCompilation> globalSemanticHandler)
-    //{
-    //    _globalSemanticHandler = globalSemanticHandler;
-    //}
-
-    //语义过滤器
-    private readonly List<Func<AssemblyCSharpBuilder, AssemblyCSharpBuilder>> _semanticAnalysistor;
-    //域
-    //添加语法方法
-    //CSharp编译器
-    //程序集编译方法
-
-
-    public AssemblyCSharpBuilder AddSemanticAnalysistor(Func<AssemblyCSharpBuilder, AssemblyCSharpBuilder> func)
+    public AssemblyCSharpBuilder AddSemanticAnalysistor(Func<AssemblyCSharpBuilder, CSharpCompilation, CSharpCompilation> func)
     {
         _semanticAnalysistor.Add(func);
         return this;
     }
 
+    public AssemblyCSharpBuilder RemoveSemanticAnalysistor(Func<AssemblyCSharpBuilder, CSharpCompilation, CSharpCompilation> func)
+    {
+        _semanticAnalysistor.Remove(func);
+        return this;
+    }
+
+    public bool EnableSemanticHandler;
+
+    public AssemblyCSharpBuilder ClearInnerSemanticAnalysistor()
+    {
+        _semanticAnalysistor.Remove(UsingAnalysistor._usingSemanticDelegate);
+        return this;
+    }
 }
 
 

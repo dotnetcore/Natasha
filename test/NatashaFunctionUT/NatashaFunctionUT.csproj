@@ -76,6 +76,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<None Update="Compile\LogFile\2d79d3e2b027491f93705a4098578bcd.txt">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Compile\LogFile\ed79d3e2b027491f93705a4098578bcd.txt">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Compile\LogFile\ee79d3e2b027491f93705a4098578bcc.txt">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Compile\LogFile\ee79d3e2b027491f93705a4098568bc8.txt">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 		<None Update="Domain\Plugin\DNDV\1\net5.0\Dapper.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>

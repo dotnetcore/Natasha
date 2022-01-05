@@ -14,14 +14,14 @@ public class ReferencePrepare : DomainPrepare
         var domain = DomainManagement.Random();
 
         var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory!, "Domain", "Reference", "Libraries", "DNDV1.dll");
-        var assembly = domain.LoadPluginWithHighDependency(path);
+        var assembly = domain.LoadPluginWithHighDependency(path,item=>item.Name!.Contains("PluginBase"));
 
         var type1 = assembly.GetTypes().Where(item => item.Name == "P1").First();
         IPluginBase plugin1 = (IPluginBase)(Activator.CreateInstance(type1)!);
         //强制加载所有引用
         var result = plugin1!.PluginMethod1();
 
-        var references = domain._referenceCache.CombineReferences(NatashaDomain.DefaultDomain._referenceCache, loadBehavior);
+        var references = domain._referenceCache.CombineWithDefaultReferences(loadBehavior);
         var sets = new HashSet<PortableExecutableReference>(references);
         sets.ExceptWith(NatashaDomain.DefaultDomain._referenceCache.GetReferences());
         return sets;

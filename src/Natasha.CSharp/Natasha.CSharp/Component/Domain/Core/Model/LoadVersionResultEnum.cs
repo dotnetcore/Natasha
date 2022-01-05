@@ -7,8 +7,8 @@ namespace Natasha.CSharp.Component.Domain
     public enum LoadVersionResultEnum
     {
         NoAction,
-        UseBefore,
-        UseAfter,
+        UseDefault,
+        UseCustomer,
         PassToNextHandler
     }
 }

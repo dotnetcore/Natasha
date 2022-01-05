@@ -1,26 +1,28 @@
 ﻿using System.Reflection;
 
-
-internal static class ReflectionInfoExtension
+namespace Natasha.CSharp.Extension.Inner
 {
-    internal static MethodInfo GetMethodInfo(this PropertyInfo propertyInfo)
+    internal static class ReflectionInfoExtension
     {
-        var methodInfo = propertyInfo.GetGetMethod(true);
-        if (methodInfo == null)
+        internal static MethodInfo GetMethodInfo(this PropertyInfo propertyInfo)
         {
-            methodInfo = propertyInfo.GetSetMethod(true);
+            var methodInfo = propertyInfo.GetGetMethod(true);
+            if (methodInfo == null)
+            {
+                methodInfo = propertyInfo.GetSetMethod(true);
+            }
+            return methodInfo!;
         }
-        return methodInfo!;
-    }
 
-    internal static MethodInfo GetMethodInfo(this EventInfo eventInfo)
-    {
-        var methodInfo = eventInfo.AddMethod;
-        if (methodInfo == null)
+        internal static MethodInfo GetMethodInfo(this EventInfo eventInfo)
         {
-            methodInfo = eventInfo.RemoveMethod;
+            var methodInfo = eventInfo.AddMethod;
+            if (methodInfo == null)
+            {
+                methodInfo = eventInfo.RemoveMethod;
+            }
+            return methodInfo!;
         }
-        return methodInfo!;
     }
 }
 

@@ -66,7 +66,7 @@ public static class NatashaDomainExtension
     /// <returns></returns>
     public static Assembly LoadPluginSkipDefaultDependency(this NatashaDomain domain, string path, Func<AssemblyName, bool>? excludeAssembliesFunc = null)
     {
-        domain._loadPluginBehavior = LoadBehaviorEnum.UseBeforeIfExist;
+        domain._loadPluginBehavior = LoadBehaviorEnum.UseDefault;
         return domain.LoadPlugin(path, excludeAssembliesFunc);
     }
 

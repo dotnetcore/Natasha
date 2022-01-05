@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xunit;
+﻿using Xunit;
 
 namespace NatashaFunctionUT.Domain.Plugin
 {
@@ -14,11 +11,11 @@ namespace NatashaFunctionUT.Domain.Plugin
             var path1 = PathCombine1("DNDV1.dll");
             var path2 = PathCombine2("DNDV2.dll");
 
-            var result = PluginAssertHelper.GetResult(path1, path2, LoadBehaviorEnum.None);
+            var result = PluginAssertHelper.GetResult(path1, path2, LoadBehaviorEnum.None,false);
             Assert.Equal("InvalidCastException", result.r1);
             Assert.Equal("InvalidCastException", result.r2);
 
-            result = PluginAssertHelper.GetResult(path1, path2, LoadBehaviorEnum.None,true);
+            result = PluginAssertHelper.GetResult(path1, path2, LoadBehaviorEnum.None);
             Assert.Equal("Json:12.0.0.0;Dapper:1.60.0.0;IPluginBase:1.0.0.0;Self:1.0.0.0", result.r1);
             Assert.Equal("FileLoadException", result.r2);
 
@@ -30,7 +27,7 @@ namespace NatashaFunctionUT.Domain.Plugin
             Assert.Equal("Json:9.0.0.0;Dapper:1.60.0.0;IPluginBase:1.0.0.0;Self:1.0.0.0", result.r1);
             Assert.Equal("FileLoadException", result.r2);
 
-            result = PluginAssertHelper.GetResult(path1, path2, LoadBehaviorEnum.UseBeforeIfExist);
+            result = PluginAssertHelper.GetResult(path1, path2, LoadBehaviorEnum.UseDefault);
             Assert.Equal("Json:9.0.0.0;Dapper:1.60.0.0;IPluginBase:1.0.0.0;Self:1.0.0.0", result.r1);
             Assert.Equal("FileLoadException", result.r2);
         }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
+using Natasha.CSharp.Extension.Inner;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

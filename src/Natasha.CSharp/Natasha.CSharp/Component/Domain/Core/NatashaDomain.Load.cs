@@ -1,4 +1,5 @@
 ﻿using Natasha.CSharp.Component.Domain;
+using Natasha.CSharp.Extension.Inner;
 using Natasha.Domain.Utils;
 using System;
 using System.Diagnostics;
@@ -91,7 +92,7 @@ public partial class NatashaDomain : AssemblyLoadContext, IDisposable
 #if DEBUG
         Debug.WriteLine($"[解析]程序集:{assemblyName.Name},全名:{assemblyName.FullName}");
 #endif
-        if (_loadPluginBehavior != LoadBehaviorEnum.None)
+        if (_loadPluginBehavior != LoadBehaviorEnum.None && Name != "Default")
         {
             var name = assemblyName.GetUniqueName();
             if (!_defaultAssembliesCache.TryGetValue(name!, out var defaultCacheName))
@@ -103,7 +104,7 @@ public partial class NatashaDomain : AssemblyLoadContext, IDisposable
             }
             if (defaultCacheName != default)
             {
-                if (defaultCacheName.CompareWith(assemblyName, _loadPluginBehavior) == LoadVersionResultEnum.UseBefore)
+                if (assemblyName.CompareWithDefault(defaultCacheName, _loadPluginBehavior) == LoadVersionResultEnum.UseDefault)
                 {
                     return null;
                 }

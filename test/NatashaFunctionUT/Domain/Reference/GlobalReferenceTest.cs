@@ -42,7 +42,7 @@ namespace NatashaFunctionUT.Reference
                 }
             }
             //Assembly Path='C:\Program Files\dotnet\shared\Microsoft.NETCore.App\5.0.12\System.Private.CoreLib.dll'
-            var references = domain._referenceCache.CombineReferences(NatashaDomain.DefaultDomain._referenceCache, LoadBehaviorEnum.UseBeforeIfExist);
+            var references = domain._referenceCache.CombineWithDefaultReferences(LoadBehaviorEnum.UseDefault);
             Assert.Equal(NatashaDomain.DefaultDomain._referenceCache.Count, references.Count());
         }
 
@@ -74,7 +74,7 @@ namespace NatashaFunctionUT.Reference
         [Fact(DisplayName = "[非同名引用]排重测试")]
         public void DistinctReferenceWithExistVersion()
         {
-            var sets = GetPortableExecutableReferences(LoadBehaviorEnum.UseBeforeIfExist);
+            var sets = GetPortableExecutableReferences(LoadBehaviorEnum.UseDefault);
             //dapper + plugin
             Assert.Equal(2, sets.Count);
         }

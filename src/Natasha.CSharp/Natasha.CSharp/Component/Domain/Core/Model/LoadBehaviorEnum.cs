@@ -3,6 +3,7 @@
     None,
     UseHighVersion,
     UseLowVersion,
-    UseBeforeIfExist
+    UseDefault,
+    UseCustom
 }
 

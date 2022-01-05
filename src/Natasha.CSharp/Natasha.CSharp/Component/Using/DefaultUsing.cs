@@ -100,7 +100,7 @@ public static class DefaultUsing
             _defaultNamesapce.ExceptWith(namespaces);
             foreach (var item in namespaces)
             {
-                DefaultScript.Replace($"using {item};{Environment.NewLine}", string.Empty);
+                DefaultScript = DefaultScript.Replace($"using {item};{Environment.NewLine}", string.Empty);
             }
         }
 

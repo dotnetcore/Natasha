@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Natasha.CSharp.Compiler.SemanticAnalaysis;
+using System;
 
 /// <summary>
 /// 程序集编译构建器
@@ -8,10 +9,13 @@ public partial class AssemblyCSharpBuilder
     
     public AssemblyCSharpBuilder(string assemblyName = "")
     {
-        _compileReferenceBehavior = LoadBehaviorEnum.UseBeforeIfExist;
+        
+        EnableSemanticHandler = true;
+        _compileReferenceBehavior = LoadBehaviorEnum.UseDefault;
         OutputFolder = GlobalOutputFolder;
         _compilerOptions = new(); 
         _semanticAnalysistor = new();
+        _semanticAnalysistor.Add(UsingAnalysistor._usingSemanticDelegate);
         SyntaxTrees = new();
         AssemblyName = assemblyName;
         if (AssemblyName == "")

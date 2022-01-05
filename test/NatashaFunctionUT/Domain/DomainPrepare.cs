@@ -5,7 +5,9 @@ using System.Runtime.Loader;
 
 public class DomainPrepare
 {
+
     protected static readonly int DefaultAssembliesCount;
+    protected static readonly int DefaultUsingCount;
     protected static string _runtimeVersion;
     static DomainPrepare()
     {
@@ -18,6 +20,7 @@ public class DomainPrepare
 #endif
         DefaultAssembliesCount = AssemblyLoadContext.Default.Assemblies.Count();
         DomainComponent.Init(item => item.Contains("IO"));
+        DefaultUsingCount = DefaultUsing.Count;
     }
 
 }

@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Loader;
-using System.Text;
 using Xunit;
 
 namespace NatashaFunctionUT.Compile
 {
     [Trait("基础功能测试", "编译")]
-    public class CompileTest : CompilePrepare
+    public class CompileUnitTest : CompilePrepare
     {
 
         private const string HighVersionCode = @"using MetadataDiff;public class A{   public string Get(){ return (new MetadataModel()).Name;  }  }";
@@ -65,8 +61,8 @@ namespace NatashaFunctionUT.Compile
         [Fact(DisplayName = "[默认域引用]编译测试")]
         public void DCompile()
         {
-            AssertLowVersionCode(false, LoadBehaviorEnum.UseBeforeIfExist);
-            AssertHighVersionCode(true, LoadBehaviorEnum.UseBeforeIfExist);
+            AssertLowVersionCode(false, LoadBehaviorEnum.UseDefault);
+            AssertHighVersionCode(true, LoadBehaviorEnum.UseDefault);
         }
     }
 

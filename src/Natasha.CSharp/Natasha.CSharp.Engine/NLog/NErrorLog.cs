@@ -69,7 +69,7 @@ namespace System
                 Buffer.Append(AddLineNumber(item.Key));
                 Buffer.AppendLine("\r\n\r\n-----------------------------------------------error---------------------------------------------------");
                 Buffer.AppendLine($"\r\n    Time     :\t{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}");
-                Buffer.AppendLine($"\r\n    Lauguage :\t{compilation.Language} & {compilation.LanguageVersion}");
+                Buffer.AppendLine($"\r\n    Language :\t{compilation.Language} & {compilation.LanguageVersion}");
                 Buffer.AppendLine($"\r\n    Target   :\t{compilation.AssemblyName}");
                 Buffer.AppendLine($"\r\n    Error    :\t共{item.Value.Count}处错误！");
 

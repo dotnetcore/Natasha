@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Natasha.CSharp.Extension.Inner;
+using System;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -93,21 +94,21 @@ namespace Natasha.CSharp.Reverser
         /// <summary>
         /// 获取属性的修饰符
         /// </summary>
-        /// <param name="reflectPropertyInfo"></param>
+        /// <param name="propertyInfo"></param>
         /// <returns></returns>
-        public static string GetModifier(PropertyInfo reflectPropertyInfo)
+        public static string GetModifier(PropertyInfo propertyInfo)
         {
-            return GetModifier(reflectPropertyInfo.GetMethodInfo());
+            return GetModifier(propertyInfo.GetMethodInfo());
         }
 
         /// <summary>
         /// 获取事件的修饰符
         /// </summary>
-        /// <param name="reflectEventInfo"></param>
+        /// <param name="eventInfo"></param>
         /// <returns></returns>
-        public static string GetModifier(EventInfo reflectEventInfo)
+        public static string GetModifier(EventInfo eventInfo)
         {
-            return GetModifier(reflectEventInfo.GetMethodInfo());
+            return GetModifier(eventInfo.GetMethodInfo());
         }
 
 

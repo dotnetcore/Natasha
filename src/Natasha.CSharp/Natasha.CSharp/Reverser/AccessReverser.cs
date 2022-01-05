@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Natasha.CSharp.Extension.Inner;
+using System;
 using System.Reflection;
 
 namespace Natasha.CSharp.Reverser
@@ -50,46 +51,46 @@ namespace Natasha.CSharp.Reverser
         /// <summary>
         /// 获取属性的访问级别
         /// </summary>
-        /// <param name="reflectPropertyInfo"></param>
+        /// <param name="propertyInfo"></param>
         /// <returns></returns>
-        public static string GetAccess(PropertyInfo reflectPropertyInfo)
+        public static string GetAccess(PropertyInfo propertyInfo)
         {
-            return GetAccess(reflectPropertyInfo.GetMethodInfo());
+            return GetAccess(propertyInfo.GetMethodInfo());
         }
 
         /// <summary>
         /// 获取方法的访问级别
         /// </summary>
-        /// <param name="reflectMethodInfo">反射出的方法成员</param>
+        /// <param name="methodInfo">反射出的方法成员</param>
         /// <returns></returns>
-        public static string GetAccess(MethodInfo reflectMethodInfo)
+        public static string GetAccess(MethodInfo methodInfo)
         {
 
-            if (reflectMethodInfo.IsPublic)
+            if (methodInfo.IsPublic)
             {
 
                 return "public ";
 
             }
-            else if (reflectMethodInfo.IsPrivate)
+            else if (methodInfo.IsPrivate)
             {
 
                 return "private ";
 
             }
-            else if (reflectMethodInfo.IsAssembly)
+            else if (methodInfo.IsAssembly)
             {
 
                 return "internal ";
 
             }
-            else if (reflectMethodInfo.IsFamily)
+            else if (methodInfo.IsFamily)
             {
 
                 return "protected ";
 
             }
-            else if (reflectMethodInfo.IsFamilyOrAssembly)
+            else if (methodInfo.IsFamilyOrAssembly)
             {
 
                 return "internal protected ";
@@ -105,12 +106,12 @@ namespace Natasha.CSharp.Reverser
         /// <summary>
         /// 获取字段的访问级别
         /// </summary>
-        /// <param name="reflectEventInfo">反射出的事件成员</param>
+        /// <param name="eventInfo">反射出的事件成员</param>
         /// <returns></returns>
-        public static string GetAccess(EventInfo reflectEventInfo)
+        public static string GetAccess(EventInfo eventInfo)
         {
 
-            return GetAccess(reflectEventInfo.GetMethodInfo());
+            return GetAccess(eventInfo.GetMethodInfo());
 
         }
 
@@ -120,36 +121,36 @@ namespace Natasha.CSharp.Reverser
         /// <summary>
         /// 获取字段的访问级别
         /// </summary>
-        /// <param name="reflectFieldInfo">反射出的字段成员</param>
+        /// <param name="fieldInfo">反射出的字段成员</param>
         /// <returns></returns>
-        public static string GetAccess(FieldInfo reflectFieldInfo)
+        public static string GetAccess(FieldInfo fieldInfo)
         {
 
-            if (reflectFieldInfo.IsPublic)
+            if (fieldInfo.IsPublic)
             {
 
                 return "public ";
 
             }
-            else if (reflectFieldInfo.IsPrivate)
+            else if (fieldInfo.IsPrivate)
             {
 
                 return "private ";
 
             }
-            else if (reflectFieldInfo.IsFamily)
+            else if (fieldInfo.IsFamily)
             {
 
                 return "protected ";
 
             }
-            else if (reflectFieldInfo.IsAssembly)
+            else if (fieldInfo.IsAssembly)
             {
 
                 return "internal ";
 
             }
-            else if (reflectFieldInfo.IsFamilyOrAssembly)
+            else if (fieldInfo.IsFamilyOrAssembly)
             {
 
                 return "internal protected ";

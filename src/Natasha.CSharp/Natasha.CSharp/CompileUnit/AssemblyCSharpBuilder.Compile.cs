@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis.Emit;
 using Natasha.CSharp.Compiler;
 using Natasha.CSharp.Component.Domain;
 using Natasha.CSharp.Core;
+using Natasha.CSharp.Extension.Inner;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -70,8 +71,9 @@ public partial class AssemblyCSharpBuilder
         }
         else
         {
-            references = Domain._referenceCache.CombineReferences(NatashaDomain.DefaultDomain._referenceCache, _compileReferenceBehavior, _referencePickFunc);
+            references = Domain._referenceCache.CombineWithDefaultReferences(_compileReferenceBehavior, _referencePickFunc);
         }
+
         var compilation = CSharpCompilation.Create(AssemblyName, SyntaxTrees, references, options);
 
 #if DEBUG
@@ -80,22 +82,25 @@ public partial class AssemblyCSharpBuilder
         stopwatch.Restart();
 #endif
 
-        //Mark : 951ms
-        //Mark : 19M Memory
-        //Todo
-        //        Compilation = (TCompilation)Compilation.AddSyntaxTrees(trees);
-        //        if (EnableSemanticHandle)
-        //        {
-        //            foreach (var item in _semanticAnalysistor)
-        //            {
-        //                Compilation = item(Compilation);
-        //            }
-        //#if DEBUG
-        //            stopwatch.StopAndShowCategoreInfo("[Semantic]", "语义解析排查", 2);
-        //            stopwatch.Restart();
-        //#endif
-        //Mark : 264ms
-        //Mark : 3M Memory
+
+        if (EnableSemanticHandler)
+        {
+            foreach (var item in _semanticAnalysistor)
+            {
+                compilation = item(this, compilation);
+            }
+            lock (SyntaxTrees)
+            {
+                SyntaxTrees.Clear();
+                SyntaxTrees.AddRange(compilation.SyntaxTrees);
+            }
+        }
+
+#if DEBUG
+        Console.WriteLine();
+        stopwatch.StopAndShowCategoreInfo("[Semantic]", "语义处理", 2);
+        stopwatch.Restart();
+#endif
 
         Stream dllStream;
         Stream? pdbStream = null;
@@ -126,6 +131,8 @@ public partial class AssemblyCSharpBuilder
            options: new EmitOptions(pdbFilePath: PdbFilePath == string.Empty ? null : PdbFilePath, debugInformationFormat: DebugInformationFormat.PortablePdb));
 
 
+        LogCompilationEvent?.Invoke(compilation.GetNatashaLog());
+
         Assembly? assembly = null;
         if (compileResult.Success)
         {
@@ -138,15 +145,15 @@ public partial class AssemblyCSharpBuilder
         pdbStream?.Dispose();
         xmlStream?.Dispose();
 
+#if DEBUG
+        stopwatch.StopAndShowCategoreInfo("[  Emit  ]", "编译时长", 2);
+#endif
+
         if (!compileResult.Success)
         {
             CompileFailedEvent?.Invoke(compilation, compileResult.Diagnostics);
             throw NatashaExceptionAnalyzer.GetCompileException(compilation, compileResult.Diagnostics);
         }
-
-#if DEBUG
-        stopwatch.StopAndShowCategoreInfo("[  Emit  ]", "编译时长", 2);
-#endif
 
         return assembly!;
     }
