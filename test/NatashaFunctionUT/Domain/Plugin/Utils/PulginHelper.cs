@@ -21,7 +21,7 @@ namespace NatashaFunctionUT
                 typeName2 = "P2";
             }
             var domain1 = DomainManagement.Random();
-            domain1._loadPluginBehavior = loadBehaviorEnum;
+            domain1.SetAssemblyLoadBehavior(loadBehaviorEnum);
             string result1 = string.Empty;
             string result2 = string.Empty;
 

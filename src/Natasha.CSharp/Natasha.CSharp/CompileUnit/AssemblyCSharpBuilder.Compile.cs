@@ -20,15 +20,21 @@ public partial class AssemblyCSharpBuilder
 {
 
     private LoadBehaviorEnum _compileReferenceBehavior;
+    private LoadBehaviorEnum _compileAssemblyBehavior;
     private Func<AssemblyName, AssemblyName, LoadVersionResultEnum>? _referencePickFunc;
 
-    public AssemblyCSharpBuilder SetReferencesLoadBehavior(LoadBehaviorEnum loadBehavior)
+    public AssemblyCSharpBuilder CompileWithReferenceLoadBehavior(LoadBehaviorEnum loadBehavior)
     {
         _compileReferenceBehavior = loadBehavior;
         return this;
     }
+    public AssemblyCSharpBuilder CompileWithAssemblyLoadBehavior(LoadBehaviorEnum loadBehavior)
+    {
+        _compileAssemblyBehavior = loadBehavior;
+        return this;
+    }
 
-    public AssemblyCSharpBuilder SetReferencesFilter(Func<AssemblyName, AssemblyName, LoadVersionResultEnum>? useAssemblyNameFunc = null)
+    public AssemblyCSharpBuilder CompileWithReferencesFilter(Func<AssemblyName, AssemblyName, LoadVersionResultEnum>? useAssemblyNameFunc = null)
     {
         _referencePickFunc = useAssemblyNameFunc;
         return this;
@@ -128,6 +134,7 @@ public partial class AssemblyCSharpBuilder
         {
             dllStream.Seek(0, SeekOrigin.Begin);
             pdbStream?.Seek(0, SeekOrigin.Begin);
+            Domain.SetAssemblyLoadBehavior(_compileAssemblyBehavior);
             assembly = Domain.LoadAssemblyFromStream(dllStream, pdbStream);
             CompileSucceedEvent?.Invoke(compilation, assembly!);
         }

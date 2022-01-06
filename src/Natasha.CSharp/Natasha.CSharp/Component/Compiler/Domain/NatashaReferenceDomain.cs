@@ -26,7 +26,6 @@ public class NatashaReferenceDomain : NatashaDomain
     }
 
 
-
     private static void NatashaReferenceDomain_DefaultDomainIncrementAssembly(Assembly arg1, string arg2)
     {
         DefaultDomain.NatashaReferenceDomain_LoadAssemblyReferencsWithPath(arg1, arg2);
@@ -61,6 +60,14 @@ public class NatashaReferenceDomain : NatashaDomain
     }
 
 
+    public NatashaReferenceDomain(string key) : base(key)
+    {
+        References = new();
+        _usingRecoder = new();
+        LoadAssemblyReferencsWithPath += NatashaReferenceDomain_LoadAssemblyReferencsWithPath;
+        LoadAssemblyReferenceWithStream += NatashaReferenceDomain_LoadAssemblyReferenceWithStream;
+    }
+
 
     private void NatashaReferenceDomain_LoadAssemblyReferenceWithStream(Assembly assembly, System.IO.Stream stream)
     {
@@ -77,6 +84,7 @@ public class NatashaReferenceDomain : NatashaDomain
 
     }
 
+
     private void NatashaReferenceDomain_LoadAssemblyReferencsWithPath(Assembly assembly, string path)
     {
         References.AddReference(assembly.GetName(), path);
@@ -90,14 +98,6 @@ public class NatashaReferenceDomain : NatashaDomain
         }
     }
 
-    public NatashaReferenceDomain(string key) : base(key)
-    {
-        References = new();
-        _usingRecoder = new();
-        LoadAssemblyReferencsWithPath += NatashaReferenceDomain_LoadAssemblyReferencsWithPath;
-        LoadAssemblyReferenceWithStream += NatashaReferenceDomain_LoadAssemblyReferenceWithStream;
-
-    }
 
     protected override void Dispose(bool disposing)
     {

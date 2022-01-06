@@ -18,7 +18,7 @@ public partial class NatashaDomain : AssemblyLoadContext, IDisposable
         Default.ResolvingUnmanagedDll += Default_ResolvingUnmanagedDll;
 
         _pluginAssemblies = new();
-        _loadPluginBehavior = LoadBehaviorEnum.None;
+        _assemblyLoadBehavior = LoadBehaviorEnum.None;
         _excludePluginReferencesFunc = item => false;
         _dependencyResolver = new AssemblyDependencyResolver(AppDomain.CurrentDomain.BaseDirectory!);
 
@@ -32,11 +32,12 @@ public partial class NatashaDomain : AssemblyLoadContext, IDisposable
         }
        
         _pluginAssemblies = new();
-        _loadPluginBehavior = LoadBehaviorEnum.None;
+        _assemblyLoadBehavior = LoadBehaviorEnum.None;
         _excludePluginReferencesFunc = item => false;
         _dependencyResolver = new AssemblyDependencyResolver(AppDomain.CurrentDomain.BaseDirectory!);
 
     }
+
 
     public void Dispose()
     {

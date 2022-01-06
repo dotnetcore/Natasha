@@ -26,11 +26,13 @@ namespace NatashaFunctionUT.Compile
                     var plugin = Activator.CreateInstance(pType);
 
 
-                    builder.SetReferencesLoadBehavior(referenceLoadBehavior);
                     builder.Add(code);
                     try
                     {
-                        var assembly = builder.GetAssembly();
+                        var assembly = builder
+                            .CompileWithReferenceLoadBehavior(referenceLoadBehavior)
+                            .CompileWithAssemblyLoadBehavior(LoadBehaviorEnum.UseDefault)
+                            .GetAssembly();
                         return (name!, currentName!, true);
                     }
                     catch(NatashaException ex)

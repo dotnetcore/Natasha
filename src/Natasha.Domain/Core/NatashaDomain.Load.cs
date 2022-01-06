@@ -13,7 +13,12 @@ using System.Runtime.Loader;
 public partial class NatashaDomain
 {
 
-    internal LoadBehaviorEnum _loadPluginBehavior;
+    private LoadBehaviorEnum _assemblyLoadBehavior;
+
+    public void SetAssemblyLoadBehavior(LoadBehaviorEnum loadBehavior)
+    {
+        _assemblyLoadBehavior = loadBehavior;
+    }
 
     /// <summary>
     /// 依赖解析库
@@ -89,12 +94,12 @@ public partial class NatashaDomain
 #if DEBUG
         Debug.WriteLine($"[解析]程序集:{assemblyName.Name},全名:{assemblyName.FullName}");
 #endif
-        if (_loadPluginBehavior != LoadBehaviorEnum.None && Name != "Default")
+        if (_assemblyLoadBehavior != LoadBehaviorEnum.None && Name != "Default")
         {
             var name = assemblyName.GetUniqueName();
             if (_defaultAssemblyNameCache.TryGetValue(name!, out var defaultCacheName))
             {
-                if (assemblyName.CompareWithDefault(defaultCacheName, _loadPluginBehavior) == LoadVersionResultEnum.UseDefault)
+                if (assemblyName.CompareWithDefault(defaultCacheName, _assemblyLoadBehavior) == LoadVersionResultEnum.UseDefault)
                 {
                     return null;
                 }

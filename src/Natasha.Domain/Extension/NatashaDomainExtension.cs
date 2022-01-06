@@ -25,7 +25,7 @@ public static class NatashaDomainExtension
     /// <returns></returns>
     public static Assembly LoadPluginWithHighDependency(this NatashaDomain domain,string path, Func<AssemblyName, bool>? excludeAssembliesFunc = null)
     {
-        domain._loadPluginBehavior = LoadBehaviorEnum.UseHighVersion;
+        domain.SetAssemblyLoadBehavior(LoadBehaviorEnum.UseHighVersion);
         return domain.LoadPlugin(path, excludeAssembliesFunc);
     }
 
@@ -39,7 +39,7 @@ public static class NatashaDomainExtension
     /// <returns></returns>
     public static Assembly LoadPluginWithLowDependency(this NatashaDomain domain, string path, Func<AssemblyName, bool>? excludeAssembliesFunc = null)
     {
-        domain._loadPluginBehavior = LoadBehaviorEnum.UseLowVersion;
+        domain.SetAssemblyLoadBehavior(LoadBehaviorEnum.UseLowVersion);
         return domain.LoadPlugin(path, excludeAssembliesFunc);
     }
 
@@ -53,7 +53,7 @@ public static class NatashaDomainExtension
     /// <returns></returns>
     public static Assembly LoadPluginSkipDefaultDependency(this NatashaDomain domain, string path, Func<AssemblyName, bool>? excludeAssembliesFunc = null)
     {
-        domain._loadPluginBehavior = LoadBehaviorEnum.UseDefault;
+        domain.SetAssemblyLoadBehavior(LoadBehaviorEnum.UseDefault);
         return domain.LoadPlugin(path, excludeAssembliesFunc);
     }
 
@@ -67,7 +67,7 @@ public static class NatashaDomainExtension
     /// <returns></returns>
     public static Assembly LoadPluginWithAllDependency(this NatashaDomain domain, string path, Func<AssemblyName, bool>? excludeAssembliesFunc = null)
     {
-        domain._loadPluginBehavior = LoadBehaviorEnum.None;
+        domain.SetAssemblyLoadBehavior(LoadBehaviorEnum.None);
         return domain.LoadPlugin(path, excludeAssembliesFunc);
     }
 }
