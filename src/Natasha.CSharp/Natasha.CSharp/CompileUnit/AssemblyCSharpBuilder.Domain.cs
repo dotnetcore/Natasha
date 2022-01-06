@@ -1,12 +1,13 @@
-﻿using System.Runtime.Loader;
+﻿using Natasha.CSharp.Component.Domain;
+using System.Runtime.Loader;
 
 /// <summary>
 /// 程序集编译构建器 - 域
 /// </summary>
 public partial class AssemblyCSharpBuilder 
 {
-    private NatashaDomain? _domain;
-    public NatashaDomain Domain
+    private NatashaReferenceDomain? _domain;
+    public NatashaReferenceDomain Domain
     {
         get
         {
@@ -15,11 +16,11 @@ public partial class AssemblyCSharpBuilder
 
                 if (AssemblyLoadContext.CurrentContextualReflectionContext != default)
                 {
-                    _domain = (NatashaDomain)(AssemblyLoadContext.CurrentContextualReflectionContext);
+                    _domain = (NatashaReferenceDomain)(AssemblyLoadContext.CurrentContextualReflectionContext);
                 }
                 else
                 {
-                    _domain = NatashaDomain.DefaultDomain;
+                    _domain = NatashaReferenceDomain.DefaultDomain;
                 }
 
             }
@@ -29,7 +30,7 @@ public partial class AssemblyCSharpBuilder
         {
             if (value == default)
             {
-                value = NatashaDomain.DefaultDomain;
+                value = NatashaReferenceDomain.DefaultDomain;
             }
             _domain = value;
         }

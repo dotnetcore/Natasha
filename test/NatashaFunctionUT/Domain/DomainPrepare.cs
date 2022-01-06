@@ -19,7 +19,7 @@ public class DomainPrepare
             _runtimeVersion = "net6.0";
 #endif
         DefaultAssembliesCount = AssemblyLoadContext.Default.Assemblies.Count();
-        DomainComponent.Init(item => item.Contains("IO"));
+        DomainComponent.Init(item => item.Name!.Contains("IO"));
         DefaultUsingCount = DefaultUsing.Count;
     }
 

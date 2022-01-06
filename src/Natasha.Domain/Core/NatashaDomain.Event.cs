@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
 using System.Runtime.Loader;
 
@@ -9,7 +10,7 @@ using System.Runtime.Loader;
 public partial class NatashaDomain
 {
    
-    #region 默认域解析程序集依赖事件
+
     internal Assembly? Default_Resolving(AssemblyLoadContext arg1, AssemblyName arg2)
     {
         return Load(arg2);
@@ -21,7 +22,16 @@ public partial class NatashaDomain
     {
         return LoadUnmanagedDll(arg2);
     }
-    #endregion
+
+
+    protected event Action<Assembly, string>? LoadAssemblyReferencsWithPath;
+
+    protected event Action<Assembly, Stream>? LoadAssemblyReferenceWithStream;
+
+    protected static event Action<Assembly, string>? DefaultDomainIncrementAssembly;
+
+
+
 
 
 }

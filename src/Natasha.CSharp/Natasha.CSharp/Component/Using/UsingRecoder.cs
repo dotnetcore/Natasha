@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Natasha.Domain.Utils
+namespace Natasha.CSharp.Domain.Utils
 {
     /// <summary>
     /// 引用模板

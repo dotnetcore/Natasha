@@ -62,18 +62,8 @@ public partial class AssemblyCSharpBuilder
             _compilerOptions.SetSupersedeLowerVersions(true);
         }
 
-
         var options = _compilerOptions.GetCompilationOptions();
-        IEnumerable<PortableExecutableReference> references;
-        if (Domain.Name == "Default")
-        {
-            references = NatashaDomain.DefaultDomain._referenceCache.GetReferences();
-        }
-        else
-        {
-            references = Domain._referenceCache.CombineWithDefaultReferences(_compileReferenceBehavior, _referencePickFunc);
-        }
-
+        var references = Domain.GetReferences(_compileReferenceBehavior, _referencePickFunc);
         var compilation = CSharpCompilation.Create(AssemblyName, SyntaxTrees, references, options);
 
 #if DEBUG
@@ -138,7 +128,7 @@ public partial class AssemblyCSharpBuilder
         {
             dllStream.Seek(0, SeekOrigin.Begin);
             pdbStream?.Seek(0, SeekOrigin.Begin);
-            assembly = Domain.LoadFromStream(dllStream, pdbStream);
+            assembly = Domain.LoadAssemblyFromStream(dllStream, pdbStream);
             CompileSucceedEvent?.Invoke(compilation, assembly!);
         }
         dllStream.Dispose();

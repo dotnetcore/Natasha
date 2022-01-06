@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
+using Natasha.CSharp.Component.Domain.Core;
 using PluginBase;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,12 @@ using System.Runtime.Loader;
 
 public class ReferencePrepare : DomainPrepare
 {
+    internal protected static NatashaReferenceCache DefaultReferences;
+
+    static ReferencePrepare()
+    {
+        DefaultReferences = NatashaReferenceDomain.DefaultDomain.References;
+    }
     internal static HashSet<PortableExecutableReference> GetPortableExecutableReferences(LoadBehaviorEnum loadBehavior)
     {
         var domain = DomainManagement.Random();
@@ -21,9 +28,9 @@ public class ReferencePrepare : DomainPrepare
         //强制加载所有引用
         var result = plugin1!.PluginMethod1();
 
-        var references = domain._referenceCache.CombineWithDefaultReferences(loadBehavior);
+        var references = domain.References.CombineWithDefaultReferences(DefaultReferences, loadBehavior);
         var sets = new HashSet<PortableExecutableReference>(references);
-        sets.ExceptWith(NatashaDomain.DefaultDomain._referenceCache.GetReferences());
+        sets.ExceptWith(DefaultReferences.GetReferences());
         return sets;
     }
 }

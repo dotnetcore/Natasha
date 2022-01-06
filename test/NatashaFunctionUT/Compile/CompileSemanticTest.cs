@@ -14,13 +14,12 @@ namespace NatashaFunctionUT.Compile
         public void SemanticTest1()
         {
 
-            var code = DefaultUsing.DefaultScript + "public class A{ public string Name;}";
-
-            AssemblyCSharpBuilder builder = new AssemblyCSharpBuilder();
+            var code = DefaultUsing.UsingScriptCache + "public class A{ public string Name;}";
+            AssemblyCSharpBuilder builder = new();
             builder.Domain = DomainManagement.Random();
             builder.EnableSemanticHandler = false;
             builder.Add(code);
-            Assert.Equal(DefaultUsingCount, builder.SyntaxTrees[0].GetCompilationUnitRoot().Usings.Count);
+            Assert.Equal(DefaultUsing.Count, builder.SyntaxTrees[0].GetCompilationUnitRoot().Usings.Count);
 
             try
             {

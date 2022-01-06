@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Natasha.CSharp.Component.Domain;
+using System;
 using System.Collections.Concurrent;
 using static System.Runtime.Loader.AssemblyLoadContext;
 
@@ -13,22 +14,22 @@ public class DomainManagement
     }
 
 
-    public static NatashaDomain Random()
+    public static NatashaReferenceDomain Random()
     {
         return Create("N" + Guid.NewGuid().ToString("N")); 
     }
 
 
-    public static NatashaDomain Create(string key)
+    public static NatashaReferenceDomain Create(string key)
     {
         if (Cache.ContainsKey(key))
         {
-            return (NatashaDomain)(Cache[key].Target!);
+            return (NatashaReferenceDomain)(Cache[key].Target!);
         }
         else
         {
             Clear();
-            var domain = new NatashaDomain(key);
+            var domain = new NatashaReferenceDomain(key);
             Add(key, domain);
             return domain;
         }
@@ -48,7 +49,7 @@ public class DomainManagement
 
 
 
-    public static void Add(string key, NatashaDomain domain)
+    public static void Add(string key, NatashaReferenceDomain domain)
     {
         if (Cache.ContainsKey(key))
         {
@@ -63,13 +64,13 @@ public class DomainManagement
         }
     }
 
-    public static NatashaDomain CurrentDomain
+    public static NatashaReferenceDomain CurrentDomain
     {
         get
         {
             return CurrentContextualReflectionContext == default ?
-                NatashaDomain.DefaultDomain :
-                (NatashaDomain)CurrentContextualReflectionContext;
+                NatashaReferenceDomain.DefaultDomain :
+                (NatashaReferenceDomain)CurrentContextualReflectionContext;
         }
     }
 
@@ -81,7 +82,7 @@ public class DomainManagement
             var result = Cache!.Remove(key);
             if (result != default)
             {
-                ((NatashaDomain)(result.Target!)).Dispose();
+                ((NatashaReferenceDomain)(result.Target!)).Dispose();
             }
             return result!;
         }
@@ -100,11 +101,11 @@ public class DomainManagement
     }
 
 
-    public static NatashaDomain? Get(string key)
+    public static NatashaReferenceDomain? Get(string key)
     {
         if (Cache.ContainsKey(key))
         {
-            return (NatashaDomain)Cache[key].Target!;
+            return (NatashaReferenceDomain)Cache[key].Target!;
         }
         return null;
     }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.DependencyModel;
+using Natasha.CSharp.Component.Domain.Core;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Loader;
@@ -17,8 +18,7 @@ namespace NatashaFunctionUT.Reference
                 .Default
                 .CompileLibraries.SelectMany(cl => cl.ResolveReferencePaths());
 
-
-            var count = NatashaDomain.DefaultDomain._referenceCache.Count;
+            var count = NatashaReferenceDomain.DefaultDomain.References.Count;
             Assert.True(DefaultUsing.HasElement("System.Threading"));
             Assert.False(DefaultUsing.HasElement("System.IO"));
             Assert.True(paths.Count() <= NatashaDomain._excludeCount + count);
@@ -26,14 +26,15 @@ namespace NatashaFunctionUT.Reference
         [Fact(DisplayName = "[默认引用]排重测试")]
         public void DefaultDistinctReference()
         {
-            var domain = DomainManagement.Random();
+
+            NatashaReferenceCache referenceCache = new();
             var assembilies = AssemblyLoadContext.Default.Assemblies;
             int count = 0;
             foreach (var item in assembilies)
             {
                 if (!item.IsDynamic && item.Location != string.Empty)
                 {
-                    domain._referenceCache.AddReference(item);
+                    referenceCache.AddReference(item);
                     count += 1;
                 }
                 if (count == 10)
@@ -42,8 +43,12 @@ namespace NatashaFunctionUT.Reference
                 }
             }
             //Assembly Path='C:\Program Files\dotnet\shared\Microsoft.NETCore.App\5.0.12\System.Private.CoreLib.dll'
-            var references = domain._referenceCache.CombineWithDefaultReferences(LoadBehaviorEnum.UseDefault);
-            Assert.Equal(NatashaDomain.DefaultDomain._referenceCache.Count, references.Count());
+            var references = referenceCache.CombineWithDefaultReferences(DefaultReferences, LoadBehaviorEnum.UseDefault);
+            references.ExceptWith(DefaultReferences.GetReferences());
+            if (DefaultReferences.Count!= references.Count)
+            {
+                Assert.Contains("System.Private.CoreLib.dll", references.First().FilePath);
+            }
         }
 
         [Fact(DisplayName = "[合并版本引用]排重测试")]

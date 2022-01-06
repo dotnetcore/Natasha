@@ -11,20 +11,53 @@ public static class DefaultUsing
 {
 
     private readonly static HashSet<string> _defaultNamesapce;
-    public static StringBuilder DefaultScript;
+    public static StringBuilder UsingScriptCache;
     static DefaultUsing()
     {
 
-        DefaultScript = new StringBuilder();
+        UsingScriptCache = new StringBuilder();
         _defaultNamesapce = new HashSet<string>();
 
     }
-    private static bool _completed;
 
     public static int Count { get { return _defaultNamesapce.Count; } }
 
-    public static bool InitCompleted { get { return _completed; } }
 
+    /// <summary>
+    /// 添加引用
+    /// </summary>
+    /// <param name="assembly"></param>
+    internal static void AddUsing(Assembly assembly)
+    {
+        try
+        {
+            lock (_defaultNamesapce)
+            {
+                var types = assembly.GetTypes();
+                foreach (var t in types)
+                {
+                    var name = t.Namespace;
+                    if (!string.IsNullOrEmpty(name))
+                    {
+                        if (!_defaultNamesapce.Contains(name))
+                        {
+                            _defaultNamesapce.Add(name!);
+                            UsingScriptCache.AppendLine($"using {name!};");
+                        }
+
+                    }
+
+                }
+            }
+
+        }
+        catch (Exception ex)
+        {
+#if DEBUG
+            Console.WriteLine(assembly.FullName + ex.Message);
+#endif
+        }
+    }
 
     /// <summary>
     /// 添加引用
@@ -34,15 +67,21 @@ public static class DefaultUsing
     {
         try
         {
-            if (assemblyName.Name != null)
+            lock (_defaultNamesapce)
             {
-                lock (_defaultNamesapce)
+                var name = assemblyName.Name;
+                if (!string.IsNullOrEmpty(name))
                 {
-                    _defaultNamesapce.Add(assemblyName.Name);
+                    if (!_defaultNamesapce.Contains(name))
+                    {
+                        _defaultNamesapce.Add(name!);
+                        UsingScriptCache.AppendLine($"using {name!};");
+                    }
+
                 }
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
 #if DEBUG
             Console.WriteLine(assemblyName.FullName + ex.Message);
@@ -50,17 +89,6 @@ public static class DefaultUsing
         }
     }
 
-    /// <summary>
-    /// 添加完成
-    /// </summary>
-    internal static void UsingGenerator()
-    {
-        _completed = true;
-        foreach (var @using in _defaultNamesapce)
-        {
-            DefaultScript.AppendLine($"using {@using};");
-        }
-    }
 
     /// <summary>
     /// 查询是否存在该命名空间
@@ -82,13 +110,12 @@ public static class DefaultUsing
     /// <param name="namespace"></param>
     public static void Remove(string @namespace)
     {
-
         lock (_defaultNamesapce)
         {
             if (_defaultNamesapce.Contains(@namespace))
             {
                 _defaultNamesapce.Remove(@namespace);
-                DefaultScript = DefaultScript.Replace($"using {@namespace};{Environment.NewLine}", string.Empty);
+                UsingScriptCache = UsingScriptCache.Replace($"using {@namespace};{Environment.NewLine}", string.Empty);
             }
         }
     }
@@ -100,7 +127,7 @@ public static class DefaultUsing
             _defaultNamesapce.ExceptWith(namespaces);
             foreach (var item in namespaces)
             {
-                DefaultScript = DefaultScript.Replace($"using {item};{Environment.NewLine}", string.Empty);
+                UsingScriptCache = UsingScriptCache.Replace($"using {item};{Environment.NewLine}", string.Empty);
             }
         }
 

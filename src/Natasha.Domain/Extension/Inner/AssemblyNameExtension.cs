@@ -3,14 +3,14 @@ using System.Reflection;
 
 namespace Natasha.CSharp.Extension.Inner
 {
-    internal static class AssemblyNameExtension
+    public static class AssemblyNameExtension
     {
         /// <summary>
         /// 获取程序集名对应的标识
         /// </summary>
         /// <param name="assemblyName"></param>
         /// <returns></returns>
-        internal static string GetUniqueName(this AssemblyName assemblyName)
+        public static string GetUniqueName(this AssemblyName assemblyName)
         {
             return string.IsNullOrEmpty(assemblyName.Name) ? assemblyName.FullName : assemblyName.Name;
         }
@@ -22,7 +22,7 @@ namespace Natasha.CSharp.Extension.Inner
         /// <param name="afterName">后一个程序集名</param>
         /// <param name="loadBehavior">加载行为</param>
         /// <returns></returns>
-        internal static LoadVersionResultEnum CompareWithDefault(this AssemblyName customaryName, AssemblyName defaultName, LoadBehaviorEnum loadBehavior)
+        public static LoadVersionResultEnum CompareWithDefault(this AssemblyName customaryName, AssemblyName defaultName, LoadBehaviorEnum loadBehavior)
         {
             if (loadBehavior == LoadBehaviorEnum.None)
             {

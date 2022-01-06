@@ -14,7 +14,7 @@ namespace NatashaFunctionUT
         [Fact(DisplayName = "默认Using的添加")]
         public void DefaultUsingTest()
         {
-            Assert.True(DefaultUsing.DefaultScript.Length > 0);
+            Assert.True(DefaultUsing.UsingScriptCache.Length > 0);
 
             for (int i = 0; i < 6; i++)
             {

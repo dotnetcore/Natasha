@@ -1,6 +1,5 @@
 ﻿using Natasha.CSharp.Component.Domain;
 using Natasha.CSharp.Extension.Inner;
-using Natasha.Domain.Utils;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -11,7 +10,7 @@ using System.Runtime.Loader;
 /// Natasha域实现
 /// C# 的引用代码是通过 Using 来完成的,该域实现增加了 Using 记录
 /// </summary>
-public partial class NatashaDomain : AssemblyLoadContext, IDisposable
+public partial class NatashaDomain
 {
 
     internal LoadBehaviorEnum _loadPluginBehavior;
@@ -21,9 +20,9 @@ public partial class NatashaDomain : AssemblyLoadContext, IDisposable
     /// </summary>
     private AssemblyDependencyResolver _dependencyResolver;
     /// <summary>
-    /// Using 记录
+    /// 排除插件引用
     /// </summary>
-    private readonly UsingRecoder _usingRecoder;
+    private Func<AssemblyName, bool> _excludePluginReferencesFunc;
 
 
     /// <summary>
@@ -46,8 +45,7 @@ public partial class NatashaDomain : AssemblyLoadContext, IDisposable
         {
             assembly = LoadFromAssemblyPath(path);
         }
-        _referenceCache.AddReference(assembly.GetName(),path);
-        _usingRecoder.Using(assembly);
+        LoadAssemblyReferencsWithPath?.Invoke(assembly, path);
         return assembly;
 
     }
@@ -59,7 +57,7 @@ public partial class NatashaDomain : AssemblyLoadContext, IDisposable
     /// </summary>
     /// <param name="stream">外部流</param>
     /// <returns></returns>
-    public virtual Assembly LoadAssemblyFromStream(Stream stream)
+    public virtual Assembly LoadAssemblyFromStream(Stream stream,Stream? pdbStream)
     {
         using (stream)
         {
@@ -67,16 +65,15 @@ public partial class NatashaDomain : AssemblyLoadContext, IDisposable
             Assembly assembly;
             if (Name == "Default")
             {
-                assembly = Default.LoadFromStream(stream);
+                assembly = Default.LoadFromStream(stream, pdbStream);
             }
             else
             {
-                assembly = LoadFromStream(stream);
+                assembly = LoadFromStream(stream, pdbStream);
             }
 
             stream.Seek(0, SeekOrigin.Begin);
-            _referenceCache.AddReference(assembly.GetName(), stream);
-            _usingRecoder.Using(assembly);
+            LoadAssemblyReferenceWithStream?.Invoke(assembly, stream);
             return assembly;
 
         }
@@ -95,14 +92,7 @@ public partial class NatashaDomain : AssemblyLoadContext, IDisposable
         if (_loadPluginBehavior != LoadBehaviorEnum.None && Name != "Default")
         {
             var name = assemblyName.GetUniqueName();
-            if (!_defaultAssembliesCache.TryGetValue(name!, out var defaultCacheName))
-            {
-                if (DefaultDomain._pluginAssemblies.TryGetValue(name!, out var defaultCacheAssembly))
-                {
-                    defaultCacheName = defaultCacheAssembly!.GetName();
-                }
-            }
-            if (defaultCacheName != default)
+            if (_defaultAssemblyNameCache.TryGetValue(name!, out var defaultCacheName))
             {
                 if (assemblyName.CompareWithDefault(defaultCacheName, _loadPluginBehavior) == LoadVersionResultEnum.UseDefault)
                 {
@@ -111,7 +101,7 @@ public partial class NatashaDomain : AssemblyLoadContext, IDisposable
             }
             //var asm = this.LoadFromAssemblyName(assemblyName);//死循环代码
         }
-        var result = _excludeAssembliesFunc != null && _excludeAssembliesFunc(assemblyName);
+        var result = _excludePluginReferencesFunc(assemblyName);
         if (!result)
         {
             string? assemblyPath = _dependencyResolver!.ResolveAssemblyToPath(assemblyName);

@@ -16,10 +16,10 @@ namespace Natasha.CSharp.Extension.Inner
             natashaCompilation.AddCompilationInfo("AssemblyName", compilation.AssemblyName ?? string.Empty);
             natashaCompilation.AddCompilationInfo("Language", compilation.Language);
             natashaCompilation.AddCompilationInfo("LanguageVersion", compilation.LanguageVersion.ToString());
-            natashaCompilation.AddCompilationInfo("SyntaxTreeCount", compilation.SyntaxTrees.Count().ToString());
+            natashaCompilation.AddCompilationInfo("SyntaxTreeCount", compilation.SyntaxTrees.Length.ToString());
             natashaCompilation.AddCompilationInfo("ReferencesCount", compilation.References.Count().ToString());
             var errors = compilation.GetDiagnostics();
-            if (errors.Count() > 0)
+            if (errors.Length > 0)
             {
                 Dictionary<SyntaxTree, List<Diagnostic>> syntaxCache = new();
                 foreach (var item in compilation.GetDiagnostics())

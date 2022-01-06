@@ -33,7 +33,7 @@ namespace NatashaFunctionUT.Compile
                         var assembly = builder.GetAssembly();
                         return (name!, currentName!, true);
                     }
-                    catch
+                    catch(NatashaException ex)
                     {
 
                         return (name!, currentName!, false);
