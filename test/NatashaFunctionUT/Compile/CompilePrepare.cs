@@ -35,7 +35,7 @@ namespace NatashaFunctionUT.Compile
                             .GetAssembly();
                         return (name!, currentName!, true);
                     }
-                    catch(NatashaException ex)
+                    catch
                     {
 
                         return (name!, currentName!, false);

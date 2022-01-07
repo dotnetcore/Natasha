@@ -49,7 +49,7 @@ namespace ReferenceTest50
             Check();
             Stopwatch stopwatch = new();
             stopwatch.Start();
-            DomainComponent.Init();
+            NatashaInitializer.Init((asm,name)=>name.Contains("IO"));
             stopwatch.Stop();
             Check();
             Console.WriteLine(stopwatch.ElapsedMilliseconds);

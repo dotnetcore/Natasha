@@ -20,4 +20,42 @@ namespace ReferenceTest50
             return this with { Name = "a" };
         }
     }
+
+
+
+    public class Father
+    {
+        public static Father Default;
+        static Father()
+        {
+            Default = default!;
+        }
+
+        public Father(string key)
+        {
+            if (key == "Default")
+            {
+                Default = this;
+            }
+        }
+
+    }
+
+    public class Child : Father
+    {
+
+        public new static Child Default;
+        static Child()
+        {
+            Default = new Child("Default");
+        }
+
+
+        public Child(string key) : base(key)
+        {
+            
+        }
+    }
+
+
 }

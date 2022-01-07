@@ -5,16 +5,16 @@ using Natasha.CSharp.Domain.Utils;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-
+using System.Runtime.CompilerServices;
 
 public class NatashaReferenceDomain : NatashaDomain
 {
-    public static readonly NatashaReferenceDomain DefaultDomain;
+    public static new readonly NatashaReferenceDomain DefaultDomain;
     static NatashaReferenceDomain()
     {
+
         DefaultDomain = new NatashaReferenceDomain();
         DomainManagement.Add("Default", DefaultDomain);
-        DefaultDomainIncrementAssembly += NatashaReferenceDomain_DefaultDomainIncrementAssembly;
 
     }
 
@@ -25,11 +25,6 @@ public class NatashaReferenceDomain : NatashaDomain
         DefaultUsing.AddUsing(assemblyName);
     }
 
-
-    private static void NatashaReferenceDomain_DefaultDomainIncrementAssembly(Assembly arg1, string arg2)
-    {
-        DefaultDomain.NatashaReferenceDomain_LoadAssemblyReferencsWithPath(arg1, arg2);
-    }
 
     public IEnumerable<PortableExecutableReference> GetReferences(LoadBehaviorEnum loadBehavior = LoadBehaviorEnum.None, Func<AssemblyName, AssemblyName, LoadVersionResultEnum>? useAssemblyNameFunc = null)
     {
@@ -50,11 +45,11 @@ public class NatashaReferenceDomain : NatashaDomain
     /// <summary>
     /// Using 记录
     /// </summary>
-    private readonly UsingRecoder _usingRecoder;
+    public readonly NatashaUsingCache UsingRecoder;
     private NatashaReferenceDomain() : base()
     {
         References = new();
-        _usingRecoder = new();
+        UsingRecoder = new();
         LoadAssemblyReferencsWithPath += NatashaReferenceDomain_LoadAssemblyReferencsWithPath;
         LoadAssemblyReferenceWithStream += NatashaReferenceDomain_LoadAssemblyReferenceWithStream;
     }
@@ -63,7 +58,7 @@ public class NatashaReferenceDomain : NatashaDomain
     public NatashaReferenceDomain(string key) : base(key)
     {
         References = new();
-        _usingRecoder = new();
+        UsingRecoder = new();
         LoadAssemblyReferencsWithPath += NatashaReferenceDomain_LoadAssemblyReferencsWithPath;
         LoadAssemblyReferenceWithStream += NatashaReferenceDomain_LoadAssemblyReferenceWithStream;
     }
@@ -79,7 +74,7 @@ public class NatashaReferenceDomain : NatashaDomain
         }
         else
         {
-            _usingRecoder.Using(assembly);
+            UsingRecoder.Using(assembly);
         }
 
     }
@@ -94,7 +89,7 @@ public class NatashaReferenceDomain : NatashaDomain
         }
         else
         {
-            _usingRecoder.Using(assembly);
+            UsingRecoder.Using(assembly);
         }
     }
 
@@ -106,8 +101,7 @@ public class NatashaReferenceDomain : NatashaDomain
         {
             LoadAssemblyReferencsWithPath -= NatashaReferenceDomain_LoadAssemblyReferencsWithPath;
             LoadAssemblyReferenceWithStream -= NatashaReferenceDomain_LoadAssemblyReferenceWithStream;
-            _usingRecoder._usingTypes.Clear();
-            References.Clear();
+            //References.Clear();
         }
     }
 

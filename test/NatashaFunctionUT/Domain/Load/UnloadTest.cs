@@ -10,12 +10,12 @@ using Xunit;
 
 namespace NatashaFunctionUT.Domain.Load
 {
-    [Trait("基础功能测试", "域")]
+    [Trait("基础功能测试", "插件与域")]
     public class UnloadTest
     {
        
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public string CreateAndUnload()
+        public static string CreateAndUnload()
         {
             NatashaDomain? domain = default;
             using (DomainManagement.Create("au_test").CreateScope())
@@ -28,7 +28,7 @@ namespace NatashaFunctionUT.Domain.Load
         }
 
         [Fact(DisplayName = "域的创建与卸载")]
-        public void ContextAndUnload()
+        public static void ContextAndUnload()
         {
 
             var name = CreateAndUnload();
@@ -43,7 +43,7 @@ namespace NatashaFunctionUT.Domain.Load
 
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public string LoadPluginAndUnload()
+        public static string LoadPluginAndUnload()
         {
             NatashaDomain? domain = default;
             using (DomainManagement.Create("au_test_plugin").CreateScope())
@@ -62,7 +62,7 @@ namespace NatashaFunctionUT.Domain.Load
         }
 
         [Fact(DisplayName = "域的清理与卸载")]
-        public void ClearAndUnload()
+        public static void ClearAndUnload()
         {
 
             var name = LoadPluginAndUnload();

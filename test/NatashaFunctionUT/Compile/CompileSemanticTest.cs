@@ -14,7 +14,7 @@ namespace NatashaFunctionUT.Compile
         public void SemanticTest1()
         {
 
-            var code = DefaultUsing.UsingScriptCache + "public class A{ public string Name;}";
+            var code = DefaultUsing.UsingScript + "public class A{ public string Name;}";
             AssemblyCSharpBuilder builder = new();
             builder.Domain = DomainManagement.Random();
             builder.EnableSemanticHandler = false;

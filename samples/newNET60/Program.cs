@@ -1,4 +1,4 @@
 ﻿// See https://aka.ms/new-console-template for more information
-DomainComponent.Init();
+NatashaInitializer.Init();
 Console.WriteLine("End!");
 Console.ReadKey();

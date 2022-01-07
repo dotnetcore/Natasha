@@ -13,18 +13,15 @@ public partial class NatashaDomain : AssemblyLoadContext
 {
     private readonly static ConcurrentDictionary<string, AssemblyName> _defaultAssemblyNameCache;
     private readonly static HashSet<Assembly> _defaultAssembliesSets;
-    private static Func<AssemblyName, bool> _excludeDefaultAssembliesFunc;
+    private static Func<AssemblyName, string? , bool> _excludeDefaultAssembliesFunc;
+    public static readonly NatashaDomain DefaultDomain;
 
     static NatashaDomain()
     {
+        DefaultDomain = default!;
         _defaultAssembliesSets = new();
         _defaultAssemblyNameCache = new();
-        _excludeDefaultAssembliesFunc = item => false;
-    }
-
-    public void SetExcludeDefaultAssemblyFunc(Func<AssemblyName, bool> func)
-    {
-        _excludeDefaultAssembliesFunc = func;
+        _excludeDefaultAssembliesFunc = (_,_)=>false;
     }
 
     private static int _lockCount = 0;
@@ -54,43 +51,74 @@ public partial class NatashaDomain : AssemblyLoadContext
     }
 
 
+    public static void SetDefaultAssemblyFilter(Func<AssemblyName, string?, bool> excludeAssemblyNameFunc)
+    {
+        _excludeDefaultAssembliesFunc = excludeAssemblyNameFunc;
+    }
+
+    
+    public static void AddAssemblyToDefaultCache(Assembly assembly)
+    {
+
+        var asmName = assembly.GetName();
+        if (!_excludeDefaultAssembliesFunc(asmName, asmName.Name))
+        {
+            _defaultAssemblyNameCache[asmName.GetUniqueName()] = asmName;
+            lock (_defaultAssembliesSets)
+            {
+                _defaultAssembliesSets.Add(assembly);
+            }
+        }
+        else
+        {
+#if DEBUG
+            System.Diagnostics.Debug.WriteLine("[排除程序集]:" + asmName.FullName);
+#endif
+        }
+
+    }
+
+
+
     private static void CheckAndIncrmentAssemblies()
     {
         if (GetLock())
         {
             var assemblies = Default.Assemblies;
-            if (assemblies.Count() != _excludeCount + _defaultAssemblyNameCache.Count)
+            var count = assemblies.Count();
+            if (count != _preDefaultAssemblyCount)
             {
-                HashSet<Assembly> checkAsm = new HashSet<Assembly>(Default.Assemblies);
+                _preDefaultAssemblyCount = count;
+                HashSet<Assembly> checkAsm = new(Default.Assemblies);
                 checkAsm.ExceptWith(_defaultAssembliesSets);
                 foreach (var item in checkAsm)
                 {
                     var asmName = item.GetName();
-                    if (_excludeDefaultAssembliesFunc(asmName))
+                    if (_excludeDefaultAssembliesFunc(asmName,asmName.Name))
                     {
-                        _excludeCount += 1;
+#if DEBUG
+                        System.Diagnostics.Debug.WriteLine("[排除程序集]:" + asmName.FullName);
+#endif
                     }
                     else
                     {
                         _defaultAssemblyNameCache[asmName.GetUniqueName()] = asmName;
-                        if (!item.IsDynamic && !string.IsNullOrEmpty(item.Location))
-                        {
-                            DefaultDomainIncrementAssembly?.Invoke(item, item.Location);
-                        }
                         _defaultAssembliesSets.Add(item);
                     }
                 }
-                _excludeCount += checkAsm.Count;
             }
             ReleaseLock();
         }
 
     }
 
-    internal static int _excludeCount;
-    public static void RefreshDefaultAssemblies(Func<AssemblyName, bool> excludeAssemblyNameFunc)
+    internal static int _preDefaultAssemblyCount;
+    public static void RefreshDefaultAssemblies(Func<AssemblyName, string?, bool>? excludeAssemblyNameFunc)
     {
-        _excludeDefaultAssembliesFunc = excludeAssemblyNameFunc;
+        if (excludeAssemblyNameFunc!=null)
+        {
+            SetDefaultAssemblyFilter(excludeAssemblyNameFunc);
+        }
         CheckAndIncrmentAssemblies();
     }
 

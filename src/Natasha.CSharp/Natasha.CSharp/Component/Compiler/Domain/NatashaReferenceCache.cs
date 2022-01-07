@@ -26,21 +26,24 @@ namespace Natasha.CSharp.Component.Domain.Core
         public int Count { get { return _referenceCache.Count; } }
         private void AddReference(AssemblyName assemblyName, PortableExecutableReference reference, LoadBehaviorEnum loadReferenceBehavior)
         {
+
             var name = assemblyName.GetUniqueName();
-            if (_referenceNameCache.TryGetValue(name, out var oldAssemblyName))
+            if (loadReferenceBehavior != LoadBehaviorEnum.None)
             {
-                if (assemblyName.CompareWithDefault(oldAssemblyName, loadReferenceBehavior) == LoadVersionResultEnum.UseCustomer)
+                if (_referenceNameCache.TryGetValue(name, out var oldAssemblyName))
                 {
-                    _referenceCache!.Remove(oldAssemblyName);
-                    _referenceNameCache[name] = assemblyName;
-                    _referenceCache[assemblyName] = reference;
+                    if (assemblyName.CompareWithDefault(oldAssemblyName, loadReferenceBehavior) == LoadVersionResultEnum.UseCustomer)
+                    {
+                        _referenceCache!.Remove(oldAssemblyName);
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
             }
-            else
-            {
-                _referenceNameCache[name] = assemblyName;
-                _referenceCache[assemblyName] = reference;
-            }
+            _referenceNameCache[name] = assemblyName;
+            _referenceCache[assemblyName] = reference;
 
         }
         public void AddReference(AssemblyName assemblyName, Stream stream, LoadBehaviorEnum loadReferenceBehavior = LoadBehaviorEnum.None)

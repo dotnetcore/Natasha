@@ -28,10 +28,6 @@ public partial class NatashaDomain
 
     protected event Action<Assembly, Stream>? LoadAssemblyReferenceWithStream;
 
-    protected static event Action<Assembly, string>? DefaultDomainIncrementAssembly;
-
-
-
 
 
 }

@@ -1,38 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Text;
 
 namespace Natasha.CSharp.Domain.Utils
 {
     /// <summary>
     /// 引用模板
     /// </summary>
-    internal class UsingRecoder
+    public class NatashaUsingCache
     {
 
         internal readonly HashSet<string> _usings;
-        internal readonly HashSet<Type> _usingTypes;
+        //internal readonly HashSet<Type> _usingTypes;
 
-        public UsingRecoder()
+        public NatashaUsingCache()
         {
 
             _usings = new HashSet<string>();
-            _usingTypes = new HashSet<Type>();
 
         }
 
-        public UsingRecoder Using(string? @using)
+        public int Count { get { return _usings.Count; } }
+
+
+
+        public bool HasUsing(string @using)
+        {
+            return _usings.Contains(@using);
+        } 
+
+
+
+        public NatashaUsingCache Using(string? @using)
         {
 
             if (!string.IsNullOrEmpty(@using))
             {
 
-                if (!_usings.Contains(@using))
-                {
-
-                    _usings.Add(@using);
-
-                }
+                _usings.Add(@using);
 
             }
             return this;
@@ -47,7 +53,7 @@ namespace Natasha.CSharp.Domain.Utils
         /// </summary>
         /// <param name="assembly">程序集</param>
         /// <returns></returns>
-        public UsingRecoder Using(Assembly assembly)
+        public NatashaUsingCache Using(Assembly assembly)
         {
 
             if (assembly != default)
@@ -73,7 +79,7 @@ namespace Natasha.CSharp.Domain.Utils
         /// </summary>
         /// <param name="namespaces">命名空间</param>
         /// <returns></returns>
-        public UsingRecoder Using(params Assembly[] namespaces)
+        public NatashaUsingCache Using(params Assembly[] namespaces)
         {
 
             for (int i = 0; i < namespaces.Length; i++)
@@ -85,7 +91,7 @@ namespace Natasha.CSharp.Domain.Utils
             return this;
 
         }
-        public UsingRecoder Using(IEnumerable<Assembly> namespaces)
+        public NatashaUsingCache Using(IEnumerable<Assembly> namespaces)
         {
 
             foreach (var item in namespaces)
@@ -99,7 +105,7 @@ namespace Natasha.CSharp.Domain.Utils
 
 
 
-        public UsingRecoder Using(IEnumerable<Type> namespaces)
+        public NatashaUsingCache Using(IEnumerable<Type> namespaces)
         {
 
             foreach (var item in namespaces)
@@ -115,18 +121,22 @@ namespace Natasha.CSharp.Domain.Utils
 
 
 
-        public UsingRecoder Using(Type type)
+        public NatashaUsingCache Using(Type type)
         {
 
-            if (type != null && !_usingTypes.Contains(type))
+            return Using(type.Namespace);
+
+        }
+
+
+        public override string ToString()
+        {
+            StringBuilder usings = new();
+            foreach (var item in _usings)
             {
-
-                _usingTypes.Add(type);
-                return Using(type.Namespace);
-
+                usings.AppendLine($"using {item};");
             }
-            return this;
-
+            return usings.ToString();
         }
 
     }

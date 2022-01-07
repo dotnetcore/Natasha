@@ -5,12 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.Loader;
 
 
 public class ReferencePrepare : DomainPrepare
 {
-    internal protected static NatashaReferenceCache DefaultReferences;
+    internal protected static readonly NatashaReferenceCache DefaultReferences;
 
     static ReferencePrepare()
     {

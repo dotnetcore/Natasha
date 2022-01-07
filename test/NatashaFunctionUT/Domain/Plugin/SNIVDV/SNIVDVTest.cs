@@ -2,7 +2,7 @@
 
 namespace NatashaFunctionUT.Domain.Plugin
 {
-    [Trait("基础功能测试", "插件")]
+    [Trait("基础功能测试", "插件与域")]
     public class SNIVDVTest: PluginPrepare
     {
         [Fact(DisplayName = "[同名忽略版本插件][同名不同版本依赖]测试")]

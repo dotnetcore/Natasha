@@ -13,7 +13,7 @@ namespace NatashaFunctionUT.Reference
     {
         [Fact(DisplayName = "默认引用数量")]
         public void GlobalReference()
-        {
+        { 
             IEnumerable<string> paths = DependencyContext
                 .Default
                 .CompileLibraries.SelectMany(cl => cl.ResolveReferencePaths());
@@ -21,7 +21,7 @@ namespace NatashaFunctionUT.Reference
             var count = NatashaReferenceDomain.DefaultDomain.References.Count;
             Assert.True(DefaultUsing.HasElement("System.Threading"));
             Assert.False(DefaultUsing.HasElement("System.IO"));
-            Assert.True(paths.Count() <= NatashaDomain._excludeCount + count);
+            Assert.True(paths.Count() <= NatashaDomain._preDefaultAssemblyCount + count);
         }
         [Fact(DisplayName = "[默认引用]排重测试")]
         public void DefaultDistinctReference()
@@ -44,10 +44,16 @@ namespace NatashaFunctionUT.Reference
             }
             //Assembly Path='C:\Program Files\dotnet\shared\Microsoft.NETCore.App\5.0.12\System.Private.CoreLib.dll'
             var references = referenceCache.CombineWithDefaultReferences(DefaultReferences, LoadBehaviorEnum.UseDefault);
-            references.ExceptWith(DefaultReferences.GetReferences());
-            if (DefaultReferences.Count!= references.Count)
+           
+
+            if (DefaultReferences.Count != references.Count)
             {
+                references.ExceptWith(DefaultReferences.GetReferences());
                 Assert.Contains("System.Private.CoreLib.dll", references.First().FilePath);
+            }
+            else
+            {
+                Assert.Equal(DefaultReferences.Count, references.Count);
             }
         }
 

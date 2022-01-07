@@ -11,43 +11,135 @@ public static class DefaultUsing
 {
 
     private readonly static HashSet<string> _defaultNamesapce;
-    public static StringBuilder UsingScriptCache;
+    private static Func<AssemblyName, string?, bool> _excludeDefaultAssembliesFunc;
+    private static StringBuilder _usingScriptCache;
+    public static string UsingScript;
     static DefaultUsing()
     {
-
-        UsingScriptCache = new StringBuilder();
+        UsingScript = string.Empty;
+        _usingScriptCache = new StringBuilder();
         _defaultNamesapce = new HashSet<string>();
+        _excludeDefaultAssembliesFunc = (_, _) => false;
 
     }
 
+    public static void SetDefaultUsingFilter(Func<AssemblyName, string?, bool> excludeDefaultAssembliesFunc)
+    {
+        _excludeDefaultAssembliesFunc = excludeDefaultAssembliesFunc;
+    }
+
     public static int Count { get { return _defaultNamesapce.Count; } }
+
+    internal static void AddUsing(IEnumerable<string> usings)
+    {
+        try
+        {
+            lock (_defaultNamesapce)
+            {
+                foreach (var name in usings)
+                {
+                    _defaultNamesapce.Add(name);
+                    _usingScriptCache.AppendLine($"using {name!};");
+                }
+                UsingScript = _usingScriptCache.ToString();
+            }
+        }
+        catch (Exception ex)
+        {
+#if DEBUG
+            Console.WriteLine(ex.Message);
+#endif
+        }
+    }
+
+    internal static void AddUsingWithoutCheck(Assembly assembly)
+    {
+        try
+        {
+            var tempSets = new HashSet<string>();
+            var types = assembly.GetTypes();
+
+            foreach (var t in types)
+            {
+                var name = t.Namespace;
+                if (!string.IsNullOrEmpty(name))
+                {
+
+                    if (!_excludeDefaultAssembliesFunc(default!, name))
+                    {
+                        tempSets.Add(name);
+                    }
+                    else
+                    {
+#if DEBUG
+                        System.Diagnostics.Debug.WriteLine("[排除程序集]:" + name);
+#endif
+                    }
+
+                }
+
+            }
+
+            lock (_defaultNamesapce)
+            {
+                foreach (var name in tempSets)
+                {
+                    if (_defaultNamesapce.Add(name))
+                    {
+                        _usingScriptCache.AppendLine($"using {name};");
+                    }
+                }
+                UsingScript = _usingScriptCache.ToString();
+            }
+
+        }
+        catch (Exception ex)
+        {
+#if DEBUG
+            Console.WriteLine(assembly.FullName + ex.Message);
+#endif
+        }
+    }
+
 
 
     /// <summary>
     /// 添加引用
     /// </summary>
     /// <param name="assembly"></param>
-    internal static void AddUsing(Assembly assembly)
+    public static void AddUsing(Assembly assembly)
     {
         try
         {
+            var types = assembly.GetTypes();
             lock (_defaultNamesapce)
             {
-                var types = assembly.GetTypes();
                 foreach (var t in types)
                 {
                     var name = t.Namespace;
                     if (!string.IsNullOrEmpty(name))
                     {
+
                         if (!_defaultNamesapce.Contains(name))
                         {
-                            _defaultNamesapce.Add(name!);
-                            UsingScriptCache.AppendLine($"using {name!};");
+                            if (!_excludeDefaultAssembliesFunc(default!, name))
+                            {
+                                _defaultNamesapce.Add(name);
+                                _usingScriptCache.AppendLine($"using {name};");
+                            }
+                            else
+                            {
+#if DEBUG
+                                System.Diagnostics.Debug.WriteLine("[排除程序集]:" + name);
+#endif
+                            }
+
                         }
 
                     }
 
                 }
+                UsingScript = _usingScriptCache.ToString();
             }
 
         }
@@ -75,10 +167,11 @@ public static class DefaultUsing
                     if (!_defaultNamesapce.Contains(name))
                     {
                         _defaultNamesapce.Add(name!);
-                        UsingScriptCache.AppendLine($"using {name!};");
+                        _usingScriptCache.AppendLine($"using {name!};");
+                        UsingScript = _usingScriptCache.ToString();
                     }
-
                 }
+
             }
         }
         catch (Exception ex)
@@ -115,7 +208,8 @@ public static class DefaultUsing
             if (_defaultNamesapce.Contains(@namespace))
             {
                 _defaultNamesapce.Remove(@namespace);
-                UsingScriptCache = UsingScriptCache.Replace($"using {@namespace};{Environment.NewLine}", string.Empty);
+                _usingScriptCache = _usingScriptCache.Replace($"using {@namespace};{Environment.NewLine}", string.Empty);
+                UsingScript = _usingScriptCache.ToString();
             }
         }
     }
@@ -127,7 +221,8 @@ public static class DefaultUsing
             _defaultNamesapce.ExceptWith(namespaces);
             foreach (var item in namespaces)
             {
-                UsingScriptCache = UsingScriptCache.Replace($"using {item};{Environment.NewLine}", string.Empty);
+                _usingScriptCache = _usingScriptCache.Replace($"using {item};{Environment.NewLine}", string.Empty);
+                UsingScript = _usingScriptCache.ToString();
             }
         }
 

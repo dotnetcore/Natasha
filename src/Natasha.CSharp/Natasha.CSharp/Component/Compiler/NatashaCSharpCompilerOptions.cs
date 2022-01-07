@@ -18,7 +18,7 @@ namespace Natasha.CSharp.Compiler
 #if DEBUG
             this.SetCompilerFlag(CompilerBinderFlags.IgnoreCorLibraryDuplicatedTypes | CompilerBinderFlags.IgnoreAccessibility)
 #else
-        this.WithCompilerFlag(CompilerBinderFlags.IgnoreCorLibraryDuplicatedTypes)
+        this.SetCompilerFlag(CompilerBinderFlags.IgnoreCorLibraryDuplicatedTypes)
 #endif
         .SetNullableCompile(NullableContextOptions.Disable)
             .SetSupersedeLowerVersions(false)
