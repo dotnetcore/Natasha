@@ -1,16 +1,13 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
-using Natasha.CSharp.Compiler;
 using Natasha.CSharp.Component.Domain;
 using Natasha.CSharp.Core;
 using Natasha.CSharp.Extension.Inner;
 using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 
 /// <summary>

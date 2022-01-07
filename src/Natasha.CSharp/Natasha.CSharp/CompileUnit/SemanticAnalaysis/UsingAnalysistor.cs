@@ -27,10 +27,9 @@ namespace Natasha.CSharp.Compiler.SemanticAnalaysis
                    CompilationUnitSyntax root = tree.GetCompilationUnitRoot();
                    var semantiModel = compilation.GetSemanticModel(tree);
 #if DEBUG
-                   stopwatch.RestartAndShowCategoreInfo("[Semantic]", "语义节点获取", 3);
+                    stopwatch.RestartAndShowCategoreInfo("[Semantic]", "语义节点获取", 3);
 #endif
                    var errors = semantiModel!.GetDiagnostics();
-
 #if DEBUG
                    stopwatch.StopAndShowCategoreInfo("[Semantic]", "语义诊断获取", 3);
                    stopwatch.Restart();

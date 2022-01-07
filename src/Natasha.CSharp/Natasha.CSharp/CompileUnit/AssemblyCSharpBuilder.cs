@@ -11,7 +11,6 @@ public partial class AssemblyCSharpBuilder
     
     public AssemblyCSharpBuilder(string assemblyName = "")
     {
-        
         EnableSemanticHandler = true;
         _compileReferenceBehavior = LoadBehaviorEnum.UseDefault;
         OutputFolder = GlobalOutputFolder;

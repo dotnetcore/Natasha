@@ -69,6 +69,7 @@ public static class NatashaInitializer
 #endif
 
                 AssemblyCSharpBuilder cSharpBuilder = new AssemblyCSharpBuilder();
+                cSharpBuilder.ConfigCompilerOption(item => item.AddSupperess("CS8019"));
                 using (DomainManagement.Random().CreateScope())
                 {
                     cSharpBuilder.EnableSemanticHandler = true;
