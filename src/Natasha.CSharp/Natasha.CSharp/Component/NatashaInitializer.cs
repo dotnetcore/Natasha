@@ -24,6 +24,8 @@ public static class NatashaInitializer
                     return;
                 }
 
+                _isCompleted = true;
+
                 if (excludeReferencesFunc == null)
                 {
                     excludeReferencesFunc = (_, _) => false;
@@ -58,15 +60,26 @@ public static class NatashaInitializer
                 //    NatashaMetadataReader.ResolverMetadata(paths);
                 //});
 #if DEBUG
-                stopwatch.StopAndShowCategoreInfo("[Domain]", "默认引用初始化过滤", 1);
-                stopwatch.Restart();
+                stopwatch.RestartAndShowCategoreInfo("[Reference]", "过滤初始化引用", 1);
 #endif
                 NatashaMetadataReader.ResolverMetadata(paths);
-                _isCompleted = true;
+
 #if DEBUG
-                stopwatch.StopAndShowCategoreInfo("[Domain]", "默认域初始化", 1);
+                stopwatch.RestartAndShowCategoreInfo("[Domain]", "初始化默认域", 1);
 #endif
 
+                AssemblyCSharpBuilder cSharpBuilder = new AssemblyCSharpBuilder();
+                using (DomainManagement.Random().CreateScope())
+                {
+                    cSharpBuilder.EnableSemanticHandler = true;
+                    cSharpBuilder.Add(DefaultUsing.UsingScript+"public class A{}");
+                    var assembly = cSharpBuilder.GetAssembly();
+                }
+                cSharpBuilder.Domain.Dispose();
+
+#if DEBUG
+                stopwatch.StopAndShowCategoreInfo("[Comile]", "初始化编译", 1);
+#endif
             }
         }
 

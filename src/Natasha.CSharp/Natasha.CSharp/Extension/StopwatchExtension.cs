@@ -20,6 +20,21 @@ public static class StopwatchExtension
     public static void StopAndShowCategoreInfo(this Stopwatch stopwatch, string nodeName, string info, int level)
     {
         stopwatch.Stop();
+        ShowCategoreInfo(stopwatch, nodeName, info, level);
+    }
+
+
+    public static void RestartAndShowCategoreInfo(this Stopwatch stopwatch, string nodeName, string info, int level)
+    {
+        stopwatch.Stop();
+        ShowCategoreInfo(stopwatch, nodeName, info, level);
+        stopwatch.Restart();
+    }
+
+
+
+    private static void ShowCategoreInfo(Stopwatch stopwatch, string nodeName, string info, int level)
+    {
         var color = Console.ForegroundColor;
         foreach (var item in _colorCache)
         {
@@ -35,6 +50,8 @@ public static class StopwatchExtension
         }
         Console.ForegroundColor = color;
     }
+
+
 
     /// <summary>
     /// 设置颜色等级

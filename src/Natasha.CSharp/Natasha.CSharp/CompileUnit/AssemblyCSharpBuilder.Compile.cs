@@ -93,7 +93,6 @@ public partial class AssemblyCSharpBuilder
         }
 
 #if DEBUG
-        Console.WriteLine();
         stopwatch.StopAndShowCategoreInfo("[Semantic]", "语义处理", 2);
         stopwatch.Restart();
 #endif

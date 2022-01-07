@@ -1,7 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Editing;
 using Natasha.CSharp.Extension.Inner;
 using System;
 using System.Collections.Generic;
@@ -16,41 +15,30 @@ namespace Natasha.CSharp.Compiler.SemanticAnalaysis
         {
 
             _usingSemanticDelegate = (builder, compilation) =>
-           {
+            {
 
                var trees = compilation.SyntaxTrees;
                foreach (var tree in trees)
                {
 #if DEBUG
-                    Stopwatch stopwatch = new();
+                   Stopwatch stopwatch = new();
                    stopwatch.Start();
 #endif
-                    CompilationUnitSyntax root = tree.GetCompilationUnitRoot();
+                   CompilationUnitSyntax root = tree.GetCompilationUnitRoot();
+                   var semantiModel = compilation.GetSemanticModel(tree);
 #if DEBUG
-                    stopwatch.StopAndShowCategoreInfo("[Semantic]", "语法根节点获取", 3);
-                   stopwatch.Restart();
+                   stopwatch.RestartAndShowCategoreInfo("[Semantic]", "语义节点获取", 3);
 #endif
-                    var semantiModel = compilation.GetSemanticModel(tree);
-#if DEBUG
-                    stopwatch.StopAndShowCategoreInfo("[Semantic]", "语义节点获取", 3);
-                   stopwatch.Restart();
-#endif
-                    var errors = semantiModel!.GetDiagnostics();
+                   var errors = semantiModel!.GetDiagnostics();
 
 #if DEBUG
-                    stopwatch.StopAndShowCategoreInfo("[Semantic]", "语义诊断获取", 3);
+                   stopwatch.StopAndShowCategoreInfo("[Semantic]", "语义诊断获取", 3);
                    stopwatch.Restart();
 #endif
 
-
-                    if (errors.Length > 0)
+                   if (errors.Length > 0)
                    {
-                       var editor = new SyntaxEditor(root, new AdhocWorkspace());
-#if DEBUG
-                       stopwatch.StopAndShowCategoreInfo("[Semantic]", "创建Adhoc", 3);
-                       stopwatch.Restart();
-#endif
-                        var errorNodes = new HashSet<SyntaxNode>();
+                       var errorNodes = new HashSet<SyntaxNode>();
                        for (int i = 0; i < errors.Length; i++)
                        {
                            var error = errors[i];
@@ -65,7 +53,7 @@ namespace Natasha.CSharp.Compiler.SemanticAnalaysis
                            else if (error.Id == "CS0246")
                            {
                                var node = error.GetSyntaxNode(root);
-                               if (node.Parent!=null)
+                               if (node.Parent != null)
                                {
                                    UsingDirectiveSyntax? usingNode = node.Parent as UsingDirectiveSyntax;
                                    if (usingNode != null)
@@ -80,15 +68,19 @@ namespace Natasha.CSharp.Compiler.SemanticAnalaysis
                            }
                        }
 
-                       foreach (var item in errorNodes)
-                       {
-                           editor.RemoveNode(item);
-                       }
-                       compilation = compilation.ReplaceSyntaxTree(tree, editor.GetChangedRoot().SyntaxTree);
 #if DEBUG
-                        stopwatch.StopAndShowCategoreInfo("[Semantic]", "语法过滤", 3);
+                       stopwatch.RestartAndShowCategoreInfo("[Semantic]", "语义节点筛查", 3);
+
 #endif
-                    }
+                       if (errorNodes.Count > 0)
+                       {
+                           compilation = compilation.ReplaceSyntaxTree(tree, root.RemoveNodes(errorNodes, SyntaxRemoveOptions.KeepNoTrivia)!.SyntaxTree);
+                       }
+                       
+#if DEBUG
+                       stopwatch.StopAndShowCategoreInfo("[Semantic]", "语义节点替换", 3);
+#endif
+                   }
 
                }
                return compilation;
