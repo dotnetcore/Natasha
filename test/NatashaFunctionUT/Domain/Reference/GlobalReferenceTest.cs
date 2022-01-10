@@ -1,10 +1,10 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.DependencyModel;
-using Natasha.CSharp.Component.Domain.Core;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Loader;
 using Xunit;
+using Natasha.CSharp;
 
 namespace NatashaFunctionUT.Reference
 {

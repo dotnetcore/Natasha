@@ -12,6 +12,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<Compile Remove="CS0104Test.cs" />
 		<Compile Remove="Domain\Plugin\DifferentDependencyVersionTest.cs" />
 	</ItemGroup>
 

@@ -1,5 +1,4 @@
 ﻿using Microsoft.CodeAnalysis;
-using Natasha.CSharp.Error.Model;
 using System;
 using System.Collections.Generic;
 
@@ -13,7 +12,7 @@ public class NatashaException : Exception
     {
         Formatter = string.Empty;
         Diagnostics = new List<Diagnostic>();
-        ErrorKind = ExceptionKind.None;
+        ErrorKind = NatashaExceptionKind.None;
         CompileMessage = string.Empty;
     }
 
@@ -21,7 +20,7 @@ public class NatashaException : Exception
     public string Formatter;
 
     //错误类型
-    public ExceptionKind ErrorKind;
+    public NatashaExceptionKind ErrorKind;
 
     //roslyn诊断集合
     public List<Diagnostic> Diagnostics;

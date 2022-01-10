@@ -21,19 +21,19 @@ namespace NatashaFunctionUT.Compile
                 builder.Add("namespace TestA{ public class A {  public string Name = \"Hello\"; }}");
                 var assemblyA = builder.GetAssembly();
                 Assert.NotNull(assemblyA);
-                Assert.True(builder.Domain.UsingRecoder.HasUsing("TestA"));
+                Assert.True(builder.Domain.UsingRecorder.HasUsing("TestA"));
 
 
                 builder.SyntaxTrees.Clear();
                 builder.AssemblyName = "ASDASD2";
-                builder.Add(builder.Domain.UsingRecoder.ToString()+ "namespace TestB{public class B { public B(){ Name=\" World!\"; } public string Name; }}");
+                builder.Add(builder.Domain.UsingRecorder.ToString()+ "namespace TestB{public class B { public B(){ Name=\" World!\"; } public string Name; }}");
                 var assemblyB = builder.GetAssembly();
-                Assert.True(builder.Domain.UsingRecoder.HasUsing("TestB"));
+                Assert.True(builder.Domain.UsingRecorder.HasUsing("TestB"));
                 Assert.NotNull(assemblyB);
 
                 builder.SyntaxTrees.Clear();
                 builder.AssemblyName = "ASDASD3";
-                builder.Add(builder.Domain.UsingRecoder.ToString()+"public class C { public static string Show(){ return ((new A()).Name+(new B()).Name); } }");
+                builder.Add(builder.Domain.UsingRecorder.ToString()+"public class C { public static string Show(){ return ((new A()).Name+(new B()).Name); } }");
                 var assemblyC = builder.GetAssembly();
                 var type = assemblyC.GetTypes().Where(item => item.Name == "C").First();
                 var methodInfo = type.GetMethod("Show");
@@ -59,7 +59,7 @@ namespace NatashaFunctionUT.Compile
                 var typeA = assemblyA.GetTypes().Where(item => item.Name == "A").First();
                 var objA = Activator.CreateInstance(typeA);
                 Assert.NotNull(assemblyA);
-                Assert.True(builder1.Domain.UsingRecoder.HasUsing("TestA"));
+                Assert.True(builder1.Domain.UsingRecorder.HasUsing("TestA"));
 
             }
             using (DomainManagement.Create("DiffDomainReferenceCompare2").CreateScope())
@@ -72,7 +72,7 @@ namespace NatashaFunctionUT.Compile
                 var typeB = assemblyB.GetTypes().Where(item => item.Name == "A").First();
                 var objB = Activator.CreateInstance(typeB);
                 Assert.NotNull(assemblyB);
-                Assert.True(builder2.Domain.UsingRecoder.HasUsing("TestB"));
+                Assert.True(builder2.Domain.UsingRecorder.HasUsing("TestB"));
             }
             var domain1 = DomainManagement.Get("DiffDomainReferenceCompare1")!;
             var domain2 = DomainManagement.Get("DiffDomainReferenceCompare2")!;

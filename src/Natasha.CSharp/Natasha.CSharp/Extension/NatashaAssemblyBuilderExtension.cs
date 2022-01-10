@@ -1,9 +1,6 @@
-﻿using Natasha.CSharp.Error.Model;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 
 public static class NatashaAssemblyBuilderExtension
@@ -19,7 +16,7 @@ public static class NatashaAssemblyBuilderExtension
         catch (Exception ex)
         {
             NatashaException exception = new($"无法在程序集 {builder.AssemblyName} 中找到该类型 {typeName}！错误信息:{ex.Message}");
-            exception.ErrorKind = ExceptionKind.Type;
+            exception.ErrorKind = NatashaExceptionKind.Type;
             throw exception;
         }
 
@@ -41,7 +38,7 @@ public static class NatashaAssemblyBuilderExtension
         {
 
             NatashaException exception = new($"无法在程序集 {builder.AssemblyName} 中找到类型 {typeName} 对应的 {methodName} 方法！错误信息:{ex.Message}");
-            exception.ErrorKind = ExceptionKind.Method;
+            exception.ErrorKind = NatashaExceptionKind.Method;
             throw exception;
 
         }
@@ -62,7 +59,7 @@ public static class NatashaAssemblyBuilderExtension
         {
 
             NatashaException exception = new($"无法将程序集 {builder.AssemblyName} 类型为 {typeName} 的 {methodName} 方法转成委托 {delegateType.Name}！错误信息:{ex.Message}");
-            exception.ErrorKind = ExceptionKind.Delegate;
+            exception.ErrorKind = NatashaExceptionKind.Delegate;
             throw exception;
 
         }

@@ -1,15 +1,14 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using Natasha.CSharp.Error.Model;
 using System.Collections.Immutable;
 using System.Linq;
 
-namespace Natasha.CSharp.Core
+namespace Natasha.CSharp.Component.Exception
 {
-    public class NatashaExceptionAnalyzer
+    internal class NatashaExceptionAnalyzer
     {
 
-        public static NatashaException? GetSyntaxException(SyntaxTree tree)
+        internal static NatashaException? GetSyntaxException(SyntaxTree tree)
         {
 
             var diagnostics = tree.GetDiagnostics();
@@ -20,14 +19,14 @@ namespace Natasha.CSharp.Core
                 var exception = new NatashaException(first.GetMessage());
                 exception.Diagnostics.AddRange(errors);
                 exception.Formatter = tree.ToString();
-                exception.ErrorKind = ExceptionKind.Syntax;
+                exception.ErrorKind = NatashaExceptionKind.Syntax;
                 return exception;
             }
             return null;
 
         }
-       
-        public static NatashaException GetCompileException(CSharpCompilation compilation, ImmutableArray<Diagnostic> errors)
+
+        internal static NatashaException GetCompileException(CSharpCompilation compilation, ImmutableArray<Diagnostic> errors)
         {
             var first = errors[0];
             var exception = new NatashaException(first.GetMessage());
@@ -37,7 +36,7 @@ namespace Natasha.CSharp.Core
                 exception.Formatter = first.Location.SourceTree.ToString();
             }
             exception.CompileMessage = $"编译程序集为:{compilation.AssemblyName};CSharp版本:{compilation.LanguageVersion};";
-            exception.ErrorKind = ExceptionKind.Compile;
+            exception.ErrorKind = NatashaExceptionKind.Compile;
             return exception;
         }
     }

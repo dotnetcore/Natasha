@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
+using Natasha.CSharp.Component.Domain;
 using Natasha.CSharp.Extension.Inner;
 using System;
 using System.Collections.Concurrent;
@@ -6,7 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
-namespace Natasha.CSharp.Component.Domain.Core
+namespace Natasha.CSharp
 {
     //与元数据相关
     //数据值与程序集及内存相关

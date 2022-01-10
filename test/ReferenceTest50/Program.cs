@@ -52,7 +52,11 @@ namespace ReferenceTest50
             NatashaInitializer.Init((asm,name)=>name.Contains("IO"));
             stopwatch.Stop();
             Check();
-            Console.WriteLine(stopwatch.ElapsedMilliseconds);
+            AssemblyCSharpBuilder builder = new();
+            builder.Domain = DomainManagement.Random();
+            builder.EnableSemanticHandler = true;
+            builder.Add(DefaultUsing.UsingScript + "public class Abved{ string Name; public int Age;}");
+            var asm = builder.GetAssembly();
             Console.WriteLine("Completed!");
             Console.ReadKey();
             //ILogger a;

@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Natasha.CSharp.Component.Exception;
 using Natasha.CSharp.Core;
 using System;
 using System.Collections.Generic;

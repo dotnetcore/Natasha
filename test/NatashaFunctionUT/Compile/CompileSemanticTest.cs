@@ -1,8 +1,5 @@
 ﻿using Microsoft.CodeAnalysis.CSharp;
-using Natasha.CSharp.Error.Model;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace NatashaFunctionUT.Compile
@@ -30,7 +27,7 @@ namespace NatashaFunctionUT.Compile
             {
                 var nex = ex as NatashaException;
                 Assert.NotNull(nex);
-                Assert.Equal(ExceptionKind.Compile, nex!.ErrorKind);
+                Assert.Equal(NatashaExceptionKind.Compile, nex!.ErrorKind);
                 Assert.Equal(DefaultUsingCount, builder.SyntaxTrees[0].GetCompilationUnitRoot().Usings.Count -1);
                 Assert.Equal(DefaultUsingCount, DefaultUsing.Count);
             }

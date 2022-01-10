@@ -1,5 +1,4 @@
-﻿using Natasha.CSharp.Error.Model;
-using System;
+﻿using System;
 using Xunit;
 
 namespace NatashaFunctionUT.Syntax
@@ -39,7 +38,7 @@ namespace NatashaFunctionUT.Syntax
             var ex = CatchTreeError(source)!;
             Assert.NotNull(ex);
             Assert.Equal(expected, ex.Formatter);
-            Assert.Equal(ExceptionKind.Syntax, ex.ErrorKind);
+            Assert.Equal(NatashaExceptionKind.Syntax, ex.ErrorKind);
         }
     }
 }

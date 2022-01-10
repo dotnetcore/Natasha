@@ -1,5 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
-using Natasha.CSharp.Component.Domain.Core;
+using Natasha.CSharp;
 using PluginBase;
 using System;
 using System.Collections.Generic;

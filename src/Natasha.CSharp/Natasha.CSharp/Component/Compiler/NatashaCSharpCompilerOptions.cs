@@ -1,6 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using Natasha.CSharp.Compiler;
 using Natasha.CSharp.Component.Compiler;
 using Natasha.CSharp.Component.Compiler.Utils;
 using System;
@@ -42,9 +41,6 @@ namespace Natasha.CSharp.Compiler
             _suppressDiagnostics.Remove(errorcode);
             return this;
         }
-
-
-
 
 
         private bool _suppressReportShut;
@@ -158,10 +154,10 @@ namespace Natasha.CSharp.Compiler
                                    specificDiagnosticOptions: _suppressDiagnostics);
             if (_compileFlags != 0)
             {
-                CompilerHelper.SetTopLevelBinderFlagDelegate(compilationOptions, (uint)_compileFlags);
+                CompilerInnerHelper.SetTopLevelBinderFlagDelegate(compilationOptions, (uint)_compileFlags);
             }
             //CS1704
-            CompilerHelper.SetReferencesSupersedeLowerVersionsDelegate(compilationOptions, _referencesSupersedeLowerVersions);
+            CompilerInnerHelper.SetReferencesSupersedeLowerVersionsDelegate(compilationOptions, _referencesSupersedeLowerVersions);
             return compilationOptions;
 
         }

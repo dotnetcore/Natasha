@@ -11,19 +11,22 @@ namespace Natasha.CSharp.Extension.Inner
         {
             return root.FindNode(diagnostic.Location.SourceSpan);
         }
-        internal static UsingDirectiveSyntax GetUsingSyntaxNode(this Diagnostic diagnostic, CompilationUnitSyntax root)
+        internal static UsingDirectiveSyntax? GetUsingSyntaxNode(this Diagnostic diagnostic, CompilationUnitSyntax root)
         {
             var node = GetSyntaxNode(diagnostic, root);
-            while (node is not UsingDirectiveSyntax)
+            while (node is not UsingDirectiveSyntax && node.Parent != null)
             {
                 node = node!.Parent;
             }
-            return (UsingDirectiveSyntax)node;
+            return node as UsingDirectiveSyntax;
         }
         internal static void RemoveDefaultUsingAndUsingNode(this Diagnostic diagnostic, CompilationUnitSyntax root, HashSet<SyntaxNode> removeCollection)
         {
             var usingNode = GetUsingSyntaxNode(diagnostic, root);
-            RemoveUsingInfo(usingNode, removeCollection);
+            if (usingNode != null)
+            {
+                RemoveUsingInfo(usingNode, removeCollection);
+            }
         }
 
         internal static void RemoveUsingInfo(this UsingDirectiveSyntax usingDirectiveSyntax, HashSet<SyntaxNode> removeCollection)
@@ -35,12 +38,15 @@ namespace Natasha.CSharp.Extension.Inner
         internal static void RemoveUsingDiagnostics(this Diagnostic diagnostic, CompilationUnitSyntax root, HashSet<SyntaxNode> removeCollection)
         {
             var usingNode = GetUsingSyntaxNode(diagnostic, root);
-            var usingNodes = (from usingDeclaration in root.Usings
-                              where usingDeclaration.Name.ToString().StartsWith(usingNode.Name.ToString())
-                              select usingDeclaration).ToList();
+            if (usingNode!=null)
+            {
+                var usingNodes = (from usingDeclaration in root.Usings
+                                  where usingDeclaration.Name.ToString().StartsWith(usingNode.Name.ToString())
+                                  select usingDeclaration).ToList();
 
-            removeCollection.UnionWith(usingNodes);
-            DefaultUsing.Remove(usingNodes.Select(item => item.Name.ToString()));
+                removeCollection.UnionWith(usingNodes);
+                DefaultUsing.Remove(usingNodes.Select(item => item.Name.ToString()));
+            }
         }
     }
 }

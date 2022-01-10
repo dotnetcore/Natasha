@@ -47,18 +47,19 @@ namespace Natasha.CSharp.Compiler.SemanticAnalaysis
                            }
                            else if (error.Id == "CS8019")
                            {
-                               errorNodes.Add(error.GetUsingSyntaxNode(root));
+                                var node = error.GetUsingSyntaxNode(root);
+                                if (node != null)
+                                {
+                                    errorNodes.Add(node);
+                                }
+                              
                            }
                            else if (error.Id == "CS0246")
                            {
-                               var node = error.GetSyntaxNode(root);
-                               if (node.Parent != null)
+                               var node = error.GetUsingSyntaxNode(root);
+                               if (node != null)
                                {
-                                   UsingDirectiveSyntax? usingNode = node.Parent as UsingDirectiveSyntax;
-                                   if (usingNode != null)
-                                   {
-                                       DiagnosticsExtension.RemoveUsingInfo(usingNode, errorNodes);
-                                   }
+                                   DiagnosticsExtension.RemoveUsingInfo(node, errorNodes);
                                }
                            }
                            else if (error.Id == "CS0234")

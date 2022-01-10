@@ -1,11 +1,10 @@
 ﻿using Microsoft.CodeAnalysis;
+using Natasha.CSharp;
 using Natasha.CSharp.Component.Domain;
-using Natasha.CSharp.Component.Domain.Core;
 using Natasha.CSharp.Domain.Utils;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 
 public class NatashaReferenceDomain : NatashaDomain
 {
@@ -45,11 +44,11 @@ public class NatashaReferenceDomain : NatashaDomain
     /// <summary>
     /// Using 记录
     /// </summary>
-    public readonly NatashaUsingCache UsingRecoder;
+    public readonly NatashaUsingCache UsingRecorder;
     private NatashaReferenceDomain() : base()
     {
         References = new();
-        UsingRecoder = new();
+        UsingRecorder = new();
         LoadAssemblyReferencsWithPath += NatashaReferenceDomain_LoadAssemblyReferencsWithPath;
         LoadAssemblyReferenceWithStream += NatashaReferenceDomain_LoadAssemblyReferenceWithStream;
     }
@@ -58,7 +57,7 @@ public class NatashaReferenceDomain : NatashaDomain
     public NatashaReferenceDomain(string key) : base(key)
     {
         References = new();
-        UsingRecoder = new();
+        UsingRecorder = new();
         LoadAssemblyReferencsWithPath += NatashaReferenceDomain_LoadAssemblyReferencsWithPath;
         LoadAssemblyReferenceWithStream += NatashaReferenceDomain_LoadAssemblyReferenceWithStream;
     }
@@ -74,7 +73,7 @@ public class NatashaReferenceDomain : NatashaDomain
         }
         else
         {
-            UsingRecoder.Using(assembly);
+            UsingRecorder.Using(assembly);
         }
 
     }
@@ -89,7 +88,7 @@ public class NatashaReferenceDomain : NatashaDomain
         }
         else
         {
-            UsingRecoder.Using(assembly);
+            UsingRecorder.Using(assembly);
         }
     }
 

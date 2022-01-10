@@ -2,7 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
 using Natasha.CSharp.Component.Domain;
-using Natasha.CSharp.Core;
+using Natasha.CSharp.Component.Exception;
 using Natasha.CSharp.Extension.Inner;
 using System;
 using System.Collections.Immutable;
@@ -70,9 +70,7 @@ public partial class AssemblyCSharpBuilder
         var compilation = CSharpCompilation.Create(AssemblyName, SyntaxTrees, references, options);
 
 #if DEBUG
-        Console.WriteLine();
-        stopwatch.StopAndShowCategoreInfo("[Compilation]", "获取编译单元", 2);
-        stopwatch.Restart();
+        stopwatch.RestartAndShowCategoreInfo("[Compiler]", "获取编译单元", 2);
 #endif
 
 
@@ -90,8 +88,7 @@ public partial class AssemblyCSharpBuilder
         }
 
 #if DEBUG
-        stopwatch.StopAndShowCategoreInfo("[Semantic]", "语义处理", 2);
-        stopwatch.Restart();
+        stopwatch.RestartAndShowCategoreInfo("[Semantic]", "语义处理", 2);
 #endif
 
         Stream dllStream;
@@ -138,7 +135,7 @@ public partial class AssemblyCSharpBuilder
         pdbStream?.Dispose();
         xmlStream?.Dispose();
 
-#if DEBUG
+#if DEBUG 
         stopwatch.StopAndShowCategoreInfo("[  Emit  ]", "编译时长", 2);
 #endif
 
