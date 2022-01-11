@@ -57,7 +57,6 @@ namespace Natasha.CSharp.Extension.Inner
             }
             return natashaCompilation;
         }
-
         private static string GetErrorMessage(string content, FileLinePositionSpan linePositionSpan)
         {
 

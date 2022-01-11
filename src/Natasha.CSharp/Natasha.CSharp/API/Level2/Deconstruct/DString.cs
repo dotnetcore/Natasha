@@ -7,7 +7,7 @@ namespace System
 
         public static void Deconstruct(
            this string script,
-           out Assembly assembly,
+           out Assembly? assembly,
            out NatashaCompilationLog log)
         {
 
@@ -15,8 +15,18 @@ namespace System
             builder.Add(script);
             NatashaCompilationLog nlog = default!;
             builder.LogCompilationEvent += (item) => { nlog = item; };
-            assembly = builder.GetAssembly();
-            log = nlog;
+            try
+            {
+                assembly = builder.GetAssembly();
+                log = nlog;
+            }
+            catch (Exception ex)
+            {
+                log = nlog;
+                throw ex;
+            }
+            
+
 
         }
 
