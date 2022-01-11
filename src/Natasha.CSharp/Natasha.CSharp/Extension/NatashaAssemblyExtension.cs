@@ -2,7 +2,7 @@
 using System.Runtime.Loader;
 
 
-public static class AssemblyExtension
+public static class NatashaAssemblyExtension
 {
 
 

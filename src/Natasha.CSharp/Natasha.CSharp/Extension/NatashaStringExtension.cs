@@ -1,4 +1,4 @@
-﻿public static class StringExtension
+﻿public static class NatashaStringExtension
 {
 
     public static string ToReadonlyScript(this string field)

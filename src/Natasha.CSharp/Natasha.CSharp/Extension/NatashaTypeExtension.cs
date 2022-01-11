@@ -1,6 +1,6 @@
 ﻿namespace System
 {
-    public static class TypeExtension
+    public static class NatashaTypeExtension
     {
 
 

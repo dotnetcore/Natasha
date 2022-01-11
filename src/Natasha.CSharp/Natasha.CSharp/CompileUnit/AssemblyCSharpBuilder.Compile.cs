@@ -92,7 +92,7 @@ public partial class AssemblyCSharpBuilder
 #endif
 
         Stream dllStream;
-        Stream? pdbStream = null;
+        Stream pdbStream;
         Stream? xmlStream = null;
         if (DllFilePath != string.Empty)
         {

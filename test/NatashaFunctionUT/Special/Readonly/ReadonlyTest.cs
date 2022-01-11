@@ -14,7 +14,7 @@ namespace NatashaFunctionUT.Special
             var action = NDelegate
                 .RandomDomain()
                 .ConfigClass(item => item.AllowPrivate<ReadonlyModel>())
-                .Action<ReadonlyModel>($"{"obj.@interface".ReadonlyScript()} = new DefaultReadolyInterface();");
+                .Action<ReadonlyModel>($"{"obj.@interface".ToReadonlyScript()} = new DefaultReadolyInterface();");
 
             ReadonlyModel model = new ReadonlyModel();
             action(model);

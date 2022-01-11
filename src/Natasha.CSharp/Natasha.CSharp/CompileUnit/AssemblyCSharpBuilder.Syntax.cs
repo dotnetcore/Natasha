@@ -19,7 +19,7 @@ public partial class AssemblyCSharpBuilder
     /// </summary>
     /// <param name="cSharpParseOptions"></param>
     /// <returns></returns>
-    public AssemblyCSharpBuilder ConfigSyntaOptions(CSharpParseOptions cSharpParseOptions)
+    public AssemblyCSharpBuilder ConfigSyntaxOptions(CSharpParseOptions cSharpParseOptions)
     {
         _options = cSharpParseOptions;
         return this;
@@ -29,7 +29,7 @@ public partial class AssemblyCSharpBuilder
     /// </summary>
     /// <param name="cSharpParseOptionsAction"></param>
     /// <returns></returns>
-    public AssemblyCSharpBuilder ConfigSyntaOptions(Func<CSharpParseOptions, CSharpParseOptions> cSharpParseOptionsAction)
+    public AssemblyCSharpBuilder ConfigSyntaxOptions(Func<CSharpParseOptions, CSharpParseOptions> cSharpParseOptionsAction)
     {
         _options = cSharpParseOptionsAction(new CSharpParseOptions());
         return this;

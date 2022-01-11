@@ -10,10 +10,10 @@ namespace NatashaFunctionUT.Special
         {
             var func = NDelegate.RandomDomain()
                 .WithCS0104Handler()
-                .ConfigUsing("Cs0104Model1")
+                .ConfigUsing("Cs0104Model2")
                 .Func<object>("Cs0104Model a = new Cs0104Model(); return a;");
             var result = func();
-            Assert.Equal("Cs0104Model1",result.GetType().Namespace);
+            Assert.Equal("Cs0104Model2",result.GetType().Namespace);
         }
         
 

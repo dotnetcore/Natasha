@@ -21,6 +21,7 @@ namespace Natasha.CSharp.Template
         public GlobalUsingTemplate()
         {
             _useGlobalUsing = true;
+            _autoLoadDomainUsing = true;
             UsingRecorder = new();
             _script = new StringBuilder(200);
 
@@ -67,9 +68,27 @@ namespace Natasha.CSharp.Template
             return Link;
         }
 
+
+        private bool _autoLoadDomainUsing;
+        public T LoadDomainUsing()
+        {
+            _autoLoadDomainUsing = true;
+            return Link;
+        }
+        public T NotLoadDomainUsing()
+        {
+            _autoLoadDomainUsing = false;
+            return Link;
+        }
+
         public StringBuilder GetUsingBuilder()
         {
-            var  usingScript = new StringBuilder();
+#if DEBUG
+            Stopwatch stopwatch = new();
+            stopwatch.Start();
+#endif
+            var usingScript = new StringBuilder();
+
             //如果用户想使用自定义的Using
             if (!_useGlobalUsing)
             {
@@ -81,22 +100,38 @@ namespace Natasha.CSharp.Template
                     usingScript.AppendLine($"using {@using};");
 
                 }
+                //使用全局Using
+                if (_autoLoadDomainUsing)
+                {
+                    foreach (var @using in AssemblyBuilder.Domain.UsingRecorder._usings)
+                    {
+                        if (!UsingRecorder.HasUsing(@using))
+                        {
+
+                            usingScript.AppendLine($"using {@using};");
+
+                        }
+                    }
+                }
 
             }
             else
             {
 
                 //使用全局Using
-                
-                foreach (var @using in AssemblyBuilder.Domain.UsingRecorder._usings)
+                if (_autoLoadDomainUsing)
                 {
-                    if (!DefaultUsing.HasElement(@using))
+                    foreach (var @using in AssemblyBuilder.Domain.UsingRecorder._usings)
                     {
+                        if (!DefaultUsing.HasElement(@using) && !UsingRecorder.HasUsing(@using))
+                        {
 
-                        usingScript.AppendLine($"using {@using};");
+                            usingScript.AppendLine($"using {@using};");
 
+                        }
                     }
                 }
+
                 //把当前域中的using全部加上
                 foreach (var @using in UsingRecorder._usings)
                 {
@@ -111,7 +146,11 @@ namespace Natasha.CSharp.Template
 
                 }
                 usingScript.Append(DefaultUsing.UsingScript);
+
             }
+#if DEBUG
+            stopwatch.StopAndShowCategoreInfo("[using]", "using 组合", 3);
+#endif
             return usingScript;
         }
 

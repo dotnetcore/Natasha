@@ -1,11 +1,11 @@
 ﻿using Natasha.CSharp.Extension.Inner;
 using Natasha.CSharp.Template;
 using System;
-using System.Collections.Concurrent;
 using System.Runtime.CompilerServices;
 
 namespace Natasha.CSharp.Builder
 {
+
 
     public class OopBuilder : OopBuilder<OopBuilder>
     {
@@ -16,7 +16,6 @@ namespace Natasha.CSharp.Builder
         }
 
     }
-
 
 
 
