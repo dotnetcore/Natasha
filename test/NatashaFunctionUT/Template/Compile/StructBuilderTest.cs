@@ -29,7 +29,7 @@ public struct EnumUT1
 {
     public System.Int32 Apple;
     public System.String Orange;
-    public Natasha.CSharp.NClass Banana { get; set; }
+    public NClass Banana { get; set; }
 }";
             Assert.Equal(expected.ToOSString(), script);
             Assert.NotNull(type);

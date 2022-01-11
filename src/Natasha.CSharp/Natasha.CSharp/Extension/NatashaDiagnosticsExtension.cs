@@ -3,41 +3,41 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Natasha.CSharp.Extension.Inner
+namespace Natasha.CSharp
 {
-    internal static class DiagnosticsExtension
+    public static class NatashaDiagnosticsExtension
     {
-        internal static SyntaxNode GetSyntaxNode(this Diagnostic diagnostic, CompilationUnitSyntax root)
+        public static SyntaxNode GetSyntaxNode(this Diagnostic diagnostic, CompilationUnitSyntax root)
         {
             return root.FindNode(diagnostic.Location.SourceSpan);
         }
-        internal static UsingDirectiveSyntax? GetUsingSyntaxNode(this Diagnostic diagnostic, CompilationUnitSyntax root)
+        public static T? GetTypeSyntaxNode<T>(this Diagnostic diagnostic, CompilationUnitSyntax root) where T : class
         {
             var node = GetSyntaxNode(diagnostic, root);
-            while (node is not UsingDirectiveSyntax && node.Parent != null)
+            while (node is not T && node.Parent != null)
             {
                 node = node!.Parent;
             }
-            return node as UsingDirectiveSyntax;
+            return node as T;
         }
-        internal static void RemoveDefaultUsingAndUsingNode(this Diagnostic diagnostic, CompilationUnitSyntax root, HashSet<SyntaxNode> removeCollection)
+        public static void RemoveDefaultUsingAndUsingNode(this Diagnostic diagnostic, CompilationUnitSyntax root, HashSet<SyntaxNode> removeCollection)
         {
-            var usingNode = GetUsingSyntaxNode(diagnostic, root);
+            var usingNode = GetTypeSyntaxNode<UsingDirectiveSyntax>(diagnostic, root);
             if (usingNode != null)
             {
-                RemoveUsingInfo(usingNode, removeCollection);
+                RemoveUsingAndNode(usingNode, removeCollection);
             }
         }
 
-        internal static void RemoveUsingInfo(this UsingDirectiveSyntax usingDirectiveSyntax, HashSet<SyntaxNode> removeCollection)
+        public static void RemoveUsingAndNode(this UsingDirectiveSyntax usingDirectiveSyntax, HashSet<SyntaxNode> removeCollection)
         {
             removeCollection.Add(usingDirectiveSyntax);
             DefaultUsing.Remove(usingDirectiveSyntax.Name.ToString());
         }
 
-        internal static void RemoveUsingDiagnostics(this Diagnostic diagnostic, CompilationUnitSyntax root, HashSet<SyntaxNode> removeCollection)
+        public static void RemoveUsingAndNodesFromStartName(this Diagnostic diagnostic, CompilationUnitSyntax root, HashSet<SyntaxNode> removeCollection)
         {
-            var usingNode = GetUsingSyntaxNode(diagnostic, root);
+            var usingNode = GetTypeSyntaxNode<UsingDirectiveSyntax>(diagnostic, root);
             if (usingNode!=null)
             {
                 var usingNodes = (from usingDeclaration in root.Usings

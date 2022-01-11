@@ -1,17 +1,18 @@
 ﻿
-namespace Natasha.CSharp
+
+using Natasha.CSharp;
+
+public class NStruct : NHandler<NStruct>
 {
-    public class NStruct : NHandler<NStruct>
+
+    public NStruct()
     {
 
-        public NStruct()
-        {
-
-            Link = this;
-            this.Struct();
-
-        }
+        Link = this;
+        this.Struct();
 
     }
 
 }
+
+

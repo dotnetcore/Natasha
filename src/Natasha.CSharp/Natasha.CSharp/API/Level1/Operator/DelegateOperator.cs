@@ -12,7 +12,6 @@ namespace Natasha.CSharp
         public static T Delegate(string content,
             AssemblyCSharpBuilder builder,
             MethodInfo? methodInfo = null,
-            Action<AssemblyCSharpBuilder>? option = default, 
             Func<FakeMethodOperator, FakeMethodOperator>? methodAction = null, 
             Func<OopBuilder,OopBuilder>? oopAction = null, 
             params NamespaceConverter[]? usings)
@@ -25,7 +24,7 @@ namespace Natasha.CSharp
             {
                 methodInfo = typeof(T).GetMethod("Invoke")!;
             }
-            var @operator = FakeMethodOperator.UseDomain(builder.Domain, option);
+            var @operator = new FakeMethodOperator();
             @operator.AssemblyBuilder = builder;
             @operator
                 .UseMethod(methodInfo)
@@ -46,7 +45,6 @@ namespace Natasha.CSharp
         public static T AsyncDelegate(string content,
             AssemblyCSharpBuilder builder,
             MethodInfo? methodInfo = null,
-            Action<AssemblyCSharpBuilder>? option = default, 
             Func<FakeMethodOperator, FakeMethodOperator>? methodAction = null,
             Func<OopBuilder, OopBuilder>? oopAction = null,
             params NamespaceConverter[]? usings)
@@ -55,7 +53,7 @@ namespace Natasha.CSharp
             {
                 methodInfo = typeof(T).GetMethod("Invoke")!;
             }
-            var @operator = FakeMethodOperator.UseDomain(builder.Domain, option);
+            var @operator = new FakeMethodOperator();
             @operator.AssemblyBuilder = builder;
             @operator
                 .UseMethod(methodInfo)
@@ -74,7 +72,6 @@ namespace Natasha.CSharp
         public static T UnsafeDelegate(string content,
             AssemblyCSharpBuilder builder,
             MethodInfo? methodInfo = null,
-            Action<AssemblyCSharpBuilder>? option = default, 
             Func<FakeMethodOperator, FakeMethodOperator>? methodAction = null,
             Func<OopBuilder, OopBuilder>? oopAction = null,
             params NamespaceConverter[]? usings)
@@ -84,7 +81,7 @@ namespace Natasha.CSharp
             {
                 methodInfo = typeof(T).GetMethod("Invoke")!;
             }
-            var @operator = FakeMethodOperator.UseDomain(builder.Domain, option);
+            var @operator = new FakeMethodOperator();
             @operator.AssemblyBuilder = builder;
             @operator
                 .UseMethod(methodInfo)
@@ -103,7 +100,6 @@ namespace Natasha.CSharp
         public static T UnsafeAsyncDelegate(string content,
             AssemblyCSharpBuilder builder,
             MethodInfo? methodInfo = null,
-            Action<AssemblyCSharpBuilder>? option = default, 
             Func<FakeMethodOperator, FakeMethodOperator>? methodAction = null,
             Func<OopBuilder, OopBuilder>? oopAction = null,
             params NamespaceConverter[]? usings)
@@ -113,7 +109,7 @@ namespace Natasha.CSharp
             {
                 methodInfo = typeof(T).GetMethod("Invoke")!;
             }
-            var @operator = FakeMethodOperator.UseDomain(builder.Domain, option);
+            var @operator = new FakeMethodOperator();
             @operator.AssemblyBuilder = builder;
             @operator
                 .UseMethod(methodInfo)

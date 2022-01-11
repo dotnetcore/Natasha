@@ -106,7 +106,7 @@ namespace Natasha.CSharp.Builder
             var handler = new CtorBuilder();
             handler.Name(NameScript);
             action.Invoke(handler);
-            RecordUsing(handler.usingRecorder);
+            RecordUsing(handler.UsingRecorder);
             BodyAppend(handler.GetScript());
             return Link;
 
@@ -117,7 +117,7 @@ namespace Natasha.CSharp.Builder
             {
                 builder.Name(NameScript);
             }
-            RecordUsing(builder.usingRecorder);
+            RecordUsing(builder.UsingRecorder);
             BodyAppend(builder.GetScript());
             return Link;
         }
@@ -134,14 +134,14 @@ namespace Natasha.CSharp.Builder
 
             var builder = new MethodBuilder();
             action.Invoke(builder);
-            RecordUsing(builder.usingRecorder);
+            RecordUsing(builder.UsingRecorder);
             BodyAppend(builder.GetScript());
             return Link;
 
         }
         public virtual T Method(MethodBuilder builder)
         {
-            RecordUsing(builder.usingRecorder);
+            RecordUsing(builder.UsingRecorder);
             BodyAppend(builder.GetScript());
             return Link;
 
@@ -159,7 +159,7 @@ namespace Natasha.CSharp.Builder
 
             var builder = new FieldBuilder();
             action.Invoke(builder);
-            RecordUsing(builder.usingRecorder);
+            RecordUsing(builder.UsingRecorder);
             BodyAppend(builder.GetScript());
             return Link;
 
@@ -167,7 +167,7 @@ namespace Natasha.CSharp.Builder
         public virtual T Field(FieldBuilder builder)
         {
 
-            RecordUsing(builder.usingRecorder);
+            RecordUsing(builder.UsingRecorder);
             BodyAppend(builder.GetScript());
             return Link;
 
@@ -185,7 +185,7 @@ namespace Natasha.CSharp.Builder
 
             var builder = new PropertyBuilder();
             action.Invoke(builder);
-            RecordUsing(builder.usingRecorder);
+            RecordUsing(builder.UsingRecorder);
             BodyAppend(builder.GetScript());
             return Link;
 
@@ -193,7 +193,7 @@ namespace Natasha.CSharp.Builder
         public virtual T Property(PropertyBuilder builder)
         {
 
-            RecordUsing(builder.usingRecorder);
+            RecordUsing(builder.UsingRecorder);
             BodyAppend(builder.GetScript());
             return Link;
 

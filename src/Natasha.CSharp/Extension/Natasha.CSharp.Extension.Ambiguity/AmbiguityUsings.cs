@@ -1,8 +1,8 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Editing;
 using Natasha.CSharp.Builder;
+using Natasha.CSharp.Domain.Utils;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -12,24 +12,20 @@ namespace Natasha.CSharp.Extension.Ambiguity
 {
     internal static class AmbiguityUsings
     {
-        internal static readonly ConcurrentDictionary<CSharpCompilation, HashSet<string>> _usingsCache;
-        static AmbiguityUsings()
-        {
-            _usingsCache = new ConcurrentDictionary<CSharpCompilation, HashSet<string>>();
-        }
+        //internal static readonly ConcurrentDictionary<CSharpCompilation, HashSet<string>> _usingsCache;
+        //static AmbiguityUsings()
+        //{
+        //    _usingsCache = new ConcurrentDictionary<CSharpCompilation, HashSet<string>>();
+        //}
 
-
-
-        public static CSharpCompilation HandlerCS0104(SyntaxTree syntaxTree, CSharpCompilation compilation,  HashSet<string> usings)
+        private static CSharpCompilation HandlerCS0104(SyntaxTree syntaxTree, CSharpCompilation compilation,  NatashaUsingCache usings)
         {
             var semantiModel = compilation.GetSemanticModel(syntaxTree);
             var errors = semantiModel.GetDiagnostics();
             if (errors.Length > 0)
             {
                 CompilationUnitSyntax root = syntaxTree.GetCompilationUnitRoot();
-                var editor = new SyntaxEditor(root, new AdhocWorkspace());
                 var removeCache = new HashSet<UsingDirectiveSyntax>();
-
                 foreach (var diagnostic in errors)
                 {
 
@@ -40,7 +36,7 @@ namespace Natasha.CSharp.Extension.Ambiguity
                         for (int i = 0; i < info.CandidateSymbols.Length - 1; i++)
                         {
                             var spaceName = info.CandidateSymbols[i]!.OriginalDefinition.ContainingNamespace.Name;
-                            if (!usings.Contains(spaceName))
+                            if (!usings.HasUsing(spaceName))
                             {
 
                                 var node = (from usingDeclaration in root.Usings
@@ -72,26 +68,24 @@ namespace Natasha.CSharp.Extension.Ambiguity
 
                 }
 
-                foreach (var item in removeCache)
+                if (removeCache.Count > 0)
                 {
-                    editor.RemoveNode(item);
+                    compilation = compilation.ReplaceSyntaxTree(syntaxTree, root.RemoveNodes(removeCache, SyntaxRemoveOptions.KeepNoTrivia)!.SyntaxTree);
                 }
-
-                return compilation.ReplaceSyntaxTree(syntaxTree, editor.GetChangedRoot().SyntaxTree);
             }
             return compilation;
         }
            
 
-        internal static Func<CSharpCompilation, CSharpCompilation> OopBuilderCreator<T>(OopBuilder<T> oopBuilder) where T : OopBuilder<T>, new()
+        internal static Func<AssemblyCSharpBuilder, CSharpCompilation, CSharpCompilation> OopBuilderCreator<T>(OopBuilder<T> oopBuilder) where T : OopBuilder<T>, new()
         {
-            return compilation =>
+            return (builder, compilation) =>
             {
 
                 var trees = compilation.SyntaxTrees;
                 foreach (var tree in trees)
                 {
-                    compilation = HandlerCS0104(tree, compilation, oopBuilder.Usings);
+                    compilation = HandlerCS0104(tree, compilation, oopBuilder.UsingRecorder);
                 }
                 return compilation;
 
@@ -102,54 +96,51 @@ namespace Natasha.CSharp.Extension.Ambiguity
 
 
 
-        internal static Func<CSharpCompilation, CSharpCompilation> MethodBuilderCreator<T>(MethodBuilder<T> methodBuilder) where T : MethodBuilder<T>, new()
+        internal static Func<AssemblyCSharpBuilder, CSharpCompilation, CSharpCompilation> MethodBuilderCreator<T>(MethodBuilder<T> methodBuilder) where T : MethodBuilder<T>, new()
         {
-            return compilation =>
+            return (builder,compilation) =>
             {
 
                 var trees = compilation.SyntaxTrees;
                 foreach (var tree in trees)
                 {
 
-                    compilation = HandlerCS0104(tree, compilation, methodBuilder.OopHandler.Usings);
+                    compilation = HandlerCS0104(tree, compilation, methodBuilder.OopHandler.UsingRecorder);
 
                 }
                 return compilation;
 
             };
         }
-        internal static Func<CSharpCompilation, CSharpCompilation> NDelegateCreator(NDelegate nDelegate)
+        internal static Func<AssemblyCSharpBuilder, CSharpCompilation, CSharpCompilation> NDelegateCreator(NDelegate nDelegate)
         {
-            return compilation =>
+            return (builder, compilation) =>
             {
 
                 var trees = compilation.SyntaxTrees;
                 foreach (var tree in trees)
                 {
-                    var usings = nDelegate.Usings;
-                    OopBuilder oopBuilder = new OopBuilder();
-                    oopBuilder.Using(usings);
-                    compilation = HandlerCS0104(tree, compilation, oopBuilder.Usings);
+                    compilation = HandlerCS0104(tree, compilation, nDelegate.MethodHandler.OopHandler.UsingRecorder);
                 }
                 return compilation;
 
             };
         }
-        internal static Func<CSharpCompilation, CSharpCompilation> UsingsCreator()
-        {
-            return compilation =>
-            {
+        //internal static Func<CSharpCompilation, CSharpCompilation> UsingsCreator()
+        //{
+        //    return compilation =>
+        //    {
 
-                var trees = compilation.SyntaxTrees;
-                foreach (var tree in trees)
-                {
-                    compilation = HandlerCS0104(tree, compilation, _usingsCache[compilation]);
+        //        var trees = compilation.SyntaxTrees;
+        //        foreach (var tree in trees)
+        //        {
+        //            compilation = HandlerCS0104(tree, compilation, );
 
-                }
-                _usingsCache!.Remove(compilation);
-                return compilation;
+        //        }
+        //        _usingsCache!.Remove(compilation);
+        //        return compilation;
 
-            };
-        }
+        //    };
+        //}
     }
 }

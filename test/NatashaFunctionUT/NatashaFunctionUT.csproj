@@ -30,6 +30,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\src\Natasha.CSharp\Extension\Natasha.CSharp.Extension.Ambiguity\Natasha.CSharp.Extension.Ambiguity.csproj" />
 		<ProjectReference Include="..\..\src\Natasha.CSharp\Natasha.CSharp\Natasha.CSharp.csproj" />
 		<ProjectReference Include="..\PluginLibraries\MetadataDiff\MetadataDiff\MetadataDiff.csproj" />
 		<ProjectReference Include="..\PluginLibraries\PluginBase\PluginBase.csproj" />

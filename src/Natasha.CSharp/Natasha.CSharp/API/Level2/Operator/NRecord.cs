@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
+using Natasha.CSharp;
 
-namespace Natasha.CSharp
+public class NRecord : NHandler<NRecord>
 {
-    public class NRecord : NHandler<NRecord>
+    public NRecord()
     {
-        public NRecord()
-        {
 
-            Link = this;
-            this.Record();
+        Link = this;
+        this.Record();
 
-        }
     }
 }
+

@@ -15,13 +15,13 @@ namespace Natasha.CSharp.Template
     {
 
         public readonly StringBuilder _script;
-        internal readonly NatashaUsingCache usingRecorder;
+        public readonly NatashaUsingCache UsingRecorder;
 
 
         public GlobalUsingTemplate()
         {
-
-            usingRecorder = new();
+            _useGlobalUsing = true;
+            UsingRecorder = new();
             _script = new StringBuilder(200);
 
         }
@@ -29,7 +29,7 @@ namespace Natasha.CSharp.Template
 
         internal T RecordUsing(NatashaUsingCache usingCache)
         {
-            usingRecorder.Using(usingCache._usings);
+            UsingRecorder.Using(usingCache._usings);
             return Link;
         }
 
@@ -38,7 +38,7 @@ namespace Natasha.CSharp.Template
         public virtual T RecordUsing(Type type)
         {
 
-            usingRecorder.Using(type);
+            UsingRecorder.Using(type);
             return Link;
 
         }
@@ -48,9 +48,71 @@ namespace Natasha.CSharp.Template
         public virtual T RecordUsing(IEnumerable<Type> types)
         {
 
-            usingRecorder.Using(types);
+            UsingRecorder.Using(types);
             return Link;
 
+        }
+
+
+        private bool _useGlobalUsing;
+
+        public T NoGlobalUsing()
+        {
+            _useGlobalUsing = false;
+            return Link;
+        }
+        public T UseGlobalUsing()
+        {
+            _useGlobalUsing = true;
+            return Link;
+        }
+
+        public StringBuilder GetUsingBuilder()
+        {
+            var  usingScript = new StringBuilder();
+            //如果用户想使用自定义的Using
+            if (!_useGlobalUsing)
+            {
+
+               
+                foreach (var @using in UsingRecorder._usings)
+                {
+
+                    usingScript.AppendLine($"using {@using};");
+
+                }
+
+            }
+            else
+            {
+
+                //使用全局Using
+                
+                foreach (var @using in AssemblyBuilder.Domain.UsingRecorder._usings)
+                {
+                    if (!DefaultUsing.HasElement(@using))
+                    {
+
+                        usingScript.AppendLine($"using {@using};");
+
+                    }
+                }
+                //把当前域中的using全部加上
+                foreach (var @using in UsingRecorder._usings)
+                {
+
+                    //如果全局已经存在using了，就不加了
+                    if (!DefaultUsing.HasElement(@using))
+                    {
+
+                        usingScript.AppendLine($"using {@using};");
+
+                    }
+
+                }
+                usingScript.Append(DefaultUsing.UsingScript);
+            }
+            return usingScript;
         }
 
 

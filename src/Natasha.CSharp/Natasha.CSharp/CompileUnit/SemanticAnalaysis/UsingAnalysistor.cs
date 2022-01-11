@@ -47,7 +47,7 @@ namespace Natasha.CSharp.Compiler.SemanticAnalaysis
                            }
                            else if (error.Id == "CS8019")
                            {
-                                var node = error.GetUsingSyntaxNode(root);
+                                var node = error.GetTypeSyntaxNode<UsingDirectiveSyntax>(root);
                                 if (node != null)
                                 {
                                     errorNodes.Add(node);
@@ -56,15 +56,15 @@ namespace Natasha.CSharp.Compiler.SemanticAnalaysis
                            }
                            else if (error.Id == "CS0246")
                            {
-                               var node = error.GetUsingSyntaxNode(root);
+                               var node = error.GetTypeSyntaxNode<UsingDirectiveSyntax>(root);
                                if (node != null)
                                {
-                                   DiagnosticsExtension.RemoveUsingInfo(node, errorNodes);
+                                   NatashaDiagnosticsExtension.RemoveUsingAndNode(node, errorNodes);
                                }
                            }
                            else if (error.Id == "CS0234")
                            {
-                               error.RemoveUsingDiagnostics(root, errorNodes);
+                               error.RemoveUsingAndNodesFromStartName(root, errorNodes);
                            }
                        }
 

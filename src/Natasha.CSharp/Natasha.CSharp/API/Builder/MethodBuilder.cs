@@ -147,6 +147,7 @@ namespace Natasha.CSharp.Builder
             Stopwatch stopwatch = new();
             stopwatch.Start();
 #endif
+            OopHandler.AssemblyBuilder = this.AssemblyBuilder;
             Using(AssemblyBuilder.Domain.UsingRecorder._usings);
             if (OopHandler.NamespaceScript == default)
             {
@@ -172,16 +173,14 @@ namespace Natasha.CSharp.Builder
             Stopwatch stopwatch = new();
             stopwatch.Start();
 #endif
-            Using(AssemblyBuilder.Domain.UsingRecorder._usings);
+
+            OopHandler.AssemblyBuilder = this.AssemblyBuilder;
             if (OopHandler.NamespaceScript == default)
             {
-
                 OopHandler.HiddenNamespace();
-
             }
 #if DEBUG
-            stopwatch.StopAndShowCategoreInfo("[ Using ]", "Using填充耗时", 1);
-            stopwatch.Restart();
+            stopwatch.RestartAndShowCategoreInfo("[ Using ]", "Using填充耗时", 1);
 #endif
             //自动判别是否有手动指定方法参数，若没有则使用方法的参数
             var method = typeof(S).GetMethods()[0]!;

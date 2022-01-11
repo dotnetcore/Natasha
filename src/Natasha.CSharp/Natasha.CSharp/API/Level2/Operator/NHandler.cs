@@ -8,7 +8,7 @@ namespace Natasha.CSharp
 
         public NDelegate DelegateHandler
         {
-            get { return NDelegate.UseDomain(AssemblyBuilder.Domain).ConfigClass(item=>item.Using(NamespaceScript)); }
+            get { return NDelegate.UseDomain(AssemblyBuilder.Domain); }
         }
 
 

@@ -107,6 +107,10 @@ public partial class AssemblyCSharpBuilder
         {
             pdbStream = File.Create(PdbFilePath);
         }
+        else
+        {
+            pdbStream = new MemoryStream();
+        }
 
         if (XmlFilePath != string.Empty)
         {

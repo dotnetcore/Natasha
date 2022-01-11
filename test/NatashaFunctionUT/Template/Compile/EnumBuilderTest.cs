@@ -14,6 +14,7 @@ namespace NatashaFunctionUT.Template.Compile
             NEnum builder = NEnum.RandomDomain();
            
             var type = builder
+                .NoGlobalUsing()
                 .HiddenNamespace()
                 .Access(AccessFlags.Public)
                 .Name("EnumUT1")
@@ -40,6 +41,7 @@ namespace NatashaFunctionUT.Template.Compile
         {
             NEnum builder = NEnum.RandomDomain();
             var type = builder
+                .NoGlobalUsing()
                 .Namespace("haha")
                 .Access(AccessFlags.Public)
                 .Name("EnumUT1")

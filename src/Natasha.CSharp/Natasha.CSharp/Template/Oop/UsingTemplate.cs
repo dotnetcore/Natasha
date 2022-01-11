@@ -11,13 +11,13 @@ namespace Natasha.CSharp.Template
     {
 
         public StringBuilder UsingScript;
-        internal readonly HashSet<string> _usings;
+        //internal readonly HashSet<string> _usings;
 
         public UsingTemplate()
         {
 
             UsingScript = new StringBuilder();
-            _usings = new HashSet<string>();
+            //_usings = new HashSet<string>();
 
         }
 
@@ -95,7 +95,7 @@ namespace Natasha.CSharp.Template
             if (!string.IsNullOrEmpty(@using))
             {
 
-                _usings.Add(@using);
+                UsingRecorder.Using(@using);
 
             }
             else
@@ -268,62 +268,6 @@ namespace Natasha.CSharp.Template
 
         }
 
-
-        private bool _useGlobalUsing;
-
-        public T NoGlobalUsing()
-        {
-            _useGlobalUsing = false;
-            return Link;
-        }
-        public T UseGlobalUsing()
-        {
-            _useGlobalUsing = true;
-            return Link;
-        }
-
-        public StringBuilder GetUsingBuilder()
-        {
-
-            Using(this.usingRecorder._usings);
-            //如果用户想使用自定义的Using
-            if (!_useGlobalUsing)
-            {
-
-                UsingScript = new StringBuilder();
-                foreach (var @using in _usings)
-                {
-
-                    UsingScript.AppendLine($"using {@using};");
-
-                }
-
-            }
-            else
-            {
-
-                //使用全局Using
-                UsingScript.Append(DefaultUsing.UsingScript);
-                //把当前域中的using全部加上
-                Using(AssemblyBuilder.Domain.UsingRecorder._usings);
-                foreach (var @using in _usings)
-                {
-
-                    //如果全局已经存在using了，就不加了
-                    if (!DefaultUsing.HasElement(@using) && !AssemblyBuilder.Domain.UsingRecorder.HasUsing(@using))
-                    {
-
-                        UsingScript.AppendLine($"using {@using};");
-
-                    }
-
-                }
-
-            }
-
-
-            return UsingScript;
-        }
 
 
         public override T BuilderScript()

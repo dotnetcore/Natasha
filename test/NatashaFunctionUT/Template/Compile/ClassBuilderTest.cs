@@ -26,7 +26,7 @@ public class EnumUT1
 {
     public System.Int32 Apple;
     public System.String Orange;
-    public Natasha.CSharp.NClass Banana { get; set; }
+    public NClass Banana { get; set; }
 }";
             Assert.Equal(expected.ToOSString(), script);
             Assert.NotNull(type);
@@ -62,7 +62,7 @@ public class EnumUT1
         return 0;
     }
 
-    public Natasha.CSharp.NClass Banana
+    public NClass Banana
     {
         get
         {
@@ -111,7 +111,7 @@ public class EnumUT1
         return 0;
     }
 
-    public Natasha.CSharp.NClass Banana
+    public NClass Banana
     {
         get
         {
