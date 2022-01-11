@@ -47,11 +47,26 @@ public partial class AssemblyCSharpBuilder
     /// 流编译失败之后触发的事件
     /// </summary>
     public event Action<CSharpCompilation, ImmutableArray<Diagnostic>>? CompileFailedEvent;
+
+
     /// <summary>
-    /// 将语法树生成到程序集
+    /// 将 SyntaxTrees 中的语法树编译到程序集.如果不成功会抛出 NatashaException.
     /// </summary>
-    /// <param name="trees"></param>
-    /// <returns></returns>
+    /// <remarks>
+    /// <example>
+    /// <code>
+    /// 
+    ///     //程序集的域加载行为, 该行为决定了编译后的程序集随着依赖加载到域中的处理结果.
+    ///     //和加载插件原理相同.
+    ///     builder.CompileWithAssemblyLoadBehavior(enum);
+    ///     
+    ///     //编译单元的引用加载行为, 遇到同名不同版本的引用该如何处理.
+    ///     builder.CompileWithReferenceLoadBehavior(enum);
+    ///     builder.CompileWithReferencesFilter(func);
+    /// 
+    /// </code>
+    /// </example>
+    /// </remarks>
     public Assembly GetAssembly()
     {
 #if DEBUG

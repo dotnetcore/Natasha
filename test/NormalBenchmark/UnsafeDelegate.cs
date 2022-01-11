@@ -28,10 +28,10 @@ namespace NatashaBenchmark
 
             //func = new FuncHandler<int, int, string>();
             //func.Invoke = &(TestModel.Get);
-            //func2 = TestModel.Get;
-            //point = &(TestModel.Get);
-            //var info = typeof(TestModel).GetMethod("Get");
-            //func3 = (Func<int, int, string>)Delegate.CreateDelegate(typeof(Func<int, int, string>), info);
+            func2 = TestModel.Get;
+            point = &(TestModel.Get);
+            var info = typeof(TestModel).GetMethod("Get", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public| System.Reflection.BindingFlags.Instance);
+            func3 = (Func<int, int, string>)Delegate.CreateDelegate(typeof(Func<int, int, string>), info);
         }
         //public string Get(int a,int b)
         //{
@@ -43,22 +43,22 @@ namespace NatashaBenchmark
         //    func.Invoke(10, 10);
         //}
 
-        //[Benchmark(Description = "delegate*")]
-        //public void UseDirectPoint()
-        //{
-        //    point(10, 10);
-        //}
-        //[Benchmark(Description = "delegateCreate")]
-        //public void UseNormalPoint()
-        //{
-        //    func3(10, 10);
-        //}
+        [Benchmark(Description = "delegate*")]
+        public void UseDirectPoint()
+        {
+            point(10, 10);
+        }
+        [Benchmark(Description = "delegateCreate")]
+        public void UseNormalPoint()
+        {
+            func3(10, 10);
+        }
 
-        //[Benchmark(Description = "staticcall")]
-        //public void UseSystem()
-        //{
-        //    func2(10, 10);
-        //}
+        [Benchmark(Description = "staticcall")]
+        public void UseSystem()
+        {
+            func2(10, 10);
+        }
 
         [Benchmark(Description = "origin")]
         public void UseOrigin()

@@ -1,14 +1,14 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.DependencyModel;
+using Natasha.CSharp;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Loader;
 using Xunit;
-using Natasha.CSharp;
 
 namespace NatashaFunctionUT.Reference
 {
-    [Trait("基础功能测试", "Reference")]
+    [Trait("基础功能测试", "引用")]
     public class GlobalReferenceTest : ReferencePrepare
     {
         [Fact(DisplayName = "默认引用数量")]

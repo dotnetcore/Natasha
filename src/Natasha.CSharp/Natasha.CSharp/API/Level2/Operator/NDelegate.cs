@@ -55,7 +55,7 @@ public class NDelegate : CompilerTemplate<NDelegate>
 
     public T UnsafeDelegate<T>(string content,MethodInfo? methodInfo = null) where T : Delegate
     {
-
+       
         if (methodInfo == null)
         {
             methodInfo = typeof(T).GetMethod("Invoke")!;
@@ -73,7 +73,7 @@ public class NDelegate : CompilerTemplate<NDelegate>
 
     public T UnsafeAsyncDelegate<T>(string content, MethodInfo? methodInfo = null) where T : Delegate
     {
-
+        
         if (methodInfo == null)
         {
             methodInfo = typeof(T).GetMethod("Invoke")!;
@@ -91,6 +91,7 @@ public class NDelegate : CompilerTemplate<NDelegate>
 
     public NDelegate ConfigClass(Func<OopBuilder, OopBuilder> classAction)
     {
+
         classAction(MethodHandler.OopHandler);
         return this;
 

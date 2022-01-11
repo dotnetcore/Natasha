@@ -1,14 +1,12 @@
 ﻿using Natasha.CSharp.Reverser;
 using System;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace NatashaFunctionUT.Reverser
 {
-    [Trait("基础功能测试", "Reverser")]
+    [Trait("基础功能测试", "反解器")]
     public class ModifierReverserTest
     {
         public static readonly BindingFlags ReflectBindFlag = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.CreateInstance;

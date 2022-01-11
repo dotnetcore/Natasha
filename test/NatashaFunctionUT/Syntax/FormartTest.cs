@@ -3,7 +3,7 @@ using Xunit;
 
 namespace NatashaFunctionUT.Syntax
 {
-    [Trait("基础功能测试", "Syntax")]
+    [Trait("基础功能测试", "语法")]
     public class FormartTest
     {
         private string FormartString(string code)

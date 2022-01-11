@@ -8,7 +8,7 @@ using Xunit;
 
 namespace NatashaFunctionUT.Reverser
 {
-    [Trait("基础功能测试", "Reverser")]
+    [Trait("基础功能测试", "反解器")]
     public class AccessReverserTest
     {
         public static readonly BindingFlags ReflectBindFlag = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.CreateInstance;

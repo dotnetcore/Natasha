@@ -5,7 +5,7 @@ using Xunit;
 
 namespace NatashaFunctionUT.Reverser
 {
-    [Trait("基础功能测试", "Reverser")]
+    [Trait("基础功能测试", "反解器")]
     public class TypeNameReverserTest
     {
         public class Inline<TT> { }

@@ -71,10 +71,7 @@ public class NatashaReferenceDomain : NatashaDomain
         {
             DefaultUsing.AddUsing(assembly);
         }
-        else
-        {
-            UsingRecorder.Using(assembly);
-        }
+        UsingRecorder.Using(assembly);
 
     }
 
@@ -86,10 +83,7 @@ public class NatashaReferenceDomain : NatashaDomain
         {
             DefaultUsing.AddUsing(assembly);
         }
-        else
-        {
-            UsingRecorder.Using(assembly);
-        }
+        UsingRecorder.Using(assembly);
     }
 
 

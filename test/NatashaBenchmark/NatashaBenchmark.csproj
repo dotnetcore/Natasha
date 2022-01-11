@@ -2,13 +2,13 @@
 
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
-		<TargetFrameworks>netcoreapp3.1</TargetFrameworks>
+		<TargetFramework>net6.0</TargetFramework>
 		<LangVersion>preview</LangVersion>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="BenchmarkDotNet" Version="0.12.0" />
+		<PackageReference Include="BenchmarkDotNet" Version="0.13.1" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -16,7 +16,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\src\Natasha.CSharp\Natasha.CSharp.All\Natasha.CSharp.All.csproj" />
+	  <ProjectReference Include="..\..\src\Natasha.CSharp\Natasha.CSharp\Natasha.CSharp.csproj" />
 	</ItemGroup>
 
 </Project>

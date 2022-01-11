@@ -45,6 +45,7 @@ namespace NatashaBenchmark
 
         public DynamicCallFieldTest()
         {
+            NatashaInitializer.Init();
             Preheating();
             Precache();
         }
@@ -97,11 +98,11 @@ namespace NatashaBenchmark
 
             NatashaSetString = NDelegate.DefaultDomain().Action<CallModel, string>("arg1.Age=arg2;");
             NatashaSetString(OriginModel, OriginModel.Age);
-           OriginSetString = (item, value) => item.Age = value;
+            OriginSetString = (item, value) => item.Age = value;
 
-            NatashaSetDateTime = DelegateOperator<ValueDelegate >.Delegate("model.CreateTime=value;");
-            NatashaSetDateTime(OriginModel, OriginModel.CreateTime);
-            OriginSetDateTime = OriginDateTime;
+            //NatashaSetDateTime = DelegateOperator<ValueDelegate>.Delegate("model.CreateTime=value;");
+            //NatashaSetDateTime(OriginModel, OriginModel.CreateTime);
+            //OriginSetDateTime = OriginDateTime;
 
         }
 

@@ -1,13 +1,10 @@
 ﻿using Microsoft.CodeAnalysis;
 using Natasha.CSharp.Extension.Inner;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace NatashaFunctionUT.Syntax
 {
-    [Trait("基础功能测试", "Syntax")]
+    [Trait("基础功能测试", "语法")]
     public class SyntaxOopNameTest
     {
         [Fact(DisplayName = "获取存储结构名")]

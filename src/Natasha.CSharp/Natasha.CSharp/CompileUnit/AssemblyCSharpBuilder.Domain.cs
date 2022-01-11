@@ -7,6 +7,21 @@ using System.Runtime.Loader;
 public partial class AssemblyCSharpBuilder 
 {
     private NatashaReferenceDomain? _domain;
+
+
+    /// <summary>
+    /// 编译单元所在域.
+    /// </summary>
+    /// <remarks>
+    /// <example>
+    /// <code>
+    /// 
+    ///     //程序集默认加载行为, 遇到同名不同版本的依赖也加载.
+    ///     domain.SetAssemblyLoadBehavior();
+    /// 
+    /// </code>
+    /// </example>
+    /// </remarks>
     public NatashaReferenceDomain Domain
     {
         get

@@ -8,9 +8,13 @@ namespace ReferenceTest50
 {
     internal class Program
     {
+        public static Action Temp;
+        public static void TestMethod() => Console.WriteLine("AA");
         static void Main(string[] args)
         {
-            
+
+            Temp = new Action(TestMethod);
+            Temp();
             Nacos.Request.RequestClient request = default;
             Nacos.Microsoft.Extensions.Configuration.ConfigListener b = default;
             Nacos.AspNetCore.V2.NacosAspNetOptions options = default;
@@ -58,7 +62,7 @@ namespace ReferenceTest50
             builder.Add(DefaultUsing.UsingScript + "public class Abved{ string Name; public int Age;}");
             var asm = builder.GetAssembly();
             Check();
-            NDelegate.RandomDomain().Action("Console.WriteLine(\"hello world!\")")();
+            NDelegate.RandomDomain().Action("Console.WriteLine(\"hello world!\");")();
             Console.WriteLine("Completed!");
             Console.ReadKey();
             //ILogger a;
