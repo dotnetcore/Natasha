@@ -21,7 +21,7 @@ public void Show(){
             try
             {
                 AssemblyCSharpBuilder builder = new("ee79d3e2b027491f93705a4098568bc8");
-                builder.Add(code.ToOSString());
+                builder.Add(code);
                 builder.CompileFailedEvent += (compilation, errors) =>
                 {
                     log = compilation.GetNatashaLog();
@@ -64,7 +64,7 @@ public string Address;
             try
             {
                 AssemblyCSharpBuilder builder = new("ee79d3e2b027491f93705a4098578bcc");
-                builder.Add(code.ToOSString());
+                builder.Add(code);
                 builder.LogCompilationEvent += (logModel) =>
                 {
                     log = logModel;
@@ -109,8 +109,8 @@ public int Get(){
             try
             {
                 AssemblyCSharpBuilder builder = new("ed79d3e2b027491f93705a4098578bcd");
-                builder.Add(code1.ToOSString());
-                builder.Add(code2.ToOSString());
+                builder.Add(code1);
+                builder.Add(code2);
                 builder.CompileFailedEvent += (compilation, errors) =>
                 {
                     log = compilation.GetNatashaLog();
@@ -154,8 +154,8 @@ public int Get(){
             NatashaCompilationLog? log = null;
             AssemblyCSharpBuilder builder = new("2d79d3e2b027491f93705a4098578bcd");
             builder.Domain = DomainManagement.Random();
-            builder.Add(code1.ToOSString());
-            builder.Add(code2.ToOSString());
+            builder.Add(code1);
+            builder.Add(code2);
             builder.CompileSucceedEvent += (compilation, assembly) =>
             {
                 log = compilation.GetNatashaLog();
@@ -177,7 +177,7 @@ public int Get(){
         private static string GetText(string fileName)
         {
             var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory!, "Compile", "LogFile", fileName + ".txt");
-            return File.ReadAllText(path).ToOSString();
+            return File.ReadAllText(path);
         }
 
     }
