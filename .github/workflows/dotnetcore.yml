@@ -14,14 +14,14 @@ jobs:
             
       steps:
       - uses: actions/checkout@v2
-      - name: Setup .NET SDK ${{ matrix.dotnet-version }}
+      - name: Setup .NET SDK ${{ matrix.dotnet }}
         uses: actions/setup-dotnet@v1.7.2
         with:
-          dotnet-version: ${{ matrix.dotnet-version }}
+          dotnet-version: ${{ matrix.dotnet }}
       - name: Build
-        run: dotnet build './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj' -f ${{ matrix.dotnet-version }} --configuration Release
+        run: dotnet build './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj' -f ${{ matrix.dotnet }} --configuration Release
       - name: Test
-        run: dotnet test './test/NatashaFunctionUT' --runtime ${{ matrix.dotnet-version }} --no-restore
+        run: dotnet test './test/NatashaFunctionUT' --runtime ${{ matrix.dotnet }} --no-restore
      
   windows:
       runs-on: windows-latest
