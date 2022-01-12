@@ -1,6 +1,0 @@
-﻿namespace aaa{
-public partial class TestFileModel{
-
-public string Name;
-}
-}
