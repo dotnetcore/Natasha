@@ -55,7 +55,7 @@ jobs:
      
          
       - name: Test
-        run: dotnet test  "./test/NatashaFunctionUT/NatashaFunctionUT.csproj"  /p:CollectCoverage=true /p:CoverletOutputFormat=json --collect:"XPlat Code Coverage" -r:"./result/" -c Release -m
+        run: dotnet test "./test/NatashaFunctionUT" /p:CollectCoverage=true /p:CoverletOutputFormat=json --collect:"XPlat Code Coverage" -r:"./result/" -m
        
       - name: Upload Report
         run: codecov -f "*.cobertura.xml" -t ${{ secrets.COVERAGE_KEY }}
