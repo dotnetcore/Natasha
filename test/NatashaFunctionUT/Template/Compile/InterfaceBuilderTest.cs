@@ -33,7 +33,7 @@ public interface Interface1
     System.Int32 Test(System.String p);
 }";
             //语法树转换的BUG 多了一个\r\n
-            Assert.Equal(expected, script);
+            OSStringCompare.Equal(expected, script);
             Assert.NotNull(type);
 
         }

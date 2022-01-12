@@ -31,7 +31,7 @@ public struct EnumUT1
     public System.String Orange;
     public NClass Banana { get; set; }
 }";
-            Assert.Equal(expected, script);
+            OSStringCompare.Equal(expected, script);
             Assert.NotNull(type);
 
         }
@@ -61,7 +61,7 @@ public struct EnumUT1
     [System.Runtime.InteropServices.FieldOffsetAttribute(0)]
     public System.Int32 Orange;
 }";
-            Assert.Equal(expected, script); 
+            OSStringCompare.Equal(expected, script); 
             Assert.NotNull(type);
 
         }

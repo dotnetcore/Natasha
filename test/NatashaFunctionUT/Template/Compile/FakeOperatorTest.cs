@@ -17,7 +17,7 @@ namespace NatashaFunctionUT.Template.Compile
             builder
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite1")!)
                 .MethodBody(@"Console.WriteLine(""hello world"");");
-            Assert.Equal($@"public void ReWrite1(){{Console.WriteLine(""hello world"");}}", builder.ScriptCache);
+            OSStringCompare.Equal($@"public void ReWrite1(){{Console.WriteLine(""hello world"");}}", builder.ScriptCache);
             
         }
 
@@ -32,7 +32,7 @@ namespace NatashaFunctionUT.Template.Compile
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite1")!)
                 .StaticMethodBody(@"Console.WriteLine(""hello world"");");
             Assert.NotNull(builder.Compile());
-            Assert.Equal($@"public static void ReWrite1(){{Console.WriteLine(""hello world"");}}", builder.ScriptCache);
+            OSStringCompare.Equal($@"public static void ReWrite1(){{Console.WriteLine(""hello world"");}}", builder.ScriptCache);
             
 
         }
@@ -48,7 +48,7 @@ namespace NatashaFunctionUT.Template.Compile
             builder
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite2")!)
                 .MethodBody(@"Console.WriteLine(""hello world"");return this;");
-            Assert.Equal($@"public async System.Threading.Tasks.Task<NatashaFunctionUT.Template.Compile.OopTestModel> ReWrite2(){{Console.WriteLine(""hello world"");return this;}}", builder.ScriptCache);
+            OSStringCompare.Equal($@"public async System.Threading.Tasks.Task<NatashaFunctionUT.Template.Compile.OopTestModel> ReWrite2(){{Console.WriteLine(""hello world"");return this;}}", builder.ScriptCache);
 
         }
 
@@ -62,7 +62,7 @@ namespace NatashaFunctionUT.Template.Compile
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite2")!)
                 .StaticMethodBody(@"Console.WriteLine(""hello world"");return default;");
             Assert.NotNull(builder.Compile());
-            Assert.Equal($@"public static async System.Threading.Tasks.Task<NatashaFunctionUT.Template.Compile.OopTestModel> ReWrite2(){{Console.WriteLine(""hello world"");return default;}}", builder.ScriptCache);
+            OSStringCompare.Equal($@"public static async System.Threading.Tasks.Task<NatashaFunctionUT.Template.Compile.OopTestModel> ReWrite2(){{Console.WriteLine(""hello world"");return default;}}", builder.ScriptCache);
 
 
         }
@@ -79,7 +79,7 @@ namespace NatashaFunctionUT.Template.Compile
                 .Virtrual()
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite3")!)
                 .MethodBody(@"i++;temp+=i.ToString();");
-            Assert.Equal($@"public virtual void ReWrite3(ref System.Int32 i,System.String temp){{i++;temp+=i.ToString();}}", builder.ScriptCache);
+            OSStringCompare.Equal($@"public virtual void ReWrite3(ref System.Int32 i,System.String temp){{i++;temp+=i.ToString();}}", builder.ScriptCache);
 
         }
 
@@ -95,7 +95,7 @@ namespace NatashaFunctionUT.Template.Compile
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite3")!)
                 .StaticMethodBody(@"i++;temp+=i.ToString();");
             Assert.NotNull(builder.Compile<TestDelegate>());
-            Assert.Equal($@"public static void ReWrite3(ref System.Int32 i,System.String temp){{i++;temp+=i.ToString();}}", builder.ScriptCache);
+            OSStringCompare.Equal($@"public static void ReWrite3(ref System.Int32 i,System.String temp){{i++;temp+=i.ToString();}}", builder.ScriptCache);
 
 
         }
@@ -110,7 +110,7 @@ namespace NatashaFunctionUT.Template.Compile
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite4")!)
                 .StaticMethodBody(@"temp = default;return ref i;");
             Assert.NotNull(builder.Compile<TestDelegate1>());
-            Assert.Equal($@"public static ref System.Int32 ReWrite4(ref System.Int32 i,out System.String temp){{temp = default;return ref i;}}", builder.ScriptCache);
+            OSStringCompare.Equal($@"public static ref System.Int32 ReWrite4(ref System.Int32 i,out System.String temp){{temp = default;return ref i;}}", builder.ScriptCache);
 
         }
     }

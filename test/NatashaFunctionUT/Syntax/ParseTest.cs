@@ -37,7 +37,7 @@ namespace NatashaFunctionUT.Syntax
 
             var ex = CatchTreeError(source)!;
             Assert.NotNull(ex);
-            Assert.Equal(expected, ex.Formatter);
+            OSStringCompare.Equal(expected, ex.Formatter);
             Assert.Equal(NatashaExceptionKind.Syntax, ex.ErrorKind);
         }
     }
