@@ -53,11 +53,9 @@ jobs:
         with: 
           args: install codecov
      
-      - name: Build
-        run: dotnet build './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj' --configuration Release
          
       - name: Test
-        run: dotnet test  "./test/NatashaFunctionUT/NatashaFunctionUT.csproj"  /p:CollectCoverage=true /p:CoverletOutputFormat=json  --collect:"XPlat Code Coverage" -r:"./result/" ---no-restore -c Release -m
+        run: dotnet test  "./test/NatashaFunctionUT/NatashaFunctionUT.csproj"  /p:CollectCoverage=true /p:CoverletOutputFormat=json --collect:"XPlat Code Coverage" -r:"./result/" -c Release -m
        
       - name: Upload Report
         run: codecov -f "*.cobertura.xml" -t ${{ secrets.COVERAGE_KEY }}
@@ -82,9 +80,5 @@ jobs:
         with:
           dotnet-version: '6.x'
           
-      - name: Restore with dotnet
-        run: dotnet restore
-      - name: Build
-        run: dotnet build './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj' -c Release --no-restore
       - name: Test
-        run: dotnet test './test/NatashaFunctionUT' --no-build -c Release
+        run: dotnet test './test/NatashaFunctionUT' -c Release
