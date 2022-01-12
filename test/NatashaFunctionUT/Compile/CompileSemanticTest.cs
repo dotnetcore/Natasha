@@ -36,8 +36,8 @@ namespace NatashaFunctionUT.Compile
             var succeedAssembly = builder.GetAssembly();
             Assert.NotNull(succeedAssembly);
             Assert.Equal(builder.AssemblyName,succeedAssembly.GetName().Name);
-            Assert.Equal(DefaultUsingCount, DefaultUsing.Count);
-            Assert.NotEqual(DefaultUsingCount, builder.SyntaxTrees[0].GetCompilationUnitRoot().Usings.Count);
+            //Assert.Equal(DefaultUsingCount, DefaultUsing.Count);
+            //Assert.NotEqual(DefaultUsingCount, builder.SyntaxTrees[0].GetCompilationUnitRoot().Usings.Count);
             Assert.Empty(builder.SyntaxTrees[0].GetCompilationUnitRoot().Usings);
 
         }
