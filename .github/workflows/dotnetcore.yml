@@ -10,18 +10,13 @@ jobs:
       runs-on: ubuntu-latest
       steps:
       - uses: actions/checkout@v2
-      - name: Setup .NET 3.1.22
+      - name: Setup .NETSdk
         uses: actions/setup-dotnet@v1.7.2
         with:
-          dotnet-version: 3.1.22
-      - name: Setup .NET 5.0.13
-        uses: actions/setup-dotnet@v1.7.2
-        with:
-          dotnet-version: 5.0.13
-      - name: Setup .NET 6.0.1
-        uses: actions/setup-dotnet@v1.7.2
-        with:
-          dotnet-version: 6.0.1
+          dotnet-version: |
+               3.1.x
+               5.0.x
+               6.0.x
       - name: Build
         run: dotnet build './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj' --configuration Release
       - name: Test
