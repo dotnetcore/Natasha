@@ -29,7 +29,7 @@ namespace NatashaFunctionUT.Template.Compile
     Orange = 2,
     Banana = 4
 }";
-            Assert.Equal(expected.ToOSString(), script);
+            Assert.Equal(expected, script);
             Assert.NotNull(type);
         }
 
@@ -59,7 +59,7 @@ namespace NatashaFunctionUT.Template.Compile
         Banana = 4
     }
 }";
-            Assert.Equal(expected.ToOSString(), script);
+            Assert.Equal(expected, script);
             Assert.NotNull(type);
         }
 
