@@ -12,10 +12,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="DotNetCore.Compile.Environment" Version="3.0.0" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <ProjectReference Include="..\..\src\Natasha.CSharp\Natasha.CSharp\Natasha.CSharp.csproj" />
 	</ItemGroup>
 
