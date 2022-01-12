@@ -19,9 +19,9 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
       - name: Build
-        run: dotnet build './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj' -f ${{ matrix.dotnet-version }} --configuration Release
+        run: dotnet build './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj' -f "${{ matrix.dotnet-version }}" --configuration Release
       - name: Test
-        run: dotnet test './test/NatashaFunctionUT' --runtime ${{ matrix.dotnet-version }} --no-restore
+        run: dotnet test './test/NatashaFunctionUT' --runtime "${{ matrix.dotnet-version }}" --no-restore
      
   windows:
       runs-on: windows-latest
