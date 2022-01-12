@@ -10,7 +10,7 @@ jobs:
       runs-on: ubuntu-latest
       strategy:
          matrix:
-            dotnet: ['3.1.x', '5.0.x','6.0.x' ]
+            dotnet: ['3.1.22', '5.0.13','6.0.1' ]
             
       steps:
       - uses: actions/checkout@v2
@@ -27,7 +27,7 @@ jobs:
       runs-on: windows-latest
       strategy:
          matrix:
-            dotnet: ['5.0.x']
+            dotnet: ['5.0.13']
       steps:
        - name : CheckOut Code
          uses: actions/checkout@v2
@@ -54,7 +54,7 @@ jobs:
       runs-on: macos-latest
       strategy:
          matrix:
-            dotnet: ['3.1.x', '5.0.x','6.0.x' ]
+            dotnet: ['3.1.22', '5.0.13','6.0.1' ]
             
       steps:
       - uses: actions/checkout@v2
