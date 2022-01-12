@@ -12,7 +12,7 @@ namespace NatashaFunctionUT.Special
         {
 
             var action = NDelegate
-                .RandomDomain()
+                .RandomDomain(builder => builder.ConfigCompilerOption(opt => opt.SetCompilerFlag(Natasha.CSharp.Compiler.CompilerBinderFlags.IgnoreAccessibility | Natasha.CSharp.Compiler.CompilerBinderFlags.IgnoreCorLibraryDuplicatedTypes)))
                 .ConfigClass(item => item.AllowPrivate<ReadonlyModel>())
                 .Action<ReadonlyModel>($"{"obj.@interface".ToReadonlyScript()} = new DefaultReadolyInterface();");
 
