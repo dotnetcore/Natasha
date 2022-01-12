@@ -11,15 +11,15 @@ jobs:
       steps:
       - uses: actions/checkout@v2
       - name: Setup .NET SDK 3.1.22
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v1.7.2
         with:
           dotnet-version: '3.1.22'
       - name: Setup .NET SDK 5.0.13
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v1.7.2
         with:
           dotnet-version: '5.0.13'
       - name: Setup .NET SDK 6.0.1
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v1.7.2
         with:
           dotnet-version: '6.0.1'
       - name: Build
