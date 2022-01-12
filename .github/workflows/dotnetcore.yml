@@ -1,4 +1,4 @@
-name: .NET Core
+name: .NET
 
 on:
    push:
@@ -10,7 +10,7 @@ jobs:
       runs-on: ubuntu-latest
       strategy:
          matrix:
-            dotnet: ['3.1.22', '5.0.0','6.0.0' ]
+            dotnet: [ '3.1.x', '5.0.x', '6.0.x' ]
             
       steps:
       - uses: actions/checkout@v2
@@ -19,9 +19,9 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
       - name: Build
-        run: dotnet build './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj' -f "${{ matrix.dotnet-version }}" --configuration Release
+        run: dotnet build './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj' -f ${{ matrix.dotnet-version }} --configuration Release
       - name: Test
-        run: dotnet test './test/NatashaFunctionUT' --runtime "${{ matrix.dotnet-version }}" --no-restore
+        run: dotnet test './test/NatashaFunctionUT' --runtime ${{ matrix.dotnet-version }} --no-restore
      
   windows:
       runs-on: windows-latest
