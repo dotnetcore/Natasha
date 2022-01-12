@@ -28,7 +28,7 @@ namespace NatashaFunctionUT.Compile
                 var nex = ex as NatashaException;
                 Assert.NotNull(nex);
                 Assert.Equal(NatashaExceptionKind.Compile, nex!.ErrorKind);
-                Assert.Equal(DefaultUsingCount, builder.SyntaxTrees[0].GetCompilationUnitRoot().Usings.Count -1);
+                //Assert.Equal(DefaultUsingCount, builder.SyntaxTrees[0].GetCompilationUnitRoot().Usings.Count -1);
                 //Assert.Equal(DefaultUsingCount, DefaultUsing.Count);
             }
 

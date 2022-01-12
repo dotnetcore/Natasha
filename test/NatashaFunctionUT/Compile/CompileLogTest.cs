@@ -36,11 +36,21 @@ public void Show(){
                 Assert.NotNull(log);
                 Assert.True(ex is NatashaException);
                 Assert.Equal(logText.Split("\n").Length, log!.ToString().Split("\n").Length);
-                foreach (var item in log.Messages)
+
+#if !NETCOREAPP3_1
+ if (Environment.OSVersion == OperatingSystem.IsWindows)
+#else
+                if (Environment.OSVersion.Platform == PlatformID.Win32NT )
+#endif
                 {
-                    Assert.Contains(item.Code, logText);
-                    Assert.Contains(item.Message, logText);
+                    foreach (var item in log.Messages)
+                    {
+                        Assert.Contains(item.Code, logText);
+                        Assert.Contains(item.Message, logText);
+                    }
                 }
+
+
 
             }
 
@@ -80,10 +90,17 @@ public string Address;
                 Assert.NotNull(log);
                 Assert.True(ex is NatashaException);
                 Assert.Equal(logText.Split("\n").Length, log!.ToString().Split("\n").Length);
-                foreach (var item in log.Messages)
+#if !NETCOREAPP3_1
+ if (Environment.OSVersion == OperatingSystem.IsWindows)
+#else
+                if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+#endif
                 {
-                    Assert.Contains(item.Code, logText);
-                    Assert.Contains(item.Message, logText);
+                    foreach (var item in log.Messages)
+                    {
+                        Assert.Contains(item.Code, logText);
+                        Assert.Contains(item.Message, logText);
+                    }
                 }
 
             }
@@ -125,10 +142,17 @@ public int Get(){
                 Assert.NotNull(log);
                 Assert.True(ex is NatashaException);
                 Assert.Equal(logText.Split("\n").Length, log!.ToString().Split("\n").Length);
-                foreach (var item in log.Messages)
+#if !NETCOREAPP3_1
+ if (Environment.OSVersion == OperatingSystem.IsWindows)
+#else
+                if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+#endif
                 {
-                    Assert.Contains(item.Code, logText);
-                    Assert.Contains(item.Message, logText);
+                    foreach (var item in log.Messages)
+                    {
+                        Assert.Contains(item.Code, logText);
+                        Assert.Contains(item.Message, logText);
+                    }
                 }
 
             }
@@ -166,11 +190,17 @@ public int Get(){
             var logText = GetText("2d79d3e2b027491f93705a4098578bcd");
             Assert.NotNull(log);
             Assert.Equal(logText.Split("\n").Length, log!.ToString().Split("\n").Length);
-            foreach (var item in log.Messages)
+#if !NETCOREAPP3_1
+ if (Environment.OSVersion == OperatingSystem.IsWindows)
+#else
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+#endif
             {
-                Assert.Contains(item.Code, logText);
-                Assert.Contains(item.Message, logText);
-
+                foreach (var item in log.Messages)
+                {
+                    Assert.Contains(item.Code, logText);
+                    Assert.Contains(item.Message, logText);
+                }
             }
         }
 
