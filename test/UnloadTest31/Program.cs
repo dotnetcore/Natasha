@@ -1,5 +1,4 @@
-﻿using Natasha.CSharp;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -13,13 +12,7 @@ namespace UnloadTest31
         static Type tempType;
         static void Main(string[] args)
         {
-            NatashaComponentRegister.RegistDomain<NatashaAssemblyDomain>();
-            NatashaComponentRegister.RegistCompiler<NatashaCSharpCompiler>();
-            NatashaComponentRegister.RegistSyntax<NatashaCSharpSyntax>();
-
-            NErrorLog.Enabled = false;
-            NSucceedLog.Enabled = false;
-            NWarningLog.Enabled = false;
+            NatashaInitializer.Preheating();
             Stopwatch watch = new Stopwatch();
             double tempTotleTime;
             #region Natasha Preheating

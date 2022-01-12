@@ -45,7 +45,7 @@ namespace NatashaBenchmark
 
         public DynamicCallFieldTest()
         {
-            NatashaInitializer.Init();
+            NatashaInitializer.Preheating();
             Preheating();
             Precache();
         }

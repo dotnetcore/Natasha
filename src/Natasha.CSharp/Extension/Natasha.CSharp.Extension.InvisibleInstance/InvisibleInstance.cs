@@ -5,16 +5,14 @@ using Microsoft.CodeAnalysis.Editing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 
 internal static class InvisibleInstance
 {
-    internal static Func<CSharpCompilation, CSharpCompilation> Creator(string argument)
+    internal static Func<AssemblyCSharpBuilder, CSharpCompilation, CSharpCompilation> Creator(string argument)
     {
 
-
-        return (compilation) =>
+        return (buidler,compilation) =>
         {
 
             IdentifierNameSyntax instance = SyntaxFactory.IdentifierName(argument);
@@ -26,43 +24,45 @@ internal static class InvisibleInstance
                               select methodDeclaration;
 
             var diagnostics = new HashSet<Location>(semantiModel.GetDiagnostics().Where(item => item.Id == "CS0103").Select(item => item.Location));
-            var eiditor = new SyntaxEditor(root, new AdhocWorkspace());
             foreach (var methodNode in methodNodes)
             {
 
-
                 var body = methodNode.Body;
-                var nodes = from CS0103Node in body.DescendantNodes().OfType<IdentifierNameSyntax>()
-                            where diagnostics.Contains(CS0103Node.GetLocation())
-                            select CS0103Node;
-
-                foreach (var node in nodes)
+                if (body!=null)
                 {
+                    var nodes = from CS0103Node in body.DescendantNodes().OfType<IdentifierNameSyntax>()
+                                where diagnostics.Contains(CS0103Node.GetLocation())
+                                select CS0103Node;
 
-                    var symbolInfo = semantiModel.GetSymbolInfo(node);
-                    if (symbolInfo.Symbol == null && symbolInfo.CandidateSymbols.Length == 0)
+                    foreach (var node in nodes)
                     {
 
-                        var member = SyntaxFactory.IdentifierName(node.Identifier.ValueText.Trim());
-                        var newNode = SyntaxFactory.MemberAccessExpression(
-                            SyntaxKind.SimpleMemberAccessExpression,
-                            instance,
-                            member);
-                        eiditor.ReplaceNode(node, newNode);
+                        var symbolInfo = semantiModel.GetSymbolInfo(node);
+                        if (symbolInfo.Symbol == null && symbolInfo.CandidateSymbols.Length == 0)
+                        {
 
+                            var member = SyntaxFactory.IdentifierName(node.Identifier.ValueText.Trim());
+                            var newNode = SyntaxFactory.MemberAccessExpression(
+                                SyntaxKind.SimpleMemberAccessExpression,
+                                instance,
+                                member);
+                            root = root.ReplaceNode(node, newNode);
+
+                        }
                     }
                 }
+                
             }
 
-            return compilation.ReplaceSyntaxTree(tree, eiditor.GetChangedRoot().SyntaxTree);
+            return compilation.ReplaceSyntaxTree(tree, root.SyntaxTree);
 
         };
     }
 
-    internal static Func<CSharpCompilation, CSharpCompilation> Creator()
+    internal static Func<AssemblyCSharpBuilder, CSharpCompilation, CSharpCompilation> Creator()
     {
 
-        return (compilation) =>
+        return (builder, compilation) =>
         {
 
 
@@ -75,11 +75,10 @@ internal static class InvisibleInstance
 
 
             var diagnostics = new HashSet<Location>(semantiModel.GetDiagnostics().Where(item=>item.Id == "CS0103").Select(item=>item.Location));
-            var eiditor = new SyntaxEditor(root, new AdhocWorkspace());
             foreach (var methodNode in methodNodes)
             {
 
-                string argument = default;
+                string argument = string.Empty;
                 if (methodNode.ParameterList != null)
                 {
                     if (methodNode.ParameterList.Parameters.Count > 0)
@@ -97,29 +96,32 @@ internal static class InvisibleInstance
                 }
                 IdentifierNameSyntax instance = SyntaxFactory.IdentifierName(argument);
                 var body = methodNode.Body;
-                var nodes = from CS0103Node in body.DescendantNodes().OfType<IdentifierNameSyntax>()
-                            where diagnostics.Contains(CS0103Node.GetLocation())
-                            select CS0103Node;
-
-
-                foreach (var node in nodes)
+                if (body!=null)
                 {
+                    var nodes = from CS0103Node in body.DescendantNodes().OfType<IdentifierNameSyntax>()
+                                where diagnostics.Contains(CS0103Node.GetLocation())
+                                select CS0103Node;
 
-                    var symbolInfo = semantiModel.GetSymbolInfo(node);
-                    if (symbolInfo.Symbol == null && symbolInfo.CandidateSymbols.Length == 0)
+                    foreach (var node in nodes)
                     {
 
-                        var member = SyntaxFactory.IdentifierName(node.Identifier.ValueText.Trim());
-                        var newNode = SyntaxFactory.MemberAccessExpression(
-                            SyntaxKind.SimpleMemberAccessExpression,
-                            instance,
-                            member);
-                        eiditor.ReplaceNode(node, newNode);
+                        var symbolInfo = semantiModel.GetSymbolInfo(node);
+                        if (symbolInfo.Symbol == null && symbolInfo.CandidateSymbols.Length == 0)
+                        {
 
+                            var member = SyntaxFactory.IdentifierName(node.Identifier.ValueText.Trim());
+                            var newNode = SyntaxFactory.MemberAccessExpression(
+                                SyntaxKind.SimpleMemberAccessExpression,
+                                instance,
+                                member);
+                            root = root.ReplaceNode(node, newNode);
+
+                        }
                     }
                 }
+
             }
-            return compilation.ReplaceSyntaxTree(tree, eiditor.GetChangedRoot().SyntaxTree);
+            return compilation.ReplaceSyntaxTree(tree, root.SyntaxTree);
 
         };
     }

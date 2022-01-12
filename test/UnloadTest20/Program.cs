@@ -1,5 +1,4 @@
-﻿using Natasha;
-using Natasha.CSharp;
+﻿using Natasha.CSharp;
 using System;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -77,7 +76,7 @@ namespace UnloadTest20
             {
                 var ad = DomainManagement.Create("test" + i.ToString());
                 var builder = FastMethodOperator.DefaultDomain();
-                builder.AssemblyBuilder.Compiler.Domain = ad;
+                builder.AssemblyBuilder.Domain = ad;
                 func[i] = builder.Body($@"
 int[] a = new int[40960];
 for(int i =0;i<40960;i++){{a[i]=i;}}

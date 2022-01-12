@@ -51,7 +51,7 @@ namespace ReferenceTest50
             Check();
             Stopwatch stopwatch = new();
             stopwatch.Start();
-            NatashaInitializer.Init((asm,name)=>name.Contains("IO"));
+            NatashaInitializer.Preheating((asm,name)=>name.Contains("IO"));
             stopwatch.Stop();
             Check();
             AssemblyCSharpBuilder builder = new();
