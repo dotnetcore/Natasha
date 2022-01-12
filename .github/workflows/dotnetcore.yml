@@ -34,38 +34,37 @@ jobs:
         run: dotnet test './test/NatashaFunctionUT' --no-restore --no-build -c Release
      
   windows:
-    runs-on: windows-latest  
-    steps:
-       - name: CheckOut Code
-       - uses: actions/checkout@v2
-       - name: 🔨 Use .NET Core 3.1.X SDK
-         uses: actions/setup-dotnet@v1
-         with:
-           dotnet-version: '3.1.x'
+      runs-on: windows-latest  
+      steps:
+      - uses: actions/checkout@v2
+      - name: 🔨 Use .NET Core 3.1.X SDK
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '3.1.x'
         
-       - name: 🔨 Use .NET 5.0.X SDK
-         uses: actions/setup-dotnet@v1
-         with:
-           dotnet-version: '5.x'
+      - name: 🔨 Use .NET 5.0.X SDK
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.x'
 
-       - name: 🔨 Use .NET 6.X SDK
-         uses: actions/setup-dotnet@v1
-         with:
-           dotnet-version: '6.x'
+      - name: 🔨 Use .NET 6.X SDK
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.x'
     
-       - name: Setup Cover
-         uses: crazy-max/ghaction-chocolatey@v1
-         with: 
-            args: install codecov
+      - name: Setup Cover
+        uses: crazy-max/ghaction-chocolatey@v1
+        with: 
+          args: install codecov
      
-       - name: Build
-         run: dotnet build './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj' --configuration Release
+      - name: Build
+        run: dotnet build './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj' --configuration Release
          
-       - name: Test
-         run: dotnet test  "./test/NatashaFunctionUT/NatashaFunctionUT.csproj"  /p:CollectCoverage=true /p:CoverletOutputFormat=json  --collect:"XPlat Code Coverage" -r:"./result/" ---no-restore --no-build -c Release -m
+      - name: Test
+        run: dotnet test  "./test/NatashaFunctionUT/NatashaFunctionUT.csproj"  /p:CollectCoverage=true /p:CoverletOutputFormat=json  --collect:"XPlat Code Coverage" -r:"./result/" ---no-restore --no-build -c Release -m
        
-       - name: Upload Report
-         run: codecov -f "*.cobertura.xml" -t ${{ secrets.COVERAGE_KEY }}
+      - name: Upload Report
+        run: codecov -f "*.cobertura.xml" -t ${{ secrets.COVERAGE_KEY }}
    
   mac:
       runs-on: macos-latest
