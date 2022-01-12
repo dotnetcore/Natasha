@@ -43,10 +43,10 @@ jobs:
             args: install codecov
      
        - name: Build
-         run: dotnet build './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj' -f ${{ matrix.dotnet-version }} --configuration Release
+         run: dotnet build './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj' -f net${{ matrix.dotnet }} --configuration Release
          
        - name: Test
-         run: dotnet test  "./test/NatashaFunctionUT/NatashaFunctionUT.csproj" --runtime ${{ matrix.dotnet-version }} /p:CollectCoverage=true /p:CoverletOutputFormat=json  --collect:"XPlat Code Coverage" -r:"./result/" --no-build -m
+         run: dotnet test  "./test/NatashaFunctionUT/NatashaFunctionUT.csproj"  /p:CollectCoverage=true /p:CoverletOutputFormat=json  --collect:"XPlat Code Coverage" -r:"./result/" --no-build -m
        
        - name: Upload Report
          run: codecov -f "*.cobertura.xml" -t ${{ secrets.COVERAGE_KEY }}
