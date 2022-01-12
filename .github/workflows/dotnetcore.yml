@@ -15,7 +15,7 @@ jobs:
       steps:
       - uses: actions/checkout@v2
       - name: Setup .NET SDK ${{ matrix.dotnet }}
-        uses: actions/setup-dotnet@v1.7.2
+        uses: actions/setup-dotnet@v1
         with:
           dotnet-version: ${{ matrix.dotnet }}
       - name: Build
