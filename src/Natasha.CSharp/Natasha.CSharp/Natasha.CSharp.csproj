@@ -1,40 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<Description>发布最新版 Natasha</Description>
-		<PackageId>DotNetCore.Natasha.CSharp.All</PackageId>
+		<PackageId>DotNetCore.Natasha.CSharp</PackageId>
 		<PackageReleaseNotes>升级到最新版.</PackageReleaseNotes>
 		<PackageTags>Roslyn;IL;Script;Dynamic;Natasha;NMS;</PackageTags>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
 	</PropertyGroup>
-	<ItemGroup>
-	  <Compile Remove="Component\NLog\Base\**" />
-	  <Compile Remove="Component\NLog\Framework\**" />
-	  <Compile Remove="Engine\**" />
-	  <Compile Remove="NLog\**" />
-	  <EmbeddedResource Remove="Component\NLog\Base\**" />
-	  <EmbeddedResource Remove="Component\NLog\Framework\**" />
-	  <EmbeddedResource Remove="Engine\**" />
-	  <EmbeddedResource Remove="NLog\**" />
-	  <None Remove="Component\NLog\Base\**" />
-	  <None Remove="Component\NLog\Framework\**" />
-	  <None Remove="Engine\**" />
-	  <None Remove="NLog\**" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Compile Remove="Component\ComponentRegister.cs" />
-	  <Compile Remove="Component\NLog\LoggerVirtualDelegateCreator.cs" />
-	  <Compile Remove="Component\NLog\LogOperator.cs" />
-	  <Compile Remove="Component\NLog\NErrorLog.cs" />
-	  <Compile Remove="Component\NLog\NSucceedLog.cs" />
-	  <Compile Remove="Component\NLog\NWarningLog.cs" />
-	</ItemGroup>
 
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.0.1" />
 		<PackageReference Include="System.Reflection.MetadataLoadContext" Version="6.0.0" />
-		<PackageReference Update="DotNetCore.SourceLink.Environment" Version="3.1.0" />
+		<PackageReference Include="DotNetCore.SourceLink.Environment" Version="3.1.0" />
 		<PackageReference Include="DotNetCore.Compile.Environment" Version="3.0.0" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.0.1" />
 	</ItemGroup>

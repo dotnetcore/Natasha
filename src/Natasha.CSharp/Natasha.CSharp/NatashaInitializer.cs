@@ -12,7 +12,7 @@ public static class NatashaInitializer
     private static readonly object _lock = new();
 
     private static bool _isCompleted = false;
-    public static void Init(Func<AssemblyName, string?, bool>? excludeReferencesFunc = null)
+    public static void Preheating(Func<AssemblyName, string?, bool>? excludeReferencesFunc = null)
     {
 
         if (!_isCompleted)
