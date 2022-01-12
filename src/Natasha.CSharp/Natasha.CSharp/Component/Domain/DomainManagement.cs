@@ -94,7 +94,7 @@ public class DomainManagement
     {
         if (Cache.TryGetValue(key,out var value))
         {
-            return value!.IsAlive;
+            return !value!.IsAlive;
         }
         return true;
     }
