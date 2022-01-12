@@ -15,7 +15,10 @@ namespace NatashaFunctionUT.Special
                 .ConfigClass(item=>item.AllowPrivate<PrivateMemberClassModel>())
                 .Action<PrivateMemberClassModel>("obj.publicA = 2;obj.internalA = 3; obj.privateA=1;");
             action(test);
-            Assert.Equal(4, test.GetD);
+#if DEBUG
+        Assert.Equal(4, test.GetD);
+#endif
+
         }
 
 
@@ -29,8 +32,9 @@ namespace NatashaFunctionUT.Special
                 .ConfigClass(item => item.AllowPrivate<PrivateMemberClassModel>().SkipInit())
                 .Action<PrivateMemberClassModel>("obj.publicA = 2;obj.internalA = 3; obj.privateA=1;");
             action(test);
+#if DEBUG
             Assert.Equal(4, test.GetD);
-
+#endif
         }
 
 

@@ -14,12 +14,8 @@ namespace Natasha.CSharp.Compiler
         public NatashaCSharpCompilerOptions()
         {
             _suppressDiagnostics = new ConcurrentDictionary<string, ReportDiagnostic>(GlobalSupperessCache._globalSuppressDiagnostics);
-#if DEBUG
             this.SetCompilerFlag(CompilerBinderFlags.IgnoreCorLibraryDuplicatedTypes | CompilerBinderFlags.IgnoreAccessibility)
-#else
-        this.SetCompilerFlag(CompilerBinderFlags.IgnoreCorLibraryDuplicatedTypes)
-#endif
-        .SetNullableCompile(NullableContextOptions.Disable)
+            .SetNullableCompile(NullableContextOptions.Disable)
             .SetSupersedeLowerVersions(false)
             .SetOutputKind(OutputKind.DynamicallyLinkedLibrary)
             .CompileAsRelease()
