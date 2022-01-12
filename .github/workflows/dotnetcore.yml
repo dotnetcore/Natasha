@@ -8,20 +8,24 @@ on:
 jobs:
   linux:      
       runs-on: ubuntu-latest
-      strategy:
-         matrix:
-            dotnet: [ '3.1.22', '5.0.13', '6.0.0' ]
-            
       steps:
       - uses: actions/checkout@v2
-      - name: Setup .NET SDK ${{ matrix.dotnet }}
+      - name: Setup .NET SDK 3.1.22
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: ${{ matrix.dotnet }}
+          dotnet-version: '3.1.22'
+      - name: Setup .NET SDK 5.0.13
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.13'
+      - name: Setup .NET SDK 6.0.1
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0.1'
       - name: Build
-        run: dotnet build './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj' -f net${{ matrix.dotnet }} --configuration Release
+        run: dotnet build './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj' --configuration Release
       - name: Test
-        run: dotnet test './test/NatashaFunctionUT' --no-restore
+        run: dotnet test './test/NatashaFunctionUT' --no-restore --no-build
      
   windows:
       runs-on: windows-latest
