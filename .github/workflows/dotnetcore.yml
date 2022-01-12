@@ -10,7 +10,7 @@ jobs:
       runs-on: ubuntu-latest
       strategy:
          matrix:
-            dotnet: [ '3.1.22', '5.0.13', '6.0.1' ]
+            dotnet: [ '3.1.22', '5.0.13', '6.0.0' ]
             
       steps:
       - uses: actions/checkout@v2
@@ -19,9 +19,9 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet }}
       - name: Build
-        run: dotnet build './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj' -f ${{ matrix.dotnet }} --configuration Release
+        run: dotnet build './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj' -f net${{ matrix.dotnet }} --configuration Release
       - name: Test
-        run: dotnet test './test/NatashaFunctionUT' --runtime ${{ matrix.dotnet }} --no-restore
+        run: dotnet test './test/NatashaFunctionUT' --no-restore
      
   windows:
       runs-on: windows-latest
