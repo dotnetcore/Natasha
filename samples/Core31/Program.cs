@@ -19,7 +19,7 @@ namespace Core31
         static void Main(string[] args)
         {
             //NatashaInitializer.Initialize();
-            NatashaInitializer.InitializeAndPreheating();
+            NatashaInitializer.ini();
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();

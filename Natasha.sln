@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NatashaUT", "test\NatashaUT\NatashaUT.csproj", "{FF60E6A9-93A4-4ACC-B684-4D025471CB2E}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{13AACED0-099F-423D-AC8A-E3067DD42A55}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
@@ -111,7 +109,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MetadataDiff", "MetadataDif
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetadataDiff", "test\PluginLibraries\MetadataDiff\MetadataDiff\MetadataDiff.csproj", "{55C86039-7262-4CCB-911D-4F17A53C3863}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NormalBenchmark", "test\NormalBenchmark\NormalBenchmark.csproj", "{D80E2ECA-DAF2-438B-ACF4-35736795368A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NormalBenchmark", "test\NormalBenchmark\NormalBenchmark.csproj", "{D80E2ECA-DAF2-438B-ACF4-35736795368A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -119,10 +117,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FF60E6A9-93A4-4ACC-B684-4D025471CB2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FF60E6A9-93A4-4ACC-B684-4D025471CB2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FF60E6A9-93A4-4ACC-B684-4D025471CB2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FF60E6A9-93A4-4ACC-B684-4D025471CB2E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{13F80608-84B1-417B-9DC6-361352AB9F32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{13F80608-84B1-417B-9DC6-361352AB9F32}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13F80608-84B1-417B-9DC6-361352AB9F32}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -264,7 +258,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{FF60E6A9-93A4-4ACC-B684-4D025471CB2E} = {1F267883-0864-4C1C-AE20-E2AF5457BA54}
 		{13F80608-84B1-417B-9DC6-361352AB9F32} = {1F267883-0864-4C1C-AE20-E2AF5457BA54}
 		{C26276A5-25E9-4212-A1FE-807E5B570195} = {1F267883-0864-4C1C-AE20-E2AF5457BA54}
 		{AB7A1326-26BC-46E1-A9B1-32DEFE2E8443} = {1F267883-0864-4C1C-AE20-E2AF5457BA54}

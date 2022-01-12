@@ -13,8 +13,6 @@ namespace ReferenceTest50
         static void Main(string[] args)
         {
 
-            Temp = new Action(TestMethod);
-            Temp();
             Nacos.Request.RequestClient request = default;
             Nacos.Microsoft.Extensions.Configuration.ConfigListener b = default;
             Nacos.AspNetCore.V2.NacosAspNetOptions options = default;
