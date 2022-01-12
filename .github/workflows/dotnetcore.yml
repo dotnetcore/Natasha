@@ -14,25 +14,26 @@ jobs:
             
       steps:
       - uses: actions/checkout@v2
-      - name: Setup .NET ${{ matrix.dotnet-version }}
-        uses: actions/setup-dotnet@v1
+      - name: Setup .NET SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v1.7.2
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
       - name: Build
-        run: dotnet build './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj' -f "${{ matrix.dotnet-version }}" --configuration Release
+        run: dotnet build './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj' --configuration Release
       - name: Test
-        run: dotnet test './test/NatashaFunctionUT' --no-restore --runtime "${{ matrix.dotnet-version }}"
+        run: dotnet test './test/NatashaFunctionUT' --no-restore
      
   windows:
       runs-on: windows-latest
       strategy:
          matrix:
             dotnet: ['5.0.13']
+            
       steps:
        - name : CheckOut Code
          uses: actions/checkout@v2
        - name: Setup .NET ${{ matrix.dotnet-version }}
-         uses: actions/setup-dotnet@v1
+         uses: actions/setup-dotnet@v1.7.2
          with:
           dotnet-version: ${{ matrix.dotnet-version }}
     
