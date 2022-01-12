@@ -92,9 +92,9 @@ public class DomainManagement
 
     public static bool IsDeleted(string key)
     {
-        if (Cache.ContainsKey(key))
+        if (Cache.TryGetValue(key,out var value))
         {
-            return !Cache[key].IsAlive;
+            return value!.IsAlive;
         }
         return true;
     }
