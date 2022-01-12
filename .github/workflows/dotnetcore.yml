@@ -10,18 +10,18 @@ jobs:
       runs-on: ubuntu-latest
       steps:
       - uses: actions/checkout@v2
-      - name: Setup .NET SDK 3.1.22
+      - name: Setup .NET 3.1.22
         uses: actions/setup-dotnet@v1.7.2
         with:
-          dotnet-version: '3.1.22'
-      - name: Setup .NET SDK 5.0.13
+          dotnet-version: 3.1.22
+      - name: Setup .NET 5.0.13
         uses: actions/setup-dotnet@v1.7.2
         with:
-          dotnet-version: '5.0.13'
-      - name: Setup .NET SDK 6.0.1
+          dotnet-version: 5.0.13
+      - name: Setup .NET 6.0.1
         uses: actions/setup-dotnet@v1.7.2
         with:
-          dotnet-version: '6.0.1'
+          dotnet-version: 6.0.1
       - name: Build
         run: dotnet build './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj' --configuration Release
       - name: Test
@@ -34,7 +34,7 @@ jobs:
             dotnet: ['6.0.1']
             
       steps:
-       - name : CheckOut Code
+       - name: CheckOut Code
          uses: actions/checkout@v2
        - name: Setup .NET ${{ matrix.dotnet-version }}
          uses: actions/setup-dotnet@v1.7.2
