@@ -8,26 +8,33 @@ on:
 jobs:
   linux:      
       runs-on: ubuntu-latest
+      strategy:
+         matrix:
+            dotnet: ['3.1.x', '5.0.x','6.0.x' ]
+            
       steps:
       - uses: actions/checkout@v2
-      - name: Setup
+      - name: Setup .NET ${{ matrix.dotnet-version }}
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 5.0.100
+          dotnet-version: ${{ matrix.dotnet-version }}
       - name: Build
-        run: dotnet build './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj' -f net5.0 --configuration Release
+        run: dotnet build './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj' -f ${{ matrix.dotnet-version }} --configuration Release
       - name: Test
-        run: dotnet test './test/NatashaFunctionUT'
+        run: dotnet test './test/NatashaFunctionUT' --runtime ${{ matrix.dotnet-version }}
      
   windows:
       runs-on: windows-latest
+      strategy:
+         matrix:
+            dotnet: ['5.0.x']
       steps:
        - name : CheckOut Code
          uses: actions/checkout@v2
-       - name: Setup
+       - name: Setup .NET ${{ matrix.dotnet-version }}
          uses: actions/setup-dotnet@v1
          with:
-          dotnet-version: 5.0.100
+          dotnet-version: ${{ matrix.dotnet-version }}
     
        - name: Setup Cover
          uses: crazy-max/ghaction-chocolatey@v1
@@ -35,23 +42,27 @@ jobs:
             args: install codecov
      
        - name: Build
-         run: dotnet build './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj' -f net5.0 --configuration Release
+         run: dotnet build './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj' -f ${{ matrix.dotnet-version }} --configuration Release
          
        - name: Test
-         run: dotnet test  "./test/NatashaFunctionUT/NatashaFunctionUT.csproj" /p:CollectCoverage=true /p:CoverletOutputFormat=json  --collect:"XPlat Code Coverage" -r:"./result/" --no-build -m
+         run: dotnet test  "./test/NatashaFunctionUT/NatashaFunctionUT.csproj" --runtime ${{ matrix.dotnet-version }} /p:CollectCoverage=true /p:CoverletOutputFormat=json  --collect:"XPlat Code Coverage" -r:"./result/" --no-build -m
        
        - name: Upload Report
          run: codecov -f "*.cobertura.xml" -t ${{ secrets.COVERAGE_KEY }}
    
   mac:
       runs-on: macos-latest
+      strategy:
+         matrix:
+            dotnet: ['3.1.x', '5.0.x','6.0.x' ]
+            
       steps:
       - uses: actions/checkout@v2
-      - name: Setup
+      - name: Setup .NET ${{ matrix.dotnet-version }}
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 5.0.100
+          dotnet-version: ${{ matrix.dotnet-version }}
       - name: Build
-        run: dotnet build './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj' -f net5.0 --configuration Release
+        run: dotnet build './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj' -f ${{ matrix.dotnet-version }} --configuration Release
       - name: Test
-        run: dotnet test './test/NatashaFunctionUT'
+        run: dotnet test './test/NatashaFunctionUT' --runtime ${{ matrix.dotnet-version }}
