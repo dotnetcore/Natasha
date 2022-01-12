@@ -30,7 +30,7 @@ namespace NatashaFunctionUT.Syntax
 }";
 
 
-            Assert.Equal(expected, FormartString(source));
+            OSStringCompare.Equal(expected, FormartString(source));
         }
         [Fact(DisplayName = "字符串格式化测试2")]
         public void Formart2()
@@ -55,7 +55,7 @@ g
         return g;
     }
 }";
-            Assert.Equal(expected, FormartString(source));
+            OSStringCompare.Equal(expected, FormartString(source));
 
         }
 
@@ -68,7 +68,7 @@ g
 
             var expected = $"int i = 0;{Environment.NewLine}var t = new{Environment.NewLine}{{{Environment.NewLine}Name = \"\"{Environment.NewLine}}}{Environment.NewLine}{Environment.NewLine};";
 
-            Assert.Equal(expected, FormartString(source));
+            OSStringCompare.Equal(expected, FormartString(source));
 
         }
 
@@ -103,7 +103,7 @@ public class A
     public Test test;
 }";
 
-            Assert.Equal(after, FormartString(source));
+            OSStringCompare.Equal(after, FormartString(source));
         }
     }
 }

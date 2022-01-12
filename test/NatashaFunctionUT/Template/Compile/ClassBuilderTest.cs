@@ -28,7 +28,7 @@ public class EnumUT1
     public System.String Orange;
     public NClass Banana { get; set; }
 }";
-            Assert.Equal(expected, script);
+            OSStringCompare.Equal(expected, script);
             Assert.NotNull(type);
         }
 
@@ -75,7 +75,7 @@ public class EnumUT1
         }
     }
 }";
-            Assert.Equal(expected, script);
+            OSStringCompare.Equal(expected, script);
             Assert.NotNull(type);
 
         }
@@ -124,7 +124,7 @@ public class EnumUT1
         }
     }
 }";
-            Assert.Equal(expected, script);
+            OSStringCompare.Equal(expected, script);
             Assert.NotNull(type);
 
         }
