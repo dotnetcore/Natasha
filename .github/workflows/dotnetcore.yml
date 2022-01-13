@@ -52,8 +52,11 @@ jobs:
         uses: crazy-max/ghaction-chocolatey@v1
         with: 
           args: install codecov
-     
-         
+          
+      - name: Restore
+        run: dotnet restore
+      - name: Build
+        run: dotnet build "./test/NatashaFunctionUT"
       - name: Test
         run: dotnet test "./test/NatashaFunctionUT" -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=json --collect:"XPlat Code Coverage" -r:"./result/" -m
        
