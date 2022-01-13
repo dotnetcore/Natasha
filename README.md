@@ -15,7 +15,7 @@
 # Natasha 
 
 [![Member project of .NET Core Community](https://img.shields.io/badge/member%20project%20of-NCC-9e20c9.svg)](https://github.com/dotnetcore)
-[![NuGet Badge](https://buildstats.info/nuget/DotNetCore.Natasha.CSharp.All?includePreReleases=true)](https://www.nuget.org/packages/DotNetCore.Natasha.CSharp.All)
+[![NuGet Badge](https://buildstats.info/nuget/DotNetCore.Natasha.CSharp.All?includePreReleases=true)](https://www.nuget.org/packages/DotNetCore.Natasha.CSharp)
 [![Gitter](https://badges.gitter.im/dotnetcore/natasha.svg)](https://gitter.im/dotnetcore/Natasha?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![Badge](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu/#/zh_CN)
 [![GitHub license](https://img.shields.io/github/license/dotnetcore/natasha.svg)](https://github.com/dotnetcore/Natasha/blob/main/LICENSE)
