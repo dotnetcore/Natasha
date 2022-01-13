@@ -32,26 +32,28 @@ public void Show(){
             catch (Exception ex)
             {
 
-                var logText = GetText("ee79d3e2b027491f93705a4098568bc8");
-                Assert.NotNull(log);
-                Assert.True(ex is NatashaException);
-                Assert.Equal(logText.Split("\n").Length, log!.ToString().Split("\n").Length);
-
-                if (Environment.OSVersion.Platform == PlatformID.Win32NT)
-                {
-                    foreach (var item in log.Messages)
-                    {
-                        Assert.Contains(item.Code, logText);
-                        Assert.Contains(item.Message, logText);
-                    }
-                }
-
-
+                CheckException(ex, log, "ee79d3e2b027491f93705a4098568bc8");
 
             }
 
         }
 
+        private static void CheckException(Exception ex, NatashaCompilationLog? log, string fileName)
+        {
+            var logText = GetText(fileName);
+            Assert.NotNull(log);
+            Assert.True(ex is NatashaException);
+            Assert.Equal(logText.Split("\n").Length, log!.ToString().Split("\n").Length);
+
+            //if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            //{
+            //    foreach (var item in log.Messages)
+            //    {
+            //        Assert.Contains(item.Code, logText);
+            //        Assert.Contains(item.Message, logText);
+            //    }
+            //}
+        }
 
 
         [Fact(DisplayName = "错误日志2")]
@@ -81,21 +83,7 @@ public string Address;
             }
             catch (Exception ex)
             {
-
-                var logText = GetText("ee79d3e2b027491f93705a4098578bcc");
-                Assert.NotNull(log);
-                Assert.True(ex is NatashaException);
-                Assert.Equal(logText.Split("\n").Length, log!.ToString().Split("\n").Length);
-
-                if (Environment.OSVersion.Platform == PlatformID.Win32NT)
-                {
-                    foreach (var item in log.Messages)
-                    {
-                        Assert.Contains(item.Code, logText);
-                        Assert.Contains(item.Message, logText);
-                    }
-                }
-
+                CheckException(ex, log, "ee79d3e2b027491f93705a4098578bcc");
             }
 
         }
@@ -130,21 +118,7 @@ public int Get(){
             }
             catch (Exception ex)
             {
-
-                var logText = GetText("ed79d3e2b027491f93705a4098578bcd");
-                Assert.NotNull(log);
-                Assert.True(ex is NatashaException);
-                Assert.Equal(logText.Split("\n").Length, log!.ToString().Split("\n").Length);
-
-                if (Environment.OSVersion.Platform == PlatformID.Win32NT)
-                {
-                    foreach (var item in log.Messages)
-                    {
-                        Assert.Contains(item.Code, logText);
-                        Assert.Contains(item.Message, logText);
-                    }
-                }
-
+                CheckException(ex, log, "ed79d3e2b027491f93705a4098578bcd");
             }
 
         }
@@ -181,14 +155,14 @@ public int Get(){
             Assert.NotNull(log);
             Assert.Equal(logText.Split("\n").Length, log!.ToString().Split("\n").Length);
 
-            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
-            {
-                foreach (var item in log.Messages)
-                {
-                    Assert.Contains(item.Code, logText);
-                    Assert.Contains(item.Message, logText);
-                }
-            }
+            //if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            //{
+            //    foreach (var item in log.Messages)
+            //    {
+            //        Assert.Contains(item.Code, logText);
+            //        Assert.Contains(item.Message, logText);
+            //    }
+            //}
         }
 
         private static string GetText(string fileName)
