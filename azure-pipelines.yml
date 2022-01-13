@@ -42,6 +42,18 @@ jobs:
       version: '3.1.x'
 
   - task: DotNetCoreCLI@2
+    displayName: restore
+    inputs:
+      command: restore
+
+  - task: DotNetCoreCLI@2
+    displayName: build
+    inputs:
+      command:  build
+      projects: './test/NatashaFunctionUT'
+      arguments: '-c Release'
+
+  - task: DotNetCoreCLI@2
     displayName: test
     inputs:
       command: test
