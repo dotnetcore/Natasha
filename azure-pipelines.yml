@@ -30,31 +30,23 @@ jobs:
   - task: DotNetCoreInstaller@1
     displayName: install
     inputs:
-      version: '5.0.100'
-
-      
-
-
-  - task: DotNetCoreCLI@1
-    displayName: restore
+      version: '5.0.x'
+  - task: DotNetCoreInstaller@1
+    displayName: install
     inputs:
-      command: restore
-      projects: './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj'
+      version: '6.0.x'
 
-
-  - task: DotNetCoreCLI@1
-    displayName: build
+  - task: DotNetCoreInstaller@1
+    displayName: install
     inputs:
-      command: build
-      projects: './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj'
-      arguments: '-c Release'
-
+      version: '3.1.x'
 
   - task: DotNetCoreCLI@2
     displayName: test
     inputs:
       command: test
       projects: './test/NatashaFunctionUT'
+      arguments: '-c Release'
 
 
 
@@ -70,29 +62,23 @@ jobs:
   - task: DotNetCoreInstaller@1
     displayName: install
     inputs:
-      version: '5.0.100'
-
-
-  - task: DotNetCoreCLI@1
-    displayName: restore
+      version: '5.0.x'
+  - task: DotNetCoreInstaller@1
+    displayName: install
     inputs:
-      command: restore
-      projects: './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj'
+      version: '6.0.x'
 
-
-  - task: DotNetCoreCLI@1
-    displayName: build
+  - task: DotNetCoreInstaller@1
+    displayName: install
     inputs:
-      command: build
-      projects: './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj'
-      arguments: '-c Release'
-
+      version: '3.1.x'
 
   - task: DotNetCoreCLI@2
     displayName: test
     inputs:
       command: test
       projects: './test/NatashaFunctionUT'
+      arguments: '-c Release'
 
 
 
@@ -108,26 +94,20 @@ jobs:
   - task: DotNetCoreInstaller@1
     displayName: install
     inputs:
-      version: '5.0.100'
-
-
-  - task: DotNetCoreCLI@1
-    displayName: restore
+      version: '5.0.x'
+  - task: DotNetCoreInstaller@1
+    displayName: install
     inputs:
-      command: restore
-      projects: './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj'
+      version: '6.0.x'
 
-
-  - task: DotNetCoreCLI@1
-    displayName: build
+  - task: DotNetCoreInstaller@1
+    displayName: install
     inputs:
-      command: build
-      projects: './src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj'
-      arguments: '-c Release'
-
+      version: '3.1.x'
 
   - task: DotNetCoreCLI@2
     displayName: test
     inputs:
       command: test
       projects: './test/NatashaFunctionUT'
+      arguments: '-c Release'
