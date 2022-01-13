@@ -101,7 +101,7 @@ namespace Natasha.CSharp.Template
 
                 }
                 //使用全局Using
-                if (_autoLoadDomainUsing && AssemblyBuilder.Domain.Name != "Default")
+                if (_autoLoadDomainUsing)
                 {
                     foreach (var @using in AssemblyBuilder.Domain.UsingRecorder._usings)
                     {
