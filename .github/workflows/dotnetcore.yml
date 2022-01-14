@@ -9,7 +9,7 @@ on:
 jobs:
 
     linux:
-      if: github.event_name == 'pull_request' && github.event.action == 'opened'
+      if: github.event_name == 'pull_request' && github.event.action == 'closed'
       runs-on: ubuntu-latest
       
       steps:
@@ -33,7 +33,7 @@ jobs:
         run: dotnet test './test/NatashaFunctionUT' -c Release
      
     windows:
-      if: github.event_name == 'pull_request' && github.event.action == 'synchronize'
+      if: github.event_name == 'pull_request' && github.event.action == 'closed'
       runs-on: windows-latest  
       steps:
       - uses: actions/checkout@v2
@@ -60,7 +60,7 @@ jobs:
       - name: Restore
         run: dotnet restore
       - name: Build
-        run: dotnet build "./test/NatashaFunctionUT"
+        run: dotnet build "./test/NatashaFunctionUT" --no-restore
       - name: 🚦 Test
         run: dotnet test "./test/NatashaFunctionUT/NatashaFunctionUT.csproj" --no-restore -f net5.0 -c Release --collect:"XPlat Code Coverage" -r ./coverage
 
