@@ -116,7 +116,7 @@ jobs:
     inputs:
       command:  build
       projects: './test/NatashaFunctionUT'
-      arguments: '-c Release'
+      arguments: '-c Release --no-restore'
       
   - task: DotNetCoreCLI@2
     displayName: test
