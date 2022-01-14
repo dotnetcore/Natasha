@@ -9,7 +9,7 @@ on:
 jobs:
 
     linux:
-      if: github.event_name == 'pull_request' && github.event.action != 'closed'
+      if: github.event_name == 'pull_request' && github.event.action == 'synchronize'
       runs-on: ubuntu-latest
       
       steps:
@@ -33,7 +33,7 @@ jobs:
         run: dotnet test './test/NatashaFunctionUT' -c Release
      
     windows:
-      if: github.event_name == 'pull_request' && github.event.action != 'closed'
+      if: github.event_name == 'pull_request' && github.event.action == 'synchronize'
       runs-on: windows-latest  
       steps:
       - uses: actions/checkout@v2
@@ -71,7 +71,7 @@ jobs:
           directory: ./coverage/
    
     mac:
-      if: github.event_name == 'pull_request' && github.event.action != 'closed'
+      if: github.event_name == 'pull_request' && github.event.action == 'synchronize'
       runs-on: macos-latest
             
       steps:
