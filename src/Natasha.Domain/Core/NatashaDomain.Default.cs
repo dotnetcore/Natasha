@@ -27,14 +27,14 @@ public partial class NatashaDomain : AssemblyLoadContext
     private static int _lockCount = 0;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool GetLock()
+    private static bool GetLock()
     {
         return Interlocked.CompareExchange(ref _lockCount, 1, 0) == 0;
 
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void GetAndWaitLock()
+    private static void GetAndWaitLock()
     {
         while (Interlocked.CompareExchange(ref _lockCount, 1, 0) != 0)
         {
@@ -43,7 +43,7 @@ public partial class NatashaDomain : AssemblyLoadContext
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void ReleaseLock()
+    private static void ReleaseLock()
     {
 
         _lockCount = 0;
@@ -113,6 +113,7 @@ public partial class NatashaDomain : AssemblyLoadContext
     }
 
     private static int _preDefaultAssemblyCount;
+    public static int DefaultAssemblyCacheCount { get{ return _preDefaultAssemblyCount;  } }
     public static void RefreshDefaultAssemblies(Func<AssemblyName, string?, bool>? excludeAssemblyNameFunc)
     {
         if (excludeAssemblyNameFunc!=null)
