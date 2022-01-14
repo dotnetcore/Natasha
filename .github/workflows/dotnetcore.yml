@@ -1,49 +1,53 @@
 name: .NET
 
 on:
-   push:
+   pull_request:
+    types: [opened, synchronize, reopened, closed]
     branches:
-    - main
+      - main
 
 jobs:
-  linux:      
+
+    linux:
+      if: github.event_name == 'pull_request' && github.event.action != 'closed'
       runs-on: ubuntu-latest
       
       steps:
       - uses: actions/checkout@v2
-      - name: 🔨 Use .NET Core 3.1.X SDK
+      - name: 🔨 Setup .NET Core 3.1.X SDK
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '3.1.x'
         
-      - name: 🔨 Use .NET 5.0.X SDK
+      - name: 🔨 Setup .NET 5.0.X SDK
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '5.x'
 
-      - name: 🔨 Use .NET 6.X SDK
+      - name: 🔨 Setup .NET 6.X SDK
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '6.x'
           
-      - name: Test
+      - name: 🚦 Test
         run: dotnet test './test/NatashaFunctionUT' -c Release
      
-  windows:
+    windows:
+      if: github.event_name == 'pull_request' && github.event.action != 'closed'
       runs-on: windows-latest  
       steps:
       - uses: actions/checkout@v2
-      - name: 🔨 Use .NET Core 3.1.X SDK
+      - name: 🔨 Setup .NET Core 3.1.X SDK
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '3.1.x'
         
-      - name: 🔨 Use .NET 5.0.X SDK
+      - name: 🔨 Setup .NET 5.0.X SDK
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '5.x'
 
-      - name: 🔨 Use .NET 6.X SDK
+      - name: 🔨 Setup .NET 6.X SDK
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '6.x'
@@ -57,8 +61,8 @@ jobs:
         run: dotnet restore
       - name: Build
         run: dotnet build "./test/NatashaFunctionUT"
-      - name: Test
-        run: dotnet test "./test/NatashaFunctionUT/NatashaFunctionUT.csproj" -f net5.0 -c Release --no-restore --collect:"XPlat Code Coverage" -r ./coverage
+      - name: 🚦 Test
+        run: dotnet test "./test/NatashaFunctionUT/NatashaFunctionUT.csproj" --no-restore -f net5.0 -c Release --collect:"XPlat Code Coverage" -r ./coverage
 
       - name: Upload to Codecov
         uses: codecov/codecov-action@v2
@@ -66,25 +70,26 @@ jobs:
           token: ${{ secrets.COVERAGE_KEY }}
           directory: ./coverage/
    
-  mac:
+    mac:
+      if: github.event_name == 'pull_request' && github.event.action != 'closed'
       runs-on: macos-latest
             
       steps:
       - uses: actions/checkout@v2
-      - name: 🔨 Use .NET Core 3.1.X SDK
+      - name: 🔨 Setup .NET Core 3.1.X SDK
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '3.1.x'
         
-      - name: 🔨 Use .NET 5.0.X SDK
+      - name: 🔨 Setup .NET 5.0.X SDK
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '5.x'
 
-      - name: 🔨 Use .NET 6.X SDK
+      - name: 🔨 Setup .NET 6.X SDK
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '6.x'
           
-      - name: Test
+      - name: 🚦 Test
         run: dotnet test './test/NatashaFunctionUT' -c Release
