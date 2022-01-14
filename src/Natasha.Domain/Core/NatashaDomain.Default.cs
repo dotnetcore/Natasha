@@ -112,7 +112,7 @@ public partial class NatashaDomain : AssemblyLoadContext
 
     }
 
-    internal static int _preDefaultAssemblyCount;
+    private static int _preDefaultAssemblyCount;
     public static void RefreshDefaultAssemblies(Func<AssemblyName, string?, bool>? excludeAssemblyNameFunc)
     {
         if (excludeAssemblyNameFunc!=null)
