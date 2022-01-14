@@ -1,4 +1,4 @@
-name: .NET
+name: Natasha unit test
 
 on:
    pull_request:
@@ -9,7 +9,7 @@ on:
 jobs:
 
     linux:
-      if: github.event_name == 'pull_request' && github.event.action == 'synchronize'
+      if: github.event_name == 'pull_request' && github.event.action == 'opened'
       runs-on: ubuntu-latest
       
       steps:
