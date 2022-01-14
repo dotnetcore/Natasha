@@ -1,5 +1,4 @@
-﻿using Natasha.CSharp.Component.Domain;
-using System.Runtime.Loader;
+﻿using System.Runtime.Loader;
 
 /// <summary>
 /// 程序集编译构建器 - 域
