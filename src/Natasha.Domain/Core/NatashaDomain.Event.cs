@@ -11,14 +11,14 @@ public partial class NatashaDomain
 {
    
 
-    internal Assembly? Default_Resolving(AssemblyLoadContext arg1, AssemblyName arg2)
+    private Assembly? Default_Resolving(AssemblyLoadContext arg1, AssemblyName arg2)
     {
         return Load(arg2);
     }
 
 
 
-    internal IntPtr Default_ResolvingUnmanagedDll(Assembly arg1, string arg2)
+    private IntPtr Default_ResolvingUnmanagedDll(Assembly arg1, string arg2)
     {
         return LoadUnmanagedDll(arg2);
     }
