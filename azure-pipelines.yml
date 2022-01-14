@@ -15,6 +15,7 @@ trigger:
     - lang/*
     - article/*
     - docs/*
+    - .github/*
 
 jobs:
     
@@ -122,4 +123,4 @@ jobs:
     inputs:
       command: test
       projects: './test/NatashaFunctionUT' 
-      arguments: '-c Release'
+      arguments: '-c Release --no-restore --no-build'
