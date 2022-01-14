@@ -58,16 +58,13 @@ jobs:
       - name: Build
         run: dotnet build "./test/NatashaFunctionUT"
       - name: Test
-        run: dotnet test "./test/NatashaFunctionUT/NatashaFunctionUT.csproj" -f net5.0 -c Release --no-restore /p:CollectCoverage=true /p:CoverletOutputFormat=json --collect:"XPlat Code Coverage" -r:"./result/" -m
-       
-      - uses: codecov/codecov-action@v2
+        run: dotnet test "./test/NatashaFunctionUT/NatashaFunctionUT.csproj" -f net5.0 -c Release --no-restore --collect:"XPlat Code Coverage" -r ./coverage
+
+      - name: Upload to Codecov
+        uses: codecov/codecov-action@v2
         with:
-          token: ${{ secrets.COVERAGE_KEY }} # not required for public repos
-          files: .\result\*.cobertura.xml
-          flags: unittests # optional
-          name: codecov-umbrella # optional
-          fail_ci_if_error: true # optional (default = false)
-          verbose: true # optional (default = false)
+          token: ${{ secrets.COVERAGE_KEY }}
+          directory: ./coverage/
    
   mac:
       runs-on: macos-latest
