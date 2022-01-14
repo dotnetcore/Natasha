@@ -71,7 +71,7 @@ jobs:
           directory: ./coverage/
    
     mac:
-      if: github.event_name == 'pull_request' && github.event.action == 'synchronize'
+      if: github.event_name == 'pull_request' && github.event.action == 'closed'
       runs-on: macos-latest
             
       steps:
