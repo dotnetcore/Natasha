@@ -63,7 +63,7 @@ jobs:
       - uses: codecov/codecov-action@v2
         with:
           token: ${{ secrets.COVERAGE_KEY }} # not required for public repos
-          files: .*.coverage.cobertura.xml
+          files: .\result\*.cobertura.xml
           flags: unittests # optional
           name: codecov-umbrella # optional
           fail_ci_if_error: true # optional (default = false)
