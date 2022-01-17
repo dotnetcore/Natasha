@@ -5,7 +5,6 @@
 		<PackageReleaseNotes>升级到最新版.</PackageReleaseNotes>
 		<PackageTags>Roslyn;IL;Script;Dynamic;Natasha;NMS;</PackageTags>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-
 	</PropertyGroup>
 
 
