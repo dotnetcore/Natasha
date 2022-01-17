@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<EnableDynamicLoading>true</EnableDynamicLoading>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Dapper" Version="1.60.6" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\PluginBase\PluginBase.csproj" />
+	</ItemGroup>
+
+</Project>
