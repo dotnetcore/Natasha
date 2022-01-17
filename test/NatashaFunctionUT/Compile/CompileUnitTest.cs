@@ -1,69 +1,73 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Xunit;
 
 namespace NatashaFunctionUT.Compile
 {
     [Trait("基础功能测试", "编译")]
-    public class CompileUnitTest : CompilePrepare
+    public class CompileUnitTest : DomainPrepare
     {
 
-        private const string HighVersionCode = @"using MetadataDiff;public class A{   public string Get(){ return (new MetadataModel()).Name;  }  }";
-        private const string LowVersionCode = @"using MetadataDiff;public class A{   public string Get(){ return (new MetadataModel()).Old_Name;  }  }";
-        private static void AssertHighVersionCode(bool compileResult, LoadBehaviorEnum referenceLoadBehavior)
+        [Fact(DisplayName = "基础编译测试 - 程序集")]
+        public void TestAssembly()
         {
-            (string name, string currentName,bool compileSucceed) = CompileMetadataDiffCode(HighVersionCode, referenceLoadBehavior);
-            for (int i = 0; i < 6; i++)
+            string code = @"public class A{public string Name=""HelloWorld"";}";
+            using (DomainManagement.Random().CreateScope())
             {
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
+                AssemblyCSharpBuilder builder = new();
+                builder.Add(code);
+
+                var assembly = builder.GetAssembly();
+                Assert.NotNull(assembly);
+
+                var type = assembly.GetTypes().Where(item => item.Name == "A").First();
+                var info = type.GetField("Name");
+
+                Assert.Equal("HelloWorld", info!.GetValue(Activator.CreateInstance(type)));
+                Assert.NotEqual("Default", builder.Domain.Name);
+
             }
-            Assert.NotEqual("Default", name);
-            Assert.Equal(name, currentName);
-            Assert.Equal(compileResult, compileSucceed);
-            Assert.True(DomainManagement.IsDeleted(currentName));
         }
-        private static void AssertLowVersionCode(bool compileResult, LoadBehaviorEnum referenceLoadBehavior)
+
+        [Fact(DisplayName = "基础编译测试 - 类型")]
+        public void TestType()
         {
-            (string name, string currentName, bool compileSucceed) = CompileMetadataDiffCode(LowVersionCode, referenceLoadBehavior);
-            for (int i = 0; i < 6; i++)
+            string code = @"public class A{public string Name=""HelloWorld"";}";
+            using (DomainManagement.Random().CreateScope())
             {
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
+                AssemblyCSharpBuilder builder = new();
+                builder.Add(code);
+
+                var type = builder.GetTypeFromShortName("A");
+                Assert.Equal("A", type.Name);
+
+                var info = type.GetField("Name");
+                Assert.Equal("HelloWorld", info!.GetValue(Activator.CreateInstance(type)));
+
+
+                Assert.NotEqual("Default", builder.Domain.Name);
+               
             }
-            Assert.NotEqual("Default", name);
-            Assert.Equal(name, currentName);
-            Assert.Equal(compileResult, compileSucceed);
-            Assert.True(DomainManagement.IsDeleted(currentName));
         }
 
 
-        [Fact(DisplayName = "[高版本引用]编译测试")]
-        public void HCompile()
+        [Fact(DisplayName = "基础编译测试 - 委托")]
+        public void TestDelegate()
         {
-            AssertHighVersionCode(true, LoadBehaviorEnum.UseHighVersion);
-            AssertLowVersionCode(false, LoadBehaviorEnum.UseHighVersion);
+            string code = @"public class A{public string Name=""HelloWorld""; public static string Get(){  return (new A()).Name; }}";
+            using (DomainManagement.Create("compileUntiTestFoDelegate").CreateScope())
+            {
+                AssemblyCSharpBuilder builder = new("compileUntiTestFoDelegateAssembly");
+                builder.Add(code);
+                var func = builder.GetDelegateFromShortName<Func<string>>("A","Get");
+                Assert.Equal("compileUntiTestFoDelegateAssembly", func.Method.Module.Assembly.GetName().Name!);
+                Assert.Equal("HelloWorld", func());
+                Assert.Equal("compileUntiTestFoDelegate", builder.Domain.Name);
+
+            }
         }
 
-        [Fact(DisplayName = "[低版本引用]编译测试")]
-        public void LCompile()
-        {
-            AssertLowVersionCode(true, LoadBehaviorEnum.UseLowVersion);
-            AssertHighVersionCode(false, LoadBehaviorEnum.UseLowVersion);
-        }
-
-        [Fact(DisplayName = "[混合版本引用]编译测试")]
-        public void CCompile()
-        {
-            AssertHighVersionCode(true, LoadBehaviorEnum.None);
-            AssertLowVersionCode(false, LoadBehaviorEnum.None);
-        }
-
-        [Fact(DisplayName = "[默认域引用]编译测试")]
-        public void DCompile()
-        {
-            AssertLowVersionCode(false, LoadBehaviorEnum.UseDefault);
-            AssertHighVersionCode(true, LoadBehaviorEnum.UseDefault);
-        }
     }
-
 }
