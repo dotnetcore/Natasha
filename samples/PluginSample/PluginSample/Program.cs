@@ -3,6 +3,7 @@
 using PluginBase;
 using System.Reflection;
 
+//refelct type, assembly will be loaded in default context.
 _ = typeof(IPluginBase);
 _ = typeof(Dapper.CommandDefinition);
 
