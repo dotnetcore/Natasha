@@ -100,7 +100,8 @@
 
 
 #### 捐助明细  
-  
+ 
+- [Newbe俞佬](https://github.com/newbe36524) 200 元 
 - iNeuOS工业互联网平台 100 元 
 - 老萌 30 (发布支持SG版本的 Natasha)
 - ****天下 10元  
