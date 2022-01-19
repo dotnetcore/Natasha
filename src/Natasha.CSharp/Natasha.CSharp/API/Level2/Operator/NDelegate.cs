@@ -4,6 +4,12 @@ using Natasha.CSharp.Template;
 using System;
 using System.Reflection;
 
+
+/// <summary>
+/// 委托的快速实现类
+/// 如果使用 Func:  Func<T,R> 第一个参数名为:arg , Func<T,T,R> 起,为 arg1,arg2....
+/// 如果使用 Action:  Action<T> 第一个参数名为:obj , Action<T,T> 起,为 arg1,arg2....
+/// </summary>
 public class NDelegate : CompilerTemplate<NDelegate>
 {
 
@@ -88,7 +94,11 @@ public class NDelegate : CompilerTemplate<NDelegate>
     }
 
 
-
+    /// <summary>
+    /// 配置委托模板的类模板
+    /// </summary>
+    /// <param name="classAction"></param>
+    /// <returns></returns>
     public NDelegate ConfigClass(Func<OopBuilder, OopBuilder> classAction)
     {
 
@@ -96,6 +106,11 @@ public class NDelegate : CompilerTemplate<NDelegate>
         return this;
 
     }
+    /// <summary>
+    /// 配置委托模板的方法模板
+    /// </summary>
+    /// <param name="methodAction"></param>
+    /// <returns></returns>
     public NDelegate ConfigMethod(Func<FakeMethodOperator, FakeMethodOperator> methodAction)
     {
 
@@ -119,15 +134,11 @@ public class NDelegate : CompilerTemplate<NDelegate>
     }
 
 
-
-
     public Func<T> AsyncFunc<T>(string content)
     {
 
         return AsyncDelegate<Func<T>>(content, DelegateImplementationHelper<T>.FuncInfo);
     }
-
-
 
 
     public Func<T> UnsafeFunc<T>(string content)
@@ -137,8 +148,6 @@ public class NDelegate : CompilerTemplate<NDelegate>
     }
 
 
-
-
     public Func<T> UnsafeAsyncFunc<T>(string content)
     {
 
@@ -146,8 +155,13 @@ public class NDelegate : CompilerTemplate<NDelegate>
     }
 
 
-
-
+    /// <summary>
+    /// 第一个参数名为: arg
+    /// </summary>
+    /// <typeparam name="T1"></typeparam>
+    /// <typeparam name="T2"></typeparam>
+    /// <param name="content"></param>
+    /// <returns></returns>
     public Func<T1, T2> Func<T1, T2>(string content)
     {
 
@@ -156,7 +170,13 @@ public class NDelegate : CompilerTemplate<NDelegate>
 
 
 
-
+    /// <summary>
+    /// 第一个参数名为: arg
+    /// </summary>
+    /// <typeparam name="T1"></typeparam>
+    /// <typeparam name="T2"></typeparam>
+    /// <param name="content"></param>
+    /// <returns></returns>
     public Func<T1, T2> AsyncFunc<T1, T2>(string content)
     {
 
@@ -165,7 +185,13 @@ public class NDelegate : CompilerTemplate<NDelegate>
 
 
 
-
+    /// <summary>
+    /// 第一个参数名为: arg
+    /// </summary>
+    /// <typeparam name="T1"></typeparam>
+    /// <typeparam name="T2"></typeparam>
+    /// <param name="content"></param>
+    /// <returns></returns>
     public Func<T1, T2> UnsafeFunc<T1, T2>(string content)
     {
 
@@ -174,7 +200,13 @@ public class NDelegate : CompilerTemplate<NDelegate>
 
 
 
-
+    /// <summary>
+    /// 第一个参数名为: arg
+    /// </summary>
+    /// <typeparam name="T1"></typeparam>
+    /// <typeparam name="T2"></typeparam>
+    /// <param name="content"></param>
+    /// <returns></returns>
     public Func<T1, T2> UnsafeAsyncFunc<T1, T2>(string content)
     {
 
@@ -569,7 +601,12 @@ public class NDelegate : CompilerTemplate<NDelegate>
 
 
 
-
+    /// <summary>
+    /// 参数名为 obj
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="content"></param>
+    /// <returns></returns>
     public Action<T> Action<T>(string content)
     {
 
@@ -578,7 +615,12 @@ public class NDelegate : CompilerTemplate<NDelegate>
 
 
 
-
+    /// <summary>
+    /// 参数名为 obj
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="content"></param>
+    /// <returns></returns>
     public Action<T> AsyncAction<T>(string content)
     {
 
@@ -587,7 +629,12 @@ public class NDelegate : CompilerTemplate<NDelegate>
 
 
 
-
+    /// <summary>
+    /// 参数名为 obj
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="content"></param>
+    /// <returns></returns>
     public Action<T> UnsafeAction<T>(string content)
     {
 
@@ -596,14 +643,17 @@ public class NDelegate : CompilerTemplate<NDelegate>
 
 
 
-
+    /// <summary>
+    /// 参数名为 obj
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="content"></param>
+    /// <returns></returns>
     public Action<T> UnsafeAsyncAction<T>(string content)
     {
 
         return UnsafeAsyncDelegate<Action<T>>(content, DelegateImplementationHelper<T>.ActionInfo);
     }
-
-
 
 
     public Action<T1, T2> Action<T1, T2>(string content)

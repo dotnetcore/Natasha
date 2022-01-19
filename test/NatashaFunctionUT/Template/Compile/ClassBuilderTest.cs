@@ -89,14 +89,6 @@ public class EnumUT1
 
             NClass builder = NClass.RandomDomain();
 
-            builder.PublicReadonlyField<int>("_field");
-            builder.PrivateField<string>("_name");
-            builder.Property(item => item
-            .Public()
-            .Getter("return _name")
-            );
-
-
             builder.Method(mb=> mb.Public().Name("Apple").Type<int>().Body("return 0;"));
             var pb = builder.Property(pb => pb.Public()
             .Name("Banana")
