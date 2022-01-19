@@ -1,4 +1,7 @@
 ﻿using Natasha.CSharp;
+using System;
+using System.Runtime.Serialization;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace NatashaFunctionUT.Template.Compile
@@ -86,6 +89,14 @@ public class EnumUT1
 
             NClass builder = NClass.RandomDomain();
 
+            builder.PublicReadonlyField<int>("_field");
+            builder.PrivateField<string>("_name");
+            builder.Property(item => item
+            .Public()
+            .Getter("return _name")
+            );
+
+
             builder.Method(mb=> mb.Public().Name("Apple").Type<int>().Body("return 0;"));
             var pb = builder.Property(pb => pb.Public()
             .Name("Banana")
@@ -128,5 +139,94 @@ public class EnumUT1
             Assert.NotNull(type);
 
         }
+
+
+        [Fact(DisplayName = "类构建与编译4")]
+        public void TestClass3()
+        {
+
+            string expected = @"using NatashaFunctionUT.Template.Compile;
+
+namespace NatashaDynimacSpace
+{
+    /// <summary>
+    /// This is a test class;
+    /// </summary>
+    public class Nee7e202ee18c413dacae62af6b106c6e
+    {
+        public readonly System.Int32 ReadonlyField;
+        public Nee7e202ee18c413dacae62af6b106c6e()
+        {
+            ReadonlyField = 10;
+        }
+
+        [MyTestAttribute]
+        private System.String _name;
+        [NatashaFunctionUT.Template.Compile.MyTestAttribute]
+        public System.String NameProperty
+        {
+            get
+            {
+                return _name;
+            }
+        }
+
+        public AnotherClass AnotherProperty { get; set; }
+
+        public virtual async System.Threading.Tasks.Task<System.String> SetName(System.String name)
+        {
+            _name = name;
+            return _name;
+        }
     }
+
+    public class AnotherClass
+    {
+    }
+}";
+
+
+
+            NClass builder = NClass.RandomDomain();
+
+            var type = builder
+                .Public()
+                .Name("Nee7e202ee18c413dacae62af6b106c6e")
+                .Summary("This is a test class;")
+
+                .PublicReadonlyField<int>("ReadonlyField")
+                .Ctor(item => item.Public().Body("ReadonlyField = 10;"))
+
+                .PrivateField<string>("_name", "[MyTestAttribute]")
+                .Property(item => item
+                    .Public()
+                    .Attribute<MyTestAttribute>()
+                    .Type<string>()
+                    .Name("NameProperty")
+                    .OnlyGetter("return _name;"))
+
+                .Property(item => item
+                    .Public()
+                    .Type("AnotherClass")
+                    .Name("AnotherProperty"))
+
+                .Method(item => item
+                    .Public()
+                    .Virtrual()
+                    .Async()
+                    .Name("SetName")
+                    .Param<string>("name")
+                    .Body(@"_name = name;
+                            return _name;")
+                    .Return<Task<string>>())
+
+                .NamespaceBodyAppend("public class AnotherClass{}")
+                .GetType();
+            var actual = builder.AssemblyBuilder.SyntaxTrees[0].ToString();
+            OSStringCompare.Equal(expected, actual);
+            Assert.NotNull(type);
+        }
+    }
+
+    public class MyTestAttribute : Attribute { }
 }

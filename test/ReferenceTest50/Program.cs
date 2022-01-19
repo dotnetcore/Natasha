@@ -1,8 +1,9 @@
 ﻿
-using NLog;
+using Natasha.CSharp;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ReferenceTest50
 {
@@ -12,10 +13,15 @@ namespace ReferenceTest50
         public static void TestMethod() => Console.WriteLine("AA");
         static void Main(string[] args)
         {
-
-            Nacos.Request.RequestClient request = default;
-            Nacos.Microsoft.Extensions.Configuration.ConfigListener b = default;
-            Nacos.AspNetCore.V2.NacosAspNetOptions options = default;
+            _ = typeof(NLog.GlobalDiagnosticsContext);
+            _ = typeof(Serilog.Configuration.LoggerAuditSinkConfiguration);
+            _ = typeof(Nacos.Request.RequestClient);
+            _ = typeof(Nacos.Microsoft.Extensions.Configuration.ConfigListener);
+            _ = typeof(Nacos.AspNetCore.V2.NacosAspNetOptions);
+            _ = typeof(WebApiClientCore.ApiActionInvoker);
+            _ = typeof(AlibabaCloud.SDK.Dysmsapi20170525.Client);
+            _ = typeof(AlibabaCloud.RPCClient.Client);
+            _ = typeof(AlibabaCloud.TeaUtil.Common);
             //Check();
             //Console.WriteLine(typeof(string).Assembly == typeof(object).Assembly && typeof(string).Namespace == typeof(object).Namespace);
             //Console.WriteLine(typeof(Console).Assembly == typeof(object).Assembly && typeof(Console).Namespace == typeof(object).Namespace);
@@ -49,10 +55,8 @@ namespace ReferenceTest50
             // Check();
             //Microsoft.CodeAnalysis.Workspaces.ErrorLogger
             Check();
-            Stopwatch stopwatch = new();
-            stopwatch.Start();
+
             NatashaInitializer.Preheating((asm,name)=>name.Contains("IO"));
-            stopwatch.Stop();
             Check();
             AssemblyCSharpBuilder builder = new();
             builder.Domain = DomainManagement.Random();
@@ -61,6 +65,21 @@ namespace ReferenceTest50
             var asm = builder.GetAssembly();
             Check();
             NDelegate.RandomDomain().Action("Console.WriteLine(\"hello world!\");")();
+            Stopwatch stopwatch = new();
+            stopwatch.Start();
+            var delegateAction = FastMethodOperator.DefaultDomain()
+                        .Async()
+                        .Param<string>("str1")
+                        .Param<string>("str2")
+                        .Body(@"
+                            string a=""1"";
+                            string b=""1"";  
+                            return ""sss"";")
+                        .Return<Task<string>>()
+
+                .Compile();
+            stopwatch.Stop();
+            Console.WriteLine(stopwatch.Elapsed.TotalMilliseconds);
             Console.WriteLine("Completed!");
             Console.ReadKey();
             //ILogger a;
