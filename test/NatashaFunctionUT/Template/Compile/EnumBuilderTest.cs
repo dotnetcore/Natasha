@@ -18,13 +18,16 @@ namespace NatashaFunctionUT.Template.Compile
                 .HiddenNamespace()
                 .Access(AccessFlags.Public)
                 .Name("EnumUT1")
-                .EnumField("Apple", 1)
+                .EnumField("Apple", 1,"苹果")
                 .EnumField("Orange", 2)
                 .EnumField("Banana", 4)
                 .GetType();
             var script = builder.AssemblyBuilder.SyntaxTrees[0].ToString();
             var expected = @"public enum EnumUT1
 {
+    /// <summary>
+    /// 苹果
+    /// </summary>
     Apple = 1,
     Orange = 2,
     Banana = 4
