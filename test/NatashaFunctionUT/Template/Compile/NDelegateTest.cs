@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace NatashaFunctionUT.Template.Compile
@@ -29,7 +30,7 @@ namespace NatashaFunctionUT.Template.Compile
         }
 
         [Fact(DisplayName = "委托简单测试")]
-        public void SNDelegate1()
+        public void SNDelegate()
         {
 
             var func = NDelegate
@@ -43,7 +44,7 @@ namespace NatashaFunctionUT.Template.Compile
 
 
         [Fact(DisplayName = "异步委托")]
-        public async void RunAsyncDelegate3()
+        public async void RunAsyncDelegate()
         {
             var action = NDelegate.RandomDomain().AsyncFunc<string, string, Task<string>>(@"
                             return arg1 +"" ""+ arg2;");
@@ -53,12 +54,41 @@ namespace NatashaFunctionUT.Template.Compile
         }
 
 
+        [Fact(DisplayName = "dynamic 异步委托1")]
+        public async void RunDynamicAsyncDelegate1()
+        {
+            var action = NDelegate.RandomDomain().AsyncFunc<string, dynamic, Task<string>>(@"
+                            return arg1 +"" ""+ arg2;");
+
+            string result = await action("Hello", "World1!");
+            Assert.Equal("Hello World1!", result);
+        }
+
+        //[Fact(DisplayName = "dynamic 异步委托2")]
+        //public async void RunDynamicAsyncDelegate2()
+        //{
+        //    var domain = DomainManagement.Random();
+        //    var type = NClass
+        //        .UseDomain(domain)
+        //        .Public()
+        //        .Ctor(item=>item.Public().Body("S1=\"Hello \";S2 = \"World!\";"))
+        //        .PublicField<string>("S1")
+        //        .PublicField<string>("S2")
+        //        .GetType();
+        //    var obj = Activator.CreateInstance(type);
+        //    var action = NDelegate.UseDomain(domain).AsyncFunc<dynamic, Task<string>>(@"
+        //                    return arg.S1 + arg.S2;");
+
+        //    string result = await action(obj!);
+        //    Assert.Equal("Hello World1!", result);
+        //}
+
 
 
         [Fact(DisplayName = "非安全异步委托")]
-        public async void RunAsyncDelegate4()
+        public async void RunUnsafeAsyncDelegate()
         {
-            var action = NDelegate.RandomDomain().UnsafeAsyncFunc<string, string, Task<string>>(@"
+            var action = NDelegate.RandomDomain().ConfigMethod(item=>item.Summary("zhushi")).UnsafeAsyncFunc<string, string, Task<string>>(@"
                             return arg1 +"" ""+ arg2;");
 
             string result = await action("Hello", "World1!");

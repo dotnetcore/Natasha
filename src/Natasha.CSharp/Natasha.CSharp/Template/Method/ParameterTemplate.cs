@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Natasha.CSharp.Template
@@ -50,7 +51,7 @@ namespace Natasha.CSharp.Template
         {
 
             RecordUsing(info.ParameterType);
-            Param(info.ParameterType.GetDevelopName(), info.Name!, DeclarationReverser.GetParametePrefix(info));
+            Param(info.GetCustomAttribute(typeof(DynamicAttribute))== null? info.ParameterType.GetDevelopName() : "dynamic", info.Name!, DeclarationReverser.GetParametePrefix(info));
             return Link;
 
         }

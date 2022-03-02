@@ -13,6 +13,7 @@ namespace ReferenceTest50
         public static void TestMethod() => Console.WriteLine("AA");
         static void Main(string[] args)
         {
+            C("a");
             _ = typeof(NLog.GlobalDiagnosticsContext);
             _ = typeof(Serilog.Configuration.LoggerAuditSinkConfiguration);
             _ = typeof(Nacos.Request.RequestClient);
@@ -116,6 +117,12 @@ namespace ReferenceTest50
             Console.ReadKey();
         }
 
+        public static void C(dynamic a)
+        {
+            var method = typeof(Program).GetMethod("C");
+            var p =  method.GetParameters()[0];
+            Console.WriteLine(p.Name);
+        }
         public static void Check()
         {
             var assemblies = System.Runtime.Loader.AssemblyLoadContext.Default.Assemblies;
