@@ -65,7 +65,7 @@ jobs:
         run: dotnet test "./test/NatashaFunctionUT/NatashaFunctionUT.csproj" --no-restore -f net5.0 -c Release --collect:"XPlat Code Coverage" -r ./coverage
 
       - name: Upload to Codecov
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.COVERAGE_KEY }}
           directory: ./coverage/
