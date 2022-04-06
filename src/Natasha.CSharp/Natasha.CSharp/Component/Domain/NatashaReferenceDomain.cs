@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-public class NatashaReferenceDomain : NatashaDomain
+public sealed class NatashaReferenceDomain : NatashaDomain
 {
     public static new readonly NatashaReferenceDomain DefaultDomain;
     static NatashaReferenceDomain()

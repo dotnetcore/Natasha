@@ -10,7 +10,7 @@ using System.IO;
 /// <summary>
 /// 程序集编译构建器 - 语义
 /// </summary>
-public partial class AssemblyCSharpBuilder 
+public sealed partial class AssemblyCSharpBuilder 
 {
 
     private readonly List<Func<AssemblyCSharpBuilder, CSharpCompilation, CSharpCompilation>> _semanticAnalysistor;

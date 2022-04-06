@@ -5,7 +5,7 @@ namespace Natasha.CSharp
     /// <summary>
     /// 快速创建一个动态方法
     /// </summary>
-    public class FastMethodOperator : MethodBuilder<FastMethodOperator>
+    public sealed class FastMethodOperator : MethodBuilder<FastMethodOperator>
     {
 
         public FastMethodOperator()

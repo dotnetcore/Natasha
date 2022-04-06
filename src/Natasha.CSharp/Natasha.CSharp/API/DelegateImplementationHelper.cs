@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 
 namespace Natasha.CSharp.Template
 {
 
-    public class DelegateImplementationHelper<T>
+    public static class DelegateImplementationHelper<T>
     {
         public static readonly MethodInfo ActionInfo;
         public static readonly MethodInfo FuncInfo;
@@ -19,7 +17,7 @@ namespace Natasha.CSharp.Template
         }
 
     }
-    public class DelegateImplementationHelper<T1, T2>
+    public static class DelegateImplementationHelper<T1, T2>
     {
 
         public static readonly MethodInfo ActionInfo;
@@ -33,7 +31,7 @@ namespace Natasha.CSharp.Template
         }
 
     }
-    public class DelegateImplementationHelper<T1, T2, T3>
+    public static class DelegateImplementationHelper<T1, T2, T3>
     {
 
         public static readonly MethodInfo ActionInfo;
@@ -53,7 +51,7 @@ namespace Natasha.CSharp.Template
         }
 
     }
-    public class DelegateImplementationHelper<T1, T2, T3, T4>
+    public static class DelegateImplementationHelper<T1, T2, T3, T4>
     {
 
         public static readonly MethodInfo ActionInfo;
@@ -67,7 +65,7 @@ namespace Natasha.CSharp.Template
         }
 
     }
-    public class DelegateImplementationHelper<T1, T2, T3, T4, T5>
+    public static class DelegateImplementationHelper<T1, T2, T3, T4, T5>
     {
 
         public static readonly MethodInfo ActionInfo;
@@ -80,7 +78,7 @@ namespace Natasha.CSharp.Template
             FuncInfo = func.Method;
         }
     }
-    public class DelegateImplementationHelper<T1, T2, T3, T4, T5, T6>
+    public static class DelegateImplementationHelper<T1, T2, T3, T4, T5, T6>
     {
 
         public static readonly MethodInfo ActionInfo;
@@ -93,7 +91,7 @@ namespace Natasha.CSharp.Template
             FuncInfo = func.Method;
         }
     }
-    public class DelegateImplementationHelper<T1, T2, T3, T4, T5, T6, T7>
+    public static class DelegateImplementationHelper<T1, T2, T3, T4, T5, T6, T7>
     {
 
         public static readonly MethodInfo ActionInfo;
@@ -106,7 +104,7 @@ namespace Natasha.CSharp.Template
             FuncInfo = func.Method;
         }
     }
-    public class DelegateImplementationHelper<T1, T2, T3, T4, T5, T6, T7, T8>
+    public static class DelegateImplementationHelper<T1, T2, T3, T4, T5, T6, T7, T8>
     {
 
         public static readonly MethodInfo ActionInfo;
@@ -120,7 +118,7 @@ namespace Natasha.CSharp.Template
         }
 
     }
-    public class DelegateImplementationHelper<T1, T2, T3, T4, T5, T6, T7, T8, T9>
+    public static class DelegateImplementationHelper<T1, T2, T3, T4, T5, T6, T7, T8, T9>
     {
 
         public static readonly MethodInfo ActionInfo;
@@ -133,7 +131,7 @@ namespace Natasha.CSharp.Template
             FuncInfo = func.Method;
         }
     }
-    public class DelegateImplementationHelper<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>
+    public static class DelegateImplementationHelper<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>
     {
 
         public static readonly MethodInfo ActionInfo;
@@ -147,7 +145,7 @@ namespace Natasha.CSharp.Template
         }
 
     }
-    public class DelegateImplementationHelper<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>
+    public static class DelegateImplementationHelper<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>
     {
 
         public static readonly MethodInfo ActionInfo;
@@ -161,7 +159,7 @@ namespace Natasha.CSharp.Template
         }
 
     }
-    public class DelegateImplementationHelper<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>
+    public static class DelegateImplementationHelper<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>
     {
         public static readonly MethodInfo ActionInfo;
         public static readonly MethodInfo FuncInfo;
@@ -174,7 +172,7 @@ namespace Natasha.CSharp.Template
         }
 
     }
-    public class DelegateImplementationHelper<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>
+    public static class DelegateImplementationHelper<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>
     {
 
         public static readonly MethodInfo ActionInfo;
@@ -187,7 +185,7 @@ namespace Natasha.CSharp.Template
             FuncInfo = func.Method;
         }
     }
-    public class DelegateImplementationHelper<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>
+    public static class DelegateImplementationHelper<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>
     {
 
         public static readonly MethodInfo ActionInfo;
@@ -200,7 +198,7 @@ namespace Natasha.CSharp.Template
             FuncInfo = func.Method;
         }
     }
-    public class DelegateImplementationHelper<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>
+    public static class DelegateImplementationHelper<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>
     {
         public static readonly MethodInfo ActionInfo;
         public static readonly MethodInfo FuncInfo;
@@ -213,7 +211,7 @@ namespace Natasha.CSharp.Template
         }
 
     }
-    public class DelegateImplementationHelper<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>
+    public static class DelegateImplementationHelper<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>
     {
 
         public static readonly MethodInfo ActionInfo;

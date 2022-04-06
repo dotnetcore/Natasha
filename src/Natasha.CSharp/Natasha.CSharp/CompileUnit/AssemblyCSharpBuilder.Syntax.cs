@@ -8,7 +8,7 @@ using System.Collections.Generic;
 /// <summary>
 /// 程序集编译构建器 - 语法树相关
 /// </summary>
-public partial class AssemblyCSharpBuilder 
+public sealed partial class AssemblyCSharpBuilder 
 {
 
     public readonly List<SyntaxTree> SyntaxTrees;

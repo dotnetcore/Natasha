@@ -3,15 +3,15 @@
 /// 默认创建一个公有的类
 /// </summary>
 public class NClass : NHandler<NClass>
+{
+
+    public NClass()
     {
 
-        public NClass()
-        {
-
-            Link = this;
-            this.Class();
-
-        }
+        Link = this;
+        this.Class();
 
     }
+
+}
 

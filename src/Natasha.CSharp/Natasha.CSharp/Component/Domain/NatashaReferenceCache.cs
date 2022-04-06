@@ -11,7 +11,7 @@ namespace Natasha.CSharp
 {
     //与元数据相关
     //数据值与程序集及内存相关
-    public class NatashaReferenceCache
+    public sealed class NatashaReferenceCache
     {
         /// <summary>
         /// 存放内存流编译过来的程序集与引用

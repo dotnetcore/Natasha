@@ -8,7 +8,7 @@ using System.Collections.Concurrent;
 
 namespace Natasha.CSharp.Compiler
 {
-    public class NatashaCSharpCompilerOptions
+    public sealed class NatashaCSharpCompilerOptions
     {
 
         public NatashaCSharpCompilerOptions()
