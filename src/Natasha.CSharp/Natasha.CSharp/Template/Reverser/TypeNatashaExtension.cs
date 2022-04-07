@@ -46,33 +46,34 @@ namespace System
             return new HashSet<Type>(type.GetInterfaces()).Contains(typeof(T));
         }
 
-
+        public static HashSet<Type> GetAllTypes(this Type type) 
+        {
+            HashSet<Type> result = new HashSet<Type>();
+            type.GetAllTypes(result);
+            return result;
+        }
         /// <summary>
         /// 获取与该类型相关的所有类型,例如 List<int> => List<> / int32
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static HashSet<Type> GetAllTypes(this Type type)
+        internal static void GetAllTypes(this Type type, HashSet<Type> result)
         {
-            HashSet<Type> result = new HashSet<Type> { type };
 
-
-            var temp = type;
-            while (temp!.HasElementType)
+            result.Add(type);
+            if (type.HasElementType)
             {
-                temp = temp.GetElementType();
+                var temp = type.GetElementType();
+                temp.GetAllTypes(result);
+
             }
-
-
-            result.Add(temp);
-            if (temp.IsGenericType && temp.FullName != null)
+            else if(type.IsGenericType && type.FullName != null)
             {
-                foreach (var item in temp.GetGenericArguments())
+                foreach (var item in type.GetGenericArguments())
                 {
-                    result.UnionWith(item.GetAllTypes());
+                    item.GetAllTypes(result);
                 }
             }
-            return result;
 
         }
 
