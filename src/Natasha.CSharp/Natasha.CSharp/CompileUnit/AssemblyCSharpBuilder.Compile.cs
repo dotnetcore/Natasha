@@ -13,7 +13,7 @@ using System.Reflection;
 /// <summary>
 /// 程序集编译构建器 - 编译选项
 /// </summary>
-public partial class AssemblyCSharpBuilder 
+public sealed partial class AssemblyCSharpBuilder 
 {
 
     private LoadBehaviorEnum _compileReferenceBehavior;

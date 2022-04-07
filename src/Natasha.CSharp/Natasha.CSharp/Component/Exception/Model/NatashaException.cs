@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 
 [Serializable]
-public class NatashaException : Exception
+public sealed class NatashaException : Exception
 {
 
     public NatashaException(string message) : base(message)

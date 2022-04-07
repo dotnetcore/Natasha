@@ -8,7 +8,7 @@ namespace Natasha.CSharp.Domain.Utils
     /// <summary>
     /// 引用模板
     /// </summary>
-    public class NatashaUsingCache
+    public sealed class NatashaUsingCache
     {
 
         internal readonly HashSet<string> _usings;

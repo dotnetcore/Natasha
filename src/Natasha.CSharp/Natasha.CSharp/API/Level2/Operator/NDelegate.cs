@@ -10,7 +10,7 @@ using System.Reflection;
 /// 如果使用 Func:  Func<T,R> 第一个参数名为:arg , Func<T,T,R> 起,为 arg1,arg2....
 /// 如果使用 Action:  Action<T> 第一个参数名为:obj , Action<T,T> 起,为 arg1,arg2....
 /// </summary>
-public class NDelegate : CompilerTemplate<NDelegate>
+public sealed class NDelegate : CompilerTemplate<NDelegate>
 {
 
     public readonly FakeMethodOperator MethodHandler;

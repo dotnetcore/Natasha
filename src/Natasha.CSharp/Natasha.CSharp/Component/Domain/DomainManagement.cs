@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using static System.Runtime.Loader.AssemblyLoadContext;
 
-public class DomainManagement
+public sealed class DomainManagement
 {
 
     public static readonly ConcurrentDictionary<string, WeakReference> Cache;

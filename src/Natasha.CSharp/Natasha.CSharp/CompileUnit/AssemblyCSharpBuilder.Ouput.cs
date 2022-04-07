@@ -4,7 +4,7 @@ using System.IO;
 /// <summary>
 /// 程序集编译构建器-输出
 /// </summary>
-public partial class AssemblyCSharpBuilder 
+public sealed partial class AssemblyCSharpBuilder 
 {
 
     #region 输出设置相关
@@ -27,8 +27,9 @@ public partial class AssemblyCSharpBuilder
         }
 
     }
-    public void UseNatashaFileOut()
+    public AssemblyCSharpBuilder UseNatashaFileOut(string folder)
     {
+        OutputFolder = folder;
         if (OutputFolder == GlobalOutputFolder)
         {
             OutputFolder = Path.Combine(GlobalOutputFolder, Domain.Name!);
@@ -40,6 +41,13 @@ public partial class AssemblyCSharpBuilder
         DllFilePath = Path.Combine(OutputFolder, $"{AssemblyName}.dll");
         PdbFilePath = Path.Combine(OutputFolder, $"{AssemblyName}.pdb");
         XmlFilePath = Path.Combine(OutputFolder, $"{AssemblyName}.xml");
+        return this;
+    }
+
+    public AssemblyCSharpBuilder SetAssemblyName(string asmName)
+    {
+        AssemblyName = asmName;
+        return this;
     }
     #endregion
 

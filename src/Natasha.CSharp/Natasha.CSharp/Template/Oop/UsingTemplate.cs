@@ -91,17 +91,7 @@ namespace Natasha.CSharp.Template
 
         public T Using(string? @using)
         {
-
-            if (!string.IsNullOrEmpty(@using))
-            {
-
-                UsingRecorder.Using(@using);
-
-            }
-            else
-            {
-                HiddenNamespace();
-            }
+            UsingRecorder.Using(@using);
             return Link;
 
         }
@@ -242,15 +232,10 @@ namespace Natasha.CSharp.Template
 
         public T Using(Type type)
         {
-
-            if (type.Namespace!=null)
-            {
-                Using(type.Namespace);
-            }
             var types = type.GetAllTypes();
-            if (types.Count>1)
+            foreach (var item in types)
             {
-                return Using(type.GetAllTypes());
+                Using(item.Namespace);
             }
             return Link;
 

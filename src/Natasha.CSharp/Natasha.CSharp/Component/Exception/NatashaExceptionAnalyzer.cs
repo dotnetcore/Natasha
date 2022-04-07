@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Natasha.CSharp.Component.Exception
 {
-    internal class NatashaExceptionAnalyzer
+    internal sealed class NatashaExceptionAnalyzer
     {
 
         internal static NatashaException? GetSyntaxException(SyntaxTree tree)

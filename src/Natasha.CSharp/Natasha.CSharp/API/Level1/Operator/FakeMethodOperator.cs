@@ -7,7 +7,7 @@ namespace Natasha.CSharp
     /// <summary>
     /// 根据现有反射方法伪造一个方法，内容自己定
     /// </summary>
-    public class FakeMethodOperator : MethodBuilder<FakeMethodOperator>
+    public sealed class FakeMethodOperator : MethodBuilder<FakeMethodOperator>
     {
         private static readonly MethodInfo _init_method;
         static FakeMethodOperator()

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-public class NatashaCompilationLog
+public sealed class NatashaCompilationLog
 {
     public NatashaCompilationLog()
     {

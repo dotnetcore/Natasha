@@ -9,11 +9,10 @@
 
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.0.1" />
 		<PackageReference Include="System.Reflection.MetadataLoadContext" Version="6.0.0" />
 		<PackageReference Include="DotNetCore.SourceLink.Environment" Version="3.1.0" />
 		<PackageReference Include="DotNetCore.Compile.Environment" Version="3.0.0" />
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.0.1" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.1.0" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0' OR '$(TargetFramework)' == 'netcoreapp3.1'">

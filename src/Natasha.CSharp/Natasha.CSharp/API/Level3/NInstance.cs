@@ -1,9 +1,8 @@
-﻿using Natasha;
-using System;
+﻿using System;
 
 namespace Natasha.CSharp
 {
-    public class NInstance
+    public static class NInstance
     {
 
         public static Func<T> Creator<T>()

@@ -3,7 +3,7 @@
 /// <summary>
 /// 程序集编译构建器 - 域
 /// </summary>
-public partial class AssemblyCSharpBuilder 
+public sealed partial class AssemblyCSharpBuilder 
 {
     private NatashaReferenceDomain? _domain;
 

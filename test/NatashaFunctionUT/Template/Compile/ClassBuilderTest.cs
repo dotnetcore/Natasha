@@ -46,6 +46,7 @@ public class EnumUT1
             var type = builder
                 .NoGlobalUsing()
                 .HiddenNamespace()
+                .Summary("zhushi")
                 .Access(AccessFlags.Public)
                 .Name("EnumUT1")
                 .Method(item => { item.Public().Name("Apple").Type<int>().Body("return 0;"); })
@@ -58,6 +59,9 @@ public class EnumUT1
                 .GetType();
             var script = builder.AssemblyBuilder.SyntaxTrees[0].ToString();
             var expected = @"
+/// <summary>
+/// zhushi
+/// </summary>
 public class EnumUT1
 {
     public System.Int32 Apple()
