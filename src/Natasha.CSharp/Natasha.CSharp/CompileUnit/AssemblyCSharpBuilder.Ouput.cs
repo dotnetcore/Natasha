@@ -27,12 +27,18 @@ public sealed partial class AssemblyCSharpBuilder
         }
 
     }
-    public AssemblyCSharpBuilder UseNatashaFileOut(string folder)
+    public AssemblyCSharpBuilder UseNatashaFileOut(string? folder = null)
     {
-        OutputFolder = folder;
-        if (OutputFolder == GlobalOutputFolder)
+        if (folder == null)
         {
-            OutputFolder = Path.Combine(GlobalOutputFolder, Domain.Name!);
+            if (OutputFolder == GlobalOutputFolder)
+            {
+                OutputFolder = Path.Combine(GlobalOutputFolder, Domain.Name!);
+            }
+        }
+        else
+        {
+            OutputFolder = folder;
         }
         if (!Directory.Exists(OutputFolder))
         {
