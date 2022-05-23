@@ -62,25 +62,28 @@ public static class NatashaInitializer
 #if DEBUG
                 stopwatch.RestartAndShowCategoreInfo("[Reference]", "过滤初始化引用", 1);
 #endif
-                ResolverMetadata(paths);
-
-#if DEBUG
-                stopwatch.RestartAndShowCategoreInfo("[  Domain  ]", "默认信息初始化", 1);
-#endif
-
-                AssemblyCSharpBuilder cSharpBuilder = new();
-                cSharpBuilder.ConfigCompilerOption(item => item.AddSupperess("CS8019").UseSuppressReportor(false));
-                using (DomainManagement.Random().CreateScope())
+                if (paths!=null && paths.Count()>0)
                 {
-                    cSharpBuilder.EnableSemanticHandler = true;
-                    cSharpBuilder.Add(DefaultUsing.UsingScript+"public class A{}");
-                    var assembly = cSharpBuilder.GetAssembly();
-                }
-                cSharpBuilder.Domain.Dispose();
+                    ResolverMetadata(paths);
+#if DEBUG
+                    stopwatch.RestartAndShowCategoreInfo("[  Domain  ]", "默认信息初始化", 1);
+#endif
+
+                    AssemblyCSharpBuilder cSharpBuilder = new();
+                    cSharpBuilder.ConfigCompilerOption(item => item.AddSupperess("CS8019").UseSuppressReportor(false));
+                    using (DomainManagement.Random().CreateScope())
+                    {
+                        cSharpBuilder.EnableSemanticHandler = true;
+                        cSharpBuilder.Add(DefaultUsing.UsingScript + "public class A{}");
+                        var assembly = cSharpBuilder.GetAssembly();
+                    }
+                    cSharpBuilder.Domain.Dispose();
 
 #if DEBUG
-                stopwatch.StopAndShowCategoreInfo("[FirstCompile]", "初始化编译", 1);
+                    stopwatch.StopAndShowCategoreInfo("[FirstCompile]", "初始化编译", 1);
 #endif
+                }
+
             }
         }
 

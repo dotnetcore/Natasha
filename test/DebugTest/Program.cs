@@ -3,7 +3,7 @@ using DebugTest;
 
 NatashaInitializer.Preheating();
 var type = NClass
-    .RandomDomain(item => item.UseNatashaFileOut())
+    .RandomDomain(item => item.UseNatashaFileOut().DisableSemanticCheck().ConfigCompilerOption(opt=>opt.CompileAsDebug()))
     .Public()
     .Name("a")
     .InheritanceAppend<IStandard>()
