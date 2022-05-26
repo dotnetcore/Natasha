@@ -53,7 +53,7 @@ jobs:
           dotnet-version: '6.x'
     
       - name: Setup Cover
-        uses: crazy-max/ghaction-chocolatey@v1
+        uses: crazy-max/ghaction-chocolatey@v2
         with: 
           args: install codecov
           
