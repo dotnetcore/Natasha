@@ -5,6 +5,7 @@ using Natasha.CSharp.Component.Domain;
 using Natasha.CSharp.Component.Exception;
 using Natasha.CSharp.Extension.Inner;
 using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
@@ -19,7 +20,7 @@ public sealed partial class AssemblyCSharpBuilder
     private LoadBehaviorEnum _compileReferenceBehavior;
     private LoadBehaviorEnum _compileAssemblyBehavior;
     private Func<AssemblyName, AssemblyName, LoadVersionResultEnum>? _referencePickFunc;
-
+    private Func<IEnumerable<PortableExecutableReference>, IEnumerable<PortableExecutableReference>>? _referencesFilter;
     public AssemblyCSharpBuilder CompileWithReferenceLoadBehavior(LoadBehaviorEnum loadBehavior)
     {
         _compileReferenceBehavior = loadBehavior;
@@ -31,9 +32,16 @@ public sealed partial class AssemblyCSharpBuilder
         return this;
     }
 
-    public AssemblyCSharpBuilder CompileWithReferencesFilter(Func<AssemblyName, AssemblyName, LoadVersionResultEnum>? useAssemblyNameFunc = null)
+    public AssemblyCSharpBuilder CompileWithSameNameReferencesFilter(Func<AssemblyName, AssemblyName, LoadVersionResultEnum>? useAssemblyNameFunc = null)
     {
         _referencePickFunc = useAssemblyNameFunc;
+        return this;
+    }
+
+
+    public AssemblyCSharpBuilder CompileWithReferencesFilter(Func<IEnumerable<PortableExecutableReference>, IEnumerable<PortableExecutableReference>>? referencesFilter)
+    {
+        _referencesFilter = referencesFilter;
         return this;
     }
 
@@ -82,6 +90,10 @@ public sealed partial class AssemblyCSharpBuilder
 
         var options = _compilerOptions.GetCompilationOptions();
         var references = Domain.GetReferences(_compileReferenceBehavior, _referencePickFunc);
+        if (_referencesFilter != null)
+        {
+            references = _referencesFilter(references);
+        }
         var compilation = CSharpCompilation.Create(AssemblyName, SyntaxTrees, references, options);
 
 #if DEBUG
