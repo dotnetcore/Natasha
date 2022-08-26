@@ -46,7 +46,7 @@
 | 顺序 | 操作行为 | 操作内容 | 说明 |
 |-- |-------- |--------------| --------|
 | 1 | 初始化 | NatashaInitializer.Preheating();| 预热会慢一点，后面编译就快了 |
-| 2 | 写代码 | 使用说明 [https://natasha.dotnetcore.xyz/](https://natasha.dotnetcore.xyz/) | 可联系作者: 1648107003@qq.com 或 [查看FAQ](https://github.com/dotnetcore/Natasha/blob/main/docs/FAQ.md) 或 [提出问题](https://github.com/dotnetcore/Natasha/main/new) |
+| 2 | 写代码 | 使用说明 [https://natasha.dotnetcore.xyz/](https://natasha.dotnetcore.xyz/zh-Hans/docs/get_started/getting-started) | 可联系作者: 1648107003@qq.com 或 [查看FAQ](https://github.com/dotnetcore/Natasha/blob/main/docs/FAQ.md) 或 [提出问题](https://github.com/dotnetcore/Natasha/main/new) |
 
 <br/>  
 <br/>  
