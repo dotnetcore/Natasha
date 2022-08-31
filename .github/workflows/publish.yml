@@ -1,4 +1,4 @@
-name: .NET
+name: PUBLISH
 
 on:
   pull_request:
