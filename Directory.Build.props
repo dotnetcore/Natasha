@@ -7,10 +7,6 @@
 				<Copyright>.NET Core Community and Contributors</Copyright>
 				<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
-				<Version>4.1.0.0</Version>
-				<FileVersion>4.1.0.0</FileVersion>
-				<AssemblyVersion>4.1.0.0</AssemblyVersion>
-				
 				<PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
 				<IsPackable>true</IsPackable>
 				<SignAssembly>true</SignAssembly>
@@ -31,7 +27,7 @@
 				<None Include="$([MSBuild]::NormalizeDirectory('$(SolutionDir)', 'tools'))LICENSE" Link="LICENSE" Pack="true" PackagePath=""/>
 			</ItemGroup>
 			<ItemGroup>
-				<PackageReference Include="DotNetCore.SourceLink.Environment" Version="3.0.0" />
+				<PackageReference Include="DotNetCore.SourceLink.Environment" Version="3.1.0" />
 			</ItemGroup>
 		</When>
 	</Choose>

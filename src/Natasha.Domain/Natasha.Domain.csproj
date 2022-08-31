@@ -6,15 +6,9 @@
     <PackageId>DotNetCore.Natasha.Domain</PackageId>
     <PackageReleaseNotes>升级</PackageReleaseNotes>
     <PackageTags>Roslyn;IL;Scripte;Dynamic;Natasha;Domain;</PackageTags>
-
+	<Version>4.1.0.1-beta.1</Version>
+	<FileVersion>4.1.0.1</FileVersion>
+	<AssemblyVersion>4.1.0.1</AssemblyVersion>
   </PropertyGroup>
-
-	<ItemGroup>
-	  <PackageReference Include="DotNetCore.SourceLink.Environment" Version="3.1.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" />
-	</ItemGroup>
-
+	
 </Project>

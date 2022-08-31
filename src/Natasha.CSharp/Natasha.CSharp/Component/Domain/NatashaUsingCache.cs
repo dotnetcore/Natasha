@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Natasha.CSharp.Domain.Utils
 {
@@ -13,7 +14,12 @@ namespace Natasha.CSharp.Domain.Utils
 
         internal readonly HashSet<string> _usings;
         //internal readonly HashSet<Type> _usingTypes;
+        //private static readonly Regex _using_regex;
 
+        //static NatashaUsingCache()
+        //{
+        //    _using_regex = new Regex("[a-zA-Z.]+")
+        //}
         public NatashaUsingCache()
         {
 
@@ -35,7 +41,7 @@ namespace Natasha.CSharp.Domain.Utils
         public NatashaUsingCache Using(string? @using)
         {
 
-            if (!string.IsNullOrEmpty(@using))
+            if (!string.IsNullOrEmpty(@using) && !@using.Contains('<'))
             {
 
                 _usings.Add(@using);
