@@ -28,16 +28,16 @@ jobs:
   steps:
 
 
-  - task: DotNetCoreInstaller@1
+  - task: DotNetCoreInstaller@1.209.0
     displayName: install
     inputs:
       version: '5.0.x'
-  - task: DotNetCoreInstaller@1
+  - task: DotNetCoreInstaller@1.209.0
     displayName: install
     inputs:
       version: '6.0.x'
 
-  - task: DotNetCoreInstaller@1
+  - task: DotNetCoreInstaller@1.209.0
     displayName: install
     inputs:
       version: '3.1.x'
@@ -60,16 +60,16 @@ jobs:
   steps:
 
 
-  - task: DotNetCoreInstaller@1
+  - task: DotNetCoreInstaller@1.209.0
     displayName: install
     inputs:
       version: '5.0.x'
-  - task: DotNetCoreInstaller@1
+  - task: DotNetCoreInstaller@1.209.0
     displayName: install
     inputs:
       version: '6.0.x'
 
-  - task: DotNetCoreInstaller@1
+  - task: DotNetCoreInstaller@1.209.0
     displayName: install
     inputs:
       version: '3.1.x'
@@ -92,16 +92,16 @@ jobs:
   steps:
 
 
-  - task: DotNetCoreInstaller@1
+  - task: DotNetCoreInstaller@1.209.0
     displayName: install
     inputs:
       version: '5.0.x'
-  - task: DotNetCoreInstaller@1
+  - task: DotNetCoreInstaller@1.209.0
     displayName: install
     inputs:
       version: '6.0.x'
 
-  - task: DotNetCoreInstaller@1
+  - task: DotNetCoreInstaller@1.209.0
     displayName: install
     inputs:
       version: '3.1.x'
