@@ -10,13 +10,5 @@
 	<FileVersion>4.1.0.0</FileVersion>
 	<AssemblyVersion>4.1.0.0</AssemblyVersion>
   </PropertyGroup>
-
-	<ItemGroup>
-	  <PackageReference Include="DotNetCore.SourceLink.Environment" Version="3.1.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" />
-	</ItemGroup>
-
+	
 </Project>
