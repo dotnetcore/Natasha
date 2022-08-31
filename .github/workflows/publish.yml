@@ -1,8 +1,9 @@
 name: PUBLISH
 
 on:
-  pull_request:
-    branches: [ "release" ]
+   pull_request:
+    branches:
+      - release
 
 jobs:
   build:
