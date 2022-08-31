@@ -14,7 +14,7 @@ namespace NatashaFunctionUT.Template.Compile
         public void RunDelegate1()
         {
             var delegateAction = FastMethodOperator
-                .RandomDomain()
+                        .RandomDomain()
                         .Param<string>("str1")
                         .Param<string>("str2")
                         .Body(@"

@@ -9,7 +9,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\src\Natasha.CSharp\Natasha.CSharp\Natasha.CSharp.csproj" />
+	  <PackageReference Include="DotNetCore.Natasha.CSharp" Version="4.2.0" />
 	</ItemGroup>
+
+	<!--<ItemGroup>
+		<ProjectReference Include="..\..\src\Natasha.CSharp\Natasha.CSharp\Natasha.CSharp.csproj" />
+	</ItemGroup>-->
 
 </Project>
