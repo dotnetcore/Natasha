@@ -6,9 +6,9 @@
     <PackageId>DotNetCore.Natasha.Domain</PackageId>
     <PackageReleaseNotes>升级</PackageReleaseNotes>
     <PackageTags>Roslyn;IL;Scripte;Dynamic;Natasha;Domain;</PackageTags>
-	<Version>4.1.0.1-beta.1</Version>
-	<FileVersion>4.1.0.1</FileVersion>
-	<AssemblyVersion>4.1.0.1</AssemblyVersion>
+	<Version>4.1.0.2</Version>
+	<FileVersion>4.1.0.2</FileVersion>
+	<AssemblyVersion>4.1.0.2</AssemblyVersion>
   </PropertyGroup>
 	
 </Project>
