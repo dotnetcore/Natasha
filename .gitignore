@@ -328,3 +328,4 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
 samples/Sample1/Sample1.csproj
+*.snupkg
