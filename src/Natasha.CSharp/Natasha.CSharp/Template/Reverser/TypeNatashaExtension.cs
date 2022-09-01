@@ -48,7 +48,7 @@ namespace System
 
         public static HashSet<Type> GetAllTypes(this Type type) 
         {
-            HashSet<Type> result = new HashSet<Type>();
+            HashSet<Type> result = new();
             type.GetAllTypes(result);
             return result;
         }
@@ -64,7 +64,7 @@ namespace System
             if (type.HasElementType)
             {
                 var temp = type.GetElementType();
-                temp.GetAllTypes(result);
+                temp?.GetAllTypes(result);
 
             }
             else if(type.IsGenericType && type.FullName != null)
