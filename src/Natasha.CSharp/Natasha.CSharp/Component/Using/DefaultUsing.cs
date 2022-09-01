@@ -38,8 +38,11 @@ public static class DefaultUsing
             {
                 foreach (var name in usings)
                 {
-                    _defaultNamesapce.Add(name);
-                    _usingScriptCache.AppendLine($"using {name!};");
+                    if (!name.Contains('<'))
+                    {
+                        _defaultNamesapce.Add(name);
+                        _usingScriptCache.AppendLine($"using {name!};");
+                    }
                 }
                 UsingScript = _usingScriptCache.ToString();
             }
@@ -62,20 +65,21 @@ public static class DefaultUsing
             foreach (var t in types)
             {
                 var name = t.Namespace;
-                if (!string.IsNullOrEmpty(name))
+                if (!string.IsNullOrEmpty(name) && !name.Contains('<'))
                 {
 
                     if (!_excludeDefaultAssembliesFunc(default!, name))
                     {
                         tempSets.Add(name);
                     }
+#if DEBUG
                     else
                     {
-#if DEBUG
-                        System.Diagnostics.Debug.WriteLine("[排除程序集]:" + name);
-#endif
-                    }
 
+                        System.Diagnostics.Debug.WriteLine("[排除程序集]:" + name);
+
+                }
+#endif
                 }
 
             }
@@ -117,22 +121,26 @@ public static class DefaultUsing
                 foreach (var t in types)
                 {
                     var name = t.Namespace;
-                    if (!string.IsNullOrEmpty(name))
+                    if (!string.IsNullOrEmpty(name) && !name.Contains('<'))
                     {
 
                         if (!_defaultNamesapce.Contains(name))
                         {
                             if (!_excludeDefaultAssembliesFunc(default!, name))
                             {
+
                                 _defaultNamesapce.Add(name);
-                                _usingScriptCache.AppendLine($"using {name};");
+                                _usingScriptCache.AppendLine($"using {name!};");
+
                             }
+#if DEBUG
                             else
                             {
-#if DEBUG
+
                                 System.Diagnostics.Debug.WriteLine("[排除程序集]:" + name);
-#endif
+
                             }
+#endif
 
                         }
 
@@ -162,12 +170,14 @@ public static class DefaultUsing
             lock (_defaultNamesapce)
             {
                 var name = assemblyName.Name;
-                if (!string.IsNullOrEmpty(name))
+                if (!string.IsNullOrEmpty(name) && !name.Contains('<'))
                 {
                     if (!_defaultNamesapce.Contains(name))
                     {
-                        _defaultNamesapce.Add(name!);
+
+                        _defaultNamesapce.Add(name);
                         _usingScriptCache.AppendLine($"using {name!};");
+
                         UsingScript = _usingScriptCache.ToString();
                     }
                 }
