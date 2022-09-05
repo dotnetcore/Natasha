@@ -42,7 +42,7 @@ jobs:
     inputs:
       version: '3.1.x'
 
-  - task: DotNetCoreCLI@2
+  - task: DotNetCoreCLI@2.210.0
     displayName: test
     inputs:
       command: test
@@ -74,7 +74,7 @@ jobs:
     inputs:
       version: '3.1.x'
 
-  - task: DotNetCoreCLI@2
+  - task: DotNetCoreCLI@2.210.0
     displayName: test
     inputs:
       command: test
@@ -106,19 +106,19 @@ jobs:
     inputs:
       version: '3.1.x'
 
-  - task: DotNetCoreCLI@2
+  - task: DotNetCoreCLI@2.210.0
     displayName: restore
     inputs:
       command: restore
 
-  - task: DotNetCoreCLI@2
+  - task: DotNetCoreCLI@2.210.0
     displayName: build
     inputs:
       command:  build
       projects: './test/NatashaFunctionUT'
       arguments: '-c Release --no-restore'
       
-  - task: DotNetCoreCLI@2
+  - task: DotNetCoreCLI@2.210.0
     displayName: test
     inputs:
       command: test
