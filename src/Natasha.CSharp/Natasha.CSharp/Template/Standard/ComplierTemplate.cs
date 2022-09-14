@@ -79,7 +79,6 @@ namespace Natasha.CSharp.Template
         /// </code>
         /// </example>
         /// </remarks>
-
         public static T CreateDomain(string domainName, Action<AssemblyCSharpBuilder>? option = default)
         {
 
@@ -95,6 +94,18 @@ namespace Natasha.CSharp.Template
         }
         #endregion
         #region 指定域创建以及参数
+
+
+        /// <summary>
+        /// 使用作用域中的 Domain 
+        /// </summary>
+        /// <inheritdoc cref="CreateDomain" path="//*[not(self::summary)]"/>
+        public static T UseScope()
+        {
+            return new();
+        }
+
+
 
         /// <summary>
         /// 使用一个域来初始化编译单元
