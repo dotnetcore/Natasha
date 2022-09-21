@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;netcoreapp3.1;net5.0;net6.0;</TargetFrameworks>
 		<Description>CS0104 问题处理扩展</Description>
 		<PackageId>Natasha.CSharp.Extension.Ambiguity</PackageId>
 		<PackageReleaseNotes>升级到最新版.</PackageReleaseNotes>
@@ -12,7 +13,6 @@
 
 
 	<ItemGroup>
-		<PackageReference Include="DotNetCore.SourceLink.Environment" Version="3.1.0" />
 		<ProjectReference Include="..\..\Natasha.CSharp\Natasha.CSharp.csproj" />
 	</ItemGroup>
 

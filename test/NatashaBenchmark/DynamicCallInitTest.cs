@@ -7,7 +7,7 @@ using System.Reflection.Emit;
 
 namespace NatashaBenchmark
 {
-    [MemoryDiagnoser, CoreJob, MarkdownExporter,RPlotExporter]
+    [MemoryDiagnoser, SimpleJob, MarkdownExporter,RPlotExporter]
     [MinColumn, MaxColumn, MeanColumn, MedianColumn]
     public class DynamicCallInitTest
     {

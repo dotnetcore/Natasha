@@ -3,10 +3,9 @@
 	<Choose>
 		<When Condition="$(MSBuildProjectFullPath.Contains('$([MSBuild]::NormalizeDirectory('$(SolutionDir)', 'src'))'))">
 			<PropertyGroup>
-				<TargetFrameworks>netcoreapp3.1;net5.0;net6.0;</TargetFrameworks>
+				
 				<Copyright>.NET Core Community and Contributors</Copyright>
 				<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-
 				<PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
 				<IsPackable>true</IsPackable>
 				<SignAssembly>true</SignAssembly>
@@ -22,13 +21,17 @@
 				<IncludeSymbols>true</IncludeSymbols>
 
 			</PropertyGroup>
+			
+			<ItemGroup>
+				<PackageReference Include="DotNetCore.SourceLink.Environment" Version="3.2.0" />
+			</ItemGroup>
+			
 			<ItemGroup Condition=" '$(IsPackable)' != 'false'">
 				<None Include="$([MSBuild]::NormalizeDirectory('$(SolutionDir)', 'tools'))19404084.png" Link="19404084.png" Pack="true" PackagePath=""/>
 				<None Include="$([MSBuild]::NormalizeDirectory('$(SolutionDir)', 'tools'))LICENSE" Link="LICENSE" Pack="true" PackagePath=""/>
 			</ItemGroup>
-			<ItemGroup>
-				<PackageReference Include="DotNetCore.SourceLink.Environment" Version="3.1.0" />
-			</ItemGroup>
+
+
 		</When>
 	</Choose>
 
