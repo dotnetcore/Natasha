@@ -12,7 +12,7 @@
 
 
 	<ItemGroup>
-		<PackageReference Include="DotNetCore.SourceLink.Environment" Version="3.1.0" />
+		<PackageReference Include="DotNetCore.SourceLink.Environment" Version="3.2.0" />
 		<ProjectReference Include="..\..\Natasha.CSharp\Natasha.CSharp.csproj" />
 	</ItemGroup>
 

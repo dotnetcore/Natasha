@@ -27,7 +27,7 @@
 				<None Include="$([MSBuild]::NormalizeDirectory('$(SolutionDir)', 'tools'))LICENSE" Link="LICENSE" Pack="true" PackagePath=""/>
 			</ItemGroup>
 			<ItemGroup>
-				<PackageReference Include="DotNetCore.SourceLink.Environment" Version="3.1.0" />
+				<PackageReference Include="DotNetCore.SourceLink.Environment" Version="3.2.0" />
 			</ItemGroup>
 		</When>
 	</Choose>
