@@ -27,6 +27,7 @@ namespace Natasha.CSharp
         }
         public static void AddReference(Assembly assembly)
         {
+            DefaultUsing.AddUsing(assembly);
             if (!string.IsNullOrEmpty(assembly.Location))
             {
                 AddReference(MetadataReference.CreateFromFile(assembly.Location));

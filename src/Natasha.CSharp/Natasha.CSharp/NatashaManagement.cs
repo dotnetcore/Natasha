@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Reflection;
 
 public static partial class NatashaManagement
 {
@@ -20,6 +20,19 @@ public static partial class NatashaManagement
     public static void AddGlobalUsing(params string[] @namespaces)
     {
         DefaultUsing.AddUsing(@namespaces);
+    }
+
+    /// <summary>
+    /// 增加全局 Using 引用,其他编译将默认添加该 Using
+    /// 例如: AddGlobalUsing("System.IO");
+    /// </summary>
+    /// <param name="namespaces"></param>
+    public static void AddGlobalUsing(params Assembly[] @namespaces)
+    {
+        foreach (var item in @namespaces)
+        {
+            DefaultUsing.AddUsing(item);
+        }
     }
 
     /// <summary>

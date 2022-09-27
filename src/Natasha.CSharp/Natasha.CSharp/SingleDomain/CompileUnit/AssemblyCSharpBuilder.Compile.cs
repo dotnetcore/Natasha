@@ -68,7 +68,7 @@ public sealed partial class AssemblyCSharpBuilder
         {
             foreach (var item in _semanticAnalysistor)
             {
-                //compilation = item(this, compilation);
+                compilation = item(this, compilation);
             }
             lock (SyntaxTrees)
             {
