@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.IO;
 
 public static class NatashaInitializer
 {
@@ -48,6 +49,16 @@ public static class NatashaInitializer
                         return !excludeReferencesFunc(asmName, asmName.Name);
 
                     }));
+                 
+                if (paths == null || paths.Count()==0)
+                {
+                    var refsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "refs");
+                    if (Directory.Exists(refsFolder))
+                    {
+                        paths = Directory.GetFiles(refsFolder);
+                    }
+                    
+                }
 
 
                 //Parallel.ForEach(readonlyCompileLibraries, library =>
@@ -66,7 +77,12 @@ public static class NatashaInitializer
 #endif
                 if (paths!=null && paths.Count()>0)
                 {
-                    ResolverMetadata(paths);
+                    NatashaManagement.AddGlobalReference(typeof(object));
+                    //ResolverMetadata(paths);
+                    foreach (var item in paths)
+                    {
+                        NatashaManagement.AddGlobalReference(item);
+                    }
 #if DEBUG
                     stopwatch.RestartAndShowCategoreInfo("[  Domain  ]", "默认信息初始化", 1);
 #endif
