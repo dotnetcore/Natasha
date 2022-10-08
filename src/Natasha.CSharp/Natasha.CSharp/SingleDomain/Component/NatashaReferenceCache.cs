@@ -23,6 +23,7 @@ namespace Natasha.CSharp
 
         public static void AddReference(string path)
         {
+            DefaultUsing.AddUsing(Assembly.ReflectionOnlyLoadFrom(path));
             AddReference(MetadataReference.CreateFromFile(path));
         }
         public static void AddReference(Assembly assembly)

@@ -8,11 +8,8 @@ namespace Sample5
     {
         static void Main(string[] args)
         {
-
-            Console.WriteLine(typeof(Console).Assembly.FullName);
             var defaul1 = DependencyContext.Default;
             NatashaManagement.Preheating();
-            NatashaManagement.AddGlobalUsing("System");
             //NatashaManagement.AddGlobalUsing("NatashaDynimacSpace");
             NatashaManagement.AddGlobalReference(typeof(object).Assembly);
             NatashaManagement.AddGlobalReference(typeof(Console).Assembly);

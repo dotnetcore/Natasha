@@ -52,6 +52,7 @@ public static class NatashaInitializer
                  
                 if (paths == null || paths.Count()==0)
                 {
+                    NatashaManagement.AddGlobalReference(typeof(object));
                     var refsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "refs");
                     if (Directory.Exists(refsFolder))
                     {
@@ -77,12 +78,11 @@ public static class NatashaInitializer
 #endif
                 if (paths!=null && paths.Count()>0)
                 {
-                    NatashaManagement.AddGlobalReference(typeof(object));
-                    //ResolverMetadata(paths);
-                    foreach (var item in paths)
-                    {
-                        NatashaManagement.AddGlobalReference(item);
-                    }
+                    ResolverMetadata(paths);
+                    //foreach (var item in paths)
+                    //{
+                    //    NatashaManagement.AddGlobalReference(item);
+                    //}
 #if DEBUG
                     stopwatch.RestartAndShowCategoreInfo("[  Domain  ]", "默认信息初始化", 1);
 #endif
@@ -105,18 +105,24 @@ public static class NatashaInitializer
     }
     private static void ResolverMetadata(IEnumerable<string> paths)
     {
-        var resolver = new PathAssemblyResolver(paths);
-        using (var mlc = new MetadataLoadContext(resolver))
-        {
+
             Parallel.ForEach(paths, (path) =>
             {
-
-                Assembly assembly = mlc.LoadFromAssemblyPath(path);
-                NatashaReferenceCache.AddReference(path);
-                DefaultUsing.AddUsingWithoutCheck(assembly);
+                //Assembly? assembly = null;
+                try
+                {
+                    Assembly assembly = Assembly.ReflectionOnlyLoadFrom(path);
+                    NatashaReferenceCache.AddReference(path);
+                    DefaultUsing.AddUsingWithoutCheck(assembly);
+                }
+                catch
+                {
+                    //Console.WriteLine(assembly?.FullName);
+                }
 
             });
-        }
+ 
+
     }
 
 }

@@ -94,8 +94,10 @@ namespace Natasha.CSharp.Core
             {
                 options = _options;
             }
+            //return tree.GetRoot().NormalizeWhitespace().SyntaxTree;
             //Console.ReadKey();
             //Mark : 16M Memory
+            //Roslyn BUG https://github.com/dotnet/roslyn/issues/58150
             return CSharpSyntaxTree.ParseText(tree.GetRoot().NormalizeWhitespace().SyntaxTree.ToString(), options);
         }
 
