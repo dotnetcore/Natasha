@@ -8,11 +8,11 @@ namespace Sample5
     {
         static void Main(string[] args)
         {
-            var defaul1 = DependencyContext.Default;
+
             NatashaManagement.Preheating();
             //NatashaManagement.AddGlobalUsing("NatashaDynimacSpace");
-            NatashaManagement.AddGlobalReference(typeof(object).Assembly);
-            NatashaManagement.AddGlobalReference(typeof(Console).Assembly);
+            //NatashaManagement.AddGlobalReference(typeof(object).Assembly);
+            //NatashaManagement.AddGlobalReference(typeof(Console).Assembly);
             //var domain = NatashaManagement.CreateRandomDomain();
             //using (domain.CreateScope())
             //{
