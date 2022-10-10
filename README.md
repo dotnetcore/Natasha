@@ -30,7 +30,7 @@
 
 | Script | .NET Env | Document |
 | ------ | -------- | -------- |  
-| ![Compile](https://img.shields.io/badge/script-csharp-green.svg) | ![standard](https://img.shields.io/badge/platform-netcore3.1-blue.svg) ![standard](https://img.shields.io/badge/platform-net5.0-blue.svg) ![standard](https://img.shields.io/badge/platform-net6.0-blue.svg)| [![wiki](https://img.shields.io/badge/wiki-ch-blue.svg)](https://natasha.dotnetcore.xyz/)  |
+| ![Compile](https://img.shields.io/badge/script-csharp-green.svg) | ![20](https://img.shields.io/badge/platform-netstandard2.0-blue.svg) ![31](https://img.shields.io/badge/platform-netcore3.1-blue.svg) ![50](https://img.shields.io/badge/platform-net5.0-blue.svg) ![60](https://img.shields.io/badge/platform-net6.0-blue.svg)| [![wiki](https://img.shields.io/badge/wiki-ch-blue.svg)](https://natasha.dotnetcore.xyz/)  |
 
 | CI Platform | Build Server | Main Build  |
 |--------- |--------- |---------|
