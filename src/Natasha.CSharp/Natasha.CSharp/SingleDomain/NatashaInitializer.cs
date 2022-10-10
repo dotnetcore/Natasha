@@ -58,7 +58,12 @@ public static class NatashaInitializer
                     {
                         paths = Directory.GetFiles(refsFolder);
                     }
-                    
+
+                    refsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ref");
+                    if (Directory.Exists(refsFolder))
+                    {
+                        paths = paths.Concat(Directory.GetFiles(refsFolder));
+                    }
                 }
 
 
