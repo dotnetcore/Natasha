@@ -43,17 +43,6 @@ public static class NatashaInitializer
 
                 IEnumerable<string>? paths = NatashaReferencePathsHelper.GetReferenceFiles(excludeReferencesFunc);
 
-                //Parallel.ForEach(readonlyCompileLibraries, library =>
-                //{
-                //    var paths = library.ResolveReferencePaths()
-                //          .Where(
-                //             asmPath =>
-                //             {
-                //                 var asmName = AssemblyName.GetAssemblyName(asmPath);
-                //                 return !excludeReferencesFunc(asmName, asmName.Name);
-                //             });
-                //    NatashaMetadataReader.ResolverMetadata(paths);
-                //});
 #if DEBUG
                 stopwatch.RestartAndShowCategoreInfo("[Reference]", "过滤初始化引用", 1);
 #endif

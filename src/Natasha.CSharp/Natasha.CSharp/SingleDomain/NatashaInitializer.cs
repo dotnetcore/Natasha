@@ -48,10 +48,6 @@ public static class NatashaInitializer
                 if (paths!=null && paths.Count()>0)
                 {
                     ResolverMetadata(paths);
-                    //foreach (var item in paths)
-                    //{
-                    //    NatashaManagement.AddGlobalReference(item);
-                    //}
 #if DEBUG
                     stopwatch.RestartAndShowCategoreInfo("[  Domain  ]", "默认信息初始化", 1);
 #endif
