@@ -34,10 +34,10 @@
 
 | CI Platform | Build Server | Main Build  |
 |--------- |--------- |---------|
-| Github |![os](https://img.shields.io/badge/os-all-black.svg)| [![Build status](https://img.shields.io/github/workflow/status/dotnetcore/Natasha/.NET/main)](https://github.com/dotnetcore/Natasha/actions) |
-| Azure |![Windows](https://img.shields.io/badge/os-win-black.svg) | [![Build Status](https://dev.azure.com/NightMoonStudio/Natasha/_apis/build/status/dotnetcore.Natasha?branchName=main&jobName=Windows)](https://dev.azure.com/NightMoonStudio/Natasha/_build/latest?definitionId=3&branchName=main)|
-| Azure |![linux](https://img.shields.io/badge/os-linux-black.svg) |[![Build Status](https://dev.azure.com/NightMoonStudio/Natasha/_apis/build/status/dotnetcore.Natasha?branchName=main&jobName=Linux)](https://dev.azure.com/NightMoonStudio/Natasha/_build/latest?definitionId=3&branchName=main)|
-| Azure |![mac](https://img.shields.io/badge/os-mac-black.svg)| [![Build Status](https://dev.azure.com/NightMoonStudio/Natasha/_apis/build/status/dotnetcore.Natasha?branchName=main&jobName=macOS)](https://dev.azure.com/NightMoonStudio/Natasha/_build/latest?definitionId=3&branchName=main)|
+| Github |![os](https://img.shields.io/badge/os-all-black.svg)| [![Build status](https://img.shields.io/github/workflow/status/dotnetcore/Natasha/.NET/test)](https://github.com/dotnetcore/Natasha/actions) |
+| Azure |![Windows](https://img.shields.io/badge/os-win-black.svg) | [![Build Status](https://dev.azure.com/NightMoonStudio/Natasha/_apis/build/status/dotnetcore.Natasha?branchName=test&jobName=Windows)](https://dev.azure.com/NightMoonStudio/Natasha/_build/latest?definitionId=3&branchName=test)|
+| Azure |![linux](https://img.shields.io/badge/os-linux-black.svg) |[![Build Status](https://dev.azure.com/NightMoonStudio/Natasha/_apis/build/status/dotnetcore.Natasha?branchName=test&jobName=Linux)](https://dev.azure.com/NightMoonStudio/Natasha/_build/latest?definitionId=3&branchName=test)|
+| Azure |![mac](https://img.shields.io/badge/os-mac-black.svg)| [![Build Status](https://dev.azure.com/NightMoonStudio/Natasha/_apis/build/status/dotnetcore.Natasha?branchName=test&jobName=macOS)](https://dev.azure.com/NightMoonStudio/Natasha/_build/latest?definitionId=3&branchName=test)|
 
 <br/>      
 <br/>  
