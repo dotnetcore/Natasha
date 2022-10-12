@@ -2,6 +2,7 @@
 
 //预热
 NatashaManagement.Preheating();
+/*
 NatashaManagement.AddGlobalUsing("System.IO");
 NatashaManagement.AddGlobalReference(typeof(int));
 var domain = NatashaManagement.CreateRandomDomain();
@@ -23,4 +24,5 @@ var func = NDelegate
     .UseDomain(domain)
     .Func<int>("return myTestClass.Invoke(3,4);");
 Console.WriteLine(func());
+*/
 Console.ReadKey();
