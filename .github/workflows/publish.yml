@@ -3,10 +3,10 @@ name: Publish
 on:
    pull_request:
      branches:
-       - release
+       - main
    push:
      branches:
-       - release
+       - main
 
 jobs:
 
@@ -25,31 +25,30 @@ jobs:
       with:
         dotnet-version: '5.x'
 
+
     - name: 🔨 Setup .NET 6.X SDK
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: '6.x'
-          
-    - name: Restore dependencies
-      run: dotnet restore
-        
-    - name: Release Library - Domain
-      run: dotnet build  "./src/Natasha.Domain" -c release --no-restore
-        
+
+
+    - name: Release Dll
+      run : dotnet build -c Release
+
+
+    - name: Pack - Domain
+      run: dotnet pack --include-symbols -p:SymbolPackageFormat=snupkg --no-build -c Release src/Natasha.Domain/Natasha.Domain.csproj -o .
+
     - name: Push to Nuget - Domain
-      uses: brandedoutcast/publish-nuget@v2.5.5
-      with:
-        PROJECT_FILE_PATH: "./src/Natasha.Domain/Natasha.Domain.csproj"
-        NUGET_KEY: ${{ secrets.NUGET_KEY }}
-        INCLUDE_SYMBOLS: true
-          
-    - name: Release Library - Compiler
-      run: dotnet build  "./src/Natasha.CSharp/Natasha.CSharp" -c release --no-restore
-        
+      run: dotnet nuget push *.Domain.*.nupkg -k ${{ secrets.NUGET_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate
+
+ 
+    - name: Pack - Compiler
+      run: dotnet pack --include-symbols -p:SymbolPackageFormat=snupkg --no-build -c Release src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj -o .
+
     - name: Push to Nuget - Compiler
-      uses: brandedoutcast/publish-nuget@v2.5.5
-      with:
-        PROJECT_FILE_PATH: "./src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj"
-        NUGET_KEY: ${{ secrets.NUGET_KEY }}
-        INCLUDE_SYMBOLS: true
+      run: dotnet nuget push *.CSharp.*.nupkg -k ${{ secrets.NUGET_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate
+
+        
+
 
