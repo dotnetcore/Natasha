@@ -9,7 +9,7 @@ using System.Reflection;
 
 public static class NatashaReferencePathsHelper
 {
-    public static IEnumerable<string>? GetReferenceFiles(Func<AssemblyName, string?, bool>? excludeReferencesFunc = null)
+    public static IEnumerable<string>? GetReferenceFiles(Func<AssemblyName, string?, bool> excludeReferencesFunc)
     {
 
 
