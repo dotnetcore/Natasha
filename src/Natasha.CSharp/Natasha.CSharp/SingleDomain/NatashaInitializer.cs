@@ -39,45 +39,9 @@ public static class NatashaInitializer
 #endif
 
                 DefaultUsing.SetDefaultUsingFilter(excludeReferencesFunc);
+                IEnumerable<string>? paths = NatashaReferencePathsHelper.GetReferenceFiles(excludeReferencesFunc);
 
-
-                IEnumerable<string>? paths = DependencyContext
-                    .Default?
-                    .CompileLibraries.SelectMany(cl => cl.ResolveReferencePaths().Where(asmPath => {
-
-                        var asmName = AssemblyName.GetAssemblyName(asmPath);
-                        return !excludeReferencesFunc(asmName, asmName.Name);
-
-                    }));
-                 
-                if (paths == null || paths.Count()==0)
-                {
-                    NatashaManagement.AddGlobalReference(typeof(object));
-                    var refsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "refs");
-                    if (Directory.Exists(refsFolder))
-                    {
-                        paths = Directory.GetFiles(refsFolder);
-                    }
-
-                    refsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ref");
-                    if (Directory.Exists(refsFolder))
-                    {
-                        paths = paths.Concat(Directory.GetFiles(refsFolder));
-                    }
-                }
-
-
-                //Parallel.ForEach(readonlyCompileLibraries, library =>
-                //{
-                //    var paths = library.ResolveReferencePaths()
-                //          .Where(
-                //             asmPath =>
-                //             {
-                //                 var asmName = AssemblyName.GetAssemblyName(asmPath);
-                //                 return !excludeReferencesFunc(asmName, asmName.Name);
-                //             });
-                //    NatashaMetadataReader.ResolverMetadata(paths);
-                //});
+                
 #if DEBUG
                 stopwatch.RestartAndShowCategoreInfo("[Reference]", "过滤初始化引用", 1);
 #endif

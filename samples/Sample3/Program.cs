@@ -3,19 +3,23 @@
 using Natasha.CSharp.Builder;
 using System.ComponentModel;
 
+Console.WriteLine(AppDomain.CurrentDomain.BaseDirectory);
+Console.WriteLine(Environment.CurrentDirectory);
+Console.WriteLine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
+
 NatashaManagement.Preheating();
 
-//var domain = NatashaManagement.CreateRandomDomain();
-//using (domain.CreateScope())
-//{
-//    var action1 = NDelegate
-//        .UseScope()
-//        .Action("Console.WriteLine(\"Hello World!\");");
+var domain = NatashaManagement.CreateRandomDomain();
+using (domain.CreateScope())
+{
+    var action1 = NDelegate
+        .UseScope()
+        .Action("Console.WriteLine(\"Hello World!\");");
 
-//    action1();
-//}
+    action1();
+}
 
-
+/*
 
 
 var action1 = NDelegate
@@ -109,5 +113,5 @@ var action3 = NDelegate
   .Action("Console.WriteLine((new MyClass()).ToString());");
 
 action3();
-
+*/
 Console.ReadKey();

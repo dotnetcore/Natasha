@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyModel;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -39,15 +40,8 @@ public static class NatashaInitializer
                 DefaultUsing.SetDefaultUsingFilter(excludeReferencesFunc);
                 NatashaDomain.SetDefaultAssemblyFilter(excludeReferencesFunc);
 
-                IEnumerable<string> paths = DependencyContext
-                    .Default
-                    .CompileLibraries.SelectMany(cl => cl.ResolveReferencePaths().Where(asmPath => {
 
-                        var asmName = AssemblyName.GetAssemblyName(asmPath);
-                        return !excludeReferencesFunc(asmName, asmName.Name);
-
-                    }));
-
+                IEnumerable<string>? paths = NatashaReferencePathsHelper.GetReferenceFiles(excludeReferencesFunc);
 
                 //Parallel.ForEach(readonlyCompileLibraries, library =>
                 //{
