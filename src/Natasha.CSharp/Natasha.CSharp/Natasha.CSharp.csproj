@@ -11,7 +11,7 @@
 		<FileVersion>5.0.1.0</FileVersion>
 		<AssemblyVersion>5.0.1.0</AssemblyVersion>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0' OR '$(TargetFramework)' == 'netcoreapp3.1' OR '$(TargetFramework)' == 'net5.0' OR '$(TargetFramework)' == 'net5.1' OR '$(TargetFramework)' == 'net6.0'">
+	<PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0' OR '$(TargetFramework)' == 'netcoreapp3.1' OR '$(TargetFramework)' == 'net5.0' OR '$(TargetFramework)' == 'net5.1' OR '$(TargetFramework)' == 'net6.0' OR '$(TargetFramework)' == 'net7.0'">
 		<DefineConstants>MULTI;</DefineConstants>
 	</PropertyGroup>
 	
