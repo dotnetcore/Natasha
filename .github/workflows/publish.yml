@@ -30,6 +30,12 @@ jobs:
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: '6.x'
+        
+
+    - name: 🔨 Setup .NET 7.X SDK
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: '7.x'
 
 
     - name: Release Dll
