@@ -16,24 +16,24 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: 🔨 Setup .NET Core 3.1.X SDK
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '3.1.x'
         
     - name: 🔨 Setup .NET 5.0.X SDK
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '5.x'
 
 
     - name: 🔨 Setup .NET 6.X SDK
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '6.x'
         
 
     - name: 🔨 Setup .NET 7.X SDK
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '7.x'
 
