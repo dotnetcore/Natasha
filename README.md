@@ -100,7 +100,8 @@
 
 
 #### 捐助明细  
- 
+
+- [Newbe俞佬](https://github.com/newbe36524) 90.2 元 
 - 崔星星 21 元
 - [Newbe俞佬](https://github.com/newbe36524) 200 元 
 - iNeuOS工业互联网平台 100 元 
