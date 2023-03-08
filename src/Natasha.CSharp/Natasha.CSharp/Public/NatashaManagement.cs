@@ -6,9 +6,9 @@ public static partial class NatashaManagement
     /// <summary>
     /// 和 NatashaInitializer.Preheating(); 一样
     /// </summary>
-    public static void Preheating()
+    public static void Preheating(Func<AssemblyName, string?, bool>? excludeReferencesFunc = null)
     {
-        NatashaInitializer.Preheating();
+        NatashaInitializer.Preheating(excludeReferencesFunc);
     }
     
 

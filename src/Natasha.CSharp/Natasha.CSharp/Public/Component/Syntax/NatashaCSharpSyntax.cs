@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using System;
 
 namespace Natasha.CSharp.Core
 {
@@ -76,7 +77,7 @@ namespace Natasha.CSharp.Core
             }
             //Mark1 : 647ms
             //Mark2 : 128ms
-            //Mark : 7M Memory
+            //Mark : 5.0M (Memory:2023-02-27)
             var tree = CSharpSyntaxTree.ParseText(script.Trim(), _options);
             return FormartTree(tree, options);
 
@@ -96,11 +97,10 @@ namespace Natasha.CSharp.Core
             }
             //return tree.GetRoot().NormalizeWhitespace().SyntaxTree;
             //Console.ReadKey();
-            //Mark : 16M Memory
+            //Mark : 0.3M (Memory:2023-02-27)
             //Roslyn BUG https://github.com/dotnet/roslyn/issues/58150
             return CSharpSyntaxTree.ParseText(tree.GetRoot().NormalizeWhitespace().SyntaxTree.ToString(), options);
         }
-
     }
 }
 

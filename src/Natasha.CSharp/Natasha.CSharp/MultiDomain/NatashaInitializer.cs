@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 
 public static class NatashaInitializer
@@ -40,7 +41,7 @@ public static class NatashaInitializer
                 DefaultUsing.SetDefaultUsingFilter(excludeReferencesFunc);
                 NatashaDomain.SetDefaultAssemblyFilter(excludeReferencesFunc);
 
-
+                //Mark : 3.0M (Memory:2023-02-27)
                 IEnumerable<string>? paths = NatashaReferencePathsHelper.GetReferenceFiles(excludeReferencesFunc);
 
 #if DEBUG
@@ -48,6 +49,7 @@ public static class NatashaInitializer
 #endif
                 if (paths!=null && paths.Count()>0)
                 {
+                    //Mark : 32.5M (Memory:2023-02-27)
                     ResolverMetadata(paths);
 #if DEBUG
                     stopwatch.RestartAndShowCategoreInfo("[  Domain  ]", "默认信息初始化", 1);
@@ -59,6 +61,7 @@ public static class NatashaInitializer
                     {
                         cSharpBuilder.EnableSemanticHandler = true;
                         cSharpBuilder.Add(DefaultUsing.UsingScript + "public class A{}");
+                        //Mark : 22.0M (Memory:2023-02-27)
                         var assembly = cSharpBuilder.GetAssembly();
                     }
                     cSharpBuilder.Domain.Dispose();
@@ -77,7 +80,7 @@ public static class NatashaInitializer
         var resolver = new PathAssemblyResolver(paths);
         using (var mlc = new MetadataLoadContext(resolver))
         {
-            Parallel.ForEach(paths, (path) =>
+            var result = Parallel.ForEach(paths, (path) =>
             {
 
                 Assembly assembly = mlc.LoadFromAssemblyPath(path);
@@ -86,6 +89,10 @@ public static class NatashaInitializer
                 NatashaDomain.AddAssemblyToDefaultCache(assembly);
 
             });
+            while (!result.IsCompleted)
+            {
+                Thread.Sleep(100);
+            }
         }
     }
 
