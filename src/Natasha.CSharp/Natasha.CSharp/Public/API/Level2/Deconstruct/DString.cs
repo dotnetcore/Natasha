@@ -23,7 +23,7 @@ namespace System
             catch (Exception ex)
             {
                 log = nlog;
-                throw ex;
+                throw;
             }
             
 
