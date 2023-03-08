@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using System;
 
 namespace Natasha.CSharp.Core
 {
@@ -100,7 +101,6 @@ namespace Natasha.CSharp.Core
             //Roslyn BUG https://github.com/dotnet/roslyn/issues/58150
             return CSharpSyntaxTree.ParseText(tree.GetRoot().NormalizeWhitespace().SyntaxTree.ToString(), options);
         }
-
     }
 }
 
