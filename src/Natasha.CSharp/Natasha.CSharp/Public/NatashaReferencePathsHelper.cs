@@ -31,7 +31,7 @@ public static class NatashaReferencePathsHelper
 
         }
 
-        if (paths == null || paths.Count() == 0)
+        if (paths == null || !paths.Any())
         {
             var refsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "refs");
             if (Directory.Exists(refsFolder))
