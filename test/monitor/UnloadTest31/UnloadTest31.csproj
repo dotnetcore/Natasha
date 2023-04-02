@@ -5,7 +5,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\src\Natasha.CSharp\Natasha.CSharp\Natasha.CSharp.csproj" />
+		<ProjectReference Include="..\..\..\src\Natasha.CSharp\Natasha.CSharp\Natasha.CSharp.csproj" />
 	</ItemGroup>
 
 </Project>
