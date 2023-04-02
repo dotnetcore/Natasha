@@ -4,7 +4,7 @@ pr_repo:
 pr_readme:
 - 'README.md'
 
-pr_pipeline:
+pr_workflow_config:
 - '.github/**/*'
 
 pr_samples:
@@ -13,7 +13,7 @@ pr_samples:
 pr_benchmark:
 - 'test/benchmark/**/*'
 
-pr_action:
+pr_workflow_action:
 - 'test/workflow/**/*'
 
 pr_ut:
