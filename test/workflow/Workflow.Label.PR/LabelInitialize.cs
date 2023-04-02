@@ -12,7 +12,7 @@ namespace Workflow.Label
         {
             var referencOwnerName = Environment.GetEnvironmentVariable("REFERENC_OWNER_NAME");
             var referencRepoName = Environment.GetEnvironmentVariable("REFERENC_REPO_NAME");
-            var specialColor = Environment.GetEnvironmentVariable("REFERENC_REPO_NAME");
+            var specialColor = Environment.GetEnvironmentVariable("SPEICIAL_COLOR");
             if (specialColor == null)
             {
                 specialColor = "68E0F8";
