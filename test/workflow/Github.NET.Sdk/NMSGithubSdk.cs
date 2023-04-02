@@ -366,7 +366,7 @@ namespace Github.NET.Sdk
                         {
                             if (referecLabelMap.ContainsKey(newLable))
                             {
-                                description = referecLabelMap[newLable].Color;
+                                description = referecLabelMap[newLable].Description;
                             }
                             else
                             {
@@ -435,7 +435,7 @@ namespace Github.NET.Sdk
                 {
                     if (referecLabelMap.ContainsKey(newLabelName))
                     {
-                        description = referecLabelMap[newLabelName].Color;
+                        description = referecLabelMap[newLabelName].Description;
                     }
                     else
                     {
