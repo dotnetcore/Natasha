@@ -8,7 +8,7 @@ namespace Plugin1
     {
         public string PluginMethod1()
         {
-            return $"Json:{typeof(JsonConvert).Assembly.GetName().Version};Dapper:{typeof(Dapper.SqlMapper).Assembly.GetName().Version};IPluginBase:{IPluginBase.Version};Self:{this.GetType().Assembly.GetName().Version}";
+            return $"Json:{typeof(JsonConvert).Assembly.GetName().Version};Dapper:{typeof(Dapper.SqlMapper).Assembly.GetName().Version};IPluginBase:{new PluginModel().PluginVersion};Self:{this.GetType().Assembly.GetName().Version}";
         }
 
         public string PluginMethod2(PluginModel pluginModel)
