@@ -53,10 +53,13 @@ namespace Workflow.Nuget.Publish
                                         var latestVersion = await NugetHelper.GetLatestVersionAsync(packageName);
                                         if (latestVersion == null || NuGetVersion.Parse(packageVersion) > latestVersion)
                                         {
-                                            pushCount += 1;
                                             //打包并检测该工程能否正常输出 NUGET 包
                                             var result = await NugetHelper.BuildAsync(file) && await NugetHelper.PackAsync(file, packageVersion);
-                                            Assert.True(result);
+                                            if (result)
+                                            {
+                                                pushCount += 1;
+                                                Assert.True(result);
+                                            }
                                         }
                                         else
                                         {
