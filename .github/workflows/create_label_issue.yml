@@ -22,6 +22,7 @@ env:
   AAA-BLOCK-USER_LABEL_COLOR: ff0000
   AAA-BLOCK-USER_LABEL_DESCRIPTION: "该标签为屏蔽标签,打上该标签的 ISSUE 作者将被屏蔽." 
 
+
 jobs:
 
     label_init:
