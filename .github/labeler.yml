@@ -21,3 +21,9 @@ pr_ut:
 
 pr_source:
 - 'src/**/*'
+
+pr_nuget:
+- 'nofolder1'
+
+dependencies:
+- 'nofolder2'

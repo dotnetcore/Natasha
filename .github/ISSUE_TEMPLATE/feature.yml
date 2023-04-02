@@ -12,7 +12,7 @@ body:
     id: contact
     attributes:
       label: 📞 您的联系方式(Contact Details).
-      description: 如果我们需要进一步的沟通,如何找到您 (How can we get in touch with you if we need more info)?
+      description: 如果我们需要进一步的沟通,如何找到您 (How can we get in touch with you if we need more infos)?
       placeholder: ex. email@example.com
     validations:
       required: false
