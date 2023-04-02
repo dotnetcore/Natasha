@@ -17,7 +17,7 @@ updates:
     - "dependencies"
       
 - package-ecosystem: "nuget"
-  directory: "/src/Project/"
+  directory: "/src/Natasha.CSharp/Natasha.CSharp/"
   schedule:
     interval: "daily"
   commit-message:
@@ -27,7 +27,27 @@ updates:
     - "dependencies"
 
 - package-ecosystem: "nuget"
-  directory: "/test/ut/UnitTestProject/"
+  directory: "/src/Natasha.Domain/"
+  schedule:
+    interval: "daily"
+  commit-message:
+    prefix: "[NUGET IN SOURCE]"
+  labels:
+    - "pr_nuget"
+    - "dependencies"
+
+- package-ecosystem: "nuget"
+  directory: "/test/ut/FrameworkFunctionUT/"
+  schedule:
+    interval: "monthly"
+  commit-message:
+    prefix: "[NUGET IN TEST]"
+  labels:
+    - "pr_nuget"
+    - "dependencies"
+
+- package-ecosystem: "nuget"
+  directory: "/test/ut/NatashaFunctionUT/"
   schedule:
     interval: "monthly"
   commit-message:
