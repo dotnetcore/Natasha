@@ -63,7 +63,7 @@ namespace Workflow.Nuget.Publish
                                         }
                                         else
                                         {
-                                            message.AppendLine($"C#工程:包 {packageName} 的准发布版本 {packageVersion} 低于 NUGET 仓库中的 {latestVersion} 版本!");
+                                            message.AppendLine($"C#工程:包 {packageName} 的准发布版本 {packageVersion} 并不高于 NUGET 仓库中的 {latestVersion} 版本!");
                                         }
                                     }
                                     else
