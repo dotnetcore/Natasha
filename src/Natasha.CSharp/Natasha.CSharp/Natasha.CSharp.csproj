@@ -20,7 +20,7 @@
 	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' != 'net7.0'">
 		<!--<PackageReference Include="PolySharp" Version="1.*" PrivateAssets="All" />-->
-		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="7.0.0" />
 	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0' OR '$(TargetFramework)' == 'netcoreapp3.1' OR '$(TargetFramework)' == 'net5.0' OR '$(TargetFramework)' == 'net5.1' OR '$(TargetFramework)' == 'net6.0'">
 		<PackageReference Include="System.Reflection.MetadataLoadContext" Version="6.0.0" />
