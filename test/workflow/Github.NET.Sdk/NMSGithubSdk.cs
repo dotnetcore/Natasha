@@ -273,15 +273,15 @@ namespace Github.NET.Sdk
                         }
                     }
 
-                    foreach (var newLable in expectLabels)
+                    foreach (var newLabel in expectLabels)
                     {
-                        var color = Environment.GetEnvironmentVariable($"{newLable.ToUpperInvariant()}_LABEL_COLOR");
-                        var description = Environment.GetEnvironmentVariable($"{newLable.ToUpperInvariant()}_LABEL_DESCRIPTION");
+                        var color = Environment.GetEnvironmentVariable($"{newLabel.ToUpperInvariant()}_LABEL_COLOR");
+                        var description = Environment.GetEnvironmentVariable($"{newLabel.ToUpperInvariant()}_LABEL_DESCRIPTION");
                         if (color == null)
                         {
-                            if (referecLabelMap.ContainsKey(newLable))
+                            if (referecLabelMap.ContainsKey(newLabel))
                             {
-                                color = referecLabelMap[newLable].Color;
+                                color = referecLabelMap[newLabel].Color;
                             }
                             else if (randomColor != null && randomColor.Count > 0)
                             {
@@ -294,21 +294,21 @@ namespace Github.NET.Sdk
                         }
                         if (description == null)
                         {
-                            if (referecLabelMap.ContainsKey(newLable))
+                            if (referecLabelMap.ContainsKey(newLabel))
                             {
-                                description = referecLabelMap[newLable].Color;
+                                description = referecLabelMap[newLabel].Description;
                             }
-                            else
+                            if (string.IsNullOrEmpty(description))
                             {
-                                description = $"[{newLable}] made by nmsbot.";
+                                description = $"[{newLabel}] made by nmsbot.";
                             }
                         }
 
 
-                        (var result, error) = await GithubSdk.Label.CreateAsync(repoId, newLable, color, description);
+                        (var result, error) = await GithubSdk.Label.CreateAsync(repoId, newLabel, color, description);
                         if (!result)
                         {
-                            return $"API 创建 #{color} 颜色的 <{newLable}> 标签失败! {error}";
+                            return $"API 创建 #{color} 颜色的 <{newLabel}> 标签失败! {error}";
                         }
                     }
 
@@ -343,15 +343,15 @@ namespace Github.NET.Sdk
                         }
                     }
 
-                    foreach (var newLable in expectLabels)
+                    foreach (var newLabel in expectLabels)
                     {
-                        var color = Environment.GetEnvironmentVariable($"{newLable.ToUpperInvariant()}_LABEL_COLOR");
-                        var description = Environment.GetEnvironmentVariable($"{newLable.ToUpperInvariant()}_LABEL_DESCRIPTION");
+                        var color = Environment.GetEnvironmentVariable($"{newLabel.ToUpperInvariant()}_LABEL_COLOR");
+                        var description = Environment.GetEnvironmentVariable($"{newLabel.ToUpperInvariant()}_LABEL_DESCRIPTION");
                         if (color == null)
                         {
-                            if (referecLabelMap.ContainsKey(newLable))
+                            if (referecLabelMap.ContainsKey(newLabel))
                             {
-                                color = referecLabelMap[newLable].Color;
+                                color = referecLabelMap[newLabel].Color;
                             }
                             else if (specialColor != null)
                             {
@@ -364,20 +364,20 @@ namespace Github.NET.Sdk
                         }
                         if (description == null)
                         {
-                            if (referecLabelMap.ContainsKey(newLable))
+                            if (referecLabelMap.ContainsKey(newLabel))
                             {
-                                description = referecLabelMap[newLable].Description;
+                                description = referecLabelMap[newLabel].Description;
                             }
-                            else
+                            if (string.IsNullOrEmpty(description))
                             {
-                                description = $"[{newLable}] made by nmsbot.";
+                                description = $"[{newLabel}] made by nmsbot.";
                             }
                         }
 
-                        (var result, error) = await GithubSdk.Label.CreateAsync(repoId, newLable, color, description);
+                        (var result, error) = await GithubSdk.Label.CreateAsync(repoId, newLabel, color, description);
                         if (!result)
                         {
-                            return $"API 创建 #{color} 颜色的 <{newLable}> 标签失败! {error}";
+                            return $"API 创建 #{color} 颜色的 <{newLabel}> 标签失败! {error}";
                         }
                     }
 
@@ -385,7 +385,6 @@ namespace Github.NET.Sdk
             }
             return string.Empty;
         }
-
         public static async Task<string> CreateLabelIfNotExist(string newLabelName, string repoId, string ownerName, string repoName, string? specialColor = null, string? referencOwnerName = null, string? referencRepoName = null)
         {
             (var myLabels, string error) = await GithubSdk.Label.GetsAsync(ownerName, repoName);
@@ -437,7 +436,7 @@ namespace Github.NET.Sdk
                     {
                         description = referecLabelMap[newLabelName].Description;
                     }
-                    else
+                    if (string.IsNullOrEmpty(description))
                     {
                         description = $"[{newLabelName}] made by nmsbot.";
                     }
