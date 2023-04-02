@@ -21,6 +21,21 @@ concurrency: ci-${{ github.ref }}
 
 jobs:
 
+
+  codecov:
+    runs-on: ubuntu-latest      
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: 🚦 Check & Pack Codecov
+      run: dotnet test "./test/ut/NatashaFunctionUT/NatashaFunctionUT.csproj" --nologo -f net6.0 -c Release --collect:"XPlat Code Coverage" -r ./coverage
+
+    - name: 📶 Push to Codecov
+      if: ${{ needs.prepare_check.outputs.hasCoverageKey == 'true' }}
+      uses: codecov/codecov-action@v3.1.1
+      with:
+        token: ${{ secrets.COVERAGE_KEY }}
+        directory: ./coverage/
   #Get Version
   prepare_check:
 
@@ -81,6 +96,8 @@ jobs:
           
      - name: 📄 Achive Project
        run: dotnet test './test/workflow/Workflow.Project.Archive' --nologo -c Release
+
+
         
 
   publish:
@@ -101,17 +118,6 @@ jobs:
 
     - name: ✊ Release Dll
       run: dotnet build -c Release
-
-
-    - name: 🚦 Check & Pack Codecov
-      run: dotnet test "./test/ut/UnitTestProject/UnitTestProject.csproj" --nologo -f net6.0 -c Release --collect:"XPlat Code Coverage" -r ./coverage
-
-    - name: 📶 Push to Codecov
-      if: ${{ needs.prepare_check.outputs.hasCoverageKey == 'true' }}
-      uses: codecov/codecov-action@v3.1.1
-      with:
-        token: ${{ secrets.COVERAGE_KEY }}
-        directory: ./coverage/
 
     - name: 🚦 Check & Pack Nuget
       run: dotnet test './test/workflow/WorkflowPublish' --nologo --no-restore --no-build -c Release
@@ -160,9 +166,3 @@ jobs:
           echo "该 Release v${{env.RELEASE_VERSION}} 包已存在!"
 
         fi
-
-
-
-        
-
-
