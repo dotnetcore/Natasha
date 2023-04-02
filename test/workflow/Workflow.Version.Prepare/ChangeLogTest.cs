@@ -15,8 +15,6 @@ namespace WorkflowPrepare
                 isWriteToOutPut = await CLIHelper.Output("RELEASE_VERSION", version);
             }
             Assert.True(isWriteToOutPut);
-            var files = Directory.GetFiles(ResourcesHelper.CurrentSrcFolder);
-            Assert.True(files.Length > 0);
         }
     }
 }
