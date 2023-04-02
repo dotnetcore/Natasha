@@ -120,7 +120,7 @@ jobs:
       run: dotnet build -c Release
 
     - name: 🚦 Check & Pack Nuget
-      run: dotnet test './test/workflow/WorkflowPublish' --nologo --no-restore --no-build -c Release
+      run: dotnet test './test/workflow/Workflow.Nuget.Publish' --nologo --no-restore --no-build -c Release
 
     - name: 📶 Push to Nuget
       if:  ${{ needs.prepare_check.outputs.hasNugetKey == 'true' }}
