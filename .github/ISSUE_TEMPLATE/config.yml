@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: ❓ 有使用上的问题来这里提问
+    about: For general-purpose questions and answers, see the Discussions section.
+    url: https://github.com/${{github.repository}}/discussions

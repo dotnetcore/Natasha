@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>netcoreapp3.1;net5.0;net6.0;</TargetFrameworks>
+		<EnableDynamicLoading>true</EnableDynamicLoading>
+	</PropertyGroup>
+	<!--<ItemGroup>
+		<PackageReference Include="Dapper" Version="1.60.6" />
+		<PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+	</ItemGroup>-->
+
+	<ItemGroup>
+		<PackageReference Include="Dapper" Version="2.0.123" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\PluginBase\PluginBase.csproj" />
+	</ItemGroup>
+</Project>

@@ -1,0 +1,54 @@
+name: 💡 新的想法 (Feature request)
+description: 我知道您有一个比较赞的想法想和我说 (Suggest an idea for this project).
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢您能抽出时间填写这个 Feature 表单.(Thanks for taking the time to fill out this feature report!)
+
+  - type: input
+    id: contact
+    attributes:
+      label: 📞 您的联系方式(Contact Details).
+      description: 如果我们需要进一步的沟通,如何找到您? (How can we get in touch with you if we need more info?)
+      placeholder: ex. email@example.com
+    validations:
+      required: false
+
+  - type: textarea
+    id: story
+    attributes:
+      label: 💢 描述一下你的烦恼 (Is your feature request related to a problem? Please describe).
+      description: 请简单清晰地描述一下有关你这条建议的初衷,当然了有可以吐槽(A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]).
+      placeholder: Feature Context!
+    validations:
+      required: false
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: 💡 描述一下你理想中的解决方案 (Describe the solution you'd like).
+      description: 天马星空,异想天开,正儿八经的描述你的 idea (A clear and concise description of what you want to happen).
+      placeholder: Feature details!
+    validations:
+      required: true
+
+  - type: textarea
+    id: filter
+    attributes:
+      label: ❌ 描述一下你已经使用过或者考虑过的其他方案 (Describe alternatives you've considered).
+      description: 简单清晰的描述 (A clear and concise description of any alternative solutions or features you've considered).
+      placeholder: Solution has been pass!
+    validations:
+      required: false
+
+  - type: textarea
+    id: other
+    attributes:
+      label: 🍺 附加信息 (Additional context).
+      description: 如果你有关于这个想法的一些其他补充,比如截图,聊天记录,市场调查报告,合法录音,合法视频啊都行 (Add any other context or screenshots about the feature request here).
+      placeholder: Picture or words/vedio/audio and so on!
+    validations:
+      required: false

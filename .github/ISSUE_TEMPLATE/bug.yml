@@ -1,0 +1,96 @@
+name: 🐞 上报 BUG (Report bug)
+description: 烦请您帮助我们进步(Create a report to help us improve).
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢您能抽出时间填写这个 BUG 表单.(Thanks for taking the time to fill out this bug report!)
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: ⚙️ OS
+      description: 您用的是什么系统?
+      options:
+        - Windows(Default)
+        - Linux
+        - Android
+        - Apple
+
+  - type: dropdown
+    id: architecture
+    attributes:
+      label: ⚙️ Architecture
+      description: 芯片指令集是哪种?
+      options:
+        - Any(Default)
+        - Arm64
+        - Arm32
+        - x64 
+        - x86 
+        - macOS Rosetta 2
+        - LoongArch
+    validations:
+      required: true
+
+  - type: dropdown
+    id: version
+    attributes:
+      label: ⚙️ .NET Version
+      multiple: true
+      description: What version of our software are you running?
+      options:
+        - .NET7(STS) (Default)
+        - .NET6(LTS)
+        - .NET5
+        - .NET Core 3.1(LTS)
+        - .NET Core 3.0
+        - .NET Core 2.2
+        - .NET Core 2.1
+        - .NET Core 2.0
+        - .NET Core 1.x
+        - .NET Framework 4.8.1
+        - .NET Framework 4.8.0
+        - .NET Framework 4.7.2
+        - .NET Framework 4.7.1
+        - .NET Framework 4.7.0
+        - .NET Framework 4.6.2
+        - .NET Framework 4.6.1
+        - .NET Framework 4.6.0
+        - .NET Framework 4.5.2
+        - .NET Framework 4.5.1
+        - .NET Framework 4.5.0
+        - .NET Framework 4.0
+        - .NET Framework 3.5 SP1
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: 📄 请描述您的问题(Describe the bug).
+      description: 请清晰简洁地描述您遇到的 BUG (A clear and concise description of what the bug is).
+      placeholder: Bug Details!
+    validations:
+      required: true
+
+  - type: textarea
+    id: how-happened
+    attributes:
+      label: ⭕ BUG 重现(To Reproduce).
+      description: 重现步骤(Steps to reproduce the behavior).
+      placeholder: Bug Reproduce!
+    validations:
+      required: false
+
+  - type: input
+    id: contact
+    attributes:
+      label: 📞 您的联系方式(Contact Details).
+      description: 如果我们需要进一步的沟通,如何找到您? (How can we get in touch with you if we need more info?)
+      placeholder: ex. email@example.com
+    validations:
+      required: false
+

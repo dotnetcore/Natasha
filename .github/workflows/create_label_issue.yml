@@ -1,0 +1,43 @@
+name: Issue Label Maker
+
+on:
+  push:
+    branches:
+      - 'main'
+    paths:
+      - '.github/ISSUE_TEMPLATE/**'
+      - '.github/workflows/create_label_issue.yml'
+
+concurrency:
+  group: ci-label-pr
+  cancel-in-progress: true
+
+env:
+  OWNER_NAME: ${{ github.repository_owner }}
+  REPO_NAME: ${{ github.event.repository.name }}
+  REPO_ID: ${{ github.event.repository.node_id }}
+  GITHUB_TOKEN: ${{ secrets.REPO_GITHUB_TOKEN }}
+  REFERENC_OWNER_NAME: cli
+  REFERENC_REPO_NAME: cli
+  #ABC_LABEL_COLOR: 0052CC
+  #ABC_LABEL_DESCRIPTION: "这是一段测试文字这个标签毫无用处" 
+  AAA-BLOCK-USER_LABEL_COLOR: ff0000
+  AAA-BLOCK-USER_LABEL_DESCRIPTION: "该标签为屏蔽标签,打上该标签的 ISSUE 作者将被屏蔽." 
+
+jobs:
+
+    label_init:
+      runs-on: ubuntu-latest
+      
+      steps:
+      - uses: actions/checkout@v3
+
+      #- name: 🔨 Setup .NET 6.X SDK
+      #  uses: actions/setup-dotnet@v3
+      #  with:
+      #    dotnet-version: '6.x'
+          
+      - name: 👀 Issue Label Check
+        run: dotnet test './test/workflow/Workflow.Label.Issue' --nologo -c Release
+
+

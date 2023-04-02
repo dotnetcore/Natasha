@@ -1,0 +1,23 @@
+pr_repo:
+- '*'
+
+pr_readme:
+- 'README.md'
+
+pr_pipeline:
+- '.github/**/*'
+
+pr_samples:
+- 'samples/**/*'
+
+pr_benchmark:
+- 'test/benchmark/**/*'
+
+pr_action:
+- 'test/workflow/**/*'
+
+pr_ut:
+- 'test/ut/**/*'
+
+pr_source:
+- 'src/**/*'

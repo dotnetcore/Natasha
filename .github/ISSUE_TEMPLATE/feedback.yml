@@ -1,0 +1,46 @@
+name: 📣 和作者进行灵魂沟通 (Feedback)
+description: 来聊聊咱这个库好在哪里,差在哪里和你的期待在哪里 (Give us general feedback about the repository).
+title: "[Feedback]: "
+labels: ["feedback"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢您能抽出时间填写这个 Feature 表单.(Thanks for taking the time to fill out this feature report!)
+
+  - type: input
+    id: contact
+    attributes:
+      label: 📞 您的联系方式(Contact Details).
+      description: 如果我们需要进一步的沟通,如何找到您? (How can we get in touch with you if we need more info?)
+      placeholder: ex. email@example.com
+    validations:
+      required: false
+
+  - type: textarea
+    id: loved
+    attributes:
+      label: ♥️ 您觉得咱们这个项目的什么地方作的比较好 (What have you loved)?
+    validations:
+      required: false
+
+  - type: textarea
+    id: confusing
+    attributes:
+      label: 💢 您觉得那些地方让您感到困惑和迷茫 (What was confusing or gave you pause)?
+    validations:
+      required: false
+
+  - type: textarea
+    id: feature
+    attributes:
+      label: ✨ 那些功能是您比较期待的 (Are there features you'd like to see added)?
+    validations:
+      required: false
+
+  - type: textarea
+    id: story
+    attributes:
+      label: 🍺 我有酒,请说出你的故事(Show your story).
+    validations:
+      required: false

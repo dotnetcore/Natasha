@@ -1,0 +1,155 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>netcoreapp3.1;net5.0;net6.0;</TargetFrameworks>
+		<IsPackable>false</IsPackable>
+		<LangVersion>preview</LangVersion>
+		<NoWin32Manifest>true</NoWin32Manifest>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Remove="AssemblyBuildTest.cs" />
+		<Compile Remove="CS0433Test.cs" />
+		<Compile Remove="File\TestFileModel.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Remove="File\TextFile1.txt" />
+		<None Remove="Lib\ClassLibrary1.deps.json" />
+		<None Remove="Lib\ClassLibrary1.dll" />
+		<None Remove="Lib\ClassLibrary2.dll" />
+		<None Remove="Lib\Json\ClassLibrary6.deps.json" />
+		<None Remove="Lib\Json\ClassLibrary6.dll" />
+		<None Remove="Lib\Json\ClassLibrary6.pdb" />
+		<None Remove="Lib\Static\ClassLibrary5.deps.json" />
+		<None Remove="Lib\Static\ClassLibrary5.dll" />
+		<None Remove="Lib\Static\ClassLibrary5.pdb" />
+		<None Remove="Lib\Static\ClassLibrary6.dll" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="File\TestFileModel.cs">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="File\TextFile1.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Lib\Json\ClassLibrary6.deps.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Lib\Json\ClassLibrary6.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Lib\Sql\ClassLibrary1.deps.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Lib\Sql\ClassLibrary1.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Lib\Sql\ClassLibrary2.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Lib\Static\ClassLibrary6.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Lib\Static\ClassLibrary5.deps.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Lib\Static\ClassLibrary5.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+
+	<ItemGroup>
+		<!--<PackageReference Include="DotNetCore.Compile.Environment" Version="2.2.0" />-->
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
+		<PackageReference Include="xunit" Version="2.4.1" />
+		<PackageReference Include="coverlet.collector" Version="3.1.0">
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\Natasha.CSharp\Extension\Natasha.CSharp.Extension.Ambiguity\Natasha.CSharp.Extension.Ambiguity.csproj" />
+		<ProjectReference Include="..\..\src\Natasha.CSharp\Extension\Natasha.CSharp.Extension.InvisibleInstance\Natasha.CSharp.Extension.InvisibleInstance.csproj" />
+		<ProjectReference Include="..\..\src\Natasha.CSharp\Natasha.CSharp.All\Natasha.CSharp.All.csproj" />
+	</ItemGroup>
+
+
+
+	<ItemGroup>
+		<None Update="Lib\Diff\fileV1\asmV1\TestDifferentLibrary.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Lib\Diff\fileV1\asmV1\TestRefererenceLibrary.deps.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Lib\Diff\fileV1\asmV1\TestRefererenceLibrary.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Lib\Diff\fileV1\asmV2\TestDifferentLibrary.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Lib\Diff\fileV1\asmV2\TestReferenceLibrary2.deps.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Lib\Diff\fileV1\asmV2\TestReferenceLibrary2.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Lib\Diff\fileV1\asmV3\TestDifferentLibrary.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Lib\Diff\fileV2\asmV1\TestDifferentLibrary.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Lib\Diff\fileV2\asmV2\TestDifferentLibrary.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Lib\Diff\fileV3\v1\Dependency.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Lib\Diff\fileV3\v1\DiffVersionLibrary.deps.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Lib\Diff\fileV3\v1\DiffVersionLibrary.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Lib\Diff\fileV3\v1\MySql.Data.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Lib\Diff\fileV3\v2\Dependency.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Lib\Diff\fileV3\v2\DiffVersionLibrary.deps.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Lib\Diff\fileV3\v2\DiffVersionLibrary.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Lib\Diff\fileV3\v2\MySql.Data.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Lib\Repeate\ClassLibrary1.deps.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Lib\Repeate\ClassLibrary1.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Lib\Repeate\ClassLibrary2.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+</Project>

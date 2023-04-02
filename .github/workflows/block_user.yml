@@ -1,0 +1,38 @@
+name: Block User By Label
+
+on:
+  #push:
+  #  branches:
+  #    - 'main'
+  #  paths:
+  #    - '.github/workflows/block_user.yml'
+
+  issues:
+    types:
+      - labeled
+
+concurrency: block-${{ github.ref }}
+
+env:
+  OWNER_NAME: ${{ github.repository_owner }}
+  REPO_NAME: ${{ github.event.repository.name }}
+  GITHUB_TOKEN: ${{ secrets.REPO_GITHUB_TOKEN }}
+
+jobs:
+
+    block_user:
+      runs-on: ubuntu-latest
+      if: github.event.label.name == 'aaa-block-user'
+      steps:
+
+      - uses: actions/checkout@v3
+
+      #- name: 🔨 Setup .NET 6.X SDK
+      #  uses: actions/setup-dotnet@v3
+      #  with:
+      #    dotnet-version: '6.x'
+          
+      - name: ☠️ Block User
+        run: dotnet test './test/workflow/Workflow.Issue.BlockUser' --nologo -c Release
+
+

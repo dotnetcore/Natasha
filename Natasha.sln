@@ -6,12 +6,53 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{13AACED0-099F-423D-AC8A-E3067DD42A55}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
-		tools\19404084.png = tools\19404084.png
-		azure-pipelines.yml = azure-pipelines.yml
+		CHANGELOG.md = CHANGELOG.md
 		Directory.Build.props = Directory.Build.props
-		.github\workflows\dotnetcore.yml = .github\workflows\dotnetcore.yml
-		tools\LICENSE = tools\LICENSE
 		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflow", "workflow", "{AEE97FB6-D1CA-4923-BC22-F1178313ECE3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "report.template", "report.template", "{E9797E12-44DE-425E-AC9A-8E22B8AB43AC}"
+	ProjectSection(SolutionItems) = preProject
+		.github\ISSUE_TEMPLATE\bug.yml = .github\ISSUE_TEMPLATE\bug.yml
+		.github\ISSUE_TEMPLATE\config.yml = .github\ISSUE_TEMPLATE\config.yml
+		.github\ISSUE_TEMPLATE\feature.yml = .github\ISSUE_TEMPLATE\feature.yml
+		.github\ISSUE_TEMPLATE\feedback.yml = .github\ISSUE_TEMPLATE\feedback.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "trigger", "trigger", "{3F38F9DE-CD8E-4398-B384-352BE469C037}"
+	ProjectSection(SolutionItems) = preProject
+		.github\dependabot.yml = .github\dependabot.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pr", "pr", "{15F494AB-94DF-4334-BD73-9F8ACF84E0C1}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\pr_archive.yml = .github\workflows\pr_archive.yml
+		.github\workflows\pr_test.yml = .github\workflows\pr_test.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "label", "label", "{750750E6-8576-47CC-A4E4-00CC385B0CDF}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\create_label_issue.yml = .github\workflows\create_label_issue.yml
+		.github\workflows\create_label_pr.yml = .github\workflows\create_label_pr.yml
+		.github\labeler.yml = .github\labeler.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "release", "release", "{458237F1-2DA5-4CD5-AE3F-736778B735E7}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\release.yml = .github\workflows\release.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dependency", "dependency", "{BE249E27-1BFF-4DB5-9B05-478E80C5E7B1}"
+	ProjectSection(SolutionItems) = preProject
+		.github\dependabot.yml = .github\dependabot.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "issue", "issue", "{EB036B9F-DD9D-42BD-A132-32A71F77D27C}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\block_user.yml = .github\workflows\block_user.yml
+		.github\workflows\issue_recommend.yml = .github\workflows\issue_recommend.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{508A2E20-BB12-4610-8CB2-0B07B233DE68}"
@@ -37,6 +78,15 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginB", "samples\PluginSample\PluginB\PluginB.csproj", "{79A7531B-2FA0-4964-963B-116079218C0D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginBase", "samples\PluginSample\PluginBase\PluginBase.csproj", "{DB5B9B16-2A17-4B70-AAD1-5DF19B09BE9A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "trigger", "trigger", "{082FE559-7B32-4D83-B01B-0D4934396891}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "resources", "resources", "{652E24CB-542E-41CD-B21A-826019A9AE80}"
+	ProjectSection(SolutionItems) = preProject
+		resources\19404084.png = resources\19404084.png
+		resources\LICENSE = resources\LICENSE
+		resources\natasha.snk = resources\natasha.snk
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,6 +127,12 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{E9797E12-44DE-425E-AC9A-8E22B8AB43AC} = {13AACED0-099F-423D-AC8A-E3067DD42A55}
+		{15F494AB-94DF-4334-BD73-9F8ACF84E0C1} = {082FE559-7B32-4D83-B01B-0D4934396891}
+		{750750E6-8576-47CC-A4E4-00CC385B0CDF} = {082FE559-7B32-4D83-B01B-0D4934396891}
+		{458237F1-2DA5-4CD5-AE3F-736778B735E7} = {082FE559-7B32-4D83-B01B-0D4934396891}
+		{BE249E27-1BFF-4DB5-9B05-478E80C5E7B1} = {082FE559-7B32-4D83-B01B-0D4934396891}
+		{EB036B9F-DD9D-42BD-A132-32A71F77D27C} = {082FE559-7B32-4D83-B01B-0D4934396891}
 		{E9E2DC38-DE80-445C-B2F8-0A7B47D0A44D} = {508A2E20-BB12-4610-8CB2-0B07B233DE68}
 		{8C9B862A-B569-460C-8B74-E74C6DF0CAB3} = {508A2E20-BB12-4610-8CB2-0B07B233DE68}
 		{0CB3AF52-50F3-4728-BAC6-389F2E995111} = {8C9B862A-B569-460C-8B74-E74C6DF0CAB3}
@@ -87,6 +143,8 @@ Global
 		{C11CDBDF-E204-412F-A1AF-C2AD83383599} = {5A4C28F6-36C5-4735-A1E0-E4BC5DD7F5F8}
 		{79A7531B-2FA0-4964-963B-116079218C0D} = {5A4C28F6-36C5-4735-A1E0-E4BC5DD7F5F8}
 		{DB5B9B16-2A17-4B70-AAD1-5DF19B09BE9A} = {5A4C28F6-36C5-4735-A1E0-E4BC5DD7F5F8}
+		{082FE559-7B32-4D83-B01B-0D4934396891} = {13AACED0-099F-423D-AC8A-E3067DD42A55}
+		{652E24CB-542E-41CD-B21A-826019A9AE80} = {13AACED0-099F-423D-AC8A-E3067DD42A55}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3004E730-B231-40FA-B75C-58D7DDE17679}

@@ -1,0 +1,168 @@
+name: Release
+
+
+on:
+  push:
+    branches:
+      - 'main'
+    paths:
+      - 'CHANGELOG.md'
+
+env:
+  GITHUB_TOKEN: ${{ secrets.REPO_GITHUB_TOKEN }}
+  OWNER_NAME: ${{ github.repository_owner }}
+  REPO_NAME: ${{ github.event.repository.name }}
+  OWNER_ID: ${{ github.event.repository.owner.node_id }}
+  REPO_ID: ${{ github.event.repository.node_id }}
+  PR_ID: ${{ github.event.pull_request.node_id }}
+  PROJECT_NAME: ${{ github.event.repository.name }}_VNext
+
+concurrency: ci-${{ github.ref }}
+
+jobs:
+
+  #Get Version
+  prepare_check:
+
+    runs-on: ubuntu-latest
+    outputs:
+      releaseVersion: ${{steps.scanner.outputs.RELEASE_VERSION}}
+      releasePackString: ${{steps.outter.outputs.RELEASE_PACK_STRING}}
+      hasNugetKey: ${{steps.outter.outputs.HAS_NUGET_KEY}}
+      hasCoverageKey: ${{steps.outter.outputs.HAS_COVERAGE_KEY}}
+
+    steps:
+    - uses: actions/checkout@v3
+
+    #- name: 🔨 Setup .NET 6.X SDK
+    #  uses: actions/setup-dotnet@v3
+    #  with:
+    #    dotnet-version: '6.x'
+
+    - name: 📡 Scan Prepare Enviroment
+      id: scanner
+      run: dotnet test './test/workflow/Workflow.Version.Prepare'
+
+    - name: 🙂 Output ReleaseVersion
+      id: outter
+      run: |
+        if [ "${{ steps.scanner.outputs.RELEASE_VERSION }}" == "" ]; then
+          echo "未扫描到版本号,请核对 CHANGELOD 文档!"
+          exit 1
+        fi
+        echo "RELEASE_PACK_STRING=${{github.event.repository.name}}_Release_v${{ steps.scanner.outputs.RELEASE_VERSION }}" >> "$GITHUB_OUTPUT"
+        if [ "${{ secrets.COVERAGE_KEY }}" == "" ]; then
+          echo "HAS_COVERAGE_KEY=false" >> $GITHUB_OUTPUT
+        else
+          echo "HAS_COVERAGE_KEY=true" >> $GITHUB_OUTPUT
+        fi
+        if [ "${{ secrets.NUGET_KEY }}" == "" ]; then
+          echo "HAS_NUGET_KEY=false" >> $GITHUB_OUTPUT
+        else
+          echo "HAS_NUGET_KEY=true" >> $GITHUB_OUTPUT
+        fi
+
+
+  #Archive Project
+  archive_project:
+     runs-on: ubuntu-latest
+     needs: prepare_check
+     env:
+       GITHUB_TOKEN: ${{ secrets.REPO_GITHUB_TOKEN }}
+       PROJECT_ARCHIVE_NAME: ${{ needs.prepare_check.outputs.releasePackString }}
+      
+     steps:
+     - uses: actions/checkout@v3
+
+     #- name: 🔨 Setup .NET 6.X SDK
+     #  uses: actions/setup-dotnet@v3
+     #  with:
+     #    dotnet-version: '6.x'
+          
+     - name: 📄 Achive Project
+       run: dotnet test './test/workflow/Workflow.Project.Archive' --nologo -c Release
+        
+
+  publish:
+
+    runs-on: ubuntu-latest
+    needs: prepare_check
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: 🔨 Setup .NET SDK
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: |
+          3.1.x
+          5.0.x
+          6.0.x
+          7.0.x
+
+    - name: ✊ Release Dll
+      run: dotnet build -c Release
+
+
+    - name: 🚦 Check & Pack Codecov
+      run: dotnet test "./test/ut/UnitTestProject/UnitTestProject.csproj" --nologo -f net6.0 -c Release --collect:"XPlat Code Coverage" -r ./coverage
+
+    - name: 📶 Push to Codecov
+      if: ${{ needs.prepare_check.outputs.hasCoverageKey == 'true' }}
+      uses: codecov/codecov-action@v3.1.1
+      with:
+        token: ${{ secrets.COVERAGE_KEY }}
+        directory: ./coverage/
+
+    - name: 🚦 Check & Pack Nuget
+      run: dotnet test './test/workflow/WorkflowPublish' --nologo --no-restore --no-build -c Release
+
+    - name: 📶 Push to Nuget
+      if:  ${{ needs.prepare_check.outputs.hasNugetKey == 'true' }}
+      run: dotnet nuget push *.nupkg -k ${{ secrets.NUGET_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate
+
+
+  release:
+
+    runs-on: ubuntu-latest
+    needs: prepare_check
+    env:
+      RELEASE_VERSION: ${{needs.prepare_check.outputs.releaseVersion}}
+      PACK_STRING: ${{needs.prepare_check.outputs.releasePackString}}
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: 🎉 Release
+      run: |
+        RELEASE_ID=$(gh api graphql -H "X-Github-Next-Global-ID: 1" -f query='
+          query{
+              repository(owner:"${{github.repository_owner}}",name:"${{github.event.repository.name}}"){
+                release(tagName:"v${{env.RELEASE_VERSION}}"){
+                    id
+                }
+              }
+          }' --jq '.data.repository.release.id')
+
+        RESULT=0
+        if [ "$RELEASE_ID" != "" ]; then
+          if [ "$RELEASE_ID" != "null" ]; then
+            RESULT=1
+          fi
+        fi
+        if [ $RESULT == 0 ]; then
+
+          echo "::debug::exist release package"
+          echo "不存在 Id ,开始创建 Release v${{env.RELEASE_VERSION}} 包!"
+          gh release create v${{env.RELEASE_VERSION}} -F CHANGELOG.md 
+
+        else
+          
+          echo "::debug::no release package"
+          echo "该 Release v${{env.RELEASE_VERSION}} 包已存在!"
+
+        fi
+
+
+
+        
+
+

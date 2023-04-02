@@ -1,0 +1,107 @@
+name: UT Test From PR
+
+on:
+   pull_request:
+     types: [opened]
+     branches:
+       - dev**
+
+
+jobs:
+    
+    recommend:
+      runs-on: ubuntu-latest
+
+      steps:
+      - uses: actions/checkout@v3
+
+      - name: 🔨 Setup Python 3.7
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.7'
+      - run: |
+          pip install jieba
+          pip install numpy
+
+      #- name: 🔨 Setup .NET 6.X SDK
+      #  uses: actions/setup-dotnet@v3
+      #  with:
+      #    dotnet-version: '6.x'
+          
+      - name: 🌈 Recommend
+        run: dotnet test './test/workflow/Workflow.PR.Association' --nologo -c Release
+        env:
+          OWNER_NAME: ${{ github.repository_owner }}
+          REPO_NAME: ${{ github.event.repository.name }}
+          GITHUB_TOKEN: ${{ secrets.REPO_GITHUB_TOKEN }}
+          PR_ID: ${{ github.event.pull_request.node_id }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          ISSUE_STATUS: OPEN
+          USE_PADDLE: "TRUE"
+          PICK_COUNT: 2
+          MIN_SIMILAR_SCORE: 0.98
+          MAX_SIMILAR_SCORE: 1
+
+
+    linux:
+      runs-on: ubuntu-latest
+
+      steps:
+      - uses: actions/checkout@v3
+      - name: 🔨 Setup .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: |
+            3.1.x
+            5.0.x
+            6.0.x
+            7.0.x
+          
+      - name: 🚦 UT Test
+        run: dotnet test './test/ut/UnitTestProject' --nologo -c Release
+     
+
+    windows:
+      runs-on: windows-latest  
+      steps:
+      - uses: actions/checkout@v3
+      - name: 🔨 Setup .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: |
+            3.1.x
+            5.0.x
+            6.0.x
+            7.0.x
+          
+      - name: 🚦 UT Test
+        run: dotnet test "./test/ut/UnitTestProject" --nologo  -c Release
+
+
+    mac:
+      runs-on: macos-latest
+      steps:
+      - uses: actions/checkout@v3
+      - name: 🔨 Setup .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: |
+            3.1.x
+            5.0.x
+            6.0.x
+            7.0.x
+          
+      - name: 🚦 UT Test
+        run: dotnet test './test/ut/UnitTestProject'  --nologo -c Release
+
+
+    pr_label:
+      runs-on: ubuntu-latest
+      env:
+        GITHUB_TOKEN: ${{ secrets.REPO_GITHUB_TOKEN }}
+
+      steps:
+
+      - name: 🏷 Mark Label
+        uses: actions/labeler@v4
+
