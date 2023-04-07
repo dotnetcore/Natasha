@@ -20,10 +20,15 @@ public static class NatashaReferencePathsHelper
             .Default
             .CompileLibraries.SelectMany(cl => cl.ResolveReferencePaths().Where(asmPath =>
             {
-
-                var asmName = AssemblyName.GetAssemblyName(asmPath);
-                return !excludeReferencesFunc(asmName, asmName.Name);
-
+                try
+                {
+                    var asmName = AssemblyName.GetAssemblyName(asmPath);
+                    return !excludeReferencesFunc(asmName, asmName?.Name);
+                }
+                catch
+                {
+                    return false;
+                }
             }));
         }
         catch
