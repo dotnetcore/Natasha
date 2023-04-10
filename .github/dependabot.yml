@@ -26,6 +26,9 @@ updates:
       prefix: "[DEPENDENCY SRC]"
     labels:
       - "dependencies"
+    ignore:
+      - dependency-name: "System.Reflection.MetadataLoadContext"
+      - dependency-name: "Microsoft.Extensions.DependencyModel"
 
   - package-ecosystem: "nuget"
     directory: "src/Natasha.CSharp/Extension/Natasha.CSharp.Extension.Ambiguity"
@@ -35,6 +38,9 @@ updates:
       prefix: "[DEPENDENCY SRC]"
     labels:
       - "dependencies"
+    ignore:
+      - dependency-name: "System.Reflection.MetadataLoadContext"
+      - dependency-name: "Microsoft.Extensions.DependencyModel"
 
   - package-ecosystem: "nuget"
     directory: "test/ut/NatashaFunctionUT"

@@ -130,7 +130,13 @@ src:
       - name: dependencies
         description: 有依赖需要升级
         color: 4E04B0
-      ignore: 
+      ignore:
+      - name: System.Reflection.MetadataLoadContext
+        versions: 
+        versions_type: 
+      - name: Microsoft.Extensions.DependencyModel
+        versions: 
+        versions_type: 
   - is_ignored: false
     is_folded: false
     project_name: Natasha.CSharp.Extension.Ambiguity
@@ -146,7 +152,13 @@ src:
       - name: dependencies
         description: 有依赖需要升级
         color: 4E04B0
-      ignore: 
+      ignore:
+      - name: System.Reflection.MetadataLoadContext
+        versions: 
+        versions_type: 
+      - name: Microsoft.Extensions.DependencyModel
+        versions: 
+        versions_type: 
 test:
   folded_projects: []
   global_labels:
