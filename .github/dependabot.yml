@@ -6,52 +6,55 @@
 version: 2
 updates:
 
-- package-ecosystem: "github-actions"
-  directory: "/"
-  schedule:
-    interval: "weekly"
-  commit-message:
-    prefix: "[ACTION]"
-  labels:
-    - "pr_pipeline"
-    - "dependencies"
-      
-- package-ecosystem: "nuget"
-  directory: "/src/Natasha.CSharp/Natasha.CSharp/"
-  schedule:
-    interval: "daily"
-  commit-message:
-    prefix: "[NUGET IN SOURCE]"
-  labels:
-    - "pr_nuget"
-    - "dependencies"
+  - package-ecosystem: "nuget"
+    directory: "src/Project"
+    schedule:
+      interval: "daily"
+    commit-message:
+      prefix: "[DEPENDENCY SRC]"
+    labels:
+      - "dependencies"
 
-- package-ecosystem: "nuget"
-  directory: "/src/Natasha.Domain/"
-  schedule:
-    interval: "daily"
-  commit-message:
-    prefix: "[NUGET IN SOURCE]"
-  labels:
-    - "pr_nuget"
-    - "dependencies"
+  - package-ecosystem: "nuget"
+    directory: "test/ut/UnitTestProject"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "[DEPENDENCY TEST]"
+    labels:
+      - "dependencies"
 
-- package-ecosystem: "nuget"
-  directory: "/test/ut/FrameworkFunctionUT/"
-  schedule:
-    interval: "monthly"
-  commit-message:
-    prefix: "[NUGET IN TEST]"
-  labels:
-    - "pr_nuget"
-    - "dependencies"
+  - package-ecosystem: "nuget"
+    directory: "samples/Sample1"
+    schedule:
+      interval: "monthly"
+      time: "05:00"
+      timezone: "Asia/Harbin"
+    commit-message:
+      prefix: "[DEPENDENCY SAMPLE]"
+    labels:
+      - "dependencies"
 
-- package-ecosystem: "nuget"
-  directory: "/test/ut/NatashaFunctionUT/"
-  schedule:
-    interval: "monthly"
-  commit-message:
-    prefix: "[NUGET IN TEST]"
-  labels:
-    - "pr_nuget"
-    - "dependencies"
+  - package-ecosystem: "github-actions"
+    directory: ".github"
+    schedule:
+      interval: "monthly"
+      time: "05:00"
+      timezone: "Asia/Harbin"
+    commit-message:
+      prefix: "[DEPENDENCY ACTION]"
+    labels:
+      - "dependencies"
+
+  - package-ecosystem: "github-actions"
+    directory: ".github/workflow"
+    schedule:
+      interval: "monthly"
+      time: "05:00"
+      timezone: "Asia/Harbin"
+    commit-message:
+      prefix: "[DEPENDENCY ACTION]"
+    labels:
+      - "dependencies"
+
+

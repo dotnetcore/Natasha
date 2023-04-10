@@ -1,7 +1,7 @@
-name: 🐞 上报 BUG (Report bug)1
+${{name}}
 description: 烦请您帮助我们进步(Create a report to help us improve).
-title: "[Bug]: "
-labels: ["bug"]
+${{title}}
+${{labels}}
 body:
   - type: markdown
     attributes:

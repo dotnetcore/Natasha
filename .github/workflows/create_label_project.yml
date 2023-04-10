@@ -1,15 +1,14 @@
-name: Issue Label Maker
+name: Project Label Maker
 
 on:
   push:
     branches:
       - 'main'
     paths:
-      - '.github/ISSUE_TEMPLATE/**'
-      - '.github/workflows/create_label_issue.yml'
+      - '.github/NMS_TEMPLATE/project.yml'
 
 concurrency:
-  group: ci-label-pr
+  group: ci-label-issue
   cancel-in-progress: true
 
 env:
@@ -17,10 +16,11 @@ env:
   REPO_NAME: ${{ github.event.repository.name }}
   REPO_ID: ${{ github.event.repository.node_id }}
   GITHUB_TOKEN: ${{ secrets.REPO_GITHUB_TOKEN }}
+  SPEICIAL_COLOR: 68E0F8
   REFERENC_OWNER_NAME: cli
   REFERENC_REPO_NAME: cli
-  AAA-BLOCK-USER_LABEL_COLOR: ff0000
-  AAA-BLOCK-USER_LABEL_DESCRIPTION: "该标签为屏蔽标签,打上该标签的 ISSUE 作者将被屏蔽." 
+  #ABC_LABEL_COLOR: 0052CC
+  #ABC_LABEL_DESCRIPTION: "这是一段测试文字这个标签毫无用处" 
 
 
 jobs:
@@ -36,7 +36,7 @@ jobs:
       #  with:
       #    dotnet-version: '6.x'
           
-      - name: 👀 Issue Label Check
-        run: dotnet test './test/workflow/Workflow.Label.Issue' --nologo -c Release
+      - name: 👀 PR Label Check
+        run: dotnet test './test/workflow/Workflow.Label.Project' --nologo -c Release
 
 

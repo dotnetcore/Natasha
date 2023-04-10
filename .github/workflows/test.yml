@@ -1,0 +1,40 @@
+name: PR Archive
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/test.yml'
+
+env:
+  OWNER_NAME: ${{ github.repository_owner }}
+  REPO_NAME: ${{ github.event.repository.name }}
+  OWNER_ID: ${{ github.event.repository.owner.node_id }}
+  REPO_ID: ${{ github.event.repository.node_id }}
+  GITHUB_TOKEN: ${{ secrets.REPO_GITHUB_TOKEN }}
+  PR_ID: ${{ github.event.pull_request.node_id }}
+  PROJECT_NAME: ${{ github.event.repository.name }}_VNext
+
+jobs:
+
+    archive_pr:
+      runs-on: ubuntu-latest
+      steps:
+      - uses: actions/checkout@v3
+
+      #- name: 🔨 Setup .NET 6.X SDK
+      #  uses: actions/setup-dotnet@v3
+      #  with:
+      #    dotnet-version: '6.x'
+          
+      - name: 📄 Achive PR to VNext
+        run: |
+            echo "    url: https://github.com/${{github.repository}}/discussions">> .github/ISSUE_TEMPLATE/config.yml
+            git config --global user.email ${{ github.event.pusher.email }}
+            git config --global user.name ${{ github.event.pusher.name }}
+            git pull origin main
+            git add .
+            git commit -m "nms-bot initilize"
+            git push -u origin main
+

@@ -25,6 +25,4 @@ jobs:
           6.0.x
           7.0.x
           
-    - name: 🚦 UnitTestProject UT Test
-      run: dotnet test './test/ut/UnitTestProject' --nologo -c Release
-
+${{nms.tests}}

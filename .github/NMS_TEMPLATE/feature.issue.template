@@ -1,7 +1,7 @@
-name: 💡 新的想法 (Feature request)
+${{name}}
 description: 我知道您有一个比较赞的想法想和我说 (Suggest an idea for this project).
-title: "[Feature]:"
-labels: ["enhancement"]
+${{title}}
+${{labels}}
 body:
   - type: markdown
     attributes:

@@ -15,7 +15,6 @@ env:
   USE_PADDLE: "TRUE"
 
 jobs:
-
     recommend:
       runs-on: ubuntu-latest
       steps:

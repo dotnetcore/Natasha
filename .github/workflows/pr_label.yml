@@ -1,0 +1,26 @@
+name: Label To PR
+
+on:
+  pull_request:
+    types: [opened]
+    branches:
+      - dev**
+
+env:
+  OWNER_NAME: ${{ github.repository_owner }}
+  REPO_NAME: ${{ github.event.repository.name }}
+  REPO_ID: ${{ github.event.repository.node_id }}
+  GITHUB_TOKEN: ${{ secrets.REPO_GITHUB_TOKEN }}
+  PR_ID: ${{ github.event.pull_request.node_id }}
+  PR_NUM: ${{ github.event.pull_request.number }}
+
+jobs:
+    
+    label_pr:
+      runs-on: ubuntu-latest
+
+      steps:
+      - uses: actions/checkout@v3
+      - name: 🏷 Mark Label
+        run: dotnet test './test/workflow/Workflow.PR.Label' --nologo  -c Release
+

@@ -1,0 +1,27 @@
+name: Push Codecov
+
+on:
+  push:
+    branches:
+      - 'main'
+    paths:
+      - 'CHANGELOG.md'
+
+concurrency: ci-codecov-${{ github.ref }}
+
+jobs:
+
+  codecov:
+    runs-on: ubuntu-latest      
+    steps:
+    - uses: actions/checkout@v3
+
+${{nms.codecov}}
+
+    - name: 📶 Push to Codecov
+      if: ${{ needs.prepare_check.outputs.hasCoverageKey == 'true' }}
+      uses: codecov/codecov-action@v3.1.1
+      with:
+        token: ${{ secrets.COVERAGE_KEY }}
+        directory: ./coverage/
+ 

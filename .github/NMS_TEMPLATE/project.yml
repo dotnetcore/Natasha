@@ -1,0 +1,166 @@
+issues_template_label_configs:
+- template_name: " \U0001F41E 上报 BUG (Report bug)1"
+  template_file_name: bug
+  title_prefix: '[Bug]: '
+  labels:
+  - name: bug
+    description: Something isn't working
+    color: d73a4a
+- template_name: " \U0001F4A1 新的想法 (Feature request)"
+  template_file_name: feature
+  title_prefix: '[Feature]:'
+  labels:
+  - name: enhancement
+    description: New feature or request
+    color: a2eeef
+- template_name: " \U0001F4E3 和作者进行灵魂沟通 (Feedback)"
+  template_file_name: feedback
+  title_prefix: '[Feedback]:'
+  labels:
+  - name: feedback
+    description: Something want to say
+    color: d4c5f9
+action:
+  global_labels: 
+  projects:
+  - project_name: Action
+    project_folder: .github
+    labels:
+    - name: pr_action
+      description: 此次提交包含 Action 相关的改动.
+      color: 68E0F8
+    dependency_config:
+      type: github-actions
+      dependency_update_interval: monthly
+      commit_prefix: '[DEPENDENCY ACTION]'
+      special_time: 05:00
+      special_time_zone: Asia/Harbin
+      labels:
+      - name: dependencies
+        description: 有依赖需要升级
+        color: 4E04B0
+  - project_name: Action Workflow
+    project_folder: .github/workflow
+    labels:
+    - name: pr_action
+      description: 此次提交包含 Action 相关的改动.
+      color: 68E0F8
+    dependency_config:
+      type: github-actions
+      dependency_update_interval: monthly
+      commit_prefix: '[DEPENDENCY ACTION]'
+      special_time: 05:00
+      special_time_zone: Asia/Harbin
+      labels:
+      - name: dependencies
+        description: 有依赖需要升级
+        color: 4E04B0
+samples:
+  global_labels:
+  - name: pr_samples
+    description: 此次提交包含 [案例工程] 相关的改动.
+    color: 68E0F8
+  projects:
+  - project_name: Sample1
+    project_folder: samples/Sample1
+    labels: 
+    dependency_config:
+      type: nuget
+      dependency_update_interval: monthly
+      commit_prefix: '[DEPENDENCY SAMPLE]'
+      special_time: 05:00
+      special_time_zone: Asia/Harbin
+      labels:
+      - name: dependencies
+        description: 有依赖需要升级
+        color: 4E04B0
+src:
+  global_labels:
+  - name: pr_src
+    description: 此次提交包含 [源码工程] 相关的改动.
+    color: 68E0F8
+  projects:
+  - project_name: Project
+    project_folder: src/Project
+    labels: 
+    dependency_config:
+      type: nuget
+      dependency_update_interval: daily
+      commit_prefix: '[DEPENDENCY SRC]'
+      special_time: 
+      special_time_zone: 
+      labels:
+      - name: dependencies
+        description: 有依赖需要升级
+        color: 4E04B0
+test:
+  global_labels:
+  - name: pr_test
+    description: 此次提交包含 [测试工程] 相关的改动.
+    color: 68E0F8
+  projects:
+  - trigger_pull_request_test: true
+    trigger_codecov: true
+    project_name: UnitTestProject
+    project_folder: test/ut/UnitTestProject
+    labels: 
+    dependency_config:
+      type: nuget
+      dependency_update_interval: weekly
+      commit_prefix: '[DEPENDENCY TEST]'
+      special_time: 
+      special_time_zone: 
+      labels:
+      - name: dependencies
+        description: 有依赖需要升级
+        color: 4E04B0
+workflow:
+  global_labels:
+  - name: pr_workflow
+    description: 此次提交包含 [管道功能] 相关的改动.
+    color: 68E0F8
+  projects:
+  - project_name: Github.NET.Sdk
+    project_folder: test/workflow/Github.NET.Sdk
+    labels: 
+    dependency_config: 
+  - project_name: Workflow.Initialization
+    project_folder: test/workflow/Workflow.Initialization
+    labels: 
+    dependency_config: 
+  - project_name: Workflow.Issue.BlockUser
+    project_folder: test/workflow/Workflow.Issue.BlockUser
+    labels: 
+    dependency_config: 
+  - project_name: Workflow.Issue.Recommend
+    project_folder: test/workflow/Workflow.Issue.Recommend
+    labels: 
+    dependency_config: 
+  - project_name: Workflow.Label.Project
+    project_folder: test/workflow/Workflow.Label.Project
+    labels: 
+    dependency_config: 
+  - project_name: Workflow.Nuget.Publish
+    project_folder: test/workflow/Workflow.Nuget.Publish
+    labels: 
+    dependency_config: 
+  - project_name: Workflow.PR.Archive
+    project_folder: test/workflow/Workflow.PR.Archive
+    labels: 
+    dependency_config: 
+  - project_name: Workflow.PR.Association
+    project_folder: test/workflow/Workflow.PR.Association
+    labels: 
+    dependency_config: 
+  - project_name: Workflow.PR.Label
+    project_folder: test/workflow/Workflow.PR.Label
+    labels: 
+    dependency_config: 
+  - project_name: Workflow.Project.Archive
+    project_folder: test/workflow/Workflow.Project.Archive
+    labels: 
+    dependency_config: 
+  - project_name: Workflow.Version.Prepare
+    project_folder: test/workflow/Workflow.Version.Prepare
+    labels: 
+    dependency_config: 

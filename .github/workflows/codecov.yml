@@ -1,0 +1,29 @@
+name: Push Codecov
+
+on:
+  push:
+    branches:
+      - 'main'
+    paths:
+      - 'CHANGELOG.md'
+
+concurrency: ci-codecov-${{ github.ref }}
+
+jobs:
+
+  codecov:
+    runs-on: ubuntu-latest      
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: 🚦 Check & Pack Codecov - UnitTestProject
+      run: dotnet test "./test/ut/UnitTestProject/UnitTestProject.csproj" --nologo -f net6.0 -c Release --collect:"XPlat Code Coverage" --results-directory "./coverage/"
+
+
+    - name: 📶 Push to Codecov
+      if: ${{ needs.prepare_check.outputs.hasCoverageKey == 'true' }}
+      uses: codecov/codecov-action@v3.1.1
+      with:
+        token: ${{ secrets.COVERAGE_KEY }}
+        directory: ./coverage/
+ 

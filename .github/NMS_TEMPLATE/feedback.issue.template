@@ -1,7 +1,7 @@
-name: 📣 和作者进行灵魂沟通 (Feedback)
+${{name}}
 description: 来聊聊咱这个库好在哪里,差在哪里和你的期待在哪里 (Give us general feedback about the repository).
-title: "[Feedback]:"
-labels: ["feedback"]
+${{title}}
+${{labels}}
 body:
   - type: markdown
     attributes:
