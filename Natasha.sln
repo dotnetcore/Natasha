@@ -165,6 +165,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SNIVDV", "test\ut\PluginLib
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SNIVSV", "test\ut\PluginLibraries\SNIV_SV\SNIVSV\SNIVSV.csproj", "{82F1FA76-E958-43A1-8891-71E233534946}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReferenceSample", "samples\ReferenceSample\ReferenceSample.csproj", "{33E7C7EE-BAB8-431E-9F02-8C35FE320FF5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -323,6 +325,10 @@ Global
 		{82F1FA76-E958-43A1-8891-71E233534946}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82F1FA76-E958-43A1-8891-71E233534946}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{82F1FA76-E958-43A1-8891-71E233534946}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33E7C7EE-BAB8-431E-9F02-8C35FE320FF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33E7C7EE-BAB8-431E-9F02-8C35FE320FF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33E7C7EE-BAB8-431E-9F02-8C35FE320FF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33E7C7EE-BAB8-431E-9F02-8C35FE320FF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -386,6 +392,7 @@ Global
 		{BC835EF3-0FEE-4A5C-B480-A64C1A949A62} = {D470BFBE-B0A6-4B18-A03B-78B46BDEC3ED}
 		{2AD090D5-1D4D-42CD-9EDF-E2C6536B2DEB} = {D470BFBE-B0A6-4B18-A03B-78B46BDEC3ED}
 		{82F1FA76-E958-43A1-8891-71E233534946} = {D470BFBE-B0A6-4B18-A03B-78B46BDEC3ED}
+		{33E7C7EE-BAB8-431E-9F02-8C35FE320FF5} = {B4487ABB-27A2-4353-AB16-1A94B31E0210}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3004E730-B231-40FA-B75C-58D7DDE17679}
