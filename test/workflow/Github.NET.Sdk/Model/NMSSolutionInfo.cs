@@ -267,13 +267,26 @@
         public string? SpecialTime { get; set; }
         public string? SpecialTimeZone { get; set; }
         public GithubLabelBase[]? Labels { get; set; }
+        public NMSDependencyInfo[]? Ignore { get; set; }
+    }
+
+    public sealed class NMSDependencyInfo
+    {
+        public string Name { get; set; } = string.Empty;
+
+        public string[]? Versions { get; set; }
+
+        public string[]? VersionsType { get; set; }
     }
 
     public sealed class PackageType
     {
         public const string GithubAction = "github-actions";
         public const string Nuget = "nuget";
-
+        public const string Pip = "pip";
+        public const string Npm = "npm";
+        public const string Composer = "composer";
+        public const string Docker = "docker";
     }
 
     public sealed class PackageCheckInterval

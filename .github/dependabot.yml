@@ -14,6 +14,9 @@ updates:
       prefix: "[DEPENDENCY SRC]"
     labels:
       - "dependencies"
+    ignore:
+      - dependency-name: "System.Reflection.MetadataLoadContext"
+      - dependency-name: "Microsoft.Extensions.DependencyModel"
 
   - package-ecosystem: "nuget"
     directory: "src/Natasha.CSharp/Natasha.CSharp"

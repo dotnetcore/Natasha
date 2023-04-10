@@ -57,6 +57,7 @@ action:
       - name: dependencies
         description: 有依赖需要升级
         color: 4E04B0
+      ignore: 
   - is_ignored: false
     is_folded: false
     project_name: Action Workflow
@@ -72,6 +73,7 @@ action:
       - name: dependencies
         description: 有依赖需要升级
         color: 4E04B0
+      ignore: 
 samples:
   folded_projects:
   - samples/ReferenceSample
@@ -106,6 +108,13 @@ src:
       - name: dependencies
         description: 有依赖需要升级
         color: 4E04B0
+      ignore:
+      - name: System.Reflection.MetadataLoadContext
+        versions: 
+        versions_type: 
+      - name: Microsoft.Extensions.DependencyModel
+        versions: 
+        versions_type: 
   - is_ignored: false
     is_folded: false
     project_name: Natasha.CSharp
@@ -121,6 +130,7 @@ src:
       - name: dependencies
         description: 有依赖需要升级
         color: 4E04B0
+      ignore: 
   - is_ignored: false
     is_folded: false
     project_name: Natasha.CSharp.Extension.Ambiguity
@@ -136,6 +146,7 @@ src:
       - name: dependencies
         description: 有依赖需要升级
         color: 4E04B0
+      ignore: 
 test:
   folded_projects: []
   global_labels:
@@ -168,6 +179,7 @@ test:
       - name: dependencies
         description: 有依赖需要升级
         color: 4E04B0
+      ignore: 
 workflow:
   folded_projects:
   - test/workflow/Github.NET.Sdk

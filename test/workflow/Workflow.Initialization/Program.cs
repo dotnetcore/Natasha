@@ -1,4 +1,5 @@
 ﻿using Github.NET.Sdk.Model;
+using Microsoft.VisualBasic;
 using System;
 using System.Text;
 using YamlDotNet.Serialization;
@@ -154,6 +155,22 @@ namespace Workflow.Template.Initialization
                         foreach (var item in config.Labels)
                         {
                             result.AppendLine($"      - \"{item.Name}\"");
+                        }
+                    }
+                    if (config.Ignore != null)
+                    {
+                        result.AppendLine("    ignore:");
+                        foreach (var item in config.Ignore)
+                        {
+                            result.AppendLine($"      - dependency-name: \"{item.Name}\"");
+                            if (item.Versions!=null)
+                            {
+                                result.AppendLine($"        versions: [\"{string.Join("\\\",\\\"", item.Versions)}\"]");
+                            }
+                            if (item.VersionsType!=null)
+                            {
+                                result.AppendLine($"        update-types: [\"{string.Join("\\\",\\\"", item.VersionsType)}\"]");
+                            }
                         }
                     }
 
