@@ -6,7 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{13AACED0-099F-423D-AC8A-E3067DD42A55}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
-		使用说明.txt = 使用说明.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "report.template", "report.template", "{E9797E12-44DE-425E-AC9A-8E22B8AB43AC}"
