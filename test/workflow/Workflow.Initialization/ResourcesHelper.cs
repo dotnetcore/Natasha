@@ -1,4 +1,5 @@
-﻿using Github.NET.Sdk.Model;
+﻿using Github.NET.Sdk;
+using Github.NET.Sdk.Model;
 using System.Text.RegularExpressions;
 
 internal static class ResourcesHelper
@@ -70,6 +71,19 @@ internal static class ResourcesHelper
 
     public static NMSSolutionInfo GetSolutionInfo()
     {
+        HashSet<string> ignoreProjects;
+        var oldSolution = SolutionHelper.GetSolutionInfo();
+        if (oldSolution!=null)
+        {
+            oldSolution.ReBuildIgnoreProjects();
+            oldSolution.ReBuildFoldProjects();
+            ignoreProjects = new HashSet<string>(oldSolution.IgnoreProjects!);
+        }
+        else
+        {
+            ignoreProjects = new();
+        }
+
         var solutionInfo = new NMSSolutionInfo();
         var files = Directory.GetFiles(CurrentNMSTemplateRoot,"*.issue.template");
         if (files.Length > 0)
@@ -88,6 +102,34 @@ internal static class ResourcesHelper
         solutionInfo.Action = new();
         solutionInfo.Samples = new();
         solutionInfo.Workflow = new();
+        if (oldSolution != null)
+        {
+            if (oldSolution.IgnoreProjects != null)
+            {
+                solutionInfo.IgnoreProjects = oldSolution.IgnoreProjects;
+            }
+            if (oldSolution.Src != null && oldSolution.Src.FoldedProjects != null)
+            {
+                ignoreProjects.UnionWith(oldSolution.Src.FoldedProjects);
+                solutionInfo.Src.FoldedProjects = oldSolution.Src.FoldedProjects;
+            }
+            if (oldSolution.Test != null && oldSolution.Test.FoldedProjects != null)
+            {
+                ignoreProjects.UnionWith(oldSolution.Test.FoldedProjects);
+                solutionInfo.Test.FoldedProjects = oldSolution.Test.FoldedProjects;
+            }
+            if (oldSolution.Workflow != null && oldSolution.Workflow.FoldedProjects != null)
+            {
+                ignoreProjects.UnionWith(oldSolution.Workflow.FoldedProjects);
+                solutionInfo.Workflow.FoldedProjects = oldSolution.Workflow.FoldedProjects;
+            }
+            if (oldSolution.Samples != null && oldSolution.Samples.FoldedProjects != null)
+            {
+                ignoreProjects.UnionWith(oldSolution.Samples.FoldedProjects);
+                solutionInfo.Samples.FoldedProjects = oldSolution.Samples.FoldedProjects;
+            }
+        }
+
         solutionInfo.Action.Projects = new List<NMSActionProjectInfo>()
         {
             new NMSActionProjectInfo()
@@ -114,15 +156,17 @@ internal static class ResourcesHelper
                  ProjectName = "Action"
             }
         };
-        solutionInfo.Src.Projects = GetProjects<NMSSrcProjectInfo>(CurrentSrcRoot);
-        solutionInfo.Test.Projects = GetProjects<NMSTestProjectInfo>(CurrentUTTestRoot, 1);
-        solutionInfo.Samples.Projects = GetProjects<NMSSamplesProjectInfo>(CurrentSamplesRoot);
-        solutionInfo.Workflow.Projects = GetProjects<NMSWorkflowProjectInfo>(CurrentWorkflowRoot);
+        solutionInfo.Src.Projects = GetProjects<NMSSrcProjectInfo>(CurrentSrcRoot, ignoreProjects);
+        solutionInfo.Test.Projects = GetProjects<NMSTestProjectInfo>(CurrentUTTestRoot, ignoreProjects, 1);
+        solutionInfo.Samples.Projects = GetProjects<NMSSamplesProjectInfo>(CurrentSamplesRoot, ignoreProjects);
+        solutionInfo.Workflow.Projects = GetProjects<NMSWorkflowProjectInfo>(CurrentWorkflowRoot, ignoreProjects);
         return solutionInfo;
+
+
     }
 
 
-    public static List<T> GetProjects<T>(string folder, int deepth = 0, bool searchAllDirectories = true) where T : NMSProjectInfo, new()
+    public static List<T> GetProjects<T>(string folder, HashSet<string> unExpectProjects, int deepth = 0, bool searchAllDirectories = true) where T : NMSProjectInfo, new()
     {
         if (deepth != 0)
         {
@@ -144,19 +188,18 @@ internal static class ResourcesHelper
                         ProjectFolder = relativeFolder
 
                     };
-                }));
+                }).Where(item => !unExpectProjects.Contains(item.ProjectFolder)));
             }
             var folders = Directory.GetDirectories(folder);
             foreach (var item in folders)
             {
-                nmsProjects.AddRange(GetProjects<T>(item, deepth - 1));
+                nmsProjects.AddRange(GetProjects<T>(item, unExpectProjects, deepth - 1));
             }
             return nmsProjects;
         }
         else
         {
             var csprojFiles = Directory.GetFiles(folder, "*.csproj", searchAllDirectories ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
-
             if (csprojFiles != null)
             {
                 return csprojFiles.Select(item =>
@@ -171,7 +214,7 @@ internal static class ResourcesHelper
                         ProjectName = Path.GetFileNameWithoutExtension(item),
                         ProjectFolder = relativeFolder,
                     };
-                }).ToList();
+                }).Where(item => !unExpectProjects.Contains(item.ProjectFolder)).ToList();
             }
             return new List<T>();
         }

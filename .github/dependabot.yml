@@ -7,7 +7,7 @@ version: 2
 updates:
 
   - package-ecosystem: "nuget"
-    directory: "src/Project"
+    directory: "src/Natasha.Domain"
     schedule:
       interval: "daily"
     commit-message:
@@ -16,22 +16,29 @@ updates:
       - "dependencies"
 
   - package-ecosystem: "nuget"
-    directory: "test/ut/UnitTestProject"
+    directory: "src/Natasha.CSharp/Natasha.CSharp"
     schedule:
-      interval: "weekly"
+      interval: "daily"
     commit-message:
-      prefix: "[DEPENDENCY TEST]"
+      prefix: "[DEPENDENCY SRC]"
     labels:
       - "dependencies"
 
   - package-ecosystem: "nuget"
-    directory: "samples/Sample1"
+    directory: "src/Natasha.CSharp/Extension/Natasha.CSharp.Extension.Ambiguity"
     schedule:
-      interval: "monthly"
-      time: "05:00"
-      timezone: "Asia/Harbin"
+      interval: "daily"
     commit-message:
-      prefix: "[DEPENDENCY SAMPLE]"
+      prefix: "[DEPENDENCY SRC]"
+    labels:
+      - "dependencies"
+
+  - package-ecosystem: "nuget"
+    directory: "test/ut/NatashaFunctionUT"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "[DEPENDENCY TEST]"
     labels:
       - "dependencies"
 

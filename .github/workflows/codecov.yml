@@ -16,8 +16,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: 🚦 Check & Pack Codecov - UnitTestProject
-      run: dotnet test "./test/ut/UnitTestProject/UnitTestProject.csproj" --nologo -f net6.0 -c Release --collect:"XPlat Code Coverage" --results-directory "./coverage/"
+    - name: 🚦 Check & Pack Codecov - NatashaFunctionUT
+      run: dotnet test "./test/ut/NatashaFunctionUT/NatashaFunctionUT.csproj" --nologo -f net6.0 -c Release --collect:"XPlat Code Coverage" --results-directory "./coverage/"
 
 
     - name: 📶 Push to Codecov

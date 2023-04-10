@@ -3,13 +3,13 @@
 
     public sealed class NMSSolutionInfo
     {
+        public HashSet<string>? IgnoreProjects { get; set; }
         public NMSIssueTemplateLabelsConfig[]? IssuesTemplateLabelConfigs { get; set; }
         public WrapperNMSProjectInfo<NMSActionProjectInfo>? Action { get; set; }
         public WrapperNMSProjectInfo<NMSSamplesProjectInfo>? Samples { get; set; }
         public WrapperNMSProjectInfo<NMSSrcProjectInfo>? Src { get; set; }
         public WrapperNMSProjectInfo<NMSTestProjectInfo>? Test { get; set; }
         public WrapperNMSProjectInfo<NMSWorkflowProjectInfo>? Workflow { get; set; }
-
         public void UpdateFrom(NMSSolutionInfo oldInfo)
         {
             if (IssuesTemplateLabelConfigs != null)
@@ -62,8 +62,6 @@
                 }
             }
         }
-
-
         public IEnumerable<GithubLabelBase> GetAllLabels()
         {
             Dictionary<string, GithubLabelBase> cache = new();
@@ -123,8 +121,6 @@
             }
             return cache.Values;
         }
-
-
         public Dictionary<string, IEnumerable<GithubLabelBase>> ToDictionary()
         {
             Dictionary<string, IEnumerable<GithubLabelBase>> cache = new();
@@ -135,22 +131,72 @@
             FileMapperToDictionary(Workflow);
             return cache;
 
-            void FileMapperToDictionary<T>(WrapperNMSProjectInfo<T>? wrapper) where T : NMSProjectInfo, new()
+            void FileMapperToDictionary<T>(WrapperNMSProjectInfo<T>? node) where T : NMSProjectInfo, new()
             {
-                if (wrapper != null && wrapper.Projects != null)
+                if (node != null)
                 {
-                    foreach (var item in wrapper.Projects)
+                    if (node.FoldedProjects!=null && node.GlobalLabels!=null)
                     {
-                        var labelList = new List<GithubLabelBase>();
-                        if (wrapper.GlobalLabels != null)
+                        var list = new List<GithubLabelBase>(node.GlobalLabels);
+                        foreach (var item in node.FoldedProjects)
                         {
-                            labelList.AddRange(wrapper.GlobalLabels);
+                            cache[item] = list;
                         }
-                        if (item.Labels != null)
+                    }
+                    if (node.Projects!=null)
+                    {
+                        foreach (var item in node.Projects)
                         {
-                            labelList.AddRange(item.Labels);
+                            var labelList = new List<GithubLabelBase>();
+                            if (node.GlobalLabels != null)
+                            {
+                                labelList.AddRange(node.GlobalLabels);
+                            }
+                            if (item.Labels != null)
+                            {
+                                labelList.AddRange(item.Labels);
+                            }
+                            cache[item.ProjectFolder] = labelList;
                         }
-                        cache[item.ProjectFolder] = labelList;
+                    }
+                }
+            }
+        }
+
+
+        public void ReBuildIgnoreProjects()
+        {
+
+            IgnoreProjects ??= new HashSet<string>();
+            ScannIgnoreProjects(Src);
+            ScannIgnoreProjects(Test);
+            ScannIgnoreProjects(Samples);
+            ScannIgnoreProjects(Workflow);
+
+            void ScannIgnoreProjects<T>(WrapperNMSProjectInfo<T>? node) where T : NMSProjectInfo, new()
+            {
+                if (node != null && node.Projects != null)
+                {
+                    IgnoreProjects!.UnionWith(node.Projects.Where(item => item.IsIgnored == true).Select(item => item.ProjectFolder));
+                }
+            }
+        }
+
+        public void ReBuildFoldProjects()
+        {
+            ScannFoldedProjects(Src);
+            ScannFoldedProjects(Test);
+            ScannFoldedProjects(Samples);
+            ScannFoldedProjects(Workflow);
+
+            static void ScannFoldedProjects<T>(WrapperNMSProjectInfo<T>? node) where T : NMSProjectInfo, new()
+            {
+                if (node!=null)
+                {
+                    node.FoldedProjects ??= new();
+                    if (node.Projects != null)
+                    {
+                        node.FoldedProjects!.UnionWith(node.Projects.Where(item => item.IsFolded == true).Select(item => item.ProjectFolder));
                     }
                 }
             }
@@ -168,6 +214,7 @@
 
     public sealed class WrapperNMSProjectInfo<T> where T : NMSProjectInfo, new()
     {
+        public HashSet<string>? FoldedProjects { get; set; }
         public GithubLabelBase[]? GlobalLabels { get; set; }
         public List<T>? Projects { get; set; }
     }
@@ -198,6 +245,9 @@
 
     public class NMSProjectInfo
     {
+        public bool IsIgnored { get; set; }
+
+        public bool IsFolded { get; set; }
 
         public string ProjectName { get; set; } = string.Empty;
 
