@@ -61,7 +61,7 @@ action:
   - is_ignored: false
     is_folded: false
     project_name: Action Workflow
-    project_folder: .github/workflow
+    project_folder: .github/workflows
     labels: 
     dependency_config:
       type: github-actions

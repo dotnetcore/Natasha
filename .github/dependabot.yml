@@ -63,7 +63,7 @@ updates:
       - "dependencies"
 
   - package-ecosystem: "github-actions"
-    directory: ".github/workflow"
+    directory: ".github/workflows"
     schedule:
       interval: "monthly"
       time: "05:00"
