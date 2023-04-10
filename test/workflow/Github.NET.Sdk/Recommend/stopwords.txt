@@ -16,6 +16,7 @@ _
 、
 ;
 ；
+]:
 :
 ：
 ::
@@ -1932,6 +1933,8 @@ $
 左右
 作为
 做到
+feature
+feedback
 a
 ａ
 a's
@@ -2011,6 +2014,7 @@ beyond
 both
 brief
 but
+bug
 by
 c'mon
 c's
@@ -2493,3 +2497,7 @@ zz
 φ．
 ψ
 в
+ 
+  
+   
+     

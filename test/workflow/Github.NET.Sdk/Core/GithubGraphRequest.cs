@@ -262,6 +262,10 @@ namespace Github.NET.Sdk
         {
             _isMutation = isMutation;
         }
+        public GraphParameter WithParameter(string param_name, string[] param_value)
+        {
+            return AddParameter($"{param_name}:[\\\"{string.Join("\\\",\\\"", param_value)}\\\"]");
+        }
         public GraphParameter WithParameter(string param_name, int param_value)
         {
             return AddParameter($"{param_name}:{param_value}");

@@ -4,6 +4,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{13AACED0-099F-423D-AC8A-E3067DD42A55}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+		使用说明.txt = 使用说明.txt
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "report.template", "report.template", "{E9797E12-44DE-425E-AC9A-8E22B8AB43AC}"
 	ProjectSection(SolutionItems) = preProject
@@ -16,18 +20,19 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pr", "pr", "{15F494AB-94DF-4334-BD73-9F8ACF84E0C1}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\pr_archive.yml = .github\workflows\pr_archive.yml
+		.github\workflows\pr_label.yml = .github\workflows\pr_label.yml
+		.github\workflows\pr_recommend.yml = .github\workflows\pr_recommend.yml
 		.github\workflows\pr_test.yml = .github\workflows\pr_test.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "label", "label", "{750750E6-8576-47CC-A4E4-00CC385B0CDF}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\create_label_issue.yml = .github\workflows\create_label_issue.yml
-		.github\workflows\create_label_pr.yml = .github\workflows\create_label_pr.yml
-		.github\labeler.yml = .github\labeler.yml
+		.github\workflows\create_label_project.yml = .github\workflows\create_label_project.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "release", "release", "{458237F1-2DA5-4CD5-AE3F-736778B735E7}"
 	ProjectSection(SolutionItems) = preProject
+		.github\workflows\codecov.yml = .github\workflows\codecov.yml
 		.github\workflows\release.yml = .github\workflows\release.yml
 	EndProjectSection
 EndProject
@@ -83,8 +88,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "githutb", "githutb", "{CD68
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "project", "project", "{DD0B729A-C1D5-41E1-AE1B-FE66F4BC651E}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
 		CHANGELOG.md = CHANGELOG.md
 		Directory.Build.props = Directory.Build.props
+		.github\NMS_TEMPLATE\project.yml = .github\NMS_TEMPLATE\project.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{CE33F93B-A43E-45F9-86B8-2DA9DF9823B8}"
@@ -116,10 +123,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Workflow.Issue.BlockUser", "test\workflow\Workflow.Issue.BlockUser\Workflow.Issue.BlockUser.csproj", "{6BACE5A9-78B3-44D9-A213-7033461CD7E2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Workflow.Issue.Recommend", "test\workflow\Workflow.Issue.Recommend\Workflow.Issue.Recommend.csproj", "{5763F5B2-FB1C-47A2-9894-D70C4685A2E4}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Workflow.Label.Issue", "test\workflow\Workflow.Label.Issue\Workflow.Label.Issue.csproj", "{0BA1FF11-6907-466A-8176-CF130826FC31}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Workflow.Label.PR", "test\workflow\Workflow.Label.PR\Workflow.Label.PR.csproj", "{D6C1A618-9DB4-4EEB-98E0-A374EC1DF298}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Workflow.Nuget.Publish", "test\workflow\Workflow.Nuget.Publish\Workflow.Nuget.Publish.csproj", "{24945866-1788-489A-A02B-105D1172F45D}"
 EndProject
@@ -165,7 +168,38 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SNIVDV", "test\ut\PluginLib
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SNIVSV", "test\ut\PluginLibraries\SNIV_SV\SNIVSV\SNIVSV.csproj", "{82F1FA76-E958-43A1-8891-71E233534946}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReferenceSample", "samples\ReferenceSample\ReferenceSample.csproj", "{33E7C7EE-BAB8-431E-9F02-8C35FE320FF5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReferenceSample", "samples\ReferenceSample\ReferenceSample.csproj", "{33E7C7EE-BAB8-431E-9F02-8C35FE320FF5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nms.template", "nms.template", "{CF62A041-542A-4460-8DCE-EFF997ACB698}"
+	ProjectSection(SolutionItems) = preProject
+		.github\NMS_TEMPLATE\bug.issue.template = .github\NMS_TEMPLATE\bug.issue.template
+		.github\NMS_TEMPLATE\codecov.yml.template = .github\NMS_TEMPLATE\codecov.yml.template
+		.github\NMS_TEMPLATE\config.yml.template = .github\NMS_TEMPLATE\config.yml.template
+		.github\NMS_TEMPLATE\dependency.yml.template = .github\NMS_TEMPLATE\dependency.yml.template
+		.github\NMS_TEMPLATE\feature.issue.template = .github\NMS_TEMPLATE\feature.issue.template
+		.github\NMS_TEMPLATE\feedback.issue.template = .github\NMS_TEMPLATE\feedback.issue.template
+		.github\NMS_TEMPLATE\test.yml.template = .github\NMS_TEMPLATE\test.yml.template
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "action", "action", "{EDF08157-8FE6-4F50-8697-B84ED3A176B5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{480AFB32-FCE6-4D79-854E-820ED476CCE8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "issue", "issue", "{F02D356C-03E3-4993-9579-DC73448443AC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pr", "pr", "{5E004B42-9F56-4DE4-83D6-92C1A3074866}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Workflow.PR.Label", "test\workflow\Workflow.PR.Label\Workflow.PR.Label.csproj", "{C7AAB55E-2A74-4852-AAC6-6ADB8A4B9645}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "label", "label", "{7DB2C2A7-2D53-439C-BC40-22ABD11E2C42}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Workflow.Label.Project", "test\workflow\Workflow.Label.Project\Workflow.Label.Project.csproj", "{F23D9116-D842-41B2-B26F-23D445D0C50F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "publish", "publish", "{7B71991E-B506-4C0A-AD21-E34594276BFA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Workflow.Project.Archive", "test\workflow\Workflow.Project.Archive\Workflow.Project.Archive.csproj", "{6142ED3B-34A1-42E5-9880-0ADF254A929C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Workflow.Initialization", "test\workflow\Workflow.Initialization\Workflow.Initialization.csproj", "{74E9B017-991D-447D-BFF6-C2BFC2EBA732}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -241,14 +275,6 @@ Global
 		{5763F5B2-FB1C-47A2-9894-D70C4685A2E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5763F5B2-FB1C-47A2-9894-D70C4685A2E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5763F5B2-FB1C-47A2-9894-D70C4685A2E4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0BA1FF11-6907-466A-8176-CF130826FC31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0BA1FF11-6907-466A-8176-CF130826FC31}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0BA1FF11-6907-466A-8176-CF130826FC31}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0BA1FF11-6907-466A-8176-CF130826FC31}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D6C1A618-9DB4-4EEB-98E0-A374EC1DF298}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D6C1A618-9DB4-4EEB-98E0-A374EC1DF298}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D6C1A618-9DB4-4EEB-98E0-A374EC1DF298}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D6C1A618-9DB4-4EEB-98E0-A374EC1DF298}.Release|Any CPU.Build.0 = Release|Any CPU
 		{24945866-1788-489A-A02B-105D1172F45D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{24945866-1788-489A-A02B-105D1172F45D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24945866-1788-489A-A02B-105D1172F45D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -329,6 +355,22 @@ Global
 		{33E7C7EE-BAB8-431E-9F02-8C35FE320FF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33E7C7EE-BAB8-431E-9F02-8C35FE320FF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33E7C7EE-BAB8-431E-9F02-8C35FE320FF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7AAB55E-2A74-4852-AAC6-6ADB8A4B9645}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7AAB55E-2A74-4852-AAC6-6ADB8A4B9645}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7AAB55E-2A74-4852-AAC6-6ADB8A4B9645}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7AAB55E-2A74-4852-AAC6-6ADB8A4B9645}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F23D9116-D842-41B2-B26F-23D445D0C50F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F23D9116-D842-41B2-B26F-23D445D0C50F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F23D9116-D842-41B2-B26F-23D445D0C50F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F23D9116-D842-41B2-B26F-23D445D0C50F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6142ED3B-34A1-42E5-9880-0ADF254A929C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6142ED3B-34A1-42E5-9880-0ADF254A929C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6142ED3B-34A1-42E5-9880-0ADF254A929C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6142ED3B-34A1-42E5-9880-0ADF254A929C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74E9B017-991D-447D-BFF6-C2BFC2EBA732}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74E9B017-991D-447D-BFF6-C2BFC2EBA732}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74E9B017-991D-447D-BFF6-C2BFC2EBA732}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74E9B017-991D-447D-BFF6-C2BFC2EBA732}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -366,14 +408,12 @@ Global
 		{4776FF5E-04D8-4F50-9F0F-71C8B5B9B145} = {507963F1-0A4A-465B-8098-1FCB0BBBD90E}
 		{91B1ECA1-7C59-454F-8145-8B1136C52EA5} = {507963F1-0A4A-465B-8098-1FCB0BBBD90E}
 		{D77FB216-710E-4857-AF64-08B22A0E39B1} = {4EC5B87C-1343-4247-8A6A-A63C9BFEFEDD}
-		{6BACE5A9-78B3-44D9-A213-7033461CD7E2} = {4EC5B87C-1343-4247-8A6A-A63C9BFEFEDD}
-		{5763F5B2-FB1C-47A2-9894-D70C4685A2E4} = {4EC5B87C-1343-4247-8A6A-A63C9BFEFEDD}
-		{0BA1FF11-6907-466A-8176-CF130826FC31} = {4EC5B87C-1343-4247-8A6A-A63C9BFEFEDD}
-		{D6C1A618-9DB4-4EEB-98E0-A374EC1DF298} = {4EC5B87C-1343-4247-8A6A-A63C9BFEFEDD}
-		{24945866-1788-489A-A02B-105D1172F45D} = {4EC5B87C-1343-4247-8A6A-A63C9BFEFEDD}
-		{92E7E835-DFB7-48F6-850C-5274EAA05D17} = {4EC5B87C-1343-4247-8A6A-A63C9BFEFEDD}
-		{C827166B-7319-4328-8CD4-0DE47DD60762} = {4EC5B87C-1343-4247-8A6A-A63C9BFEFEDD}
-		{79A13524-6E1C-4EB5-8253-19A61E7B8442} = {4EC5B87C-1343-4247-8A6A-A63C9BFEFEDD}
+		{6BACE5A9-78B3-44D9-A213-7033461CD7E2} = {F02D356C-03E3-4993-9579-DC73448443AC}
+		{5763F5B2-FB1C-47A2-9894-D70C4685A2E4} = {F02D356C-03E3-4993-9579-DC73448443AC}
+		{24945866-1788-489A-A02B-105D1172F45D} = {7B71991E-B506-4C0A-AD21-E34594276BFA}
+		{92E7E835-DFB7-48F6-850C-5274EAA05D17} = {5E004B42-9F56-4DE4-83D6-92C1A3074866}
+		{C827166B-7319-4328-8CD4-0DE47DD60762} = {5E004B42-9F56-4DE4-83D6-92C1A3074866}
+		{79A13524-6E1C-4EB5-8253-19A61E7B8442} = {7B71991E-B506-4C0A-AD21-E34594276BFA}
 		{D470BFBE-B0A6-4B18-A03B-78B46BDEC3ED} = {F4622BCB-C287-4AFE-916B-8C138BD15A3D}
 		{D4FD8D93-05CF-42F7-A547-AE9909B068B0} = {F4622BCB-C287-4AFE-916B-8C138BD15A3D}
 		{4A05EE81-507D-419C-A0A3-B72E5F5FA452} = {F4622BCB-C287-4AFE-916B-8C138BD15A3D}
@@ -393,6 +433,17 @@ Global
 		{2AD090D5-1D4D-42CD-9EDF-E2C6536B2DEB} = {D470BFBE-B0A6-4B18-A03B-78B46BDEC3ED}
 		{82F1FA76-E958-43A1-8891-71E233534946} = {D470BFBE-B0A6-4B18-A03B-78B46BDEC3ED}
 		{33E7C7EE-BAB8-431E-9F02-8C35FE320FF5} = {B4487ABB-27A2-4353-AB16-1A94B31E0210}
+		{CF62A041-542A-4460-8DCE-EFF997ACB698} = {DD0B729A-C1D5-41E1-AE1B-FE66F4BC651E}
+		{EDF08157-8FE6-4F50-8697-B84ED3A176B5} = {4EC5B87C-1343-4247-8A6A-A63C9BFEFEDD}
+		{480AFB32-FCE6-4D79-854E-820ED476CCE8} = {4EC5B87C-1343-4247-8A6A-A63C9BFEFEDD}
+		{F02D356C-03E3-4993-9579-DC73448443AC} = {EDF08157-8FE6-4F50-8697-B84ED3A176B5}
+		{5E004B42-9F56-4DE4-83D6-92C1A3074866} = {EDF08157-8FE6-4F50-8697-B84ED3A176B5}
+		{C7AAB55E-2A74-4852-AAC6-6ADB8A4B9645} = {5E004B42-9F56-4DE4-83D6-92C1A3074866}
+		{7DB2C2A7-2D53-439C-BC40-22ABD11E2C42} = {EDF08157-8FE6-4F50-8697-B84ED3A176B5}
+		{F23D9116-D842-41B2-B26F-23D445D0C50F} = {7DB2C2A7-2D53-439C-BC40-22ABD11E2C42}
+		{7B71991E-B506-4C0A-AD21-E34594276BFA} = {EDF08157-8FE6-4F50-8697-B84ED3A176B5}
+		{6142ED3B-34A1-42E5-9880-0ADF254A929C} = {7B71991E-B506-4C0A-AD21-E34594276BFA}
+		{74E9B017-991D-447D-BFF6-C2BFC2EBA732} = {480AFB32-FCE6-4D79-854E-820ED476CCE8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3004E730-B231-40FA-B75C-58D7DDE17679}

@@ -15,7 +15,9 @@ namespace Github.NET.Sdk
         public WrapperGithubProjectItem? UpdateProjectV2ItemFieldValue { get; set; }
         public WrapperGithubProjectItem? AddProjectV2ItemById { get; set; }
         public WrapperGithubLabel? CreateLabel { get; set; }
+        public WrapperGithubLabel? UpdateLabel { get; set; }
         public WrapperGithubComment? AddComment { get; set; }
+        public WrapperGithubLabelable? AddLabelsToLabelable { get; set; }
     }
 
 

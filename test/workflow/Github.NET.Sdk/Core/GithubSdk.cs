@@ -6,14 +6,17 @@ namespace Github.NET.Sdk
     {
         public static readonly GithubProjectAPI Project;
         public static readonly GithubRepositoryAPI Repository;
+        public static readonly GithubPullRequestAPI PullRequest;
         public static readonly GithubLabelAPI Label;
         public static readonly GithubIssueAPI Issue;
         public static readonly GithubPullRequestOrIssueAPI IssueOrPullRequest;
+
 
         static GithubSdk()
         {
             Project = new GithubProjectAPI();
             Repository = new GithubRepositoryAPI();
+            PullRequest = new GithubPullRequestAPI();
             Label = new GithubLabelAPI();
             Issue = new GithubIssueAPI();
             IssueOrPullRequest = new GithubPullRequestOrIssueAPI();
@@ -23,21 +26,62 @@ namespace Github.NET.Sdk
         {
             GithubGraphRequest.SetSecretByEnvKey(envKey);
         }
+#if DEBUG
+        public static void SetGraphSecret(string token)
+        {
+            GithubGraphRequest.SetSecret(token);
+        }
+#endif
     }
 
     public sealed class GithubPullRequestOrIssueAPI
     {
-        public async ValueTask<(bool, string)> AddCommentAsync(string prId, string body)
+        public async ValueTask<(bool, string)> AddCommentAsync(string itemId, string body)
         {
             (var result, string error) = await GithubGraphRequest
                .Mutation()
                .Define("addComment", p => p
-                   .WithParameter("subjectId", prId)
+                   .WithParameter("subjectId", itemId)
                    .WithParameter("body", body)
                    )
                .Child("subject", e => e
                    .Child("id")).GraphResultAsync<GithubGraphReturn>();
             return (result?.Data?.AddComment?.Subject?.Id != null, error);
+        }
+
+        public async Task<(bool,string)> AddLabelAsync(string itemId,params string[] labelIds)
+        {
+            (var result, string error) = await GithubGraphRequest
+               .Mutation()
+               .Define("addLabelsToLabelable", p => p
+                   .WithParameter("labelableId", itemId)
+                   .WithParameter("labelIds", labelIds)
+                   )
+               .Child("labelable", e => e
+                   .Child("__typename")).GraphResultAsync<GithubGraphReturn>();
+            return (result?.Data?.AddLabelsToLabelable?.Labelable?.__typename != null, error);
+        }
+    }
+
+    public sealed class GithubPullRequestAPI
+    {
+        public async Task<(GithubPullRequestFileConnections?, string)> GetFilesAsync(string owner, string repo, int number, int count, string? cursor = null)
+        {
+            (var result, string error) = await GithubGraphRequest
+                .Query()
+                .Define("repository", p => p.WithParameter("owner", owner).WithParameter("name", repo))
+                .Child("pullRequest", p => p.WithParameter("number", number), e => e
+                    .Child("files", p=> {
+                        p.WithParameter("first", count);
+                        if (cursor != null)
+                        {
+                            p.WithParameter("after", cursor);
+                        }
+                    }, e => e
+                        .Child("nodes", e => e.Child("path", "additions", "deletions", "changeType"))
+                        .Child("pageInfo", e => e.Child("endCursor", "hasNextPage"))
+                        .Child("totalCount"))).GraphResultAsync<GithubGraphReturn>();
+            return (result?.Data?.Repository?.PullRequest?.Files, error);
         }
     }
     public sealed class GithubIssueAPI
@@ -102,17 +146,33 @@ namespace Github.NET.Sdk
             return (result?.Data?.Repository?.Labels?.Nodes,error);
         }
 
-        public async ValueTask<(bool,string)> ExistAsync(string owner, string repo, string labelName)
+        public async Task<(GithubLabel?,string)> GetByNameAsync(string owner, string repo, string labelName)
         {
             (var result, string error) =await GithubGraphRequest
                 .Query()
                 .Define("repository", p => p.WithParameter("owner", owner).WithParameter("name", repo))
                 .Child("label", p=>p.WithParameter("name", labelName),e=>e
                     .Child("id")).GraphResultAsync<GithubGraphReturn>();
-            return (result?.Data?.Repository?.Label != null, error);
+            return (result?.Data?.Repository?.Label, error);
         }
 
-        public async ValueTask<(bool, string)> CreateAsync(string repoId, string labelName, string labelColor, string description = "")
+        public async Task<(GithubLabel?, string)> UpdateAsync(string labelId, string labelName, string labelColor, string labelDescription = "")
+        {
+            //d4c5f9
+            (var result, string error) = await GithubGraphRequest
+                .Mutation()
+                .Define("updateLabel", p => p
+                    .WithParameter("name", labelName)
+                    .WithParameter("color", labelColor)
+                    .WithParameter("id ", labelId)
+                    .WithParameter("description", labelDescription)
+                    )
+                .Child("label", e => e
+                    .Child("id")).GraphResultAsync<GithubGraphReturn>();
+            return (result?.Data?.UpdateLabel?.Label, error);
+        }
+
+        public async Task<(GithubLabel?, string)> CreateAsync(string repoId, string labelName, string labelColor, string description = "")
         {
             //d4c5f9
             (var result, string error) =await GithubGraphRequest
@@ -125,7 +185,7 @@ namespace Github.NET.Sdk
                     )
                 .Child("label", e => e
                     .Child("id")).GraphResultAsync<GithubGraphReturn>();
-            return (result?.Data?.CreateLabel?.Label?.Id != null, error);
+            return (result?.Data?.CreateLabel?.Label, error);
         }
     }
     public sealed class GithubRepositoryAPI

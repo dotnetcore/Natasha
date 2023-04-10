@@ -12,7 +12,15 @@ namespace Github.NET.Sdk
             StringBuilder textInfo = new();
             using Process process = new Process();
             var info = process.StartInfo;
-            info.FileName = "/bin/bash";
+            if (OperatingSystem.IsWindows())
+            {
+                info.FileName = "cmd"; 
+            }
+            else
+            {
+                info.FileName = "/bin/bash";
+            }
+
             info.WorkingDirectory = workPath;
             info.CreateNoWindow = true;
             info.UseShellExecute = false;
@@ -41,8 +49,14 @@ namespace Github.NET.Sdk
 #endif
             }
             };
-
-            info.Arguments = "-c \"" + command + " \"";
+            if (OperatingSystem.IsWindows())
+            {
+                info.Arguments = "/c \"" + command + " \"";
+            }
+            else
+            {
+                info.Arguments = "-c \"" + command + " \"";
+            }
             process.Start();
             process.BeginErrorReadLine();
             process.BeginOutputReadLine();

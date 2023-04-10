@@ -77,16 +77,18 @@ namespace Github.NET.Sdk
 
             if (issues != null)
             {
-                (var recommends, error) = await RecommendHelper.RecommendAsync(sourceTitle, issues.Select(item => new RecommendInfoModel { Id = item.Id, Number = item.Number, Title = item.Title, Url = item.Url }), pickInfo);
+                (var recommends, error) = await RecommendHelper.RecommendAsync(
+                    sourceTitle, 
+                    issues.Select(item => new RecommendInfoModel { Id = item.Id, Number = item.Number, Title = item.Title, Url = item.Url }), 
+                    pickInfo);
                 if (recommends != null)
                 {
                     var comment = commentAction(recommends);
                     (var commentResult, error) = await GithubSdk.IssueOrPullRequest.AddCommentAsync(currentItemId, comment);
                     if (!commentResult)
                     {
-                        return $"提交评论 { comment} 时出错：{error}";
+                        return $"提交评论 {comment} 时出错：{error}";
                     }
-                    return string.Empty;
                 }
             }
             return error;
@@ -94,7 +96,101 @@ namespace Github.NET.Sdk
         }
 
 
-        public static async Task<(IEnumerable<GithubIssue>?,string)> GetAllIssuesAsync(string ownerName, string repoName, bool? status = null, params string[] expectIds)
+        public static async Task<(bool, string)> AddLabelToPRByFilesAsync(string repoId, string ownerName, string repoName, string prId, int prNumber, Dictionary<string, IEnumerable<GithubLabelBase>> labelMapper)
+        {
+            (var files, string error) = await GetAllPRFilesAsync(ownerName, repoName, prNumber);
+            if (files != null)
+            {
+
+                var labels = new Dictionary<string, GithubLabelBase>();
+                var filesPath = new HashSet<string>(files.Select(item =>
+                {
+                    var path = Path.GetDirectoryName(item.Path);
+                    if (string.IsNullOrEmpty(path))
+                    {
+                        return "/";
+                    }
+                    else
+                    {
+                        return path.Replace("\\","/");
+                    }
+                }));
+                List<string> addLabelIds = new();
+                foreach (var map in labelMapper)
+                {
+                    if (filesPath.Any(item=>item.StartsWith(map.Key)))
+                    {
+                        var projectLabels = map.Value;
+                        foreach (var labelBase in projectLabels)
+                        {
+                            if (labels.TryAdd(labelBase.Name, labelBase))
+                            {
+
+                                (var label, error) = await CreateLabelIfNotExist(labelBase.Name, repoId, ownerName, repoName, labelBase.Color, labelBase.Description);
+                                if (label != null)
+                                {
+                                    addLabelIds.Add(label.Id);
+                                }
+                                else
+                                {
+                                    return (false, error);
+                                }
+
+                            }
+                        }
+
+                    }
+                }
+                return await GithubSdk.IssueOrPullRequest.AddLabelAsync(prId, addLabelIds.ToArray());
+
+            }
+            else
+            {
+                return (false, "未检测到PR包含的文件！");
+            }
+        }
+
+        public static async Task<(IEnumerable<GithubPullRequestFile>?, string)> GetAllPRFilesAsync(string ownerName, string repoName, int prNumber)
+        {
+            List<GithubPullRequestFile> result = new();
+            (var connections, string error) = await GithubSdk.PullRequest.GetFilesAsync(ownerName, repoName, prNumber, 100);
+            if (connections != null)
+            {
+                var pageInfo = connections.PageInfo;
+                if (pageInfo != null)
+                {
+                    var files = connections.Nodes;
+                    if (files != null && files.Any())
+                    {
+                        result.AddRange(files);
+                    }
+                    while (pageInfo.HasNextPage)
+                    {
+                        (connections, error) = await GithubSdk.PullRequest.GetFilesAsync(ownerName, repoName, prNumber, 100, pageInfo.EndCursor);
+                        if (connections == null)
+                        {
+                            return (null, error);
+                        }
+
+                        pageInfo = connections.PageInfo;
+                        if (pageInfo == null)
+                        {
+                            return (null, error);
+                        }
+
+                        files = connections.Nodes;
+                        if (files != null && files.Any())
+                        {
+                            result.AddRange(files);
+                        }
+                    }
+                    return (result, string.Empty);
+                }
+            }
+            return (null, error);
+        }
+
+        public static async Task<(IEnumerable<GithubIssue>?, string)> GetAllIssuesAsync(string ownerName, string repoName, bool? status = null, params string[] expectIds)
         {
             List<GithubIssue> result = new();
             var expectSets = new HashSet<string>(expectIds);
@@ -102,7 +198,7 @@ namespace Github.NET.Sdk
             if (connections != null)
             {
                 var pageInfo = connections.PageInfo;
-                if (pageInfo!=null)
+                if (pageInfo != null)
                 {
                     var edges = connections.Edges?.Where(item => !expectSets.Contains(item.Node.Id))?.Select(item => item.Node);
                     if (edges != null && edges.Any())
@@ -112,7 +208,7 @@ namespace Github.NET.Sdk
                     while (pageInfo.HasNextPage)
                     {
                         (connections, error) = await GithubSdk.Issue.GetsAsync(ownerName, repoName, 100, status, pageInfo.EndCursor);
-                        if (connections==null)
+                        if (connections == null)
                         {
                             return (null, error);
                         }
@@ -140,7 +236,6 @@ namespace Github.NET.Sdk
             GithubGraphRequest.SetSecretByEnvKey(envKey);
         }
 
-
         public static async Task<(GithubProject?, string)> CreateVNextProject(string ownerId, string repoId, string projectName)
         {
             (var projectVNext, string error) = await _projectReuqest.CreateAsync(ownerId!, repoId!, projectName);
@@ -155,7 +250,6 @@ namespace Github.NET.Sdk
             }
             return (projectVNext, string.Empty);
         }
-
 
         public static async Task<string> AddPrToProjectAndSetStatusAsync(string repoName, string repoId, string ownerName, string ownerId, string vNextName, string prId, params string[] statusNames)
         {
@@ -219,7 +313,6 @@ namespace Github.NET.Sdk
             }
         }
 
-
         public static async Task<string> ArchiveProjectAndCreateNewAsync(string repoName, string repoId, string ownerName, string ownerId, string vNextName, string archiveName)
         {
 
@@ -246,7 +339,45 @@ namespace Github.NET.Sdk
             }
             return string.Empty;
         }
-
+        public static async Task<string> ExpectLabelsCreateAndUpadateAsync(IEnumerable<GithubLabelBase> expectLabels, string repoId, string ownerName, string repoName)
+        {
+            (var myLabels, string error) = await GithubSdk.Label.GetsAsync(ownerName, repoName);
+            if (myLabels != null)
+            {
+                var existLabels = myLabels.ToDictionary(item => item.Name, item => item);
+                foreach (var label in expectLabels)
+                {
+                    if (!existLabels.ContainsKey(label.Name))
+                    {
+                        if (label.Description == null)
+                        {
+                            if (string.IsNullOrEmpty(label.Description))
+                            {
+                                label.Description = $"[{label.Name}] made by nmsbot.";
+                            }
+                        }
+                        (var result, error) = await GithubSdk.Label.CreateAsync(repoId, label.Name, label.Color, label.Description);
+                        if (result == null)
+                        {
+                            return $"API 创建 #{label.Color} 颜色的 <{label.Name}> 标签失败! {error}";
+                        }
+                    }
+                    else
+                    {
+                        var existLabel = existLabels[label.Name];
+                        if (label.Color != existLabel.Color || label.Description != existLabel.Description)
+                        {
+                            (var result, error) = await GithubSdk.Label.UpdateAsync(existLabel.Id, label.Name, label.Color, label.Description);
+                            if (result == null)
+                            {
+                                return $"API 更新 #{label.Color} 颜色的 <{label.Name}> 标签失败! {error}";
+                            }
+                        }
+                    }
+                }
+            }
+            return string.Empty;
+        }
         public static async Task<string> ExpectLabelsCreateAsync(HashSet<string> expectLabels, string repoId, string ownerName, string repoName, Queue<string>? randomColor = null, string? referencOwnerName = null, string? referencRepoName = null)
         {
             (var myLabels, string error) = await GithubSdk.Label.GetsAsync(ownerName, repoName);
@@ -306,7 +437,7 @@ namespace Github.NET.Sdk
 
 
                         (var result, error) = await GithubSdk.Label.CreateAsync(repoId, newLabel, color, description);
-                        if (!result)
+                        if (result != null)
                         {
                             return $"API 创建 #{color} 颜色的 <{newLabel}> 标签失败! {error}";
                         }
@@ -324,7 +455,6 @@ namespace Github.NET.Sdk
                 expectLabels.ExceptWith(myLabels!.Select(item => item.Name));
                 if (expectLabels.Count > 0)
                 {
-
 
                     Dictionary<string, GithubLabel> referecLabelMap = new();
                     if (referencOwnerName != null && referencRepoName != null)
@@ -375,7 +505,7 @@ namespace Github.NET.Sdk
                         }
 
                         (var result, error) = await GithubSdk.Label.CreateAsync(repoId, newLabel, color, description);
-                        if (!result)
+                        if (result != null)
                         {
                             return $"API 创建 #{color} 颜色的 <{newLabel}> 标签失败! {error}";
                         }
@@ -385,74 +515,57 @@ namespace Github.NET.Sdk
             }
             return string.Empty;
         }
-        public static async Task<string> CreateLabelIfNotExist(string newLabelName, string repoId, string ownerName, string repoName, string? specialColor = null, string? referencOwnerName = null, string? referencRepoName = null)
+        public static async Task<(GithubLabel?, string)> CreateLabelIfNotExist(string newLabelName, string repoId, string ownerName, string repoName, string? specialColor = null, string? specialDescription = null, string? referencOwnerName = null, string? referencRepoName = null)
         {
-            (var myLabels, string error) = await GithubSdk.Label.GetsAsync(ownerName, repoName);
-            if (myLabels != null)
+            (var newLabel, string error) = await GithubSdk.Label.GetByNameAsync(ownerName, repoName, newLabelName);
+            if (newLabel != null)
             {
-
-                if (myLabels.Select(item => item.Name).Contains(newLabelName))
-                {
-                    return string.Empty;
-                }
-
+                return (newLabel, string.Empty);
+            }
+            else
+            {
+                GithubLabel createLabel = new GithubLabel();
                 Dictionary<string, GithubLabel> referecLabelMap = new();
                 if (referencOwnerName != null && referencRepoName != null)
                 {
-                    (var labels, string getError) = await GithubSdk.Label.GetsAsync(referencOwnerName, referencRepoName);
-                    if (labels != null)
+                    (var referLabel, string getError) = await GithubSdk.Label.GetByNameAsync(referencOwnerName, referencRepoName, newLabelName);
+                    if (referLabel != null)
                     {
-                        foreach (var item in labels)
-                        {
-                            referecLabelMap[item.Name.ToLowerInvariant()] = item;
-                        }
+                        createLabel = referLabel;
+                    }
+                }
+                else
+                {
+                    createLabel.Name = newLabelName;
+                }
+                if (createLabel.Color == string.Empty)
+                {
+                    if (specialColor != null)
+                    {
+                        createLabel.Color = specialColor;
                     }
                     else
                     {
-                        return $"参考库的Labels是否存在异常? {getError}";
+                        return (null, "创建标签失败,颜色池已耗尽,更多的颜色建议在环境变量中添加:如 bug => env:  BUG_LABEL_COLOR: #xxx");
                     }
                 }
-
-                var color = Environment.GetEnvironmentVariable($"{newLabelName.ToUpperInvariant()}_LABEL_COLOR");
-                var description = Environment.GetEnvironmentVariable($"{newLabelName.ToUpperInvariant()}_LABEL_DESCRIPTION");
-                if (color == null)
+                if (createLabel.Description == string.Empty)
                 {
-                    if (referecLabelMap.ContainsKey(newLabelName))
+                    if (specialColor != null)
                     {
-                        color = referecLabelMap[newLabelName].Color;
-                    }
-                    else if (specialColor != null)
-                    {
-                        color = specialColor;
-                    }
-                    else
-                    {
-                        return "创建标签失败,颜色池已耗尽,更多的颜色建议在环境变量中添加:如 bug => env:  BUG_LABEL_COLOR: #xxx";
+                        createLabel.Description = specialDescription;
                     }
                 }
-                if (description == null)
+
+
+                (var result, error) = await GithubSdk.Label.CreateAsync(repoId, createLabel.Name, createLabel.Color, createLabel.Description);
+                if (result == null)
                 {
-                    if (referecLabelMap.ContainsKey(newLabelName))
-                    {
-                        description = referecLabelMap[newLabelName].Description;
-                    }
-                    if (string.IsNullOrEmpty(description))
-                    {
-                        description = $"[{newLabelName}] made by nmsbot.";
-                    }
+                    return (null, $"API 创建 #{createLabel.Color} 颜色的 <{createLabel.Name}> 标签失败! {error}");
                 }
-
-
-                (var result, error) = await GithubSdk.Label.CreateAsync(repoId, newLabelName, color, description);
-                if (!result)
-                {
-                    return $"API 创建 #{color} 颜色的 <{newLabelName}> 标签失败! {error}";
-                }
-
+                return (result, error);
             }
-            return string.Empty;
         }
-
         public static async Task<(GithubIssue[]?, bool?, string)> GetIssueAuthorsByLabelAsync(string ownerName, string repoName, string labelName)
         {
             (var result, string error) = await GithubGraphRequest
@@ -473,7 +586,6 @@ namespace Github.NET.Sdk
             }
             return (null, null, error);
         }
-
         public static async Task<(bool, string)> HandleJunkIssueByLabelAsync(string ownerName, string repoName, string labelName)
         {
             (var issues, var isInOrg, var error) = await GetIssueAuthorsByLabelAsync(ownerName, repoName, labelName);
@@ -483,7 +595,7 @@ namespace Github.NET.Sdk
 
                 if (isInOrg!.Value)
                 {
-                    foreach ((var blockName,var values) in cache)
+                    foreach ((var blockName, var values) in cache)
                     {
                         var result = await BlockUserByOrgNameAsync(blockName, ownerName);
                         if (!result.Item1)
@@ -492,7 +604,7 @@ namespace Github.NET.Sdk
                         }
                         foreach (var issue in values)
                         {
-                            result =await _issueRequest.DeleteAsync(issue.Id);
+                            result = await _issueRequest.DeleteAsync(issue.Id);
                             if (!result.Item1)
                             {
                                 return result;

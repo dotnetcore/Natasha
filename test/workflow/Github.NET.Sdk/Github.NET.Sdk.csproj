@@ -8,6 +8,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="YamlDotNet" Version="13.0.2" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <None Update="Recommend\recommend.py">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>

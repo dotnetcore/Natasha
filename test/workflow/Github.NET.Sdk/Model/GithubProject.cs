@@ -1,4 +1,4 @@
-﻿namespace Github.NET.Sdk
+﻿namespace Github.NET.Sdk.Model
 {
 
     public sealed class GithubProjetConnections

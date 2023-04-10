@@ -1,6 +1,6 @@
-﻿using Github.NET.Sdk.Model;
+﻿
 
-namespace Github.NET.Sdk
+namespace Github.NET.Sdk.Model
 {
     public sealed class GithubRepository
     {
@@ -19,6 +19,8 @@ namespace Github.NET.Sdk
         public GithubLabel? Label { get; set; }
 
         public GithubLabelConnections? Labels { get; set; }
+
+        public GithubPullRequest? PullRequest { get; set; }
 
     }
 

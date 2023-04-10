@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Github.NET.Sdk.Model
+﻿namespace Github.NET.Sdk.Model
 {
-    public sealed class GithubLabel
+    public class GithubLabelBase
     {
-        public string Id { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
         public string? Description { get; set; }
         public string Color { get; set; } = string.Empty;
+    }
+    public sealed class GithubLabel : GithubLabelBase
+    {
+        public string Id { get; set; } = string.Empty;
         public GithubIssueConnections? Issues { get; set; }
     }
 

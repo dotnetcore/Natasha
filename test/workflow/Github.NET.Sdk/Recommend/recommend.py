@@ -19,22 +19,16 @@ class Result:
     def __str__(self):
         return json.dumps(dict(self), ensure_ascii=False)
 
-def get_word_vector(s1,s2,paddle_shut):
+def get_word_list(src_str,paddle_shut):
+    cut = sorted(clean_stopword(jieba.cut(src_str,use_paddle=paddle_shut)))
+    return (','.join(cut)).split(',')
+
+def get_word_vector(list_word1,list_word2):
     """
     :param s1: 句子1
     :param s2: 句子2
     :return: 返回句子的余弦相似度
     """
-    # 分词
-    cut1 = sorted(clean_stopword(jieba.cut(s1,use_paddle=paddle_shut)))
-    cut2 = sorted(clean_stopword(jieba.cut(s2,use_paddle=paddle_shut)))
-    # print()
-    # print("源分词:\t"+'/'.join(cut1))
-    # print("目标分词:"+'/'.join(cut2))
-    # print()
-    list_word1 = (','.join(cut1)).split(',')
-    list_word2 = (','.join(cut2)).split(',')
- 
     # 列出所有的词,取并集
     key_word = list(set(list_word1 + list_word2))
     # 给定形状和类型的用0填充的矩阵存储向量
@@ -51,7 +45,6 @@ def get_word_vector(s1,s2,paddle_shut):
         for k in range(len(list_word2)):
             if key_word[i] == list_word2[k]:
                 word_vector2[i] += 1
- 
     # 输出向量
     #print(word_vector1)
     #print(word_vector2)
@@ -90,7 +83,6 @@ def pick_result(results):
     """
     挑选出合适的结果
     """
-
     compareIndex = 0
     pick = []
     for compare_item in results:
@@ -116,8 +108,7 @@ def pick_result(results):
                             compareIndex = compareIndex + 1
                         break
             
-    return pick
-            
+    return pick 
 
 stopword_list=[]
 compareCountArray=[]
@@ -166,16 +157,20 @@ if __name__ == '__main__':
             use_paddle = True
             log = log + " 启用 Paddle 模式！"
 
+        src_list = get_word_list(source,use_paddle)
+        log = log +"源分词:\t"+'/'.join(src_list)
+        sys.stderr.write(log)
+
         for compare_item in compares:
             compare_str = compare_item.get("Title")
-            vec1,vec2=get_word_vector(source,compare_str,use_paddle)
-            dist=cos_dist(vec1,vec2)
+            compare_list = get_word_list(compare_str, use_paddle)
+            vec1,vec2 = get_word_vector(src_list,compare_list)
+            dist = cos_dist(vec1,vec2)
             results.append(Result(compare_item.get("Id"), compare_item.get("Number"), compare_str,compare_item.get("Url"), dist, "{:.2%}".format(dist)))
         log = log + " 已完成相似度计算"
-        results.sort(key=lambda x: x.dist, reverse=True)
-
-        pick = pick_result(results)
         
+        results.sort(key=lambda x: x.dist, reverse=True)
+        pick = pick_result(results)
         with open(result_path, 'w') as file_handler:
              file_handler.write(json.dumps(pick))
         log = log + " 已将结果写入文件"

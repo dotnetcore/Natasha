@@ -50,11 +50,11 @@ namespace Github.NET.Sdk
                 var results = JsonSerializer.Deserialize<RecommendResultModel?[]?>(resultContent, _serializerOptions);
                 if (results != null)
                 {
-                    return (results.Where(item => item != null)!.ToArray(),string.Empty);
+                    return (results!.Where<RecommendResultModel>(item => item != null).ToArray(), resultContent);
                 }
                 else
                 {
-                    return (null, "Python 结果和序列化可能出现了问题!");
+                    return (null, $"Python 结果和序列化可能出现了问题!{resultContent}");
                 }
             }
         }

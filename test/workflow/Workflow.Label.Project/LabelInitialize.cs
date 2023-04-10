@@ -1,5 +1,8 @@
 using Github.NET.Sdk;
+using Github.NET.Sdk.Model;
 using Xunit;
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
 
 namespace Workflow.Label
 {
@@ -10,14 +13,7 @@ namespace Workflow.Label
         [Fact(DisplayName = "标签初始化:PR")]
         public async Task Init()
         {
-            var referencOwnerName = Environment.GetEnvironmentVariable("REFERENC_OWNER_NAME");
-            var referencRepoName = Environment.GetEnvironmentVariable("REFERENC_REPO_NAME");
-            var specialColor = Environment.GetEnvironmentVariable("SPEICIAL_COLOR");
-            if (specialColor == null)
-            {
-                specialColor = "68E0F8";
-            }
-
+            
             if (!NMSGithubSdk.TryGetTokenFromEnviroment(out string token, "GITHUB_TOKEN"))
             {
                 Assert.Fail(token);
@@ -34,21 +30,15 @@ namespace Workflow.Label
             {
                 Assert.Fail(repoId);
             }
-
-
             NMSGithubSdk.SetGraphSecretByEnvKey("GITHUB_TOKEN");
-
-            var prLabels = PRLabelerHelper.ScanLabelTempaltes();
-            if (prLabels != null && prLabels.Count > 0)
+            var labels = SolutionHelper.GetSolutionInfo()?.GetAllLabels();
+            if (labels != null && labels.Any())
             {
-                var result = await NMSGithubSdk.ExpectLabelsCreateAsync(prLabels, repoId, ownerName, repoName, specialColor, referencOwnerName, referencRepoName);
+                var labelsWithBlockUser = labels.Append(new GithubLabelBase() { Name = "aaa-block-user", Color = "ff0000", Description = "该标签为屏蔽标签,打上该标签的 ISSUE 作者将被屏蔽." });
+                var result = await NMSGithubSdk.ExpectLabelsCreateAndUpadateAsync(labelsWithBlockUser, repoId, ownerName, repoName);
                 if (result != string.Empty)
                 {
                     Assert.Fail(result);
-                }
-                else
-                {
-                    Assert.True(true);
                 }
             }
 
