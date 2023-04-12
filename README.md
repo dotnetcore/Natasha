@@ -42,46 +42,9 @@
 <br/>      
 <br/>  
 
-### 使用方法(User Api)：   
-| 顺序 | 操作行为 | 操作内容 | 说明 |
-|-- |-------- |--------------| --------|
-| 1 | 初始化 | NatashaInitializer.Preheating();| 预热会慢一点，后面编译就快了 |
-| 2 | 写代码 | 使用说明 [https://natasha.dotnetcore.xyz/](https://natasha.dotnetcore.xyz/zh-Hans/docs/get_started/getting-started) | 可联系作者: 1648107003@qq.com 或 [查看FAQ](https://github.com/dotnetcore/Natasha/blob/main/docs/FAQ.md) 或 [提出问题](https://github.com/dotnetcore/Natasha/main/new) |
+### [使用文档](https://natasha.dotnetcore.xyz/zh-Hans/docs/get_started/getting-started)：   
 
 <br/>  
-<br/>  
-
-  
-### 生态周边  
-| 维护状态 | 项目名称 | 项目地址 | 项目简介 | 
-| -----: | ------------- | ----------- | -------- |
-| ![flag](https://img.shields.io/badge/√-darkgreen.svg) | DynamicProxy | [Github](https://github.com/night-moon-studio/DynamicProxy) | 基于 Natasha 的高性能接口动态代理,支持多参数初始化和单例模式 |
-| ![flag](https://img.shields.io/badge/√-darkgreen.svg) | Libra | [Github](https://github.com/night-moon-studio/Libra) | 基于 Natasha 和 DynamicDictionary 的高性能,弱约束的 Http 协议 RPC 库 | 
-| ![flag](https://img.shields.io/badge/√-blue.svg) | NatashaPad | [Github](https://github.com/night-moon-studio/NatashaPad) | 由 Roslyn 和 Natasha 支持的另一种dotnet调试工具，如 LinqPad 和 dotnet fiddle |
-| ![flag](https://img.shields.io/badge/√-blue.svg) | Leo | [Github](https://github.com/night-moon-studio/Leo) | 基于 Natasha 和 查找树算法的高速反射类，可以操作对象的属性以及字段 |
-| ![flag](https://img.shields.io/badge/X-red.svg) | DeepClone | [Github](https://github.com/night-moon-studio/DeepClone) | 由 Natasha 的高性能深度克隆库 |
-| ![flag](https://img.shields.io/badge/√-darkgreen.svg) | BTFindTreee | [Github](https://github.com/dotnet-lab/BTFindTreee) | 快速查找算法的构建，包括哈希二分查找，字串模糊查找，字串归并精确查找 |
-| ![flag](https://img.shields.io/badge/X-red.svg) | Papper | [Github](https:https://github.com/dotnet-lab/Papper) | 对语法树解析库，主要目标时服务于 SG(Source Generator)技术 |
-| ![flag](https://img.shields.io/badge/X-red.svg) | RuntimeToDynamic | [Github](https://github.com/night-moon-studio/RuntimeToDynamic) | 将运行时数据压入到动态代理类中，以方便其他动态构建时对其进行复用|
-| ![flag](https://img.shields.io/badge/√-darkgreen.svg) | DynamicDictionary | [Github](https://github.com/night-moon-studio/DynamicDictionary) | 高速动态缓存，在只读并发场景中提供超高性能的数据查找功能|
-| ![flag](https://img.shields.io/badge/√-blue.svg) | Aries | [Github](https://github.com/night-moon-studio/Aries) | 对 FreeSql 的高度封装，提供高性能、直观的 外联 / 乐观锁 / CURD 操作 |  
-  
-<br/>
-  
- > **Note:**   
-![flag](https://img.shields.io/badge/√-darkgreen.svg) : 维护且更新活跃,需求充足.   
-![flag](https://img.shields.io/badge/√-blue.svg) : 维护但需求较少, 按需更新发布.   
-![flag](https://img.shields.io/badge/X-red.svg) : 需求极少, 暂不维护.
-  
-<br/>
-<br/>  
-
-### 开发计划
-
-  - [ ] 更多的卸载方法调研.
-  - [ ] 调研常用框架的元数据引用.
-  - [ ] 搜集需求,增加语义扩展库.
-
 <br/>  
 
 ### 性能测试
@@ -102,7 +65,8 @@
 #### 捐助明细  
 
 - [Newbe俞佬](https://github.com/newbe36524) 90.2 元 
-- 崔星星 21 元
+- 崔星星 17 元
+- Money 100 元
 - [Newbe俞佬](https://github.com/newbe36524) 200 元 
 - iNeuOS工业互联网平台 100 元 
 - 老萌 30 元
