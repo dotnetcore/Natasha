@@ -94,7 +94,7 @@ namespace Workflow.PR.Association
                     }
                     else
                     {
-                        comment.AppendLine($"未检测到合适的 ISSUE 推荐给您。感谢您的反馈！");
+                        comment.AppendLine($"未检测到合适的 ISSUE 推荐给您。感谢您的PR！");
                     }
                     comment.AppendLine("> 该条自动推荐信息来自于 nms-bot.");
                     return comment.ToString();
