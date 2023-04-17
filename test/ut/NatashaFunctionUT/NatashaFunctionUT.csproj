@@ -79,6 +79,21 @@
 		<None Update="Domain\Plugin\DNDV\1\net5.0\PluginBase.pdb">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+		<None Update="Domain\Plugin\DNDV\1\net5.0\runtimes\unix\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNDV\1\net5.0\runtimes\win-arm64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNDV\1\net5.0\runtimes\win-x64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNDV\1\net5.0\runtimes\win-x86\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNDV\1\net5.0\runtimes\win\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 		<None Update="Domain\Plugin\DNDV\1\net5.0\System.Data.SqlClient.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
@@ -105,6 +120,21 @@
 		</None>
 		<None Update="Domain\Plugin\DNDV\1\net6.0\PluginBase.pdb">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNDV\1\net6.0\runtimes\unix\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNDV\1\net6.0\runtimes\win-arm64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNDV\1\net6.0\runtimes\win-x64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNDV\1\net6.0\runtimes\win-x86\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNDV\1\net6.0\runtimes\win\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Domain\Plugin\DNDV\1\net6.0\System.Data.SqlClient.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -135,6 +165,21 @@
 		</None>
 		<None Update="Domain\Plugin\DNDV\1\netcoreapp3.1\PluginBase.pdb">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNDV\1\netcoreapp3.1\runtimes\unix\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNDV\1\netcoreapp3.1\runtimes\win-arm64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNDV\1\netcoreapp3.1\runtimes\win-x64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNDV\1\netcoreapp3.1\runtimes\win-x86\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNDV\1\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Domain\Plugin\DNDV\1\netcoreapp3.1\System.Data.SqlClient.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -385,6 +430,21 @@
 		<None Update="Domain\Plugin\SNDVDV\1\net5.0\PluginBase.pdb">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+		<None Update="Domain\Plugin\SNDVDV\1\net5.0\runtimes\unix\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVDV\1\net5.0\runtimes\win-arm64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVDV\1\net5.0\runtimes\win-x64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVDV\1\net5.0\runtimes\win-x86\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVDV\1\net5.0\runtimes\win\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 		<None Update="Domain\Plugin\SNDVDV\1\net5.0\SNDVDV.deps.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
@@ -415,6 +475,21 @@
 		<None Update="Domain\Plugin\SNDVDV\1\net6.0\PluginBase.pdb">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+		<None Update="Domain\Plugin\SNDVDV\1\net6.0\runtimes\unix\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVDV\1\net6.0\runtimes\win-arm64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVDV\1\net6.0\runtimes\win-x64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVDV\1\net6.0\runtimes\win-x86\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVDV\1\net6.0\runtimes\win\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 		<None Update="Domain\Plugin\SNDVDV\1\net6.0\SNDVDV.deps.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
@@ -441,6 +516,21 @@
 		</None>
 		<None Update="Domain\Plugin\SNDVDV\1\netcoreapp3.1\PluginBase.pdb">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVDV\1\netcoreapp3.1\runtimes\unix\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVDV\1\netcoreapp3.1\runtimes\win-arm64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVDV\1\netcoreapp3.1\runtimes\win-x64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVDV\1\netcoreapp3.1\runtimes\win-x86\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVDV\1\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Domain\Plugin\SNDVDV\1\netcoreapp3.1\SNDVDV.deps.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -550,6 +640,21 @@
 		<None Update="Domain\Plugin\SNDVSV\1\net5.0\PluginBase.pdb">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+		<None Update="Domain\Plugin\SNDVSV\1\net5.0\runtimes\unix\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\1\net5.0\runtimes\win-arm64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\1\net5.0\runtimes\win-x64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\1\net5.0\runtimes\win-x86\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\1\net5.0\runtimes\win\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 		<None Update="Domain\Plugin\SNDVSV\1\net5.0\SNDVSV.deps.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
@@ -580,6 +685,21 @@
 		<None Update="Domain\Plugin\SNDVSV\1\net6.0\PluginBase.pdb">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+		<None Update="Domain\Plugin\SNDVSV\1\net6.0\runtimes\unix\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\1\net6.0\runtimes\win-arm64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\1\net6.0\runtimes\win-x64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\1\net6.0\runtimes\win-x86\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\1\net6.0\runtimes\win\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 		<None Update="Domain\Plugin\SNDVSV\1\net6.0\SNDVSV.deps.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
@@ -606,6 +726,21 @@
 		</None>
 		<None Update="Domain\Plugin\SNDVSV\1\netcoreapp3.1\PluginBase.pdb">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\1\netcoreapp3.1\runtimes\unix\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\1\netcoreapp3.1\runtimes\win-arm64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\1\netcoreapp3.1\runtimes\win-x64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\1\netcoreapp3.1\runtimes\win-x86\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\1\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Domain\Plugin\SNDVSV\1\netcoreapp3.1\SNDVSV.deps.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -637,6 +772,21 @@
 		<None Update="Domain\Plugin\SNDVSV\2\net5.0\PluginBase.pdb">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+		<None Update="Domain\Plugin\SNDVSV\2\net5.0\runtimes\unix\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\2\net5.0\runtimes\win-arm64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\2\net5.0\runtimes\win-x64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\2\net5.0\runtimes\win-x86\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\2\net5.0\runtimes\win\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 		<None Update="Domain\Plugin\SNDVSV\2\net5.0\SNDVSV.deps.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
@@ -667,6 +817,21 @@
 		<None Update="Domain\Plugin\SNDVSV\2\net6.0\PluginBase.pdb">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+		<None Update="Domain\Plugin\SNDVSV\2\net6.0\runtimes\unix\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\2\net6.0\runtimes\win-arm64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\2\net6.0\runtimes\win-x64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\2\net6.0\runtimes\win-x86\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\2\net6.0\runtimes\win\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 		<None Update="Domain\Plugin\SNDVSV\2\net6.0\SNDVSV.deps.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
@@ -693,6 +858,21 @@
 		</None>
 		<None Update="Domain\Plugin\SNDVSV\2\netcoreapp3.1\PluginBase.pdb">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\2\netcoreapp3.1\runtimes\unix\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\2\netcoreapp3.1\runtimes\win-arm64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\2\netcoreapp3.1\runtimes\win-x64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\2\netcoreapp3.1\runtimes\win-x86\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\2\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Domain\Plugin\SNDVSV\2\netcoreapp3.1\SNDVSV.deps.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -724,6 +904,21 @@
 		<None Update="Domain\Plugin\SNIVDV\1\net5.0\PluginBase.pdb">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+		<None Update="Domain\Plugin\SNIVDV\1\net5.0\runtimes\unix\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVDV\1\net5.0\runtimes\win-arm64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVDV\1\net5.0\runtimes\win-x64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVDV\1\net5.0\runtimes\win-x86\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVDV\1\net5.0\runtimes\win\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 		<None Update="Domain\Plugin\SNIVDV\1\net5.0\SNIVDV.deps.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
@@ -754,6 +949,21 @@
 		<None Update="Domain\Plugin\SNIVDV\1\net6.0\PluginBase.pdb">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+		<None Update="Domain\Plugin\SNIVDV\1\net6.0\runtimes\unix\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVDV\1\net6.0\runtimes\win-arm64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVDV\1\net6.0\runtimes\win-x64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVDV\1\net6.0\runtimes\win-x86\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVDV\1\net6.0\runtimes\win\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 		<None Update="Domain\Plugin\SNIVDV\1\net6.0\SNIVDV.deps.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
@@ -780,6 +990,21 @@
 		</None>
 		<None Update="Domain\Plugin\SNIVDV\1\netcoreapp3.1\PluginBase.pdb">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVDV\1\netcoreapp3.1\runtimes\unix\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVDV\1\netcoreapp3.1\runtimes\win-arm64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVDV\1\netcoreapp3.1\runtimes\win-x64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVDV\1\netcoreapp3.1\runtimes\win-x86\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVDV\1\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Domain\Plugin\SNIVDV\1\netcoreapp3.1\SNIVDV.deps.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -1032,6 +1257,21 @@
 		</None>
 		<None Update="Domain\Plugin\SNIVSV\2\netcoreapp3.1\SNIVSV.runtimeconfig.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Reference\Libraries\runtimes\unix\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Reference\Libraries\runtimes\win-arm64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Reference\Libraries\runtimes\win-x64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Reference\Libraries\runtimes\win-x86\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Reference\Libraries\runtimes\win\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="natasha.snk">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
