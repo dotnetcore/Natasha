@@ -38,6 +38,6 @@ jobs:
           WORKER_NAME: PR_RECOMMEND
           ISSUE_STATUS: OPEN
           USE_PADDLE: "TRUE"
-          PICK_COUNT: 2
-          MIN_SIMILAR_SCORE: 0.98
+          PICK_COUNT: 1
+          MIN_SIMILAR_SCORE: 0.80
           MAX_SIMILAR_SCORE: 1
