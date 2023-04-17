@@ -199,7 +199,7 @@ namespace Workflow.Runner
                 }
 
                 NMSGithubSdk.SetGraphSecretByEnvKey("GITHUB_TOKEN");
-                var result = await NMSGithubSdk.AddPrToProjectAndSetStatusAsync(repoName, repoId, ownerName, ownerId, projectName, prId, "Done", "已完成", "完成");
+                var result = await NMSGithubSdk.AddPrToProjectAndSetStatusAsync(repoName, repoId, ownerName, ownerId, projectName, prId, "✅ Done", "Done", "已完成", "完成");
                 if (result != string.Empty)
                 {
                     Assert.Fail(result);

@@ -96,9 +96,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{CE33F93B-A43E-45F9-86B8-2DA9DF9823B8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflow", "workflow", "{4EC5B87C-1343-4247-8A6A-A63C9BFEFEDD}"
-	ProjectSection(SolutionItems) = preProject
-		test\workflow\Github.NET.Sdk\Github.NET.Sdk.csproj = test\workflow\Github.NET.Sdk\Github.NET.Sdk.csproj
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "monitor", "monitor", "{507963F1-0A4A-465B-8098-1FCB0BBBD90E}"
 EndProject
@@ -174,6 +171,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Workflow.Nuget.Publish", "test\workflow\Workflow.Nuget.Publish\Workflow.Nuget.Publish.csproj", "{EA3C38EB-A78A-476B-BD02-0760328BE017}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Workflow.Runner", "test\workflow\Workflow.Runner\Workflow.Runner.csproj", "{71833B8C-733D-4206-8609-0AFD3FD00A3C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Github.NET.Sdk", "test\workflow\Github.NET.Sdk\Github.NET.Sdk.csproj", "{C9FA74F5-B81E-44AB-9D69-21FBB952B643}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -313,6 +312,10 @@ Global
 		{71833B8C-733D-4206-8609-0AFD3FD00A3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71833B8C-733D-4206-8609-0AFD3FD00A3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71833B8C-733D-4206-8609-0AFD3FD00A3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9FA74F5-B81E-44AB-9D69-21FBB952B643}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9FA74F5-B81E-44AB-9D69-21FBB952B643}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9FA74F5-B81E-44AB-9D69-21FBB952B643}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9FA74F5-B81E-44AB-9D69-21FBB952B643}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -372,6 +375,7 @@ Global
 		{BE75F4A3-D18B-4262-9F0E-FB8B113D59F1} = {4EC5B87C-1343-4247-8A6A-A63C9BFEFEDD}
 		{EA3C38EB-A78A-476B-BD02-0760328BE017} = {4EC5B87C-1343-4247-8A6A-A63C9BFEFEDD}
 		{71833B8C-733D-4206-8609-0AFD3FD00A3C} = {4EC5B87C-1343-4247-8A6A-A63C9BFEFEDD}
+		{C9FA74F5-B81E-44AB-9D69-21FBB952B643} = {4EC5B87C-1343-4247-8A6A-A63C9BFEFEDD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3004E730-B231-40FA-B75C-58D7DDE17679}
