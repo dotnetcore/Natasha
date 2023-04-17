@@ -25,6 +25,7 @@ public static class NatashaReferencePathsHelper
             {
                 try
                 {
+                    //#ISSUE:178
                     using var peStream = File.OpenRead(asmPath);
                     PEReader pEReader = new PEReader(peStream);
                     PEReader pEReader2 = pEReader;
