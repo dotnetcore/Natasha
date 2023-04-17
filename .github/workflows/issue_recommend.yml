@@ -12,7 +12,7 @@ env:
   ISSUE_ID: ${{ github.event.issue.node_id }}
   ISSUE_TITLE: ${{ github.event.issue.title }}
   WORKER_NAME: ISSUE_RECOMMEND
-  ISSUE_STATUS: CLOSED
+  ISSUE_STATUS: ALL
   USE_PADDLE: "TRUE"
 
 jobs:
