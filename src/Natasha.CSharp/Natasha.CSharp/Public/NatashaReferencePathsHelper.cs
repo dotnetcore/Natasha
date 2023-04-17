@@ -4,8 +4,11 @@ using Microsoft.Extensions.DependencyModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Pipes;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Metadata;
+using System.Reflection.PortableExecutable;
 
 public static class NatashaReferencePathsHelper
 {
@@ -16,14 +19,26 @@ public static class NatashaReferencePathsHelper
         IEnumerable<string>? paths = null;
         try
         {
-            paths = DependencyContext
-            .Default
+
+            paths = DependencyContext.Default?
             .CompileLibraries.SelectMany(cl => cl.ResolveReferencePaths().Where(asmPath =>
             {
-
-                var asmName = AssemblyName.GetAssemblyName(asmPath);
-                return !excludeReferencesFunc(asmName, asmName.Name);
-
+                try
+                {
+                    using var peStream = File.OpenRead(asmPath);
+                    PEReader pEReader = new PEReader(peStream);
+                    PEReader pEReader2 = pEReader;
+                    if (!pEReader.HasMetadata)
+                    {
+                        return false;
+                    }
+                    var asmName = AssemblyName.GetAssemblyName(asmPath);
+                    return !excludeReferencesFunc(asmName, asmName.Name);
+                }
+                catch
+                {
+                    return false;
+                }
             }));
         }
         catch

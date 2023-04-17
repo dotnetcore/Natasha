@@ -20,7 +20,7 @@ public sealed partial class AssemblyCSharpBuilder
     private LoadBehaviorEnum _compileReferenceBehavior;
     private LoadBehaviorEnum _compileAssemblyBehavior;
     private Func<AssemblyName, AssemblyName, LoadVersionResultEnum>? _referencePickFunc;
-    private Func<IEnumerable<PortableExecutableReference>, IEnumerable<PortableExecutableReference>>? _referencesFilter;
+    private Func<IEnumerable<MetadataReference>, IEnumerable<MetadataReference>>? _referencesFilter;
     /// <summary>
     /// 配置主域及当前域的加载行为, Default 使用主域引用, Custom 使用当前域引用
     /// </summary>
@@ -49,7 +49,7 @@ public sealed partial class AssemblyCSharpBuilder
     }
 
 
-    public AssemblyCSharpBuilder CompileWithReferencesFilter(Func<IEnumerable<PortableExecutableReference>, IEnumerable<PortableExecutableReference>>? referencesFilter)
+    public AssemblyCSharpBuilder CompileWithReferencesFilter(Func<IEnumerable<MetadataReference>, IEnumerable<MetadataReference>>? referencesFilter)
     {
         _referencesFilter = referencesFilter;
         return this;

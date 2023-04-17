@@ -7,6 +7,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Reflection.PortableExecutable;
 
 namespace Natasha.CSharp
 {
@@ -17,7 +18,7 @@ namespace Natasha.CSharp
         /// <summary>
         /// 存放内存流编译过来的程序集与引用
         /// </summary>
-        private readonly ConcurrentDictionary<AssemblyName, PortableExecutableReference> _referenceCache;
+        private readonly ConcurrentDictionary<AssemblyName, MetadataReference> _referenceCache;
         private readonly ConcurrentDictionary<string, AssemblyName> _referenceNameCache;
         public NatashaReferenceCache()
         {
@@ -26,7 +27,7 @@ namespace Natasha.CSharp
         }
 
         public int Count { get { return _referenceCache.Count; } }
-        private void AddReference(AssemblyName assemblyName, PortableExecutableReference reference, LoadBehaviorEnum loadReferenceBehavior)
+        private void AddReference(AssemblyName assemblyName, MetadataReference reference, LoadBehaviorEnum loadReferenceBehavior)
         {
 
             var name = assemblyName.GetUniqueName();
@@ -54,13 +55,14 @@ namespace Natasha.CSharp
         }
         public void AddReference(AssemblyName assemblyName, string path, LoadBehaviorEnum loadReferenceBehavior = LoadBehaviorEnum.None)
         {
-            AddReference(assemblyName, MetadataReference.CreateFromFile(path), loadReferenceBehavior);
+            AddReference(assemblyName, CreateMetadataReference(path), loadReferenceBehavior);
         }
+
         public void AddReference(Assembly assembly, LoadBehaviorEnum loadReferenceBehavior = LoadBehaviorEnum.None)
         {
             if (!assembly.IsDynamic && !string.IsNullOrEmpty(assembly.Location))
             {
-                AddReference(assembly.GetName(), MetadataReference.CreateFromFile(assembly.Location), loadReferenceBehavior);
+                AddReference(assembly.GetName(), CreateMetadataReference(assembly.Location), loadReferenceBehavior);
             }
         }
         public void RemoveReference(AssemblyName assemblyName)
@@ -84,14 +86,14 @@ namespace Natasha.CSharp
             _referenceCache.Clear();
             _referenceNameCache.Clear();
         }
-        public IEnumerable<PortableExecutableReference> GetReferences()
+        public IEnumerable<MetadataReference> GetReferences()
         {
             return _referenceCache.Values;
         }
-        internal HashSet<PortableExecutableReference> CombineWithDefaultReferences(NatashaReferenceCache defaultCache, LoadBehaviorEnum loadBehavior = LoadBehaviorEnum.None, Func<AssemblyName, AssemblyName, LoadVersionResultEnum>? useAssemblyNameFunc = null)
+        internal HashSet<MetadataReference> CombineWithDefaultReferences(NatashaReferenceCache defaultCache, LoadBehaviorEnum loadBehavior = LoadBehaviorEnum.None, Func<AssemblyName, AssemblyName, LoadVersionResultEnum>? useAssemblyNameFunc = null)
         {
-            var sets = new HashSet<PortableExecutableReference>(_referenceCache.Values);
-            var excludeNods = new HashSet<PortableExecutableReference>();
+            var sets = new HashSet<MetadataReference>(_referenceCache.Values);
+            var excludeNods = new HashSet<MetadataReference>();
             var defaultReferences = defaultCache._referenceCache;
             var defaultNameReferences = defaultCache._referenceNameCache; ;
             if (loadBehavior != LoadBehaviorEnum.None || useAssemblyNameFunc != null)
@@ -129,6 +131,16 @@ namespace Natasha.CSharp
             sets.UnionWith(defaultReferences.Values);
             sets.ExceptWith(excludeNods);
             return sets;
+        }
+
+        private static MetadataReference CreateMetadataReference(string path)
+        {
+            using (var stream = File.OpenRead(path))
+            {
+                var moduleMetadata = ModuleMetadata.CreateFromStream(stream, PEStreamOptions.PrefetchMetadata);
+                var assemblyMetadata = AssemblyMetadata.Create(moduleMetadata);
+                return assemblyMetadata.GetReference(filePath: path);
+            }
         }
     }
 }
