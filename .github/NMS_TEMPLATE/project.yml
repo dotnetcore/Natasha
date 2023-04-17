@@ -196,15 +196,8 @@ workflow:
   folded_projects:
   - test/workflow/Github.NET.Sdk
   - test/workflow/Workflow.Initialization
-  - test/workflow/Workflow.Issue.BlockUser
-  - test/workflow/Workflow.Issue.Recommend
-  - test/workflow/Workflow.Label.Project
   - test/workflow/Workflow.Nuget.Publish
-  - test/workflow/Workflow.PR.Archive
-  - test/workflow/Workflow.PR.Association
-  - test/workflow/Workflow.PR.Label
-  - test/workflow/Workflow.Project.Archive
-  - test/workflow/Workflow.Version.Prepare
+  - test/workflow/Workflow.Runner
   global_labels:
   - name: pr_workflow
     description: 此次提交包含 [管道功能] 相关的改动.

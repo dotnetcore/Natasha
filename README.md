@@ -30,14 +30,11 @@
 
 | Script | .NET Env | Document |
 | ------ | -------- | -------- |  
-| ![Compile](https://img.shields.io/badge/script-csharp-green.svg) | ![20](https://img.shields.io/badge/platform-netstandard2.0-blue.svg) ![31](https://img.shields.io/badge/platform-netcore3.1-blue.svg) ![50](https://img.shields.io/badge/platform-net5.0-blue.svg) ![60](https://img.shields.io/badge/platform-net6.0-blue.svg)| [![wiki](https://img.shields.io/badge/wiki-ch-blue.svg)](https://natasha.dotnetcore.xyz/)  |
+| ![Compile](https://img.shields.io/badge/script-csharp-green.svg) | ![20](https://img.shields.io/badge/platform-netstandard2.0-blue.svg) ![31](https://img.shields.io/badge/platform-netcore3.1-blue.svg) ![50](https://img.shields.io/badge/platform-net5.0-blue.svg) ![60](https://img.shields.io/badge/platform-net6.0-blue.svg) ![70](https://img.shields.io/badge/platform-net7.0-blue.svg)| [![wiki](https://img.shields.io/badge/wiki-ch-blue.svg)](https://natasha.dotnetcore.xyz/)  |
 
 | CI Platform | Build Server | Main Build  |
 |--------- |--------- |---------|
-| Github |![os](https://img.shields.io/badge/os-all-black.svg)| [![Build status](https://img.shields.io/github/workflow/status/dotnetcore/Natasha/.NET/test)](https://github.com/dotnetcore/Natasha/actions) |
-| Azure |![Windows](https://img.shields.io/badge/os-win-black.svg) | [![Build Status](https://dev.azure.com/NightMoonStudio/Natasha/_apis/build/status/dotnetcore.Natasha?branchName=test&jobName=Windows)](https://dev.azure.com/NightMoonStudio/Natasha/_build/latest?definitionId=3&branchName=test)|
-| Azure |![linux](https://img.shields.io/badge/os-linux-black.svg) |[![Build Status](https://dev.azure.com/NightMoonStudio/Natasha/_apis/build/status/dotnetcore.Natasha?branchName=test&jobName=Linux)](https://dev.azure.com/NightMoonStudio/Natasha/_build/latest?definitionId=3&branchName=test)|
-| Azure |![mac](https://img.shields.io/badge/os-mac-black.svg)| [![Build Status](https://dev.azure.com/NightMoonStudio/Natasha/_apis/build/status/dotnetcore.Natasha?branchName=test&jobName=macOS)](https://dev.azure.com/NightMoonStudio/Natasha/_build/latest?definitionId=3&branchName=test)|
+| Github |![os](https://img.shields.io/badge/os-all-black.svg)| [![UT Test From PR](https://github.com/dotnetcore/Natasha/actions/workflows/pr_test.yml/badge.svg)](https://github.com/dotnetcore/Natasha/actions/workflows/pr_test.yml) |
 
 <br/>      
 <br/>  
