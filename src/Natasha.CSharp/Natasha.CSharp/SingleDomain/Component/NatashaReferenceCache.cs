@@ -13,7 +13,7 @@ namespace Natasha.CSharp
         /// <summary>
         /// 存放内存流编译过来的程序集与引用
         /// </summary>
-        private static readonly HashSet<PortableExecutableReference> _referenceCache;
+        private static readonly HashSet<MetadataReference> _referenceCache;
         static NatashaReferenceCache()
         {
             _referenceCache = new();
@@ -46,7 +46,7 @@ namespace Natasha.CSharp
             }
         }
 
-        private static void RemoveReference(PortableExecutableReference reference)
+        private static void RemoveReference(MetadataReference reference)
         {
             lock (_referenceCache)
             {
@@ -54,7 +54,7 @@ namespace Natasha.CSharp
             }
         }
 
-        private static void AddReference(PortableExecutableReference reference)
+        private static void AddReference(MetadataReference reference)
         {
             lock (_referenceCache)
             {
@@ -62,7 +62,7 @@ namespace Natasha.CSharp
             }
         }
         
-        public static IEnumerable<PortableExecutableReference> GetReferences()
+        public static IEnumerable<MetadataReference> GetReferences()
         {
             return _referenceCache;
         }

@@ -26,7 +26,7 @@ public sealed class NatashaReferenceDomain : NatashaDomain
     }
 
 
-    public IEnumerable<PortableExecutableReference> GetReferences(LoadBehaviorEnum loadBehavior = LoadBehaviorEnum.None, Func<AssemblyName, AssemblyName, LoadVersionResultEnum>? useAssemblyNameFunc = null)
+    public IEnumerable<MetadataReference> GetReferences(LoadBehaviorEnum loadBehavior = LoadBehaviorEnum.None, Func<AssemblyName, AssemblyName, LoadVersionResultEnum>? useAssemblyNameFunc = null)
     {
         if (Name == DefaultDomain.Name)
         {
