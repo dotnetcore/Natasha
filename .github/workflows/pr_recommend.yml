@@ -28,13 +28,14 @@ jobs:
       #    dotnet-version: '6.x'
           
       - name: 🌈 Recommend
-        run: dotnet test './test/workflow/Workflow.PR.Association' --nologo -c Release
+        run: dotnet test './test/workflow/Workflow.Runner' --nologo -c Release
         env:
           OWNER_NAME: ${{ github.repository_owner }}
           REPO_NAME: ${{ github.event.repository.name }}
           GITHUB_TOKEN: ${{ secrets.REPO_GITHUB_TOKEN }}
           PR_ID: ${{ github.event.pull_request.node_id }}
           PR_TITLE: ${{ github.event.pull_request.title }}
+          WORKER_NAME: PR_RECOMMEND
           ISSUE_STATUS: OPEN
           USE_PADDLE: "TRUE"
           PICK_COUNT: 2

@@ -20,26 +20,13 @@ env:
 concurrency: ci-${{ github.ref }}
 
 jobs:
-
-
-  codecov:
-    runs-on: ubuntu-latest      
-    steps:
-    - uses: actions/checkout@v3
-
-    - name: 🚦 Check & Pack Codecov
-      run: dotnet test "./test/ut/UnitTestProject/UnitTestProject.csproj" --nologo -f net6.0 -c Release --collect:"XPlat Code Coverage" -r ./coverage
-
-    - name: 📶 Push to Codecov
-      if: ${{ needs.prepare_check.outputs.hasCoverageKey == 'true' }}
-      uses: codecov/codecov-action@v3.1.1
-      with:
-        token: ${{ secrets.COVERAGE_KEY }}
-        directory: ./coverage/
+ 
   #Get Version
   prepare_check:
 
     runs-on: ubuntu-latest
+    env:
+      WORKER_NAME: VERSION_SCANNER
     outputs:
       releaseVersion: ${{steps.scanner.outputs.RELEASE_VERSION}}
       releasePackString: ${{steps.outter.outputs.RELEASE_PACK_STRING}}
@@ -56,7 +43,7 @@ jobs:
 
     - name: 📡 Scan Prepare Enviroment
       id: scanner
-      run: dotnet test './test/workflow/Workflow.Version.Prepare'
+      run: dotnet test './test/workflow/Workflow.Runner' --nologo -c Release
 
     - name: 🙂 Output ReleaseVersion
       id: outter
@@ -80,22 +67,23 @@ jobs:
 
   #Archive Project
   archive_project:
-     runs-on: ubuntu-latest
-     needs: prepare_check
-     env:
-       GITHUB_TOKEN: ${{ secrets.REPO_GITHUB_TOKEN }}
-       PROJECT_ARCHIVE_NAME: ${{ needs.prepare_check.outputs.releasePackString }}
+    runs-on: ubuntu-latest
+    needs: prepare_check
+    env:
+      GITHUB_TOKEN: ${{ secrets.REPO_GITHUB_TOKEN }}
+      PROJECT_ARCHIVE_NAME: ${{ needs.prepare_check.outputs.releasePackString }}
+      WORKER_NAME: PROJECT_ARCHIVE
       
-     steps:
-     - uses: actions/checkout@v3
+    steps:
+    - uses: actions/checkout@v3
 
      #- name: 🔨 Setup .NET 6.X SDK
      #  uses: actions/setup-dotnet@v3
      #  with:
      #    dotnet-version: '6.x'
           
-     - name: 📄 Achive Project
-       run: dotnet test './test/workflow/Workflow.Project.Archive' --nologo -c Release
+    - name: 📄 Achive Project
+      run: dotnet test './test/workflow/Workflow.Runner' --nologo -c Release
 
 
         

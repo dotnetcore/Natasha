@@ -30,7 +30,14 @@ namespace Github.NET.Sdk
         }
 #endif
 
-
+        public static bool JudgeCurrnetWorker(string workName)
+        {
+            if (TryGetEnviromentValue(out var value, "WORKER_NAME",""))
+            {
+                return value == workName;
+            }
+            return false;
+        }
         public static bool TryGetTokenFromEnviroment(out string result, string keyName)
         {
             return TryGetEnviromentValue(out result, keyName, "{your token}", $"(参考:https://docs.github.com/zh/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token {Environment.NewLine} 拿到 Token 需要配置, 在你的仓库配置 Setting -> Secrets and variables -> Action 创建安全变量.");

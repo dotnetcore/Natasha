@@ -13,14 +13,15 @@ env:
   GITHUB_TOKEN: ${{ secrets.REPO_GITHUB_TOKEN }}
   PR_ID: ${{ github.event.pull_request.node_id }}
   PR_NUM: ${{ github.event.pull_request.number }}
+  WORKER_NAME: PR_LABEL
 
 jobs:
     
-    label_pr:
-      runs-on: ubuntu-latest
+  label_pr:
+    runs-on: ubuntu-latest
 
-      steps:
-      - uses: actions/checkout@v3
-      - name: 🏷 Mark Label
-        run: dotnet test './test/workflow/Workflow.PR.Label' --nologo  -c Release
+    steps:
+    - uses: actions/checkout@v3
+    - name: 🏷 Mark Label
+      run: dotnet test './test/workflow/Workflow.Runner' --nologo -c Release
 
