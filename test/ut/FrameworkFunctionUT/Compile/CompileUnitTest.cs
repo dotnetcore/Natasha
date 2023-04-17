@@ -34,7 +34,8 @@ namespace FrameworkFunctionUT.Compile
             AssemblyCSharpBuilder builder = new();
             builder.Add(code);
 
-            var type = builder.GetTypeFromShortName("A");
+            var assembly = builder.GetAssembly();
+            var type = assembly.GetTypeFromShortName("A");
             Assert.Equal("A", type.Name);
 
             var info = type.GetField("Name");
@@ -50,7 +51,8 @@ namespace FrameworkFunctionUT.Compile
 
             AssemblyCSharpBuilder builder = new("compileUntiTestFoDelegateAssembly");
             builder.Add(code);
-            var func = builder.GetDelegateFromShortName<Func<string>>("A", "Get");
+            var assembly = builder.GetAssembly();
+            var func = assembly.GetDelegateFromShortName<Func<string>>("A", "Get");
             Assert.Equal("compileUntiTestFoDelegateAssembly", func.Method.Module.Assembly.GetName().Name!);
             Assert.Equal("HelloWorld", func());
 

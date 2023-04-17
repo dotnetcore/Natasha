@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Runtime.Loader;
 
 
-public static class NatashaAssemblyExtension
+public static class NatashaAssemblyDomainExtension
 {
 
 
