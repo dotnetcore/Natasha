@@ -29,10 +29,7 @@ public static class NatashaInitializer
 
                 _isCompleted = true;
 
-                if (excludeReferencesFunc == null)
-                {
-                    excludeReferencesFunc = (_, _) => false;
-                }
+                excludeReferencesFunc ??= (_, _) => false;
 #if DEBUG
                 Stopwatch stopwatch = new();
                 stopwatch.Start();
@@ -47,10 +44,14 @@ public static class NatashaInitializer
 #if DEBUG
                 stopwatch.RestartAndShowCategoreInfo("[Reference]", "过滤初始化引用", 1);
 #endif
-                if (paths!=null && paths.Count()>0)
+                if (paths!=null && paths.Any())
                 {
                     //Mark : 32.5M (Memory:2023-02-27)
+                    //Console.WriteLine("Run?");
+                    //Console.ReadKey();
                     ResolverMetadata(paths);
+                    //Console.WriteLine("over");
+                    //Console.ReadKey();
 #if DEBUG
                     stopwatch.RestartAndShowCategoreInfo("[  Domain  ]", "默认信息初始化", 1);
 #endif
@@ -78,22 +79,21 @@ public static class NatashaInitializer
     private static void ResolverMetadata(IEnumerable<string> paths)
     {
         var resolver = new PathAssemblyResolver(paths);
-        using (var mlc = new MetadataLoadContext(resolver))
+        using var mlc = new MetadataLoadContext(resolver);
+        var result = Parallel.ForEach(paths, (path) =>
         {
-            var result = Parallel.ForEach(paths, (path) =>
-            {
 
-                Assembly assembly = mlc.LoadFromAssemblyPath(path);
-                NatashaReferenceDomain.DefaultDomain.References.AddReference(assembly.GetName(), path);
-                DefaultUsing.AddUsingWithoutCheck(assembly);
-                NatashaDomain.AddAssemblyToDefaultCache(assembly);
+            Assembly assembly = mlc.LoadFromAssemblyPath(path);
+            DefaultUsing.AddUsingWithoutCheck(assembly,false);
+            NatashaDomain.AddAssemblyToDefaultCache(assembly);
+            NatashaReferenceDomain.DefaultDomain.References.AddReference(assembly.GetName(), path);
 
-            });
-            while (!result.IsCompleted)
-            {
-                Thread.Sleep(100);
-            }
+        });
+        while (!result.IsCompleted)
+        {
+            Thread.Sleep(100);
         }
+        DefaultUsing.ReBuildUsingScript();
     }
 
 }

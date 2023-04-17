@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Text;
 
 
@@ -30,7 +31,7 @@ public static class DefaultUsing
 
     public static int Count { get { return _defaultNamesapce.Count; } }
 
-    internal static void AddUsing(IEnumerable<string> usings)
+    internal static void AddUsing(IEnumerable<string> usings, bool autoRebuildScript = true)
     {
         try
         {
@@ -44,7 +45,10 @@ public static class DefaultUsing
                         _usingScriptCache.AppendLine($"using {name!};");
                     }
                 }
-                UsingScript = _usingScriptCache.ToString();
+                if (autoRebuildScript)
+                {
+                    UsingScript = _usingScriptCache.ToString();
+                }
             }
         }
         catch (Exception ex)
@@ -55,7 +59,7 @@ public static class DefaultUsing
         }
     }
 
-    internal static void AddUsingWithoutCheck(Assembly assembly)
+    internal static void AddUsingWithoutCheck(Assembly assembly, bool autoRebuildScript = true)
     {
         try
         {
@@ -75,10 +79,8 @@ public static class DefaultUsing
 #if DEBUG
                     else
                     {
-
                         System.Diagnostics.Debug.WriteLine("[排除程序集]:" + name);
-
-                }
+                    }
 #endif
                 }
 
@@ -93,7 +95,10 @@ public static class DefaultUsing
                         _usingScriptCache.AppendLine($"using {name};");
                     }
                 }
-                UsingScript = _usingScriptCache.ToString();
+                if (autoRebuildScript)
+                {
+                    UsingScript = _usingScriptCache.ToString();
+                }
             }
 
         }
@@ -111,7 +116,7 @@ public static class DefaultUsing
     /// 添加引用
     /// </summary>
     /// <param name="assembly"></param>
-    public static void AddUsing(Assembly assembly)
+    public static void AddUsing(Assembly assembly, bool autoRebuildScript = true)
     {
         try
         {
@@ -147,7 +152,10 @@ public static class DefaultUsing
                     }
 
                 }
-                UsingScript = _usingScriptCache.ToString();
+                if (autoRebuildScript)
+                {
+                    UsingScript = _usingScriptCache.ToString();
+                }
             }
 
         }
@@ -159,11 +167,16 @@ public static class DefaultUsing
         }
     }
 
+    public static void ReBuildUsingScript()
+    {
+        UsingScript = _usingScriptCache.ToString();
+    }
+
     /// <summary>
     /// 添加引用
     /// </summary>
     /// <param name="assemblyName"></param>
-    internal static void AddUsing(AssemblyName assemblyName)
+    internal static void AddUsing(AssemblyName assemblyName,bool autoRebuildScript = true)
     {
         try
         {
@@ -177,8 +190,10 @@ public static class DefaultUsing
 
                         _defaultNamesapce.Add(name);
                         _usingScriptCache.AppendLine($"using {name!};");
-
-                        UsingScript = _usingScriptCache.ToString();
+                        if (autoRebuildScript)
+                        {
+                            UsingScript = _usingScriptCache.ToString();
+                        }
                     }
                 }
 
@@ -211,7 +226,7 @@ public static class DefaultUsing
     /// 移除命名空间
     /// </summary>
     /// <param name="namespace"></param>
-    public static void Remove(string @namespace)
+    public static void Remove(string @namespace, bool autoRebuildScript = true)
     {
         lock (_defaultNamesapce)
         {
@@ -219,11 +234,14 @@ public static class DefaultUsing
             {
                 _defaultNamesapce.Remove(@namespace);
                 _usingScriptCache = _usingScriptCache.Replace($"using {@namespace};{Environment.NewLine}", string.Empty);
-                UsingScript = _usingScriptCache.ToString();
+                if (autoRebuildScript)
+                {
+                    UsingScript = _usingScriptCache.ToString();
+                }
             }
         }
     }
-    public static void Remove(IEnumerable<string> namespaces)
+    public static void Remove(IEnumerable<string> namespaces, bool autoRebuildScript = true)
     {
 
         lock (_defaultNamesapce)
@@ -232,7 +250,10 @@ public static class DefaultUsing
             foreach (var item in namespaces)
             {
                 _usingScriptCache = _usingScriptCache.Replace($"using {item};{Environment.NewLine}", string.Empty);
-                UsingScript = _usingScriptCache.ToString();
+                if (autoRebuildScript)
+                {
+                    UsingScript = _usingScriptCache.ToString();
+                }
             }
         }
 
