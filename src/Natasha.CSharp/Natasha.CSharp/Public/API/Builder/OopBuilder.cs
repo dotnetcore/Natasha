@@ -237,7 +237,8 @@ namespace Natasha.CSharp.Builder
                     name = AssemblyBuilder.SyntaxTrees[0].NamespaceNode(namespaceIndex).GetRecordName(oopIndex);
                     break;
             }
-            return AssemblyBuilder.GetTypeFromShortName(name!);
+            var assembly = AssemblyBuilder.GetAssembly();
+            return assembly.GetTypeFromShortName(name!);
 
         }
 
@@ -245,7 +246,8 @@ namespace Natasha.CSharp.Builder
         {
 
             BuildTree();
-            return AssemblyBuilder.GetTypeFromShortName(NameScript);
+            var assembly = AssemblyBuilder.GetAssembly();
+            return assembly.GetTypeFromShortName(NameScript);
 
         }
 
