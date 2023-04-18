@@ -230,6 +230,14 @@ namespace Workflow.Template.Initialization
                     {
                         var content = File.ReadAllText(templatePath);
                         content = content.Replace("${{name}}", $"name:{item.TemplateName}");
+                        if (item.TemplateDescription == null)
+                        {
+                            content = content.Replace("${{description}}", "");
+                        }
+                        else
+                        {
+                            content = content.Replace("${{description}}", $"description: {item.TemplateDescription}");
+                        }
                         if (item.TitlePrefix == null)
                         {
                             content = content.Replace("${{title}}", "");

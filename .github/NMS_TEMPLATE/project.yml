@@ -16,6 +16,7 @@ ignore_projects:
 issues_template_label_configs:
 - template_name: " \U0001F41E 上报 BUG (Report bug)"
   template_file_name: bug
+  template_description: 烦请您帮助我们进步(Create a report to help us improve).
   title_prefix: '[Bug]: '
   labels:
   - name: bug
@@ -23,6 +24,7 @@ issues_template_label_configs:
     color: d73a4a
 - template_name: " \U0001F4A1 新的想法 (Feature request)"
   template_file_name: feature
+  template_description: 我知道您有一个比较赞的想法想和我说 (Suggest an idea for this project).
   title_prefix: '[Feature]:'
   labels:
   - name: enhancement
@@ -30,6 +32,7 @@ issues_template_label_configs:
     color: a2eeef
 - template_name: " \U0001F4E3 和作者进行灵魂沟通 (Feedback)"
   template_file_name: feedback
+  template_description: 来聊聊咱这个库好在哪里,差在哪里和你的期待在哪里 (Give us general feedback about the repository).
   title_prefix: '[Feedback]:'
   labels:
   - name: feedback

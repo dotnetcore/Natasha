@@ -1,5 +1,5 @@
 ${{name}}
-description: 烦请您帮助我们进步(Create a report to help us improve).
+${{description}}
 ${{title}}
 ${{labels}}
 body:

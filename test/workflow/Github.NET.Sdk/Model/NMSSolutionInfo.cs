@@ -208,6 +208,7 @@
     {
         public string TemplateName { get; set; } = string.Empty;
         public string TemplateFileName { get; set; } = string.Empty;
+        public string? TemplateDescription { get; set; }
         public string? TitlePrefix { get; set; }
         public GithubLabelBase[]? Labels { get; set; }
     }
