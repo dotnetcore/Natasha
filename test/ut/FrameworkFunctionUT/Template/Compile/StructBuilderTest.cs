@@ -23,7 +23,7 @@ namespace FrameworkFunctionUT.Template.Compile
                 .Field(item => { item.Public().Name("Orange").Type<string>(); })
                 .Property(item => { item.Public().Name("Banana").Type<NClass>(); })
                 .GetType();
-            var script = builder.AssemblyBuilder.SyntaxTrees[0].ToString();
+            var script = builder.AssemblyBuilder.Compilation!.SyntaxTrees[0].ToString();
             var expected = @"
 public struct EnumUT1
 {
@@ -50,7 +50,7 @@ public struct EnumUT1
                 .Field(item => { item.AttributeAppend<FieldOffsetAttribute>("0").Public().Name("Apple").Type<int>(); })
                 .Field(item => { item.AttributeAppend<FieldOffsetAttribute>("0").Public().Name("Orange").Type<int>(); })
                 .GetType();
-            var script = builder.AssemblyBuilder.SyntaxTrees[0].ToString();
+            var script = builder.AssemblyBuilder.Compilation!.SyntaxTrees[0].ToString();
             var expected = @"using System.Runtime.InteropServices;
 
 [StructLayout(LayoutKind.Explicit)]

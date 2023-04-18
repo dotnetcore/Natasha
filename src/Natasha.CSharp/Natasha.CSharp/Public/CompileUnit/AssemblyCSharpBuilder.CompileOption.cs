@@ -1,4 +1,5 @@
-﻿using Natasha.CSharp.Compiler;
+﻿using Microsoft.CodeAnalysis.CSharp;
+using Natasha.CSharp.Compiler;
 using System;
 
 /// <summary>
@@ -7,8 +8,8 @@ using System;
 public sealed partial class AssemblyCSharpBuilder 
 {
     private readonly NatashaCSharpCompilerOptions _compilerOptions;
-
-
+    private CSharpCompilation? _compilation;
+    public CSharpCompilation? Compilation { get { return _compilation; } }
     /// <summary>
     /// 配置编译选项. 此方法传入的实例 instance. <br/>
     /// </summary>

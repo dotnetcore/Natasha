@@ -21,9 +21,11 @@ public sealed partial class AssemblyCSharpBuilder
     {
         EnableSemanticHandler = true;
         OutputFolder = GlobalOutputFolder;
-        _compilerOptions = new(); 
-        _semanticAnalysistor = new();
-        _semanticAnalysistor.Add(UsingAnalysistor._usingSemanticDelegate);
+        _compilerOptions = new();
+        _semanticAnalysistor = new()
+        {
+            UsingAnalysistor._usingSemanticDelegate
+        };
         SyntaxTrees = new();
         AssemblyName = assemblyName;
         DllFilePath = string.Empty;

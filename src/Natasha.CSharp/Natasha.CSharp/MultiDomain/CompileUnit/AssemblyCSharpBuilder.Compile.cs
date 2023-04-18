@@ -67,6 +67,45 @@ public sealed partial class AssemblyCSharpBuilder
     public event Action<CSharpCompilation, ImmutableArray<Diagnostic>>? CompileFailedEvent;
 
 
+    public CSharpCompilation GetAvailableCompilation()
+    {
+#if DEBUG
+        Stopwatch stopwatch = new();
+        stopwatch.Start();
+#endif
+
+        //Mark : 26ms
+        if (_compileReferenceBehavior == LoadBehaviorEnum.None)
+        {
+            _compilerOptions.SetSupersedeLowerVersions(true);
+        }
+
+        var options = _compilerOptions.GetCompilationOptions();
+        var references = Domain.GetReferences(_compileReferenceBehavior, _referencePickFunc);
+        if (_referencesFilter != null)
+        {
+            references = _referencesFilter(references);
+        }
+        _compilation = CSharpCompilation.Create(AssemblyName, SyntaxTrees, references, options);
+
+#if DEBUG
+        stopwatch.RestartAndShowCategoreInfo("[Compiler]", "获取编译单元", 2);
+#endif
+
+        if (EnableSemanticHandler)
+        {
+            foreach (var item in _semanticAnalysistor)
+            {
+                _compilation = item(this, _compilation);
+            }
+        }
+
+#if DEBUG
+        stopwatch.StopAndShowCategoreInfo("[Semantic]", "语义处理", 2);
+#endif
+        return _compilation;
+    }
+
     /// <summary>
     /// 将 SyntaxTrees 中的语法树编译到程序集.如果不成功会抛出 NatashaException.
     /// </summary>
@@ -87,47 +126,14 @@ public sealed partial class AssemblyCSharpBuilder
     /// </remarks>
     public Assembly GetAssembly()
     {
+        if (_compilation == null)
+        {
+            _compilation = GetAvailableCompilation();
+        }
 #if DEBUG
         Stopwatch stopwatch = new();
         stopwatch.Start();
 #endif
-
-        //Mark : 26ms
-        if (_compileReferenceBehavior == LoadBehaviorEnum.None)
-        {
-            _compilerOptions.SetSupersedeLowerVersions(true);
-        }
-
-        var options = _compilerOptions.GetCompilationOptions();
-        var references = Domain.GetReferences(_compileReferenceBehavior, _referencePickFunc);
-        if (_referencesFilter != null)
-        {
-            references = _referencesFilter(references);
-        }
-        var compilation = CSharpCompilation.Create(AssemblyName, SyntaxTrees, references, options);
-
-#if DEBUG
-        stopwatch.RestartAndShowCategoreInfo("[Compiler]", "获取编译单元", 2);
-#endif
-
-
-        if (EnableSemanticHandler)
-        {
-            foreach (var item in _semanticAnalysistor)
-            {
-                compilation = item(this, compilation);
-            }
-            lock (SyntaxTrees)
-            {
-                SyntaxTrees.Clear();
-                SyntaxTrees.AddRange(compilation.SyntaxTrees);
-            }
-        }
-
-#if DEBUG
-        stopwatch.RestartAndShowCategoreInfo("[Semantic]", "语义处理", 2);
-#endif
-
         Stream dllStream;
         Stream pdbStream;
         Stream? xmlStream = null;
@@ -154,14 +160,14 @@ public sealed partial class AssemblyCSharpBuilder
             xmlStream = File.Create(XmlFilePath);
         }
 
-        var compileResult = compilation.Emit(
+        var compileResult = _compilation.Emit(
            dllStream,
            pdbStream: pdbStream,
            xmlDocumentationStream: xmlStream,
            options: new EmitOptions(pdbFilePath: PdbFilePath == string.Empty ? null : PdbFilePath, debugInformationFormat: DebugInformationFormat.PortablePdb));
 
 
-        LogCompilationEvent?.Invoke(compilation.GetNatashaLog());
+        LogCompilationEvent?.Invoke(_compilation.GetNatashaLog());
 
         Assembly? assembly = null;
         if (compileResult.Success)
@@ -170,7 +176,7 @@ public sealed partial class AssemblyCSharpBuilder
             pdbStream?.Seek(0, SeekOrigin.Begin);
             Domain.SetAssemblyLoadBehavior(_compileAssemblyBehavior);
             assembly = Domain.LoadAssemblyFromStream(dllStream, pdbStream);
-            CompileSucceedEvent?.Invoke(compilation, assembly!);
+            CompileSucceedEvent?.Invoke(_compilation, assembly!);
         }
         dllStream.Dispose();
         pdbStream?.Dispose();
@@ -182,8 +188,8 @@ public sealed partial class AssemblyCSharpBuilder
 
         if (!compileResult.Success)
         {
-            CompileFailedEvent?.Invoke(compilation, compileResult.Diagnostics);
-            throw NatashaExceptionAnalyzer.GetCompileException(compilation, compileResult.Diagnostics);
+            CompileFailedEvent?.Invoke(_compilation, compileResult.Diagnostics);
+            throw NatashaExceptionAnalyzer.GetCompileException(_compilation, compileResult.Diagnostics);
         }
 
         return assembly!;

@@ -23,7 +23,7 @@ namespace FrameworkFunctionUT.Template.Compile
                 .Field(item => { item.Public().Name("Orange").Type<string>(); })
                 .Property(item => { item.Public().Name("Banana").Type<NClass>(); })
                 .GetType();
-            var script = builder.AssemblyBuilder.SyntaxTrees[0].ToString();
+            var script = builder.AssemblyBuilder.Compilation!.SyntaxTrees[0].ToString();
             var expected = @"
 public class EnumUT1
 {
@@ -57,7 +57,7 @@ public class EnumUT1
                     .Setter("int a = value.ToString().Length;")
                     .Getter("return default;"); })
                 .GetType();
-            var script = builder.AssemblyBuilder.SyntaxTrees[0].ToString();
+            var script = builder.AssemblyBuilder.Compilation!.SyntaxTrees[0].ToString();
             var expected = @"
 /// <summary>
 /// zhushi
@@ -109,7 +109,7 @@ public class EnumUT1
                 .GetType();
 
 
-            var script = builder.AssemblyBuilder.SyntaxTrees[0].ToString();
+            var script = builder.AssemblyBuilder.Compilation!.SyntaxTrees[0].ToString();
             var expected = @"
 public class EnumUT1
 {
@@ -218,7 +218,7 @@ namespace NatashaDynimacSpace
 
                 .NamespaceBodyAppend("public class AnotherClass{}")
                 .GetType();
-            var actual = builder.AssemblyBuilder.SyntaxTrees[0].ToString();
+            var actual = builder.AssemblyBuilder.Compilation!.SyntaxTrees[0].ToString();
             OSStringCompare.Equal(expected, actual);
             Assert.NotNull(type);
         }
