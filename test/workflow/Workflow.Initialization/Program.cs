@@ -135,7 +135,7 @@ namespace Workflow.Template.Initialization
                     result.AppendLine($"  - package-ecosystem: \"{config.Type}\"");
                     result.AppendLine($"    directory: \"{directory}\"");
                     result.AppendLine($"    schedule:");
-                    result.AppendLine($"      interval: \"{config.DependencyUpdateInterval}\"");
+                    result.AppendLine($"      interval: \"{config.Interval}\"");
                     if (config.SpecialTime != null)
                     {
                         result.AppendLine($"      time: \"{config.SpecialTime}\"");

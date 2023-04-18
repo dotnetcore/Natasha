@@ -263,7 +263,7 @@
     public sealed class NMSDependencyConfig
     {
         public string Type { get; set; } = PackageType.Nuget;
-        public string DependencyUpdateInterval { get; set; } = PackageCheckInterval.EveryWorkDay;
+        public string Interval { get; set; } = PackageCheckInterval.EveryWorkDay;
         public string? CommitPrefix { get; set; } = "[DEPENDENCY]";
         public string? SpecialTime { get; set; }
         public string? SpecialTimeZone { get; set; }

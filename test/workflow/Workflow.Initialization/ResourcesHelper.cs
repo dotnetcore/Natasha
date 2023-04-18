@@ -139,7 +139,7 @@ internal static class ResourcesHelper
                  DependencyConfig = new NMSDependencyConfig()
                  {
                       Type = PackageType.GithubAction,
-                      DependencyUpdateInterval = PackageCheckInterval.EveryMonth,
+                      Interval = PackageCheckInterval.EveryMonth,
                       SpecialTime = "05:00",
                       SpecialTimeZone = PackageTriggerTimeZone.HaErBing,
                       CommitPrefix ="[ACTION UPDATE]",

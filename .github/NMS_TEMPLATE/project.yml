@@ -52,7 +52,7 @@ action:
     labels: 
     dependency_config:
       type: github-actions
-      dependency_update_interval: monthly
+      interval: monthly
       commit_prefix: '[DEPENDENCY ACTION]'
       special_time: 05:00
       special_time_zone: Asia/Harbin
@@ -68,7 +68,7 @@ action:
     labels: 
     dependency_config:
       type: github-actions
-      dependency_update_interval: monthly
+      interval: monthly
       commit_prefix: '[DEPENDENCY ACTION]'
       special_time: 05:00
       special_time_zone: Asia/Harbin
@@ -103,7 +103,7 @@ src:
     labels: 
     dependency_config:
       type: nuget
-      dependency_update_interval: daily
+      interval: daily
       commit_prefix: '[DEPENDENCY SRC]'
       special_time: 
       special_time_zone: 
@@ -125,7 +125,7 @@ src:
     labels: 
     dependency_config:
       type: nuget
-      dependency_update_interval: daily
+      interval: daily
       commit_prefix: '[DEPENDENCY SRC]'
       special_time: 
       special_time_zone: 
@@ -147,7 +147,7 @@ src:
     labels: 
     dependency_config:
       type: nuget
-      dependency_update_interval: daily
+      interval: daily
       commit_prefix: '[DEPENDENCY SRC]'
       special_time: 
       special_time_zone: 
@@ -186,7 +186,7 @@ test:
     labels: 
     dependency_config:
       type: nuget
-      dependency_update_interval: weekly
+      interval: weekly
       commit_prefix: '[DEPENDENCY TEST]'
       special_time: 
       special_time_zone: 
