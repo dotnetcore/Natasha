@@ -5,7 +5,7 @@ on:
     branches:
       - 'main'
     paths:
-      - '.github/NMS_TEMPLATE/project.yml'
+      - '.github/project.yml'
 
 concurrency:
   group: ci-label-issue
