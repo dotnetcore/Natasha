@@ -220,9 +220,9 @@ namespace Workflow.Template.Initialization
 
         private static void UpdateIssueTempalate(NMSSolutionInfo solutionInfo)
         {
-            if (solutionInfo.IssuesTemplateLabelConfigs!=null)
+            if (solutionInfo.IssuesTemplateConfigs!=null)
             {
-                foreach (var item in solutionInfo.IssuesTemplateLabelConfigs)
+                foreach (var item in solutionInfo.IssuesTemplateConfigs)
                 {
                     var templatePath = Path.Combine(ResourcesHelper.CurrentNMSTemplateRoot, $"{item.TemplateFileName}.issue.template");
                     var configPath = Path.Combine(ResourcesHelper.CurrentISSUETemplateRoot, $"{item.TemplateFileName}.yml");

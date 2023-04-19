@@ -13,7 +13,7 @@ ignore_projects:
 - test/ut/PluginLibraries/Plugin1
 - test/ut/PluginLibraries/Plugin2
 - test/ut/PluginLibraries/PluginBase
-issues_template_label_configs:
+issues_template_configs:
 - template_name: " \U0001F41E 上报 BUG (Report bug)"
   template_file_name: bug
   template_description: 烦请您帮助我们进步(Create a report to help us improve).

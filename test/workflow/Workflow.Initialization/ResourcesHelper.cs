@@ -88,12 +88,12 @@ internal static class ResourcesHelper
         var files = Directory.GetFiles(CurrentNMSTemplateRoot,"*.issue.template");
         if (files.Length > 0)
         {
-            solutionInfo.IssuesTemplateLabelConfigs = new NMSIssueTemplateLabelsConfig[files.Length];
+            solutionInfo.IssuesTemplateConfigs = new NMSIssueTemplateConfig[files.Length];
             for (int i = 0; i < files.Length; i++)
             {
                 var fileName = Path.GetFileNameWithoutExtension(files[i]);
                 fileName = fileName.Substring(0, fileName.Length - 6);
-                solutionInfo.IssuesTemplateLabelConfigs[i] = new NMSIssueTemplateLabelsConfig() { TemplateFileName = fileName };
+                solutionInfo.IssuesTemplateConfigs[i] = new NMSIssueTemplateConfig() { TemplateFileName = fileName };
             }
         }
 

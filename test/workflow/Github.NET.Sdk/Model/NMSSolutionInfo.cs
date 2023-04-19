@@ -4,7 +4,7 @@
     public sealed class NMSSolutionInfo
     {
         public HashSet<string>? IgnoreProjects { get; set; }
-        public NMSIssueTemplateLabelsConfig[]? IssuesTemplateLabelConfigs { get; set; }
+        public NMSIssueTemplateConfig[]? IssuesTemplateConfigs { get; set; }
         public WrapperNMSProjectInfo<NMSActionProjectInfo>? Action { get; set; }
         public WrapperNMSProjectInfo<NMSSamplesProjectInfo>? Samples { get; set; }
         public WrapperNMSProjectInfo<NMSSrcProjectInfo>? Src { get; set; }
@@ -12,17 +12,17 @@
         public WrapperNMSProjectInfo<NMSWorkflowProjectInfo>? Workflow { get; set; }
         public void UpdateFrom(NMSSolutionInfo oldInfo)
         {
-            if (IssuesTemplateLabelConfigs != null)
+            if (IssuesTemplateConfigs != null)
             {
-                if (oldInfo.IssuesTemplateLabelConfigs != null)
+                if (oldInfo.IssuesTemplateConfigs != null)
                 {
-                    var issuesTemplate = oldInfo.IssuesTemplateLabelConfigs.ToDictionary(item => item.TemplateFileName, item => item);
-                    for (int i = 0; i < IssuesTemplateLabelConfigs.Length; i += 1)
+                    var issuesTemplate = oldInfo.IssuesTemplateConfigs.ToDictionary(item => item.TemplateFileName, item => item);
+                    for (int i = 0; i < IssuesTemplateConfigs.Length; i += 1)
                     {
-                        var key = IssuesTemplateLabelConfigs[i].TemplateFileName;
+                        var key = IssuesTemplateConfigs[i].TemplateFileName;
                         if (issuesTemplate.ContainsKey(key))
                         {
-                            IssuesTemplateLabelConfigs[i] = issuesTemplate[key];
+                            IssuesTemplateConfigs[i] = issuesTemplate[key];
                         }
                     }
                 }
@@ -65,11 +65,11 @@
         public IEnumerable<GithubLabelBase> GetAllLabels()
         {
             Dictionary<string, GithubLabelBase> cache = new();
-            if (IssuesTemplateLabelConfigs != null)
+            if (IssuesTemplateConfigs != null)
             {
-                for (int i = 0; i < IssuesTemplateLabelConfigs.Length; i += 1)
+                for (int i = 0; i < IssuesTemplateConfigs.Length; i += 1)
                 {
-                    var labels = IssuesTemplateLabelConfigs[i].Labels;
+                    var labels = IssuesTemplateConfigs[i].Labels;
                     if (labels != null)
                     {
                         foreach (var label in labels)
@@ -204,7 +204,7 @@
 
     }
 
-    public sealed class NMSIssueTemplateLabelsConfig
+    public sealed class NMSIssueTemplateConfig
     {
         public string TemplateName { get; set; } = string.Empty;
         public string TemplateFileName { get; set; } = string.Empty;
