@@ -19,8 +19,6 @@ public static class NatashaReferencePathsHelper
         IEnumerable<string>? paths = null;
         try
         {
-            //Console.WriteLine(1);
-            //Console.ReadKey();
             paths = DependencyContext.Default?
             .CompileLibraries.SelectMany(cl => cl.ResolveReferencePaths().Where(asmPath =>
             {
@@ -29,7 +27,6 @@ public static class NatashaReferencePathsHelper
                     //#ISSUE:178
                     using var peStream = File.OpenRead(asmPath);
                     PEReader pEReader = new PEReader(peStream);
-                    PEReader pEReader2 = pEReader;
                     if (!pEReader.HasMetadata)
                     {
                         return false;
@@ -42,8 +39,6 @@ public static class NatashaReferencePathsHelper
                     return false;
                 }
             }));
-            //Console.WriteLine(2);
-            //Console.ReadKey();
         }
         catch
         {

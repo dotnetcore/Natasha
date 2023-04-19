@@ -50,7 +50,7 @@ public sealed partial class AssemblyCSharpBuilder
         {
             foreach (var item in _semanticAnalysistor)
             {
-                _compilation = item(this, _compilation);
+                _compilation = item(this, _compilation, _semanticCheckIgnoreAccessibility);
             }
         }
 

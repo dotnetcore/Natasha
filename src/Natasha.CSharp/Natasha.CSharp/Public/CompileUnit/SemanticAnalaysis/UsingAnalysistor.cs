@@ -10,11 +10,11 @@ namespace Natasha.CSharp.Compiler.SemanticAnalaysis
 {
     internal static class UsingAnalysistor
     {
-        internal static readonly Func<AssemblyCSharpBuilder, CSharpCompilation, CSharpCompilation> _usingSemanticDelegate;
+        internal static readonly Func<AssemblyCSharpBuilder, CSharpCompilation, bool, CSharpCompilation> _usingSemanticDelegate;
         static UsingAnalysistor()
         {
 
-            _usingSemanticDelegate = (builder, compilation) =>
+            _usingSemanticDelegate = (builder, compilation, ignoreAccessibility) =>
             {
 
                var trees = compilation.SyntaxTrees;
@@ -25,11 +25,13 @@ namespace Natasha.CSharp.Compiler.SemanticAnalaysis
                    stopwatch.Start();
 #endif
                    CompilationUnitSyntax root = tree.GetCompilationUnitRoot();
-                   var semantiModel = compilation.GetSemanticModel(tree);
+                   
+                   SemanticModel semantiModel = compilation.GetSemanticModel(tree, ignoreAccessibility);
 #if DEBUG
                     stopwatch.RestartAndShowCategoreInfo("[Semantic]", "语义节点获取", 3);
 #endif
-                   var errors = semantiModel!.GetDiagnostics();
+                 
+                   var errors = semantiModel.GetDiagnostics();
 #if DEBUG
                    stopwatch.StopAndShowCategoreInfo("[Semantic]", "语义诊断获取", 3);
                    stopwatch.Restart();

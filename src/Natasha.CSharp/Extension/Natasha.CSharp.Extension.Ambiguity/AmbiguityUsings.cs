@@ -4,7 +4,6 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Natasha.CSharp.Builder;
 using Natasha.CSharp.Domain.Utils;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,9 +17,9 @@ namespace Natasha.CSharp.Extension.Ambiguity
         //    _usingsCache = new ConcurrentDictionary<CSharpCompilation, HashSet<string>>();
         //}
 
-        private static CSharpCompilation HandlerCS0104(SyntaxTree syntaxTree, CSharpCompilation compilation,  NatashaUsingCache usings)
+        private static CSharpCompilation HandlerCS0104(SyntaxTree syntaxTree, CSharpCompilation compilation,  NatashaUsingCache usings, bool ignoreAccessibility)
         {
-            var semantiModel = compilation.GetSemanticModel(syntaxTree);
+            var semantiModel = compilation.GetSemanticModel(syntaxTree, ignoreAccessibility);
             var errors = semantiModel.GetDiagnostics();
             if (errors.Length > 0)
             {
@@ -77,15 +76,15 @@ namespace Natasha.CSharp.Extension.Ambiguity
         }
            
 
-        internal static Func<AssemblyCSharpBuilder, CSharpCompilation, CSharpCompilation> OopBuilderCreator<T>(OopBuilder<T> oopBuilder) where T : OopBuilder<T>, new()
+        internal static Func<AssemblyCSharpBuilder, CSharpCompilation, bool, CSharpCompilation> OopBuilderCreator<T>(OopBuilder<T> oopBuilder) where T : OopBuilder<T>, new()
         {
-            return (builder, compilation) =>
+            return (builder, compilation, ignoreAccessibility) =>
             {
 
                 var trees = compilation.SyntaxTrees;
                 foreach (var tree in trees)
                 {
-                    compilation = HandlerCS0104(tree, compilation, oopBuilder.UsingRecorder);
+                    compilation = HandlerCS0104(tree, compilation, oopBuilder.UsingRecorder, ignoreAccessibility);
                 }
                 return compilation;
 
@@ -96,31 +95,31 @@ namespace Natasha.CSharp.Extension.Ambiguity
 
 
 
-        internal static Func<AssemblyCSharpBuilder, CSharpCompilation, CSharpCompilation> MethodBuilderCreator<T>(MethodBuilder<T> methodBuilder) where T : MethodBuilder<T>, new()
+        internal static Func<AssemblyCSharpBuilder, CSharpCompilation, bool, CSharpCompilation> MethodBuilderCreator<T>(MethodBuilder<T> methodBuilder) where T : MethodBuilder<T>, new()
         {
-            return (builder,compilation) =>
+            return (builder,compilation, ignoreAccessibility) =>
             {
 
                 var trees = compilation.SyntaxTrees;
                 foreach (var tree in trees)
                 {
 
-                    compilation = HandlerCS0104(tree, compilation, methodBuilder.OopHandler.UsingRecorder);
+                    compilation = HandlerCS0104(tree, compilation, methodBuilder.OopHandler.UsingRecorder, ignoreAccessibility);
 
                 }
                 return compilation;
 
             };
         }
-        internal static Func<AssemblyCSharpBuilder, CSharpCompilation, CSharpCompilation> NDelegateCreator(NDelegate nDelegate)
+        internal static Func<AssemblyCSharpBuilder, CSharpCompilation, bool,  CSharpCompilation> NDelegateCreator(NDelegate nDelegate)
         {
-            return (builder, compilation) =>
+            return (builder, compilation, ignoreAccessibility) =>
             {
 
                 var trees = compilation.SyntaxTrees;
                 foreach (var tree in trees)
                 {
-                    compilation = HandlerCS0104(tree, compilation, nDelegate.MethodHandler.OopHandler.UsingRecorder);
+                    compilation = HandlerCS0104(tree, compilation, nDelegate.MethodHandler.OopHandler.UsingRecorder, ignoreAccessibility);
                 }
                 return compilation;
 

@@ -14,15 +14,37 @@ using System.IO;
 public sealed partial class AssemblyCSharpBuilder 
 {
 
-    private readonly List<Func<AssemblyCSharpBuilder, CSharpCompilation, CSharpCompilation>> _semanticAnalysistor;
+    private readonly List<Func<AssemblyCSharpBuilder, CSharpCompilation, bool,  CSharpCompilation>> _semanticAnalysistor;
+    private bool _semanticCheckIgnoreAccessibility;
 
-    public AssemblyCSharpBuilder AddSemanticAnalysistor(Func<AssemblyCSharpBuilder, CSharpCompilation, CSharpCompilation> func)
+
+    /// <summary>
+    /// 在语义分析时检测 可访问性问题, 默认分析. 降低性能.
+    /// </summary>
+    /// <returns></returns>
+    public AssemblyCSharpBuilder AnalysisIgnoreAccessibility()
+    {
+        _semanticCheckIgnoreAccessibility= false;
+        return this;
+    }
+
+    /// <summary>
+    /// 不在语义分析时检测 可访问性问题, 可提升性能.
+    /// </summary>
+    /// <returns></returns>
+    public AssemblyCSharpBuilder NotAnalysisIgnoreAccessibility()
+    {
+        _semanticCheckIgnoreAccessibility = true;
+        return this;
+    }
+
+    public AssemblyCSharpBuilder AddSemanticAnalysistor(Func<AssemblyCSharpBuilder, CSharpCompilation, bool, CSharpCompilation> func)
     {
         _semanticAnalysistor.Add(func);
         return this;
     }
 
-    public AssemblyCSharpBuilder RemoveSemanticAnalysistor(Func<AssemblyCSharpBuilder, CSharpCompilation, CSharpCompilation> func)
+    public AssemblyCSharpBuilder RemoveSemanticAnalysistor(Func<AssemblyCSharpBuilder, CSharpCompilation, bool, CSharpCompilation> func)
     {
         _semanticAnalysistor.Remove(func);
         return this;

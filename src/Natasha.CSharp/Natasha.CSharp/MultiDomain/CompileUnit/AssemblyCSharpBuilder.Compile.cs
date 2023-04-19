@@ -21,6 +21,7 @@ public sealed partial class AssemblyCSharpBuilder
     private LoadBehaviorEnum _compileAssemblyBehavior;
     private Func<AssemblyName, AssemblyName, LoadVersionResultEnum>? _referencePickFunc;
     private Func<IEnumerable<MetadataReference>, IEnumerable<MetadataReference>>? _referencesFilter;
+
     /// <summary>
     /// 配置主域及当前域的加载行为, Default 使用主域引用, Custom 使用当前域引用
     /// </summary>
@@ -96,7 +97,7 @@ public sealed partial class AssemblyCSharpBuilder
         {
             foreach (var item in _semanticAnalysistor)
             {
-                _compilation = item(this, _compilation);
+                _compilation = item(this, _compilation, _semanticCheckIgnoreAccessibility);
             }
         }
 
