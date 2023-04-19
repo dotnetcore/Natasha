@@ -15,7 +15,7 @@ namespace Github.NET.Sdk
         {
             CurrentProjectRoot = GetProjectRoot();
             GlobalConfigFile = Path.Combine(CurrentProjectRoot, "Directory.Build.props");
-            ConfigFilePath = Path.Combine(CurrentProjectRoot, ".github", "NMS_TEMPLATE", "project.yml");
+            ConfigFilePath = Path.Combine(CurrentProjectRoot, ".github", "project.yml");
         }
 
 

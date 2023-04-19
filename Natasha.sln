@@ -90,7 +90,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "project", "project", "{DD0B
 		.gitignore = .gitignore
 		CHANGELOG.md = CHANGELOG.md
 		Directory.Build.props = Directory.Build.props
-		.github\NMS_TEMPLATE\project.yml = .github\NMS_TEMPLATE\project.yml
+		.github\project.yml = .github\project.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{CE33F93B-A43E-45F9-86B8-2DA9DF9823B8}"

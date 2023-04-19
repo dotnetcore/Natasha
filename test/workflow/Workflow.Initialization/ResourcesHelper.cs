@@ -26,7 +26,7 @@ internal static class ResourcesHelper
     static ResourcesHelper()
     {
         CurrentProjectRoot = GetProjectRoot();
-        NMSConfigFilePath = Path.Combine(CurrentProjectRoot, ".github", "NMS_TEMPLATE", "project.yml");
+        NMSConfigFilePath = SolutionHelper.ConfigFilePath;
 
         CurrentSrcRoot = Path.Combine(CurrentProjectRoot, "src");
         CurrentUTTestRoot = Path.Combine(CurrentProjectRoot, "test", "ut");
