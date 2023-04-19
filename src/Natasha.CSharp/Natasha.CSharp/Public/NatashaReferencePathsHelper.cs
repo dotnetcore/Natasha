@@ -19,7 +19,8 @@ public static class NatashaReferencePathsHelper
         IEnumerable<string>? paths = null;
         try
         {
-
+            //Console.WriteLine(1);
+            //Console.ReadKey();
             paths = DependencyContext.Default?
             .CompileLibraries.SelectMany(cl => cl.ResolveReferencePaths().Where(asmPath =>
             {
@@ -41,6 +42,8 @@ public static class NatashaReferencePathsHelper
                     return false;
                 }
             }));
+            //Console.WriteLine(2);
+            //Console.ReadKey();
         }
         catch
         {

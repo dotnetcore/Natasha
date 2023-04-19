@@ -25,6 +25,7 @@ namespace NatashaFunctionUT.Compile
 
 
                 builder.SyntaxTrees.Clear();
+                builder.ClearCompilationCache();
                 builder.AssemblyName = "ASDASD2";
                 builder.Add(builder.Domain.UsingRecorder.ToString()+ "namespace TestB{public class B { public B(){ Name=\" World!\"; } public string Name; }}");
                 var assemblyB = builder.GetAssembly();
@@ -32,6 +33,7 @@ namespace NatashaFunctionUT.Compile
                 Assert.NotNull(assemblyB);
 
                 builder.SyntaxTrees.Clear();
+                builder.ClearCompilationCache();
                 builder.AssemblyName = "ASDASD3";
                 builder.Add(builder.Domain.UsingRecorder.ToString()+"public class C { public static string Show(){ return ((new A()).Name+(new B()).Name); } }");
                 var assemblyC = builder.GetAssembly();
