@@ -158,7 +158,8 @@ namespace Natasha.CSharp.Builder
 #endif
             OopHandler.BodyAppend(GetScript());
             AssemblyBuilder.Add(OopHandler.GetScript());
-            return AssemblyBuilder.GetDelegateFromShortName(OopHandler.NameScript, NameScript, DelegateType, target);
+            var assembly = AssemblyBuilder.GetAssembly();
+            return assembly.GetDelegateFromShortName(OopHandler.NameScript, NameScript, DelegateType, target);
 
         }
 
@@ -203,7 +204,8 @@ namespace Natasha.CSharp.Builder
             //Mark : 11M Memory
             OopHandler.BodyAppend(GetScript());
             AssemblyBuilder.Add(OopHandler.GetScript());
-            return AssemblyBuilder.GetDelegateFromShortName<S>(OopHandler.NameScript, NameScript, target);
+            var assembly = AssemblyBuilder.GetAssembly();
+            return assembly.GetDelegateFromShortName<S>(OopHandler.NameScript, NameScript, target);
 
         }
 
