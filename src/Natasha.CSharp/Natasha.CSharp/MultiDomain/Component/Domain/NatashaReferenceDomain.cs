@@ -2,7 +2,7 @@
 using Microsoft.CodeAnalysis;
 using Natasha.CSharp;
 using Natasha.CSharp.Component.Domain;
-using Natasha.CSharp.Domain.Utils;
+using Natasha.CSharp.Using;
 using System;
 using System.Collections.Generic;
 using System.Reflection;

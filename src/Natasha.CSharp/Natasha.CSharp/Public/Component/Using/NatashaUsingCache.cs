@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-namespace Natasha.CSharp.Domain.Utils
+namespace Natasha.CSharp.Using
 {
     /// <summary>
     /// 引用模板

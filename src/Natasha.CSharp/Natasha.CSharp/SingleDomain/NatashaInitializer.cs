@@ -1,14 +1,15 @@
 ﻿#if !MULTI
 using Microsoft.CodeAnalysis;
+using Microsoft.Extensions.DependencyModel;
 using Natasha.CSharp;
+using Natasha.CSharp.Reference;
 using System;
 using System.Collections.Generic;
-using Microsoft.Extensions.DependencyModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using System.IO;
 
 public static class NatashaInitializer
 {

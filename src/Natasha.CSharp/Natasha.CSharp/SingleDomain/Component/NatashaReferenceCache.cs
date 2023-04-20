@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
-namespace Natasha.CSharp
+namespace Natasha.CSharp.Reference
 {
     //与元数据相关
     //数据值与程序集及内存相关

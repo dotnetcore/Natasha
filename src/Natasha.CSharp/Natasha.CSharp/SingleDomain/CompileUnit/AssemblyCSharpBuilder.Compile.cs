@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis.Emit;
 using Natasha.CSharp;
 using Natasha.CSharp.Component.Exception;
 using Natasha.CSharp.Extension.Inner;
+using Natasha.CSharp.Reference;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;

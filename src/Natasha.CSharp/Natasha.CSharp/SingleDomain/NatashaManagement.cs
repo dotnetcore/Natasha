@@ -1,5 +1,5 @@
 ﻿#if !MULTI
-using Natasha.CSharp;
+using Natasha.CSharp.Reference;
 using System;
 using System.Reflection;
 

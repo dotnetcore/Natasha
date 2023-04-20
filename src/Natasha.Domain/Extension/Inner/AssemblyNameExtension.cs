@@ -1,7 +1,7 @@
 ﻿using Natasha.CSharp.Component.Domain;
 using System.Reflection;
 
-namespace Natasha.CSharp.Extension.Inner
+namespace Natasha.Domain.Extension
 {
     public static class AssemblyNameExtension
     {

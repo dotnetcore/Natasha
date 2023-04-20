@@ -2,7 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp;
 using System;
 
-namespace Natasha.CSharp.Core
+namespace Natasha.CSharp.Syntax
 {
     internal static class NatashaCSharpSyntax
     {

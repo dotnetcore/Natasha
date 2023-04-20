@@ -1,7 +1,7 @@
 ﻿#if MULTI
 using Microsoft.CodeAnalysis;
 using Natasha.CSharp.Component.Domain;
-using Natasha.CSharp.Extension.Inner;
+using Natasha.Domain.Extension;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
