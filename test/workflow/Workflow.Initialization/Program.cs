@@ -2,6 +2,7 @@
 using Microsoft.VisualBasic;
 using System;
 using System.Text;
+using System.Text.RegularExpressions;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -17,6 +18,7 @@ namespace Workflow.Template.Initialization
             UpdateUnitTestYML(newSolutionInfo);
             UpdateDependencyYML(newSolutionInfo);
             UpdateCodecovYML(newSolutionInfo);
+            ScannerUsings(newSolutionInfo);
         }
 
 
@@ -163,11 +165,11 @@ namespace Workflow.Template.Initialization
                         foreach (var item in config.Ignore)
                         {
                             result.AppendLine($"      - dependency-name: \"{item.Name}\"");
-                            if (item.Versions!=null)
+                            if (item.Versions != null)
                             {
                                 result.AppendLine($"        versions: [\"{string.Join("\\\",\\\"", item.Versions)}\"]");
                             }
-                            if (item.VersionsType!=null)
+                            if (item.VersionsType != null)
                             {
                                 result.AppendLine($"        update-types: [\"{string.Join("\\\",\\\"", item.VersionsType)}\"]");
                             }
@@ -189,9 +191,9 @@ namespace Workflow.Template.Initialization
       run: dotnet test "./test/ut/UnitTestProject/UnitTestProject.csproj" --nologo -f net6.0 -c Release --collect:"XPlat Code Coverage" --results-directory "./coverage/"
             */
             StringBuilder codecovResult = new StringBuilder();
-            if (solutionInfo.Test!=null)
+            if (solutionInfo.Test != null)
             {
-                if (solutionInfo.Test.Projects!=null)
+                if (solutionInfo.Test.Projects != null)
                 {
                     foreach (var project in solutionInfo.Test.Projects)
                     {
@@ -220,7 +222,7 @@ namespace Workflow.Template.Initialization
 
         private static void UpdateIssueTempalate(NMSSolutionInfo solutionInfo)
         {
-            if (solutionInfo.IssuesTemplateConfigs!=null)
+            if (solutionInfo.IssuesTemplateConfigs != null)
             {
                 foreach (var item in solutionInfo.IssuesTemplateConfigs)
                 {
@@ -244,19 +246,81 @@ namespace Workflow.Template.Initialization
                         }
                         else
                         {
-                            content = content.Replace("${{title}}", $"title: \"{ item.TitlePrefix}\"");
+                            content = content.Replace("${{title}}", $"title: \"{item.TitlePrefix}\"");
                         }
-                        if (item.Labels==null)
+                        if (item.Labels == null)
                         {
                             File.WriteAllText(configPath, content.Replace("${{labels}}", ""));
                         }
                         else
                         {
-                            File.WriteAllText(configPath, content.Replace("${{labels}}", $"labels: [\"{string.Join("\",\"",item.Labels.Select(item=>item.Name))}\"]"));
+                            File.WriteAllText(configPath, content.Replace("${{labels}}", $"labels: [\"{string.Join("\",\"", item.Labels.Select(item => item.Name))}\"]"));
+                        }
+                    }
+                }
+            }
+        }
+
+
+        private static void ScannerUsings(NMSSolutionInfo solutionInfo)
+        {
+            Regex usingReg = new Regex("namespace (?<using>.*?)[;{].*?public.*?(class|struct|enum|interface|record).*?{", RegexOptions.Singleline | RegexOptions.Compiled);
+            if (solutionInfo.Src != null)
+            {
+                if (solutionInfo.Src.Projects != null)
+                {
+                    foreach (var project in solutionInfo.Src.Projects)
+                    {
+
+                        if (project.UsingOutput != null && project.UsingOutput.Enable)
+                        {
+                            var folder = Path.Combine(ResourcesHelper.CurrentProjectRoot, project.ProjectFolder);
+                            var files = Directory.GetFiles(folder, "*.cs", SearchOption.AllDirectories);
+                            StringBuilder usingBuilder = new StringBuilder();
+                            usingBuilder.AppendLine("<Project>");
+                            usingBuilder.AppendLine("\t<ItemGroup Condition=\"'$(ImplicitUsings)' == 'enable' or '$(ImplicitUsings)' == 'true'\">");
+                            HashSet<string> publicUsings = new HashSet<string>();
+                            foreach (var file in files)
+                            {
+                               
+                                var matches = usingReg.Matches(File.ReadAllText(file));
+                                if (matches.Count > 0)
+                                {
+                                    for (int i = 0; i < matches.Count; i++)
+                                    {
+                                        var match = matches[i];
+                                        if (match.Success)
+                                        {
+                                            var captures = match.Groups["using"].Captures;
+                                            for (int j = 0; j < captures.Count; j++)
+                                            {
+                                                publicUsings.Add(captures[j].Value.Trim());
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            if (project.UsingOutput.Ignores != null)
+                            {
+                                publicUsings.ExceptWith(project.UsingOutput.Ignores);
+                            }
+                            foreach (var item in publicUsings)
+                            {
+                                usingBuilder.AppendLine($"\t\t<Using Include=\"{item}\" />");
+                            }
+                            usingBuilder.AppendLine("\t</ItemGroup>");
+                            usingBuilder.AppendLine("</Project>");
+                            var tagetFolder = Path.Combine(folder, "Targets");
+                            if (!Directory.Exists(tagetFolder))
+                            {
+                                Directory.CreateDirectory(tagetFolder);
+                            }
+                            File.WriteAllText(Path.Combine(tagetFolder, "project.usings.targets"), usingBuilder.ToString());
                         }
                     }
                 }
             }
         }
     }
+
 }

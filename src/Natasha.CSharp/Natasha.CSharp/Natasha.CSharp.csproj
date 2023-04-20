@@ -31,11 +31,4 @@
 		<PackageReference Include="System.Reflection.MetadataLoadContext" Version="7.0.0" />
 		<ProjectReference Include="..\..\Natasha.Domain\Natasha.Domain.csproj" />
 	</ItemGroup>
-
-	<ItemGroup Condition="'$(ImplicitUsings)' == 'enable' or '$(ImplicitUsings)' == 'true'">
-		<Using Include="Natasha.CSharp.Builder"/>
-		<Using Include="Natasha.CSharp"/>
-		<Using Include="Natasha.CSharp.Template"/>
-		<Using Include="Natasha.CSharp.Compiler"/>
-	</ItemGroup>
 </Project>

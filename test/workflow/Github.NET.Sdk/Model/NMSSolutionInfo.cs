@@ -237,7 +237,13 @@
 
     public sealed class NMSSrcProjectInfo : NMSProjectInfo
     {
+        public GlobalUsing? UsingOutput { get; set; }
+    }
+    public sealed class GlobalUsing
+    {
+        public bool Enable { get; set; }
 
+        public HashSet<string>? Ignores { get; set; }
     }
     public sealed class NMSActionProjectInfo : NMSProjectInfo
     {

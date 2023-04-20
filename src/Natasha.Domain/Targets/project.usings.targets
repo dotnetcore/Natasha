@@ -1,0 +1,6 @@
+<Project>
+	<ItemGroup Condition="'$(ImplicitUsings)' == 'enable' or '$(ImplicitUsings)' == 'true'">
+		<Using Include="Natasha.CSharp.Component.Domain" />
+		<Using Include="Natasha.Domain.Extension" />
+	</ItemGroup>
+</Project>

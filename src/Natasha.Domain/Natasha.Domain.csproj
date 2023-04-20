@@ -9,8 +9,5 @@
 		<FileVersion>5.0.0.0</FileVersion>
 		<AssemblyVersion>5.0.0.0</AssemblyVersion>
 	</PropertyGroup>
-
-	<ItemGroup Condition="'$(ImplicitUsings)' == 'enable' or '$(ImplicitUsings)' == 'true'">
-		<Using Include="Natasha.CSharp.Component.Domain" />
-	</ItemGroup>
+	
 </Project>
