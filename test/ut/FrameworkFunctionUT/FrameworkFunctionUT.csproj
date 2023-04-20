@@ -8,7 +8,6 @@
 		<ProduceReferenceAssembly>False</ProduceReferenceAssembly>
 		<SignAssembly>True</SignAssembly>
 		<AssemblyOriginatorKeyFile>natasha.snk</AssemblyOriginatorKeyFile>
-		<NoWarn>1701;1702;0168;NETSDK1138;IDE0060;xUnit2000;CS0067;CS8321;CS0649;CS8604;CA1822;CS8618;</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>

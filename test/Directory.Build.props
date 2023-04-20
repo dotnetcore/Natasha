@@ -1,0 +1,11 @@
+<Project>
+
+	<Choose>
+		<When Condition="$(MSBuildProjectFullPath.Contains('$([MSBuild]::NormalizeDirectory('$(SolutionDir)', 'test'))'))">
+			<PropertyGroup>
+				<NoWarn>CS0169;CS8618;CS8002;CS8032;1701;1702;0168;NETSDK1138;IDE0060;xUnit2000;CS0067;CS8321;CS0649;CS8604;CA1822;CS8602;CS1998;</NoWarn>
+			</PropertyGroup>
+		</When>
+	</Choose>
+
+</Project>

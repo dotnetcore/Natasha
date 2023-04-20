@@ -89,7 +89,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "project", "project", "{DD0B
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 		CHANGELOG.md = CHANGELOG.md
-		Directory.Build.props = Directory.Build.props
 		.github\project.yml = .github\project.yml
 	EndProjectSection
 EndProject
@@ -173,6 +172,16 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Workflow.Runner", "test\workflow\Workflow.Runner\Workflow.Runner.csproj", "{71833B8C-733D-4206-8609-0AFD3FD00A3C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Github.NET.Sdk", "test\workflow\Github.NET.Sdk\Github.NET.Sdk.csproj", "{C9FA74F5-B81E-44AB-9D69-21FBB952B643}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D8CE62C4-CDFA-4AAF-9A2B-4D66B2C833E3}"
+	ProjectSection(SolutionItems) = preProject
+		src\Directory.Build.props = src\Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{93D3C54D-6682-4F15-87A0-1F2F67BB61BD}"
+	ProjectSection(SolutionItems) = preProject
+		test\Directory.Build.props = test\Directory.Build.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -376,6 +385,8 @@ Global
 		{EA3C38EB-A78A-476B-BD02-0760328BE017} = {4EC5B87C-1343-4247-8A6A-A63C9BFEFEDD}
 		{71833B8C-733D-4206-8609-0AFD3FD00A3C} = {4EC5B87C-1343-4247-8A6A-A63C9BFEFEDD}
 		{C9FA74F5-B81E-44AB-9D69-21FBB952B643} = {4EC5B87C-1343-4247-8A6A-A63C9BFEFEDD}
+		{D8CE62C4-CDFA-4AAF-9A2B-4D66B2C833E3} = {DD0B729A-C1D5-41E1-AE1B-FE66F4BC651E}
+		{93D3C54D-6682-4F15-87A0-1F2F67BB61BD} = {DD0B729A-C1D5-41E1-AE1B-FE66F4BC651E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3004E730-B231-40FA-B75C-58D7DDE17679}
