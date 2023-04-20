@@ -77,6 +77,12 @@ public sealed partial class AssemblyCSharpBuilder
         return this;
     }
 
+    public AssemblyCSharpBuilder ClearScript()
+    {
+        SyntaxTrees.Clear();
+        return this;
+    }
+
 }
 
 

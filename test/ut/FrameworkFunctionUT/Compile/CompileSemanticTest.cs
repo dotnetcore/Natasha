@@ -12,8 +12,10 @@ namespace FrameworkFunctionUT.Compile
         {
 
             var code = DefaultUsing.UsingScript + "using abcde;public class A{ public string Name;}";
-            AssemblyCSharpBuilder builder = new();
-            builder.EnableSemanticHandler = false;
+            AssemblyCSharpBuilder builder = new()
+            {
+                EnableSemanticHandler = false
+            };
             builder.Add(code);
             //Assert.Equal(DefaultUsing.Count, builder.SyntaxTrees[0].GetCompilationUnitRoot().Usings.Count -1);
 
@@ -33,6 +35,7 @@ namespace FrameworkFunctionUT.Compile
 
             builder.EnableSemanticHandler = true;
             builder.ClearCompilationCache();
+            builder.ClearScript();
             builder.Add(code);
             var succeedAssembly = builder.GetAssembly();
             Assert.NotNull(succeedAssembly);

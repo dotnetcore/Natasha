@@ -5,6 +5,7 @@ using System.Reflection;
 
 public static class NatashaAssemblyExtension
 {
+
     public static Type GetTypeFromShortName(this Assembly assembly, string typeName)
     {
         try
