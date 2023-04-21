@@ -8,7 +8,7 @@ namespace Solution.NET.Sdk.Model
 {
     public sealed class CSharpProjectCollection
     {
-        public CSharpProject? GlobalNode { get; set; }
+        public CSharpProject? GlobalConfig { get; set; }
 
         public List<CSharpProject> Projects { get; set; } = new List<CSharpProject>();
 

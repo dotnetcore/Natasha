@@ -36,7 +36,7 @@ namespace Github.NET.Sdk
             globalNode.PackageName = "Directory.Build.props";
             var globalGroupNode = InternalDeserializeFromFile<PropertyGroup>(globalNode.RelativePath);
             globalGroupNode?.UpdateToCSProject(globalNode);
-            result.GlobalNode = globalNode;
+            result.GlobalConfig = globalNode;
 
             Regex regex = new Regex($"\"(?<name>[\\w\\.\\-_]+?)\",\\s*?\"(?<path>{folderPrefix.Replace("\\","\\\\")}(\\\\[\\w\\.\\-_]+)*?\\.csproj?)\",\\s*?\"{{(?<id>.*?)}}\".*?EndProject", RegexOptions.Singleline);
             var slnContent = File.ReadAllText(SolutionFilePath);
