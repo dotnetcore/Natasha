@@ -305,6 +305,10 @@ namespace Workflow.Initialization.Core
                             }
                         }
                     }
+                    if (publicUsings.Count == 0)
+                    {
+                        continue;
+                    }
                     if (project.UsingOutput.Ignores != null)
                     {
                         publicUsings.ExceptWith(project.UsingOutput.Ignores);

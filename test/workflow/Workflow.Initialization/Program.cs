@@ -23,7 +23,7 @@ namespace Workflow.Template.Initialization
             ConfigRunner.UpdateDependencyYML(newSolutionInfo);
             ConfigRunner.UpdateUnitTestYML(newSolutionInfo);
             ConfigRunner.UpdateIssueTempalate(newSolutionInfo);
-            ConfigRunner.GenPackageId(newSolutionInfo);
+            //ConfigRunner.GenPackageId(newSolutionInfo);
             ConfigRunner.GenUsings(newSolutionInfo);
 
         }
