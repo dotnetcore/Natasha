@@ -318,7 +318,7 @@ namespace Workflow.Initialization.Core
                         usingBuilder.AppendLine($"\t\t<Using Include=\"{item}\" />");
                     }
                     usingBuilder.AppendLine("\t</ItemGroup>");
-                    usingBuilder.AppendLine("</Project>");
+                    usingBuilder.Append("</Project>");
                     var tagetFolder = Path.Combine(folder, "Targets");
                     if (!Directory.Exists(tagetFolder))
                     {
@@ -348,7 +348,7 @@ namespace Workflow.Initialization.Core
                     }
                     else
                     {
-                        projectBuilder.AppendLine("</Project>");
+                        projectBuilder.Append("</Project>");
                         content = csprojContent.Replace("</Project>", "\t"+projectBuilder.ToString());
                     }
                     
