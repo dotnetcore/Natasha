@@ -18,8 +18,8 @@ namespace Natasha.Domain.Extension
         /// <summary>
         /// 根据 loadBehavior 参数比较两个程序集版本
         /// </summary>
-        /// <param name="beforeName">前一个程序集名</param>
-        /// <param name="afterName">后一个程序集名</param>
+        /// <param name="customaryName">客服程序集名</param>
+        /// <param name="defaultName">默认程序集名</param>
         /// <param name="loadBehavior">加载行为</param>
         /// <returns></returns>
         public static LoadVersionResultEnum CompareWithDefault(this AssemblyName customaryName, AssemblyName defaultName, LoadBehaviorEnum loadBehavior)

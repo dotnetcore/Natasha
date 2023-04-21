@@ -151,7 +151,7 @@ namespace Workflow.Runner
                     Assert.Fail(repoId);
                 }
                 NMSGithubSdk.SetGraphSecretByEnvKey("GITHUB_TOKEN");
-                var labels = SolutionHelper.GetSolutionInfo()?.GetAllLabels();
+                var labels = SolutionRecorder.GetNewestSolution().GetAllLabels();
                 if (labels != null && labels.Any())
                 {
                     var labelsWithBlockUser = labels.Append(new GithubLabelBase() { Name = "aaa-block-user", Color = "ff0000", Description = "该标签为屏蔽标签,打上该标签的 ISSUE 作者将被屏蔽." });
@@ -341,7 +341,7 @@ namespace Workflow.Runner
                 }
 
                 NMSGithubSdk.SetGraphSecretByEnvKey("GITHUB_TOKEN");
-                var solutionConfig = SolutionHelper.GetSolutionInfo();
+                var solutionConfig = SolutionRecorder.GetNewestSolution();
                 if (solutionConfig != null)
                 {
                     (var result, string error) = await NMSGithubSdk.AddLabelToPRByFilesAsync(repoId, ownerName, repoName, prId, Convert.ToInt32(prNumber), solutionConfig.ToDictionary());
@@ -352,7 +352,7 @@ namespace Workflow.Runner
                 }
                 else
                 {
-                    Assert.Fail($"未找到 {SolutionHelper.ConfigFilePath} 文件！");
+                    Assert.Fail($"未找到 {SolutionRecorder.ConfigFilePath} 文件！");
                 }
             }
         }
@@ -411,7 +411,7 @@ namespace Workflow.Runner
             if (NMSGithubSdk.JudgeCurrnetWorker("VERSION_SCANNER"))
             {
                 bool isWriteToOutPut = false;
-                var (version, log) = ChangeLogHelper.GetReleaseInfoFromFromFile(ResourcesHelper.ChangeLogFile);
+                var (version, log) = ChangeLogHelper.GetReleaseInfoFromFromFile(SolutionInfo.ChangeLogFile);
                 if (!OperatingSystem.IsWindows())
                 {
                     isWriteToOutPut = await CLIHelper.Output("RELEASE_VERSION", version);

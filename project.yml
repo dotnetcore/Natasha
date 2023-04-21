@@ -101,6 +101,7 @@ src:
       ignores: 
     is_ignored: false
     is_folded: false
+    unique_file_path:
     project_name: Natasha.Domain
     project_folder: src/Natasha.Domain
     labels: 

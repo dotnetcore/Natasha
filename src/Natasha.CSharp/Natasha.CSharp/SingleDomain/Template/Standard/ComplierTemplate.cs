@@ -6,8 +6,7 @@ namespace Natasha.CSharp.Template
 
     public partial class CompilerTemplate<T> : ALinkTemplate<T> where T : CompilerTemplate<T>, new()
     {
-      
-  
+
         #region  Default 默认域创建以及参数
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using NuGet.Versioning;
+﻿using Github.NET.Sdk;
+using NuGet.Versioning;
 using System.Diagnostics;
 using System.Net.Http.Json;
 using System.Runtime.CompilerServices;
@@ -12,8 +13,10 @@ namespace Publish.Helper
 
         static NugetHelper()
         {
-            _nugetClient = new HttpClient();
-            _nugetClient.Timeout = TimeSpan.FromSeconds(60);
+            _nugetClient = new HttpClient
+            {
+                Timeout = TimeSpan.FromSeconds(60)
+            };
 
         }
 
@@ -127,10 +130,10 @@ namespace Publish.Helper
         {
 
             bool result = true;
-            using Process process = new Process();
+            using Process process = new();
             var info = process.StartInfo;
             info.FileName = "dotnet";
-            info.WorkingDirectory = ResourcesHelper.GetProjectRoot();
+            info.WorkingDirectory = SolutionInfo.Root;
             info.CreateNoWindow = true;
             info.UseShellExecute = false;
             info.RedirectStandardOutput = true;
@@ -171,10 +174,10 @@ namespace Publish.Helper
         public static async ValueTask<bool> PackAsync(string csprojFile,string version)
         {
             bool result = true;
-            using Process process = new Process();
+            using Process process = new();
             var info = process.StartInfo;
             info.FileName = "dotnet";
-            info.WorkingDirectory = ResourcesHelper.GetProjectRoot();
+            info.WorkingDirectory = SolutionInfo.Root;
             info.CreateNoWindow = true;
             info.UseShellExecute = false;
             info.RedirectStandardOutput = true;

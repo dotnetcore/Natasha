@@ -1,4 +1,5 @@
-﻿using NuGet.Versioning;
+﻿using Github.NET.Sdk;
+using NuGet.Versioning;
 using Publish.Helper;
 using System.Text;
 
@@ -17,7 +18,7 @@ namespace Workflow.Nuget.Publish
             var message = new StringBuilder();
             message.AppendLine();
 
-            var (version, log) = ChangeLogHelper.GetReleaseInfoFromFromFile(ResourcesHelper.ChangeLogFile);
+            var (version, log) = ChangeLogHelper.GetReleaseInfoFromFromFile(SolutionInfo.ChangeLogFile);
             if (version!=string.Empty && isWriteEnv)
             {
                 var releaseInfo = ChangeLogHelper.GetReleasePackageInfo(log);
@@ -35,14 +36,14 @@ namespace Workflow.Nuget.Publish
                         message.AppendLine($"\t包名称: {item.Key} ,准备发布版本:{(string.IsNullOrEmpty(item.Value) ? "{空}" : item.Value)};");
                     }
                     message.AppendLine();
-                    var projects = CSProjHelper.GetProjectsFromSrc();
+                    var projectCollection = SolutionInfo.GetCSProjectsByStartFolder("src");
 
-                    if (projects != null)
+                    if (projectCollection != null)
                     {
-                        foreach (var (file, project) in projects)
+                        foreach (var project in projectCollection.Projects)
                         {
-                            var packageAble = project!.PropertyGroup.IsPackable;
-                            var packageName = project!.PropertyGroup.PackageId;
+                            var packageAble = project.IsPackable;
+                            var packageName = project.PackageName;
                             if (packageAble == true && packageName != null)
                             {
                                 if (releasesDict.ContainsKey(packageName))
@@ -53,9 +54,9 @@ namespace Workflow.Nuget.Publish
                                         var latestVersion = await NugetHelper.GetLatestVersionAsync(packageName);
                                         if (latestVersion == null || NuGetVersion.Parse(packageVersion) > latestVersion)
                                         {
-                                            
+                                            var unixFilePath = project.RelativePath.Replace("\\", "/");
                                             //打包并检测该工程能否正常输出 NUGET 包
-                                            var result = await NugetHelper.BuildAsync(file) && await NugetHelper.PackAsync(file, packageVersion);
+                                            var result = await NugetHelper.BuildAsync(unixFilePath) && await NugetHelper.PackAsync(unixFilePath, packageVersion);
                                             if (result)
                                             {
                                                 pushCount += 1;

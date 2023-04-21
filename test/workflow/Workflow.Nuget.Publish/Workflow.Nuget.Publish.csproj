@@ -21,4 +21,8 @@
 		</PackageReference>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\Solution.NET.Sdk\Solution.NET.Sdk.csproj" />
+	</ItemGroup>
+
 </Project>

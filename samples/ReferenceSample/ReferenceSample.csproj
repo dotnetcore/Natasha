@@ -8,12 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\test\workflow\Solution.NET.Sdk\Solution.NET.Sdk.csproj" />
+  </ItemGroup>
+
+  <!--<ItemGroup>
     <PackageReference Include="DotNetCore.Compile.Environment" Version="3.2.0" />
     <PackageReference Include="MySql.EntityFrameworkCore" Version="7.0.0" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\src\Natasha.CSharp\Natasha.CSharp\Natasha.CSharp.csproj" />
-  </ItemGroup>
+  </ItemGroup>-->
 
 </Project>

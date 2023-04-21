@@ -24,7 +24,7 @@
 			</PropertyGroup>
 			
 			<ItemGroup>
-				<PackageReference Include="DotNetCore.SourceLink.Environment" Version="3.2.0" />
+				<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.0" />
 			</ItemGroup>
 			
 			<ItemGroup Condition=" '$(IsPackable)' != 'false'">

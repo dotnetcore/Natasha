@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Github.NET.Sdk;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace Publish.Helper
             using Process process = new Process();
             var info = process.StartInfo;
             info.FileName = "/bin/bash";
-            info.WorkingDirectory = ResourcesHelper.GetProjectRoot();
+            info.WorkingDirectory = SolutionInfo.Root;
             info.CreateNoWindow = true;
             info.UseShellExecute = false;
             info.RedirectStandardOutput = true;
