@@ -1,0 +1,220 @@
+ignore_projects:
+- test/ut/DebugTest/DebugTest.csproj
+- test/ut/FrameworkFunctionUT/FrameworkFunctionUT.csproj
+issues_template_configs:
+- panel_name: " \U0001F41E 上报 BUG (Report bug)"
+  file_name: bug
+  panel_description: 烦请您帮助我们进步(Create a report to help us improve).
+  pull_request_prefix: '[Bug]: '
+  pull_request_labels:
+  - name: bug
+    description: Something isn't working.
+    color: d73a4a
+- panel_name: " \U0001F4A1 新的想法 (Feature request)"
+  file_name: feature
+  panel_description: 我知道您有一个比较赞的想法想和我说 (Suggest an idea for this project).
+  pull_request_prefix: '[Feature]:'
+  pull_request_labels:
+  - name: enhancement
+    description: New feature or request.
+    color: a2eeef
+- panel_name: " \U0001F4E3 和作者进行灵魂沟通 (Feedback)"
+  file_name: feedback
+  panel_description: 来聊聊咱这个库好在哪里,差在哪里和你的期待在哪里 (Give us general feedback about the repository).
+  pull_request_prefix: '[Feedback]:'
+  pull_request_labels:
+  - name: feedback
+    description: Something want to say.
+    color: d4c5f9
+action:
+  folded_projects: 
+  global_labels:
+  - name: pr_action
+    description: 此次提交包含 [Action] 相关的改动.
+    color: 68E0F8
+  projects:
+  - id: 1
+    is_ignored: false
+    is_folded: false
+    relative_path: ''
+    project_name: Action
+    package_name: ''
+    project_folder: .github
+    labels: 
+    dependency_config:
+      type: github-actions
+      interval: monthly
+      commit_prefix: '[DEPENDENCY ACTION]'
+      special_time: 05:00
+      special_time_zone: Asia/Harbin
+      labels:
+      - name: dependencies
+        description: 有依赖需要升级
+        color: 4E04B0
+      ignore: 
+  - id: 2
+    is_ignored: false
+    is_folded: false
+    relative_path: ''
+    project_name: Action Workflow
+    package_name: ''
+    project_folder: .github/workflows
+    labels: 
+    dependency_config:
+      type: github-actions
+      interval: monthly
+      commit_prefix: '[DEPENDENCY ACTION]'
+      special_time: 05:00
+      special_time_zone: Asia/Harbin
+      labels:
+      - name: dependencies
+        description: 有依赖需要升级
+        color: 4E04B0
+      ignore: 
+samples:
+  folded_projects:
+  - samples/PluginSample/PluginSample/PluginSample.csproj
+  - samples/PluginSample/PluginA/PluginA.csproj
+  - samples/PluginSample/PluginB/PluginB.csproj
+  - samples/PluginSample/PluginBase/PluginBase.csproj
+  - samples/ReferenceSample/ReferenceSample.csproj
+  global_labels:
+  - name: pr_samples
+    description: 此次提交包含 [案例工程] 相关的改动.
+    color: 68E0F8
+  projects: []
+src:
+  folded_projects: []
+  global_labels:
+  - name: pr_src
+    description: 此次提交包含 [源码工程] 相关的改动.
+    color: 68E0F8
+  projects:
+  - using_output:
+      enable: true
+      ignores: 
+    id: E9E2DC38-DE80-445C-B2F8-0A7B47D0A44D
+    is_ignored: false
+    is_folded: false
+    relative_path: src/Natasha.Domain/Natasha.Domain.csproj
+    project_name: Natasha.Domain
+    package_name: DotNetCore.Natasha.Domain
+    project_folder: src/Natasha.Domain
+    labels: 
+    dependency_config:
+      type: nuget
+      interval: daily
+      commit_prefix: '[DEPENDENCY SRC]'
+      special_time: 
+      special_time_zone: 
+      labels:
+      - name: dependencies
+        description: 有依赖需要升级
+        color: 4E04B0
+      ignore:
+      - name: System.Reflection.MetadataLoadContext
+        versions: 
+        versions_type: 
+      - name: Microsoft.Extensions.DependencyModel
+        versions: 
+        versions_type: 
+  - using_output:
+      enable: true
+      ignores: 
+    id: B0029058-4D8F-4CA0-A5DF-8DA84F992F2B
+    is_ignored: false
+    is_folded: false
+    relative_path: src/Natasha.CSharp/Extension/Natasha.CSharp.Extension.Ambiguity/Natasha.CSharp.Extension.Ambiguity.csproj
+    project_name: Natasha.CSharp.Extension.Ambiguity
+    package_name: DotNetCore.Natasha.Extension.Ambiguity
+    project_folder: src/Natasha.CSharp/Extension/Natasha.CSharp.Extension.Ambiguity
+    labels: 
+    dependency_config:
+      type: nuget
+      interval: daily
+      commit_prefix: '[DEPENDENCY SRC]'
+      special_time: 
+      special_time_zone: 
+      labels:
+      - name: dependencies
+        description: 有依赖需要升级
+        color: 4E04B0
+      ignore:
+      - name: System.Reflection.MetadataLoadContext
+        versions: 
+        versions_type: 
+      - name: Microsoft.Extensions.DependencyModel
+        versions: 
+        versions_type: 
+  - using_output:
+      enable: true
+      ignores:
+      - System
+      - System.Runtime.CompilerServices
+      - System.Reflection
+    id: 7E92644E-9DA0-493A-B1C6-B0E9E1D1C85B
+    is_ignored: false
+    is_folded: false
+    relative_path: src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj
+    project_name: Natasha.CSharp
+    package_name: DotNetCore.Natasha.CSharp
+    project_folder: src/Natasha.CSharp/Natasha.CSharp
+    labels: 
+    dependency_config:
+      type: nuget
+      interval: daily
+      commit_prefix: '[DEPENDENCY SRC]'
+      special_time: 
+      special_time_zone: 
+      labels:
+      - name: dependencies
+        description: 有依赖需要升级
+        color: 4E04B0
+      ignore:
+      - name: System.Reflection.MetadataLoadContext
+        versions: 
+        versions_type: 
+      - name: Microsoft.Extensions.DependencyModel
+        versions: 
+        versions_type: 
+test:
+  folded_projects: []
+  global_labels:
+  - name: pr_test
+    description: 此次提交包含 [测试工程] 相关的改动.
+    color: 68E0F8
+  projects:
+  - trigger_pull_request_test: true
+    trigger_codecov: true
+    id: 7EC1DFB6-3332-4A4D-867B-B7C32D2AB0FE
+    is_ignored: false
+    is_folded: false
+    relative_path: test/ut/NatashaFunctionUT/NatashaFunctionUT.csproj
+    project_name: NatashaFunctionUT
+    package_name: NatashaFunctionUT
+    project_folder: test/ut/NatashaFunctionUT
+    labels: 
+    dependency_config:
+      type: nuget
+      interval: weekly
+      commit_prefix: '[DEPENDENCY TEST]'
+      special_time: 
+      special_time_zone: 
+      labels:
+      - name: dependencies
+        description: 有依赖需要升级
+        color: 4E04B0
+      ignore: 
+workflow:
+  folded_projects:
+  - test/workflow/Workflow.Initialization/Workflow.Initialization.csproj
+  - test/workflow/Workflow.Nuget.Publish/Workflow.Nuget.Publish.csproj
+  - test/workflow/Workflow.Runner/Workflow.Runner.csproj
+  - test/workflow/Github.NET.Sdk/Github.NET.Sdk.csproj
+  - test/workflow/Solution.NET.Sdk/Solution.NET.Sdk.csproj
+  - test/workflow/Github.NMSAcion.NET.Sdk/Github.NMSAcion.NET.Sdk.csproj
+  global_labels:
+  - name: pr_workflow
+    description: 此次提交包含 [管道功能] 相关的改动.
+    color: 68E0F8
+  projects: []

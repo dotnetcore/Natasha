@@ -8,9 +8,6 @@
 		<Using Include="Natasha.CSharp.Compiler" />
 		<Using Include="Natasha.CSharp.Using" />
 		<Using Include="Natasha.CSharp.Reverser" />
-		<Using Include="System" />
 		<Using Include="Natasha.Template" />
-		<Using Include="System.Runtime.CompilerServices" />
-		<Using Include="System.Reflection" />
 	</ItemGroup>
 </Project>

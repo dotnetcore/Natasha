@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFrameworks>netstandard2.0;netcoreapp3.1;net5.0;net6.0;net7.0;</TargetFrameworks>
 		<Description>CS0104 问题处理扩展</Description>
-		<PackageId>Natasha.CSharp.Extension.Ambiguity</PackageId>
+		<PackageId>DotNetCore.Natasha.Extension.Ambiguity</PackageId>
 		<PackageReleaseNotes>升级到最新版.</PackageReleaseNotes>
 		<Version>1.0.0.1</Version>
 		<PackageTags>Roslyn;IL;Script;Dynamic;Natasha;NMS;CS0104;</PackageTags>
@@ -13,7 +13,24 @@
 
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\Natasha.CSharp\Natasha.CSharp.csproj" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="build\netstandard2.0\DotNetCore.Natasha.Extension.Ambiguity.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildTransitive\netstandard2.0\DotNetCore.Natasha.Extension.Ambiguity.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildMultiTargeting\netstandard2.0\DotNetCore.Natasha.Extension.Ambiguity.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="build\netcoreapp3.1\DotNetCore.Natasha.Extension.Ambiguity.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildTransitive\netcoreapp3.1\DotNetCore.Natasha.Extension.Ambiguity.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildMultiTargeting\netcoreapp3.1\DotNetCore.Natasha.Extension.Ambiguity.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="build\net5.0\DotNetCore.Natasha.Extension.Ambiguity.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildTransitive\net5.0\DotNetCore.Natasha.Extension.Ambiguity.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildMultiTargeting\net5.0\DotNetCore.Natasha.Extension.Ambiguity.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="build\net6.0\DotNetCore.Natasha.Extension.Ambiguity.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildTransitive\net6.0\DotNetCore.Natasha.Extension.Ambiguity.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildMultiTargeting\net6.0\DotNetCore.Natasha.Extension.Ambiguity.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="build\net7.0\DotNetCore.Natasha.Extension.Ambiguity.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildTransitive\net7.0\DotNetCore.Natasha.Extension.Ambiguity.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildMultiTargeting\net7.0\DotNetCore.Natasha.Extension.Ambiguity.targets" />
 	</ItemGroup>
 
+
+
 </Project>
+

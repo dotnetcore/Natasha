@@ -37,10 +37,11 @@ public static class SolutionConfigurationExtension
         var oldSolution = LoadFromYml();
         if (oldSolution != null)
         {
+
             oldSolution.ReBuildIgnoreProjects();
-            oldSolution.ReBuildFoldProjects();
-            ignoreProjects = oldSolution.IgnoreProjects;
+            ignoreProjects = new HashSet<string>(oldSolution.IgnoreProjects);
             solutionInfo.IgnoreProjects = oldSolution.IgnoreProjects;
+            oldSolution.ReBuildFoldProjects();
             CombineFoldedProjects(solutionInfo.Src, oldSolution.Src, ignoreProjects);
             CombineFoldedProjects(solutionInfo.Test, oldSolution.Test, ignoreProjects);
             CombineFoldedProjects(solutionInfo.Workflow, oldSolution.Workflow, ignoreProjects);
@@ -90,7 +91,7 @@ public static class SolutionConfigurationExtension
             {
                 var fileName = Path.GetFileNameWithoutExtension(files[i]);
                 fileName = fileName.Substring(0, fileName.Length - 6);
-                solutionInfo.IssuesTemplateConfigs[i] = new IssueTemplateConfiguration() { TemplateFileName = fileName };
+                solutionInfo.IssuesTemplateConfigs[i] = new IssueTemplateConfiguration() { FileName = fileName };
             }
         }
         if (oldSolution != null)
@@ -116,17 +117,11 @@ public static class SolutionConfigurationExtension
             .Projects
             .Where(project =>
             {
-                var shut = !unExpectProjects.Contains(project.RelativePath);
-                if (deepth > 0)
+                var unixPath = project.RelativePath.Replace("\\", "/");
+                var shut = !unExpectProjects.Contains(unixPath);
+                if (deepth!=0)
                 {
-                    if (project.RelativePath.Contains("\\"))
-                    {
-                        shut = shut && project.RelativePath.Split('\\').Length == deepth + 1;
-                    }
-                    else
-                    {
-                        shut = shut && project.RelativePath.Split('/').Length == deepth + 1;
-                    }
+                    shut = shut && unixPath.Split('/').Length == deepth + 1;
                 }
                 return shut;
             }
@@ -151,10 +146,10 @@ public static class SolutionConfigurationExtension
     {
         if (current.IssuesTemplateConfigs != null && old.IssuesTemplateConfigs != null)
         {
-            var issuesTemplateMapper = old.IssuesTemplateConfigs.ToDictionary(item => item.TemplateFileName, item => item);
+            var issuesTemplateMapper = old.IssuesTemplateConfigs.ToDictionary(item => item.FileName, item => item);
             for (int i = 0; i < current.IssuesTemplateConfigs.Length; i += 1)
             {
-                var key = current.IssuesTemplateConfigs[i].TemplateFileName;
+                var key = current.IssuesTemplateConfigs[i].FileName;
                 if (issuesTemplateMapper.ContainsKey(key))
                 {
                     current.IssuesTemplateConfigs[i] = issuesTemplateMapper[key];
@@ -197,7 +192,7 @@ public static class SolutionConfigurationExtension
         {
             for (int i = 0; i < current.IssuesTemplateConfigs.Length; i += 1)
             {
-                var labels = current.IssuesTemplateConfigs[i].TemplatePRLabels;
+                var labels = current.IssuesTemplateConfigs[i].PullRequestLabels;
                 if (labels != null)
                 {
                     foreach (var label in labels)

@@ -26,7 +26,9 @@
             }
             else if(TargetFrameworks!=null)
             {
-                project.TargetFramworks.Add(TargetFrameworks);
+                var targets = TargetFrameworks.Split(";", StringSplitOptions.RemoveEmptyEntries);
+                foreach (var targetFramework in targets) { project.TargetFramworks.Add(targetFramework); }
+               
             }
             if (project.PackageName == null)
             {

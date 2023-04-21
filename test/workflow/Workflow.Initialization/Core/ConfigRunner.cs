@@ -45,35 +45,35 @@ namespace Workflow.Initialization.Core
             {
                 foreach (var item in solutionInfo.IssuesTemplateConfigs)
                 {
-                    var templatePath = Path.Combine(NMSTemplateRoot, $"{item.TemplateFileName}.issue.template");
+                    var templatePath = Path.Combine(NMSTemplateRoot, $"{item.FileName}.issue.template");
                     if (File.Exists(templatePath))
                     {
-                        var configPath = Path.Combine(IssueTemplateRoot, $"{item.TemplateFileName}.yml");
+                        var configPath = Path.Combine(IssueTemplateRoot, $"{item.FileName}.yml");
                         var content = File.ReadAllText(templatePath);
-                        content = content.Replace("${{name}}", $"name:{item.TemplatePanelName}");
-                        if (item.TemplatePanelDescription == null)
+                        content = content.Replace("${{name}}", $"name:{item.PanelName}");
+                        if (item.PanelDescription == null)
                         {
                             content = content.Replace("${{description}}", "");
                         }
                         else
                         {
-                            content = content.Replace("${{description}}", $"description: {item.TemplatePanelDescription}");
+                            content = content.Replace("${{description}}", $"description: {item.PanelDescription}");
                         }
-                        if (item.TemplatePRPrefix == null)
+                        if (item.PullRequestPrefix == null)
                         {
                             content = content.Replace("${{title}}", "");
                         }
                         else
                         {
-                            content = content.Replace("${{title}}", $"title: \"{item.TemplatePRPrefix}\"");
+                            content = content.Replace("${{title}}", $"title: \"{item.PullRequestPrefix}\"");
                         }
-                        if (item.TemplatePRLabels == null)
+                        if (item.PullRequestLabels == null)
                         {
                             File.WriteAllText(configPath, content.Replace("${{labels}}", ""));
                         }
                         else
                         {
-                            File.WriteAllText(configPath, content.Replace("${{labels}}", $"labels: [\"{string.Join("\",\"", item.TemplatePRLabels.Select(item => item.Name))}\"]"));
+                            File.WriteAllText(configPath, content.Replace("${{labels}}", $"labels: [\"{string.Join("\",\"", item.PullRequestLabels.Select(item => item.Name))}\"]"));
                         }
                     }
                 }
@@ -266,7 +266,7 @@ namespace Workflow.Initialization.Core
             var collection = SolutionInfo.GetCSProjectsByStartFolder("src");
             var projectMapper = collection.Projects.ToDictionary(item => item.Id, item => item);
             Regex usingReg = new Regex("namespace (?<using>.*?)[;{].*?public.*?(class|struct|enum|interface|record).*?{", RegexOptions.Singleline | RegexOptions.Compiled);
-            Regex buildReg = new Regex("<ItemGroup>.*?<None Include=\"Targets\\\\project.usings.targets\".*?</ItemGroup>", RegexOptions.Singleline | RegexOptions.Compiled);
+            Regex buildReg = new Regex("<ItemGroup>.*?<None Include=\"Targets\\\\Project.Usings.targets\".*?</ItemGroup>", RegexOptions.Singleline | RegexOptions.Compiled);
             
             foreach (var project in solutionInfo.Src.Projects)
             {
@@ -327,12 +327,12 @@ namespace Workflow.Initialization.Core
                     var csProjFilePath = Path.Combine(SolutionInfo.Root, nodeInfo.RelativePath);
                     var csprojContent = File.ReadAllText(csProjFilePath);
                     StringBuilder projectBuilder = new StringBuilder();
-                    projectBuilder.AppendLine($"\t<ItemGroup>");
+                    projectBuilder.AppendLine($"<ItemGroup>");
 
                     foreach (var item in nodeInfo.TargetFramworks)
                     {
                         projectBuilder.AppendLine($"\t\t<None Include=\"Targets\\Project.Usings.targets\" Pack=\"true\" PackagePath=\"build\\{item}\\{nodeInfo.PackageName}.targets\" />");
-                        projectBuilder.AppendLine($"\t\t<None Include=\"Targets\\Project.Usings.targets\" Pack=\"true\" PackagePath=\"buildTransitive\\{item}\\{nodeInfo.PackageName}\" />/>");
+                        projectBuilder.AppendLine($"\t\t<None Include=\"Targets\\Project.Usings.targets\" Pack=\"true\" PackagePath=\"buildTransitive\\{item}\\{nodeInfo.PackageName}.targets\" />");
                         projectBuilder.AppendLine($"\t\t<None Include=\"Targets\\Project.Usings.targets\" Pack=\"true\" PackagePath=\"buildMultiTargeting\\{item}\\{nodeInfo.PackageName}.targets\" />");
                     }
                     projectBuilder.AppendLine($"\t</ItemGroup>");
@@ -344,8 +344,8 @@ namespace Workflow.Initialization.Core
                     }
                     else
                     {
-                        projectBuilder.AppendLine("</project>");
-                        content = content.Replace("</project>", projectBuilder.ToString());
+                        projectBuilder.AppendLine("</Project>");
+                        content = csprojContent.Replace("</Project>", "\t"+projectBuilder.ToString());
                     }
                     
                     File.WriteAllText(csProjFilePath, content);
@@ -375,7 +375,7 @@ namespace Workflow.Initialization.Core
                 var file = Path.Combine(SolutionInfo.Root, nodeInfo.RelativePath);
                 var csprojContent = File.ReadAllText(file);
                 var match = buildReg.Match(csprojContent);
-                var newPackageId = $"\t<PackageId>{project.PackageName}</PackageId>";
+                var newPackageId = $"<PackageId>{project.PackageName}</PackageId>";
                 var content = string.Empty;
                 if (match.Success)
                 {
@@ -384,7 +384,7 @@ namespace Workflow.Initialization.Core
                 else
                 {
                     newPackageId+="\r\n\t</PropertyGroup>";
-                    content = content.Replace("</PropertyGroup>", newPackageId);
+                    content = csprojContent.Replace("</PropertyGroup>", "\t"+newPackageId);
                 }
                 File.WriteAllText(file, content);
 

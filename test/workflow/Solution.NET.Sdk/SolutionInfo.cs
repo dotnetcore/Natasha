@@ -25,20 +25,20 @@ namespace Github.NET.Sdk
         }
 
 
-        public static CSharpProjectCollection GetCSProjectsByStartFolder(string folderPreix)
+        public static CSharpProjectCollection GetCSProjectsByStartFolder(string folderPrefix)
         {
             var result = new CSharpProjectCollection();
            
             var globalNode = new CSharpProject();
             globalNode.ProjectName = "Directory.Build.props";
             globalNode.RelativePath = Path.Combine(CurrentSrcProject, "Directory.Build.props");
-            globalNode.RelativeFolder = "src/";
+            globalNode.RelativeFolder = folderPrefix;
             globalNode.PackageName = "Directory.Build.props";
             var globalGroupNode = InternalDeserializeFromFile<PropertyGroup>(globalNode.RelativePath);
             globalGroupNode?.UpdateToCSProject(globalNode);
             result.GlobalNode = globalNode;
 
-            Regex regex = new Regex("\"(?<name>[\\w\\.\\-_]+?)\",\\s*?\"(?<path>src(\\\\[\\w\\.\\-_]+)*?\\.csproj?)\",\\s*?\"{(?<id>.*?)}\".*?EndProject", RegexOptions.Singleline);
+            Regex regex = new Regex($"\"(?<name>[\\w\\.\\-_]+?)\",\\s*?\"(?<path>{folderPrefix.Replace("\\","\\\\")}(\\\\[\\w\\.\\-_]+)*?\\.csproj?)\",\\s*?\"{{(?<id>.*?)}}\".*?EndProject", RegexOptions.Singleline);
             var slnContent = File.ReadAllText(SolutionFilePath);
             var matches = regex.Matches(slnContent);
             if (matches.Count>0)

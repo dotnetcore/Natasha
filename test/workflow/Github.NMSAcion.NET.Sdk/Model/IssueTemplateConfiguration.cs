@@ -9,10 +9,10 @@ namespace Github.NMSAcion.NET.Sdk.Model
 {
     public sealed class IssueTemplateConfiguration
     {
-        public string TemplatePanelName { get; set; } = string.Empty;
-        public string TemplateFileName { get; set; } = string.Empty;
-        public string? TemplatePanelDescription { get; set; }
-        public string? TemplatePRPrefix { get; set; }
-        public GithubLabelBase[]? TemplatePRLabels { get; set; }
+        public string PanelName { get; set; } = string.Empty;
+        public string FileName { get; set; } = string.Empty;
+        public string? PanelDescription { get; set; }
+        public string? PullRequestPrefix { get; set; }
+        public GithubLabelBase[]? PullRequestLabels { get; set; }
     }
 }
