@@ -22,7 +22,7 @@ jobs:
 
     - name: 📶 Push to Codecov
       if: ${{ needs.prepare_check.outputs.hasCoverageKey == 'true' }}
-      uses: codecov/codecov-action@v3.1.2
+      uses: codecov/codecov-action@v3.1.3
       with:
         token: ${{ secrets.COVERAGE_KEY }}
         directory: ./coverage/
