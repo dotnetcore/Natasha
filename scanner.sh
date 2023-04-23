@@ -1,2 +1,2 @@
 #!/bin/bash
-dotnet run --project "./test/workflow/Workflow.Initialization/Workflow.Initialization.csproj"
+dotnet run -c Release --project "./test/workflow/Workflow.Initialization/Workflow.Initialization.csproj"
