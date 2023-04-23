@@ -205,6 +205,7 @@ test:
         description: 有依赖需要升级
         color: 4E04B0
       ignore: 
+
 workflow:
   folded_projects:
   - test/workflow/Workflow.Initialization/Workflow.Initialization.csproj
