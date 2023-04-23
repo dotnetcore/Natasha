@@ -12,7 +12,6 @@ public sealed partial class AssemblyCSharpBuilder
 {
 
     public readonly List<SyntaxTree> SyntaxTrees;
-
     private CSharpParseOptions? _options;
     /// <summary>
     /// 配置语法树选项
