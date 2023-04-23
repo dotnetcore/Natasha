@@ -1,5 +1,0 @@
-<Project>
-	<ItemGroup Condition="'$(ImplicitUsings)' == 'enable' or '$(ImplicitUsings)' == 'true'">
-		<Using Include="Natasha.CSharp.Extension.Ambiguity" />
-	</ItemGroup>
-</Project>

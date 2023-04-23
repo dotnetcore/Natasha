@@ -265,9 +265,9 @@ namespace Workflow.Initialization.Core
             }
             var collection = SolutionInfo.GetCSProjectsByStartFolder("src");
             var projectMapper = collection.Projects.ToDictionary(item => item.Id, item => item);
-            Regex usingReg = new Regex("namespace (?<using>.*?)[;{].*?public.*?(class|struct|enum|interface|record).*?{", RegexOptions.Singleline | RegexOptions.Compiled);
+            Regex usingReg = new Regex("namespace (?<using>.*?)[;{].*?public[^\\r\\n]*?(class|struct|enum|interface|record).*?{", RegexOptions.Singleline | RegexOptions.Compiled);
             Regex buildReg = new Regex("<ItemGroup>.*?<None Include=\"Targets\\\\Project.Usings.targets\".*?</ItemGroup>", RegexOptions.Singleline | RegexOptions.Compiled);
-            
+
             foreach (var project in solutionInfo.Src.Projects)
             {
                 if (project.UsingOutput != null && project.UsingOutput.Enable)
@@ -282,10 +282,6 @@ namespace Workflow.Initialization.Core
 
 
                     HashSet<string> publicUsings = new HashSet<string>();
-                    StringBuilder usingBuilder = new StringBuilder();
-                    usingBuilder.AppendLine("<Project>");
-                    usingBuilder.AppendLine("\t<ItemGroup Condition=\"'$(ImplicitUsings)' == 'enable' or '$(ImplicitUsings)' == 'true'\">");
-                    
                     foreach (var file in files)
                     {
                         var matches = usingReg.Matches(File.ReadAllText(file));
@@ -305,54 +301,82 @@ namespace Workflow.Initialization.Core
                             }
                         }
                     }
-                    if (publicUsings.Count == 0)
-                    {
-                        continue;
-                    }
-                    if (project.UsingOutput.Ignores != null)
-                    {
-                        publicUsings.ExceptWith(project.UsingOutput.Ignores);
-                    }
-                    foreach (var item in publicUsings)
-                    {
-                        usingBuilder.AppendLine($"\t\t<Using Include=\"{item}\" />");
-                    }
-                    usingBuilder.AppendLine("\t</ItemGroup>");
-                    usingBuilder.Append("</Project>");
+
+
                     var tagetFolder = Path.Combine(folder, "Targets");
                     if (!Directory.Exists(tagetFolder))
                     {
                         Directory.CreateDirectory(tagetFolder);
                     }
-                    File.WriteAllText(Path.Combine(tagetFolder, "Project.Usings.targets"), usingBuilder.ToString());
 
-
-                    var nodeInfo = projectMapper[project.Id];
-                    var csProjFilePath = Path.Combine(SolutionInfo.Root, nodeInfo.RelativePath);
-                    var csprojContent = File.ReadAllText(csProjFilePath);
+                    StringBuilder usingBuilder = new StringBuilder();
                     StringBuilder projectBuilder = new StringBuilder();
-                    projectBuilder.AppendLine($"<ItemGroup>");
-
-                    foreach (var item in nodeInfo.TargetFramworks)
+                    var nodeInfo = projectMapper[project.Id];
+                    string targetFilePath = Path.Combine(tagetFolder, "Project.Usings.targets");
+                    var csProjFilePath = Path.Combine(SolutionInfo.Root, nodeInfo.RelativePath);
+                   
+                    if (publicUsings.Count == 0)
                     {
-                        projectBuilder.AppendLine($"\t\t<None Include=\"Targets\\Project.Usings.targets\" Pack=\"true\" PackagePath=\"build\\{item}\\{nodeInfo.PackageName}.targets\" />");
-                        projectBuilder.AppendLine($"\t\t<None Include=\"Targets\\Project.Usings.targets\" Pack=\"true\" PackagePath=\"buildTransitive\\{item}\\{nodeInfo.PackageName}.targets\" />");
-                        projectBuilder.AppendLine($"\t\t<None Include=\"Targets\\Project.Usings.targets\" Pack=\"true\" PackagePath=\"buildMultiTargeting\\{item}\\{nodeInfo.PackageName}.targets\" />");
+                        if (File.Exists(targetFilePath))
+                        {
+                            File.Delete(targetFilePath);
+                        }
+                        var delCsprojContent = File.ReadAllText(csProjFilePath);
+                        var delCsprojMatch = buildReg.Match(delCsprojContent);
+                        if (delCsprojMatch.Success)
+                        {
+                            var delContent = buildReg
+                                .Replace(delCsprojContent, "")
+                                .Replace("\r\n</Project>", "</Project>")
+                                .Replace("\t</Project>", "</Project>");
+                            File.WriteAllText(csProjFilePath, delContent);
+                        }
+                        
+                        continue;
                     }
-                    projectBuilder.Append($"\t</ItemGroup>");
+                    else
+                    {
+                        usingBuilder.AppendLine("<Project>");
+                        usingBuilder.AppendLine("\t<ItemGroup Condition=\"'$(ImplicitUsings)' == 'enable' or '$(ImplicitUsings)' == 'true'\">");
+                        if (project.UsingOutput.Ignores != null)
+                        {
+                            publicUsings.ExceptWith(project.UsingOutput.Ignores);
+                        }
+                        foreach (var item in publicUsings)
+                        {
+                            usingBuilder.AppendLine($"\t\t<Using Include=\"{item}\" />");
+                        }
+                        usingBuilder.AppendLine("\t</ItemGroup>");
+                        usingBuilder.Append("</Project>");
+
+
+                        projectBuilder.AppendLine($"<ItemGroup>");
+
+                        foreach (var item in nodeInfo.TargetFramworks)
+                        {
+                            projectBuilder.AppendLine($"\t\t<None Include=\"Targets\\Project.Usings.targets\" Pack=\"true\" PackagePath=\"build\\{item}\\{nodeInfo.PackageName}.targets\" />");
+                            projectBuilder.AppendLine($"\t\t<None Include=\"Targets\\Project.Usings.targets\" Pack=\"true\" PackagePath=\"buildTransitive\\{item}\\{nodeInfo.PackageName}.targets\" />");
+                            projectBuilder.AppendLine($"\t\t<None Include=\"Targets\\Project.Usings.targets\" Pack=\"true\" PackagePath=\"buildMultiTargeting\\{item}\\{nodeInfo.PackageName}.targets\" />");
+                        }
+                        projectBuilder.Append($"\t</ItemGroup>");
+
+                    }
+
+                    File.WriteAllText(targetFilePath, usingBuilder.ToString());
+                    var csprojContent = File.ReadAllText(csProjFilePath);
                     var csprojMatch = buildReg.Match(csprojContent);
                     var content = string.Empty;
                     if (csprojMatch.Success)
                     {
                         content = buildReg.Replace(csprojContent, projectBuilder.ToString());
                     }
-                    else
+                    else if (projectBuilder.Length > 0)
                     {
                         projectBuilder.Append("\r\n</Project>");
-                        content = csprojContent.Replace("</Project>", "\t"+projectBuilder.ToString());
+                        content = csprojContent.Replace("</Project>", "\t" + projectBuilder.ToString());
                     }
-                    
                     File.WriteAllText(csProjFilePath, content);
+
 
                 }
             }
@@ -387,8 +411,8 @@ namespace Workflow.Initialization.Core
                 }
                 else
                 {
-                    newPackageId+="\r\n\t</PropertyGroup>";
-                    content = csprojContent.Replace("</PropertyGroup>", "\t"+newPackageId);
+                    newPackageId += "\r\n\t</PropertyGroup>";
+                    content = csprojContent.Replace("</PropertyGroup>", "\t" + newPackageId);
                 }
                 File.WriteAllText(file, content);
 
