@@ -54,7 +54,7 @@ namespace Github.NET.Sdk
                         csProjectNode.RelativePath = match.Groups["path"].Value;
                         csProjectNode.RelativeFolder = Path.GetDirectoryName(csProjectNode.RelativePath)!.Replace("\\", "/");
                         csProjectNode.Id = match.Groups["id"].Value;
-                        var groupNode = InternalDeserializeFromFile<PropertyGroup>(Path.Combine(Root, csProjectNode.RelativePath));
+                        var groupNode = InternalDeserializeFromFile<PropertyGroup>(Path.Combine(Root, csProjectNode.RelativePath.Replace("\\", "/")));
                         if (groupNode!=null)
                         {
                             if (globalGroupNode != null)

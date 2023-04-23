@@ -11,5 +11,9 @@
 		<AssemblyVersion>1.0.0.1</AssemblyVersion>
 	</PropertyGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Natasha.CSharp\Natasha.CSharp.csproj" />
+	</ItemGroup>
+
 </Project>
 
