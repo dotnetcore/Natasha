@@ -31,9 +31,5 @@
 		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildTransitive\net7.0\DotNetCore.Natasha.CSharp.targets" />
 		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildMultiTargeting\net7.0\DotNetCore.Natasha.CSharp.targets" />
 	</ItemGroup>
-
-
-
-
 </Project>
 

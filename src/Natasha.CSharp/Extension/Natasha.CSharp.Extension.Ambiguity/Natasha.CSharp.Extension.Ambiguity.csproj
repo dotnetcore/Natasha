@@ -11,7 +11,6 @@
 		<AssemblyVersion>1.0.0.1</AssemblyVersion>
 	</PropertyGroup>
 
-
 	<ItemGroup>
 		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="build\netstandard2.0\DotNetCore.Natasha.Extension.Ambiguity.targets" />
 		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildTransitive\netstandard2.0\DotNetCore.Natasha.Extension.Ambiguity.targets" />
@@ -29,9 +28,5 @@
 		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildTransitive\net7.0\DotNetCore.Natasha.Extension.Ambiguity.targets" />
 		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildMultiTargeting\net7.0\DotNetCore.Natasha.Extension.Ambiguity.targets" />
 	</ItemGroup>
-
-
-
-
 </Project>
 

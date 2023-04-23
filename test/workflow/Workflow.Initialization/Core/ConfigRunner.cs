@@ -339,7 +339,7 @@ namespace Workflow.Initialization.Core
                         projectBuilder.AppendLine($"\t\t<None Include=\"Targets\\Project.Usings.targets\" Pack=\"true\" PackagePath=\"buildTransitive\\{item}\\{nodeInfo.PackageName}.targets\" />");
                         projectBuilder.AppendLine($"\t\t<None Include=\"Targets\\Project.Usings.targets\" Pack=\"true\" PackagePath=\"buildMultiTargeting\\{item}\\{nodeInfo.PackageName}.targets\" />");
                     }
-                    projectBuilder.AppendLine($"\t</ItemGroup>");
+                    projectBuilder.Append($"\t</ItemGroup>");
                     var csprojMatch = buildReg.Match(csprojContent);
                     var content = string.Empty;
                     if (csprojMatch.Success)
@@ -348,7 +348,7 @@ namespace Workflow.Initialization.Core
                     }
                     else
                     {
-                        projectBuilder.Append("</Project>");
+                        projectBuilder.Append("\r\n</Project>");
                         content = csprojContent.Replace("</Project>", "\t"+projectBuilder.ToString());
                     }
                     

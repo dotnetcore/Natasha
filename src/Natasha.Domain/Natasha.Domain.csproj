@@ -11,7 +11,7 @@
 		<AssemblyVersion>5.0.0.0</AssemblyVersion>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
-
+	
 	<ItemGroup>
 		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="build\netcoreapp3.1\DotNetCore.Natasha.Domain.targets" />
 		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildTransitive\netcoreapp3.1\DotNetCore.Natasha.Domain.targets" />
@@ -26,9 +26,5 @@
 		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildTransitive\net7.0\DotNetCore.Natasha.Domain.targets" />
 		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildMultiTargeting\net7.0\DotNetCore.Natasha.Domain.targets" />
 	</ItemGroup>
-
-
-
-
 </Project>
 
