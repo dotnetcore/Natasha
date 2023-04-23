@@ -42,15 +42,6 @@ updates:
       - dependency-name: "System.Reflection.MetadataLoadContext"
       - dependency-name: "Microsoft.Extensions.DependencyModel"
 
-  - package-ecosystem: "nuget"
-    directory: "test/ut/NatashaFunctionUT"
-    schedule:
-      interval: "weekly"
-    commit-message:
-      prefix: "[DEPENDENCY TEST]"
-    labels:
-      - "dependencies"
-
   - package-ecosystem: "github-actions"
     directory: ".github"
     schedule:
