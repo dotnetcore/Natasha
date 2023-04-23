@@ -194,18 +194,7 @@ test:
     package_name: NatashaFunctionUT
     project_folder: test/ut/NatashaFunctionUT
     labels: 
-    dependency_config:
-      type: nuget
-      interval: weekly
-      commit_prefix: '[DEPENDENCY TEST]'
-      special_time: 
-      special_time_zone: 
-      labels:
-      - name: dependencies
-        description: 有依赖需要升级
-        color: 4E04B0
-      ignore: 
-
+    dependency_config: 
 workflow:
   folded_projects:
   - test/workflow/Workflow.Initialization/Workflow.Initialization.csproj
