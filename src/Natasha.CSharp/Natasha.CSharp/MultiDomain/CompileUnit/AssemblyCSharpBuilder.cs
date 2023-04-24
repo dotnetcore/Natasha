@@ -20,6 +20,7 @@ public sealed partial class AssemblyCSharpBuilder
     public AssemblyCSharpBuilder(string assemblyName)
     {
         EnableSemanticHandler = true;
+        _semanticCheckIgnoreAccessibility = true;
         _compileReferenceBehavior = LoadBehaviorEnum.UseDefault;
         OutputFolder = GlobalOutputFolder;
         _compilerOptions = new();

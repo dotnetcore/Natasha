@@ -20,6 +20,7 @@ public sealed partial class AssemblyCSharpBuilder
     public AssemblyCSharpBuilder(string assemblyName)
     {
         EnableSemanticHandler = true;
+        _semanticCheckIgnoreAccessibility = true;
         OutputFolder = GlobalOutputFolder;
         _compilerOptions = new();
         _semanticAnalysistor = new()

@@ -17,13 +17,14 @@ public sealed partial class AssemblyCSharpBuilder
     private bool _semanticCheckIgnoreAccessibility;
 
 
+
     /// <summary>
     /// 在语义分析时检测 可访问性问题, 默认分析. 降低性能.
     /// </summary>
     /// <returns></returns>
     public AssemblyCSharpBuilder AnalysisIgnoreAccessibility()
     {
-        _semanticCheckIgnoreAccessibility= false;
+        _semanticCheckIgnoreAccessibility = false;
         return this;
     }
 
