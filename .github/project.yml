@@ -84,7 +84,8 @@ samples:
     color: 68E0F8
   projects: []
 src:
-  folded_projects: []
+  folded_projects:
+  - src/Natasha.CSharp/Extension/Natasha.CSharp.Extension.Ambiguity/Natasha.CSharp.Extension.Ambiguity.csproj
   global_labels:
   - name: pr_src
     description: 此次提交包含 [源码工程] 相关的改动.
@@ -101,51 +102,7 @@ src:
     package_name: DotNetCore.Natasha.Domain
     project_folder: src/Natasha.Domain
     labels: 
-    dependency_config:
-      type: nuget
-      interval: daily
-      commit_prefix: '[DEPENDENCY SRC]'
-      special_time: 
-      special_time_zone: 
-      labels:
-      - name: dependencies
-        description: 有依赖需要升级
-        color: 4E04B0
-      ignore:
-      - name: System.Reflection.MetadataLoadContext
-        versions: 
-        versions_type: 
-      - name: Microsoft.Extensions.DependencyModel
-        versions: 
-        versions_type: 
-  - using_output:
-      enable: true
-      ignores: 
-    id: B0029058-4D8F-4CA0-A5DF-8DA84F992F2B
-    is_ignored: false
-    is_folded: false
-    relative_path: src/Natasha.CSharp/Extension/Natasha.CSharp.Extension.Ambiguity/Natasha.CSharp.Extension.Ambiguity.csproj
-    project_name: Natasha.CSharp.Extension.Ambiguity
-    package_name: DotNetCore.Natasha.Extension.Ambiguity
-    project_folder: src/Natasha.CSharp/Extension/Natasha.CSharp.Extension.Ambiguity
-    labels: 
-    dependency_config:
-      type: nuget
-      interval: daily
-      commit_prefix: '[DEPENDENCY SRC]'
-      special_time: 
-      special_time_zone: 
-      labels:
-      - name: dependencies
-        description: 有依赖需要升级
-        color: 4E04B0
-      ignore:
-      - name: System.Reflection.MetadataLoadContext
-        versions: 
-        versions_type: 
-      - name: Microsoft.Extensions.DependencyModel
-        versions: 
-        versions_type: 
+    dependency_config: 
   - using_output:
       enable: true
       ignores:
