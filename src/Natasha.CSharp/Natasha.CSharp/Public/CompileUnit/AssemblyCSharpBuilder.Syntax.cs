@@ -33,6 +33,17 @@ public sealed partial class AssemblyCSharpBuilder
         _options = cSharpParseOptionsAction(new CSharpParseOptions());
         return this;
     }
+
+    /// <summary>
+    /// 脚本前自动拼接全局的 using 引用
+    /// </summary>
+    /// <param name="script">脚本代码</param>
+    /// <returns></returns>
+    public AssemblyCSharpBuilder AddWithDefaultUsing(string script)
+    {
+        return Add(DefaultUsing.UsingScript + script);
+    }
+
     /// <summary>
     /// 添加脚本
     /// </summary>
