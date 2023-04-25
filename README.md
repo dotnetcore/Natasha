@@ -15,8 +15,9 @@
 [![Gitter](https://badges.gitter.im/dotnetcore/natasha.svg)](https://gitter.im/dotnetcore/Natasha?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![Badge](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu/#/zh_CN)
 [![GitHub license](https://img.shields.io/github/license/dotnetcore/natasha.svg)](https://github.com/dotnetcore/Natasha/blob/main/LICENSE)
-
+[![wiki](https://img.shields.io/badge/wiki-ch-blue.svg)](https://natasha.dotnetcore.xyz/)
 &ensp;&ensp;&ensp;&ensp;基于 [Roslyn](https://github.com/dotnet/roslyn) 的 C# 动态程序集构建库，该库允许开发者在运行时使用 C# 代码构建域 / 程序集 / 类 / 结构体 / 枚举 / 接口 / 方法等，使得程序在运行的时候可以增加新的模块及功能。Natasha 集成了域管理/插件管理，可以实现域隔离，域卸载，热拔插等功能。 该库遵循完整的编译流程，提供完整的错误提示， 可自动添加引用，完善的数据结构构建模板让开发者只专注于程序集脚本的编写，兼容 netcoreapp3.0+, 跨平台，统一、简便的链式 API。 且我们会尽快修复您的问题及回复您的 [issue](https://github.com/dotnetcore/Natasha/issues/new).   
+[使用文档](https://natasha.dotnetcore.xyz/zh-Hans/docs/get_started/getting-started) 
 [更多的动图展示](https://github.com/dotnetcore/Natasha/blob/main/docs/zh/gif.md)
 
 ![展示](https://images.gitee.com/uploads/images/2020/1201/161046_e8f52622_1478282.gif)
@@ -26,22 +27,19 @@
 
 ### 类库信息(Library Info)  
  
-[![GitHub commit activity](https://img.shields.io/github/commit-activity/m/dotnetcore/natasha.svg)](https://github.com/dotnetcore/Natasha/commits/main) [![Codecov](https://img.shields.io/codecov/c/github/dotnetcore/natasha.svg)](https://codecov.io/gh/dotnetcore/Natasha) 
+![20](https://img.shields.io/badge/platform-netstandard2.0-blue.svg) 
+![31](https://img.shields.io/badge/platform-netcore3.1-blue.svg) 
+![50](https://img.shields.io/badge/platform-net5.0-blue.svg) 
+![60](https://img.shields.io/badge/platform-net6.0-blue.svg) 
+![70](https://img.shields.io/badge/platform-net7.0-blue.svg)
 
-| Script | .NET Env | Document |
-| ------ | -------- | -------- |  
-| ![Compile](https://img.shields.io/badge/script-csharp-green.svg) | ![20](https://img.shields.io/badge/platform-netstandard2.0-blue.svg) ![31](https://img.shields.io/badge/platform-netcore3.1-blue.svg) ![50](https://img.shields.io/badge/platform-net5.0-blue.svg) ![60](https://img.shields.io/badge/platform-net6.0-blue.svg) ![70](https://img.shields.io/badge/platform-net7.0-blue.svg)| [![wiki](https://img.shields.io/badge/wiki-ch-blue.svg)](https://natasha.dotnetcore.xyz/)  |
+<br/>
+![Compile](https://img.shields.io/badge/script-csharp-green.svg)
+[![GitHub commit activity](https://img.shields.io/github/commit-activity/m/dotnetcore/natasha.svg)](https://github.com/dotnetcore/Natasha/commits/main) 
+[![Codecov](https://img.shields.io/codecov/c/github/dotnetcore/natasha.svg)](https://codecov.io/gh/dotnetcore/Natasha) 
+[![UT Test From PR](https://github.com/dotnetcore/Natasha/actions/workflows/pr_test.yml/badge.svg)](https://github.com/dotnetcore/Natasha/actions/workflows/pr_test.yml)
 
-| CI Platform | Build Server | Main Build  |
-|--------- |--------- |---------|
-| Github |![os](https://img.shields.io/badge/os-all-black.svg)| [![UT Test From PR](https://github.com/dotnetcore/Natasha/actions/workflows/pr_test.yml/badge.svg)](https://github.com/dotnetcore/Natasha/actions/workflows/pr_test.yml) |
-
-<br/>      
-<br/>  
-
-### [使用文档](https://natasha.dotnetcore.xyz/zh-Hans/docs/get_started/getting-started)：   
-
-<br/>  
+<br/>
 <br/>  
 
 ### 性能测试
