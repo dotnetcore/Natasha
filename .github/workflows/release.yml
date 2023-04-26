@@ -53,11 +53,6 @@ jobs:
           exit 1
         fi
         echo "RELEASE_PACK_STRING=${{github.event.repository.name}}_Release_v${{ steps.scanner.outputs.RELEASE_VERSION }}" >> "$GITHUB_OUTPUT"
-        if [ "${{ secrets.COVERAGE_KEY }}" == "" ]; then
-          echo "HAS_COVERAGE_KEY=false" >> $GITHUB_OUTPUT
-        else
-          echo "HAS_COVERAGE_KEY=true" >> $GITHUB_OUTPUT
-        fi
         if [ "${{ secrets.NUGET_KEY }}" == "" ]; then
           echo "HAS_NUGET_KEY=false" >> $GITHUB_OUTPUT
         else
