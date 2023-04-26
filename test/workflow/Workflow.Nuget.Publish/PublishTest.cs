@@ -133,7 +133,7 @@ namespace Workflow.Nuget.Publish
 
             static void ReWriteCsprojVersion(CSharpProject project)
             {
-                var csprojFilePath = Path.Combine(SolutionInfo.Root, project.RelativePath);
+                var csprojFilePath = Path.Combine(SolutionInfo.Root, project.RelativePath.Replace("\\", "/"));
                 var content = File.ReadAllText(csprojFilePath);
                 content = content.Replace("</PropertyGroup>", $"<Version>{project.PackageVersion}</Version></PropertyGroup>");
                 File.WriteAllText(csprojFilePath, content);
