@@ -12,7 +12,7 @@ namespace Publish.Helper
             //###  Nms.Template.Test _ v1.0.0:
             //-初步版本 简单实现 还未优化
             _publishPicker = new Regex("^.*##[^\n#]+?\\[(?<releaseVersion>\\d+.\\d+.\\d+.*?)\\].*?\n(?<result>.*?)$", RegexOptions.Singleline | RegexOptions.Compiled);
-            _packagePicker = new Regex("###(?<name>.*?)_(.*?v(?<version>.*?)|(?<version>.*?)):", RegexOptions.Singleline | RegexOptions.Compiled);
+            _packagePicker = new Regex("###[\\s]*?(?<name>.*?)[\\s]*?_[\\s]*?(v(?<version>.*?)|(?<version>[^\\s]*?))[:：：]", RegexOptions.Compiled);
         }
 
         public static (string version,string log) GetLatestReleaseInfo(string content)
