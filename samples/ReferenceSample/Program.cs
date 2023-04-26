@@ -11,6 +11,7 @@ namespace ReferenceSample
             AssemblyCSharpBuilder builder = new();
             builder.Domain = DomainManagement.Random();
 
+            
 
             builder.AddWithDefaultUsing("public class A { }");
             //此API可以在不用编译的情况下获取到已经格式化好的语法树.
@@ -29,6 +30,7 @@ namespace ReferenceSample
             builder.AddWithDefaultUsing("public static class B{ public static void Show(){ Console.WriteLine(\"HelloWorld!\"); } }");
             
             var assemblyAB = builder.GetAssembly();
+            //var a = assemblyAB.GetName().GetUniqueName();
             ShowAssemblyInfo(assemblyAB);
             ShowSyntaxTree(builder.Compilation!);
 
