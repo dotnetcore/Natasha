@@ -13,8 +13,12 @@
 
   <ItemGroup>
     <PackageReference Include="DotNetCore.Compile.Environment" Version="3.2.0" />
-    <PackageReference Include="DotNetCore.Natasha.CSharp" Version="5.2.0" />
+    <!--<PackageReference Include="DotNetCore.Natasha.CSharp" Version="5.2.0" />-->
     <PackageReference Include="MySql.EntityFrameworkCore" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Natasha.CSharp\Natasha.CSharp\Natasha.CSharp.csproj" />
   </ItemGroup>
 
 </Project>
