@@ -1,28 +1,23 @@
 ﻿#if MULTI
 using System;
-
-namespace Natasha.CSharp.MultiDomain.Extension
+public static class NatashaTypeDomainExtension
 {
-    public static class NatashaTypeDomainExtension
+
+    public static NatashaReferenceDomain GetDomain(this Type type)
     {
 
-
-        public static NatashaReferenceDomain GetDomain(this Type type)
-        {
-
-            return type.Assembly.GetDomain();
-
-        }
-
-
-
-        public static void DisposeDomain(this Type type)
-        {
-
-            type.Assembly.DisposeDomain();
-
-        }
+        return type.Assembly.GetDomain();
 
     }
+
+
+
+    public static void DisposeDomain(this Type type)
+    {
+
+        type.Assembly.DisposeDomain();
+
+    }
+
 }
 #endif

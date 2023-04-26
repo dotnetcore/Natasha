@@ -1,6 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.DependencyModel;
-using Natasha.CSharp;
+using Natasha.CSharp.Component;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Loader;

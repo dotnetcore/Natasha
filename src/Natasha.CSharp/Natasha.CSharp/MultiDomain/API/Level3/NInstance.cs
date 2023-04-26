@@ -1,6 +1,5 @@
 ﻿#if MULTI
 using System;
-using Natasha.CSharp.MultiDomain.Extension;
 
 namespace Natasha.CSharp
 {

@@ -171,7 +171,7 @@ namespace Publish.Helper
         }
 
 
-        public static async ValueTask<bool> PackAsync(string csprojFile,string version)
+        public static async ValueTask<bool> PackAsync(string csprojFile)
         {
             bool result = true;
             using Process process = new();
@@ -206,7 +206,7 @@ namespace Publish.Helper
             };
 
 
-            info.Arguments = $"pack --include-symbols -p:SymbolPackageFormat=snupkg,PackageVersion={version} --nologo --no-build --no-restore -c Release {csprojFile} -o .";
+            info.Arguments = $"pack --include-symbols -p:SymbolPackageFormat=snupkg --nologo --no-build --no-restore -c Release {csprojFile} -o .";
             process.Start();
             process.BeginErrorReadLine();
             process.BeginOutputReadLine();

@@ -27,11 +27,10 @@ jobs:
         fi
 
   codecov:
-    runs-on: ubuntu-latest      
+    runs-on: ubuntu-latest     
     needs: prepare
     steps:
     - uses: actions/checkout@v3
-
 
     - name: 🚦 Check & Pack Codecov - NatashaFunctionUT
       run: dotnet test "./test/ut/NatashaFunctionUT/NatashaFunctionUT.csproj" --nologo -f net6.0 -c Release --collect:"XPlat Code Coverage" --results-directory "./coverage/"

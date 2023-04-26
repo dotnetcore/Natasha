@@ -1,11 +1,10 @@
 ﻿using Microsoft.CodeAnalysis;
-using Natasha.CSharp;
 using PluginBase;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-
+using Natasha.CSharp.Component;
 
 public class ReferencePrepare : DomainPrepare
 {
