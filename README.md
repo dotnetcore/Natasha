@@ -11,14 +11,16 @@
 # Natasha 
 ![Compile](https://img.shields.io/badge/script-csharp-green.svg)
 [![Member project of .NET Core Community](https://img.shields.io/badge/member%20project%20of-NCC-9e20c9.svg)](https://github.com/dotnetcore)
-[![NuGet Badge](https://buildstats.info/nuget/DotNetCore.Natasha.CSharp?includePreReleases=true)](https://www.nuget.org/packages/DotNetCore.Natasha.CSharp)
-[![GitHub commit activity](https://img.shields.io/github/commit-activity/m/dotnetcore/natasha.svg)](https://github.com/dotnetcore/Natasha/commits/main) 
-[![Codecov](https://img.shields.io/codecov/c/github/dotnetcore/natasha.svg)](https://codecov.io/gh/dotnetcore/Natasha) 
-[![UT Test From PR](https://github.com/dotnetcore/Natasha/actions/workflows/pr_test.yml/badge.svg)](https://github.com/dotnetcore/Natasha/actions/workflows/pr_test.yml)
 [![Gitter](https://badges.gitter.im/dotnetcore/natasha.svg)](https://gitter.im/dotnetcore/Natasha?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![Badge](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu/#/zh_CN)
 [![GitHub license](https://img.shields.io/github/license/dotnetcore/natasha.svg)](https://github.com/dotnetcore/Natasha/blob/main/LICENSE)
 [![wiki](https://img.shields.io/badge/wiki-ch-blue.svg)](https://natasha.dotnetcore.xyz/)
+<br/>
+[![NuGet Badge](https://buildstats.info/nuget/DotNetCore.Natasha.CSharp?includePreReleases=true)](https://www.nuget.org/packages/DotNetCore.Natasha.CSharp)
+[![GitHub commit activity](https://img.shields.io/github/commit-activity/m/dotnetcore/natasha.svg)](https://github.com/dotnetcore/Natasha/commits/main) 
+[![Codecov](https://img.shields.io/codecov/c/github/dotnetcore/natasha.svg)](https://codecov.io/gh/dotnetcore/Natasha) 
+[![UT Test From PR](https://github.com/dotnetcore/Natasha/actions/workflows/pr_test.yml/badge.svg)](https://github.com/dotnetcore/Natasha/actions/workflows/pr_test.yml)
+<br/>
 ![20](https://img.shields.io/badge/platform-netstandard2.0-blue.svg) 
 ![31](https://img.shields.io/badge/platform-netcore3.1-blue.svg) 
 ![50](https://img.shields.io/badge/platform-net5.0-blue.svg) 
