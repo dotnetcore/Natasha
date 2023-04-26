@@ -139,13 +139,14 @@ jobs:
         fi
         if [ $RESULT == 0 ]; then
 
-          echo "::debug::exist release package"
+          echo "::debug::no release package"
           echo "不存在 Id ,开始创建 Release v${{env.RELEASE_VERSION}} 包!"
           gh release create v${{env.RELEASE_VERSION}} -F CHANGELOG.md 
 
         else
           
-          echo "::debug::no release package"
+          
+          echo "::debug::exist release package"
           echo "该 Release v${{env.RELEASE_VERSION}} 包已存在!"
           gh release edit v${{env.RELEASE_VERSION}} --notes-file CHANGELOG.md
 
