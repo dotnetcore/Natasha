@@ -12,6 +12,7 @@ concurrency: ci-codecov-${{ github.ref }}
 jobs:
 
   prepare:
+    runs-on: ubuntu-latest
     outputs:
       hasCoverageKey: ${{steps.outter.outputs.HAS_COVERAGE_KEY}}
 
