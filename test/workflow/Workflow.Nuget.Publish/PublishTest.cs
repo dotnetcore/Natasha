@@ -135,7 +135,7 @@ namespace Workflow.Nuget.Publish
             {
                 var csprojFilePath = Path.Combine(SolutionInfo.Root, project.RelativePath.Replace("\\", "/"));
                 var content = File.ReadAllText(csprojFilePath);
-                content = content.Replace("</PropertyGroup>", $"<Version>{project.PackageVersion}</Version></PropertyGroup>");
+                content = content.Replace("</PropertyGroup>", $"<Version>{project.PackageVersion}</Version><FileVersion>{project.PackageVersion}</FileVersion><AssemblyVersion>{project.PackageVersion}</AssemblyVersion></PropertyGroup>");
                 File.WriteAllText(csprojFilePath, content);
             }
         }

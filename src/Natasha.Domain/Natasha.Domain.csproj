@@ -6,8 +6,6 @@
 		<PackageId>DotNetCore.Natasha.Domain</PackageId>
 		<PackageReleaseNotes>升级</PackageReleaseNotes>
 		<PackageTags>Roslyn;IL;Scripte;Dynamic;Natasha;Domain;</PackageTags>
-		<FileVersion>5.1.0.0</FileVersion>
-		<AssemblyVersion>5.1.0.0</AssemblyVersion>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 	

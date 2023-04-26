@@ -19,7 +19,7 @@ Example:
 
 
 ## [5.2.0.0] - 2023-04-26 
-### DotNetCore.Natasha.CSharp _ v5.2.2.0:
+### DotNetCore.Natasha.CSharp _ v5.2.2.1:
 - 使用 NMS Template 接管 CI 的部分功能.
 - 取消 SourceLink.GitHub 的继承性.
 - 优化几处内存占用问题.
@@ -46,10 +46,10 @@ Example:
 > 使用迁移: builder.GetDelegateFromShortName() 更改为 builder.GetAssembly().GetDelegateFromShortName();
 > builder.GetAssembly() 仍然不可多次编译, 请及时缓存结果.
 
-### DotNetCore.Natasha.Domain _ v5.2.0.0:
+### DotNetCore.Natasha.Domain _ v5.2.0.1:
 - 取消 SourceLink.GitHub 的继承性.
 - 增加隐式 using 配置文件以支持隐自动 using 引用.
 
-### DotNetCore.Natasha.Extension.Ambiguity _ v1.0.0.3:
+### DotNetCore.Natasha.Extension.Ambiguity _ v1.0.0.4:
 - 升级依赖
 
