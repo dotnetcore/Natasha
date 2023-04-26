@@ -7,8 +7,8 @@
 		<PackageReleaseNotes>升级到最新版.</PackageReleaseNotes>
 		<PackageTags>Roslyn;IL;Script;Dynamic;Natasha;NMS;</PackageTags>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-		<FileVersion>5.1.0.0</FileVersion>
-		<AssemblyVersion>5.1.0.0</AssemblyVersion>
+		<FileVersion>5.2.0.0</FileVersion>
+		<AssemblyVersion>5.2.0.0</AssemblyVersion>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0' OR '$(TargetFramework)' == 'netcoreapp3.1' OR '$(TargetFramework)' == 'net5.0' OR '$(TargetFramework)' == 'net5.1' OR '$(TargetFramework)' == 'net6.0' OR '$(TargetFramework)' == 'net7.0'">
 		<DefineConstants>MULTI;</DefineConstants>
