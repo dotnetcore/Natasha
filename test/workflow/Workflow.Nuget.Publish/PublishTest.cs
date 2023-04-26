@@ -72,12 +72,12 @@ namespace Workflow.Nuget.Publish
                                         {
                                             var unixFilePath = project.RelativePath.Replace("\\", "/");
                                             //打包并检测该工程能否正常输出 NUGET 包
-                                            //var result = await NugetHelper.BuildAsync(unixFilePath) && await NugetHelper.PackAsync(unixFilePath);
-                                            //if (result)
-                                            //{
-                                            //    pushCount += 1;
-                                            //    Assert.True(result);
-                                            //}
+                                            var result = await NugetHelper.BuildAsync(unixFilePath) && await NugetHelper.PackAsync(unixFilePath);
+                                            if (result)
+                                            {
+                                                pushCount += 1;
+                                                Assert.True(result);
+                                            }
 
                                         }
                                         else
