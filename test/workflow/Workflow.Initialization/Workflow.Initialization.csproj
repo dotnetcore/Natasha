@@ -7,9 +7,7 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Github.NET.Sdk\Github.NET.Sdk.csproj" />
-    <ProjectReference Include="..\Github.NMSAcion.NET.Sdk\Github.NMSAcion.NET.Sdk.csproj" />
-    <ProjectReference Include="..\Solution.NET.Sdk\Solution.NET.Sdk.csproj" />
+    <ProjectReference Include="..\Github.NMSAction.NET.Sdk\Github.NMSAction.NET.Sdk.csproj" />
   </ItemGroup>
 
 </Project>
