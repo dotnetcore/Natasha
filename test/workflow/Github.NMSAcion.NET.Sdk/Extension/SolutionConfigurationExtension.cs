@@ -133,7 +133,7 @@ public static class SolutionConfigurationExtension
                 {
                     RelativePath = project.RelativePath.Replace("\\", "/"),
                     ProjectName = project.ProjectName,
-                    PackageName = project.PackageName ?? project.ProjectName,
+                    PackageName = project.PackageName == string.Empty ? project.ProjectName : project.PackageName,
                     Id = project.Id,
                     ProjectFolder = project.RelativeFolder
                 };

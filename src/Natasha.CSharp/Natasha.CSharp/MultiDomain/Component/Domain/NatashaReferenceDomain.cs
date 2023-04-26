@@ -1,6 +1,7 @@
 ﻿#if MULTI
 using Microsoft.CodeAnalysis;
 using Natasha.CSharp;
+using Natasha.CSharp.Component;
 using Natasha.CSharp.Component.Domain;
 using Natasha.CSharp.Using;
 using System;

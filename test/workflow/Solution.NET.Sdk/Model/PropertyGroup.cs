@@ -30,7 +30,7 @@
                 foreach (var targetFramework in targets) { project.TargetFramworks.Add(targetFramework); }
                
             }
-            if (project.PackageName == null)
+            if (project.PackageName == string.Empty)
             {
                 project.PackageName = project.ProjectName;
             }

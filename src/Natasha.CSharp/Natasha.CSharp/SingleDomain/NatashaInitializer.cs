@@ -2,7 +2,7 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.DependencyModel;
 using Natasha.CSharp;
-using Natasha.CSharp.Reference;
+using Natasha.CSharp.Component;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

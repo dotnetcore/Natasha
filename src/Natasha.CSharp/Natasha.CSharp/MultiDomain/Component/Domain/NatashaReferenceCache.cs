@@ -9,7 +9,7 @@ using System.IO;
 using System.Reflection;
 using System.Reflection.PortableExecutable;
 
-namespace Natasha.CSharp
+namespace Natasha.CSharp.Component
 {
     //与元数据相关
     //数据值与程序集及内存相关

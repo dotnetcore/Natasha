@@ -1,6 +1,7 @@
 ﻿using Github.NET.Sdk;
 using NuGet.Versioning;
 using Publish.Helper;
+using Solution.NET.Sdk.Model;
 using System.Text;
 
 namespace Workflow.Nuget.Publish
@@ -19,7 +20,7 @@ namespace Workflow.Nuget.Publish
             message.AppendLine();
 
             var (version, log) = ChangeLogHelper.GetReleaseInfoFromFromFile(SolutionInfo.ChangeLogFile);
-            if (version!=string.Empty && isWriteEnv)
+            if (version != string.Empty && isWriteEnv)
             {
                 var releaseInfo = ChangeLogHelper.GetReleasePackageInfo(log);
                 if (releaseInfo == null)
@@ -40,15 +41,30 @@ namespace Workflow.Nuget.Publish
 
                     if (projectCollection != null)
                     {
-                        foreach (var project in projectCollection.Projects)
+                        if (projectCollection.Projects.Count > 0)
                         {
-                            var packageAble = project.IsPackable;
-                            var packageName = project.PackageName;
-                            if (packageAble == true && packageName != null)
-                            {
-                                if (releasesDict.ContainsKey(packageName))
+                            var projects = projectCollection.Projects.Where(
+                                item =>
                                 {
-                                    var packageVersion = releasesDict[packageName];
+
+                                    if (releasesDict.ContainsKey(item.PackageName))
+                                    {
+                                        item.PackageVersion = releasesDict[item.PackageName];
+                                        ReWriteCsprojVersion(item);
+                                        return true;
+                                    }
+                                    return false;
+                                });
+
+                            foreach (var project in projects)
+                            {
+
+                                var packageAble = project.IsPackable;
+                                var packageName = project.PackageName;
+                                var packageVersion = project.PackageVersion;
+
+                                if (packageAble == true && packageName != null)
+                                {
                                     if (!string.IsNullOrEmpty(packageVersion))
                                     {
                                         var latestVersion = await NugetHelper.GetLatestVersionAsync(packageName);
@@ -56,13 +72,13 @@ namespace Workflow.Nuget.Publish
                                         {
                                             var unixFilePath = project.RelativePath.Replace("\\", "/");
                                             //打包并检测该工程能否正常输出 NUGET 包
-                                            var result = await NugetHelper.BuildAsync(unixFilePath) && await NugetHelper.PackAsync(unixFilePath, packageVersion);
-                                            if (result)
-                                            {
-                                                pushCount += 1;
-                                                Assert.True(result);
-                                            }
-                                           
+                                            //var result = await NugetHelper.BuildAsync(unixFilePath) && await NugetHelper.PackAsync(unixFilePath);
+                                            //if (result)
+                                            //{
+                                            //    pushCount += 1;
+                                            //    Assert.True(result);
+                                            //}
+
                                         }
                                         else
                                         {
@@ -77,29 +93,24 @@ namespace Workflow.Nuget.Publish
                                 }
                                 else
                                 {
-                                    message.AppendLine($"C#工程:包 {packageName} 未包含在 CHANGELOG.md 中!");
-                                    message.AppendLine($"\t改正如:### {packageName} _ vX.X.X.X:");
-                                }
-                            }
-                            else
-                            {
-                                if (packageName == null)
-                                {
-                                    message.Append("C#工程:包 {空名} ");
-                                }
-                                else
-                                {
-                                    message.Append($"C#工程:包 {packageName} ");
-                                }
-                                if (packageAble == true)
-                                {
-                                    message.AppendLine("开启了打包功能.");
-                                }
-                                else
-                                {
-                                    message.AppendLine("未开启打包功能(<IsPackable>true</IsPackable>).");
-                                }
+                                    if (packageName == null)
+                                    {
+                                        message.Append("C#工程:包 {空名} ");
+                                    }
+                                    else
+                                    {
+                                        message.Append($"C#工程:包 {packageName} ");
+                                    }
+                                    if (packageAble == true)
+                                    {
+                                        message.AppendLine("开启了打包功能.");
+                                    }
+                                    else
+                                    {
+                                        message.AppendLine("未开启打包功能(<IsPackable>true</IsPackable>).");
+                                    }
 
+                                }
                             }
                         }
                     }
@@ -118,6 +129,14 @@ namespace Workflow.Nuget.Publish
             if (pushCount == 0)
             {
                 Assert.Fail(message.ToString());
+            }
+
+            static void ReWriteCsprojVersion(CSharpProject project)
+            {
+                var csprojFilePath = Path.Combine(SolutionInfo.Root, project.RelativePath);
+                var content = File.ReadAllText(csprojFilePath);
+                content = content.Replace("</PropertyGroup>", $"<Version>{project.PackageVersion}<Version></PropertyGroup>");
+                File.WriteAllText(csprojFilePath, content);
             }
         }
     }

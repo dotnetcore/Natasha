@@ -21,7 +21,6 @@ namespace ReferenceSample
             ShowAssemblyInfo(assemblyA);
             ShowSyntaxTree(builder.Compilation!);
 
-
             //清除编译信息,使 builder 可以重新组合 编译信息.
             builder.ClearCompilationCache();
             //重置程序集名,以免编译时产生冲突.
