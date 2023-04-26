@@ -3,6 +3,7 @@ using NuGet.Versioning;
 using Publish.Helper;
 using Solution.NET.Sdk.Model;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Workflow.Nuget.Publish
 {
@@ -12,6 +13,8 @@ namespace Workflow.Nuget.Publish
         [Fact(DisplayName = "打包检测")]
         public async Task Pass()
         {
+
+            Regex versionReg = new Regex("(?<version>\\d+.\\d+.\\d+).*?");
 
             int pushCount = 0;
             bool isWriteEnv = true;
@@ -131,11 +134,20 @@ namespace Workflow.Nuget.Publish
                 Assert.Fail(message.ToString());
             }
 
-            static void ReWriteCsprojVersion(CSharpProject project)
+            
+            void ReWriteCsprojVersion(CSharpProject project)
             {
+                string fileVersion = project.PackageVersion!;
+                if (!Version.TryParse(project.PackageVersion, out _))
+                {
+                    var match = versionReg.Match(project.PackageVersion!);
+                    {
+                        fileVersion = match.Groups["version"].Value + ".0";
+                    }
+                }
                 var csprojFilePath = Path.Combine(SolutionInfo.Root, project.RelativePath.Replace("\\", "/"));
                 var content = File.ReadAllText(csprojFilePath);
-                content = content.Replace("</PropertyGroup>", $"<Version>{project.PackageVersion}</Version><FileVersion>{project.PackageVersion}</FileVersion><AssemblyVersion>{project.PackageVersion}</AssemblyVersion></PropertyGroup>");
+                content = content.Replace("</PropertyGroup>", $"<Version>{project.PackageVersion!}</Version><FileVersion>{fileVersion}</FileVersion><AssemblyVersion>{fileVersion}</AssemblyVersion></PropertyGroup>");
                 File.WriteAllText(csprojFilePath, content);
             }
         }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace ReferenceSample
 {
