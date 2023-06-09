@@ -22,7 +22,13 @@ public sealed partial class AssemblyCSharpBuilder
     /// 在语义分析时检测 可访问性问题, 默认分析. 降低性能.
     /// </summary>
     /// <returns></returns>
+    [Obsolete("Use WithAnalysisAccessibility", true)]
     public AssemblyCSharpBuilder AnalysisIgnoreAccessibility()
+    {
+        _semanticCheckIgnoreAccessibility = false;
+        return this;
+    }
+    public AssemblyCSharpBuilder WithAnalysisAccessibility()
     {
         _semanticCheckIgnoreAccessibility = false;
         return this;
@@ -32,7 +38,13 @@ public sealed partial class AssemblyCSharpBuilder
     /// 不在语义分析时检测 可访问性问题, 可提升性能.
     /// </summary>
     /// <returns></returns>
+    [Obsolete("Use WithoutAnalysisAccessibility", true)]
     public AssemblyCSharpBuilder NotAnalysisIgnoreAccessibility()
+    {
+        _semanticCheckIgnoreAccessibility = true;
+        return this;
+    }
+    public AssemblyCSharpBuilder WithoutAnalysisAccessibility()
     {
         _semanticCheckIgnoreAccessibility = true;
         return this;

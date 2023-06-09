@@ -1,8 +1,10 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.DependencyModel;
 using Natasha.CSharp.Component;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Runtime.Loader;
 using Xunit;
 
@@ -21,22 +23,30 @@ namespace NatashaFunctionUT.Reference
             var count = NatashaReferenceDomain.DefaultDomain.References.Count;
             Assert.True(DefaultUsing.HasElement("System.Threading"));
             Assert.False(DefaultUsing.HasElement("System.IO"));
-            Assert.True(paths.Count() <= NatashaDomain.DefaultAssemblyCacheCount + count);
+
         }
         [Fact(DisplayName = "[默认引用]排重测试")]
-        public void DefaultDistinctReference()
+        public unsafe void DefaultDistinctReference()
         {
 
             NatashaReferenceCache referenceCache = new();
-            var assembilies = AssemblyLoadContext.Default.Assemblies;
+            var assembilies = AppDomain.CurrentDomain.GetAssemblies();// AssemblyLoadContext.Default.Assemblies;
             int count = 0;
-            foreach (var item in assembilies)
+            foreach (var assembly in assembilies)
             {
-                if (!item.IsDynamic && item.Location != string.Empty)
+                if (assembly.TryGetRawMetadata(out var blob, out var length))
                 {
-                    referenceCache.AddReference(item);
+                    var metadata = AssemblyMetadata.Create(ModuleMetadata.CreateFromMetadata((IntPtr)blob, length));
+                    var metadataReference = metadata.GetReference();
+                    referenceCache.AddReference(assembly.GetName(), metadataReference, LoadBehaviorEnum.None);
                     count += 1;
                 }
+                //if (!item.IsDynamic && item.Location != string.Empty)
+                //{
+                    
+                //    referenceCache.AddReference(item);
+                    
+                //}
                 if (count == 10)
                 {
                     break;

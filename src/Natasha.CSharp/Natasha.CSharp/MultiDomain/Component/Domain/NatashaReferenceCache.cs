@@ -27,7 +27,7 @@ namespace Natasha.CSharp.Component
         }
 
         public int Count { get { return _referenceCache.Count; } }
-        private void AddReference(AssemblyName assemblyName, MetadataReference reference, LoadBehaviorEnum loadReferenceBehavior)
+        public void AddReference(AssemblyName assemblyName, MetadataReference reference, LoadBehaviorEnum loadReferenceBehavior)
         {
 
             var name = assemblyName.GetUniqueName();

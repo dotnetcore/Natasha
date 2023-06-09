@@ -22,7 +22,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Github.NMSAcion.NET.Sdk\Github.NMSAction.NET.Sdk.csproj" />
 	  <ProjectReference Include="..\Github.NMSAction.NET.Sdk\Github.NMSAction.NET.Sdk.csproj" />
 	</ItemGroup>
 

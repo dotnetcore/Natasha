@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 
 public static class NatashaInitializer
@@ -16,7 +17,7 @@ public static class NatashaInitializer
     private static readonly object _lock = new();
 
     private static bool _isCompleted = false;
-    public static void Preheating(Func<AssemblyName, string?, bool>? excludeReferencesFunc = null)
+    public static void Preheating(Func<AssemblyName, string?, bool>? excludeReferencesFunc = null, bool useLowMemeory = false)
     {
 
         if (!_isCompleted)
@@ -42,11 +43,11 @@ public static class NatashaInitializer
                 DefaultUsing.SetDefaultUsingFilter(excludeReferencesFunc);
                 IEnumerable<string>? paths = NatashaReferencePathsHelper.GetReferenceFiles(excludeReferencesFunc);
 
-                
+
 #if DEBUG
                 stopwatch.RestartAndShowCategoreInfo("[Reference]", "过滤初始化引用", 1);
 #endif
-                if (paths!=null && paths.Count()>0)
+                if (paths != null && paths.Count() > 0)
                 {
                     ResolverMetadata(paths);
 #if DEBUG
@@ -72,22 +73,25 @@ public static class NatashaInitializer
     private static void ResolverMetadata(IEnumerable<string> paths)
     {
 
-            Parallel.ForEach(paths, (path) =>
+        var result = Parallel.ForEach(paths, (path) =>
+        {
+            //Assembly? assembly = null;
+            try
             {
-                //Assembly? assembly = null;
-                try
-                {
-                    Assembly assembly = Assembly.ReflectionOnlyLoadFrom(path);
-                    NatashaReferenceCache.AddReference(path);
-                    DefaultUsing.AddUsingWithoutCheck(assembly);
-                }
-                catch
-                {
-                    //Console.WriteLine(assembly?.FullName);
-                }
-
-            });
- 
+                Assembly assembly = Assembly.ReflectionOnlyLoadFrom(path);
+                NatashaReferenceCache.AddReference(path);
+                DefaultUsing.AddUsingWithoutCheck(assembly);
+            }
+            catch
+            {
+                //Console.WriteLine(assembly?.FullName);
+            }
+        });
+        while (!result.IsCompleted)
+        {
+            Thread.Sleep(100);
+        }
+        DefaultUsing.ReBuildUsingScript();
 
     }
 

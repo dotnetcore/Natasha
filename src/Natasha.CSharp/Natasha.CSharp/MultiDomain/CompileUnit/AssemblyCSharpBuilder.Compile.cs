@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
+
 #if MULTI
 using System.IO;
 using System.Reflection;
@@ -21,7 +22,18 @@ public sealed partial class AssemblyCSharpBuilder
     private LoadBehaviorEnum _compileAssemblyBehavior;
     private Func<AssemblyName, AssemblyName, LoadVersionResultEnum>? _referencePickFunc;
     private Func<IEnumerable<MetadataReference>, IEnumerable<MetadataReference>>? _referencesFilter;
+    private bool _combineReferences;
 
+    public AssemblyCSharpBuilder WithReferenceCombine()
+    {
+        _combineReferences = true; 
+        return this;
+    }
+    public AssemblyCSharpBuilder WithoutReferenceCombine()
+    {
+        _combineReferences = false;
+        return this;
+    }
     /// <summary>
     /// 配置主域及当前域的加载行为, Default 使用主域引用, Custom 使用当前域引用
     /// </summary>
@@ -62,13 +74,14 @@ public sealed partial class AssemblyCSharpBuilder
     public event Action<CSharpCompilation, Assembly>? CompileSucceedEvent;
 
 
+
     /// <summary>
     /// 流编译失败之后触发的事件
     /// </summary>
     public event Action<CSharpCompilation, ImmutableArray<Diagnostic>>? CompileFailedEvent;
 
 
-    public CSharpCompilation GetAvailableCompilation()
+    public CSharpCompilation GetAvailableCompilation(Func<CSharpCompilationOptions, CSharpCompilationOptions>? initOptionsFunc = null)
     {
 #if DEBUG
         Stopwatch stopwatch = new();
@@ -82,7 +95,20 @@ public sealed partial class AssemblyCSharpBuilder
         }
 
         var options = _compilerOptions.GetCompilationOptions();
-        var references = Domain.GetReferences(_compileReferenceBehavior, _referencePickFunc);
+        if (initOptionsFunc != null)
+        {
+            options = initOptionsFunc(options);
+        }
+        IEnumerable<MetadataReference> references;
+        if (_combineReferences)
+        {
+            references = Domain.GetReferences(_compileReferenceBehavior, _referencePickFunc);
+        }
+        else
+        {
+            references = Domain.References.GetReferences();
+        }
+        
         if (_referencesFilter != null)
         {
             references = _referencesFilter(references);
@@ -125,12 +151,9 @@ public sealed partial class AssemblyCSharpBuilder
     /// </code>
     /// </example>
     /// </remarks>
-    public Assembly GetAssembly()
+    public Assembly GetAssembly(Assembly? currentAssembly = null)
     {
-        if (_compilation == null)
-        {
-            _compilation = GetAvailableCompilation();
-        }
+  
 #if DEBUG
         Stopwatch stopwatch = new();
         stopwatch.Start();
@@ -161,6 +184,20 @@ public sealed partial class AssemblyCSharpBuilder
             xmlStream = File.Create(XmlFilePath);
         }
 
+        if (currentAssembly != null)
+        {
+             _compilation = 
+                    GetAvailableCompilation(opt=>opt
+                        .WithModuleName(AssemblyName)
+                        .WithOutputKind(OutputKind.NetModule));
+
+        }
+        else if (_compilation == null)
+        {
+            _compilation = GetAvailableCompilation();
+        }
+
+
         var compileResult = _compilation.Emit(
            dllStream,
            pdbStream: pdbStream,
@@ -170,20 +207,31 @@ public sealed partial class AssemblyCSharpBuilder
 
         LogCompilationEvent?.Invoke(_compilation.GetNatashaLog());
 
-        Assembly? assembly = null;
+        Assembly? assembly = currentAssembly;
         if (compileResult.Success)
         {
             dllStream.Seek(0, SeekOrigin.Begin);
-            pdbStream?.Seek(0, SeekOrigin.Begin);
-            Domain.SetAssemblyLoadBehavior(_compileAssemblyBehavior);
-            assembly = Domain.LoadAssemblyFromStream(dllStream, pdbStream);
+            if (assembly == null)
+            {
+                
+                pdbStream?.Seek(0, SeekOrigin.Begin);
+                Domain.SetAssemblyLoadBehavior(_compileAssemblyBehavior);
+                assembly = Domain.LoadAssemblyFromStream(dllStream, pdbStream);
+            }
+            else
+            {
+                byte[] rawStream = new byte[dllStream.Length];
+                dllStream.Read(rawStream.AsSpan());
+                assembly.LoadModule(AssemblyName, rawStream);
+            }
             CompileSucceedEvent?.Invoke(_compilation, assembly!);
+
         }
         dllStream.Dispose();
         pdbStream?.Dispose();
         xmlStream?.Dispose();
 
-#if DEBUG 
+#if DEBUG
         stopwatch.StopAndShowCategoreInfo("[  Emit  ]", "编译时长", 2);
 #endif
 

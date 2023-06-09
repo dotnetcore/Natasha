@@ -14,7 +14,7 @@ body:
       label: ⚙️ OS
       description: 您用的是什么系统?
       options:
-        - Windows(Default)
+        - Windows (Default)
         - Linux
         - Android
         - Apple
@@ -25,7 +25,7 @@ body:
       label: ⚙️ Architecture
       description: 芯片指令集是哪种?
       options:
-        - Any(Default)
+        - Any (Default)
         - Arm64
         - Arm32
         - x64 
@@ -42,8 +42,8 @@ body:
       multiple: true
       description: What version of our software are you running?
       options:
-        - .NET7(STS) (Default)
-        - .NET6(LTS)
+        - .NET7(STS)
+        - .NET6(LTS) (Default)
         - .NET5
         - .NET Core 3.1(LTS)
         - .NET Core 3.0

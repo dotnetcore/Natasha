@@ -164,4 +164,13 @@ workflow:
   - name: pr_workflow
     description: 此次提交包含 [管道功能] 相关的改动.
     color: 68E0F8
-  projects: []
+  projects:
+  - id: 199906B2-7FED-4DFF-8364-C5C66A787F02
+    is_ignored: false
+    is_folded: false
+    relative_path: test/workflow/Github.NMSAction.NET.Sdk/Github.NMSAction.NET.Sdk.csproj
+    project_name: Github.NMSAction.NET.Sdk
+    package_name: 
+    project_folder: test/workflow/Github.NMSAction.NET.Sdk
+    labels: 
+    dependency_config: 

@@ -42,13 +42,32 @@ public partial class NatashaDomain
         Debug.WriteLine($"[加载]路径:{path}.");
 #endif
         Assembly assembly;
+        var pdbPath = Path.ChangeExtension(path, ".pdb");
         if (Name == "Default")
         {
-            assembly = Default.LoadFromAssemblyPath(path);
+            if (File.Exists(pdbPath))
+            {
+                using var file = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+                using var pdbFile = File.Open(pdbPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                assembly = Default.LoadFromStream(file, pdbFile);
+            }
+            else
+            {
+                assembly = Default.LoadFromAssemblyPath(path);
+            }
         }
         else
         {
-            assembly = LoadFromAssemblyPath(path);
+            if (File.Exists(pdbPath))
+            {
+                using var file = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+                using var pdbFile = File.Open(pdbPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                assembly = LoadFromStream(file, pdbFile);
+            }
+            else
+            {
+                assembly = LoadFromAssemblyPath(path);
+            }
         }
         LoadAssemblyReferencsWithPath?.Invoke(assembly, path);
         return assembly;
@@ -110,10 +129,24 @@ public partial class NatashaDomain
         if (!result)
         {
             string? assemblyPath = _dependencyResolver!.ResolveAssemblyToPath(assemblyName);
-            if (assemblyPath != null)
+            if (assemblyPath != null && File.Exists(assemblyPath))
             {
                 return LoadAssemblyFromFile(assemblyPath);
             }
+
+            //if (!string.IsNullOrEmpty(assemblyName.CultureName) && !string.Equals("neutral", assemblyName.CultureName))
+            //{
+            //    foreach (var resourceRoot in _resourceRoots)
+            //    {
+            //        var resourcePath = Path.Combine(resourceRoot, assemblyName.CultureName, assemblyName.Name + ".dll");
+            //        if (File.Exists(resourcePath))
+            //        {
+            //            return LoadAssemblyFromFile(resourcePath);
+            //        }
+            //    }
+
+            //    return null;
+            //}
         }
         return null;
 
@@ -131,7 +164,7 @@ public partial class NatashaDomain
         //if (!result)
         //{
             string? libraryPath = _dependencyResolver!.ResolveUnmanagedDllToPath(unmanagedDllName);
-            if (libraryPath != null)
+            if (libraryPath != null && File.Exists(libraryPath))
             {
                 return LoadUnmanagedDllFromPath(libraryPath);
             }

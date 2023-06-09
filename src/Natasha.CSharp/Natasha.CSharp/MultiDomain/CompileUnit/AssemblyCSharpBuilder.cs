@@ -21,6 +21,7 @@ public sealed partial class AssemblyCSharpBuilder
     {
         EnableSemanticHandler = true;
         _semanticCheckIgnoreAccessibility = true;
+        _combineReferences = true;
         _compileReferenceBehavior = LoadBehaviorEnum.UseDefault;
         OutputFolder = GlobalOutputFolder;
         _compilerOptions = new();

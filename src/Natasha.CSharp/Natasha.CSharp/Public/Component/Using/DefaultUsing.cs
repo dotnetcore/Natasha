@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
-using System.Security.Cryptography;
 using System.Text;
-
+using System.Threading;
+using System.Threading.Tasks;
 
 /// <summary>
 /// 全局 using, 初始化时会通过 DependencyModel 获取主域所需的引用 using 字符串.
@@ -64,27 +65,77 @@ public static class DefaultUsing
         try
         {
             var tempSets = new HashSet<string>();
-            var types = assembly.GetTypes();
-
-            foreach (var t in types)
+            var types = assembly.ExportedTypes;
+            if (types.Count() > 16)
             {
-                var name = t.Namespace;
-                if (!string.IsNullOrEmpty(name) && name.IndexOf('<') == -1)
+                var result = Parallel.ForEach(types, type =>
                 {
 
-                    if (!_excludeDefaultAssembliesFunc(default!, name))
+                    if (type.IsNested && !type.IsNestedPublic)
                     {
-                        tempSets.Add(name);
+                        return;
                     }
-#if DEBUG
-                    else
-                    {
-                        System.Diagnostics.Debug.WriteLine("[排除程序集]:" + name);
-                    }
-#endif
-                }
 
+                    var name = type.Namespace;
+
+                    if (!string.IsNullOrEmpty(name) 
+                    && !tempSets.Contains(name) 
+                    && name.IndexOf('<') == -1)
+                    {
+                        if (!_excludeDefaultAssembliesFunc(default!, name))
+                        {
+                            lock (tempSets)
+                            {
+                                tempSets.Add(name);
+                            }
+                        }
+#if DEBUG
+                        else
+                        {
+                            System.Diagnostics.Debug.WriteLine("[排除程序集]:" + name);
+                        }
+#endif
+
+                    }
+                });
+                while (!result.IsCompleted)
+                {
+                    Thread.Sleep(100);
+                }
             }
+            else
+            {
+                foreach (var type in types)
+                {
+
+                    if (type.IsNested && !type.IsNestedPublic)
+                    {
+                        continue;
+                    }
+
+                    var name = type.Namespace;
+
+
+                    if (!string.IsNullOrEmpty(name)
+                        && !tempSets.Contains(name)
+                        && name.IndexOf('<') == -1)
+                    {
+
+                        if (!_excludeDefaultAssembliesFunc(default!, name))
+                        {
+                            tempSets.Add(name);
+                        }
+#if DEBUG
+                        else
+                        {
+                            System.Diagnostics.Debug.WriteLine("[排除程序集]:" + name);
+                        }
+#endif
+                    }
+                }
+            }
+
+            //*/
 
             lock (_defaultNamesapce)
             {
@@ -110,7 +161,107 @@ public static class DefaultUsing
         }
     }
 
+    internal static void AddUsingWithoutCheckingkAndInternalUsing(Assembly assembly, bool autoRebuildScript = true)
+    {
+        try
+        {
+            var tempSets = new HashSet<string>();
+            var types = assembly.ExportedTypes;
+            if (types.Count() > 16)
+            {
+                var result = Parallel.ForEach(types, type =>
+                {
 
+                    if (type.IsNested && !type.IsNestedPublic)
+                    {
+                        return;
+                    }
+
+                    var name = type.Namespace;
+
+
+                    if (!string.IsNullOrEmpty(name)
+                    && !name.StartsWith("Internal")
+                    && !tempSets.Contains(name)
+                    && name.IndexOf('<') == -1)
+                    {
+
+                        if (!_excludeDefaultAssembliesFunc(default!, name))
+                        {
+                            lock (tempSets)
+                            {
+                                tempSets.Add(name);
+                            }
+                        }
+#if DEBUG
+                        else
+                        {
+                            System.Diagnostics.Debug.WriteLine("[排除程序集]:" + name);
+                        }
+#endif
+                    }
+                });
+                while (!result.IsCompleted)
+                {
+                    Thread.Sleep(100);
+                }
+            }
+            else
+            {
+                foreach (var type in types)
+                {
+
+                    if (type.IsNested && !type.IsNestedPublic)
+                    {
+                        continue;
+                    }
+
+                    var name = type.Namespace;
+                    if (!string.IsNullOrEmpty(name)
+                        && !name.StartsWith("Internal")
+                        && !tempSets.Contains(name)
+                        && name.IndexOf('<') == -1)
+                    {
+
+                        if (!_excludeDefaultAssembliesFunc(default!, name))
+                        {
+                            tempSets.Add(name);
+                        }
+#if DEBUG
+                        else
+                        {
+                            System.Diagnostics.Debug.WriteLine("[排除程序集]:" + name);
+                        }
+#endif
+                    }
+                }
+            }
+
+            //*/
+
+            lock (_defaultNamesapce)
+            {
+                foreach (var name in tempSets)
+                {
+                    if (_defaultNamesapce.Add(name))
+                    {
+                        _usingScriptCache.AppendLine($"using {name};");
+                    }
+                }
+                if (autoRebuildScript)
+                {
+                    UsingScript = _usingScriptCache.ToString();
+                }
+            }
+
+        }
+        catch (Exception ex)
+        {
+#if DEBUG
+            Console.WriteLine(assembly.FullName + ex.Message);
+#endif
+        }
+    }
 
     /// <summary>
     /// 添加引用
@@ -120,37 +271,42 @@ public static class DefaultUsing
     {
         try
         {
-            var types = assembly.GetTypes();
+            var tempSets = new HashSet<string>();
+            var types = assembly.ExportedTypes;
             lock (_defaultNamesapce)
             {
-                foreach (var t in types)
+                foreach (var type in types)
                 {
-                    var name = t.Namespace;
-                    if (!string.IsNullOrEmpty(name) && name.IndexOf('<') == -1)
+                    if (type.IsNested && !type.IsNestedPublic)
                     {
-
-                        if (!_defaultNamesapce.Contains(name))
-                        {
-                            if (!_excludeDefaultAssembliesFunc(default!, name))
-                            {
-
-                                _defaultNamesapce.Add(name);
-                                _usingScriptCache.AppendLine($"using {name!};");
-
-                            }
-#if DEBUG
-                            else
-                            {
-
-                                System.Diagnostics.Debug.WriteLine("[排除程序集]:" + name);
-
-                            }
-#endif
-
-                        }
-
+                        continue;
                     }
 
+                    var name = type.Namespace;
+                    if (!string.IsNullOrEmpty(name)
+                        && !tempSets.Contains(name)
+                        && name.IndexOf('<') == -1
+                        && !_defaultNamesapce.Contains(name)
+                        )
+                    {
+
+                        if (!_excludeDefaultAssembliesFunc(default!, name))
+                        {
+
+                            _defaultNamesapce.Add(name);
+                            _usingScriptCache.AppendLine($"using {name!};");
+
+                        }
+#if DEBUG
+                        else
+                        {
+
+                            System.Diagnostics.Debug.WriteLine("[排除程序集]:" + name);
+
+                        }
+#endif
+
+                    }
                 }
                 if (autoRebuildScript)
                 {
@@ -176,24 +332,20 @@ public static class DefaultUsing
     /// 添加引用
     /// </summary>
     /// <param name="assemblyName"></param>
-    internal static void AddUsing(AssemblyName assemblyName,bool autoRebuildScript = true)
+    internal static void AddUsing(AssemblyName assemblyName, bool autoRebuildScript = true)
     {
         try
         {
             lock (_defaultNamesapce)
             {
                 var name = assemblyName.Name;
-                if (!string.IsNullOrEmpty(name) && name.IndexOf('<') == -1)
+                if (!string.IsNullOrEmpty(name) && name.IndexOf('<') == -1 && !_defaultNamesapce.Contains(name))
                 {
-                    if (!_defaultNamesapce.Contains(name))
+                    _defaultNamesapce.Add(name);
+                    _usingScriptCache.AppendLine($"using {name};");
+                    if (autoRebuildScript)
                     {
-
-                        _defaultNamesapce.Add(name);
-                        _usingScriptCache.AppendLine($"using {name!};");
-                        if (autoRebuildScript)
-                        {
-                            UsingScript = _usingScriptCache.ToString();
-                        }
+                        UsingScript = _usingScriptCache.ToString();
                     }
                 }
 

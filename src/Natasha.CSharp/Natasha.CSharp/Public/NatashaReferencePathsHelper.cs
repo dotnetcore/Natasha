@@ -29,6 +29,7 @@ public static class NatashaReferencePathsHelper
                     {
                         return false;
                     }
+                    
                     var asmName = AssemblyName.GetAssemblyName(asmPath);
                     return !excludeReferencesFunc(asmName, asmName.Name);
                 }
