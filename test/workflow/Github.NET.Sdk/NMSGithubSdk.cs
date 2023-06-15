@@ -356,7 +356,7 @@ namespace Github.NET.Sdk
                 {
                     if (!existLabels.ContainsKey(label.Name))
                     {
-                        if (label.Description == null)
+                        if (string.IsNullOrEmpty(label.Description))
                         {
                             if (string.IsNullOrEmpty(label.Description))
                             {
@@ -415,7 +415,7 @@ namespace Github.NET.Sdk
                     {
                         var color = Environment.GetEnvironmentVariable($"{newLabel.ToUpperInvariant()}_LABEL_COLOR");
                         var description = Environment.GetEnvironmentVariable($"{newLabel.ToUpperInvariant()}_LABEL_DESCRIPTION");
-                        if (color == null)
+                        if (string.IsNullOrEmpty(color))
                         {
                             if (referecLabelMap.ContainsKey(newLabel))
                             {
@@ -430,7 +430,7 @@ namespace Github.NET.Sdk
                                 return "创建标签失败,颜色池已耗尽,更多的颜色建议在环境变量中添加:如 bug => env:  BUG_LABEL_COLOR: #xxx";
                             }
                         }
-                        if (description == null)
+                        if (string.IsNullOrEmpty(description))
                         {
                             if (referecLabelMap.ContainsKey(newLabel))
                             {
@@ -484,7 +484,7 @@ namespace Github.NET.Sdk
                     {
                         var color = Environment.GetEnvironmentVariable($"{newLabel.ToUpperInvariant()}_LABEL_COLOR");
                         var description = Environment.GetEnvironmentVariable($"{newLabel.ToUpperInvariant()}_LABEL_DESCRIPTION");
-                        if (color == null)
+                        if (string.IsNullOrEmpty(color))
                         {
                             if (referecLabelMap.ContainsKey(newLabel))
                             {
@@ -499,7 +499,7 @@ namespace Github.NET.Sdk
                                 return "创建标签失败,颜色池已耗尽,更多的颜色建议在环境变量中添加:如 bug => env:  BUG_LABEL_COLOR: #xxx";
                             }
                         }
-                        if (description == null)
+                        if (string.IsNullOrEmpty(description))
                         {
                             if (referecLabelMap.ContainsKey(newLabel))
                             {
@@ -556,11 +556,15 @@ namespace Github.NET.Sdk
                         return (null, "创建标签失败,颜色池已耗尽,更多的颜色建议在环境变量中添加:如 bug => env:  BUG_LABEL_COLOR: #xxx");
                     }
                 }
-                if (createLabel.Description == string.Empty)
+                if (string.IsNullOrEmpty(createLabel.Description))
                 {
                     if (specialColor != null)
                     {
                         createLabel.Description = specialDescription;
+                    }
+                    else
+                    {
+                        createLabel.Description = "";
                     }
                 }
 

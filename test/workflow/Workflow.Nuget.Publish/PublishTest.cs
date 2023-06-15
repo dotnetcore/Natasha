@@ -150,7 +150,7 @@ namespace Workflow.Nuget.Publish
                 content = Regex.Replace(content, "[\t]*<Version>.*?</Version>[\r\n]*", "");
                 content = Regex.Replace(content, "[\t]*<FileVersion>.*?</FileVersion>[\r\n]*", "");
                 content = Regex.Replace(content, "[\t]*<AssemblyVersion>.*?</AssemblyVersion>[\r\n]*", "");
-                content = propertyGroupReg.Replace(content, $"\t<Version>{project.PackageVersion!}</Version>\r\n\t\t<FileVersion>{fileVersion}</FileVersion>\r\n\t\t<AssemblyVersion>{fileVersion}</AssemblyVersion>\r\n\t</PropertyGroup>", 1);
+                content = propertyGroupReg.Replace(content, $"\t\t<Version>{project.PackageVersion!}</Version>\r\n\t\t<FileVersion>{fileVersion}</FileVersion>\r\n\t\t<AssemblyVersion>{fileVersion}</AssemblyVersion>\r\n\t</PropertyGroup>", 1);
                 File.WriteAllText(csprojFilePath, content);
             }
         }
