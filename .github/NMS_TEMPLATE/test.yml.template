@@ -26,3 +26,27 @@ jobs:
           7.0.x
           
 ${{nms.tests}}
+
+    - name: Publish Test Results
+      if: matrix.os == 'ubuntu-latest'
+      uses: EnricoMi/publish-unit-test-result-action@v2
+      with:
+        check_name: 'UT Test - Ubuntu'
+        files: |
+          TestResults/**/*.trx
+
+    - name: Publish Test Results
+      if: matrix.os == 'macos-latest'
+      uses: EnricoMi/publish-unit-test-result-action/composite@v2
+      with:
+        check_name: 'UT Test - Macos'
+        files: |
+          TestResults/**/*.trx
+
+    - name: Publish Test Results
+      if: matrix.os == 'windows-latest'
+      uses: EnricoMi/publish-unit-test-result-action/composite@v2
+      with:
+        check_name: 'UT Test - Windows'
+        files: |
+          TestResults/**/*.trx
