@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 public static class DefaultUsing
 {
 
-    private readonly static HashSet<string> _defaultNamesapce;
+    internal readonly static HashSet<string> _defaultNamesapce;
     private static Func<AssemblyName, string?, bool> _excludeDefaultAssembliesFunc;
     private static StringBuilder _usingScriptCache;
     public static string UsingScript;
@@ -77,9 +77,14 @@ public static class DefaultUsing
                     }
 
                     var name = type.Namespace;
-
-                    if (!string.IsNullOrEmpty(name) 
-                    && !tempSets.Contains(name) 
+                    lock (tempSets)
+                    {
+                        if (tempSets.Contains(name))
+                        {
+                            return;
+                        }
+                    }
+                    if (!string.IsNullOrEmpty(name)
                     && name.IndexOf('<') == -1)
                     {
                         if (!_excludeDefaultAssembliesFunc(default!, name))
@@ -123,6 +128,7 @@ public static class DefaultUsing
 
                         if (!_excludeDefaultAssembliesFunc(default!, name))
                         {
+
                             tempSets.Add(name);
                         }
 #if DEBUG
@@ -179,10 +185,16 @@ public static class DefaultUsing
 
                     var name = type.Namespace;
 
+                    lock (tempSets)
+                    {
+                        if (tempSets.Contains(name))
+                        {
+                            return;
+                        }
+                    }
 
                     if (!string.IsNullOrEmpty(name)
                     && !name.StartsWith("Internal")
-                    && !tempSets.Contains(name)
                     && name.IndexOf('<') == -1)
                     {
 
@@ -271,7 +283,6 @@ public static class DefaultUsing
     {
         try
         {
-            var tempSets = new HashSet<string>();
             var types = assembly.ExportedTypes;
             lock (_defaultNamesapce)
             {
@@ -284,7 +295,6 @@ public static class DefaultUsing
 
                     var name = type.Namespace;
                     if (!string.IsNullOrEmpty(name)
-                        && !tempSets.Contains(name)
                         && name.IndexOf('<') == -1
                         && !_defaultNamesapce.Contains(name)
                         )
@@ -359,6 +369,27 @@ public static class DefaultUsing
         }
     }
 
+    public static void AddUsing(bool autoRebuildScript = true, params string[] namespaceText)
+    {
+        lock (_defaultNamesapce)
+        {
+            for (int i = 0; i < namespaceText.Length; i++)
+            {
+                var name = namespaceText[i];
+                if (!string.IsNullOrEmpty(name) && name.IndexOf('<') == -1 && !_defaultNamesapce.Contains(name))
+                {
+                    _defaultNamesapce.Add(name);
+                    _usingScriptCache.AppendLine($"using {name};");
+                    if (autoRebuildScript)
+                    {
+                        UsingScript = _usingScriptCache.ToString();
+                    }
+                }
+            }
+
+
+        }
+    }
 
     /// <summary>
     /// 查询是否存在该命名空间
