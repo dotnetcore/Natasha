@@ -37,7 +37,7 @@ public static class NatashaReferencePathsHelper
                 {
                     return false;
                 }
-            }));
+            })).ToList();
         }
         catch
         {

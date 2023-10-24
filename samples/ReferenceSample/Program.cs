@@ -11,8 +11,6 @@ namespace ReferenceSample
     {
         static void Main(string[] args)
         {
-            //Internal.Console()
-
             Run();
             Console.ReadKey();
             
@@ -20,8 +18,8 @@ namespace ReferenceSample
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void Run()
         {
-            NatashaManagement.Preheating(true,true);
-            Console.WriteLine(1);
+            NatashaManagement.Preheating(false, false);
+            Console.WriteLine("Completed!");
         }
         public static void Run1()
         {
