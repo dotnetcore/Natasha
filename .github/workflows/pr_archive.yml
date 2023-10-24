@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged == true
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
       #- name: 🔨 Setup .NET 6.X SDK
       #  uses: actions/setup-dotnet@v3

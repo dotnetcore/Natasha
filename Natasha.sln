@@ -79,7 +79,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "resources", "resources", "{
 		resources\natasha.snk = resources\natasha.snk
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "githutb", "githutb", "{CD687BB7-BD10-4938-931F-F030EC81D9F2}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "github", "github", "{CD687BB7-BD10-4938-931F-F030EC81D9F2}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 		README.md = README.md

@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: 🏷 Mark Label
       run: dotnet test './test/workflow/Workflow.Runner' --nologo -c Release
 
