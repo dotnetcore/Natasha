@@ -56,7 +56,7 @@ namespace NatashaFunctionUT.Compile
                 AssemblyCSharpBuilder builder1 = new();
                 builder1.Add(DefaultUsing.UsingScript + "namespace TestA{ public class A {  public string Name = \"Hello\"; public static NatashaUsingCache Get(){ return null;} }}");
                 var assemblyA = builder1
-                    .CompileWithReferenceLoadBehavior(LoadBehaviorEnum.UseDefault)
+                    .CompileWithReferenceLoadBehavior(PluginLoadBehavior.UseDefault)
                     .GetAssembly();
                 var typeA = assemblyA.GetTypes().Where(item => item.Name == "A").First();
                 var objA = Activator.CreateInstance(typeA);
@@ -69,7 +69,7 @@ namespace NatashaFunctionUT.Compile
                 AssemblyCSharpBuilder builder2 = new();
                 builder2.Add(DefaultUsing.UsingScript + "namespace TestB{ public class A {  public string Name = \"Hello\";  public static NatashaUsingCache Get(){ return null;}  }}");
                 var assemblyB = builder2
-                    .CompileWithReferenceLoadBehavior(LoadBehaviorEnum.None)
+                    .CompileWithReferenceLoadBehavior(PluginLoadBehavior.None)
                     .GetAssembly();
                 var typeB = assemblyB.GetTypes().Where(item => item.Name == "A").First();
                 var objB = Activator.CreateInstance(typeB);

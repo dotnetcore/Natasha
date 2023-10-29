@@ -23,8 +23,13 @@ public partial class NatashaDomain
         return LoadUnmanagedDll(arg2);
     }
 
-
+    /// <summary>
+    /// 文件加载引用事件
+    /// </summary>
     protected event Action<Assembly, string>? LoadAssemblyReferencsWithPath;
+    /// <summary>
+    /// 流加载引用事件
+    /// </summary>
 
     protected event Action<Assembly, Stream>? LoadAssemblyReferenceWithStream;
 

@@ -14,7 +14,7 @@ public class ReferencePrepare : DomainPrepare
     {
         DefaultReferences = NatashaReferenceDomain.DefaultDomain.References;
     }
-    internal static HashSet<MetadataReference> GetPortableExecutableReferences(LoadBehaviorEnum loadBehavior)
+    internal static HashSet<MetadataReference> GetPortableExecutableReferences(PluginLoadBehavior loadBehavior)
     {
         var domain = DomainManagement.Random();
 

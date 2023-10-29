@@ -1,6 +1,6 @@
 ﻿namespace Natasha.CSharp.Component.Domain
 {
-    public enum LoadVersionResultEnum
+    public enum AssemblyLoadVersionResult
     {
         /// <summary>
         /// 无动作

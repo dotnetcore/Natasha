@@ -134,6 +134,52 @@ src:
       - name: Microsoft.Extensions.DependencyModel
         versions: 
         versions_type: 
+  - using_output:
+      enable: true
+      ignores:
+      - System
+      - System.Runtime.CompilerServices
+      - System.Reflection
+    id: D7EDD106-B744-4E0C-9CCE-D88F29EBC983
+    is_ignored: false
+    is_folded: false
+    relative_path: src/Natasha.CSharp/Natasha.CSharp.Compiler/Natasha.CSharp.Compiler.csproj
+    project_name: Natasha.CSharp.Compiler
+    package_name: DotNetCore.Natasha.CSharp.Compiler
+    project_folder: src/Natasha.CSharp/Natasha.CSharp.Compiler
+    labels: 
+    dependency_config:
+      type: nuget
+      interval: daily
+      commit_prefix: '[DEPENDENCY SRC]'
+      special_time: 
+      special_time_zone: 
+      labels:
+      - name: dependencies
+        description: 有依赖需要升级
+        color: 4E04B0
+      ignore:
+      - name: System.Reflection.MetadataLoadContext
+        versions: 
+        versions_type: 
+      - name: Microsoft.Extensions.DependencyModel
+        versions: 
+        versions_type: 
+  - using_output:
+      enable: true
+      ignores:
+      - System
+      - System.Runtime.CompilerServices
+      - System.Reflection
+    id: 84A54AF4-0683-48D4-B9D2-465B851E1EF1
+    is_ignored: false
+    is_folded: false
+    relative_path: src/Natasha.CSharp/Natasha.CSharp.Template/Natasha.CSharp.Template.csproj
+    project_name: Natasha.CSharp.Template
+    package_name: DotNetCore.Natasha.CSharp.Template
+    project_folder: src/Natasha.CSharp/Natasha.CSharp.Template
+    labels: 
+    dependency_config: 
 test:
   folded_projects: []
   global_labels:

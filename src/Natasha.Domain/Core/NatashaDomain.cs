@@ -17,7 +17,7 @@ public partial class NatashaDomain : AssemblyLoadContext, IDisposable
 
         Default.Resolving += Default_Resolving;
         Default.ResolvingUnmanagedDll += Default_ResolvingUnmanagedDll;
-        _assemblyLoadBehavior = LoadBehaviorEnum.None;
+        _assemblyLoadBehavior = PluginLoadBehavior.None;
         _excludePluginReferencesFunc = item => false;
         _dependencyResolver = new AssemblyDependencyResolver(AppDomain.CurrentDomain.BaseDirectory!);
         Unsafe.AsRef(DefaultDomain) = this;
@@ -31,7 +31,7 @@ public partial class NatashaDomain : AssemblyLoadContext, IDisposable
             throw new Exception("不能重复创建主域!");
         }
        
-        _assemblyLoadBehavior = LoadBehaviorEnum.None;
+        _assemblyLoadBehavior = PluginLoadBehavior.None;
         _excludePluginReferencesFunc = item => false;
         _dependencyResolver = new AssemblyDependencyResolver(AppDomain.CurrentDomain.BaseDirectory!);
 
