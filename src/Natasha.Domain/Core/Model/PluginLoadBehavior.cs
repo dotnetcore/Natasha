@@ -1,4 +1,4 @@
-﻿public enum LoadBehaviorEnum
+﻿public enum PluginLoadBehavior
 {
     None,
     UseHighVersion,

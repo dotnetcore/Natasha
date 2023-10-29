@@ -13,9 +13,13 @@ using System.Runtime.Loader;
 public partial class NatashaDomain
 {
 
-    private LoadBehaviorEnum _assemblyLoadBehavior;
+    private PluginLoadBehavior _assemblyLoadBehavior;
 
-    public void SetAssemblyLoadBehavior(LoadBehaviorEnum loadBehavior)
+    /// <summary>
+    /// 设置加载行为
+    /// </summary>
+    /// <param name="loadBehavior">加载行为枚举</param>
+    public void SetAssemblyLoadBehavior(PluginLoadBehavior loadBehavior)
     {
         _assemblyLoadBehavior = loadBehavior;
     }
@@ -79,25 +83,26 @@ public partial class NatashaDomain
     /// 将流转换为程序集，并加载到域
     /// [手动释放]
     /// </summary>
-    /// <param name="stream">外部流</param>
+    /// <param name="dllStream">库文件流</param>
+    /// <param name="pdbStream">符号流</param>
     /// <returns></returns>
-    public virtual Assembly LoadAssemblyFromStream(Stream stream,Stream? pdbStream)
+    public virtual Assembly LoadAssemblyFromStream(Stream dllStream,Stream? pdbStream)
     {
-        using (stream)
+        using (dllStream)
         {
 
             Assembly assembly;
             if (Name == "Default")
             {
-                assembly = Default.LoadFromStream(stream, pdbStream);
+                assembly = Default.LoadFromStream(dllStream, pdbStream);
             }
             else
             {
-                assembly = LoadFromStream(stream, pdbStream);
+                assembly = LoadFromStream(dllStream, pdbStream);
             }
 
-            stream.Seek(0, SeekOrigin.Begin);
-            LoadAssemblyReferenceWithStream?.Invoke(assembly, stream);
+            dllStream.Seek(0, SeekOrigin.Begin);
+            LoadAssemblyReferenceWithStream?.Invoke(assembly, dllStream);
             return assembly;
 
         }
@@ -113,12 +118,12 @@ public partial class NatashaDomain
 #if DEBUG
         Debug.WriteLine($"[解析]程序集:{assemblyName.Name},全名:{assemblyName.FullName}");
 #endif
-        if (_assemblyLoadBehavior != LoadBehaviorEnum.None && Name != "Default")
+        if (_assemblyLoadBehavior != PluginLoadBehavior.None && Name != "Default")
         {
             var name = assemblyName.GetUniqueName();
             if (_defaultAssemblyNameCache.TryGetValue(name!, out var defaultCacheName))
             {
-                if (assemblyName.CompareWithDefault(defaultCacheName, _assemblyLoadBehavior) == LoadVersionResultEnum.UseDefault)
+                if (assemblyName.CompareWithDefault(defaultCacheName, _assemblyLoadBehavior) == AssemblyLoadVersionResult.UseDefault)
                 {
                     return null;
                 }

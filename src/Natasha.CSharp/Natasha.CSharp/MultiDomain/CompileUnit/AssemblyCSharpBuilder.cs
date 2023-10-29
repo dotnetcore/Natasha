@@ -22,7 +22,7 @@ public sealed partial class AssemblyCSharpBuilder
         EnableSemanticHandler = true;
         _semanticCheckIgnoreAccessibility = true;
         _combineReferences = true;
-        _compileReferenceBehavior = LoadBehaviorEnum.UseDefault;
+        _compileReferenceBehavior = PluginLoadBehavior.UseDefault;
         OutputFolder = GlobalOutputFolder;
         _compilerOptions = new();
         _semanticAnalysistor = new()

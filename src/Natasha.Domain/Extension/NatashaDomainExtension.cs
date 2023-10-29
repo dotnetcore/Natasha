@@ -2,6 +2,9 @@
 using System.Reflection;
 using static System.Runtime.Loader.AssemblyLoadContext;
 
+/// <summary>
+/// 关于域使用的扩展
+/// </summary>
 public static class NatashaDomainExtension
 {
 
@@ -25,7 +28,7 @@ public static class NatashaDomainExtension
     /// <returns></returns>
     public static Assembly LoadPluginWithHighDependency(this NatashaDomain domain,string path, Func<AssemblyName, bool>? excludeAssembliesFunc = null)
     {
-        domain.SetAssemblyLoadBehavior(LoadBehaviorEnum.UseHighVersion);
+        domain.SetAssemblyLoadBehavior(PluginLoadBehavior.UseHighVersion);
         return domain.LoadPlugin(path, excludeAssembliesFunc);
     }
 
@@ -39,7 +42,7 @@ public static class NatashaDomainExtension
     /// <returns></returns>
     public static Assembly LoadPluginWithLowDependency(this NatashaDomain domain, string path, Func<AssemblyName, bool>? excludeAssembliesFunc = null)
     {
-        domain.SetAssemblyLoadBehavior(LoadBehaviorEnum.UseLowVersion);
+        domain.SetAssemblyLoadBehavior(PluginLoadBehavior.UseLowVersion);
         return domain.LoadPlugin(path, excludeAssembliesFunc);
     }
 
@@ -53,7 +56,7 @@ public static class NatashaDomainExtension
     /// <returns></returns>
     public static Assembly LoadPluginUseDefaultDependency(this NatashaDomain domain, string path, Func<AssemblyName, bool>? excludeAssembliesFunc = null)
     {
-        domain.SetAssemblyLoadBehavior(LoadBehaviorEnum.UseDefault);
+        domain.SetAssemblyLoadBehavior(PluginLoadBehavior.UseDefault);
         return domain.LoadPlugin(path, excludeAssembliesFunc);
     }
 
@@ -67,7 +70,7 @@ public static class NatashaDomainExtension
     /// <returns></returns>
     public static Assembly LoadPluginWithAllDependency(this NatashaDomain domain, string path, Func<AssemblyName, bool>? excludeAssembliesFunc = null)
     {
-        domain.SetAssemblyLoadBehavior(LoadBehaviorEnum.None);
+        domain.SetAssemblyLoadBehavior(PluginLoadBehavior.None);
         return domain.LoadPlugin(path, excludeAssembliesFunc);
     }
 }

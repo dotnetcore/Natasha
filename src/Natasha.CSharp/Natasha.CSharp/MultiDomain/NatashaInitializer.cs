@@ -154,7 +154,7 @@ public static class NatashaInitializer
             {
                 var metadata = AssemblyMetadata.Create(ModuleMetadata.CreateFromMetadata((IntPtr)blob, length));
                 var metadataReference = metadata.GetReference();
-                NatashaReferenceDomain.DefaultDomain.References.AddReference(assembly.GetName(), metadataReference, LoadBehaviorEnum.None);
+                NatashaReferenceDomain.DefaultDomain.References.AddReference(assembly.GetName(), metadataReference, PluginLoadBehavior.None);
             }
         });
     }

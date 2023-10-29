@@ -1,0 +1,9 @@
+<Project>
+	<ItemGroup Condition="'$(ImplicitUsings)' == 'enable' or '$(ImplicitUsings)' == 'true'">
+		<Using Include="Natasha.CSharp" />
+		<Using Include="Natasha.CSharp.Reverser" />
+		<Using Include="Natasha.CSharp.Component" />
+		<Using Include="Natasha.CSharp.Compiler" />
+		<Using Include="Natasha.CSharp.Using" />
+	</ItemGroup>
+</Project>
