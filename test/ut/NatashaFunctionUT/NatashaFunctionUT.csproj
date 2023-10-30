@@ -6,6 +6,7 @@
 		<Nullable>enable</Nullable>
 		<LangVersion>preview</LangVersion>
 		<ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+		<SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
 		<SignAssembly>True</SignAssembly>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<AssemblyOriginatorKeyFile>natasha.snk</AssemblyOriginatorKeyFile>
