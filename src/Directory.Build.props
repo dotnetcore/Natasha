@@ -5,7 +5,6 @@
 			<PropertyGroup>
 				
 				<Copyright>.NET Core Community and Contributors</Copyright>
-				<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 				<PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
 				<IsPackable>true</IsPackable>
 				<SignAssembly>true</SignAssembly>
