@@ -74,7 +74,7 @@ public sealed class NatashaReferenceDomain : NatashaDomain
         }
         else
         {
-            DefaultUsing.AddUsing(assembly);
+            UsingRecorder.Using(assembly);
         }
         //UsingRecorder.Using(assembly);
 

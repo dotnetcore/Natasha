@@ -193,9 +193,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scanner", "scanner", "{B7AA
 		scanner.sh = scanner.sh
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Natasha.CSharp.Compiler", "src\Natasha.CSharp\Natasha.CSharp.Compiler\Natasha.CSharp.Compiler.csproj", "{D7EDD106-B744-4E0C-9CCE-D88F29EBC983}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natasha.CSharp.Compiler", "src\Natasha.CSharp\Natasha.CSharp.Compiler\Natasha.CSharp.Compiler.csproj", "{D7EDD106-B744-4E0C-9CCE-D88F29EBC983}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Natasha.CSharp.Template", "src\Natasha.CSharp\Natasha.CSharp.Template\Natasha.CSharp.Template.csproj", "{84A54AF4-0683-48D4-B9D2-465B851E1EF1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natasha.CSharp.Template", "src\Natasha.CSharp\Natasha.CSharp.Template\Natasha.CSharp.Template.csproj", "{84A54AF4-0683-48D4-B9D2-465B851E1EF1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginFunctionUT", "test\ut\PluginFunctionUT\PluginFunctionUT.csproj", "{716B9CEC-8CA2-433F-9E9A-974E536C4099}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -355,6 +357,10 @@ Global
 		{84A54AF4-0683-48D4-B9D2-465B851E1EF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84A54AF4-0683-48D4-B9D2-465B851E1EF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84A54AF4-0683-48D4-B9D2-465B851E1EF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{716B9CEC-8CA2-433F-9E9A-974E536C4099}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{716B9CEC-8CA2-433F-9E9A-974E536C4099}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{716B9CEC-8CA2-433F-9E9A-974E536C4099}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{716B9CEC-8CA2-433F-9E9A-974E536C4099}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -422,6 +428,7 @@ Global
 		{B7AA9686-44B7-4170-82B2-BF8E3B892887} = {DD0B729A-C1D5-41E1-AE1B-FE66F4BC651E}
 		{D7EDD106-B744-4E0C-9CCE-D88F29EBC983} = {8C9B862A-B569-460C-8B74-E74C6DF0CAB3}
 		{84A54AF4-0683-48D4-B9D2-465B851E1EF1} = {8C9B862A-B569-460C-8B74-E74C6DF0CAB3}
+		{716B9CEC-8CA2-433F-9E9A-974E536C4099} = {F4622BCB-C287-4AFE-916B-8C138BD15A3D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3004E730-B231-40FA-B75C-58D7DDE17679}

@@ -8,9 +8,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Reflection.PortableExecutable;
+using System.Runtime.CompilerServices;
+using System.Text;
 
+[assembly: InternalsVisibleTo("PluginFunctionUT, PublicKey=002400000480000094000000060200000024000052534131000400000100010069acb31dd0d9918441d6ed2b49cd67ae17d15fd6ded4ccd2f99b4a88df8cddacbf72d5897bb54f406b037688d99f482ff1c3088638b95364ef614f01c3f3f2a2a75889aa53286865463fb1803876056c8b98ec57f0b3cf2b1185de63d37041ba08f81ddba0dccf81efcdbdc912032e8d2b0efa21accc96206c386b574b9d9cb8")]
 namespace Natasha.CSharp.Component
 {
+
     //与元数据相关
     //数据值与程序集及内存相关
     public sealed class NatashaReferenceCache
@@ -38,6 +42,7 @@ namespace Natasha.CSharp.Component
                     if (assemblyName.CompareWithDefault(oldAssemblyName, loadReferenceBehavior) == AssemblyLoadVersionResult.UseCustomer)
                     {
                         _referenceCache!.Remove(oldAssemblyName);
+                        _referenceNameCache!.Remove(name);
                     }
                     else
                     {
@@ -95,13 +100,14 @@ namespace Natasha.CSharp.Component
             var sets = new HashSet<MetadataReference>(_referenceCache.Values);
             var excludeNods = new HashSet<MetadataReference>();
             var defaultReferences = defaultCache._referenceCache;
-            var defaultNameReferences = defaultCache._referenceNameCache; ;
+            var defaultNameReferences = defaultCache._referenceNameCache;
             if (loadBehavior != PluginLoadBehavior.None || useAssemblyNameFunc != null)
             {
                 foreach (var item in _referenceNameCache)
                 {
                     if (defaultNameReferences.TryGetValue(item.Key, out var defaultAssemblyName))
                     {
+
                         AssemblyLoadVersionResult funcResult;
                         if (useAssemblyNameFunc != null)
                         {
@@ -128,7 +134,9 @@ namespace Natasha.CSharp.Component
                     }
                 }
             }
+            //全部引用
             sets.UnionWith(defaultReferences.Values);
+            //排除不符合的引用
             sets.ExceptWith(excludeNods);
             return sets;
         }

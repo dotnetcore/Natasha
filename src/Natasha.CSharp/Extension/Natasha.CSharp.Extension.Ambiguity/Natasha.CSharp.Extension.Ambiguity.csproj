@@ -12,7 +12,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\Natasha.CSharp\Natasha.CSharp.csproj" />
+		<ProjectReference Include="..\..\Natasha.CSharp.Template\Natasha.CSharp.Template.csproj" />
 	</ItemGroup>
 
 </Project>

@@ -187,7 +187,7 @@ public static class NatashaInitializer
 
         });
     }
-    private unsafe static ParallelLoopResult InitReferenceFromPath(IEnumerable<string> paths)
+    internal unsafe static ParallelLoopResult InitReferenceFromPath(IEnumerable<string> paths)
     {
         var resolver = new PathAssemblyResolver(paths);
         using var mlc = new MetadataLoadContext(resolver);

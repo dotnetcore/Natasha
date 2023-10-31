@@ -32,6 +32,17 @@ public sealed partial class AssemblyCSharpBuilder
         AssemblyName = asmName;
         return this;
     }
+
+    public AssemblyCSharpBuilder ConfigOutput(string dllFilePath, string pdbFilePath, string? xmlFilePath = null)
+    {
+        DllFilePath = dllFilePath;
+        PdbFilePath = pdbFilePath;
+        if (xmlFilePath != null)
+        {
+            XmlFilePath = xmlFilePath;
+        }
+        return this;
+    }
     #endregion
 
 }

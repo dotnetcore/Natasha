@@ -3,10 +3,13 @@ using Microsoft.Extensions.DependencyModel;
 using Natasha.CSharp.Component;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection.Metadata;
+using System.Runtime.CompilerServices;
 using System.Runtime.Loader;
 using Xunit;
+using PluginBase;
 
 namespace NatashaFunctionUT.Reference
 {

@@ -22,47 +22,59 @@ public sealed partial class AssemblyCSharpBuilder
     private PluginLoadBehavior _compileAssemblyBehavior;
     private Func<AssemblyName, AssemblyName, AssemblyLoadVersionResult>? _referencePickFunc;
     private Func<IEnumerable<MetadataReference>, IEnumerable<MetadataReference>>? _referencesFilter;
-    private bool _combineReferences;
 
-    public AssemblyCSharpBuilder WithReferenceCombine()
+
+    private CombineReferenceBehavior _combineReferenceBehavior;
+    /// <summary>
+    /// 配置编译所需的引用
+    /// </summary>
+    /// <param name="combineReferenceBehavior"></param>
+    /// <returns></returns>
+    public AssemblyCSharpBuilder ConfigReferenceCombineBehavior(CombineReferenceBehavior combineReferenceBehavior)
     {
-        _combineReferences = true; 
+        _combineReferenceBehavior = combineReferenceBehavior;
         return this;
     }
-    public AssemblyCSharpBuilder WithoutReferenceCombine()
-    {
-        _combineReferences = false;
-        return this;
-    }
+
     /// <summary>
     /// 配置主域及当前域的加载行为, Default 使用主域引用, Custom 使用当前域引用
     /// </summary>
     /// <param name="loadBehavior"></param>
     /// <returns></returns>
-    public AssemblyCSharpBuilder CompileWithReferenceLoadBehavior(PluginLoadBehavior loadBehavior)
+    public AssemblyCSharpBuilder ConfigReferenceLoadBehavior(PluginLoadBehavior loadBehavior)
     {
         _compileReferenceBehavior = loadBehavior;
         return this;
     }
+
     /// <summary>
     /// 配置当前域程序集的加载行为
     /// </summary>
     /// <param name="loadBehavior"></param>
     /// <returns></returns>
-    public AssemblyCSharpBuilder CompileWithAssemblyLoadBehavior(PluginLoadBehavior loadBehavior)
+    public AssemblyCSharpBuilder ConfigAssemblyLoadBehavior(PluginLoadBehavior loadBehavior)
     {
         _compileAssemblyBehavior = loadBehavior;
         return this;
     }
 
-    public AssemblyCSharpBuilder CompileWithSameNameReferencesFilter(Func<AssemblyName, AssemblyName, AssemblyLoadVersionResult>? useAssemblyNameFunc = null)
+    /// <summary>
+    /// 配置引用同名过滤策略
+    /// </summary>
+    /// <param name="useAssemblyNameFunc"></param>
+    /// <returns></returns>
+    public AssemblyCSharpBuilder ConfigSameNameReferencesFilter(Func<AssemblyName, AssemblyName, AssemblyLoadVersionResult>? useAssemblyNameFunc = null)
     {
         _referencePickFunc = useAssemblyNameFunc;
         return this;
     }
 
-
-    public AssemblyCSharpBuilder CompileWithReferencesFilter(Func<IEnumerable<MetadataReference>, IEnumerable<MetadataReference>>? referencesFilter)
+    /// <summary>
+    /// 配置引用过滤策略
+    /// </summary>
+    /// <param name="referencesFilter"></param>
+    /// <returns></returns>
+    public AssemblyCSharpBuilder ConfigReferencesFilter(Func<IEnumerable<MetadataReference>, IEnumerable<MetadataReference>>? referencesFilter)
     {
         _referencesFilter = referencesFilter;
         return this;
@@ -100,7 +112,7 @@ public sealed partial class AssemblyCSharpBuilder
             options = initOptionsFunc(options);
         }
         IEnumerable<MetadataReference> references;
-        if (_combineReferences)
+        if (_combineReferenceBehavior == CombineReferenceBehavior.CombineDefault)
         {
             references = Domain.GetReferences(_compileReferenceBehavior, _referencePickFunc);
         }

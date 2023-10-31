@@ -1,5 +1,4 @@
 ﻿#if MULTI
-using System;
 using System.IO;
 
 /// <summary>
@@ -7,8 +6,7 @@ using System.IO;
 /// </summary>
 public sealed partial class AssemblyCSharpBuilder 
 {
-
-    public AssemblyCSharpBuilder UseNatashaFileOut(string? folder = null)
+    public AssemblyCSharpBuilder ConfigOutput(string? folder = null)
     {
         if (folder == null)
         {

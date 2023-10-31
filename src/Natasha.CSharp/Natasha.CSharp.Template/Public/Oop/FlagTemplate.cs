@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using System.Runtime.CompilerServices;
 
 namespace Natasha.CSharp.Template
 {

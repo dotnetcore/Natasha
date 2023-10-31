@@ -1,4 +1,5 @@
 ﻿#if MULTI
+using System.Diagnostics;
 using System.Text;
 
 namespace Natasha.CSharp.Template

@@ -1,4 +1,4 @@
-﻿using Natasha.CSharp.Reverser;
+﻿using Natasha.CSharp.Template.Reverser;
 using Xunit;
 
 namespace NatashaFunctionUT.Reverser
