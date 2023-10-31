@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using System.Runtime.CompilerServices;
+using Xunit;
 
 namespace NatashaFunctionUT.Special
 {
@@ -10,10 +11,10 @@ namespace NatashaFunctionUT.Special
         [Fact(DisplayName = "私有只读成员动态赋值")]
         public void Test()
         {
-
             var action = NDelegate
                 .RandomDomain(builder => builder.ConfigCompilerOption(opt => opt.SetCompilerFlag(Natasha.CSharp.Compiler.CompilerBinderFlags.IgnoreAccessibility | Natasha.CSharp.Compiler.CompilerBinderFlags.IgnoreCorLibraryDuplicatedTypes)))
-                .ConfigClass(item => item.AllowPrivate<ReadonlyModel>())
+                .ConfigClass(item => item
+                .AllowPrivate<ReadonlyModel>())
                 .Action<ReadonlyModel>($"{"obj.@interface".ToReadonlyScript()} = new DefaultReadolyInterface();");
 
             ReadonlyModel model = new ReadonlyModel();

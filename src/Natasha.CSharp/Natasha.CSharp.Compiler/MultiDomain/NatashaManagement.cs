@@ -1,10 +1,9 @@
 ﻿# if MULTI
 using System;
-
+using System.Threading.Tasks;
 
 public static partial class NatashaManagement
 {
-   
     /// <summary>
     /// 获取系统域
     /// </summary>
@@ -45,6 +44,11 @@ public static partial class NatashaManagement
         }
         NatashaReferenceDomain.DefaultDomain.References.AddReference(type.Assembly, loadBehavior);
         return true;
+    }
+
+    public static ParallelLoopResult AddGlobalReference(params string[] filePath)
+    {
+        return NatashaInitializer.InitReferenceFromPath(filePath);
     }
 
     /// <summary>

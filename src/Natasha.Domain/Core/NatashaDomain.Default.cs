@@ -2,11 +2,14 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.Loader;
+using System.Text;
 using System.Threading;
+using System.Xml.Linq;
 
 
 public partial class NatashaDomain : AssemblyLoadContext
@@ -84,26 +87,31 @@ public partial class NatashaDomain : AssemblyLoadContext
     {
         if (GetLock())
         {
-            var assemblies = Default.Assemblies;
+           
+            var assemblies = DefaultDomain.Assemblies;
             var count = assemblies.Count();
             if (count != _preDefaultAssemblyCount)
             {
                 _preDefaultAssemblyCount = count;
-                HashSet<Assembly> checkAsm = new(Default.Assemblies);
-                checkAsm.ExceptWith(_defaultAssembliesSets);
-                foreach (var item in checkAsm)
+                HashSet<Assembly> checkAsm = new(DefaultDomain.Assemblies);
+                lock (_defaultAssembliesSets)
                 {
-                    var asmName = item.GetName();
-                    if (_excludeDefaultAssembliesFunc(asmName,asmName.Name))
+                    checkAsm.ExceptWith(_defaultAssembliesSets);
+                    foreach (var item in checkAsm)
                     {
+                        
+                        var asmName = item.GetName();
+                        if (_excludeDefaultAssembliesFunc(asmName, asmName.Name))
+                        {
 #if DEBUG
-                        System.Diagnostics.Debug.WriteLine("[排除程序集]:" + asmName.FullName);
+                            System.Diagnostics.Debug.WriteLine("[排除程序集]:" + asmName.FullName);
 #endif
-                    }
-                    else
-                    {
-                        _defaultAssemblyNameCache[asmName.GetUniqueName()] = asmName;
-                        _defaultAssembliesSets.Add(item);
+                        }
+                        else
+                        {
+                            _defaultAssemblyNameCache[asmName.GetUniqueName()] = asmName;
+                            _defaultAssembliesSets.Add(item);
+                        }
                     }
                 }
             }

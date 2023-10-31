@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.0;netcoreapp3.1;net5.0;net6.0;net7.0</TargetFrameworks>
+		<TargetFrameworks>netstandard2.0;netcoreapp3.1;net5.0;net6.0;net7.0;</TargetFrameworks>
 		<Description>Natasha 的编译模板</Description>
 		<PackageId>DotNetCore.Natasha.CSharp.Template</PackageId>
 		<PackageReleaseNotes>升级到最新版.</PackageReleaseNotes>

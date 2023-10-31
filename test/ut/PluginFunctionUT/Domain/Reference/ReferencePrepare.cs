@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Natasha.CSharp.Component;
+using System.Text;
 
 public class ReferencePrepare : DomainPrepare
 {
@@ -28,6 +29,7 @@ public class ReferencePrepare : DomainPrepare
 
         var references = domain.References.CombineWithDefaultReferences(DefaultReferences, loadBehavior);
         var sets = new HashSet<MetadataReference>(references);
+        //在合法的引用中排除默认引用
         sets.ExceptWith(DefaultReferences.GetReferences());
         return sets;
     }

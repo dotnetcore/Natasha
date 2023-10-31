@@ -1,5 +1,4 @@
-﻿using System;
-namespace Natasha.CSharp.Template
+﻿namespace System.Runtime.CompilerServices
 {
     [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
     public class IgnoresAccessChecksToAttribute : Attribute

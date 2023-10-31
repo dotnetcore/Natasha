@@ -1,4 +1,6 @@
-﻿namespace Natasha.CSharp.Template
+﻿using Natasha.CSharp.Template;
+
+namespace Natasha.CSharp
 {
 
     public static class OopDefinedTypeExtension

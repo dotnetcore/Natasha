@@ -86,7 +86,7 @@ public partial class NatashaDomain
     /// <param name="dllStream">库文件流</param>
     /// <param name="pdbStream">符号流</param>
     /// <returns></returns>
-    public virtual Assembly LoadAssemblyFromStream(Stream dllStream,Stream? pdbStream)
+    public virtual Assembly LoadAssemblyFromStream(Stream dllStream, Stream? pdbStream)
     {
         using (dllStream)
         {
@@ -121,6 +121,7 @@ public partial class NatashaDomain
         if (_assemblyLoadBehavior != PluginLoadBehavior.None && Name != "Default")
         {
             var name = assemblyName.GetUniqueName();
+
             if (_defaultAssemblyNameCache.TryGetValue(name!, out var defaultCacheName))
             {
                 if (assemblyName.CompareWithDefault(defaultCacheName, _assemblyLoadBehavior) == AssemblyLoadVersionResult.UseDefault)
@@ -128,6 +129,7 @@ public partial class NatashaDomain
                     return null;
                 }
             }
+
             //var asm = this.LoadFromAssemblyName(assemblyName);//死循环代码
         }
         var result = _excludePluginReferencesFunc(assemblyName);
@@ -168,12 +170,12 @@ public partial class NatashaDomain
         //var result = _excludeAssembliesFunc == null ? false : _excludeAssembliesFunc(unmanagedDllName);
         //if (!result)
         //{
-            string? libraryPath = _dependencyResolver!.ResolveUnmanagedDllToPath(unmanagedDllName);
-            if (libraryPath != null && File.Exists(libraryPath))
-            {
-                return LoadUnmanagedDllFromPath(libraryPath);
-            }
-       //}
+        string? libraryPath = _dependencyResolver!.ResolveUnmanagedDllToPath(unmanagedDllName);
+        if (libraryPath != null && File.Exists(libraryPath))
+        {
+            return LoadUnmanagedDllFromPath(libraryPath);
+        }
+        //}
         return IntPtr.Zero;
 
     }

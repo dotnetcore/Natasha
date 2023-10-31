@@ -21,7 +21,7 @@ public sealed partial class AssemblyCSharpBuilder
     {
         EnableSemanticHandler = true;
         _semanticCheckIgnoreAccessibility = true;
-        _combineReferences = true;
+        _combineReferenceBehavior = CombineReferenceBehavior.CombineDefault;
         _compileReferenceBehavior = PluginLoadBehavior.UseDefault;
         _parsingBehavior = UsingLoadBehavior.None;
         OutputFolder = GlobalOutputFolder;

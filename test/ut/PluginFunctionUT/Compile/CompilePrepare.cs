@@ -30,8 +30,8 @@ namespace NatashaFunctionUT.Compile
                     try
                     {
                         var assembly = builder
-                            .CompileWithReferenceLoadBehavior(referenceLoadBehavior)
-                            .CompileWithAssemblyLoadBehavior(PluginLoadBehavior.UseDefault)
+                            .ConfigReferenceLoadBehavior(referenceLoadBehavior)
+                            .ConfigAssemblyLoadBehavior(PluginLoadBehavior.UseDefault)
                             .GetAssembly();
                         return (name!, currentName!, true);
                     }
