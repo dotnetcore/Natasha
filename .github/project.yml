@@ -104,11 +104,8 @@ src:
     labels: 
     dependency_config: 
   - using_output:
-      enable: true
-      ignores:
-      - System
-      - System.Runtime.CompilerServices
-      - System.Reflection
+      enable: false
+      ignores: 
     id: 7E92644E-9DA0-493A-B1C6-B0E9E1D1C85B
     is_ignored: false
     is_folded: false
@@ -117,23 +114,7 @@ src:
     package_name: DotNetCore.Natasha.CSharp
     project_folder: src/Natasha.CSharp/Natasha.CSharp
     labels: 
-    dependency_config:
-      type: nuget
-      interval: daily
-      commit_prefix: '[DEPENDENCY SRC]'
-      special_time: 
-      special_time_zone: 
-      labels:
-      - name: dependencies
-        description: 有依赖需要升级
-        color: 4E04B0
-      ignore:
-      - name: System.Reflection.MetadataLoadContext
-        versions: 
-        versions_type: 
-      - name: Microsoft.Extensions.DependencyModel
-        versions: 
-        versions_type: 
+    dependency_config: 
   - using_output:
       enable: true
       ignores:
@@ -196,6 +177,17 @@ test:
     project_name: NatashaFunctionUT
     package_name: NatashaFunctionUT
     project_folder: test/ut/NatashaFunctionUT
+    labels: 
+    dependency_config: 
+  - trigger_pull_request_test: false
+    trigger_codecov: false
+    id: 716B9CEC-8CA2-433F-9E9A-974E536C4099
+    is_ignored: false
+    is_folded: false
+    relative_path: test/ut/PluginFunctionUT/PluginFunctionUT.csproj
+    project_name: PluginFunctionUT
+    package_name: 
+    project_folder: test/ut/PluginFunctionUT
     labels: 
     dependency_config: 
 workflow:

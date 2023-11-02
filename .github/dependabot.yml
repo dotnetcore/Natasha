@@ -7,18 +7,6 @@ version: 2
 updates:
 
   - package-ecosystem: "nuget"
-    directory: "src/Natasha.CSharp/Natasha.CSharp"
-    schedule:
-      interval: "daily"
-    commit-message:
-      prefix: "[DEPENDENCY SRC]"
-    labels:
-      - "dependencies"
-    ignore:
-      - dependency-name: "System.Reflection.MetadataLoadContext"
-      - dependency-name: "Microsoft.Extensions.DependencyModel"
-
-  - package-ecosystem: "nuget"
     directory: "src/Natasha.CSharp/Natasha.CSharp.Compiler"
     schedule:
       interval: "daily"
