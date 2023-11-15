@@ -1,4 +1,4 @@
-﻿#if MULTI
+﻿#if NETCOREAPP3_0_OR_GREATER
 using System.Runtime.Loader;
 
 /// <summary>

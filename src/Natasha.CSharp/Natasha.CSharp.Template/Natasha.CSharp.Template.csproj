@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.0;netcoreapp3.1;net5.0;net6.0;net7.0;</TargetFrameworks>
+		<TargetFrameworks>netstandard2.0;netcoreapp3.1;net5.0;net6.0;net7.0;net8.0;</TargetFrameworks>
 		<Description>Natasha 的编译模板</Description>
 		<PackageId>DotNetCore.Natasha.CSharp.Template</PackageId>
 		<PackageReleaseNotes>升级到最新版.</PackageReleaseNotes>
@@ -10,10 +10,6 @@
 		<Version>5.2.2.1</Version>
 		<FileVersion>5.2.2.1</FileVersion>
 		<AssemblyVersion>5.2.2.1</AssemblyVersion>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0' OR '$(TargetFramework)' == 'netcoreapp3.1' OR '$(TargetFramework)' == 'net5.0' OR '$(TargetFramework)' == 'net5.1' OR '$(TargetFramework)' == 'net6.0' OR '$(TargetFramework)' == 'net7.0'">
-		<DefineConstants>MULTI;</DefineConstants>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -37,5 +33,8 @@
 		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="build\net7.0\DotNetCore.Natasha.CSharp.Template.targets" />
 		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildTransitive\net7.0\DotNetCore.Natasha.CSharp.Template.targets" />
 		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildMultiTargeting\net7.0\DotNetCore.Natasha.CSharp.Template.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="build\net8.0\DotNetCore.Natasha.CSharp.Template.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildTransitive\net8.0\DotNetCore.Natasha.CSharp.Template.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildMultiTargeting\net8.0\DotNetCore.Natasha.CSharp.Template.targets" />
 	</ItemGroup>
 </Project>

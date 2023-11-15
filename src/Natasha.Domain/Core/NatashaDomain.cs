@@ -20,7 +20,7 @@ public partial class NatashaDomain : AssemblyLoadContext, IDisposable
         _assemblyLoadBehavior = PluginLoadBehavior.None;
         _excludePluginReferencesFunc = item => false;
         _dependencyResolver = new AssemblyDependencyResolver(AppDomain.CurrentDomain.BaseDirectory!);
-        Unsafe.AsRef(DefaultDomain) = this;
+        Unsafe.AsRef(in DefaultDomain) = this;
 
     }
     public NatashaDomain(string key) : base(key, true)

@@ -1,4 +1,4 @@
-﻿using Natasha.CSharp.Reverser;
+﻿using Natasha.CSharp.Template.Reverser;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -21,6 +21,7 @@ namespace FrameworkFunctionUT.Reverser
             modifier = modifier.Replace("base", "").Replace("deep","");
             if (eventInfo!=null)
             {
+                
                 Assert.Equal(modifier, ModifierReverser.GetCanOverrideModifier(eventInfo)!.Replace(" ",""));
             }
             if (propertyInfo != null)

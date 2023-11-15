@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
 
-#if MULTI
+#if NETCOREAPP3_0_OR_GREATER
 using System.IO;
 using System.Reflection;
 using Natasha.CSharp.Component.Domain;
