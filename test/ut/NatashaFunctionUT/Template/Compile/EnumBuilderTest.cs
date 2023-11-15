@@ -12,8 +12,8 @@ namespace NatashaFunctionUT.Template.Compile
         public void TestEnum()
         {
             NEnum builder = NEnum.RandomDomain();
-           
-            var type = builder
+
+             var type = builder
                 .NoGlobalUsing()
                 .HiddenNamespace()
                 .Access(AccessFlags.Public)

@@ -1,4 +1,4 @@
-﻿#if MULTI
+﻿#if NETCOREAPP3_0_OR_GREATER
 using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.DependencyModel;
 using System;
@@ -25,7 +25,6 @@ public static class NatashaInitializer
         , bool useRuntimeReference = false
         )
     {
-
         if (!_isCompleted)
         {
             lock (_lock)

@@ -101,10 +101,7 @@ namespace Natasha.CSharp.Template
         /// <returns></returns>
         public virtual T Param(string type, string paramName, string keywords = "")
         {
-
-
             return Param($"{keywords}{type} {paramName}");
-
         }
         /// <summary>
         /// 添加参数
