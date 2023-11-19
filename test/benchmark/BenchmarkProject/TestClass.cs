@@ -2,6 +2,7 @@
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Mathematics;
 using BenchmarkDotNet.Order;
+using System.Globalization;
 using System.Reflection;
 
 namespace BenchmarkProject
@@ -36,23 +37,34 @@ namespace BenchmarkProject
         private MethodInfo _method3;
         private MethodInvoker _method3Invoker;
         private Action<int, int, int> _method3Action;
+        private DateTime _now;
         [GlobalSetup]
         public void Setup()
         {
+            _now = DateTime.Now;
             _method3 = typeof(TestClass).GetMethod("MyMethod3", BindingFlags.NonPublic | BindingFlags.Static);
             _method3Invoker = MethodInvoker.Create(_method3);
             _method3Action = (Action<int, int, int>)Delegate.CreateDelegate(typeof(Action<int, int, int>), _method3);
         }
 
-        [Benchmark(Baseline = true)]
-        public void MethodBaseInvoke() => _method3.Invoke(null, _args3);
+        //[Benchmark(Baseline = true)]
+        //public void MethodBaseInvoke() => _method3.Invoke(null, _args3);
 
+        //[Benchmark]
+        //public void MethodInvokerInvoke() => _method3Invoker.Invoke(null, _arg0, _arg1, _arg2);
+
+        //[Benchmark]
+        //public void DelegateInvokerInvoke() => _method3Action(_arg00, _arg11, _arg22);
         [Benchmark]
-        public void MethodInvokerInvoke() => _method3Invoker.Invoke(null, _arg0, _arg1, _arg2);
-
+        public void TimeFormatWithoutCulture()
+        {
+            var result = _now.ToString("ddd, dd MMM yyyy HH':'mm':'ss 'GMT'");
+        }
         [Benchmark]
-        public void DelegateInvokerInvoke() => _method3Action(_arg00, _arg11, _arg22);
-
+        public void TimeFormatWithCulture()
+        {
+            var result = _now.ToString("ddd, dd MMM yyyy HH':'mm':'ss 'GMT'", CultureInfo.InvariantCulture);
+        }
         private static void MyMethod3(int arg1, int arg2, int arg3) { }
     }
 }
