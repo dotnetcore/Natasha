@@ -3,6 +3,7 @@ using Natasha.Domain.Extension;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 
@@ -121,15 +122,32 @@ public partial class NatashaDomain
         if (_assemblyLoadBehavior != PluginLoadBehavior.None && Name != "Default")
         {
             var name = assemblyName.GetUniqueName();
+#if DEBUG
+            Debug.WriteLine($"\t[当前域匹配]程序集唯一名称:{assemblyName.Name}！");
+#endif
 
-            if (_defaultAssemblyNameCache.TryGetValue(name!, out var defaultCacheName))
+            //当前域检测
+            var preAssembly = this.Assemblies.FirstOrDefault(asm => asm.GetName().GetUniqueName() == name);
+            if (preAssembly != null)
             {
-                if (assemblyName.CompareWithDefault(defaultCacheName, _assemblyLoadBehavior) == AssemblyLoadVersionResult.UseDefault)
-                {
-                    return null;
-                }
+                return preAssembly;
             }
 
+            //默认域覆盖检测
+            if (_defaultAssemblyNameCache.TryGetValue(name!, out var defaultCacheName))
+            {
+#if DEBUG
+                Debug.WriteLine($"\t\t[匹配成功]源/默认域版本:{assemblyName.Version}/{defaultCacheName.Version}！");
+#endif
+                if (assemblyName.CompareWithDefault(defaultCacheName, _assemblyLoadBehavior) == AssemblyLoadVersionResult.UseDefault)
+                {
+                    var defaultAsm = Default.Assemblies.FirstOrDefault(asm => asm.GetName().GetUniqueName() == name);
+                    if (defaultAsm != null)
+                    {
+                        return defaultAsm;
+                    }
+                }
+            }
             //var asm = this.LoadFromAssemblyName(assemblyName);//死循环代码
         }
         var result = _excludePluginReferencesFunc(assemblyName);
@@ -140,7 +158,6 @@ public partial class NatashaDomain
             {
                 return LoadAssemblyFromFile(assemblyPath);
             }
-
             //if (!string.IsNullOrEmpty(assemblyName.CultureName) && !string.Equals("neutral", assemblyName.CultureName))
             //{
             //    foreach (var resourceRoot in _resourceRoots)

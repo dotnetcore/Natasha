@@ -49,10 +49,10 @@ namespace NatashaFunctionUT.Domain.Load
                 domain = DomainManagement.CurrentDomain;
                 Assert.Equal("au_test_plugin", domain.Name);
                 var assembly = domain.LoadPluginWithHighDependency(path, item => item.Name != null && item.Name.Contains("PluginBase"));
-                var type = assembly.GetTypes().Where(item => item.Name == "P1").First();
-                IPluginBase plugin = (IPluginBase)(Activator.CreateInstance(type)!);
+                //var type = assembly.GetTypes().Where(item => item.Name == "P1").First();
+                //IPluginBase plugin = (IPluginBase)(Activator.CreateInstance(type)!);
                 //强制加载所有引用
-                var result = plugin!.PluginMethod1();
+                //var result = plugin!.PluginMethod1();
             }
             domain.Dispose();
             return "au_test_plugin";

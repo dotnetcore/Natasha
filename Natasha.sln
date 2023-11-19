@@ -197,7 +197,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natasha.CSharp.Compiler", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natasha.CSharp.Template", "src\Natasha.CSharp\Natasha.CSharp.Template\Natasha.CSharp.Template.csproj", "{84A54AF4-0683-48D4-B9D2-465B851E1EF1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginFunctionUT", "test\ut\PluginFunctionUT\PluginFunctionUT.csproj", "{716B9CEC-8CA2-433F-9E9A-974E536C4099}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginFunctionUT", "test\ut\PluginFunctionUT\PluginFunctionUT.csproj", "{716B9CEC-8CA2-433F-9E9A-974E536C4099}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>netcoreapp3.1;net5.0;net6.0;</TargetFrameworks>
+		<TargetFrameworks>netcoreapp3.1;net6.0;net8.0;</TargetFrameworks>
 		<IsPackable>false</IsPackable>
 		<Nullable>enable</Nullable>
 		<LangVersion>preview</LangVersion>
@@ -40,51 +40,6 @@
 
 
 	<ItemGroup>
-		<None Update="Domain\Plugin\DNDV\1\net5.0\Dapper.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNDV\1\net5.0\DNDV1.deps.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNDV\1\net5.0\DNDV1.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNDV\1\net5.0\DNDV1.pdb">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNDV\1\net5.0\DNDV1.runtimeconfig.dev.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNDV\1\net5.0\DNDV1.runtimeconfig.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNDV\1\net5.0\Newtonsoft.Json.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNDV\1\net5.0\PluginBase.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNDV\1\net5.0\PluginBase.pdb">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNDV\1\net5.0\runtimes\unix\lib\netstandard2.0\System.Data.SqlClient.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNDV\1\net5.0\runtimes\win-arm64\native\sni.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNDV\1\net5.0\runtimes\win-x64\native\sni.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNDV\1\net5.0\runtimes\win-x86\native\sni.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNDV\1\net5.0\runtimes\win\lib\netstandard2.0\System.Data.SqlClient.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNDV\1\net5.0\System.Data.SqlClient.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
 		<None Update="Domain\Plugin\DNDV\1\net6.0\Dapper.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
@@ -126,6 +81,48 @@
 		</None>
 		<None Update="Domain\Plugin\DNDV\1\net6.0\System.Data.SqlClient.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNDV\1\net8.0\Dapper.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNDV\1\net8.0\DNDV1.deps.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNDV\1\net8.0\DNDV1.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNDV\1\net8.0\DNDV1.pdb">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNDV\1\net8.0\DNDV1.runtimeconfig.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNDV\1\net8.0\Newtonsoft.Json.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNDV\1\net8.0\PluginBase.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNDV\1\net8.0\PluginBase.pdb">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNDV\1\net8.0\runtimes\unix\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNDV\1\net8.0\runtimes\win-arm64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNDV\1\net8.0\runtimes\win-x64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNDV\1\net8.0\runtimes\win-x86\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNDV\1\net8.0\runtimes\win\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNDV\1\net8.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Domain\Plugin\DNDV\1\netcoreapp3.1\Dapper.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -172,33 +169,6 @@
 		<None Update="Domain\Plugin\DNDV\1\netcoreapp3.1\System.Data.SqlClient.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="Domain\Plugin\DNDV\2\net5.0\Dapper.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNDV\2\net5.0\DNDV2.deps.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNDV\2\net5.0\DNDV2.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNDV\2\net5.0\DNDV2.pdb">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNDV\2\net5.0\DNDV2.runtimeconfig.dev.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNDV\2\net5.0\DNDV2.runtimeconfig.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNDV\2\net5.0\Newtonsoft.Json.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNDV\2\net5.0\PluginBase.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNDV\2\net5.0\PluginBase.pdb">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
 		<None Update="Domain\Plugin\DNDV\2\net6.0\Dapper.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
@@ -222,6 +192,30 @@
 		</None>
 		<None Update="Domain\Plugin\DNDV\2\net6.0\PluginBase.pdb">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNDV\2\net8.0\Dapper.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNDV\2\net8.0\DNDV2.deps.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNDV\2\net8.0\DNDV2.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNDV\2\net8.0\DNDV2.pdb">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNDV\2\net8.0\DNDV2.runtimeconfig.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNDV\2\net8.0\Newtonsoft.Json.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNDV\2\net8.0\PluginBase.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNDV\2\net8.0\PluginBase.pdb">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Domain\Plugin\DNDV\2\netcoreapp3.1\Dapper.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -250,33 +244,6 @@
 		<None Update="Domain\Plugin\DNDV\2\netcoreapp3.1\PluginBase.pdb">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="Domain\Plugin\DNSV\1\net5.0\Dapper.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNSV\1\net5.0\DNSV1.deps.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNSV\1\net5.0\DNSV1.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNSV\1\net5.0\DNSV1.pdb">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNSV\1\net5.0\DNSV1.runtimeconfig.dev.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNSV\1\net5.0\DNSV1.runtimeconfig.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNSV\1\net5.0\Newtonsoft.Json.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNSV\1\net5.0\PluginBase.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNSV\1\net5.0\PluginBase.pdb">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
 		<None Update="Domain\Plugin\DNSV\1\net6.0\Dapper.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
@@ -300,6 +267,30 @@
 		</None>
 		<None Update="Domain\Plugin\DNSV\1\net6.0\PluginBase.pdb">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNSV\1\net8.0\Dapper.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNSV\1\net8.0\DNSV1.deps.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNSV\1\net8.0\DNSV1.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNSV\1\net8.0\DNSV1.pdb">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNSV\1\net8.0\DNSV1.runtimeconfig.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNSV\1\net8.0\Newtonsoft.Json.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNSV\1\net8.0\PluginBase.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNSV\1\net8.0\PluginBase.pdb">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Domain\Plugin\DNSV\1\netcoreapp3.1\Dapper.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -328,33 +319,6 @@
 		<None Update="Domain\Plugin\DNSV\1\netcoreapp3.1\PluginBase.pdb">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="Domain\Plugin\DNSV\2\net5.0\Dapper.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNSV\2\net5.0\DNSV2.deps.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNSV\2\net5.0\DNSV2.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNSV\2\net5.0\DNSV2.pdb">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNSV\2\net5.0\DNSV2.runtimeconfig.dev.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNSV\2\net5.0\DNSV2.runtimeconfig.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNSV\2\net5.0\Newtonsoft.Json.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNSV\2\net5.0\PluginBase.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\DNSV\2\net5.0\PluginBase.pdb">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
 		<None Update="Domain\Plugin\DNSV\2\net6.0\Dapper.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
@@ -378,6 +342,30 @@
 		</None>
 		<None Update="Domain\Plugin\DNSV\2\net6.0\PluginBase.pdb">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNSV\2\net8.0\Dapper.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNSV\2\net8.0\DNSV2.deps.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNSV\2\net8.0\DNSV2.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNSV\2\net8.0\DNSV2.pdb">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNSV\2\net8.0\DNSV2.runtimeconfig.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNSV\2\net8.0\Newtonsoft.Json.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNSV\2\net8.0\PluginBase.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\DNSV\2\net8.0\PluginBase.pdb">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Domain\Plugin\DNSV\2\netcoreapp3.1\Dapper.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -404,51 +392,6 @@
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Domain\Plugin\DNSV\2\netcoreapp3.1\PluginBase.pdb">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVDV\1\net5.0\Dapper.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVDV\1\net5.0\Newtonsoft.Json.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVDV\1\net5.0\PluginBase.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVDV\1\net5.0\PluginBase.pdb">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVDV\1\net5.0\runtimes\unix\lib\netstandard2.0\System.Data.SqlClient.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVDV\1\net5.0\runtimes\win-arm64\native\sni.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVDV\1\net5.0\runtimes\win-x64\native\sni.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVDV\1\net5.0\runtimes\win-x86\native\sni.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVDV\1\net5.0\runtimes\win\lib\netstandard2.0\System.Data.SqlClient.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVDV\1\net5.0\SNDVDV.deps.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVDV\1\net5.0\SNDVDV.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVDV\1\net5.0\SNDVDV.pdb">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVDV\1\net5.0\SNDVDV.runtimeconfig.dev.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVDV\1\net5.0\SNDVDV.runtimeconfig.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVDV\1\net5.0\System.Data.SqlClient.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Domain\Plugin\SNDVDV\1\net6.0\Dapper.dll">
@@ -492,6 +435,48 @@
 		</None>
 		<None Update="Domain\Plugin\SNDVDV\1\net6.0\System.Data.SqlClient.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVDV\1\net8.0\Dapper.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVDV\1\net8.0\Newtonsoft.Json.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVDV\1\net8.0\PluginBase.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVDV\1\net8.0\PluginBase.pdb">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVDV\1\net8.0\runtimes\unix\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVDV\1\net8.0\runtimes\win-arm64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVDV\1\net8.0\runtimes\win-x64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVDV\1\net8.0\runtimes\win-x86\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVDV\1\net8.0\runtimes\win\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVDV\1\net8.0\SNDVDV.deps.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVDV\1\net8.0\SNDVDV.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVDV\1\net8.0\SNDVDV.pdb">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVDV\1\net8.0\SNDVDV.runtimeconfig.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVDV\1\net8.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Domain\Plugin\SNDVDV\1\netcoreapp3.1\Dapper.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -538,33 +523,6 @@
 		<None Update="Domain\Plugin\SNDVDV\1\netcoreapp3.1\System.Data.SqlClient.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="Domain\Plugin\SNDVDV\2\net5.0\Dapper.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVDV\2\net5.0\Newtonsoft.Json.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVDV\2\net5.0\PluginBase.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVDV\2\net5.0\PluginBase.pdb">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVDV\2\net5.0\SNDVDV.deps.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVDV\2\net5.0\SNDVDV.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVDV\2\net5.0\SNDVDV.pdb">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVDV\2\net5.0\SNDVDV.runtimeconfig.dev.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVDV\2\net5.0\SNDVDV.runtimeconfig.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
 		<None Update="Domain\Plugin\SNDVDV\2\net6.0\Dapper.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
@@ -588,6 +546,30 @@
 		</None>
 		<None Update="Domain\Plugin\SNDVDV\2\net6.0\SNDVDV.runtimeconfig.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVDV\2\net8.0\Dapper.dll">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVDV\2\net8.0\Newtonsoft.Json.dll">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVDV\2\net8.0\PluginBase.dll">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVDV\2\net8.0\PluginBase.pdb">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVDV\2\net8.0\SNDVDV.deps.json">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVDV\2\net8.0\SNDVDV.dll">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVDV\2\net8.0\SNDVDV.pdb">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVDV\2\net8.0\SNDVDV.runtimeconfig.json">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Domain\Plugin\SNDVDV\2\netcoreapp3.1\Dapper.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -614,51 +596,6 @@
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Domain\Plugin\SNDVDV\2\netcoreapp3.1\SNDVDV.runtimeconfig.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVSV\1\net5.0\Dapper.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVSV\1\net5.0\Newtonsoft.Json.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVSV\1\net5.0\PluginBase.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVSV\1\net5.0\PluginBase.pdb">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVSV\1\net5.0\runtimes\unix\lib\netstandard2.0\System.Data.SqlClient.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVSV\1\net5.0\runtimes\win-arm64\native\sni.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVSV\1\net5.0\runtimes\win-x64\native\sni.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVSV\1\net5.0\runtimes\win-x86\native\sni.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVSV\1\net5.0\runtimes\win\lib\netstandard2.0\System.Data.SqlClient.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVSV\1\net5.0\SNDVSV.deps.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVSV\1\net5.0\SNDVSV.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVSV\1\net5.0\SNDVSV.pdb">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVSV\1\net5.0\SNDVSV.runtimeconfig.dev.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVSV\1\net5.0\SNDVSV.runtimeconfig.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVSV\1\net5.0\System.Data.SqlClient.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Domain\Plugin\SNDVSV\1\net6.0\Dapper.dll">
@@ -702,6 +639,42 @@
 		</None>
 		<None Update="Domain\Plugin\SNDVSV\1\net6.0\System.Data.SqlClient.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\1\net8.0\Dapper.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\1\net8.0\Newtonsoft.Json.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\1\net8.0\PluginBase.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\1\net8.0\runtimes\unix\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\1\net8.0\runtimes\win-arm64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\1\net8.0\runtimes\win-x64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\1\net8.0\runtimes\win-x86\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\1\net8.0\runtimes\win\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\1\net8.0\SNDVSV.deps.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\1\net8.0\SNDVSV.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\1\net8.0\SNDVSV.runtimeconfig.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\1\net8.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Domain\Plugin\SNDVSV\1\netcoreapp3.1\Dapper.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -748,51 +721,6 @@
 		<None Update="Domain\Plugin\SNDVSV\1\netcoreapp3.1\System.Data.SqlClient.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="Domain\Plugin\SNDVSV\2\net5.0\Dapper.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVSV\2\net5.0\Newtonsoft.Json.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVSV\2\net5.0\PluginBase.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVSV\2\net5.0\PluginBase.pdb">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVSV\2\net5.0\runtimes\unix\lib\netstandard2.0\System.Data.SqlClient.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVSV\2\net5.0\runtimes\win-arm64\native\sni.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVSV\2\net5.0\runtimes\win-x64\native\sni.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVSV\2\net5.0\runtimes\win-x86\native\sni.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVSV\2\net5.0\runtimes\win\lib\netstandard2.0\System.Data.SqlClient.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVSV\2\net5.0\SNDVSV.deps.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVSV\2\net5.0\SNDVSV.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVSV\2\net5.0\SNDVSV.pdb">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVSV\2\net5.0\SNDVSV.runtimeconfig.dev.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVSV\2\net5.0\SNDVSV.runtimeconfig.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNDVSV\2\net5.0\System.Data.SqlClient.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
 		<None Update="Domain\Plugin\SNDVSV\2\net6.0\Dapper.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
@@ -834,6 +762,48 @@
 		</None>
 		<None Update="Domain\Plugin\SNDVSV\2\net6.0\System.Data.SqlClient.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\2\net8.0\Dapper.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\2\net8.0\Newtonsoft.Json.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\2\net8.0\PluginBase.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\2\net8.0\PluginBase.pdb">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\2\net8.0\runtimes\unix\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\2\net8.0\runtimes\win-arm64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\2\net8.0\runtimes\win-x64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\2\net8.0\runtimes\win-x86\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\2\net8.0\runtimes\win\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\2\net8.0\SNDVSV.deps.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\2\net8.0\SNDVSV.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\2\net8.0\SNDVSV.pdb">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\2\net8.0\SNDVSV.runtimeconfig.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNDVSV\2\net8.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Domain\Plugin\SNDVSV\2\netcoreapp3.1\Dapper.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -880,51 +850,6 @@
 		<None Update="Domain\Plugin\SNDVSV\2\netcoreapp3.1\System.Data.SqlClient.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="Domain\Plugin\SNIVDV\1\net5.0\Dapper.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVDV\1\net5.0\Newtonsoft.Json.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVDV\1\net5.0\PluginBase.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVDV\1\net5.0\PluginBase.pdb">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVDV\1\net5.0\runtimes\unix\lib\netstandard2.0\System.Data.SqlClient.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVDV\1\net5.0\runtimes\win-arm64\native\sni.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVDV\1\net5.0\runtimes\win-x64\native\sni.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVDV\1\net5.0\runtimes\win-x86\native\sni.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVDV\1\net5.0\runtimes\win\lib\netstandard2.0\System.Data.SqlClient.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVDV\1\net5.0\SNIVDV.deps.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVDV\1\net5.0\SNIVDV.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVDV\1\net5.0\SNIVDV.pdb">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVDV\1\net5.0\SNIVDV.runtimeconfig.dev.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVDV\1\net5.0\SNIVDV.runtimeconfig.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVDV\1\net5.0\System.Data.SqlClient.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
 		<None Update="Domain\Plugin\SNIVDV\1\net6.0\Dapper.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
@@ -966,6 +891,42 @@
 		</None>
 		<None Update="Domain\Plugin\SNIVDV\1\net6.0\System.Data.SqlClient.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVDV\1\net8.0\Dapper.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVDV\1\net8.0\Newtonsoft.Json.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVDV\1\net8.0\PluginBase.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVDV\1\net8.0\runtimes\unix\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVDV\1\net8.0\runtimes\win-arm64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVDV\1\net8.0\runtimes\win-x64\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVDV\1\net8.0\runtimes\win-x86\native\sni.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVDV\1\net8.0\runtimes\win\lib\netstandard2.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVDV\1\net8.0\SNIVDV.deps.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVDV\1\net8.0\SNIVDV.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVDV\1\net8.0\SNIVDV.runtimeconfig.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVDV\1\net8.0\System.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Domain\Plugin\SNIVDV\1\netcoreapp3.1\Dapper.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -1012,33 +973,6 @@
 		<None Update="Domain\Plugin\SNIVDV\1\netcoreapp3.1\System.Data.SqlClient.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="Domain\Plugin\SNIVDV\2\net5.0\Dapper.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVDV\2\net5.0\Newtonsoft.Json.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVDV\2\net5.0\PluginBase.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVDV\2\net5.0\PluginBase.pdb">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVDV\2\net5.0\SNIVDV.deps.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVDV\2\net5.0\SNIVDV.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVDV\2\net5.0\SNIVDV.pdb">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVDV\2\net5.0\SNIVDV.runtimeconfig.dev.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVDV\2\net5.0\SNIVDV.runtimeconfig.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
 		<None Update="Domain\Plugin\SNIVDV\2\net6.0\Dapper.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
@@ -1062,6 +996,24 @@
 		</None>
 		<None Update="Domain\Plugin\SNIVDV\2\net6.0\SNIVDV.runtimeconfig.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVDV\2\net8.0\Dapper.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVDV\2\net8.0\Newtonsoft.Json.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVDV\2\net8.0\PluginBase.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVDV\2\net8.0\SNIVDV.deps.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVDV\2\net8.0\SNIVDV.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVDV\2\net8.0\SNIVDV.runtimeconfig.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Domain\Plugin\SNIVDV\2\netcoreapp3.1\Dapper.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -1090,33 +1042,6 @@
 		<None Update="Domain\Plugin\SNIVDV\2\netcoreapp3.1\SNIVDV.runtimeconfig.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="Domain\Plugin\SNIVSV\1\net5.0\Dapper.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVSV\1\net5.0\Newtonsoft.Json.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVSV\1\net5.0\PluginBase.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVSV\1\net5.0\PluginBase.pdb">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVSV\1\net5.0\SNIVSV.deps.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVSV\1\net5.0\SNIVSV.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVSV\1\net5.0\SNIVSV.pdb">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVSV\1\net5.0\SNIVSV.runtimeconfig.dev.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVSV\1\net5.0\SNIVSV.runtimeconfig.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
 		<None Update="Domain\Plugin\SNIVSV\1\net6.0\Dapper.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
@@ -1140,6 +1065,27 @@
 		</None>
 		<None Update="Domain\Plugin\SNIVSV\1\net6.0\SNIVSV.runtimeconfig.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVSV\1\net8.0\Dapper.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVSV\1\net8.0\Newtonsoft.Json.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVSV\1\net8.0\PluginBase.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVSV\1\net8.0\SNIVSV.deps.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVSV\1\net8.0\SNIVSV.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVSV\1\net8.0\SNIVSV.pdb">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVSV\1\net8.0\SNIVSV.runtimeconfig.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Domain\Plugin\SNIVSV\1\netcoreapp3.1\Dapper.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -1168,33 +1114,6 @@
 		<None Update="Domain\Plugin\SNIVSV\1\netcoreapp3.1\SNIVSV.runtimeconfig.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="Domain\Plugin\SNIVSV\2\net5.0\Dapper.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVSV\2\net5.0\Newtonsoft.Json.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVSV\2\net5.0\PluginBase.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVSV\2\net5.0\PluginBase.pdb">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVSV\2\net5.0\SNIVSV.deps.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVSV\2\net5.0\SNIVSV.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVSV\2\net5.0\SNIVSV.pdb">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVSV\2\net5.0\SNIVSV.runtimeconfig.dev.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Plugin\SNIVSV\2\net5.0\SNIVSV.runtimeconfig.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
 		<None Update="Domain\Plugin\SNIVSV\2\net6.0\Dapper.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
@@ -1218,6 +1137,24 @@
 		</None>
 		<None Update="Domain\Plugin\SNIVSV\2\net6.0\SNIVSV.runtimeconfig.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVSV\2\net8.0\Dapper.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVSV\2\net8.0\Newtonsoft.Json.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVSV\2\net8.0\PluginBase.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVSV\2\net8.0\SNIVSV.deps.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVSV\2\net8.0\SNIVSV.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Plugin\SNIVSV\2\net8.0\SNIVSV.runtimeconfig.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Domain\Plugin\SNIVSV\2\netcoreapp3.1\Dapper.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -1246,6 +1183,12 @@
 		<None Update="Domain\Plugin\SNIVSV\2\netcoreapp3.1\SNIVSV.runtimeconfig.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+		<None Update="Domain\Reference\1.0.0.0\net8.0\MetadataDiff.deps.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Domain\Reference\1.0.0.0\net8.0\MetadataDiff.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 		<None Update="Domain\Reference\Libraries\runtimes\unix\lib\netstandard2.0\System.Data.SqlClient.dll">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
@@ -1259,15 +1202,6 @@
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Domain\Reference\Libraries\runtimes\win\lib\netstandard2.0\System.Data.SqlClient.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Reference\1.0.0.0\net5.0\MetadataDiff.deps.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Reference\1.0.0.0\net5.0\MetadataDiff.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Domain\Reference\1.0.0.0\net5.0\MetadataDiff.pdb">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Domain\Reference\1.0.0.0\net6.0\MetadataDiff.deps.json">

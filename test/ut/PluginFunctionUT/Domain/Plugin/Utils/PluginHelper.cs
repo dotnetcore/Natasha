@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NatashaFunctionUT
@@ -30,10 +31,10 @@ namespace NatashaFunctionUT
             {
                 excludeAssembliesFunc = item => item.Name!.Contains("PluginBase");
             }
-
+           
+            var assembly1 = domain1.LoadPlugin(path1, excludeAssembliesFunc);
             try
             {
-                var assembly1 = domain1.LoadPlugin(path1, excludeAssembliesFunc);
                 var type1 = assembly1.GetTypes().Where(item => item.Name == typeName1).First();
                 IPluginBase? plugin1 = (IPluginBase?)Activator.CreateInstance(type1);
                 result1 = plugin1!.PluginMethod1();
@@ -42,7 +43,6 @@ namespace NatashaFunctionUT
             {
                 result1 = ex.GetType().Name;
             }
-
 
             try
             {
@@ -54,6 +54,17 @@ namespace NatashaFunctionUT
             catch (Exception ex)
             {
                 result2 = ex.GetType().Name;
+            }
+            try
+            {
+                var type1 = assembly1.GetTypes().Where(item => item.Name == typeName1).First();
+                IPluginBase? plugin1 = (IPluginBase?)Activator.CreateInstance(type1);
+                result1 = plugin1!.PluginMethod1();
+            }
+            catch (Exception ex)
+            {
+
+                result1 = ex.GetType().Name;
             }
             return (result1, result2);
         }

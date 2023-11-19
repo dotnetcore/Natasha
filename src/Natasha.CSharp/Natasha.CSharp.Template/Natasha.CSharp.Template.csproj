@@ -13,6 +13,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
 	  <ProjectReference Include="..\Natasha.CSharp.Compiler\Natasha.CSharp.Compiler.csproj" />
 	</ItemGroup>
 
