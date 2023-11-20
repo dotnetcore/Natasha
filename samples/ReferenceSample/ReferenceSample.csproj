@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Natasha.CSharp\Natasha.CSharp\Natasha.CSharp.csproj" />
+    <ProjectReference Include="..\..\src\Natasha.CSharp\Natasha.CSharp.Compiler\Natasha.CSharp.Compiler.csproj" />
   </ItemGroup>
 
   <!--<ItemGroup>

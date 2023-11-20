@@ -7,6 +7,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Reflection.Metadata;
 using System.Reflection.PortableExecutable;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -30,7 +31,30 @@ namespace Natasha.CSharp.Component
             _referenceNameCache = new();
         }
 
+        /// <summary>
+        /// 根据程序集名获取引用
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public MetadataReference? GetSingleReference(AssemblyName name)
+        {
+            if (_referenceNameCache.TryGetValue(name.GetUniqueName(),out var realName))
+            {
+                return _referenceCache[realName];
+            }
+            return null;
+        }
+
         public int Count { get { return _referenceCache.Count; } }
+
+        public unsafe void AddReference(Assembly assembly, PluginLoadBehavior loadReferenceBehavior = PluginLoadBehavior.None)
+        {
+            if (assembly.TryGetRawMetadata(out var blob, out var length))
+            {
+                var metadataReference = AssemblyMetadata.Create(ModuleMetadata.CreateFromMetadata((IntPtr)blob, length)).GetReference();
+                AddReference(assembly.GetName(), metadataReference, loadReferenceBehavior);
+            }
+        }
         public void AddReference(AssemblyName assemblyName, MetadataReference reference, PluginLoadBehavior loadReferenceBehavior)
         {
 
@@ -63,13 +87,6 @@ namespace Natasha.CSharp.Component
             AddReference(assemblyName, CreateMetadataReference(path), loadReferenceBehavior);
         }
 
-        public void AddReference(Assembly assembly, PluginLoadBehavior loadReferenceBehavior = PluginLoadBehavior.None)
-        {
-            if (!assembly.IsDynamic && !string.IsNullOrEmpty(assembly.Location))
-            {
-                AddReference(assembly.GetName(), CreateMetadataReference(assembly.Location), loadReferenceBehavior);
-            }
-        }
         public void RemoveReference(AssemblyName assemblyName)
         {
             _referenceCache!.Remove(assemblyName);

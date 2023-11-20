@@ -11,7 +11,7 @@ public sealed partial class AssemblyCSharpBuilder
     /// <param name="script">脚本代码</param>
     /// <param name="usingLoadBehavior">using 拼接行为</param>
     /// <returns></returns>
-    public AssemblyCSharpBuilder Add(string script, UsingLoadBehavior usingLoadBehavior)
+    public AssemblyCSharpBuilder Add(string script, UsingLoadBehavior usingLoadBehavior = UsingLoadBehavior.WithCurrent)
     {
         switch (usingLoadBehavior)
         {

@@ -73,7 +73,7 @@ namespace Natasha.CSharp.Using
             {
                 try
                 {
-                    Using(assembly.GetTypes());
+                    Using(assembly.GetExportedTypes());
                 }
                 catch 
                 {

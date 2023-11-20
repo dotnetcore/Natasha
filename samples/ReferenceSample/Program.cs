@@ -11,10 +11,54 @@ namespace ReferenceSample
     {
         static void Main(string[] args)
         {
-            Run();
+            //Run();
+            NatashaManagement.Preheating(true, true);
+            GC.Collect();
+            Thread.Sleep(15000);
+            for (int i = 0; i < 5; i++)
+            {
+                TestMini();
+                Thread.Sleep(3000);
+            }
             Console.ReadKey();
             
         }
+
+        public static void TestMini()
+        {
+            AssemblyCSharpBuilder builder = new AssemblyCSharpBuilder();
+            builder
+                .UseRandomDomain()
+                .ConfigCompilerOption(opt=>opt
+                        .AppendCompilerFlag(
+                        Natasha.CSharp.Compiler.CompilerBinderFlags.SuppressConstraintChecks | 
+                        Natasha.CSharp.Compiler.CompilerBinderFlags.SuppressObsoleteChecks | 
+                        Natasha.CSharp.Compiler.CompilerBinderFlags.SuppressTypeArgumentBinding | 
+                        Natasha.CSharp.Compiler.CompilerBinderFlags.SuppressUnsafeDiagnostics))
+                .DisableSemanticCheck()
+                .AddReference(typeof(object).Assembly)
+                .AddReference(typeof(Math).Assembly)
+                .AddReference(typeof(MathF).Assembly)
+                .ConfigReferenceCombineBehavior(CombineReferenceBehavior.UseCurrent);
+
+            builder.Add(@"public static class A{  
+    public static int N1 = 10;
+    public static float N2 = 1.2F; 
+    public static double N3 = 3.44;
+
+    public static object Invoke(){
+
+        return N1 + MathF.Log10((float)Math.Sqrt(MathF.Sqrt(N2) + Math.Tan(N3)));
+    }
+}", UsingLoadBehavior.WithCurrent);
+
+            var asm = builder.GetAssembly();
+            var type = asm.GetType("A");
+            var method = type.GetMethod("Invoke");
+            var result = method.Invoke(null, null);
+            Console.WriteLine(result);
+        }
+
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void Run()
         {
@@ -30,7 +74,7 @@ namespace ReferenceSample
             builder.Domain = DomainManagement.Random();
 
 
-            builder.AddWithDefaultUsing("public class A { public string Name {get;set;} = \"abc\"; }");
+            builder.Add("public class A { public string Name {get;set;} = \"abc\"; }", UsingLoadBehavior.WithDefault);
             //此API可以在不用编译的情况下获取到已经格式化好的语法树.
             //注: GetAssembly 方法中已包括此方法, 但不会重复运行.
             builder.GetAvailableCompilation();
@@ -45,9 +89,9 @@ namespace ReferenceSample
             builder.WithRandomAssenblyName();
             builder.ClearScript();
             //向 builder 中追加类型 B.
-            builder.AddWithDefaultUsing("namespace TempA { public class A { public string Name {get;set;} = \"abcAaaa\"; }}");
-            builder.AddWithDefaultUsing("public static class B{ public static void Show(){ Console.WriteLine(\"HelloWorld!\" + (new TempA.A()).Name); } }");
-            builder.AddWithDefaultUsing("public class C: A { public string Name {get;set;} }");
+            builder.Add("namespace TempA { public class A { public string Name {get;set;} = \"abcAaaa\"; }}", UsingLoadBehavior.WithDefault);
+            builder.Add("public static class B{ public static void Show(){ Console.WriteLine(\"HelloWorld!\" + (new TempA.A()).Name); } }", UsingLoadBehavior.WithDefault);
+            builder.Add("public class C: A { public string Name {get;set;} }", UsingLoadBehavior.WithDefault);
             var assemblyAB = builder.GetAssembly();
             //Console.WriteLine(assemblyAB == assemblyA);
             //var a = assemblyAB.GetName().GetUniqueName();
@@ -60,7 +104,7 @@ namespace ReferenceSample
 
             builder.Clear();
             builder.WithRandomAssenblyName();
-            builder.AddWithDefaultUsing("public static class D{ public static object Show(){ return new A(); } }");
+            builder.Add("public static class D{ public static object Show(){ return new A(); } }", UsingLoadBehavior.WithDefault);
             var assemblyD = builder.GetAssembly();
             var func = assemblyD.GetDelegateFromShortName<Func<object>>("D", "Show");
             dynamic obj = func();
