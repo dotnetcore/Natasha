@@ -7,6 +7,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
+using System.Reflection.Emit;
+using System.Reflection.Metadata;
+
+
 
 #if NETCOREAPP3_0_OR_GREATER
 using System.IO;
@@ -163,13 +167,15 @@ public sealed partial class AssemblyCSharpBuilder
     /// </code>
     /// </example>
     /// </remarks>
-    public Assembly GetAssembly(Assembly? currentAssembly = null)
+    public Assembly GetAssembly()
     {
   
 #if DEBUG
         Stopwatch stopwatch = new();
         stopwatch.Start();
 #endif
+
+
         Stream dllStream;
         Stream pdbStream;
         Stream? xmlStream = null;
@@ -196,19 +202,11 @@ public sealed partial class AssemblyCSharpBuilder
             xmlStream = File.Create(XmlFilePath);
         }
 
-        if (currentAssembly != null)
-        {
-             _compilation = 
-                    GetAvailableCompilation(opt=>opt
-                        .WithModuleName(AssemblyName)
-                        .WithOutputKind(OutputKind.NetModule));
 
-        }
-        else if (_compilation == null)
+        if (_compilation == null)
         {
             _compilation = GetAvailableCompilation();
         }
-
 
         var compileResult = _compilation.Emit(
            dllStream,
@@ -218,24 +216,13 @@ public sealed partial class AssemblyCSharpBuilder
 
 
         LogCompilationEvent?.Invoke(_compilation.GetNatashaLog());
-
-        Assembly? assembly = currentAssembly;
+        Assembly? assembly = null;
         if (compileResult.Success)
         {
             dllStream.Seek(0, SeekOrigin.Begin);
-            if (assembly == null)
-            {
-                
-                pdbStream?.Seek(0, SeekOrigin.Begin);
-                Domain.SetAssemblyLoadBehavior(_compileAssemblyBehavior);
-                assembly = Domain.LoadAssemblyFromStream(dllStream, pdbStream);
-            }
-            else
-            {
-                byte[] rawStream = new byte[dllStream.Length];
-                dllStream.Read(rawStream.AsSpan());
-                assembly.LoadModule(AssemblyName, rawStream);
-            }
+            pdbStream?.Seek(0, SeekOrigin.Begin);
+            Domain.SetAssemblyLoadBehavior(_compileAssemblyBehavior);
+            assembly = Domain.LoadAssemblyFromStream(dllStream, pdbStream);
             CompileSucceedEvent?.Invoke(_compilation, assembly!);
 
         }

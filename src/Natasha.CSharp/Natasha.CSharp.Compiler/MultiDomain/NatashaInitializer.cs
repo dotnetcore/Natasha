@@ -145,16 +145,11 @@ public static class NatashaInitializer
 #endif
 
 
-    private unsafe static ParallelLoopResult InitReferenceFromRuntime(Assembly[] assemblies)
+    private static ParallelLoopResult InitReferenceFromRuntime(Assembly[] assemblies)
     {
         return Parallel.ForEach(assemblies, assembly =>
         {
-            if (assembly.TryGetRawMetadata(out var blob, out var length))
-            {
-                var metadata = AssemblyMetadata.Create(ModuleMetadata.CreateFromMetadata((IntPtr)blob, length));
-                var metadataReference = metadata.GetReference();
-                NatashaReferenceDomain.DefaultDomain.References.AddReference(assembly.GetName(), metadataReference, PluginLoadBehavior.None);
-            }
+            NatashaReferenceDomain.DefaultDomain.References.AddReference(assembly);
         });
     }
     //*

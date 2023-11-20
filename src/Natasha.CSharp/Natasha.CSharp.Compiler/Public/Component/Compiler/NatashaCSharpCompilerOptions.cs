@@ -122,6 +122,20 @@ namespace Natasha.CSharp.Compiler
         }
 
         /// <summary>
+        /// 增加编译标识
+        /// </summary>
+        /// <param name="flags"></param>
+        /// <returns></returns>
+        public NatashaCSharpCompilerOptions AppendCompilerFlag(params CompilerBinderFlags[] flags)
+        {
+            for (int i = 0; i < flags.Length; i++)
+            {
+                _compileFlags |= flags[i];
+            }
+            return this;
+        }
+
+        /// <summary>
         /// 移除 IgnoreAccessibility 标识
         /// </summary>
         /// <returns></returns>

@@ -38,10 +38,6 @@ public static partial class NatashaManagement
     /// <returns></returns>
     public static bool AddGlobalReference(Type type, PluginLoadBehavior loadBehavior = PluginLoadBehavior.None)
     {
-        if (type.Assembly.IsDynamic || type.Assembly.Location == null)
-        {
-            return false;
-        }
         NatashaReferenceDomain.DefaultDomain.References.AddReference(type.Assembly, loadBehavior);
         return true;
     }

@@ -3,7 +3,7 @@ using System.Reflection;
 
 public static partial class NatashaManagement
 {
-#if MULTI
+#if NETCOREAPP3_0_OR_GREATER
     /// <summary>
     /// 和 NatashaInitializer.Preheating(); 一样
     /// </summary>
@@ -21,7 +21,7 @@ public static partial class NatashaManagement
         NatashaInitializer.Preheating(null, useRuntimeUsing, useRuntimeReference);
     }
 #else
-        public static void Preheating(
+    public static void Preheating(
         Func<AssemblyName, string?, bool>? excludeReferencesFunc = null)
     {
         NatashaInitializer.Preheating(excludeReferencesFunc);
