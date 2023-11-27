@@ -20,7 +20,7 @@ namespace NatashaFunctionUT.Compile
 
                     AssemblyCSharpBuilder builder = new();
                     currentName = builder.Domain.Name;
-
+                    builder.ConfigCompilerOption(opt => opt.WithLowerVersionsAssembly());
                     var pAssembly = builder.Domain.LoadPlugin(path);
                     var pType = pAssembly.GetTypes().Where(item => item.Name == "MetadataModel").First();
                     var plugin = Activator.CreateInstance(pType);

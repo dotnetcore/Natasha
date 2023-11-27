@@ -43,7 +43,8 @@ public void Show(){
             var logText = GetText(fileName);
             Assert.NotNull(log);
             Assert.True(ex is NatashaException);
-            Assert.Equal(logText.Split("\n").Length, log!.ToString().Split("\n").Length);
+            var logText2 = log!.ToString();
+            Assert.Equal(logText.Split("\n").Length, logText2.Split("\n").Length);
 
             //if (Environment.OSVersion.Platform == PlatformID.Win32NT)
             //{
@@ -73,6 +74,7 @@ public string Address;
             {
                 AssemblyCSharpBuilder builder = new("ee79d3e2b027491f93705a4098578bcc");
                 builder.Add(code);
+                builder.ConfigCompilerOption(opt => opt.SetNullableCompile(Microsoft.CodeAnalysis.NullableContextOptions.Disable));
                 builder.LogCompilationEvent += (logModel) =>
                 {
                     log = logModel;
@@ -109,6 +111,7 @@ public int Get(){
                 AssemblyCSharpBuilder builder = new("ed79d3e2b027491f93705a4098578bcd");
                 builder.Add(code1);
                 builder.Add(code2);
+                builder.ConfigCompilerOption(opt => opt.SetNullableCompile(Microsoft.CodeAnalysis.NullableContextOptions.Disable));
                 builder.CompileFailedEvent += (compilation, errors) =>
                 {
                     log = compilation.GetNatashaLog();
@@ -142,6 +145,7 @@ public int Get(){
             NatashaCompilationLog? log = null;
             AssemblyCSharpBuilder builder = new("2d79d3e2b027491f93705a4098578bcd");
             builder.Domain = DomainManagement.Random();
+            builder.ConfigCompilerOption(opt => opt.SetNullableCompile(Microsoft.CodeAnalysis.NullableContextOptions.Disable));
             builder.Add(code1);
             builder.Add(code2);
             builder.CompileSucceedEvent += (compilation, assembly) =>

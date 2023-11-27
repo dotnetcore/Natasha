@@ -73,6 +73,7 @@ public string Address;
             {
                 AssemblyCSharpBuilder builder = new("ee79d3e2b027491f93705a4098578bcc");
                 builder.Add(code);
+                builder.ConfigCompilerOption(opt => opt.SetNullableCompile(Microsoft.CodeAnalysis.NullableContextOptions.Disable));
                 builder.LogCompilationEvent += (logModel) =>
                 {
                     log = logModel;
@@ -109,6 +110,7 @@ public int Get(){
                 AssemblyCSharpBuilder builder = new("ed79d3e2b027491f93705a4098578bcd");
                 builder.Add(code1);
                 builder.Add(code2);
+                builder.ConfigCompilerOption(opt => opt.SetNullableCompile(Microsoft.CodeAnalysis.NullableContextOptions.Disable));
                 builder.CompileFailedEvent += (compilation, errors) =>
                 {
                     log = compilation.GetNatashaLog();
@@ -143,6 +145,7 @@ public int Get(){
             AssemblyCSharpBuilder builder = new("2d79d3e2b027491f93705a4098578bcd");
             builder.Add(code1);
             builder.Add(code2);
+            builder.ConfigCompilerOption(opt => opt.SetNullableCompile(Microsoft.CodeAnalysis.NullableContextOptions.Disable));
             builder.CompileSucceedEvent += (compilation, assembly) =>
             {
                 log = compilation.GetNatashaLog();

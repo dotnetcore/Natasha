@@ -28,6 +28,10 @@ public sealed partial class AssemblyCSharpBuilder
         _semanticCheckIgnoreAccessibility = false;
         return this;
     }
+    /// <summary>
+    /// 语义检查时，开启访问性检查
+    /// </summary>
+    /// <returns></returns>
     public AssemblyCSharpBuilder WithAnalysisAccessibility()
     {
         _semanticCheckIgnoreAccessibility = false;
@@ -44,18 +48,30 @@ public sealed partial class AssemblyCSharpBuilder
         _semanticCheckIgnoreAccessibility = true;
         return this;
     }
+    /// <summary>
+    /// 语义检查时，关闭访问性检查
+    /// </summary>
+    /// <returns></returns>
     public AssemblyCSharpBuilder WithoutAnalysisAccessibility()
     {
         _semanticCheckIgnoreAccessibility = true;
         return this;
     }
-
+    /// <summary>
+    /// 添加语义处理器
+    /// </summary>
+    /// <param name="func"></param>
+    /// <returns></returns>
     public AssemblyCSharpBuilder AddSemanticAnalysistor(Func<AssemblyCSharpBuilder, CSharpCompilation, bool, CSharpCompilation> func)
     {
         _semanticAnalysistor.Add(func);
         return this;
     }
-
+    /// <summary>
+    /// 移除语义处理器
+    /// </summary>
+    /// <param name="func"></param>
+    /// <returns></returns>
     public AssemblyCSharpBuilder RemoveSemanticAnalysistor(Func<AssemblyCSharpBuilder, CSharpCompilation, bool, CSharpCompilation> func)
     {
         _semanticAnalysistor.Remove(func);
@@ -63,7 +79,10 @@ public sealed partial class AssemblyCSharpBuilder
     }
 
     public bool EnableSemanticHandler;
-
+    /// <summary>
+    /// 清除当前编译单元所有的语义处理器
+    /// </summary>
+    /// <returns></returns>
     public AssemblyCSharpBuilder ClearInnerSemanticAnalysistor()
     {
         _semanticAnalysistor.Remove(UsingAnalysistor._usingSemanticDelegate);

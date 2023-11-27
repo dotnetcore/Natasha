@@ -19,11 +19,12 @@ namespace Natasha.CSharp.Compiler
 #else
         this.SetCompilerFlag(CompilerBinderFlags.IgnoreCorLibraryDuplicatedTypes)
 #endif
-        .SetNullableCompile(NullableContextOptions.Disable)
-            .SetSupersedeLowerVersions(false)
+        .SetNullableCompile(NullableContextOptions.Enable)
+            .WithoutLowerVersionsAssembly()
             .SetOutputKind(OutputKind.DynamicallyLinkedLibrary)
-            .CompileAsRelease()
-            .SetUnsafeCompiler(true)
+            .WithReleaseCompile()
+            .WithUnsafeCompile()
+            .WithPublicMetadata()
             .SetPlatform(Platform.AnyCpu);
 
         }
@@ -48,11 +49,25 @@ namespace Natasha.CSharp.Compiler
 
 
         private bool _suppressReportShut;
-        public NatashaCSharpCompilerOptions UseSuppressReportor(bool shut)
+        /// <summary>
+        /// 启用诊断报告
+        /// </summary>
+        /// <returns></returns>
+        public NatashaCSharpCompilerOptions WithSuppressReportor()
         {
-            _suppressReportShut = shut;
+            _suppressReportShut = true;
             return this;
         }
+        /// <summary>
+        /// 禁用诊断报告(默认)
+        /// </summary>
+        /// <returns></returns>
+        public NatashaCSharpCompilerOptions WithoutSuppressReportor()
+        {
+            _suppressReportShut = false;
+            return this;
+        }
+
 
 
         private NullableContextOptions _nullableCompileOption;
@@ -64,12 +79,20 @@ namespace Natasha.CSharp.Compiler
 
 
         private OptimizationLevel _codeOptimizationLevel;
-        public NatashaCSharpCompilerOptions CompileAsDebug()
+        /// <summary>
+        /// 编译时使用 debug 模式
+        /// </summary>
+        /// <returns></returns>
+        public NatashaCSharpCompilerOptions WithDebugCompile()
         {
             _codeOptimizationLevel = OptimizationLevel.Debug;
             return this;
         }
-        public NatashaCSharpCompilerOptions CompileAsRelease()
+        /// <summary>
+        /// 编译时使用 release 模式优化（默认）
+        /// </summary>
+        /// <returns></returns>
+        public NatashaCSharpCompilerOptions WithReleaseCompile()
         {
             _codeOptimizationLevel = OptimizationLevel.Release;
             return this;
@@ -91,21 +114,41 @@ namespace Natasha.CSharp.Compiler
         }
 
         private bool _allowUnsafe;
-        public NatashaCSharpCompilerOptions SetUnsafeCompiler(bool shut)
+        /// <summary>
+        /// 允许使用非安全代码编译
+        /// </summary>
+        /// <returns></returns>
+        public NatashaCSharpCompilerOptions WithUnsafeCompile()
         {
-            _allowUnsafe = shut;
+            _allowUnsafe = true;
+            return this;
+        }
+        /// <summary>
+        /// 不允许使用非安全代码编译(默认)
+        /// </summary>
+        /// <returns></returns>
+        public NatashaCSharpCompilerOptions WithoutUnsafeCompile()
+        {
+            _allowUnsafe = false;
             return this;
         }
 
 
         private bool _referencesSupersedeLowerVersions;
         /// <summary>
-        /// 自动禁用低版本程序集
+        /// 不禁用低版本程序集
         /// </summary>
-        /// <param name="value"></param>
-        public NatashaCSharpCompilerOptions SetSupersedeLowerVersions(bool shut)
+        public NatashaCSharpCompilerOptions WithLowerVersionsAssembly()
         {
-            _referencesSupersedeLowerVersions = shut;
+            _referencesSupersedeLowerVersions = true;
+            return this;
+        }
+        /// <summary>
+        /// 禁用低版本程序集(默认)
+        /// </summary>
+        public NatashaCSharpCompilerOptions WithoutLowerVersionsAssembly()
+                {
+            _referencesSupersedeLowerVersions = false;
             return this;
         }
 
@@ -147,7 +190,33 @@ namespace Natasha.CSharp.Compiler
             }
             return this;
         }
-
+        private MetadataImportOptions _metadataImportOptions;
+        /// <summary>
+        /// 导入公共元数据
+        /// </summary>
+        /// <returns></returns>
+        public NatashaCSharpCompilerOptions WithPublicMetadata() {
+            _metadataImportOptions = MetadataImportOptions.Public;
+            return this;
+        }
+        /// <summary>
+        /// 导入内部元数据
+        /// </summary>
+        /// <returns></returns>
+        public NatashaCSharpCompilerOptions WithInternalMetadata()
+        {
+            _metadataImportOptions = MetadataImportOptions.Internal;
+            return this;
+        }
+        /// <summary>
+        /// 导入全部元数据(默认)
+        /// </summary>
+        /// <returns></returns>
+        public NatashaCSharpCompilerOptions WithAllMetadata()
+        {
+            _metadataImportOptions = MetadataImportOptions.All;
+            return this;
+        }
         /// <summary>
         /// 获取构建编译信息的选项
         /// </summary>
@@ -162,7 +231,7 @@ namespace Natasha.CSharp.Compiler
                                    concurrentBuild: true,
                                    moduleName: Guid.NewGuid().ToString(),
                                    reportSuppressedDiagnostics: _suppressReportShut,
-                                   metadataImportOptions: MetadataImportOptions.All,
+                                   metadataImportOptions: _metadataImportOptions,
                                    outputKind: _assemblyKind,
                                    optimizationLevel: _codeOptimizationLevel,
                                    allowUnsafe: _allowUnsafe,

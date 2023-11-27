@@ -1,4 +1,5 @@
 ﻿#if NETCOREAPP3_0_OR_GREATER
+using System;
 using System.Reflection;
 using System.Xml.Linq;
 
@@ -39,6 +40,16 @@ public static class NatashaAssemblyBuilderMultiExtension
         return builder;
     }
 
+    /// <summary>
+    /// 增加引用 和 using
+    /// </summary>
+    /// <param name="builder">natasha 编译单元</param>
+    /// <param name="type">要添加引用的类型</param>
+    /// <param name="loadReferenceBehavior">加载行为</param>
+    public static AssemblyCSharpBuilder AddReference(this AssemblyCSharpBuilder builder, Type type, PluginLoadBehavior loadReferenceBehavior = PluginLoadBehavior.None)
+    {
+        return AddReference(builder, type.Assembly, loadReferenceBehavior);
+     }
     /// <summary>
     /// 增加引用 和 using
     /// </summary>

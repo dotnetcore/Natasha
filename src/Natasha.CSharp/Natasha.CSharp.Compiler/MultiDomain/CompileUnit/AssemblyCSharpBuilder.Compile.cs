@@ -105,10 +105,10 @@ public sealed partial class AssemblyCSharpBuilder
 #endif
 
         //Mark : 26ms
-        if (_compileReferenceBehavior == PluginLoadBehavior.None)
-        {
-            _compilerOptions.SetSupersedeLowerVersions(true);
-        }
+        //if (_compileReferenceBehavior == PluginLoadBehavior.None)
+        //{
+        //    _compilerOptions.WithLowerVersionsAssembly();
+        //}
 
         var options = _compilerOptions.GetCompilationOptions();
         if (initOptionsFunc != null)
@@ -177,7 +177,7 @@ public sealed partial class AssemblyCSharpBuilder
 
 
         Stream dllStream;
-        Stream pdbStream;
+        Stream? pdbStream = null;
         Stream? xmlStream = null;
         if (DllFilePath != string.Empty)
         {
@@ -188,13 +188,16 @@ public sealed partial class AssemblyCSharpBuilder
             dllStream = new MemoryStream();
         }
 
-        if (PdbFilePath != string.Empty)
+        if (_needGeneratPdb)
         {
-            pdbStream = File.Create(PdbFilePath);
-        }
-        else
-        {
-            pdbStream = new MemoryStream();
+            if (PdbFilePath != string.Empty)
+            {
+                pdbStream = File.Create(PdbFilePath);
+            }
+            else
+            {
+                pdbStream = new MemoryStream();
+            }
         }
 
         if (XmlFilePath != string.Empty)
