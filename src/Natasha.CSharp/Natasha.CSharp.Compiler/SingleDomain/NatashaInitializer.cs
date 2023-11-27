@@ -56,7 +56,7 @@ public static class NatashaInitializer
 
                     AssemblyCSharpBuilder cSharpBuilder = new();
                     cSharpBuilder.UseNatashaFileOut();
-                    cSharpBuilder.ConfigCompilerOption(item => item.AddSupperess("CS8019").UseSuppressReportor(false));
+                    cSharpBuilder.ConfigCompilerOption(item => item.AddSupperess("CS8019").WithoutSuppressReportor());
                     cSharpBuilder.EnableSemanticHandler = true;
                     cSharpBuilder.Add(DefaultUsing.UsingScript + "public class A{}", UsingLoadBehavior.WithDefault);
                     var assembly = cSharpBuilder.GetAssembly();

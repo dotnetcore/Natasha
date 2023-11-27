@@ -111,7 +111,11 @@ public static class NatashaInitializer
 #endif
 
                 AssemblyCSharpBuilder cSharpBuilder = new();
-                cSharpBuilder.ConfigCompilerOption(item => item.AddSupperess("CS8019").UseSuppressReportor(false));
+                cSharpBuilder.ConfigCompilerOption(item => 
+                    item
+                    .AddSupperess("CS8019")
+                    .WithoutSuppressReportor()
+                    );
                 using (DomainManagement.Random().CreateScope())
                 {
                     cSharpBuilder.EnableSemanticHandler = true;

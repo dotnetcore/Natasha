@@ -24,6 +24,18 @@ public sealed partial class AssemblyCSharpBuilder
         return this;
     }
 
+    private bool _needGeneratPdb;
+    public AssemblyCSharpBuilder WithoutPdbOutput()
+    {
+        _needGeneratPdb = false;
+        return this;
+    }
+    public AssemblyCSharpBuilder WithPdbOutput()
+    {
+        _needGeneratPdb = true;
+        return this;
+    }
+
     /// <summary>
     /// 自动使用 GUID 作为程序集名称.
     /// </summary>
