@@ -36,7 +36,7 @@ public sealed partial class AssemblyCSharpBuilder
         stopwatch.Start();
 #endif
 
-        var options = _compilerOptions.GetCompilationOptions();
+        var options = _compilerOptions.GetCompilationOptions(_codeOptimizationLevel);
         var references = NatashaReferenceCache.GetReferences();
         _compilation = CSharpCompilation.Create(AssemblyName, SyntaxTrees, references, options);
 
@@ -90,7 +90,7 @@ public sealed partial class AssemblyCSharpBuilder
         stopwatch.Start();
 #endif
         Stream dllStream;
-        Stream pdbStream;
+        Stream? pdbStream = null;
         Stream? xmlStream = null;
         if (DllFilePath != string.Empty)
         {
@@ -101,13 +101,32 @@ public sealed partial class AssemblyCSharpBuilder
             dllStream = new MemoryStream();
         }
 
-        if (PdbFilePath != string.Empty)
+        var debugInfoFormat = _debugInfo._informationFormat;
+        if (_compilation.Options.OptimizationLevel == OptimizationLevel.Debug)
         {
-            pdbStream = File.Create(PdbFilePath);
+
+            if (debugInfoFormat == DebugInformationFormat.PortablePdb)
+            {
+                if (string.IsNullOrEmpty(PdbFilePath))
+                {
+                    var tempPdbOutputFolder = Path.Combine(GlobalOutputFolder, "Default");
+                    PdbFilePath = Path.Combine(tempPdbOutputFolder, $"{AssemblyName}.pdb");
+                    if (!Directory.Exists(tempPdbOutputFolder))
+                    {
+                        Directory.CreateDirectory(tempPdbOutputFolder);
+                    }
+                }
+                pdbStream = File.Create(PdbFilePath);
+            }
+            else if (debugInfoFormat == DebugInformationFormat.Embedded)
+            {
+                PdbFilePath = null;
+            }
         }
-        else
+        else if (!string.IsNullOrEmpty(PdbFilePath))
         {
-            pdbStream = new MemoryStream();
+            PdbFilePath = null;
+            debugInfoFormat = 0;
         }
 
         if (XmlFilePath != string.Empty)
@@ -116,10 +135,16 @@ public sealed partial class AssemblyCSharpBuilder
         }
 
         var compileResult = _compilation.Emit(
-           dllStream,
-           pdbStream: pdbStream,
-           xmlDocumentationStream: xmlStream,
-           options: new EmitOptions(pdbFilePath: PdbFilePath == string.Empty ? null : PdbFilePath, debugInformationFormat: DebugInformationFormat.PortablePdb));
+            dllStream,
+            pdbStream: pdbStream,
+            xmlDocumentationStream: xmlStream,
+            options: new EmitOptions(
+                includePrivateMembers: _includePrivateMembers,
+                metadataOnly: _isReferenceAssembly,
+                pdbFilePath: PdbFilePath,
+                debugInformationFormat: debugInfoFormat
+                )
+            );
 
 
         LogCompilationEvent?.Invoke(_compilation.GetNatashaLog());

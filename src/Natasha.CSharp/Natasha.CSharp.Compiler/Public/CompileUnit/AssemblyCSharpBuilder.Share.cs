@@ -1,7 +1,53 @@
-﻿using System;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Emit;
+using System;
 
 public sealed partial class AssemblyCSharpBuilder
 {
+    private DebugOutput _debugInfo = new DebugOutput();
+
+    private bool _isReferenceAssembly;
+
+    private bool _includePrivateMembers;
+
+    /// <summary>
+    /// pdb文件包含私有字段信息
+    /// </summary>
+    /// <returns></returns>
+    public AssemblyCSharpBuilder WithPrivateMembers()
+    {
+        _includePrivateMembers = true;
+        return this;
+    }
+    /// <summary>
+    /// pdb文件不包含私有字段信息
+    /// </summary>
+    /// <returns></returns>
+    public AssemblyCSharpBuilder WithoutPrivateMembers()
+    {
+        _includePrivateMembers = false;
+        return this;
+    }
+
+    /// <summary>
+    /// 是否以引用程序集方式输出
+    /// </summary>
+    /// <returns></returns>
+    public AssemblyCSharpBuilder OutputAsRefAssembly()
+    {
+        _isReferenceAssembly = true;
+        return this;
+    }
+    /// <summary>
+    /// 是否以完全程序集方式输出
+    /// </summary>
+    /// <returns></returns>
+    public AssemblyCSharpBuilder OutputAsFullAssembly()
+    {
+        _isReferenceAssembly = false;
+        return this;
+    }
+
     /// <summary>
     /// 清空编译信息, 下次编译重组 Compilation 和语法树.
     /// </summary>
@@ -24,17 +70,28 @@ public sealed partial class AssemblyCSharpBuilder
         return this;
     }
 
-    private bool _needGeneratPdb;
-    public AssemblyCSharpBuilder WithoutPdbOutput()
+
+    private OptimizationLevel _codeOptimizationLevel = OptimizationLevel.Release;
+    /// <summary>
+    /// 编译时使用 debug 模式
+    /// </summary>
+    /// <returns></returns>
+    public AssemblyCSharpBuilder WithDebugCompile(Action<DebugOutput>? action = null)
     {
-        _needGeneratPdb = false;
+        action?.Invoke(_debugInfo);
+        _codeOptimizationLevel = OptimizationLevel.Debug;
         return this;
     }
-    public AssemblyCSharpBuilder WithPdbOutput()
+    /// <summary>
+    /// 编译时使用 release 模式优化（默认）
+    /// </summary>
+    /// <returns></returns>
+    public AssemblyCSharpBuilder WithReleaseCompile()
     {
-        _needGeneratPdb = true;
+        _codeOptimizationLevel = OptimizationLevel.Release;
         return this;
     }
+
 
     /// <summary>
     /// 自动使用 GUID 作为程序集名称.

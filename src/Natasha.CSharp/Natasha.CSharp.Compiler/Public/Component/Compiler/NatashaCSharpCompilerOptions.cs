@@ -1,9 +1,11 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Emit;
 using Natasha.CSharp.Component.Compiler;
 using Natasha.CSharp.Component.Compiler.Utils;
 using System;
 using System.Collections.Concurrent;
+using System.Runtime.CompilerServices;
 
 
 namespace Natasha.CSharp.Compiler
@@ -22,7 +24,6 @@ namespace Natasha.CSharp.Compiler
         .SetNullableCompile(NullableContextOptions.Enable)
             .WithoutLowerVersionsAssembly()
             .SetOutputKind(OutputKind.DynamicallyLinkedLibrary)
-            .WithReleaseCompile()
             .WithUnsafeCompile()
             .WithPublicMetadata()
             .SetPlatform(Platform.AnyCpu);
@@ -74,27 +75,6 @@ namespace Natasha.CSharp.Compiler
         public NatashaCSharpCompilerOptions SetNullableCompile(NullableContextOptions flag)
         {
             _nullableCompileOption = flag;
-            return this;
-        }
-
-
-        private OptimizationLevel _codeOptimizationLevel;
-        /// <summary>
-        /// 编译时使用 debug 模式
-        /// </summary>
-        /// <returns></returns>
-        public NatashaCSharpCompilerOptions WithDebugCompile()
-        {
-            _codeOptimizationLevel = OptimizationLevel.Debug;
-            return this;
-        }
-        /// <summary>
-        /// 编译时使用 release 模式优化（默认）
-        /// </summary>
-        /// <returns></returns>
-        public NatashaCSharpCompilerOptions WithReleaseCompile()
-        {
-            _codeOptimizationLevel = OptimizationLevel.Release;
             return this;
         }
 
@@ -221,11 +201,10 @@ namespace Natasha.CSharp.Compiler
         /// 获取构建编译信息的选项
         /// </summary>
         /// <returns></returns>
-        internal CSharpCompilationOptions GetCompilationOptions()
+        internal CSharpCompilationOptions GetCompilationOptions(OptimizationLevel optimizationLevel)
         {
-
             var compilationOptions = new CSharpCompilationOptions(
-                                    nullableContextOptions: _nullableCompileOption,
+                                   nullableContextOptions: _nullableCompileOption,
                                    //strongNameProvider: a,
                                    deterministic: false,
                                    concurrentBuild: true,
@@ -233,7 +212,7 @@ namespace Natasha.CSharp.Compiler
                                    reportSuppressedDiagnostics: _suppressReportShut,
                                    metadataImportOptions: _metadataImportOptions,
                                    outputKind: _assemblyKind,
-                                   optimizationLevel: _codeOptimizationLevel,
+                                   optimizationLevel: optimizationLevel,
                                    allowUnsafe: _allowUnsafe,
                                    platform: _processorPlatform,
                                    checkOverflow: false,

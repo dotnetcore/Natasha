@@ -9,6 +9,8 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Reflection.Emit;
 using System.Reflection.Metadata;
+using System.Runtime.CompilerServices;
+
 
 
 
@@ -19,7 +21,7 @@ using Natasha.CSharp.Component.Domain;
 /// <summary>
 /// 程序集编译构建器 - 编译选项
 /// </summary>
-public sealed partial class AssemblyCSharpBuilder 
+public sealed partial class AssemblyCSharpBuilder
 {
 
     private PluginLoadBehavior _compileReferenceBehavior;
@@ -110,7 +112,7 @@ public sealed partial class AssemblyCSharpBuilder
         //    _compilerOptions.WithLowerVersionsAssembly();
         //}
 
-        var options = _compilerOptions.GetCompilationOptions();
+        var options = _compilerOptions.GetCompilationOptions(_codeOptimizationLevel);
         if (initOptionsFunc != null)
         {
             options = initOptionsFunc(options);
@@ -124,13 +126,13 @@ public sealed partial class AssemblyCSharpBuilder
         {
             references = Domain.References.GetReferences();
         }
-        
+
         if (_referencesFilter != null)
         {
             references = _referencesFilter(references);
         }
-        _compilation = CSharpCompilation.Create(AssemblyName, SyntaxTrees, references, options);
 
+        _compilation = CSharpCompilation.Create(AssemblyName, SyntaxTrees, references, options);
 #if DEBUG
         stopwatch.RestartAndShowCategoreInfo("[Compiler]", "获取编译单元", 2);
 #endif
@@ -169,7 +171,7 @@ public sealed partial class AssemblyCSharpBuilder
     /// </remarks>
     public Assembly GetAssembly()
     {
-  
+
 #if DEBUG
         Stopwatch stopwatch = new();
         stopwatch.Start();
@@ -188,17 +190,8 @@ public sealed partial class AssemblyCSharpBuilder
             dllStream = new MemoryStream();
         }
 
-        if (_needGeneratPdb)
-        {
-            if (PdbFilePath != string.Empty)
-            {
-                pdbStream = File.Create(PdbFilePath);
-            }
-            else
-            {
-                pdbStream = new MemoryStream();
-            }
-        }
+
+
 
         if (XmlFilePath != string.Empty)
         {
@@ -211,19 +204,61 @@ public sealed partial class AssemblyCSharpBuilder
             _compilation = GetAvailableCompilation();
         }
 
+        var debugInfoFormat = _debugInfo._informationFormat;
+        if (_compilation.Options.OptimizationLevel == OptimizationLevel.Debug)
+        {
+
+            if (debugInfoFormat == DebugInformationFormat.PortablePdb)
+            {
+                if (string.IsNullOrEmpty(PdbFilePath))
+                {
+                    var tempPdbOutputFolder = Path.Combine(GlobalOutputFolder, Domain.Name!);
+                    PdbFilePath = Path.Combine(tempPdbOutputFolder, $"{AssemblyName}.pdb");
+                    if (!Directory.Exists(tempPdbOutputFolder))
+                    {
+                        Directory.CreateDirectory(tempPdbOutputFolder);
+                    }
+                }
+                pdbStream = File.Create(PdbFilePath);
+            }
+            else if (debugInfoFormat == DebugInformationFormat.Embedded)
+            {
+                PdbFilePath = null;
+            }
+        }
+        else if (!string.IsNullOrEmpty(PdbFilePath))
+        {
+            PdbFilePath = null;
+            debugInfoFormat = 0;
+        }
+
+
         var compileResult = _compilation.Emit(
            dllStream,
            pdbStream: pdbStream,
            xmlDocumentationStream: xmlStream,
-           options: new EmitOptions(pdbFilePath: PdbFilePath == string.Empty ? null : PdbFilePath, debugInformationFormat: DebugInformationFormat.PortablePdb));
+           options: new EmitOptions(
+               includePrivateMembers: _includePrivateMembers,
+               metadataOnly: _isReferenceAssembly,
+               pdbFilePath: PdbFilePath,
+               debugInformationFormat: debugInfoFormat
+               )
+           );
 
 
         LogCompilationEvent?.Invoke(_compilation.GetNatashaLog());
         Assembly? assembly = null;
         if (compileResult.Success)
         {
+            if (_compilation.Options.OptimizationLevel == OptimizationLevel.Debug)
+            {
+                if (debugInfoFormat == DebugInformationFormat.PortablePdb)
+                {
+                    pdbStream?.Dispose();
+                    pdbStream = File.OpenRead(PdbFilePath);
+                }
+            }
             dllStream.Seek(0, SeekOrigin.Begin);
-            pdbStream?.Seek(0, SeekOrigin.Begin);
             Domain.SetAssemblyLoadBehavior(_compileAssemblyBehavior);
             assembly = Domain.LoadAssemblyFromStream(dllStream, pdbStream);
             CompileSucceedEvent?.Invoke(_compilation, assembly!);
