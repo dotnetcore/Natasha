@@ -19,9 +19,9 @@ namespace Natasha.CSharp.Compiler
 #if DEBUG
             this.SetCompilerFlag(CompilerBinderFlags.IgnoreCorLibraryDuplicatedTypes | CompilerBinderFlags.IgnoreAccessibility)
 #else
-        this.SetCompilerFlag(CompilerBinderFlags.IgnoreCorLibraryDuplicatedTypes)
+            this.SetCompilerFlag(CompilerBinderFlags.IgnoreCorLibraryDuplicatedTypes)
 #endif
-        .SetNullableCompile(NullableContextOptions.Enable)
+            .SetNullableCompile(NullableContextOptions.Enable)
             .WithoutLowerVersionsAssembly()
             .SetOutputKind(OutputKind.DynamicallyLinkedLibrary)
             .WithUnsafeCompile()
@@ -170,6 +170,7 @@ namespace Natasha.CSharp.Compiler
             }
             return this;
         }
+
         private MetadataImportOptions _metadataImportOptions;
         /// <summary>
         /// 导入公共元数据

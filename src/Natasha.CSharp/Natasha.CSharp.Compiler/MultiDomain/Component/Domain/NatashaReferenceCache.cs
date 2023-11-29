@@ -47,7 +47,7 @@ namespace Natasha.CSharp.Component
 
         public int Count { get { return _referenceCache.Count; } }
 
-        public unsafe void AddReference(Assembly assembly, PluginLoadBehavior loadReferenceBehavior = PluginLoadBehavior.None)
+        public unsafe void AddReference(Assembly assembly, AssemblyCompareInfomation loadReferenceBehavior = AssemblyCompareInfomation.None)
         {
             if (assembly.TryGetRawMetadata(out var blob, out var length))
             {
@@ -55,11 +55,11 @@ namespace Natasha.CSharp.Component
                 AddReference(assembly.GetName(), metadataReference, loadReferenceBehavior);
             }
         }
-        public void AddReference(AssemblyName assemblyName, MetadataReference reference, PluginLoadBehavior loadReferenceBehavior)
+        public void AddReference(AssemblyName assemblyName, MetadataReference reference, AssemblyCompareInfomation loadReferenceBehavior)
         {
 
             var name = assemblyName.GetUniqueName();
-            if (loadReferenceBehavior != PluginLoadBehavior.None)
+            if (loadReferenceBehavior != AssemblyCompareInfomation.None)
             {
                 if (_referenceNameCache.TryGetValue(name, out var oldAssemblyName))
                 {
@@ -78,11 +78,11 @@ namespace Natasha.CSharp.Component
             _referenceCache[assemblyName] = reference;
 
         }
-        public void AddReference(AssemblyName assemblyName, Stream stream, PluginLoadBehavior loadReferenceBehavior = PluginLoadBehavior.None)
+        public void AddReference(AssemblyName assemblyName, Stream stream, AssemblyCompareInfomation loadReferenceBehavior = AssemblyCompareInfomation.None)
         {
             AddReference(assemblyName, MetadataReference.CreateFromStream(stream), loadReferenceBehavior);
         }
-        public void AddReference(AssemblyName assemblyName, string path, PluginLoadBehavior loadReferenceBehavior = PluginLoadBehavior.None)
+        public void AddReference(AssemblyName assemblyName, string path, AssemblyCompareInfomation loadReferenceBehavior = AssemblyCompareInfomation.None)
         {
             AddReference(assemblyName, CreateMetadataReference(path), loadReferenceBehavior);
         }
@@ -112,13 +112,13 @@ namespace Natasha.CSharp.Component
         {
             return _referenceCache.Values;
         }
-        internal HashSet<MetadataReference> CombineWithDefaultReferences(NatashaReferenceCache defaultCache, PluginLoadBehavior loadBehavior = PluginLoadBehavior.None, Func<AssemblyName, AssemblyName, AssemblyLoadVersionResult>? useAssemblyNameFunc = null)
+        internal HashSet<MetadataReference> CombineWithDefaultReferences(NatashaReferenceCache defaultCache, AssemblyCompareInfomation loadBehavior = AssemblyCompareInfomation.None, Func<AssemblyName, AssemblyName, AssemblyLoadVersionResult>? useAssemblyNameFunc = null)
         {
             var sets = new HashSet<MetadataReference>(_referenceCache.Values);
             var excludeNods = new HashSet<MetadataReference>();
             var defaultReferences = defaultCache._referenceCache;
             var defaultNameReferences = defaultCache._referenceNameCache;
-            if (loadBehavior != PluginLoadBehavior.None || useAssemblyNameFunc != null)
+            if (loadBehavior != AssemblyCompareInfomation.None || useAssemblyNameFunc != null)
             {
                 foreach (var item in _referenceNameCache)
                 {

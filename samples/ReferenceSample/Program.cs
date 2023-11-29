@@ -51,7 +51,7 @@ namespace ReferenceSample
                 .AddReference(typeof(object).Assembly)
                 .AddReference(typeof(Math).Assembly)
                 .AddReference(typeof(MathF).Assembly)
-                .ConfigReferenceCombineBehavior(CombineReferenceBehavior.UseCurrent);
+                .WithoutCombineReferences();
 
             builder.Add(@"
 public static class A{  

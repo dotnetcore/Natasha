@@ -4,7 +4,7 @@ using System;
 
 public sealed partial class AssemblyCSharpBuilder
 {
-    private DebugOutput _debugInfo = new DebugOutput();
+    private DebugConfiguration _debugConfiguration = new();
 
     private bool _isReferenceAssembly;
 
@@ -76,9 +76,9 @@ public sealed partial class AssemblyCSharpBuilder
     /// 编译时使用 debug 模式
     /// </summary>
     /// <returns></returns>
-    public AssemblyCSharpBuilder WithDebugCompile(Action<DebugOutput>? action = null)
+    public AssemblyCSharpBuilder WithDebugCompile(Action<DebugConfiguration>? action = null)
     {
-        action?.Invoke(_debugInfo);
+        action?.Invoke(_debugConfiguration);
         _codeOptimizationLevel = OptimizationLevel.Debug;
         return this;
     }
