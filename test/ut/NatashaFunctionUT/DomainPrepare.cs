@@ -19,8 +19,8 @@ public class DomainPrepare
              _runtimeVersion = "net5.0";
 #elif NET6_0
         _runtimeVersion = "net6.0";
-#elif NET7_0_OR_GREATER
-        _runtimeVersion = "net7.0";
+#elif NET8_0
+        _runtimeVersion = "net8.0";
 #endif
         DefaultAssembliesCount = AssemblyLoadContext.Default.Assemblies.Count();
         Unsafe.SizeOf<int>();

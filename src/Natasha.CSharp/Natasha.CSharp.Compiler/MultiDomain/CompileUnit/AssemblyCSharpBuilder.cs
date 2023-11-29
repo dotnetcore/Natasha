@@ -33,7 +33,6 @@ public sealed partial class AssemblyCSharpBuilder
         SyntaxTrees = new();
         AssemblyName = assemblyName;
         DllFilePath = string.Empty;
-        PdbFilePath = string.Empty;
         XmlFilePath = string.Empty;
     }
 

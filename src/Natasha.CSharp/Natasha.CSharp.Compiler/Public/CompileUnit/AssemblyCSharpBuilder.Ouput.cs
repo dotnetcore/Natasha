@@ -10,7 +10,7 @@ public sealed partial class AssemblyCSharpBuilder
     #region 输出设置相关
     public string AssemblyName;
     public string DllFilePath;
-    public string PdbFilePath;
+    public string? PdbFilePath;
     public string XmlFilePath;
     public string OutputFolder;
     /// <summary>

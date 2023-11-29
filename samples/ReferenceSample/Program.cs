@@ -4,20 +4,26 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
 using Internal;
 using System.Runtime.CompilerServices;
+using static System.Diagnostics.DebuggableAttribute;
+using System.Diagnostics;
+using System.Diagnostics.SymbolStore;
 
 namespace ReferenceSample
 {
+
     internal class Program
     {
+        
         static void Main(string[] args)
         {
             //Run();
-            NatashaManagement.Preheating(true, true);
-            GC.Collect();
-            Thread.Sleep(15000);
+            //NatashaManagement.Preheating(true, true);
+            //GC.Collect();
+            //Thread.Sleep(15000);
+            var method = typeof(Program).GetMethod("TestMini");
             for (int i = 0; i < 5; i++)
             {
-                TestMini();
+                method.Invoke(null,null);
                 Thread.Sleep(3000);
             }
             Console.ReadKey();
@@ -26,6 +32,7 @@ namespace ReferenceSample
 
         public static void TestMini()
         {
+            
             AssemblyCSharpBuilder builder = new AssemblyCSharpBuilder();
             builder
                 .UseRandomDomain()
@@ -34,24 +41,30 @@ namespace ReferenceSample
                         Natasha.CSharp.Compiler.CompilerBinderFlags.SuppressConstraintChecks | 
                         Natasha.CSharp.Compiler.CompilerBinderFlags.SuppressObsoleteChecks | 
                         Natasha.CSharp.Compiler.CompilerBinderFlags.SuppressTypeArgumentBinding | 
-                        Natasha.CSharp.Compiler.CompilerBinderFlags.SuppressUnsafeDiagnostics))
+                        Natasha.CSharp.Compiler.CompilerBinderFlags.SuppressUnsafeDiagnostics)
+                        )
                 .DisableSemanticCheck()
+                .WithDebugCompile(item=>item.WriteToFile())
+                .OutputAsFullAssembly()
+                .WithoutPrivateMembers()
+                .AddReference(typeof(DebuggableAttribute))
                 .AddReference(typeof(object).Assembly)
                 .AddReference(typeof(Math).Assembly)
                 .AddReference(typeof(MathF).Assembly)
                 .ConfigReferenceCombineBehavior(CombineReferenceBehavior.UseCurrent);
 
-            builder.Add(@"public static class A{  
+            builder.Add(@"
+public static class A{  
     public static int N1 = 10;
     public static float N2 = 1.2F; 
     public static double N3 = 3.44;
-
+    private static short N4 = 0;
     public static object Invoke(){
 
         return N1 + MathF.Log10((float)Math.Sqrt(MathF.Sqrt(N2) + Math.Tan(N3)));
     }
 }", UsingLoadBehavior.WithCurrent);
-
+            
             var asm = builder.GetAssembly();
             var type = asm.GetType("A");
             var method = type.GetMethod("Invoke");
