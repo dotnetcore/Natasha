@@ -1,4 +1,4 @@
-﻿public enum PluginLoadBehavior
+﻿public enum AssemblyCompareInfomation
 {
     None,
     UseHighVersion,

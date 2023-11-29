@@ -22,30 +22,30 @@ namespace Natasha.Domain.Extension
         /// <param name="defaultName">默认程序集名</param>
         /// <param name="loadBehavior">加载行为</param>
         /// <returns></returns>
-        public static AssemblyLoadVersionResult CompareWithDefault(this AssemblyName customaryName, AssemblyName defaultName, PluginLoadBehavior loadBehavior)
+        public static AssemblyLoadVersionResult CompareWithDefault(this AssemblyName customaryName, AssemblyName defaultName, AssemblyCompareInfomation loadBehavior)
         {
-            if (loadBehavior == PluginLoadBehavior.None)
+            if (loadBehavior == AssemblyCompareInfomation.None)
             {
                 return AssemblyLoadVersionResult.NoAction;
             }
-            else if (loadBehavior == PluginLoadBehavior.UseDefault)
+            else if (loadBehavior == AssemblyCompareInfomation.UseDefault)
             {
                 return AssemblyLoadVersionResult.UseDefault;
             }
-            else if (loadBehavior == PluginLoadBehavior.UseCustom)
+            else if (loadBehavior == AssemblyCompareInfomation.UseCustom)
             {
                 return AssemblyLoadVersionResult.UseCustomer;
             }
             else if (customaryName.Version != default && defaultName.Version != default)
             {
-                if (loadBehavior == PluginLoadBehavior.UseHighVersion)
+                if (loadBehavior == AssemblyCompareInfomation.UseHighVersion)
                 {
                     if (customaryName.Version > defaultName.Version)
                     {
                         return AssemblyLoadVersionResult.UseCustomer;
                     }
                 }
-                else if (loadBehavior == PluginLoadBehavior.UseLowVersion)
+                else if (loadBehavior == AssemblyCompareInfomation.UseLowVersion)
                 {
                     if (customaryName.Version < defaultName.Version)
                     {

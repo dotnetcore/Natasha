@@ -22,15 +22,14 @@ public sealed partial class AssemblyCSharpBuilder
         EnableSemanticHandler = true;
         _semanticCheckIgnoreAccessibility = false;
         _combineReferenceBehavior = CombineReferenceBehavior.CombineDefault;
-        _compileReferenceBehavior = PluginLoadBehavior.UseDefault;
         _parsingBehavior = UsingLoadBehavior.None;
         OutputFolder = GlobalOutputFolder;
         _compilerOptions = new();
-        _semanticAnalysistor = new()
-        {
+        _semanticAnalysistor =
+        [
             UsingAnalysistor._usingSemanticDelegate
-        };
-        SyntaxTrees = new();
+        ];
+        SyntaxTrees = [];
         AssemblyName = assemblyName;
         DllFilePath = string.Empty;
         XmlFilePath = string.Empty;

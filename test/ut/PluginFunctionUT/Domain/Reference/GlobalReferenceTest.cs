@@ -37,7 +37,7 @@ namespace NatashaFunctionUT.Reference
                 {
                     var metadata = AssemblyMetadata.Create(ModuleMetadata.CreateFromMetadata((IntPtr)blob, length));
                     var metadataReference = metadata.GetReference();
-                    referenceCache.AddReference(assembly.GetName(), metadataReference, PluginLoadBehavior.None);
+                    referenceCache.AddReference(assembly.GetName(), metadataReference, AssemblyCompareInfomation.None);
                     count += 1;
                 }
                 //if (!item.IsDynamic && item.Location != string.Empty)
@@ -52,7 +52,7 @@ namespace NatashaFunctionUT.Reference
                 }
             }
             //Assembly Path='C:\Program Files\dotnet\shared\Microsoft.NETCore.App\5.0.12\System.Private.CoreLib.dll'
-            var references = referenceCache.CombineWithDefaultReferences(DefaultReferences, PluginLoadBehavior.UseDefault);
+            var references = referenceCache.CombineWithDefaultReferences(DefaultReferences, AssemblyCompareInfomation.UseDefault);
            
 
             if (DefaultReferences.Count != references.Count)
@@ -69,7 +69,7 @@ namespace NatashaFunctionUT.Reference
         [Fact(DisplayName = "[合并版本引用]排重测试")]
         public void DistinctReferenceWithoutCompare()
         {
-            var sets = GetPortableExecutableReferences(PluginLoadBehavior.None);
+            var sets = GetPortableExecutableReferences(AssemblyCompareInfomation.None);
             //dapper + json + plugin 
             Assert.Equal(3, sets.Count);
 
@@ -78,7 +78,7 @@ namespace NatashaFunctionUT.Reference
         [Fact(DisplayName = "[高版本引用]排重测试")]
         public void DistinctReferenceWithHighVersion()
         {
-            var sets = GetPortableExecutableReferences(PluginLoadBehavior.UseHighVersion);
+            var sets = GetPortableExecutableReferences(AssemblyCompareInfomation.UseHighVersion);
             //dapper + json + plugin 
             Assert.Equal(3, sets.Count);
         }
@@ -86,7 +86,7 @@ namespace NatashaFunctionUT.Reference
         [Fact(DisplayName = "[低版本引用]排重测试")]
         public void DistinctReferenceWithLowVersion()
         {
-            var sets = GetPortableExecutableReferences(PluginLoadBehavior.UseLowVersion);
+            var sets = GetPortableExecutableReferences(AssemblyCompareInfomation.UseLowVersion);
             //dapper + plugin
             Assert.Equal(2, sets.Count);
         }
@@ -94,7 +94,7 @@ namespace NatashaFunctionUT.Reference
         [Fact(DisplayName = "[非同名引用]排重测试")]
         public void DistinctReferenceWithExistVersion()
         {
-            var sets = GetPortableExecutableReferences(PluginLoadBehavior.UseDefault);
+            var sets = GetPortableExecutableReferences(AssemblyCompareInfomation.UseDefault);
             //dapper + plugin
             Assert.Equal(2, sets.Count);
         }

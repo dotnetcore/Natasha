@@ -78,6 +78,7 @@ samples:
   - samples/PluginSample/PluginB/PluginB.csproj
   - samples/PluginSample/PluginBase/PluginBase.csproj
   - samples/ReferenceSample/ReferenceSample.csproj
+  - samples/HotReloadSample/HotReloadSample.csproj
   global_labels:
   - name: pr_samples
     description: 此次提交包含 [案例工程] 相关的改动.
@@ -101,18 +102,6 @@ src:
     project_name: Natasha.Domain
     package_name: DotNetCore.Natasha.Domain
     project_folder: src/Natasha.Domain
-    labels: 
-    dependency_config: 
-  - using_output:
-      enable: false
-      ignores: 
-    id: 7E92644E-9DA0-493A-B1C6-B0E9E1D1C85B
-    is_ignored: false
-    is_folded: false
-    relative_path: src/Natasha.CSharp/Natasha.CSharp/Natasha.CSharp.csproj
-    project_name: Natasha.CSharp
-    package_name: DotNetCore.Natasha.CSharp
-    project_folder: src/Natasha.CSharp/Natasha.CSharp
     labels: 
     dependency_config: 
   - using_output:

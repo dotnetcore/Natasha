@@ -9,7 +9,7 @@ namespace NatashaFunctionUT.Compile
 
         private const string HighVersionCode = @"using MetadataDiff;public class A{   public string Get(){ return (new MetadataModel()).Name;  }  }";
         private const string LowVersionCode = @"using MetadataDiff;public class A{   public string Get(){ return (new MetadataModel()).Old_Name;  }  }";
-        private static void AssertHighVersionCode(bool compileResult, PluginLoadBehavior referenceLoadBehavior)
+        private static void AssertHighVersionCode(bool compileResult, AssemblyCompareInfomation referenceLoadBehavior)
         {
             (string name, string currentName,bool compileSucceed) = CompileMetadataDiffCode(HighVersionCode, referenceLoadBehavior);
             for (int i = 0; i < 6; i++)
@@ -22,7 +22,7 @@ namespace NatashaFunctionUT.Compile
             Assert.Equal(compileResult, compileSucceed);
             Assert.True(DomainManagement.IsDeleted(currentName));
         }
-        private static void AssertLowVersionCode(bool compileResult, PluginLoadBehavior referenceLoadBehavior)
+        private static void AssertLowVersionCode(bool compileResult, AssemblyCompareInfomation referenceLoadBehavior)
         {
             (string name, string currentName, bool compileSucceed) = CompileMetadataDiffCode(LowVersionCode, referenceLoadBehavior);
             for (int i = 0; i < 6; i++)
@@ -40,29 +40,29 @@ namespace NatashaFunctionUT.Compile
         [Fact(DisplayName = "[高版本引用]编译测试")]
         public void HCompile()
         {
-            AssertHighVersionCode(true, PluginLoadBehavior.UseHighVersion);
-            AssertLowVersionCode(false, PluginLoadBehavior.UseHighVersion);
+            AssertHighVersionCode(true, AssemblyCompareInfomation.UseHighVersion);
+            AssertLowVersionCode(false, AssemblyCompareInfomation.UseHighVersion);
         }
 
         [Fact(DisplayName = "[低版本引用]编译测试")]
         public void LCompile()
         {
-            AssertLowVersionCode(true, PluginLoadBehavior.UseLowVersion);
-            AssertHighVersionCode(false, PluginLoadBehavior.UseLowVersion);
+            AssertLowVersionCode(true, AssemblyCompareInfomation.UseLowVersion);
+            AssertHighVersionCode(false, AssemblyCompareInfomation.UseLowVersion);
         }
 
         [Fact(DisplayName = "[混合版本引用]编译测试")]
         public void CCompile()
         {
-            AssertHighVersionCode(true, PluginLoadBehavior.None);
-            AssertLowVersionCode(false, PluginLoadBehavior.None);
+            AssertHighVersionCode(true, AssemblyCompareInfomation.None);
+            AssertLowVersionCode(false, AssemblyCompareInfomation.None);
         }
 
         [Fact(DisplayName = "[默认域引用]编译测试")]
         public void DCompile()
         {
-            AssertLowVersionCode(false, PluginLoadBehavior.UseDefault);
-            AssertHighVersionCode(true, PluginLoadBehavior.UseDefault);
+            AssertLowVersionCode(false, AssemblyCompareInfomation.UseDefault);
+            AssertHighVersionCode(true, AssemblyCompareInfomation.UseDefault);
         }
     }
 

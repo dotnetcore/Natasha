@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.CodeAnalysis.Emit;
 
-public class DebugOutput
+public class DebugConfiguration
 {
     
     internal DebugInformationFormat _informationFormat = DebugInformationFormat.PortablePdb;
@@ -10,7 +10,7 @@ public class DebugOutput
     /// 采用文件加载方式搜集源代码信息
     /// </summary>
     /// <returns></returns>
-    public DebugOutput WriteToFile()
+    public DebugConfiguration WriteToFile()
     {
         _informationFormat = DebugInformationFormat.PortablePdb;
         return this;
@@ -19,7 +19,7 @@ public class DebugOutput
     /// 将Pdb输出到程序集中，并直接从程序集加载Pdb调试信息
     /// </summary>
     /// <returns></returns>
-    public DebugOutput WriteToAssembly()
+    public DebugConfiguration WriteToAssembly()
     {
         _informationFormat = DebugInformationFormat.Embedded;
         return this;

@@ -26,7 +26,7 @@ public sealed class NatashaReferenceDomain : NatashaDomain
     }
 
 
-    public IEnumerable<MetadataReference> GetReferences(PluginLoadBehavior loadBehavior = PluginLoadBehavior.None, Func<AssemblyName, AssemblyName, AssemblyLoadVersionResult>? useAssemblyNameFunc = null)
+    public IEnumerable<MetadataReference> GetReferences(ReferenceConfiguration configuration)
     {
         if (Name == DefaultDomain.Name)
         {
@@ -34,7 +34,7 @@ public sealed class NatashaReferenceDomain : NatashaDomain
         }
         else
         {
-            return References.CombineWithDefaultReferences(DefaultDomain.References, loadBehavior, useAssemblyNameFunc);
+            return References.CombineWithDefaultReferences(DefaultDomain.References, configuration._compileReferenceBehavior, configuration._referenceSameNamePickFunc);
         }
     }
 
