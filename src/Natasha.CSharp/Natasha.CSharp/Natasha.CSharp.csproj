@@ -19,7 +19,7 @@
 	<ItemGroup>
 		<PackageReference Include="System.Reflection.MetadataLoadContext" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="7.0.0" />
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.6.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.8.0" />
 	</ItemGroup>
 	<!--<ItemGroup Condition="'$(TargetFramework)' != 'net7.0'">
 		--><!--<PackageReference Include="PolySharp" Version="1.*" PrivateAssets="All" />--><!--
