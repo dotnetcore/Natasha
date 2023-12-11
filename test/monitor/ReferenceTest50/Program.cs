@@ -61,8 +61,7 @@ namespace ReferenceTest50
             Check();
             AssemblyCSharpBuilder builder = new();
             builder.Domain = DomainManagement.Random();
-            builder.EnableSemanticHandler = true;
-            builder.Add(DefaultUsing.UsingScript + "public class Abved{ string Name; public int Age;}");
+            builder.Add("public class Abved{ string Name; public int Age;}");
             var asm = builder.GetAssembly();
             Check();
             NDelegate.RandomDomain().Action("Console.WriteLine(\"hello world!\");")();

@@ -25,10 +25,10 @@ namespace Natasha.CSharp.Compiler
             .WithNullableCompile(NullableContextOptions.Enable)
             .WithOutputKind(OutputKind.DynamicallyLinkedLibrary)
             .WithPlatform(Platform.AnyCpu);
-
         }
 
         private readonly ConcurrentDictionary<string, ReportDiagnostic> _reportDiagnostics;
+
         /// <summary>
         /// 屏蔽错误代码
         /// </summary>
@@ -39,8 +39,9 @@ namespace Natasha.CSharp.Compiler
             _reportDiagnostics[errorcode] = ReportDiagnostic.Suppress;
             return this;
         }
+
         /// <summary>
-        /// 忽略指定错误代码输出的报告级别,一旦发生此错误代码，将会按照报告级别进行报告。
+        /// 指定错误代码输出的报告级别,一旦发生此错误代码，将会按照报告级别进行报告。
         /// </summary>
         /// <param name="errorcode">错误代码例如：CS0234</param>
         /// <param name="reportLevel">报告级别例如：ReportDiagnostic.Error</param>
@@ -50,6 +51,11 @@ namespace Natasha.CSharp.Compiler
             _reportDiagnostics[errorcode] = reportLevel;
             return this;
         } 
+        /// <summary>
+        /// 移除自定义配置的错误代码
+        /// </summary>
+        /// <param name="errorcode"></param>
+        /// <returns></returns>
         public NatashaCSharpCompilerOptions RemoveSupperess(string errorcode)
         {
             _reportDiagnostics.Remove(errorcode);

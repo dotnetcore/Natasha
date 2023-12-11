@@ -27,6 +27,7 @@ public sealed partial class AssemblyCSharpBuilder
         }
 
     }
+
     public AssemblyCSharpBuilder SetAssemblyName(string asmName)
     {
         AssemblyName = asmName;
@@ -40,7 +41,7 @@ public sealed partial class AssemblyCSharpBuilder
     /// <param name="pdbFilePath"></param>
     /// <param name="xmlFilePath"></param>
     /// <returns></returns>
-    public AssemblyCSharpBuilder WithOutput(string dllFilePath, string? pdbFilePath = null, string? xmlFilePath = null)
+    public AssemblyCSharpBuilder WithFileOutput(string dllFilePath, string? pdbFilePath = null, string? xmlFilePath = null)
     {
         DllFilePath = dllFilePath;
         PdbFilePath = pdbFilePath;

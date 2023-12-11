@@ -74,7 +74,7 @@ namespace ReferenceSample
         {
             AssemblyCSharpBuilder builder = new();
             builder.WithAnalysisAccessibility()
-               //.ConfigCompilerOption(item=>item.WithSuppressReportor())
+                
                 .UseRandomDomain()
                 //.WithOutput()
                 .WithoutCombineReferences()
