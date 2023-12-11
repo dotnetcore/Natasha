@@ -15,6 +15,7 @@ public sealed partial class AssemblyCSharpBuilder
         switch (usingLoadBehavior)
         {
             case UsingLoadBehavior.WithDefault:
+            case UsingLoadBehavior.WithCurrent:
             case UsingLoadBehavior.WithAll:
                 return AddScript(DefaultUsing.UsingScript + script);
             default:

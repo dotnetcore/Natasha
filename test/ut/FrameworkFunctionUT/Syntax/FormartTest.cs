@@ -9,6 +9,7 @@ namespace FrameworkFunctionUT.Syntax
         private string FormartString(string code)
         {
             AssemblyCSharpBuilder builder = new();
+            builder.WithoutCombineUsingCode();
             builder.Add(code);
             return builder.SyntaxTrees[0].ToString();
 

@@ -30,7 +30,7 @@ public static class NatashaInitializer
                 }
 
                 _isCompleted = true;
-
+                AssemblyCSharpBuilder.HasInitialized = true;
                 if (excludeReferencesFunc == null)
                 {
                     excludeReferencesFunc = (_, _) => false;
@@ -55,10 +55,8 @@ public static class NatashaInitializer
 #endif
 
                     AssemblyCSharpBuilder cSharpBuilder = new();
-                    cSharpBuilder.UseNatashaFileOut();
                     cSharpBuilder.ConfigCompilerOption(item => item.AddSupperess("CS8019").WithoutSuppressReportor());
-                    cSharpBuilder.EnableSemanticHandler = true;
-                    cSharpBuilder.Add(DefaultUsing.UsingScript + "public class A{}", UsingLoadBehavior.WithDefault);
+                    cSharpBuilder.Add("public class A{}");
                     var assembly = cSharpBuilder.GetAssembly();
 
 #if DEBUG

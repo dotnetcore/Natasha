@@ -88,7 +88,12 @@ namespace FrameworkFunctionUT.Template.Compile
         [Fact(DisplayName = "非安全异步委托")]
         public async void RunUnsafeAsyncDelegate()
         {
-            var action = NDelegate.DefaultDomain().ConfigMethod(item=>item.Summary("zhushi")).UnsafeAsyncFunc<string, string, Task<string>>(@"
+            var action = NDelegate
+                .DefaultDomain()
+                .ConfigBuilder(item=>item.ConfigCompilerOption(item=>item.WithUnsafeCompile()))
+                .ConfigMethod(item=>item
+                .Summary("zhushi")
+                ).UnsafeAsyncFunc<string, string, Task<string>>(@"
                             return arg1 +"" ""+ arg2;");
 
             string result = await action("Hello", "World1!");
@@ -116,7 +121,10 @@ namespace FrameworkFunctionUT.Template.Compile
         [Fact(DisplayName = "非安全异步委托2")]
         public async void RunAsyncDelegate6()
         {
-            var action = NDelegate.DefaultDomain().UnsafeAsyncFunc<string, string, Task<string>>(@"
+            var action = NDelegate
+                .DefaultDomain()
+                .ConfigBuilder(item => item.ConfigCompilerOption(item => item.WithUnsafeCompile()))
+                .UnsafeAsyncFunc<string, string, Task<string>>(@"
                             string _AppCode=""aaaa""; string arg3 = default; string b; return arg1 +"" ""+ arg2;");
 
             string result = await action("Hello", "World1!");

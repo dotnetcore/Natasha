@@ -8,7 +8,6 @@ namespace Natasha.CSharp.Builder
     {
         protected internal void BuildTree()
         {
-            LoadCurrentDomainUsing();
             AssemblyBuilder.Add(this.GetScript());
         }
     }

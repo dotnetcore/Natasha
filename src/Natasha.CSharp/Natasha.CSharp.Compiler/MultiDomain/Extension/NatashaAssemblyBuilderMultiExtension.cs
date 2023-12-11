@@ -41,7 +41,7 @@ public static class NatashaAssemblyBuilderMultiExtension
     }
 
     /// <summary>
-    /// 增加引用 和 using
+    /// 增加引用 和 using, 会自动查重。
     /// </summary>
     /// <param name="builder">natasha 编译单元</param>
     /// <param name="type">要添加引用的类型</param>

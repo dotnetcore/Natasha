@@ -21,6 +21,7 @@ public void Show(){
             try
             {
                 AssemblyCSharpBuilder builder = new("ee79d3e2b027491f93705a4098568bc8");
+                builder.WithoutCombineUsingCode();
                 builder.Add(code);
                 builder.CompileFailedEvent += (compilation, errors) =>
                 {
@@ -73,8 +74,10 @@ public string Address;
             try
             {
                 AssemblyCSharpBuilder builder = new("ee79d3e2b027491f93705a4098578bcc");
+                builder
+                    .WithoutCombineUsingCode();
                 builder.Add(code);
-                builder.ConfigCompilerOption(opt => opt.SetNullableCompile(Microsoft.CodeAnalysis.NullableContextOptions.Disable));
+                builder.ConfigCompilerOption(opt => opt.WithNullableCompile(Microsoft.CodeAnalysis.NullableContextOptions.Disable));
                 builder.LogCompilationEvent += (logModel) =>
                 {
                     log = logModel;
@@ -109,9 +112,10 @@ public int Get(){
             try
             {
                 AssemblyCSharpBuilder builder = new("ed79d3e2b027491f93705a4098578bcd");
+                builder.WithoutCombineUsingCode();
                 builder.Add(code1);
                 builder.Add(code2);
-                builder.ConfigCompilerOption(opt => opt.SetNullableCompile(Microsoft.CodeAnalysis.NullableContextOptions.Disable));
+                builder.ConfigCompilerOption(opt => opt.WithNullableCompile(Microsoft.CodeAnalysis.NullableContextOptions.Disable));
                 builder.CompileFailedEvent += (compilation, errors) =>
                 {
                     log = compilation.GetNatashaLog();
@@ -145,7 +149,8 @@ public int Get(){
             NatashaCompilationLog? log = null;
             AssemblyCSharpBuilder builder = new("2d79d3e2b027491f93705a4098578bcd");
             builder.Domain = DomainManagement.Random();
-            builder.ConfigCompilerOption(opt => opt.SetNullableCompile(Microsoft.CodeAnalysis.NullableContextOptions.Disable));
+            builder.WithoutCombineUsingCode();
+            builder.ConfigCompilerOption(opt => opt.WithNullableCompile(Microsoft.CodeAnalysis.NullableContextOptions.Disable));
             builder.Add(code1);
             builder.Add(code2);
             builder.CompileSucceedEvent += (compilation, assembly) =>

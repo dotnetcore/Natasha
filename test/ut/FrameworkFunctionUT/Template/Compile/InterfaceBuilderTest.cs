@@ -13,7 +13,7 @@ namespace FrameworkFunctionUT.Template.Compile
         {
 
             var builder = NInterface.DefaultDomain();
-            builder.AssemblyBuilder.DisableSemanticCheck();
+            builder.AssemblyBuilder.WithoutSemanticCheck();
             var type = builder
                 .NoGlobalUsing()
                 .HiddenNamespace()

@@ -35,22 +35,33 @@ public sealed partial class AssemblyCSharpBuilder
         return this;
     }
 
-    public AssemblyCSharpBuilder ConfigUsingOptions(UsingLoadBehavior usingLoadBehavior)
+    /// <summary>
+    /// 设置 using 引用行为，默认为 None （同 WithoutCombineUsingCode）.
+    /// </summary>
+    /// <param name="usingLoadBehavior"></param>
+    /// <returns></returns>
+    public AssemblyCSharpBuilder WithCombineUsingCode(UsingLoadBehavior usingLoadBehavior)
     {
         _parsingBehavior = usingLoadBehavior;
         return this;
     }
 
+    public AssemblyCSharpBuilder WithoutCombineUsingCode()
+    {
+        _parsingBehavior = UsingLoadBehavior.None;
+        return this;
+    }
+
     /// <summary>
-    /// 注入脚本
+    /// 注入代码并拼接using，拼接 using 的逻辑与 WithCombineUsingCode 方法设置有关.
+    /// 在开启预热后，将自动拼接主域与当前域的 using.
     /// </summary>
-    /// <param name="script">脚本代码</param>
+    /// <param name="script">C#代码</param>
     /// <returns></returns>
     public AssemblyCSharpBuilder Add(string script)
     {
         return Add(script, _parsingBehavior);
     }
-
 
     /// <summary>
     /// 添加脚本
@@ -73,6 +84,18 @@ public sealed partial class AssemblyCSharpBuilder
         }
         return this;
     }
+
+    /// <summary>
+    /// 快速添加语法树，无检查
+    /// </summary>
+    /// <param name="script"></param>
+    /// <returns></returns>
+    internal AssemblyCSharpBuilder FastAddScriptWithoutCheck(string script)
+    {
+        SyntaxTrees.Add(NatashaCSharpSyntax.ParseTree(script, _options));
+        return this;
+    }
+
     /// <summary>
     /// 添加语法树
     /// </summary>

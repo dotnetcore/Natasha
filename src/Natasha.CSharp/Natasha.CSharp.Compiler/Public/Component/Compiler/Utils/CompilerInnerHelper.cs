@@ -9,6 +9,7 @@ namespace Natasha.CSharp.Component.Compiler.Utils
     {
         internal static readonly Action<CSharpCompilationOptions, uint> SetTopLevelBinderFlagDelegate;
         internal static readonly Action<CSharpCompilationOptions, bool> SetReferencesSupersedeLowerVersionsDelegate;
+        internal static readonly Action<CSharpCompilationOptions, bool> SetDebugPlusModeDelegate;
 
         static CompilerInnerHelper()
         {
@@ -17,10 +18,22 @@ namespace Natasha.CSharp.Component.Compiler.Utils
                .GetProperty("TopLevelBinderFlags", BindingFlags.Instance | BindingFlags.NonPublic)!
                .SetMethod!);
 
-            SetReferencesSupersedeLowerVersionsDelegate = (Action<CompilationOptions, bool>)Delegate.CreateDelegate(
-                typeof(Action<CompilationOptions, bool>), typeof(CompilationOptions)
+            SetReferencesSupersedeLowerVersionsDelegate = (Action<CSharpCompilationOptions, bool>)Delegate.CreateDelegate(
+                typeof(Action<CSharpCompilationOptions, bool>), typeof(CSharpCompilationOptions)
                 .GetProperty("ReferencesSupersedeLowerVersions", BindingFlags.Instance | BindingFlags.NonPublic)!
                 .SetMethod!);
+
+            SetDebugPlusModeDelegate = (Action<CSharpCompilationOptions, bool>)Delegate.CreateDelegate(
+                typeof(Action<CSharpCompilationOptions, bool>), typeof(CSharpCompilationOptions)
+                .GetProperty("DebugPlusMode", BindingFlags.Instance | BindingFlags.NonPublic)!
+                .SetMethod!);
+
+            //var list = typeof(CSharpCompilationOptions).GetProperties(BindingFlags.Instance | BindingFlags.NonPublic);
+
+            //SetEnableEditAndContinueDelegate = (Action<CompilationOptions, bool>)Delegate.CreateDelegate(
+            //    typeof(Action<CompilationOptions, bool>), typeof(CSharpCompilationOptions)
+            //    .GetProperty("EnableEditAndContinue", BindingFlags.Instance | BindingFlags.NonPublic)!
+            //    .SetMethod!);
         }
     }
 }

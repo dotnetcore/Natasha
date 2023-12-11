@@ -36,7 +36,7 @@ public sealed partial class AssemblyCSharpBuilder
         stopwatch.Start();
 #endif
 
-        var options = _compilerOptions.GetCompilationOptions(_codeOptimizationLevel);
+        var options = _compilerOptions.GetCompilationOptions(_codeOptimizationLevel,_withDebugInfo);
         var references = NatashaReferenceCache.GetReferences();
         _compilation = CSharpCompilation.Create(AssemblyName, SyntaxTrees, references, options);
 

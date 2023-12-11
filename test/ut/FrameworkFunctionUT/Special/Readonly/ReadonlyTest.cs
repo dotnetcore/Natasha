@@ -14,7 +14,7 @@ namespace FrameworkFunctionUT.Special
             var action = NDelegate
                 .DefaultDomain(builder => builder.ConfigCompilerOption(opt => opt
                 .WithAllMetadata()
-                .SetCompilerFlag(Natasha.CSharp.Compiler.CompilerBinderFlags.IgnoreAccessibility | Natasha.CSharp.Compiler.CompilerBinderFlags.IgnoreCorLibraryDuplicatedTypes)))
+                .WithCompilerFlag(Natasha.CSharp.Compiler.CompilerBinderFlags.IgnoreAccessibility | Natasha.CSharp.Compiler.CompilerBinderFlags.IgnoreCorLibraryDuplicatedTypes)))
                 .ConfigClass(item => item.AllowPrivate<ReadonlyModel>())
                 .Action<ReadonlyModel>($"{"obj.@interface".ToReadonlyScript()} = new DefaultReadolyInterface();");
 

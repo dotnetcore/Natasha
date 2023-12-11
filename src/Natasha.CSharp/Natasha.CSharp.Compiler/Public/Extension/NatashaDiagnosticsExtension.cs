@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 
 namespace Natasha.CSharp
 {
@@ -35,9 +36,13 @@ namespace Natasha.CSharp
             var name = usingDirectiveSyntax.Name;
             if (name!=null)
             {
+#if NETCOREAPP3_0_OR_GREATER
+                NatashaReferenceDomain.DefaultDomain.UsingRecorder.Remove(name.ToString());
+#else
                 DefaultUsing.Remove(name.ToString());
+#endif
             }
-            
+
         }
 
         public static void RemoveUsingAndNodesFromStartName(this Diagnostic diagnostic, CompilationUnitSyntax root, HashSet<SyntaxNode> removeCollection)
@@ -50,7 +55,12 @@ namespace Natasha.CSharp
                                   select usingDeclaration).ToList();
 
                 removeCollection.UnionWith(usingNodes);
+#if NETCOREAPP3_0_OR_GREATER
+                NatashaReferenceDomain.DefaultDomain.UsingRecorder.Remove(usingNodes.Select(item => item.Name!.ToString()));
+#else
                 DefaultUsing.Remove(usingNodes.Select(item => item.Name!.ToString()));
+#endif
+                
             }
         }
     }

@@ -11,6 +11,7 @@ namespace FrameworkFunctionUT.Syntax
             try
             {
                 AssemblyCSharpBuilder builder = new();
+                builder.WithoutCombineUsingCode();
                 builder.Add(code);
             }
             catch (Exception ex)

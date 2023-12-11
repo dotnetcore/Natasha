@@ -7,12 +7,21 @@ public class DebugConfiguration
     internal DebugInformationFormat _informationFormat = DebugInformationFormat.PortablePdb;
 
     /// <summary>
-    /// 采用文件加载方式搜集源代码信息
+    /// 采用文件加载方式搜集源代码信息,兼容 unix
     /// </summary>
     /// <returns></returns>
     public DebugConfiguration WriteToFile()
     {
         _informationFormat = DebugInformationFormat.PortablePdb;
+        return this;
+    }
+    /// <summary>
+    /// 可能不兼容 unix 
+    /// </summary>
+    /// <returns></returns>
+    public DebugConfiguration WriteToFileOriginal()
+    {
+        _informationFormat = DebugInformationFormat.Pdb;
         return this;
     }
     /// <summary>

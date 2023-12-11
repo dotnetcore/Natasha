@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using Xunit;
 
 namespace NatashaFunctionUT.Compile
@@ -14,32 +15,54 @@ namespace NatashaFunctionUT.Compile
         {
             using (DomainManagement.Random().CreateScope())
             {
-
-                Assert.NotEqual("Default",DomainManagement.CurrentDomain.Name);
-                AssemblyCSharpBuilder builder = new();
-                builder.AssemblyName = "ASDASD1";
+                var domainName = DomainManagement.CurrentDomain.Name;
+                var referenceCount = DomainManagement.CurrentDomain.References.Count;
+                Assert.NotEqual("Default", domainName);
+               
+                
+                AssemblyCSharpBuilder builder = new()
+                {
+                    AssemblyName = "ASDASD1"
+                };
+                Assert.NotEqual("Default", builder.Domain.Name);
+                builder.WithCombineUsingCode(UsingLoadBehavior.WithCurrent);
                 builder.Add("namespace TestA{ public class A {  public string Name = \"Hello\"; }}");
                 var assemblyA = builder.GetAssembly();
                 Assert.NotNull(assemblyA);
                 Assert.True(builder.Domain.UsingRecorder.HasUsing("TestA"));
+                Assert.Equal(domainName, DomainManagement.CurrentDomain.Name);
 
+                builder.Clear();
 
-                builder.SyntaxTrees.Clear();
-                builder.ClearCompilationCache();
                 builder.AssemblyName = "ASDASD2";
-                builder.Add(builder.Domain.UsingRecorder.ToString()+ "namespace TestB{public class B { public B(){ Name=\" World!\"; } public string Name; }}");
+                Assert.Equal(domainName, DomainManagement.CurrentDomain.Name);
+                Assert.Equal(referenceCount, DomainManagement.CurrentDomain.References.Count - 1);
+                builder.Add(@"namespace TestB 
+{ 
+    public class B 
+    {  
+        public B(){
+            Name="" World!"";
+        }
+        public string Name; 
+    }
+}");
+               
                 var assemblyB = builder.GetAssembly();
                 Assert.True(builder.Domain.UsingRecorder.HasUsing("TestB"));
                 Assert.NotNull(assemblyB);
 
-                builder.SyntaxTrees.Clear();
-                builder.ClearCompilationCache();
+                Thread.Sleep(2000);
+                builder.Clear();
                 builder.AssemblyName = "ASDASD3";
-                builder.Add(builder.Domain.UsingRecorder.ToString()+"public class C { public static string Show(){ return ((new A()).Name+(new B()).Name); } }");
+                Assert.Equal(domainName, DomainManagement.CurrentDomain.Name);
+                Assert.Equal(referenceCount, DomainManagement.CurrentDomain.References.Count - 2);
+                builder.Add("public class C { public static string Show(){ return (new A()).Name+(new B()).Name; } }");
                 var assemblyC = builder.GetAssembly();
                 var type = assemblyC.GetTypes().Where(item => item.Name == "C").First();
                 var methodInfo = type.GetMethod("Show");
                 var result = (string)methodInfo!.Invoke(null,null)!;
+                Assert.Equal(domainName, DomainManagement.CurrentDomain.Name);
                 Assert.Equal("Hello World!", result);
 
             }
@@ -54,7 +77,8 @@ namespace NatashaFunctionUT.Compile
 
                 Assert.NotEqual("Default", DomainManagement.CurrentDomain.Name);
                 AssemblyCSharpBuilder builder1 = new();
-                builder1.Add(DefaultUsing.UsingScript + "namespace TestA{ public class A {  public string Name = \"Hello\"; public static NatashaUsingCache Get(){ return null;} }}");
+                builder1.WithCombineUsingCode(UsingLoadBehavior.WithDefault);
+                builder1.Add( "namespace TestA{ public class A {  public string Name = \"Hello\"; public static NatashaUsingCache Get(){ return null;} }}");
                 var assemblyA = builder1
                     .WithCombineReferences(item=>item.UseDefaultReferences())
                     .GetAssembly();
@@ -67,7 +91,8 @@ namespace NatashaFunctionUT.Compile
             using (DomainManagement.Create("DiffDomainReferenceCompare2").CreateScope())
             {
                 AssemblyCSharpBuilder builder2 = new();
-                builder2.Add(DefaultUsing.UsingScript + "namespace TestB{ public class A {  public string Name = \"Hello\";  public static NatashaUsingCache Get(){ return null;}  }}");
+                builder2.WithCombineUsingCode(UsingLoadBehavior.WithDefault);
+                builder2.Add("namespace TestB{ public class A {  public string Name = \"Hello\";  public static NatashaUsingCache Get(){ return null;}  }}");
                 var assemblyB = builder2
                     .WithCombineReferences()
                     .GetAssembly();

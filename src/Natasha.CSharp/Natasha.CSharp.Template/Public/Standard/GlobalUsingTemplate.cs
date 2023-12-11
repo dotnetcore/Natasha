@@ -16,6 +16,11 @@ namespace Natasha.CSharp.Template
         public readonly StringBuilder _script;
         public readonly NatashaUsingCache UsingRecorder;
 
+        public GlobalUsingTemplate()
+        {
+            _script = new StringBuilder(100);
+            UsingRecorder = new NatashaUsingCache();
+        }
 
 
         internal T RecordUsing(NatashaUsingCache usingCache)
@@ -44,17 +49,14 @@ namespace Natasha.CSharp.Template
 
         }
 
-
-        private bool _useGlobalUsing;
-
         public T NoGlobalUsing()
         {
-            _useGlobalUsing = false;
+            this.AssemblyBuilder.WithoutCombineUsingCode();
             return Link;
         }
         public T UseGlobalUsing()
         {
-            _useGlobalUsing = true;
+            this.AssemblyBuilder.WithCombineUsingCode(UsingLoadBehavior.WithDefault);
             return Link;
         }
 

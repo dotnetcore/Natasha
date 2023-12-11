@@ -13,7 +13,7 @@ namespace NatashaFunctionUT.Template.Compile
         {
 
             var builder = NInterface.RandomDomain();
-            builder.AssemblyBuilder.DisableSemanticCheck();
+            builder.AssemblyBuilder.WithoutSemanticCheck();
             var type = builder
                 .NoGlobalUsing()
                 .HiddenNamespace()

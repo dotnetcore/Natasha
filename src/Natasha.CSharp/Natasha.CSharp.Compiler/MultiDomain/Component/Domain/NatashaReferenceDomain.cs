@@ -19,13 +19,6 @@ public sealed class NatashaReferenceDomain : NatashaDomain
     }
 
 
-    public static void AddDefaultReferenceAndUsing(AssemblyName assemblyName, string path)
-    {
-        DefaultDomain.References.AddReference(assemblyName, path);
-        DefaultUsing.AddUsing(assemblyName);
-    }
-
-
     public IEnumerable<MetadataReference> GetReferences(ReferenceConfiguration configuration)
     {
         if (Name == DefaultDomain.Name)
@@ -66,16 +59,8 @@ public sealed class NatashaReferenceDomain : NatashaDomain
 
     private void NatashaReferenceDomain_LoadAssemblyReferenceWithStream(Assembly assembly, System.IO.Stream stream)
     {
-
         References.AddReference(assembly.GetName(), stream);
-        if (Name == "Default")
-        {
-            DefaultUsing.AddUsing(assembly);
-        }
-        else
-        {
-            UsingRecorder.Using(assembly);
-        }
+        UsingRecorder.Using(assembly);
         //UsingRecorder.Using(assembly);
 
     }
@@ -84,14 +69,7 @@ public sealed class NatashaReferenceDomain : NatashaDomain
     private void NatashaReferenceDomain_LoadAssemblyReferencsWithPath(Assembly assembly, string path)
     {
         References.AddReference(assembly.GetName(), path);
-        if (Name == "Default")
-        {
-            DefaultUsing.AddUsing(assembly);
-        }
-        else
-        {
-            UsingRecorder.Using(assembly);
-        }
+        UsingRecorder.Using(assembly);
     }
 
 

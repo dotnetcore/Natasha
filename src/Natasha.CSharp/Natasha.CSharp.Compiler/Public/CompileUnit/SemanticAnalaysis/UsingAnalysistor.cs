@@ -43,10 +43,12 @@ namespace Natasha.CSharp.Compiler.SemanticAnalaysis
                         for (int i = 0; i < errors.Length; i++)
                         {
                             var error = errors[i];
+                            //NamespaceName2 中的命名空间 NamespaceName1 与 NamespaceName3 中的类型 TypeName1 冲突
                             if (error.Id == "CS0434")
                             {
                                 error.RemoveDefaultUsingAndUsingNode(root, errorNodes);
                             }
+                            //无用 using , 不必要的 using 指令。
                             else if (error.Id == "CS8019")
                             {
                                 var node = error.GetTypeSyntaxNode<UsingDirectiveSyntax>(root);
@@ -54,8 +56,8 @@ namespace Natasha.CSharp.Compiler.SemanticAnalaysis
                                 {
                                     errorNodes.Add(node);
                                 }
-
                             }
+                            //未能找到类型或命名空间名称“type/namespace”（是否缺少 using 指令或程序集引用？）
                             else if (error.Id == "CS0246")
                             {
                                 var node = error.GetTypeSyntaxNode<UsingDirectiveSyntax>(root);
@@ -64,6 +66,7 @@ namespace Natasha.CSharp.Compiler.SemanticAnalaysis
                                     NatashaDiagnosticsExtension.RemoveUsingAndNode(node, errorNodes);
                                 }
                             }
+                            //命名空间“namespace”中不存在类型或命名空间名“name”（是否缺少程序集引用？）
                             else if (error.Id == "CS0234")
                             {
                                 error.RemoveUsingAndNodesFromStartName(root, errorNodes);

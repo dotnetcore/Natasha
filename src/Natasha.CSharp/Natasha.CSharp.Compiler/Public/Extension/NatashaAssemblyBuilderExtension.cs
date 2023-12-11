@@ -3,18 +3,6 @@
 
 public static class NatashaAssemblyBuilderExtension
 {
-
-    public static AssemblyCSharpBuilder EnableNullableCompile(this AssemblyCSharpBuilder builder)
-    {
-        builder.ConfigCompilerOption(opt => opt.SetNullableCompile(NullableContextOptions.Enable));
-        return builder;
-    }
-    public static AssemblyCSharpBuilder DisableNullableCompile(this AssemblyCSharpBuilder builder)
-    {
-        builder.ConfigCompilerOption(opt => opt.SetNullableCompile(NullableContextOptions.Disable));
-        return builder;
-    }
-
     public static AssemblyCSharpBuilder SetOutputFolder(this AssemblyCSharpBuilder builder, string folder)
     {
         builder.OutputFolder = folder;
@@ -33,17 +21,6 @@ public static class NatashaAssemblyBuilderExtension
     public static AssemblyCSharpBuilder SetXmlFilePath(this AssemblyCSharpBuilder builder, string xmlFilePath)
     {
         builder.XmlFilePath = xmlFilePath;
-        return builder;
-    }
-
-    public static AssemblyCSharpBuilder DisableSemanticCheck(this AssemblyCSharpBuilder builder)
-    {
-        builder.EnableSemanticHandler = false;
-        return builder;
-    }
-    public static AssemblyCSharpBuilder EnableSemanticCheck(this AssemblyCSharpBuilder builder)
-    {
-        builder.EnableSemanticHandler = true;
         return builder;
     }
 }

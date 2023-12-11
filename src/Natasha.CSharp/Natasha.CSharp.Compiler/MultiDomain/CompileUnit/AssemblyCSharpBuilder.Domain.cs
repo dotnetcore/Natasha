@@ -36,6 +36,10 @@ public sealed partial class AssemblyCSharpBuilder
                 if (AssemblyLoadContext.CurrentContextualReflectionContext != default)
                 {
                     _domain = (NatashaReferenceDomain)(AssemblyLoadContext.CurrentContextualReflectionContext);
+                    if (_domain.AssemblyLoadBehavior != _dependencyLoadBehavior)
+                    {
+                        _domain.SetAssemblyLoadBehavior(_dependencyLoadBehavior);
+                    }
                 }
                 else
                 {
@@ -43,6 +47,7 @@ public sealed partial class AssemblyCSharpBuilder
                 }
                
             }
+            
             return _domain;
         }
         set
@@ -65,7 +70,7 @@ public sealed partial class AssemblyCSharpBuilder
     /// </summary>
     /// <param name="loadBehavior"></param>
     /// <returns></returns>
-    public AssemblyCSharpBuilder ConfigAssemblyLoadBehavior(AssemblyCompareInfomation loadBehavior)
+    public AssemblyCSharpBuilder SetAssemblyLoadBehavior(AssemblyCompareInfomation loadBehavior)
     {
         _dependencyLoadBehavior = loadBehavior;
         return this;

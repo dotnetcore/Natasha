@@ -38,6 +38,15 @@ public class ReferenceConfiguration
         return this;
     }
     /// <summary>
+    /// 配置主域及当前域的引用加载行为，当主域和当前域存在相同引用时，选择全部加载
+    /// </summary>
+    /// <returns></returns>
+    public ReferenceConfiguration UseAllReferences()
+    {
+        _compileReferenceBehavior = AssemblyCompareInfomation.None;
+        return this;
+    }
+    /// <summary>
     /// 配置主域及当前域的引用加载行为，当主域和当前域存在相同引用时，选择默认域引用加载
     /// </summary>
     /// <returns></returns>
