@@ -1,12 +1,18 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <SatelliteResourceLanguages>zh-Hans</SatelliteResourceLanguages>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="FakesAssemblies\**" />
+    <EmbeddedResource Remove="FakesAssemblies\**" />
+    <None Remove="FakesAssemblies\**" />
+  </ItemGroup>
 
   <!--<ItemGroup>
     <ProjectReference Include="..\..\test\workflow\Solution.NET.Sdk\Solution.NET.Sdk.csproj" />
@@ -15,6 +21,8 @@
   <ItemGroup>
     <!--<PackageReference Include="Dapper" Version="2.1.15" />-->
     <PackageReference Include="DotNetCore.Compile.Environment" Version="3.2.0" />
+    <PackageReference Include="HarmonyX" Version="2.10.2" />
+    <PackageReference Include="Microsoft.QualityTools.Testing.Fakes" Version="16.11.230815" />
     <!--<PackageReference Include="FreeSql" Version="3.2.801" />
     <PackageReference Include="log4net" Version="2.0.15" />-->
     <!--<PackageReference Include="DotNetCore.Natasha.CSharp" Version="5.2.2.1" />-->
@@ -26,6 +34,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Natasha.CSharp\Natasha.CSharp.Compiler\Natasha.CSharp.Compiler.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalDesignTimeBuildInput Remove="FakesAssemblies\**" />
   </ItemGroup>
 
   <!--<ItemGroup>

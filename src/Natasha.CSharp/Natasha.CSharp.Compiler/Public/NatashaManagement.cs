@@ -36,7 +36,11 @@ public static partial class NatashaManagement
     /// <param name="namespaces"></param>
     public static void AddGlobalUsing(params string[] @namespaces)
     {
+#if NETCOREAPP3_0_OR_GREATER
+        NatashaReferenceDomain.DefaultDomain.UsingRecorder.Using(@namespaces);
+#else
         DefaultUsing.AddUsing(@namespaces);
+#endif
     }
 
     /// <summary>
@@ -48,7 +52,12 @@ public static partial class NatashaManagement
     {
         foreach (var item in @namespaces)
         {
+#if NETCOREAPP3_0_OR_GREATER
+            NatashaReferenceDomain.DefaultDomain.UsingRecorder.Using(item);
+#else
             DefaultUsing.AddUsing(item);
+#endif
+
         }
     }
 
@@ -59,7 +68,12 @@ public static partial class NatashaManagement
     /// <param name="namespaces"></param>
     public static void RemoveGlobalUsing(params string[] @namespaces)
     {
+#if NETCOREAPP3_0_OR_GREATER
+        NatashaReferenceDomain.DefaultDomain.UsingRecorder.Remove(@namespaces);
+#else
         DefaultUsing.Remove(@namespaces);
+#endif
+
     }
 }
 

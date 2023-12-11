@@ -14,7 +14,7 @@ using System.Runtime.Loader;
 public partial class NatashaDomain
 {
 
-    private AssemblyCompareInfomation _assemblyLoadBehavior;
+    public AssemblyCompareInfomation AssemblyLoadBehavior;
 
     /// <summary>
     /// 设置加载行为
@@ -22,7 +22,7 @@ public partial class NatashaDomain
     /// <param name="loadBehavior">加载行为枚举</param>
     public void SetAssemblyLoadBehavior(AssemblyCompareInfomation loadBehavior)
     {
-        _assemblyLoadBehavior = loadBehavior;
+        AssemblyLoadBehavior = loadBehavior;
     }
 
     /// <summary>
@@ -119,7 +119,7 @@ public partial class NatashaDomain
 #if DEBUG
         Debug.WriteLine($"[解析]程序集:{assemblyName.Name},全名:{assemblyName.FullName}");
 #endif
-        if (_assemblyLoadBehavior != AssemblyCompareInfomation.None && Name != "Default")
+        if (AssemblyLoadBehavior != AssemblyCompareInfomation.None && Name != "Default")
         {
             var name = assemblyName.GetUniqueName();
 #if DEBUG
@@ -139,7 +139,7 @@ public partial class NatashaDomain
 #if DEBUG
                 Debug.WriteLine($"\t\t[匹配成功]源/默认域版本:{assemblyName.Version}/{defaultCacheName.Version}！");
 #endif
-                if (assemblyName.CompareWithDefault(defaultCacheName, _assemblyLoadBehavior) == AssemblyLoadVersionResult.UseDefault)
+                if (assemblyName.CompareWithDefault(defaultCacheName, AssemblyLoadBehavior) == AssemblyLoadVersionResult.UseDefault)
                 {
                     var defaultAsm = Default.Assemblies.FirstOrDefault(asm => asm.GetName().GetUniqueName() == name);
                     if (defaultAsm != null)

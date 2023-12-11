@@ -9,7 +9,7 @@ namespace NatashaFunctionUT.Syntax
         private string FormartString(string code)
         {
             AssemblyCSharpBuilder builder = new();
-            builder.Add(code);
+            builder.WithoutCombineUsingCode().Add(code);
             return builder.SyntaxTrees[0].ToString();
 
         }

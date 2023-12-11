@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
@@ -8,9 +9,9 @@ namespace Natasha.CSharp.Using
     /// <summary>
     /// 引用模板
     /// </summary>
-    public sealed class NatashaUsingCache
+    public sealed class NatashaUsingCache : IEnumerable<string>
     {
-
+        private bool _changed;
         public readonly HashSet<string> _usings;
         //internal readonly HashSet<Type> _usingTypes;
         //private static readonly Regex _using_regex;
@@ -22,7 +23,7 @@ namespace Natasha.CSharp.Using
         public NatashaUsingCache()
         {
 
-            _usings = new HashSet<string>();
+            _usings = [];
 
         }
 
@@ -32,7 +33,10 @@ namespace Natasha.CSharp.Using
 
         public bool HasUsing(string @using)
         {
-            return _usings.Contains(@using);
+            lock (_usings)
+            {
+                return _usings.Contains(@using);
+            }
         } 
 
 
@@ -42,9 +46,13 @@ namespace Natasha.CSharp.Using
 
             if (!string.IsNullOrEmpty(@using) && @using!.IndexOf('<') == -1)
             {
-
-                _usings.Add(@using);
-
+                lock (_usings)
+                {
+                    if (_usings.Add(@using))
+                    {
+                        _changed = true;
+                    }
+                }
             }
             return this;
 
@@ -52,10 +60,12 @@ namespace Natasha.CSharp.Using
 
         public NatashaUsingCache Using(IEnumerable<string> @using)
         {
-
-            _usings.UnionWith(@using);
+            lock (_usings)
+            {
+                _usings.UnionWith(@using);
+                _changed = true;
+            }
             return this;
-
         }
 
 
@@ -115,12 +125,32 @@ namespace Natasha.CSharp.Using
 
         }
 
+        public NatashaUsingCache Remove(string @using)
+        {
+            lock (_usings)
+            {
+                if (_usings.Remove(@using))
+                {
+                    _changed = true;
+                }
+            }
+            return this;
+        }
+
+        public NatashaUsingCache Remove(IEnumerable<string> @usings)
+        {
+            lock (_usings)
+            {
+                _usings.ExceptWith(@usings);
+                _changed = true;
+            }
+            return this;
+        }
 
 
 
         public NatashaUsingCache Using(IEnumerable<Type> namespaces)
         {
-
             foreach (var item in namespaces)
             {
 
@@ -128,7 +158,6 @@ namespace Natasha.CSharp.Using
 
             }
             return this;
-
         }
 
 
@@ -136,22 +165,40 @@ namespace Natasha.CSharp.Using
 
         public NatashaUsingCache Using(Type type)
         {
-
             return Using(type.Namespace);
-
         }
 
-
+        private string _usingScript = string.Empty;
         public override string ToString()
         {
-            StringBuilder usings = new();
-            foreach (var item in _usings)
+            lock (_usings)
             {
-                usings.AppendLine($"using {item};");
+                if (_changed)
+                {
+                    StringBuilder usings = new();
+                    foreach (var item in _usings)
+                    {
+                        usings.AppendLine($"using {item};");
+                    }
+                    _usingScript =  usings.ToString();
+                    _changed = false;
+                }
             }
-            return usings.ToString();
+            return _usingScript; 
         }
 
+        public IEnumerator<string> GetEnumerator()
+        {
+            return _usings.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            foreach (var item in _usings)
+            {
+                yield return item;
+            }
+        }
     }
 
 }

@@ -16,12 +16,12 @@ public sealed partial class AssemblyCSharpBuilder
 {
     
     private Func<IEnumerable<MetadataReference>, IEnumerable<MetadataReference>>? _referencesFilter;
-    private CombineReferenceBehavior _combineReferenceBehavior;
+    private CombineReferenceBehavior _combineReferenceBehavior = CombineReferenceBehavior.UseCurrent;
     private ReferenceConfiguration _referenceConfiguration = new();
 
 
     /// <summary>
-    /// 编译时，使用主域引用覆盖引用集,并配置同名引用版本行为
+    /// 编译时，使用主域引用覆盖引用集,并配置同名引用版本行为(默认优先使用主域引用)
     /// </summary>
     /// <param name="action">配置委托</param>
     /// <returns></returns>
@@ -47,7 +47,7 @@ public sealed partial class AssemblyCSharpBuilder
     /// </summary>
     /// <param name="referencesFilter"></param>
     /// <returns></returns>
-    public AssemblyCSharpBuilder ConfigReferencesFilter(Func<IEnumerable<MetadataReference>, IEnumerable<MetadataReference>>? referencesFilter)
+    public AssemblyCSharpBuilder SetReferencesFilter(Func<IEnumerable<MetadataReference>, IEnumerable<MetadataReference>>? referencesFilter)
     {
         _referencesFilter = referencesFilter;
         return this;
@@ -79,7 +79,7 @@ public sealed partial class AssemblyCSharpBuilder
         //    _compilerOptions.WithLowerVersionsAssembly();
         //}
 
-        var options = _compilerOptions.GetCompilationOptions(_codeOptimizationLevel);
+        var options = _compilerOptions.GetCompilationOptions(_codeOptimizationLevel,_withDebugInfo);
         if (initOptionsFunc != null)
         {
             options = initOptionsFunc(options);
@@ -101,7 +101,7 @@ public sealed partial class AssemblyCSharpBuilder
 
         _compilation = CSharpCompilation.Create(AssemblyName, SyntaxTrees, references, options);
 #if DEBUG
-        stopwatch.RestartAndShowCategoreInfo("[Compiler]", "获取编译单元", 2);
+        stopwatch.StopAndShowCategoreInfo("[Compiler]", "获取编译单元", 2);
 #endif
 
         if (EnableSemanticHandler)
@@ -111,10 +111,6 @@ public sealed partial class AssemblyCSharpBuilder
                 _compilation = item(this, _compilation, _semanticCheckIgnoreAccessibility);
             }
         }
-
-#if DEBUG
-        stopwatch.StopAndShowCategoreInfo("[Semantic]", "语义处理", 2);
-#endif
         return _compilation;
     }
 

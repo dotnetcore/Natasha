@@ -16,6 +16,7 @@ namespace FrameworkFunctionUT.Compile
             {
                 EnableSemanticHandler = false
             };
+            builder.WithoutCombineUsingCode();
             builder.Add(code);
             //Assert.Equal(DefaultUsing.Count, builder.SyntaxTrees[0].GetCompilationUnitRoot().Usings.Count -1);
 

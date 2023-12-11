@@ -264,7 +264,7 @@ namespace Natasha.CSharp.Template
             //      [otherBody]
             //  }
             base.BuilderScript();
-            _script.Insert(0, GetUsingBuilder());
+            _script.Insert(0, UsingRecorder.ToString());
             return Link;
 
         }

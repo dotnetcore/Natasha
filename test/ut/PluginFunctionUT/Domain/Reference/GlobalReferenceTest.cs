@@ -20,8 +20,8 @@ namespace NatashaFunctionUT.Reference
                 .CompileLibraries.SelectMany(cl => cl.ResolveReferencePaths());
 
             var count = NatashaReferenceDomain.DefaultDomain.References.Count;
-            Assert.True(DefaultUsing.HasElement("System.Threading"));
-            Assert.False(DefaultUsing.HasElement("System.IO"));
+            Assert.True(NatashaReferenceDomain.DefaultDomain.UsingRecorder.HasUsing("System.Threading"));
+            Assert.False(NatashaReferenceDomain.DefaultDomain.UsingRecorder.HasUsing("System.IO"));
 
         }
         [Fact(DisplayName = "[默认引用]排重测试")]

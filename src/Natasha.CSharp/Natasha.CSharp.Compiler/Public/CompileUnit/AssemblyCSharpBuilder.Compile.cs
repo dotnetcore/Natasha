@@ -5,6 +5,8 @@ using Natasha.CSharp.Extension.Inner;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+
+
 #if NETCOREAPP3_0_OR_GREATER
 using Natasha.CSharp.Component.Domain;
 #else
@@ -42,24 +44,22 @@ public sealed partial class AssemblyCSharpBuilder
     ///         //手动设置同名过滤器
     ///         config.ConfigSameNameReferencesFilter(func);
     ///     //手动设置全部引用过滤器
-    ///     builder.ConfigReferencesFilter
+    ///     builder.SetReferencesFilter
     /// 
     /// </code>
     /// </example>
     /// </remarks>
     public Assembly GetAssembly()
     {
-
-#if DEBUG
-        Stopwatch stopwatch = new();
-        stopwatch.Start();
-#endif
-
         if (_compilation == null)
         {
             _compilation = GetAvailableCompilation();
         }
 
+#if DEBUG
+        Stopwatch stopwatch = new();
+        stopwatch.Start();
+#endif
         Stream dllStream;
         Stream? pdbStream = null;
         Stream? xmlStream = null;
@@ -81,7 +81,7 @@ public sealed partial class AssemblyCSharpBuilder
         if (_compilation!.Options.OptimizationLevel == OptimizationLevel.Debug)
         {
 
-            if (debugInfoFormat == DebugInformationFormat.PortablePdb)
+            if (debugInfoFormat != DebugInformationFormat.Embedded)
             {
                 if (string.IsNullOrEmpty(PdbFilePath))
                 {
@@ -98,31 +98,33 @@ public sealed partial class AssemblyCSharpBuilder
                 }
                 pdbStream = File.Create(PdbFilePath);
             }
-            else if (debugInfoFormat == DebugInformationFormat.Embedded)
+            else
             {
                 PdbFilePath = null;
             }
         }
-        else if (!string.IsNullOrEmpty(PdbFilePath))
+        else
         {
-            PdbFilePath = null;
+            if (!string.IsNullOrEmpty(PdbFilePath))
+            {
+                PdbFilePath = null;
+            }
             debugInfoFormat = 0;
         }
-
 
         var compileResult = _compilation.Emit(
            dllStream,
            pdbStream: pdbStream,
            xmlDocumentationStream: xmlStream,
            options: new EmitOptions(
+               //runtimeMetadataVersion: Assembly.GetExecutingAssembly().ImageRuntimeVersion,
+               //instrumentationKinds: [InstrumentationKind.TestCoverage],
                includePrivateMembers: _includePrivateMembers,
                metadataOnly: _isReferenceAssembly,
                pdbFilePath: PdbFilePath,
                debugInformationFormat: debugInfoFormat
                )
            );
-
-
         LogCompilationEvent?.Invoke(_compilation.GetNatashaLog());
         Assembly? assembly = null;
 
@@ -130,16 +132,13 @@ public sealed partial class AssemblyCSharpBuilder
 #if NETCOREAPP3_0_OR_GREATER
         if (compileResult.Success)
         {
+
             if (_compilation.Options.OptimizationLevel == OptimizationLevel.Debug)
             {
-                if (debugInfoFormat == DebugInformationFormat.PortablePdb)
-                {
-                    pdbStream?.Dispose();
-                    pdbStream = File.OpenRead(PdbFilePath);
-                }
+                pdbStream?.Dispose();
             }
             dllStream.Seek(0, SeekOrigin.Begin);
-            assembly = Domain.LoadAssemblyFromStream(dllStream, pdbStream);
+            assembly = Domain.LoadAssemblyFromStream(dllStream, null);
             CompileSucceedEvent?.Invoke(_compilation, assembly!);
 
         }
@@ -159,20 +158,15 @@ public sealed partial class AssemblyCSharpBuilder
 
         }
 #endif
-
-
-
-
-#if DEBUG
-        stopwatch.StopAndShowCategoreInfo("[  Emit  ]", "编译时长", 2);
-#endif
-
         if (!compileResult.Success)
         {
             CompileFailedEvent?.Invoke(_compilation, compileResult.Diagnostics);
             throw NatashaExceptionAnalyzer.GetCompileException(_compilation, compileResult.Diagnostics);
         }
 
+#if DEBUG
+        stopwatch.StopAndShowCategoreInfo("[  Emit  ]", "编译时长", 2);
+#endif
         return assembly!;
     }
 }

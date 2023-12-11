@@ -11,7 +11,7 @@ namespace NatashaFunctionUT.Compile
         public void SemanticTest1()
         {
 
-            var code = DefaultUsing.UsingScript + "using abcde;public class A{ public string Name;}";
+            var code = NatashaReferenceDomain.DefaultDomain.UsingRecorder.ToString() + "using abcde;public class A{ public string Name;}";
             AssemblyCSharpBuilder builder = new();
             builder.Domain = DomainManagement.Random();
             builder.EnableSemanticHandler = false;

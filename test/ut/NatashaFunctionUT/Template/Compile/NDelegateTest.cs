@@ -88,7 +88,10 @@ namespace NatashaFunctionUT.Template.Compile
         [Fact(DisplayName = "非安全异步委托")]
         public async void RunUnsafeAsyncDelegate()
         {
-            var action = NDelegate.RandomDomain().ConfigMethod(item=>item.Summary("zhushi")).UnsafeAsyncFunc<string, string, Task<string>>(@"
+            var action = NDelegate
+                .RandomDomain()
+                .ConfigBuilder(opt=>opt.ConfigCompilerOption(item=>item.WithUnsafeCompile()))
+                .ConfigMethod(item=>item.Summary("zhushi")).UnsafeAsyncFunc<string, string, Task<string>>(@"
                             return arg1 +"" ""+ arg2;");
 
             string result = await action("Hello", "World1!");
@@ -102,7 +105,9 @@ namespace NatashaFunctionUT.Template.Compile
         [Fact(DisplayName = "自定义委托")]
         public void RunDelegate5()
         {
-            var action = NDelegate.RandomDomain().Delegate<TestDelegate>(@"
+            var action = NDelegate
+                .RandomDomain()
+                .Delegate<TestDelegate>(@"
                             List<int> list = new List<int>();
                             return value.Length;");
             int result = action("Hello");
@@ -116,7 +121,10 @@ namespace NatashaFunctionUT.Template.Compile
         [Fact(DisplayName = "非安全异步委托2")]
         public async void RunAsyncDelegate6()
         {
-            var action = NDelegate.RandomDomain().UnsafeAsyncFunc<string, string, Task<string>>(@"
+            var action = NDelegate
+                .RandomDomain()
+                .ConfigBuilder(opt => opt.ConfigCompilerOption(item => item.WithUnsafeCompile()))
+                .UnsafeAsyncFunc<string, string, Task<string>>(@"
                             string _AppCode=""aaaa""; string arg3 = default; string b; return arg1 +"" ""+ arg2;");
 
             string result = await action("Hello", "World1!");

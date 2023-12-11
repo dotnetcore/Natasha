@@ -33,7 +33,14 @@ public sealed partial class AssemblyCSharpBuilder
         return this;
     }
 
-    public AssemblyCSharpBuilder ConfigOutput(string dllFilePath, string pdbFilePath, string? xmlFilePath = null)
+    /// <summary>
+    /// 设置程序编译后，dll/pdb/xml 文件的路径。使用此功能，程序编译后结果会输出到文件中。
+    /// </summary>
+    /// <param name="dllFilePath"></param>
+    /// <param name="pdbFilePath"></param>
+    /// <param name="xmlFilePath"></param>
+    /// <returns></returns>
+    public AssemblyCSharpBuilder WithOutput(string dllFilePath, string? pdbFilePath = null, string? xmlFilePath = null)
     {
         DllFilePath = dllFilePath;
         PdbFilePath = pdbFilePath;

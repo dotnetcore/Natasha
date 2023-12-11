@@ -8,7 +8,13 @@ using System.IO;
 public sealed partial class AssemblyCSharpBuilder 
 {
 
-    public AssemblyCSharpBuilder UseNatashaFileOut(string? folder = null)
+// <summary>
+    /// 将编译结果 (dll / pdb / xml) 文件写入此文件夹。
+    /// 默认不输出到文件，只输出到内存。
+    /// </summary>
+    /// <param name="folder">文件夹路径</param>
+    /// <returns></returns>
+    public AssemblyCSharpBuilder WithOutput(string? folder = null)
     {
         if (folder == null)
         {

@@ -6,7 +6,13 @@ using System.IO;
 /// </summary>
 public sealed partial class AssemblyCSharpBuilder 
 {
-    public AssemblyCSharpBuilder ConfigOutput(string? folder = null)
+    /// <summary>
+    /// 将编译结果 (dll / pdb / xml) 文件写入此文件夹。
+    /// 默认不输出到文件，只输出到内存。
+    /// </summary>
+    /// <param name="folder">文件夹路径</param>
+    /// <returns></returns>
+    public AssemblyCSharpBuilder WithOutput(string? folder = null)
     {
         if (folder == null)
         {
@@ -28,7 +34,6 @@ public sealed partial class AssemblyCSharpBuilder
         XmlFilePath = Path.Combine(OutputFolder, $"{AssemblyName}.xml");
         return this;
     }
-
 }
 #endif
 

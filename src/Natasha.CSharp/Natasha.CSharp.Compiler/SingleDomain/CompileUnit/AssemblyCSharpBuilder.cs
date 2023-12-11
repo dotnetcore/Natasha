@@ -19,20 +19,31 @@ public sealed partial class AssemblyCSharpBuilder
     }
     public AssemblyCSharpBuilder(string assemblyName)
     {
-        EnableSemanticHandler = true;
         _semanticCheckIgnoreAccessibility = false;
         OutputFolder = GlobalOutputFolder;
         _parsingBehavior = UsingLoadBehavior.None;
         _compilerOptions = new();
-        _semanticAnalysistor = new()
-        {
-            UsingAnalysistor._usingSemanticDelegate
-        };
-        SyntaxTrees = new();
+        SyntaxTrees = [];
         AssemblyName = assemblyName;
         DllFilePath = string.Empty;
         XmlFilePath = string.Empty;
-        this.UseNatashaFileOut();
+        WithOutput();
+        if (HasInitialized)
+        {
+            _semanticAnalysistor = [UsingAnalysistor._usingSemanticDelegate];
+            this
+                .WithCombineUsingCode(UsingLoadBehavior.WithAll)
+                .WithReleaseCompile()
+                .WithSemanticCheck();
+        }
+        else
+        {
+            _semanticAnalysistor = [];
+            this
+                .WithCombineUsingCode(UsingLoadBehavior.WithCurrent)
+                .WithReleaseCompile()
+                .WithoutSemanticCheck();
+        }
     }
 
 }

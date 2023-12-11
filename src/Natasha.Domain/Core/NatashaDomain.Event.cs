@@ -24,11 +24,11 @@ public partial class NatashaDomain
     }
 
     /// <summary>
-    /// 文件加载引用事件
+    /// 当动态编译或者插件文件加载后，对文件和程序集如何处理
     /// </summary>
     protected event Action<Assembly, string>? LoadAssemblyReferencsWithPath;
     /// <summary>
-    /// 流加载引用事件
+    /// 当动态编译或者插件流加载后，对流和程序集如何处理
     /// </summary>
 
     protected event Action<Assembly, Stream>? LoadAssemblyReferenceWithStream;

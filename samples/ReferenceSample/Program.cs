@@ -7,6 +7,10 @@ using System.Runtime.CompilerServices;
 using static System.Diagnostics.DebuggableAttribute;
 using System.Diagnostics;
 using System.Diagnostics.SymbolStore;
+using HarmonyLib;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection.PortableExecutable;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace ReferenceSample
 {
@@ -16,59 +20,154 @@ namespace ReferenceSample
         
         static void Main(string[] args)
         {
-            //Run();
             //NatashaManagement.Preheating(true, true);
-            //GC.Collect();
-            //Thread.Sleep(15000);
-            var method = typeof(Program).GetMethod("TestMini");
-            for (int i = 0; i < 5; i++)
-            {
-                method.Invoke(null,null);
-                Thread.Sleep(3000);
-            }
-            Console.ReadKey();
+            //var domain = NatashaManagement.CreateRandomDomain();
+            //var asm = domain.LoadPluginUseDefaultDependency("I:\\OpenSource\\Natasha\\samples\\ReferenceSample\\bin\\Debug\\net8.0\\DynamicLibraryFolders\\Nc0e9a864079d427680ea239b5a9e525e\\a69937be3d244336a20c46843d51d19b.dll");
+
+            TestMini();
+            //var a = Math.Min(1, args.Length);
+            //NatashaManagement.Preheating(false, false);
+            //Console.WriteLine("=============================");
+            //AssemblyCSharpBuilder builder = new();
+            //var asm = builder
+            //    .UseRandomDomain()
+            //    .ConfigCompilerOption(item=>item.AddSupperess("CS8019"))
+            //    .WithCombineReferences(item => item.UseDefaultReferences())
+            //    .WithCombineUsingCode(UsingLoadBehavior.WithAll)
+            //    .Add("public class A{}",UsingLoadBehavior.WithAll)
+            //    .GetAssembly();
+            //Console.WriteLine(asm.FullName);
+            //Console.ReadKey();
+            //NatashaInitializer.Preheating((asmName, name) => {
+            //    if (name != null)
+            //    {
+            //        if (name.Contains("System"))
+            //        {
+            //            if (name.Contains("IO"))
+            //            {
+            //                //排除
+            //                return true;
+            //            }
+            //        }
+            //    }
+            //    return false;
+            //});
+            //var type = typeof(HarmonyPatch);
+            //var type2 = typeof(HarmonyPrefix);
+            //Run();
+            //TestMini();
+            //TestMini();
+            //NatashaManagement.Preheating(true, true);
+            ////GC.Collect();
+            ////Thread.Sleep(15000);
+            //var method = typeof(Program).GetMethod("TestMini");
+            //for (int i = 0; i < 5; i++) 
+            //{
+            //    method.Invoke(null,null);
+            //    Thread.Sleep(3000);
+            //}
+            //Console.ReadKey();
             
         }
 
         public static void TestMini()
         {
-            
-            AssemblyCSharpBuilder builder = new AssemblyCSharpBuilder();
-            builder
+            AssemblyCSharpBuilder builder = new();
+            builder.WithAnalysisAccessibility()
+               //.ConfigCompilerOption(item=>item.WithSuppressReportor())
                 .UseRandomDomain()
-                .ConfigCompilerOption(opt=>opt
-                        .AppendCompilerFlag(
-                        Natasha.CSharp.Compiler.CompilerBinderFlags.SuppressConstraintChecks | 
-                        Natasha.CSharp.Compiler.CompilerBinderFlags.SuppressObsoleteChecks | 
-                        Natasha.CSharp.Compiler.CompilerBinderFlags.SuppressTypeArgumentBinding | 
-                        Natasha.CSharp.Compiler.CompilerBinderFlags.SuppressUnsafeDiagnostics)
-                        )
-                .DisableSemanticCheck()
-                .WithDebugCompile(item=>item.WriteToFile())
-                .OutputAsFullAssembly()
+                //.WithOutput()
+                .WithoutCombineReferences()
+                .WithoutSemanticCheck()
+                .WithDebugCompile(item=>item.WriteToAssembly())
+                //.WithReleaseCompile(false)
+                //.OutputAsRefAssembly()
                 .WithoutPrivateMembers()
+                .WithCombineUsingCode(UsingLoadBehavior.WithCurrent)
+                .AddReference(typeof(HarmonyPatch))
                 .AddReference(typeof(DebuggableAttribute))
                 .AddReference(typeof(object).Assembly)
                 .AddReference(typeof(Math).Assembly)
                 .AddReference(typeof(MathF).Assembly)
-                .WithoutCombineReferences();
+                .AddReference(typeof(SuppressMessageAttribute));
 
             builder.Add(@"
-public static class A{  
+[assembly: TargetFramework("".NETCoreApp,Version=v8.0"", FrameworkDisplayName = "".NET 8.0"")]
+public class A{  
     public static int N1 = 10;
     public static float N2 = 1.2F; 
     public static double N3 = 3.44;
     private static short N4 = 0;
+    public static object Invoke2(){
+        return new object();
+    }
+    public static object Invoke3<T>() where T : new()
+    {
+        return new T();
+    }
     public static object Invoke(){
-
+        var type = typeof(HarmonyPatch);
+        var type2 = typeof(HarmonyPrefix);
+        int[] a = [1,2,3];
         return N1 + MathF.Log10((float)Math.Sqrt(MathF.Sqrt(N2) + Math.Tan(N3)));
     }
-}", UsingLoadBehavior.WithCurrent);
-            
+    [SuppressMessage(""Microsoft.Performance"", ""CA1801:ReviewUnusedParameters"", MessageId = ""isChecked"")]
+    public object Test(){
+        return N1;
+    }
+
+}
+");
+            builder.Add(@"public class B{
+
+    public object Invoke2(){
+        return new object();
+    }
+    public object Invoke3<T>() where T : new()
+    {
+        return new T();
+    }
+}");
+            builder.Add(@"
+namespace Microsoft.CodeAnalysis.Runtime
+{
+        public static class Instrumentation
+        {
+            public static bool[] CreatePayload(System.Guid mvid, int methodToken, int fileIndex, ref bool[] payload, int payloadLength)
+            {
+                if (payload == null)
+                {
+                    payload = new bool[payloadLength];
+                }
+                return payload;
+            }
+
+            public static bool[] CreatePayload(System.Guid mvid, int methodToken, int[] fileIndices, ref bool[] payload, int payloadLength)
+            {
+                if (payload == null)
+                {
+                    payload = new bool[payloadLength];
+                }
+                return payload;
+            }
+
+            public static void FlushPayload()
+            {
+
+            }
+        }
+}");
+            DebugDirectoryBuilder debug = new DebugDirectoryBuilder();
+            debug.AddReproducibleEntry();
+            debug.AddReproducibleEntry();
             var asm = builder.GetAssembly();
             var type = asm.GetType("A");
+            var type1 = asm.GetType("<PrivateImplementationDetails>");
             var method = type.GetMethod("Invoke");
-            var result = method.Invoke(null, null);
+             var result = method.Invoke(null, null);
+            var method2 = type.GetMethod("Invoke2");
+            var result2 = method2.Invoke(Activator.CreateInstance(type), null);
+
             Console.WriteLine(result);
         }
 

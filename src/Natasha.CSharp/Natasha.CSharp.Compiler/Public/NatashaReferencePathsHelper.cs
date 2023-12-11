@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Metadata;
 using System.Reflection.PortableExecutable;
 
 public static class NatashaReferencePathsHelper
@@ -24,8 +25,8 @@ public static class NatashaReferencePathsHelper
                 {
                     //#ISSUE:178
                     using var peStream = File.OpenRead(asmPath);
-                    PEReader pEReader = new PEReader(peStream);
-                    if (!pEReader.HasMetadata)
+                    PEReader peReader = new(peStream);
+                    if (!peReader.HasMetadata || !peReader.GetMetadataReader().IsAssembly)
                     {
                         return false;
                     }
