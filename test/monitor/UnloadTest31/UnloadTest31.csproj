@@ -5,8 +5,9 @@
 		<TargetFramework>netcoreapp3.1</TargetFramework>
 		<NoWarn>1701;1702;0168;NETSDK1138;IDE0060;xUnit2000;CS0067;CS8321;CS0649;CS8604;CA1822;CS8618;</NoWarn>
 	</PropertyGroup>
+
 	<ItemGroup>
-		<ProjectReference Include="..\..\..\src\Natasha.CSharp\Natasha.CSharp\Natasha.CSharp.csproj" />
+	  <ProjectReference Include="..\..\..\src\Natasha.CSharp\Natasha.CSharp.Template\Natasha.CSharp.Template.csproj" />
 	</ItemGroup>
 
 </Project>

@@ -128,7 +128,7 @@ namespace UnloadTest31
 
             for (int i = 0; i < count; i++)
             {
-                var type = NClass.CreateDomain("test" + i.ToString(),item=>item.DisableSemanticCheck())
+                var type = NClass.CreateDomain("test" + i.ToString(),item=>item.WithoutSemanticCheck())
                      .Namespace("Test")
                      .UseRandomName()
                      .PublicField<string>("Name")
