@@ -23,6 +23,7 @@ public static class NatashaInitializer
     public static void Preheating(Func<AssemblyName, string?, bool>? excludeReferencesFunc = null
         , bool useRuntimeUsing = false
         , bool useRuntimeReference = false
+        , bool useFileCache = true
         )
     {
         if (!_isCompleted)
@@ -35,7 +36,7 @@ public static class NatashaInitializer
                 }
 
 #if DEBUG
-                //StopwatchExtension.EnableMemoryMonitor();
+                StopwatchExtension.EnableMemoryMonitor();
                 Stopwatch stopwatchTotal = new();
                 stopwatchTotal.Start();
 #endif
@@ -54,10 +55,11 @@ public static class NatashaInitializer
                 .WithoutSemanticCheck()
                 .WithoutCombineReferences()
                 .WithCombineUsingCode(UsingLoadBehavior.None)
-                .AddReference(typeof(object));
+                .AddReferenceAndUsingCode(typeof(object))
+                .FastAddScriptWithoutCheck("public class A{}");
                 var task = Task.Run(() =>
                 {
-                    tempBuilder.FastAddScriptWithoutCheck("public class A{}").GetAssembly();
+                    tempBuilder.GetAssembly();
                 });
 
                 AssemblyCSharpBuilder.HasInitialized = true;
@@ -93,24 +95,29 @@ public static class NatashaInitializer
                         parallelLoopResults.Enqueue(InitReferenceFromPath(paths));
                     }
                 }
-                if (useRuntimeUsing)
+
+                if(File.Exists(namespaceCacheFilePath) && useFileCache)
                 {
-                    parallelLoopResults.Enqueue(InitUsingFromRuntime(assemblies));
+                    //从缓存文件中读取
+                    var namespaceCache = File.ReadAllText(namespaceCacheFilePath, Encoding.UTF8);
+                    var namespaceText = namespaceCache.Split("+?", StringSplitOptions.RemoveEmptyEntries);
+                    NatashaReferenceDomain.DefaultDomain.UsingRecorder.Using(namespaceText);
+
                 }
                 else
                 {
-                    paths ??= NatashaReferencePathsHelper.GetReferenceFiles(excludeReferencesFunc);
-                    if (paths != null && paths.Any())
+                    if (useRuntimeUsing)
                     {
-                        //更新缓存
-                        parallelLoopResults.Enqueue(InitUsingFromPath(paths));
+                        parallelLoopResults.Enqueue(InitUsingFromRuntime(assemblies));
                     }
-                    else if(File.Exists(namespaceCacheFilePath))
+                    else
                     {
-                        //从缓存文件中读取
-                        var namespaceCache = File.ReadAllText(namespaceCacheFilePath, Encoding.UTF8);
-                        var namespaceText = namespaceCache.Split("+?", StringSplitOptions.RemoveEmptyEntries);
-                        NatashaReferenceDomain.DefaultDomain.UsingRecorder.Using(namespaceText);
+                        paths ??= NatashaReferencePathsHelper.GetReferenceFiles(excludeReferencesFunc);
+                        if (paths != null && paths.Any())
+                        {
+                            //更新缓存
+                            parallelLoopResults.Enqueue(InitUsingFromPath(paths));
+                        }
                     }
                 }
 
@@ -124,7 +131,7 @@ public static class NatashaInitializer
                 }
 
                 NatashaReferenceDomain.DefaultDomain.UsingRecorder.ToString();
-                if (!useRuntimeUsing && paths != null && paths.Any())
+                if (!File.Exists(namespaceCacheFilePath) && useFileCache)
                 {
                     var namespaceCache = new StringBuilder();
                     foreach (var preNamespace in NatashaReferenceDomain.DefaultDomain.UsingRecorder) 
@@ -138,8 +145,6 @@ public static class NatashaInitializer
 #endif
                 AssemblyCSharpBuilder cSharpBuilder = new();
                 cSharpBuilder.ConfigCompilerOption(item => item.AddSupperess("CS8019"));
-
-                Console.WriteLine(cSharpBuilder.Domain.Name);
                 cSharpBuilder
                     .UseRandomDomain()
                     .WithCombineUsingCode(UsingLoadBehavior.WithAll)
@@ -201,17 +206,15 @@ public static class NatashaInitializer
             NatashaDomain.AddAssemblyToDefaultCache(assembly);
         });
     }
-    ///*
+    
     private unsafe static ParallelLoopResult InitUsingFromPath(IEnumerable<string> paths)
     {
         var resolver = new PathAssemblyResolver(paths);
         using var mlc = new MetadataLoadContext(resolver);
         return Parallel.ForEach(paths, (path) =>
         {
-
             Assembly assembly = mlc.LoadFromAssemblyPath(path);
             GlobalUsingHelper.AddUsingWithoutCheck(NatashaReferenceDomain.DefaultDomain, assembly);
-
         });
     }
     internal unsafe static ParallelLoopResult InitReferenceFromPath(IEnumerable<string> paths)

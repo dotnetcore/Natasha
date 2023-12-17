@@ -17,7 +17,25 @@ using Natasha.CSharp.Component;
 /// </summary>
 public sealed partial class AssemblyCSharpBuilder
 {
-
+    private bool _notLoadIntoDomain;
+    /// <summary>
+    /// 仅仅生成程序集，而不加载到域。
+    /// </summary>
+    /// <returns></returns>
+    public AssemblyCSharpBuilder WithoutInjectToDomain()
+    {
+        _notLoadIntoDomain = true;
+        return this;
+    }
+    /// <summary>
+    /// 既生成程序集又加载到域。
+    /// </summary>
+    /// <returns></returns>
+    public AssemblyCSharpBuilder WithInjectToDomain()
+    {
+        _notLoadIntoDomain = false;
+        return this;
+    }
     /// <summary>
     /// 将 SyntaxTrees 中的语法树编译到程序集.如果不成功会抛出 NatashaException.
     /// </summary>
@@ -138,9 +156,11 @@ public sealed partial class AssemblyCSharpBuilder
                 pdbStream?.Dispose();
             }
             dllStream.Seek(0, SeekOrigin.Begin);
-            assembly = Domain.LoadAssemblyFromStream(dllStream, null);
-            CompileSucceedEvent?.Invoke(_compilation, assembly!);
-
+            if (!_notLoadIntoDomain)
+            {
+                assembly = Domain.LoadAssemblyFromStream(dllStream, null);
+                CompileSucceedEvent?.Invoke(_compilation, assembly!);
+            }
         }
         dllStream.Dispose();
         pdbStream?.Dispose();
@@ -155,7 +175,6 @@ public sealed partial class AssemblyCSharpBuilder
             DefaultUsing.AddUsing(assembly);
             NatashaReferenceCache.AddReference(DllFilePath);
             CompileSucceedEvent?.Invoke(_compilation, assembly!);
-
         }
 #endif
         if (!compileResult.Success)

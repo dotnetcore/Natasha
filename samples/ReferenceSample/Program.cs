@@ -20,11 +20,11 @@ namespace ReferenceSample
         
         static void Main(string[] args)
         {
-            //NatashaManagement.Preheating(true, true);
+            NatashaManagement.Preheating(false, false);
             //var domain = NatashaManagement.CreateRandomDomain();
             //var asm = domain.LoadPluginUseDefaultDependency("I:\\OpenSource\\Natasha\\samples\\ReferenceSample\\bin\\Debug\\net8.0\\DynamicLibraryFolders\\Nc0e9a864079d427680ea239b5a9e525e\\a69937be3d244336a20c46843d51d19b.dll");
 
-            TestMini();
+            //TestMini();
             //var a = Math.Min(1, args.Length);
             //NatashaManagement.Preheating(false, false);
             //Console.WriteLine("=============================");
@@ -66,7 +66,7 @@ namespace ReferenceSample
             //    method.Invoke(null,null);
             //    Thread.Sleep(3000);
             //}
-            //Console.ReadKey();
+            Console.ReadKey();
             
         }
 
@@ -74,7 +74,7 @@ namespace ReferenceSample
         {
             AssemblyCSharpBuilder builder = new();
             builder.WithAnalysisAccessibility()
-                
+
                 .UseRandomDomain()
                 //.WithOutput()
                 .WithoutCombineReferences()
@@ -84,12 +84,12 @@ namespace ReferenceSample
                 //.OutputAsRefAssembly()
                 .WithoutPrivateMembers()
                 .WithCombineUsingCode(UsingLoadBehavior.WithCurrent)
-                .AddReference(typeof(HarmonyPatch))
-                .AddReference(typeof(DebuggableAttribute))
-                .AddReference(typeof(object).Assembly)
-                .AddReference(typeof(Math).Assembly)
-                .AddReference(typeof(MathF).Assembly)
-                .AddReference(typeof(SuppressMessageAttribute));
+                .AddReferenceAndUsingCode(typeof(HarmonyPatch))
+                .AddReferenceAndUsingCode(typeof(DebuggableAttribute))
+                .AddReferenceAndUsingCode(typeof(object).Assembly)
+                .AddReferenceAndUsingCode(typeof(Math).Assembly)
+                .AddReferenceAndUsingCode(typeof(MathF).Assembly)
+                .AddReferenceAndUsingCode(typeof(SuppressMessageAttribute));
 
             builder.Add(@"
 [assembly: TargetFramework("".NETCoreApp,Version=v8.0"", FrameworkDisplayName = "".NET 8.0"")]

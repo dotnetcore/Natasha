@@ -66,7 +66,7 @@ public sealed partial class AssemblyCSharpBuilder
     private OptimizationLevel _codeOptimizationLevel;
 
     /// <summary>
-    /// 编译时使用 debug 模式
+    /// 编译时使用 Debug 模式
     /// </summary>
     /// <returns></returns>
     public AssemblyCSharpBuilder WithDebugCompile(Action<DebugConfiguration>? action = null)
@@ -76,12 +76,22 @@ public sealed partial class AssemblyCSharpBuilder
         return this;
     }
     /// <summary>
-    /// 编译时使用 release 模式优化（默认）
+    /// 编译时使用 Release 模式优化（默认）
     /// </summary>
     /// <returns></returns>
-    public AssemblyCSharpBuilder WithReleaseCompile(bool withDebugInfo = false)
+    public AssemblyCSharpBuilder WithReleaseCompile()
     {
-        _withDebugInfo = withDebugInfo;
+        _withDebugInfo = false;
+        _codeOptimizationLevel = OptimizationLevel.Release;
+        return this;
+    }
+    /// <summary>
+    /// 编译时使用携带有 DebugInfo 的 Release 模式优化（默认）
+    /// </summary>
+    /// <returns></returns>
+    public AssemblyCSharpBuilder WithFullReleaseCompile()
+    {
+        _withDebugInfo = true;
         _codeOptimizationLevel = OptimizationLevel.Release;
         return this;
     }

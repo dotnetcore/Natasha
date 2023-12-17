@@ -1,0 +1,47 @@
+// Token: 0x02000002 RID: 2
+.class public auto ansi beforefieldinit HotReloadPlugin.A
+	extends [System.Runtime]System.Object
+{
+	// Fields
+	// Token: 0x04000001 RID: 1
+	.field public int32 Code
+
+	// Methods
+	// Token: 0x06000001 RID: 1 RVA: 0x00002050 File Offset: 0x00000250
+	.method public hidebysig 
+		instance void Show () cil managed 
+	{
+		// Header Size: 1 byte
+		// Code Size: 14 (0xE) bytes
+		.maxstack 8
+
+		/* (6,28)-(6,29) I:\OpenSource\Natasha\HotReloadPlugin\Class1.cs */
+		/* 0x00000251 00           */ IL_0000: nop
+		/* (6,30)-(6,54) I:\OpenSource\Natasha\HotReloadPlugin\Class1.cs */
+		/* 0x00000252 02           */ IL_0001: ldarg.0
+		/* 0x00000253 7B01000004   */ IL_0002: ldfld     int32 HotReloadPlugin.A::Code
+		/* 0x00000258 280C00000A   */ IL_0007: call      void [System.Console]System.Console::WriteLine(int32)
+		/* 0x0000025D 00           */ IL_000C: nop
+		/* (6,55)-(6,56) I:\OpenSource\Natasha\HotReloadPlugin\Class1.cs */
+		/* 0x0000025E 2A           */ IL_000D: ret
+	} // end of method A::Show
+
+	// Token: 0x06000002 RID: 2 RVA: 0x0000205F File Offset: 0x0000025F
+	.method public hidebysig specialname rtspecialname 
+		instance void .ctor () cil managed 
+	{
+		// Header Size: 1 byte
+		// Code Size: 15 (0xF) bytes
+		.maxstack 8
+
+		/* (5,9)-(5,29) I:\OpenSource\Natasha\HotReloadPlugin\Class1.cs */
+		/* 0x00000260 02           */ IL_0000: ldarg.0
+		/* 0x00000261 19           */ IL_0001: ldc.i4.2
+		/* 0x00000262 7D01000004   */ IL_0002: stfld     int32 HotReloadPlugin.A::Code
+		/* 0x00000267 02           */ IL_0007: ldarg.0
+		/* 0x00000268 280D00000A   */ IL_0008: call      instance void [System.Runtime]System.Object::.ctor()
+		/* 0x0000026D 00           */ IL_000D: nop
+		/* 0x0000026E 2A           */ IL_000E: ret
+	} // end of method A::.ctor
+
+} // end of class HotReloadPlugin.A

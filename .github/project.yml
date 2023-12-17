@@ -79,6 +79,7 @@ samples:
   - samples/PluginSample/PluginBase/PluginBase.csproj
   - samples/ReferenceSample/ReferenceSample.csproj
   - samples/HotReloadSample/HotReloadSample.csproj
+  - samples/HotReloadPlugin/HotReloadPlugin.csproj
   global_labels:
   - name: pr_samples
     description: 此次提交包含 [案例工程] 相关的改动.
