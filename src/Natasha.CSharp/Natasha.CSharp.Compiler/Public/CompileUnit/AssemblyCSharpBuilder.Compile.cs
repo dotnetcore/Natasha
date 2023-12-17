@@ -156,7 +156,7 @@ public sealed partial class AssemblyCSharpBuilder
                 pdbStream?.Dispose();
             }
             dllStream.Seek(0, SeekOrigin.Begin);
-            if (_notLoadIntoDomain)
+            if (!_notLoadIntoDomain)
             {
                 assembly = Domain.LoadAssemblyFromStream(dllStream, null);
                 CompileSucceedEvent?.Invoke(_compilation, assembly!);
