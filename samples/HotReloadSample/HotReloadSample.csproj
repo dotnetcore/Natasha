@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Trimming>none</Trimming>
+  </PropertyGroup>
+
+  <ItemGroup>
+	<PackageReference Include="DotNetCore.Compile.Environment" Version="3.2.0" />
+    <ProjectReference Include="..\..\src\Natasha.CSharp\Natasha.CSharp.Compiler\Natasha.CSharp.Compiler.csproj" />
+    <ProjectReference Include="..\HotReloadPlugin\HotReloadPlugin.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
