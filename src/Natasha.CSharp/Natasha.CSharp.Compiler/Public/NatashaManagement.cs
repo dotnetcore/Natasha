@@ -10,15 +10,17 @@ public static partial class NatashaManagement
     public static void Preheating(
         Func<AssemblyName, string?, bool>? excludeReferencesFunc = null,
         bool useRuntimeUsing = false, 
-        bool useRuntimeReference = false)
+        bool useRuntimeReference = false,
+        bool useFileCache = true)
     {
-        NatashaInitializer.Preheating(excludeReferencesFunc, useRuntimeUsing, useRuntimeReference);
+        NatashaInitializer.Preheating(excludeReferencesFunc, useRuntimeUsing, useRuntimeReference, useFileCache);
     }
     public static void Preheating(
         bool useRuntimeUsing = false,
-        bool useRuntimeReference = false)
+        bool useRuntimeReference = false, 
+        bool useFileCache = true)
     {
-        NatashaInitializer.Preheating(null, useRuntimeUsing, useRuntimeReference);
+        NatashaInitializer.Preheating(null, useRuntimeUsing, useRuntimeReference, useFileCache);
     }
 #else
         public static void Preheating(

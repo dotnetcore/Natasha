@@ -46,9 +46,9 @@ public static class NatashaAssemblyBuilderMultiExtension
     /// <param name="builder">natasha 编译单元</param>
     /// <param name="type">要添加引用的类型</param>
     /// <param name="loadReferenceBehavior">加载行为</param>
-    public static AssemblyCSharpBuilder AddReference(this AssemblyCSharpBuilder builder, Type type, AssemblyCompareInfomation loadReferenceBehavior = AssemblyCompareInfomation.None)
+    public static AssemblyCSharpBuilder AddReferenceAndUsingCode(this AssemblyCSharpBuilder builder, Type type, AssemblyCompareInfomation loadReferenceBehavior = AssemblyCompareInfomation.None)
     {
-        return AddReference(builder, type.Assembly, loadReferenceBehavior);
+        return AddReferenceAndUsingCode(builder, type.Assembly, loadReferenceBehavior);
      }
     /// <summary>
     /// 增加引用 和 using
@@ -56,7 +56,7 @@ public static class NatashaAssemblyBuilderMultiExtension
     /// <param name="builder">natasha 编译单元</param>
     /// <param name="assembly">程序集</param>
     /// <param name="loadReferenceBehavior">加载行为</param>
-    public static AssemblyCSharpBuilder AddReference(this AssemblyCSharpBuilder builder, Assembly assembly, AssemblyCompareInfomation loadReferenceBehavior = AssemblyCompareInfomation.None)
+    public static AssemblyCSharpBuilder AddReferenceAndUsingCode(this AssemblyCSharpBuilder builder, Assembly assembly, AssemblyCompareInfomation loadReferenceBehavior = AssemblyCompareInfomation.None)
     {
         var name = assembly.GetName();
         var domain = builder.Domain;
@@ -74,7 +74,7 @@ public static class NatashaAssemblyBuilderMultiExtension
     /// <param name="builder">natasha 编译单元</param>
     /// <param name="path">文件路径</param>
     /// <param name="loadReferenceBehavior">加载行为</param>
-    public static AssemblyCSharpBuilder AddReference(this AssemblyCSharpBuilder builder, string path, AssemblyCompareInfomation loadReferenceBehavior = AssemblyCompareInfomation.None)
+    public static AssemblyCSharpBuilder AddReferenceAndUsingCode(this AssemblyCSharpBuilder builder, string path, AssemblyCompareInfomation loadReferenceBehavior = AssemblyCompareInfomation.None)
     {
         var resolver = new PathAssemblyResolver([path]);
         using var mlc = new MetadataLoadContext(resolver);
