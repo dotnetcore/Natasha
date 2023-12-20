@@ -31,7 +31,7 @@ public sealed partial class AssemblyCSharpBuilder
         }
         DllFilePath = Path.Combine(OutputFolder, $"{AssemblyName}.dll");
         PdbFilePath = Path.Combine(OutputFolder, $"{AssemblyName}.pdb");
-        XmlFilePath = Path.Combine(OutputFolder, $"{AssemblyName}.xml");
+        CommentFilePath = Path.Combine(OutputFolder, $"{AssemblyName}.xml");
         return this;
     }
 }

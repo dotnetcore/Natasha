@@ -17,10 +17,20 @@ namespace ReferenceSample
 
     internal class Program
     {
-        
+        public interface B { 
+            string Name { get; set; }
+        }
+        public class C : B
+        {
+            string B.Name { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        }
         static void Main(string[] args)
         {
-            NatashaManagement.Preheating(false, false);
+            //var p = typeof(C).GetProperty("ReferenceSample.Program.B.Name", BindingFlags.NonPublic | BindingFlags.Instance);
+            //var p1 = typeof(C).GetProperties(BindingFlags.NonPublic | BindingFlags.Instance);
+            //Console.WriteLine(p.Name);
+            TestMini();
+            //NatashaManagement.Preheating(false, false);
             //var domain = NatashaManagement.CreateRandomDomain();
             //var asm = domain.LoadPluginUseDefaultDependency("I:\\OpenSource\\Natasha\\samples\\ReferenceSample\\bin\\Debug\\net8.0\\DynamicLibraryFolders\\Nc0e9a864079d427680ea239b5a9e525e\\a69937be3d244336a20c46843d51d19b.dll");
 
@@ -70,20 +80,49 @@ namespace ReferenceSample
             
         }
 
+        public static void TestMini1()
+        {
+            AssemblyCSharpBuilder builder = new();
+            builder
+                .UseRandomDomain()
+                .WithDebugCompile(item => item.WriteToAssembly())
+                .AddReferenceAndUsingCode(typeof(object).Assembly)
+                .AddReferenceAndUsingCode(typeof(Math).Assembly)
+                .AddReferenceAndUsingCode(typeof(MathF).Assembly)
+                .AddReferenceAndUsingCode(typeof(SuppressMessageAttribute));
+
+            builder.Add(@"
+namespace MyNamespace{
+
+    public class A{
+
+        public static int N1 = 10;
+        public static float N2 = 1.2F; 
+        public static double N3 = 3.44;
+        private static short N4 = 0;
+
+        public static object Invoke(){
+            int[] a = [1,2,3];
+            return N1 + MathF.Log10((float)Math.Sqrt(MathF.Sqrt(N2) + Math.Tan(N3)));
+        }
+    }
+}
+");
+            var method = builder
+                .GetAssembly()
+                .GetDelegateFromShortName<Func<object>>("A", "Invoke");
+            var result = method();
+            result = method();
+            Console.WriteLine(result);
+        }
         public static void TestMini()
         {
             AssemblyCSharpBuilder builder = new();
             builder.WithAnalysisAccessibility()
 
                 .UseRandomDomain()
-                //.WithOutput()
-                .WithoutCombineReferences()
-                .WithoutSemanticCheck()
-                .WithDebugCompile(item=>item.WriteToAssembly())
-                //.WithReleaseCompile(false)
-                //.OutputAsRefAssembly()
-                .WithoutPrivateMembers()
-                .WithCombineUsingCode(UsingLoadBehavior.WithCurrent)
+                .WithFileOutput()
+                .WithDebugCompile(item=>item.WriteToFile())
                 .AddReferenceAndUsingCode(typeof(HarmonyPatch))
                 .AddReferenceAndUsingCode(typeof(DebuggableAttribute))
                 .AddReferenceAndUsingCode(typeof(object).Assembly)
@@ -105,6 +144,9 @@ public class A{
     {
         return new T();
     }
+    /// <summary>
+    /// 我的动态方法，返回科学计算结果。
+    /// </summary>
     public static object Invoke(){
         var type = typeof(HarmonyPatch);
         var type2 = typeof(HarmonyPrefix);
@@ -134,7 +176,8 @@ namespace Microsoft.CodeAnalysis.Runtime
         public static class Instrumentation
         {
             public static bool[] CreatePayload(System.Guid mvid, int methodToken, int fileIndex, ref bool[] payload, int payloadLength)
-            {
+            { 
+                Console.WriteLine(mvid.ToString());
                 if (payload == null)
                 {
                     payload = new bool[payloadLength];
@@ -157,7 +200,8 @@ namespace Microsoft.CodeAnalysis.Runtime
             }
         }
 }");
-            DebugDirectoryBuilder debug = new DebugDirectoryBuilder();
+            //a09e6bef-ff64-4b5f-8bb8-fc495ebb50ba
+            DebugDirectoryBuilder debug = new();
             debug.AddReproducibleEntry();
             debug.AddReproducibleEntry();
             var asm = builder.GetAssembly();
@@ -165,9 +209,9 @@ namespace Microsoft.CodeAnalysis.Runtime
             var type1 = asm.GetType("<PrivateImplementationDetails>");
             var method = type.GetMethod("Invoke");
              var result = method.Invoke(null, null);
-            var method2 = type.GetMethod("Invoke2");
-            var result2 = method2.Invoke(Activator.CreateInstance(type), null);
-
+            //var method2 = type.GetMethod("Invoke2");
+            //var result2 = method2.Invoke(Activator.CreateInstance(type), null);
+            result = method.Invoke(null, null);
             Console.WriteLine(result);
         }
 

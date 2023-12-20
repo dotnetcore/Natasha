@@ -1,7 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
-
-
-public static class NatashaAssemblyBuilderExtension
+﻿public static class NatashaAssemblyBuilderExtension
 {
     public static AssemblyCSharpBuilder SetOutputFolder(this AssemblyCSharpBuilder builder, string folder)
     {
@@ -18,9 +15,9 @@ public static class NatashaAssemblyBuilderExtension
         builder.PdbFilePath = pdbFilePath;
         return builder;
     }
-    public static AssemblyCSharpBuilder SetXmlFilePath(this AssemblyCSharpBuilder builder, string xmlFilePath)
+    public static AssemblyCSharpBuilder SetCommentFilePath(this AssemblyCSharpBuilder builder, string commentFilePath)
     {
-        builder.XmlFilePath = xmlFilePath;
+        builder.CommentFilePath = commentFilePath;
         return builder;
     }
 }

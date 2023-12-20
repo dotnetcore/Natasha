@@ -11,7 +11,7 @@ public sealed partial class AssemblyCSharpBuilder
     public string AssemblyName;
     public string DllFilePath;
     public string? PdbFilePath;
-    public string XmlFilePath;
+    public string CommentFilePath;
     public string OutputFolder;
     /// <summary>
     /// 默认的输出文件夹
@@ -39,15 +39,15 @@ public sealed partial class AssemblyCSharpBuilder
     /// </summary>
     /// <param name="dllFilePath"></param>
     /// <param name="pdbFilePath"></param>
-    /// <param name="xmlFilePath"></param>
+    /// <param name="commentFilePath"></param>
     /// <returns></returns>
-    public AssemblyCSharpBuilder WithFileOutput(string dllFilePath, string? pdbFilePath = null, string? xmlFilePath = null)
+    public AssemblyCSharpBuilder WithFileOutput(string dllFilePath, string? pdbFilePath = null, string? commentFilePath = null)
     {
         DllFilePath = dllFilePath;
         PdbFilePath = pdbFilePath;
-        if (xmlFilePath != null)
+        if (commentFilePath != null)
         {
-            XmlFilePath = xmlFilePath;
+            CommentFilePath = commentFilePath;
         }
         return this;
     }
