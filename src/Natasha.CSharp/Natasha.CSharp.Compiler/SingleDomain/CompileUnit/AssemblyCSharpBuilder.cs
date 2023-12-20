@@ -26,7 +26,7 @@ public sealed partial class AssemblyCSharpBuilder
         SyntaxTrees = [];
         AssemblyName = assemblyName;
         DllFilePath = string.Empty;
-        XmlFilePath = string.Empty;
+        CommentFilePath = string.Empty;
         WithOutput();
         if (HasInitialized)
         {

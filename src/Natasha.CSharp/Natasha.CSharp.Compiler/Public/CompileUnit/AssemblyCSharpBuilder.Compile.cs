@@ -90,9 +90,9 @@ public sealed partial class AssemblyCSharpBuilder
             dllStream = new MemoryStream();
         }
 
-        if (XmlFilePath != string.Empty)
+        if (CommentFilePath != string.Empty)
         {
-            xmlStream = File.Create(XmlFilePath);
+            xmlStream = File.Create(CommentFilePath);
         }
 
         var debugInfoFormat = _debugConfiguration._informationFormat;
