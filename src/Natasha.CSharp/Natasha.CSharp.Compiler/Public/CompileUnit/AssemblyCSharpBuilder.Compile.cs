@@ -5,6 +5,8 @@ using Natasha.CSharp.Extension.Inner;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System;
+using System.Collections.Concurrent;
 
 
 #if NETCOREAPP3_0_OR_GREATER
@@ -17,6 +19,22 @@ using Natasha.CSharp.Component;
 /// </summary>
 public sealed partial class AssemblyCSharpBuilder
 {
+    private ConcurrentQueue<Func<EmitOptions, EmitOptions>>? _emitOptionHandle;
+    /// <summary>
+    /// 处理默认生成的 emitOption 并返回一个新的
+    /// </summary>
+    /// <param name="handleAndReturnNewEmitOption"></param>
+    /// <returns></returns>
+    public AssemblyCSharpBuilder ConfigEmitOptions(Func<EmitOptions, EmitOptions> handleAndReturnNewEmitOption)
+    {
+        if (_emitOptionHandle == null)
+        {
+            _emitOptionHandle = new ConcurrentQueue<Func<EmitOptions, EmitOptions>>();
+        }
+        _emitOptionHandle.Enqueue(handleAndReturnNewEmitOption);
+        return this;
+    }
+
     private bool _notLoadIntoDomain;
     /// <summary>
     /// 仅仅生成程序集，而不加载到域。
@@ -129,19 +147,31 @@ public sealed partial class AssemblyCSharpBuilder
             }
             debugInfoFormat = 0;
         }
-
-        var compileResult = _compilation.Emit(
-           dllStream,
-           pdbStream: pdbStream,
-           xmlDocumentationStream: xmlStream,
-           options: new EmitOptions(
+        var emitOption = new EmitOptions(
                //runtimeMetadataVersion: Assembly.GetExecutingAssembly().ImageRuntimeVersion,
                //instrumentationKinds: [InstrumentationKind.TestCoverage],
                includePrivateMembers: _includePrivateMembers,
                metadataOnly: _isReferenceAssembly,
                pdbFilePath: PdbFilePath,
                debugInformationFormat: debugInfoFormat
-               )
+               );
+
+        if (_emitOptionHandle != null)
+        {
+            while (!_emitOptionHandle.IsEmpty)
+            {
+                while (_emitOptionHandle.TryDequeue(out var func))
+                {
+                    emitOption = func(emitOption);
+                }
+            }
+        }
+
+        var compileResult = _compilation.Emit(
+           dllStream,
+           pdbStream: pdbStream,
+           xmlDocumentationStream: xmlStream,
+           options: emitOption
            );
         LogCompilationEvent?.Invoke(_compilation.GetNatashaLog());
         Assembly? assembly = null;
