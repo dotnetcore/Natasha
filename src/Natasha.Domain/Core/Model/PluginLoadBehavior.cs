@@ -4,6 +4,7 @@
     UseHighVersion,
     UseLowVersion,
     UseDefault,
-    UseCustom
+    UseCustom,
+    UseForce
 }
 

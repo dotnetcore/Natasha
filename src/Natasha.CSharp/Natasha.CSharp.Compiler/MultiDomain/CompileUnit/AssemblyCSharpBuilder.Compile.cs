@@ -4,6 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
+using System.Linq;
+using Microsoft.Extensions.DependencyModel;
+
+
 
 #if NETCOREAPP3_0_OR_GREATER
 using System.IO;
@@ -17,7 +21,7 @@ public sealed partial class AssemblyCSharpBuilder
     
     private Func<IEnumerable<MetadataReference>, IEnumerable<MetadataReference>>? _referencesFilter;
     private CombineReferenceBehavior _combineReferenceBehavior = CombineReferenceBehavior.UseCurrent;
-    private ReferenceConfiguration _referenceConfiguration = new();
+    private readonly ReferenceConfiguration _referenceConfiguration = new();
 
 
     /// <summary>
@@ -33,12 +37,59 @@ public sealed partial class AssemblyCSharpBuilder
     }
 
     /// <summary>
-    /// 编译时，不使用主域引用覆盖引用集
+    /// 编译时，使用当前域引用来覆盖引用集
     /// </summary>
     /// <returns></returns>
-    public AssemblyCSharpBuilder WithoutCombineReferences()
+    public AssemblyCSharpBuilder WithCurrentReferences()
     {
         _combineReferenceBehavior = CombineReferenceBehavior.UseCurrent;
+        return this;
+    }
+
+    private readonly List<MetadataReference> _specifiedReferences;
+    /// <summary>
+    /// 使用外部指定的引用来覆盖引用集
+    /// </summary>
+    /// <param name="metadataReferences"></param>
+    /// <returns></returns>
+    public AssemblyCSharpBuilder WithSpecifiedReferences(IEnumerable<MetadataReference> metadataReferences)
+    {
+        lock (_specifiedReferences)
+        {
+            _specifiedReferences.AddRange(metadataReferences);
+        }
+        _combineReferenceBehavior = CombineReferenceBehavior.UseSpecified;
+        return this;
+    }
+    public AssemblyCSharpBuilder ClearOutsideReferences()
+    {
+        lock (_specifiedReferences)
+        {
+            _specifiedReferences.Clear();
+        }
+        return this;
+    }
+
+    private readonly List<MetadataReference> _dependencyReferences;
+    /// <summary>
+    /// 设置依赖元数据引用，依赖元数据总是会被加载
+    /// </summary>
+    /// <param name="metadataReferences"></param>
+    /// <returns></returns>
+    public AssemblyCSharpBuilder WithDependencyReferences(IEnumerable<MetadataReference> metadataReferences)
+    {
+        lock (_dependencyReferences)
+        {
+            _dependencyReferences.AddRange(metadataReferences);
+        }
+        return this;
+    }
+    public AssemblyCSharpBuilder ClearDependencyReferences()
+    {
+        lock (_dependencyReferences)
+        {
+            _dependencyReferences.Clear();
+        }
         return this;
     }
 
@@ -89,14 +140,23 @@ public sealed partial class AssemblyCSharpBuilder
         {
             references = Domain.GetReferences(_referenceConfiguration);
         }
-        else
+        else if(_combineReferenceBehavior == CombineReferenceBehavior.UseCurrent)
         {
             references = Domain.References.GetReferences();
+        }
+        else
+        {
+            references = _specifiedReferences;
         }
 
         if (_referencesFilter != null)
         {
             references = _referencesFilter(references);
+        }
+
+        if (_dependencyReferences.Count > 0)
+        {
+            references = references.Concat(_dependencyReferences);
         }
 
         _compilation = CSharpCompilation.Create(AssemblyName, SyntaxTrees, references, options);

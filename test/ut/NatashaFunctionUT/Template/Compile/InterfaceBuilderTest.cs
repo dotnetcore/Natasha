@@ -14,7 +14,7 @@ namespace NatashaFunctionUT.Template.Compile
 
             var builder = NInterface.RandomDomain();
             builder.AssemblyBuilder.WithoutSemanticCheck();
-            var type = builder
+            var type = builder.ConfigBuilder(opt => opt.UseSmartMode())
                 .NoGlobalUsing()
                 .HiddenNamespace()
                 .Access(AccessFlags.Public)

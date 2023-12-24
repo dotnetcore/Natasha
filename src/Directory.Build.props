@@ -22,9 +22,6 @@
 				
 			</PropertyGroup>
 			
-			<ItemGroup>
-				<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" />
-			</ItemGroup>
 			
 			<ItemGroup Condition=" '$(IsPackable)' != 'false'">
 				<None Include="$([MSBuild]::NormalizeDirectory('$(SolutionDir)', 'resources'))19404084.png" Link="19404084.png" Pack="true" PackagePath=""/>

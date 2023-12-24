@@ -1,6 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Runtime.Loader;
 
 
@@ -23,8 +22,13 @@ public class DomainPrepare
         _runtimeVersion = "net8.0";
 #endif
         DefaultAssembliesCount = AssemblyLoadContext.Default.Assemblies.Count();
-        NatashaInitializer.Preheating((item, name) => name!.Contains("IO"), false, false);
+        NatashaInitializer.Preheating((item, name) => name!.Contains("IO"), true, false);
         DefaultUsingCount = NatashaReferenceDomain.DefaultDomain.UsingRecorder.Count;
+    }
+
+    public AssemblyCSharpBuilder GetRandomAssemblyBuilder()
+    {
+        return new AssemblyCSharpBuilder().UseRandomDomain().UseSmartMode();
     }
 
 }

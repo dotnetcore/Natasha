@@ -15,7 +15,7 @@ namespace NatashaFunctionUT.Template.Compile
 
             NStruct builder = NStruct.RandomDomain();
            
-            var type = builder
+            var type = builder.ConfigBuilder(opt => opt.UseSmartMode())
                 .HiddenNamespace()
                 .Access(AccessFlags.Public)
                 .Name("EnumUT1")
@@ -42,7 +42,7 @@ public struct EnumUT1
         {
             NStruct builder = NStruct.RandomDomain();
            
-            var type = builder
+            var type = builder.ConfigBuilder(opt => opt.UseSmartMode())
                 .HiddenNamespace()
                 .AttributeAppend("[StructLayout(LayoutKind.Explicit)]")
                 .Access(AccessFlags.Public)

@@ -1,5 +1,6 @@
 ﻿using Natasha.CSharp;
 using System;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using Xunit;
@@ -15,6 +16,7 @@ namespace NatashaFunctionUT.Template.Compile
         {
             NClass builder = NClass.RandomDomain();
             var type = builder
+                .ConfigBuilder(opt=>opt.UseSmartMode())
                 .NoGlobalUsing()
                 .HiddenNamespace()
                 .Access(AccessFlags.Public)
@@ -44,6 +46,7 @@ public class EnumUT1
 
             NClass builder = NClass.RandomDomain();
             var type = builder
+                 .ConfigBuilder(opt => opt.UseSmartMode())
                 .NoGlobalUsing()
                 .HiddenNamespace()
                 .Summary("zhushi")
@@ -92,7 +95,7 @@ public class EnumUT1
         {
 
             NClass builder = NClass.RandomDomain();
-
+            builder.ConfigBuilder(opt => opt.UseSmartMode());
             builder.Method(mb=> mb.Public().Name("Apple").Type<int>().Body("return 0;"));
             var pb = builder.Property(pb => pb.Public()
             .Name("Banana")
@@ -186,6 +189,7 @@ namespace NatashaDynimacSpace
             NClass builder = NClass.RandomDomain();
 
             var type = builder
+                .ConfigBuilder(opt => opt.UseSmartMode())
                 .Public()
                 .Name("Nee7e202ee18c413dacae62af6b106c6e")
                 .Summary("This is a test class;")

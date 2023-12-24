@@ -14,6 +14,7 @@ namespace NatashaFunctionUT.Compile
             var code = NatashaReferenceDomain.DefaultDomain.UsingRecorder.ToString() + "using abcde;public class A{ public string Name;}";
             AssemblyCSharpBuilder builder = new();
             builder.Domain = DomainManagement.Random();
+            builder.UseSmartMode();
             builder.EnableSemanticHandler = false;
             builder.Add(code);
             //Assert.Equal(DefaultUsing.Count, builder.SyntaxTrees[0].GetCompilationUnitRoot().Usings.Count -1);

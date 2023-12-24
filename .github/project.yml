@@ -151,6 +151,18 @@ src:
     project_folder: src/Natasha.CSharp/Natasha.CSharp.Template
     labels: 
     dependency_config: 
+  - using_output:
+      enable: true
+      ignores: 
+    id: 63C14375-8D73-43C8-BD7A-4BEC53456E4C
+    is_ignored: false
+    is_folded: false
+    relative_path: src/Natasha.CSharp/Extension/Natasha.CSharp.Codecov/Natasha.CSharp.Codecov.csproj
+    project_name: Natasha.CSharp.Codecov
+    package_name: DotNetCore.Natasha.CSharp.Codecov
+    project_folder: src/Natasha.CSharp/Extension/Natasha.CSharp.Codecov
+    labels: 
+    dependency_config: 
 test:
   folded_projects: []
   global_labels:

@@ -15,6 +15,7 @@ namespace NatashaFunctionUT.Template.Compile
         {
             var delegateAction = FastMethodOperator
                         .RandomDomain()
+                        .ConfigBuilder(opt => opt.UseSmartMode())
                         .Param<string>("str1")
                         .Param<string>("str2")
                         .Body(@"
@@ -34,7 +35,7 @@ namespace NatashaFunctionUT.Template.Compile
         public void RunDelegate2()
         {
 
-            var delegateAction = FastMethodOperator.RandomDomain()
+            var delegateAction = FastMethodOperator.RandomDomain().ConfigBuilder(opt => opt.UseSmartMode())
                 .Body(@"return arg1 +"" ""+ arg2;")
                 .Compile<Func<string, string, string>>();
 
@@ -50,7 +51,7 @@ namespace NatashaFunctionUT.Template.Compile
         public void RunDelegate3()
         {
 
-            var delegateAction = FastMethodOperator.RandomDomain()
+            var delegateAction = FastMethodOperator.RandomDomain().ConfigBuilder(opt => opt.UseSmartMode())
                 .Body(@"var temp = obj;")
                 .Compile<Action<string>>();
 
@@ -64,7 +65,7 @@ namespace NatashaFunctionUT.Template.Compile
         [Fact(DisplayName = "异步委托1")]
         public async void RunAsyncDelegate1()
         {
-            var delegateAction = FastMethodOperator.DefaultDomain()
+            var delegateAction = FastMethodOperator.DefaultDomain().ConfigBuilder(opt => opt.UseSmartMode())
 
                 .Async()
                 .Body(@"
@@ -83,7 +84,7 @@ namespace NatashaFunctionUT.Template.Compile
         [Fact(DisplayName = "异步委托2")]
         public async void RunAsyncDelegate2()
         {
-            var delegateAction = FastMethodOperator.DefaultDomain()
+            var delegateAction = FastMethodOperator.DefaultDomain().ConfigBuilder(opt => opt.UseSmartMode())
 
                         .Async()
                         .Param<string>("str1")
