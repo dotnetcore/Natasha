@@ -29,6 +29,5 @@
 		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildTransitive\net8.0\DotNetCore.Natasha.Domain.targets" />
 		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildMultiTargeting\net8.0\DotNetCore.Natasha.Domain.targets" />
 	</ItemGroup>
-
 </Project>
 

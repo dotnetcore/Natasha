@@ -13,15 +13,14 @@ public partial class NatashaDomain : AssemblyLoadContext
 {
     private readonly static ConcurrentDictionary<string, AssemblyName> _defaultAssemblyNameCache;
     private readonly static HashSet<Assembly> _defaultAssembliesSets;
-    private static Func<AssemblyName, string? , bool> _excludeDefaultAssembliesFunc;
+    private static Func<AssemblyName?, string? , bool>? _excludeDefaultAssembliesFunc;
     public static readonly NatashaDomain DefaultDomain;
 
     static NatashaDomain()
     {
         DefaultDomain = default!;
-        _defaultAssembliesSets = new();
+        _defaultAssembliesSets = [];
         _defaultAssemblyNameCache = new();
-        _excludeDefaultAssembliesFunc = (_,_)=>false;
     }
 
     private static int _lockCount = 0;
@@ -51,7 +50,7 @@ public partial class NatashaDomain : AssemblyLoadContext
     }
 
 
-    public static void SetDefaultAssemblyFilter(Func<AssemblyName, string?, bool> excludeAssemblyNameFunc)
+    public static void SetDefaultAssemblyFilter(Func<AssemblyName?, string?, bool>? excludeAssemblyNameFunc)
     {
         _excludeDefaultAssembliesFunc = excludeAssemblyNameFunc;
     }
@@ -61,7 +60,7 @@ public partial class NatashaDomain : AssemblyLoadContext
     {
 
         var asmName = assembly.GetName();
-        if (!_excludeDefaultAssembliesFunc(asmName, asmName.Name))
+        if (_excludeDefaultAssembliesFunc == null || !_excludeDefaultAssembliesFunc(asmName, asmName.Name))
         {
             _defaultAssemblyNameCache[asmName.GetUniqueName()] = asmName;
             lock (_defaultAssembliesSets)
@@ -77,8 +76,6 @@ public partial class NatashaDomain : AssemblyLoadContext
         }
 
     }
-
-
 
     private static void CheckAndIncrmentAssemblies()
     {
@@ -98,17 +95,17 @@ public partial class NatashaDomain : AssemblyLoadContext
                     {
                         
                         var asmName = item.GetName();
-                        if (_excludeDefaultAssembliesFunc(asmName, asmName.Name))
-                        {
-#if DEBUG
-                            System.Diagnostics.Debug.WriteLine("[排除程序集]:" + asmName.FullName);
-#endif
-                        }
-                        else
+                        if (_excludeDefaultAssembliesFunc == null || !_excludeDefaultAssembliesFunc(asmName, asmName.Name))
                         {
                             _defaultAssemblyNameCache[asmName.GetUniqueName()] = asmName;
                             _defaultAssembliesSets.Add(item);
                         }
+#if DEBUG
+                        else
+                        {
+                            System.Diagnostics.Debug.WriteLine("[排除程序集]:" + asmName.FullName);
+                        }
+#endif
                     }
                 }
             }
@@ -119,12 +116,9 @@ public partial class NatashaDomain : AssemblyLoadContext
 
     private static int _preDefaultAssemblyCount;
     public static int DefaultAssemblyCacheCount { get{ return _preDefaultAssemblyCount;  } }
-    public static void RefreshDefaultAssemblies(Func<AssemblyName, string?, bool>? excludeAssemblyNameFunc)
+    public static void RefreshDefaultAssemblies(Func<AssemblyName?, string?, bool>? excludeAssemblyNameFunc)
     {
-        if (excludeAssemblyNameFunc!=null)
-        {
-            SetDefaultAssemblyFilter(excludeAssemblyNameFunc);
-        }
+        SetDefaultAssemblyFilter(excludeAssemblyNameFunc);
         CheckAndIncrmentAssemblies();
     }
 

@@ -31,7 +31,7 @@ namespace NatashaFunctionUT.Compile
                     {
                         var assembly = builder
                             .WithCombineReferences(item=>item.SetCompareInfomation(referenceLoadBehavior))
-                            .SetAssemblyLoadBehavior(AssemblyCompareInfomation.UseDefault)
+                            .ConfigDomain(item=>item.WithDefaultVersionDependency())
                             .GetAssembly();
                         return (name!, currentName!, true);
                     }

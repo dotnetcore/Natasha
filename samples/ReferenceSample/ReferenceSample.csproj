@@ -5,6 +5,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+	  <LangVersion>preview</LangVersion>
     <SatelliteResourceLanguages>zh-Hans</SatelliteResourceLanguages>
   </PropertyGroup>
 
@@ -33,11 +34,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Natasha.CSharp\Natasha.CSharp.Compiler\Natasha.CSharp.Compiler.csproj" />
+    <AdditionalDesignTimeBuildInput Remove="FakesAssemblies\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalDesignTimeBuildInput Remove="FakesAssemblies\**" />
+    <ProjectReference Include="..\..\src\Natasha.CSharp\Extension\Natasha.CSharp.Codecov\Natasha.CSharp.Codecov.csproj" />
+    <ProjectReference Include="..\HotReloadPlugin\HotReloadPlugin.csproj" />
   </ItemGroup>
 
   <!--<ItemGroup>

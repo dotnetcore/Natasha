@@ -1,10 +1,53 @@
-﻿using System;
+﻿using Microsoft.CodeAnalysis;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Metadata;
 
 
 public static class NatashaAssemblyExtension
 {
+
+    /// <summary>
+    /// 获取实现程序集的所有元数据引用
+    /// </summary>
+    /// <param name="assembly"></param>
+    /// <param name="filter"></param>
+    /// <returns></returns>
+    public unsafe static IEnumerable<MetadataReference> GetDependencyReferences(this Assembly assembly, Func<AssemblyName?, string?, bool>? filter = null)
+    {
+        
+        var assemblyNames = assembly.GetReferencedAssemblies();
+        List<MetadataReference> references = new(assemblyNames.Length);
+        if (assemblyNames!=null && assemblyNames.Length > 0)
+        {
+            foreach (var asmName in assemblyNames)
+            {
+                if (asmName != null)
+                {
+                    var depAssembly = Assembly.Load(asmName);
+#if NETCOREAPP3_0_OR_GREATER
+                    if (depAssembly.TryGetRawMetadata(out var blob, out var length))
+                    {
+                        if (filter == null || !filter(asmName, asmName.Name))
+                        {
+                            references.Add(AssemblyMetadata.Create(ModuleMetadata.CreateFromMetadata((IntPtr)blob, length)).GetReference());
+                        }
+                    }
+#else
+                    if (!string.IsNullOrEmpty(depAssembly.Location))
+                    {
+                        references.Add(MetadataReference.CreateFromFile(depAssembly.Location));
+                    }
+#endif
+                }
+
+            }
+           
+        }
+        return references;
+    }
 
     /// <summary>
     /// 为统一 Exception 报错, 为 Assembly 封装扩展方法, 反射出类型.

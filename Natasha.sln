@@ -201,6 +201,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotReloadSample", "samples\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotReloadPlugin", "samples\HotReloadPlugin\HotReloadPlugin.csproj", "{89A2EC20-B432-4C6A-B740-78BBD1BF80EC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Natasha.CSharp.Codecov", "src\Natasha.CSharp\Extension\Natasha.CSharp.Codecov\Natasha.CSharp.Codecov.csproj", "{63C14375-8D73-43C8-BD7A-4BEC53456E4C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -367,6 +369,10 @@ Global
 		{89A2EC20-B432-4C6A-B740-78BBD1BF80EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89A2EC20-B432-4C6A-B740-78BBD1BF80EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89A2EC20-B432-4C6A-B740-78BBD1BF80EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63C14375-8D73-43C8-BD7A-4BEC53456E4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63C14375-8D73-43C8-BD7A-4BEC53456E4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63C14375-8D73-43C8-BD7A-4BEC53456E4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63C14375-8D73-43C8-BD7A-4BEC53456E4C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -436,6 +442,7 @@ Global
 		{716B9CEC-8CA2-433F-9E9A-974E536C4099} = {F4622BCB-C287-4AFE-916B-8C138BD15A3D}
 		{7CD6F3A9-85F0-4F01-8B68-7FCC527768E6} = {B4487ABB-27A2-4353-AB16-1A94B31E0210}
 		{89A2EC20-B432-4C6A-B740-78BBD1BF80EC} = {B4487ABB-27A2-4353-AB16-1A94B31E0210}
+		{63C14375-8D73-43C8-BD7A-4BEC53456E4C} = {0CB3AF52-50F3-4728-BAC6-389F2E995111}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3004E730-B231-40FA-B75C-58D7DDE17679}

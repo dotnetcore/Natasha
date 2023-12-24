@@ -1,4 +1,6 @@
-﻿using Xunit;
+﻿using System.Collections.Generic;
+using System.Reflection;
+using Xunit;
 
 namespace NatashaFunctionUT.Special
 {
@@ -12,6 +14,7 @@ namespace NatashaFunctionUT.Special
             PrivateMemberClassModel test = new PrivateMemberClassModel();
             var action = NDelegate
                 .RandomDomain(builder => builder
+                    .UseSmartMode()
                     .ConfigCompilerOption(opt => opt
                         .WithAllMetadata()
                         .WithCompilerFlag(Natasha.CSharp.Compiler.CompilerBinderFlags.IgnoreAccessibility | Natasha.CSharp.Compiler.CompilerBinderFlags.IgnoreCorLibraryDuplicatedTypes)
@@ -31,7 +34,7 @@ namespace NatashaFunctionUT.Special
 
             PrivateMemberClassModel test = new PrivateMemberClassModel();
             var action = NDelegate
-                .RandomDomain(builder => builder.ConfigCompilerOption(opt => opt
+                .RandomDomain(builder => builder.UseSmartMode().ConfigCompilerOption(opt => opt
                     .WithAllMetadata()
                     .WithCompilerFlag(Natasha.CSharp.Compiler.CompilerBinderFlags.IgnoreAccessibility | Natasha.CSharp.Compiler.CompilerBinderFlags.IgnoreCorLibraryDuplicatedTypes)))
                 .ConfigClass(item => item.AllowPrivate<PrivateMemberClassModel>())
@@ -40,7 +43,35 @@ namespace NatashaFunctionUT.Special
             Assert.Equal(4, test.GetD);
 
         }
+        [Fact(DisplayName = "私有成员调用3")]
+        public void Test2()
+        {
+            PrivateMemberClassModel test = new PrivateMemberClassModel();
+            var action = NDelegate
+                .RandomDomain(builder => 
+                {
+                    builder
+                    .UseSimpleMode()
+                    .AddReferenceAndUsingCode(typeof(List<int>))
+                    .AddReferenceAndUsingCode(typeof(object))
+                    .AddReferenceAndUsingCode(typeof(System.Runtime.CompilerServices.IgnoresAccessChecksToAttribute))
+                    .ConfigCompilerOption(opt => opt
+                        .WithAllMetadata()
+                        .WithCompilerFlag(Natasha.CSharp.Compiler.CompilerBinderFlags.IgnoreAccessibility | Natasha.CSharp.Compiler.CompilerBinderFlags.IgnoreCorLibraryDuplicatedTypes));
 
+                    var assemblyNames = typeof(System.Runtime.CompilerServices.IgnoresAccessChecksToAttribute).Assembly.GetReferencedAssemblies();
+                    foreach (var name in assemblyNames)
+                    {
+                        var assmebly = Assembly.Load(name);
+                        builder.AddReferenceAndUsingCode(assmebly, AssemblyCompareInfomation.UseForce);
+                    }
+
+                })
+                .ConfigClass(item => item.AllowPrivate<List<int>>())
+                .Func<int[]>("return (new List<int>() { 1 })._items;");
+            var array = action();
+            Assert.NotNull(array);
+        }
 
     }
 

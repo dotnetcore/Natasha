@@ -12,20 +12,17 @@ using System.Threading.Tasks;
 /// </summary>
 public static class GlobalUsingHelper
 {
+    private static Func<AssemblyName?, string?, bool>? _excludeDefaultAssembliesFunc;
 
-    internal readonly static HashSet<string> _defaultNamesapce;
-    private static Func<AssemblyName, string?, bool> _excludeDefaultAssembliesFunc;
-    static GlobalUsingHelper()
-    {
-        _defaultNamesapce = new HashSet<string>();
-        _excludeDefaultAssembliesFunc = (_, _) => false;
-    }
-
-    public static void SetDefaultUsingFilter(Func<AssemblyName, string?, bool> excludeDefaultAssembliesFunc)
+    public static void SetDefaultUsingFilter(Func<AssemblyName?, string?, bool>? excludeDefaultAssembliesFunc)
     {
         _excludeDefaultAssembliesFunc = excludeDefaultAssembliesFunc;
     }
-
+    /// <summary>
+    /// for reference assembly
+    /// </summary>
+    /// <param name="domain"></param>
+    /// <param name="assembly"></param>
     internal static void AddUsingWithoutCheck(NatashaReferenceDomain domain, Assembly assembly)
     {
         try
@@ -53,7 +50,7 @@ public static class GlobalUsingHelper
                     if (!string.IsNullOrEmpty(name)
                     && name.IndexOf('<') == -1)
                     {
-                        if (!_excludeDefaultAssembliesFunc(default!, name))
+                        if (_excludeDefaultAssembliesFunc == null || !_excludeDefaultAssembliesFunc(null, name))
                         {
                             lock (tempSets)
                             {
@@ -92,7 +89,7 @@ public static class GlobalUsingHelper
                         && name.IndexOf('<') == -1)
                     {
 
-                        if (!_excludeDefaultAssembliesFunc(default!, name))
+                        if (_excludeDefaultAssembliesFunc == null || !_excludeDefaultAssembliesFunc(null, name))
                         {
 
                             tempSets.Add(name);
@@ -125,7 +122,11 @@ public static class GlobalUsingHelper
 #endif
         }
     }
-
+    /// <summary>
+    /// for runtime assembly
+    /// </summary>
+    /// <param name="domain"></param>
+    /// <param name="assembly"></param>
     internal static void AddUsingWithoutCheckingkAndInternalUsing(NatashaReferenceDomain domain, Assembly assembly)
     {
         try
@@ -157,7 +158,7 @@ public static class GlobalUsingHelper
                     && name.IndexOf('<') == -1)
                     {
 
-                        if (!_excludeDefaultAssembliesFunc(default!, name))
+                        if (_excludeDefaultAssembliesFunc == null || !_excludeDefaultAssembliesFunc(null, name))
                         {
                             lock (tempSets)
                             {
@@ -194,7 +195,7 @@ public static class GlobalUsingHelper
                         && name.IndexOf('<') == -1)
                     {
 
-                        if (!_excludeDefaultAssembliesFunc(default!, name))
+                        if (_excludeDefaultAssembliesFunc == null || !_excludeDefaultAssembliesFunc(null, name))
                         {
                             tempSets.Add(name);
                         }

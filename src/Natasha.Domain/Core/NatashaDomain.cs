@@ -14,7 +14,7 @@ public partial class NatashaDomain : AssemblyLoadContext, IDisposable
    
     protected NatashaDomain() : base("Default")
     {
-
+        
         Default.Resolving += Default_Resolving;
         Default.ResolvingUnmanagedDll += Default_ResolvingUnmanagedDll;
         AssemblyLoadBehavior = AssemblyCompareInfomation.None;

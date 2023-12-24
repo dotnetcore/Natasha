@@ -28,7 +28,7 @@ namespace NatashaFunctionUT.Template.Compile
         {
 
             var builder = FakeMethodOperator.RandomDomain();
-            builder
+            builder.ConfigBuilder(opt => opt.UseSmartMode())
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite1")!)
                 .StaticMethodBody(@"Console.WriteLine(""hello world"");");
             Assert.NotNull(builder.Compile());
@@ -58,7 +58,7 @@ namespace NatashaFunctionUT.Template.Compile
         [Fact(DisplayName = "静态特殊函数克隆")]
         public void MakerStaticCode2()
         {
-            var builder = FakeMethodOperator.RandomDomain()
+            var builder = FakeMethodOperator.RandomDomain().ConfigBuilder(opt => opt.UseSmartMode())
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite2")!)
                 .StaticMethodBody(@"Console.WriteLine(""hello world"");return default;");
             Assert.NotNull(builder.Compile());
@@ -91,7 +91,7 @@ namespace NatashaFunctionUT.Template.Compile
         {
 
             var builder = FakeMethodOperator.RandomDomain();
-            builder
+            builder.ConfigBuilder(opt => opt.UseSmartMode())
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite3")!)
                 .StaticMethodBody(@"i++;temp+=i.ToString();");
             Assert.NotNull(builder.Compile<TestDelegate>());
@@ -106,7 +106,7 @@ namespace NatashaFunctionUT.Template.Compile
         {
 
             var builder = FakeMethodOperator.RandomDomain();
-            builder
+            builder.ConfigBuilder(opt => opt.UseSmartMode())
                 .UseMethod(typeof(OopTestModel).GetMethod("ReWrite4")!)
                 .StaticMethodBody(@"temp = default;return ref i;");
             Assert.NotNull(builder.Compile<TestDelegate1>());

@@ -19,26 +19,7 @@ public static class NatashaReferencePathsHelper
         try
         {
             paths = DependencyContext.Default?
-            .CompileLibraries.SelectMany(cl => cl.ResolveReferencePaths().Where(asmPath =>
-            {
-                try
-                {
-                    //#ISSUE:178
-                    using var peStream = File.OpenRead(asmPath);
-                    PEReader peReader = new(peStream);
-                    if (!peReader.HasMetadata || !peReader.GetMetadataReader().IsAssembly)
-                    {
-                        return false;
-                    }
-                    
-                    var asmName = AssemblyName.GetAssemblyName(asmPath);
-                    return !excludeReferencesFunc(asmName, asmName.Name);
-                }
-                catch
-                {
-                    return false;
-                }
-            })).ToList();
+            .CompileLibraries.SelectMany(cl => cl.ResolveReferencePaths()).ToList();
         }
         catch
         {
@@ -60,7 +41,7 @@ public static class NatashaReferencePathsHelper
                 {
 
                     var tempPaths = Directory.GetFiles(refsFolder);
-                    if (tempPaths != null && tempPaths!.Count() > 0)
+                    if (tempPaths != null && tempPaths!.Length > 0)
                     {
                         paths = paths.Concat(tempPaths);
                     }
