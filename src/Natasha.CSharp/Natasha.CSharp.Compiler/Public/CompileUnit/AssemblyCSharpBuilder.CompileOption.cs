@@ -49,6 +49,7 @@ public sealed partial class AssemblyCSharpBuilder
     public AssemblyCSharpBuilder OutputAsRefAssembly()
     {
         _isReferenceAssembly = true;
+        _includePrivateMembers = false;
         return this;
     }
     /// <summary>

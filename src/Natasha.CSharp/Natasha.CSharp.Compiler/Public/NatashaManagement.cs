@@ -8,17 +8,17 @@ public static partial class NatashaManagement
     /// 和 NatashaInitializer.Preheating(); 一样
     /// </summary>
     public static void Preheating(
-        Func<AssemblyName, string?, bool>? excludeReferencesFunc = null,
+        Func<AssemblyName?, string?, bool>? excludeReferencesFunc = null,
         bool useRuntimeUsing = false, 
         bool useRuntimeReference = false,
-        bool useFileCache = true)
+        bool useFileCache = false)
     {
         NatashaInitializer.Preheating(excludeReferencesFunc, useRuntimeUsing, useRuntimeReference, useFileCache);
     }
     public static void Preheating(
         bool useRuntimeUsing = false,
         bool useRuntimeReference = false, 
-        bool useFileCache = true)
+        bool useFileCache = false)
     {
         NatashaInitializer.Preheating(null, useRuntimeUsing, useRuntimeReference, useFileCache);
     }

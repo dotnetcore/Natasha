@@ -1,7 +1,8 @@
 ﻿public enum CombineReferenceBehavior
 {
-    UseCurrent,
-    CombineDefault
+    UseCurrent = 1,
+    CombineDefault = 2,
+    UseSpecified = 4
     
 }
 

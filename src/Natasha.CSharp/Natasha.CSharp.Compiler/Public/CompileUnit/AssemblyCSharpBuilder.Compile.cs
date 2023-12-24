@@ -7,6 +7,10 @@ using System.IO;
 using System.Reflection;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+
+
 
 
 #if NETCOREAPP3_0_OR_GREATER
@@ -27,10 +31,7 @@ public sealed partial class AssemblyCSharpBuilder
     /// <returns></returns>
     public AssemblyCSharpBuilder ConfigEmitOptions(Func<EmitOptions, EmitOptions> handleAndReturnNewEmitOption)
     {
-        if (_emitOptionHandle == null)
-        {
-            _emitOptionHandle = new ConcurrentQueue<Func<EmitOptions, EmitOptions>>();
-        }
+        _emitOptionHandle ??= new ConcurrentQueue<Func<EmitOptions, EmitOptions>>();
         _emitOptionHandle.Enqueue(handleAndReturnNewEmitOption);
         return this;
     }
@@ -54,6 +55,7 @@ public sealed partial class AssemblyCSharpBuilder
         _notLoadIntoDomain = false;
         return this;
     }
+
     /// <summary>
     /// 将 SyntaxTrees 中的语法树编译到程序集.如果不成功会抛出 NatashaException.
     /// </summary>
@@ -87,10 +89,7 @@ public sealed partial class AssemblyCSharpBuilder
     /// </remarks>
     public Assembly GetAssembly()
     {
-        if (_compilation == null)
-        {
-            _compilation = GetAvailableCompilation();
-        }
+        _compilation ??= GetAvailableCompilation();
 
 #if DEBUG
         Stopwatch stopwatch = new();

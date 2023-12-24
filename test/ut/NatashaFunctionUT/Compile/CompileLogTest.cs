@@ -75,6 +75,7 @@ public string Address;
             {
                 AssemblyCSharpBuilder builder = new("ee79d3e2b027491f93705a4098578bcc");
                 builder
+                    .UseSmartMode()
                     .WithoutCombineUsingCode();
                 builder.Add(code);
                 builder.ConfigCompilerOption(opt => opt.WithNullableCompile(Microsoft.CodeAnalysis.NullableContextOptions.Disable));
@@ -149,6 +150,7 @@ public int Get(){
             NatashaCompilationLog? log = null;
             AssemblyCSharpBuilder builder = new("2d79d3e2b027491f93705a4098578bcd");
             builder.Domain = DomainManagement.Random();
+            builder.UseSmartMode();
             builder.WithoutCombineUsingCode();
             builder.ConfigCompilerOption(opt => opt.WithNullableCompile(Microsoft.CodeAnalysis.NullableContextOptions.Disable));
             builder.Add(code1);

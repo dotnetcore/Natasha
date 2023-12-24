@@ -1,4 +1,5 @@
 ﻿#if NETCOREAPP3_0_OR_GREATER
+using System;
 using System.Runtime.Loader;
 
 /// <summary>
@@ -7,6 +8,7 @@ using System.Runtime.Loader;
 public sealed partial class AssemblyCSharpBuilder 
 {
     private NatashaReferenceDomain? _domain;
+    private DomainConfiguration _domainConfiguration;
 
     /// <summary>
     /// 编译单元所在域.
@@ -36,9 +38,9 @@ public sealed partial class AssemblyCSharpBuilder
                 if (AssemblyLoadContext.CurrentContextualReflectionContext != default)
                 {
                     _domain = (NatashaReferenceDomain)(AssemblyLoadContext.CurrentContextualReflectionContext);
-                    if (_domain.AssemblyLoadBehavior != _dependencyLoadBehavior)
+                    if (_domain.AssemblyLoadBehavior != _domainConfiguration._dependencyLoadBehavior)
                     {
-                        _domain.SetAssemblyLoadBehavior(_dependencyLoadBehavior);
+                        _domain.SetAssemblyLoadBehavior(_domainConfiguration._dependencyLoadBehavior);
                     }
                 }
                 else
@@ -58,72 +60,18 @@ public sealed partial class AssemblyCSharpBuilder
             }
             else
             {
-                value.SetAssemblyLoadBehavior(_dependencyLoadBehavior);
+                value.SetAssemblyLoadBehavior(_domainConfiguration._dependencyLoadBehavior);
             }
             _domain = value;
         }
     }
 
-    private AssemblyCompareInfomation _dependencyLoadBehavior;
-    /// <summary>
-    /// 配置当前域程序集的加载行为
-    /// </summary>
-    /// <param name="loadBehavior"></param>
-    /// <returns></returns>
-    public AssemblyCSharpBuilder SetAssemblyLoadBehavior(AssemblyCompareInfomation loadBehavior)
+    public AssemblyCSharpBuilder ConfigDomain(Action<DomainConfiguration> action)
     {
-        _dependencyLoadBehavior = loadBehavior;
-        return this;
-    }
-    /// <summary>
-    /// 域加载动态程序集或者插件时，若遇到依赖程序集与主域程序集同名，则选择较高版本的依赖
-    /// </summary>
-    /// <returns></returns>
-    public AssemblyCSharpBuilder WithHighVersionDependency()
-    {
-        _dependencyLoadBehavior = AssemblyCompareInfomation.UseHighVersion;
+        action(_domainConfiguration);
         if (Domain.Name != "Default")
         {
-            Domain.SetAssemblyLoadBehavior(_dependencyLoadBehavior);
-        }
-        return this;
-    }
-    /// <summary>
-    /// 域加载动态程序集或者插件时，若遇到依赖程序集与主域程序集同名，则选择较低版本的依赖
-    /// </summary>
-    /// <returns></returns>
-    public AssemblyCSharpBuilder WithLowVersionDependency()
-    {
-        _dependencyLoadBehavior = AssemblyCompareInfomation.UseLowVersion;
-        if (Domain.Name != "Default")
-        {
-            Domain.SetAssemblyLoadBehavior(_dependencyLoadBehavior);
-        }
-        return this;
-    }
-    /// <summary>
-    /// 域加载动态程序集或者插件时，若遇到依赖程序集与主域程序集同名，则选择默认域的依赖程序集
-    /// </summary>
-    /// <returns></returns>
-    public AssemblyCSharpBuilder WithDefaultVersionDependency()
-    {
-        _dependencyLoadBehavior = AssemblyCompareInfomation.UseDefault;
-        if (Domain.Name != "Default")
-        {
-            Domain.SetAssemblyLoadBehavior(_dependencyLoadBehavior);
-        }
-        return this;
-    }
-    /// <summary>
-    /// 域加载动态程序集或者插件时，若遇到依赖程序集与主域程序集同名，则选择当前域的依赖程序集
-    /// </summary>
-    /// <returns></returns>
-    public AssemblyCSharpBuilder WithCustomVersionDependency()
-    {
-        _dependencyLoadBehavior = AssemblyCompareInfomation.UseCustom;
-        if (Domain.Name != "Default")
-        {
-            Domain.SetAssemblyLoadBehavior(_dependencyLoadBehavior);
+            Domain.SetAssemblyLoadBehavior(_domainConfiguration._dependencyLoadBehavior);
         }
         return this;
     }

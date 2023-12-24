@@ -12,7 +12,7 @@ namespace NatashaFunctionUT.Special
         public void Test()
         {
             var action = NDelegate
-                .RandomDomain(builder => builder.ConfigCompilerOption(opt => opt
+                .RandomDomain(builder => builder.UseSmartMode().ConfigCompilerOption(opt => opt
                 .WithAllMetadata()
                 .WithCompilerFlag(Natasha.CSharp.Compiler.CompilerBinderFlags.IgnoreAccessibility | Natasha.CSharp.Compiler.CompilerBinderFlags.IgnoreCorLibraryDuplicatedTypes)))
                 .ConfigClass(item => item
@@ -29,7 +29,7 @@ namespace NatashaFunctionUT.Special
         public void Test2()
         {
             var action = NDelegate
-                .RandomDomain(builder => builder.ConfigCompilerOption(opt => opt
+                .RandomDomain(builder => builder.UseSmartMode().ConfigCompilerOption(opt => opt
                 .WithAllMetadata()
                 .WithCompilerFlag(Natasha.CSharp.Compiler.CompilerBinderFlags.IgnoreAccessibility | Natasha.CSharp.Compiler.CompilerBinderFlags.IgnoreCorLibraryDuplicatedTypes)))
                 .ConfigClass(item => item

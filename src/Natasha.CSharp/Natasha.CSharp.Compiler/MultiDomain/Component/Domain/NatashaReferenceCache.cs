@@ -6,6 +6,8 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Pipes;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Metadata;
 using System.Reflection.PortableExecutable;
@@ -25,10 +27,12 @@ namespace Natasha.CSharp.Component
         /// </summary>
         private readonly ConcurrentDictionary<AssemblyName, MetadataReference> _referenceCache;
         private readonly ConcurrentDictionary<string, AssemblyName> _referenceNameCache;
+        private readonly List<MetadataReference> _forceReferenceCache;
         public NatashaReferenceCache()
         {
             _referenceCache = new();
             _referenceNameCache = new();
+            _forceReferenceCache = [];
         }
 
         /// <summary>
@@ -45,23 +49,22 @@ namespace Natasha.CSharp.Component
             return null;
         }
 
-        public int Count { get { return _referenceCache.Count; } }
-
-        public unsafe void AddReference(Assembly assembly, AssemblyCompareInfomation loadReferenceBehavior = AssemblyCompareInfomation.None)
-        {
-            if (assembly.TryGetRawMetadata(out var blob, out var length))
-            {
-                var metadataReference = AssemblyMetadata.Create(ModuleMetadata.CreateFromMetadata((IntPtr)blob, length)).GetReference();
-                AddReference(assembly.GetName(), metadataReference, loadReferenceBehavior);
-            }
-        }
+        public int Count { get { return _referenceCache.Count + _forceReferenceCache.Count; } }
         public void AddReference(AssemblyName assemblyName, MetadataReference reference, AssemblyCompareInfomation loadReferenceBehavior)
         {
 
             var name = assemblyName.GetUniqueName();
             if (loadReferenceBehavior != AssemblyCompareInfomation.None)
             {
-                if (_referenceNameCache.TryGetValue(name, out var oldAssemblyName))
+                if (loadReferenceBehavior == AssemblyCompareInfomation.UseForce)
+                {
+                    lock (_forceReferenceCache)
+                    {
+                        _forceReferenceCache.Add(reference);
+                        return;
+                    }
+                }
+                else if(_referenceNameCache.TryGetValue(name, out var oldAssemblyName))
                 {
                     if (assemblyName.CompareWithDefault(oldAssemblyName, loadReferenceBehavior) == AssemblyLoadVersionResult.UseCustomer)
                     {
@@ -73,20 +76,12 @@ namespace Natasha.CSharp.Component
                         return;
                     }
                 }
+
             }
             _referenceNameCache[name] = assemblyName;
             _referenceCache[assemblyName] = reference;
 
         }
-        public void AddReference(AssemblyName assemblyName, Stream stream, AssemblyCompareInfomation loadReferenceBehavior = AssemblyCompareInfomation.None)
-        {
-            AddReference(assemblyName, MetadataReference.CreateFromStream(stream), loadReferenceBehavior);
-        }
-        public void AddReference(AssemblyName assemblyName, string path, AssemblyCompareInfomation loadReferenceBehavior = AssemblyCompareInfomation.None)
-        {
-            AddReference(assemblyName, CreateMetadataReference(path), loadReferenceBehavior);
-        }
-
         public void RemoveReference(AssemblyName assemblyName)
         {
             _referenceCache!.Remove(assemblyName);
@@ -107,10 +102,15 @@ namespace Natasha.CSharp.Component
         {
             _referenceCache.Clear();
             _referenceNameCache.Clear();
+            _forceReferenceCache.Clear();
         }
         public IEnumerable<MetadataReference> GetReferences()
         {
-            return _referenceCache.Values;
+            if (_forceReferenceCache.Count == 0)
+            {
+                return _referenceCache.Values;
+            }
+            return _referenceCache.Values.Concat(_forceReferenceCache);
         }
         internal HashSet<MetadataReference> CombineWithDefaultReferences(NatashaReferenceCache defaultCache, AssemblyCompareInfomation loadBehavior = AssemblyCompareInfomation.None, Func<AssemblyName, AssemblyName, AssemblyLoadVersionResult>? useAssemblyNameFunc = null)
         {
@@ -155,17 +155,11 @@ namespace Natasha.CSharp.Component
             sets.UnionWith(defaultReferences.Values);
             //排除不符合的引用
             sets.ExceptWith(excludeNods);
-            return sets;
-        }
-
-        private static MetadataReference CreateMetadataReference(string path)
-        {
-            using (var stream = File.OpenRead(path))
+            if (_forceReferenceCache.Count!=0)
             {
-                var moduleMetadata = ModuleMetadata.CreateFromStream(stream, PEStreamOptions.PrefetchMetadata);
-                var assemblyMetadata = AssemblyMetadata.Create(moduleMetadata);
-                return assemblyMetadata.GetReference(filePath: path);
+                sets.UnionWith(_forceReferenceCache);
             }
+            return sets;
         }
     }
 }

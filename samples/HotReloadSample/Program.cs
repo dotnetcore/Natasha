@@ -107,7 +107,7 @@ namespace HotReloadSample
                 foreach (var handle in asmDefinition.NamespaceDefinitions)
                 {
                     var nameDefinition = metaReader.GetNamespaceDefinition(handle);
-                    Console.WriteLine($"{nameDefinition.Name.IsNil} : {metaReader.GetString(handle)} : {nameDefinition.TypeDefinitions.Count()}");
+                    Console.WriteLine($"{nameDefinition.Name.IsNil} : {metaReader.GetString(handle)} : {nameDefinition.TypeDefinitions.Length}");
                 }           
             }
         }
@@ -118,8 +118,10 @@ namespace HotReloadSample
 
         public static Assembly OldAssembly(NatashaReferenceDomain domain)
         {
-            AssemblyCSharpBuilder builder = new AssemblyCSharpBuilder();
-            builder.Domain = domain;
+            AssemblyCSharpBuilder builder = new AssemblyCSharpBuilder
+            {
+                Domain = domain
+            };
             builder.Add("public class A{  public int Code = 1; public void Show(){ Console.WriteLine(Code);  }   }", UsingLoadBehavior.WithDefault);
             return builder.GetAssembly();
         }

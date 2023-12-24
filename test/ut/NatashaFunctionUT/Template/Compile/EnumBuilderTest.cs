@@ -13,7 +13,7 @@ namespace NatashaFunctionUT.Template.Compile
         {
             NEnum builder = NEnum.RandomDomain();
 
-             var type = builder
+             var type = builder.ConfigBuilder(opt => opt.UseSmartMode())
                 .NoGlobalUsing()
                 .HiddenNamespace()
                 .Access(AccessFlags.Public)
@@ -43,7 +43,7 @@ namespace NatashaFunctionUT.Template.Compile
         public void TestEnum1()
         {
             NEnum builder = NEnum.RandomDomain();
-            var type = builder
+            var type = builder.ConfigBuilder(opt => opt.UseSmartMode())
                 .NoGlobalUsing()
                 .Namespace("haha")
                 .Access(AccessFlags.Public)

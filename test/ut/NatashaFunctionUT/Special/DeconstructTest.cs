@@ -19,6 +19,7 @@ namespace NatashaFunctionUT.Special
 
 
                 var delegateMaker = new NDelegate();
+                delegateMaker.ConfigBuilder(item => item.UseSmartMode());
                 var func = delegateMaker.Func<int>("return (new A()).Age;");
 
                 Assert.Equal(1, func());

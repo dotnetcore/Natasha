@@ -24,6 +24,7 @@ namespace NatashaFunctionUT.Compile
                 {
                     AssemblyName = "ASDASD1"
                 };
+                builder.UseSmartMode();
                 Assert.NotEqual("Default", builder.Domain.Name);
                 builder.WithCombineUsingCode(UsingLoadBehavior.WithCurrent);
                 builder.Add("namespace TestA{ public class A {  public string Name = \"Hello\"; }}");
@@ -77,6 +78,7 @@ namespace NatashaFunctionUT.Compile
 
                 Assert.NotEqual("Default", DomainManagement.CurrentDomain.Name);
                 AssemblyCSharpBuilder builder1 = new();
+                builder1.UseSmartMode();
                 builder1.WithCombineUsingCode(UsingLoadBehavior.WithDefault);
                 builder1.Add( "namespace TestA{ public class A {  public string Name = \"Hello\"; public static NatashaUsingCache Get(){ return null;} }}");
                 var assemblyA = builder1

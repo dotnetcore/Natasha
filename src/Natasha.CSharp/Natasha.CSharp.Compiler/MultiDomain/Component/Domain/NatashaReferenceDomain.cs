@@ -1,9 +1,8 @@
 ﻿#if NETCOREAPP3_0_OR_GREATER
 using Microsoft.CodeAnalysis;
+using Natasha.CSharp.Compiler.Public.Component.Metadata;
 using Natasha.CSharp.Component;
-using Natasha.CSharp.Component.Domain;
 using Natasha.CSharp.Using;
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -59,16 +58,21 @@ public sealed class NatashaReferenceDomain : NatashaDomain
 
     private void NatashaReferenceDomain_LoadAssemblyReferenceWithStream(Assembly assembly, System.IO.Stream stream)
     {
-        References.AddReference(assembly.GetName(), stream);
+        References.AddReference(assembly.GetName(), MetadataHelper.CreateMetadataReference(stream), AssemblyCompareInfomation.None);
         UsingRecorder.Using(assembly);
-        //UsingRecorder.Using(assembly);
+    }
 
+
+    public void AddReferenceAndUsing(AssemblyName name, MetadataReference metadataReference, HashSet<string> usings, AssemblyCompareInfomation compareInfomation = AssemblyCompareInfomation.None)
+    {
+        References.AddReference(name, metadataReference, compareInfomation);
+        UsingRecorder.Using(usings);
     }
 
 
     private void NatashaReferenceDomain_LoadAssemblyReferencsWithPath(Assembly assembly, string path)
     {
-        References.AddReference(assembly.GetName(), path);
+        References.AddReference(assembly.GetName(), MetadataHelper.CreateMetadataReference(path), AssemblyCompareInfomation.None);
         UsingRecorder.Using(assembly);
     }
 

@@ -14,7 +14,7 @@ public sealed partial class AssemblyCSharpBuilder
     /// </summary>
     /// <param name="folder">文件夹路径</param>
     /// <returns></returns>
-    public AssemblyCSharpBuilder WithOutput(string? folder = null)
+    public AssemblyCSharpBuilder WithFileOutput(string? folder = null)
     {
         if (folder == null)
         {

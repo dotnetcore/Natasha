@@ -12,6 +12,7 @@ namespace NatashaFunctionUT.Template.Compile
         {
             var nClass = NClass.RandomDomain();
             nClass
+                .ConfigBuilder(opt=> opt.UseSmartMode())
                 .Public()
                 .Namespace("Test")
                 .PublicField<string>("Name")
@@ -22,6 +23,7 @@ namespace NatashaFunctionUT.Template.Compile
 
             var func = nClass
                 .DelegateHandler
+                .ConfigBuilder(opt=>opt.UseSmartMode())
                 .AsyncFunc<Task<string>>($"return (new {type.Name}()).Name;");
 
             var result = func().Result;
@@ -35,6 +37,7 @@ namespace NatashaFunctionUT.Template.Compile
 
             var func = NDelegate
                 .RandomDomain()
+                .ConfigBuilder(opt => opt.UseSmartMode())
                 .AsyncFunc<Task<string>>($"return \"hw!\";");
 
             var result = func().Result;
@@ -46,7 +49,7 @@ namespace NatashaFunctionUT.Template.Compile
         [Fact(DisplayName = "异步委托")]
         public async void RunAsyncDelegate()
         {
-            var action = NDelegate.RandomDomain().AsyncFunc<string, string, Task<string>>(@"
+            var action = NDelegate.RandomDomain().ConfigBuilder(opt => opt.UseSmartMode()).AsyncFunc<string, string, Task<string>>(@"
                             return arg1 +"" ""+ arg2;");
 
             string result = await action("Hello", "World1!");
@@ -57,7 +60,7 @@ namespace NatashaFunctionUT.Template.Compile
         [Fact(DisplayName = "dynamic 异步委托1")]
         public async void RunDynamicAsyncDelegate1()
         {
-            var action = NDelegate.RandomDomain().AsyncFunc<string, dynamic, Task<string>>(@"
+            var action = NDelegate.RandomDomain().ConfigBuilder(opt => opt.UseSmartMode()).AsyncFunc<string, dynamic, Task<string>>(@"
                             return arg1 +"" ""+ arg2;");
 
             string result = await action("Hello", "World1!");
@@ -90,7 +93,7 @@ namespace NatashaFunctionUT.Template.Compile
         {
             var action = NDelegate
                 .RandomDomain()
-                .ConfigBuilder(opt=>opt.ConfigCompilerOption(item=>item.WithUnsafeCompile()))
+                .ConfigBuilder(opt=> opt.UseSmartMode().ConfigCompilerOption(item=>item.WithUnsafeCompile()))
                 .ConfigMethod(item=>item.Summary("zhushi")).UnsafeAsyncFunc<string, string, Task<string>>(@"
                             return arg1 +"" ""+ arg2;");
 
@@ -106,7 +109,7 @@ namespace NatashaFunctionUT.Template.Compile
         public void RunDelegate5()
         {
             var action = NDelegate
-                .RandomDomain()
+                .RandomDomain().ConfigBuilder(opt => opt.UseSmartMode())
                 .Delegate<TestDelegate>(@"
                             List<int> list = new List<int>();
                             return value.Length;");
@@ -123,7 +126,7 @@ namespace NatashaFunctionUT.Template.Compile
         {
             var action = NDelegate
                 .RandomDomain()
-                .ConfigBuilder(opt => opt.ConfigCompilerOption(item => item.WithUnsafeCompile()))
+                .ConfigBuilder(opt => opt.UseSmartMode().ConfigCompilerOption(item => item.WithUnsafeCompile()))
                 .UnsafeAsyncFunc<string, string, Task<string>>(@"
                             string _AppCode=""aaaa""; string arg3 = default; string b; return arg1 +"" ""+ arg2;");
 

@@ -1,16 +1,10 @@
-﻿using Microsoft.CodeAnalysis;
-using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
-using System.Text.RegularExpressions;
-using Internal;
-using System.Runtime.CompilerServices;
-using static System.Diagnostics.DebuggableAttribute;
-using System.Diagnostics;
-using System.Diagnostics.SymbolStore;
-using HarmonyLib;
+﻿using HotReloadPlugin;
+using Microsoft.CodeAnalysis;
+using Natasha.CSharp.Codecov.Utils;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using System.Reflection.PortableExecutable;
-using static System.Reflection.Metadata.BlobBuilder;
+using System.Runtime.CompilerServices;
 
 namespace ReferenceSample
 {
@@ -29,12 +23,14 @@ namespace ReferenceSample
             //var p = typeof(C).GetProperty("ReferenceSample.Program.B.Name", BindingFlags.NonPublic | BindingFlags.Instance);
             //var p1 = typeof(C).GetProperties(BindingFlags.NonPublic | BindingFlags.Instance);
             //Console.WriteLine(p.Name);
-            TestMini();
-            //NatashaManagement.Preheating(false, false);
+            //TestMini();
+
             //var domain = NatashaManagement.CreateRandomDomain();
             //var asm = domain.LoadPluginUseDefaultDependency("I:\\OpenSource\\Natasha\\samples\\ReferenceSample\\bin\\Debug\\net8.0\\DynamicLibraryFolders\\Nc0e9a864079d427680ea239b5a9e525e\\a69937be3d244336a20c46843d51d19b.dll");
-
-            //TestMini();
+            //var a = typeof(CodecovMonitor);
+            //var b = typeof(A);
+            //NatashaManagement.Preheating(true, true);
+            TestMini();
             //var a = Math.Min(1, args.Length);
             //NatashaManagement.Preheating(false, false);
             //Console.WriteLine("=============================");
@@ -85,11 +81,16 @@ namespace ReferenceSample
             AssemblyCSharpBuilder builder = new();
             builder
                 .UseRandomDomain()
-                .WithDebugCompile(item => item.WriteToAssembly())
-                .AddReferenceAndUsingCode(typeof(object).Assembly)
-                .AddReferenceAndUsingCode(typeof(Math).Assembly)
-                .AddReferenceAndUsingCode(typeof(MathF).Assembly)
-                .AddReferenceAndUsingCode(typeof(SuppressMessageAttribute));
+               .WithCombineUsingCode(UsingLoadBehavior.WithDefault)
+               .UseSmartMode()
+                //.UseSimpleMode()
+                ////.WithOutsideReferences([MetadataReference.CreateFromFile("a")])
+                //.WithDebugCompile(item => item.WriteToAssembly())
+                //.AddReferenceAndUsingCode(typeof(object).Assembly)
+                //.AddReferenceAndUsingCode(typeof(Math).Assembly)
+                //.AddReferenceAndUsingCode(typeof(MathF).Assembly)
+                //.AddReferenceAndUsingCode(typeof(SuppressMessageAttribute))
+               ;
 
             builder.Add(@"
 namespace MyNamespace{
@@ -117,21 +118,24 @@ namespace MyNamespace{
         }
         public static void TestMini()
         {
-            AssemblyCSharpBuilder builder = new();
-            builder.WithAnalysisAccessibility()
 
+            
+            AssemblyCSharpBuilder builder = new();
+            builder
                 .UseRandomDomain()
-                .WithFileOutput()
-                .WithDebugCompile(item=>item.WriteToFile())
-                .AddReferenceAndUsingCode(typeof(HarmonyPatch))
-                .AddReferenceAndUsingCode(typeof(DebuggableAttribute))
-                .AddReferenceAndUsingCode(typeof(object).Assembly)
+                .UseSmartMode()
+                .ConfigCompilerOption(item => item.WithLowerVersionsAssembly().WithDiagnosticLevel(ReportDiagnostic.Warn))
+                //.WithFileOutput()
+                .WithDebugCompile(item => item.WriteToAssembly())
+                .UseSimpleMode()
                 .AddReferenceAndUsingCode(typeof(Math).Assembly)
                 .AddReferenceAndUsingCode(typeof(MathF).Assembly)
+                .AddReferenceAndUsingCode(typeof(A)).AddDependencyReferences(typeof(A))
+                .AddReferenceAndUsingCode(typeof(CodecovMonitor)).AddDependencyReferences(typeof(CodecovMonitor))
                 .AddReferenceAndUsingCode(typeof(SuppressMessageAttribute));
 
+
             builder.Add(@"
-[assembly: TargetFramework("".NETCoreApp,Version=v8.0"", FrameworkDisplayName = "".NET 8.0"")]
 public class A{  
     public static int N1 = 10;
     public static float N2 = 1.2F; 
@@ -148,12 +152,17 @@ public class A{
     /// 我的动态方法，返回科学计算结果。
     /// </summary>
     public static object Invoke(){
-        var type = typeof(HarmonyPatch);
-        var type2 = typeof(HarmonyPrefix);
-        int[] a = [1,2,3];
-        return N1 + MathF.Log10((float)Math.Sqrt(MathF.Sqrt(N2) + Math.Tan(N3)));
+        if(N1 == 10){
+            HotReloadPlugin.A asdasd = new();
+            asdasd.Show();
+            int[] a = [1,2,3];
+            Console.WriteLine(a);
+            return N1 + MathF.Log10((float)Math.Sqrt(MathF.Sqrt(N2) + Math.Tan(N3)));
+        }
+        else{
+            return 0;
+        }
     }
-    [SuppressMessage(""Microsoft.Performance"", ""CA1801:ReviewUnusedParameters"", MessageId = ""isChecked"")]
     public object Test(){
         return N1;
     }
@@ -170,49 +179,59 @@ public class A{
         return new T();
     }
 }");
-            builder.Add(@"
-namespace Microsoft.CodeAnalysis.Runtime
-{
-        public static class Instrumentation
-        {
-            public static bool[] CreatePayload(System.Guid mvid, int methodToken, int fileIndex, ref bool[] payload, int payloadLength)
-            { 
-                Console.WriteLine(mvid.ToString());
-                if (payload == null)
-                {
-                    payload = new bool[payloadLength];
-                }
-                return payload;
-            }
-
-            public static bool[] CreatePayload(System.Guid mvid, int methodToken, int[] fileIndices, ref bool[] payload, int payloadLength)
-            {
-                if (payload == null)
-                {
-                    payload = new bool[payloadLength];
-                }
-                return payload;
-            }
-
-            public static void FlushPayload()
-            {
-
-            }
-        }
-}");
+            
             //a09e6bef-ff64-4b5f-8bb8-fc495ebb50ba
             DebugDirectoryBuilder debug = new();
             debug.AddReproducibleEntry();
             debug.AddReproducibleEntry();
+
+
+
+            builder.WithCodecov();
             var asm = builder.GetAssembly();
-            var type = asm.GetType("A");
-            var type1 = asm.GetType("<PrivateImplementationDetails>");
-            var method = type.GetMethod("Invoke");
-             var result = method.Invoke(null, null);
-            //var method2 = type.GetMethod("Invoke2");
-            //var result2 = method2.Invoke(Activator.CreateInstance(type), null);
-            result = method.Invoke(null, null);
-            Console.WriteLine(result);
+
+            //执行A.Invoke
+            var funcA = asm.GetDelegateFromShortName<Func<object>>("A", "Invoke");
+            funcA();
+
+            //执行B.Invoke2
+            var typeB = asm.GetType("B");
+            var funcB = typeB.GetMethod("Invoke2");
+            funcB.Invoke(Activator.CreateInstance(typeB), null);
+            var list = asm.GetCodecovCollection();
+            Show(list);
+
+
+            //重置
+            Console.WriteLine("===================Reset=============");
+            asm.ResetCodecov();
+            //执行B.Invoke2
+            funcB.Invoke(Activator.CreateInstance(typeB), null);
+            list = asm.GetCodecovCollection();
+            Show(list);
+            //Console.WriteLine(result);
+        }
+        public static void Show(List<(string MethodName, bool[] Usage)> list)
+        {
+            for (int i = 0; i < list!.Count; i++)
+            {
+                if (list[i].Usage != null)
+                {
+                    if (list[i].Usage.Length == 0)
+                    {
+                        Console.WriteLine($"{list[i].MethodName} 执行：100%");
+                    }
+                    else
+                    {
+                        var executeCount = list[i].Usage.Count(item => item);
+                        Console.WriteLine($"{list[i].MethodName} 执行：{((double)executeCount / list[i].Usage.Length).ToString("P")}");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"{list[i].MethodName} 未执行！");
+                }
+            }
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]

@@ -1,8 +1,21 @@
-﻿using System;
+﻿using Microsoft.CodeAnalysis;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 
 
 public static class NatashaTypeExtension
 {
+    /// <summary>
+    /// 获取类型所在程序集的元数据引用
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="filter"></param>
+    /// <returns></returns>
+    public unsafe static IEnumerable<MetadataReference> GetDependencyReferences(this Type type, Func<AssemblyName?, string?, bool>? filter = null)
+    {
+        return type.Assembly.GetDependencyReferences(filter);
+    }
 
     public static Delegate GetDelegateFromType(this Type type, string methodName, Type delegateType, object? target = null)
     {

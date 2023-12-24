@@ -27,10 +27,11 @@ public sealed partial class AssemblyCSharpBuilder
         AssemblyName = assemblyName;
         DllFilePath = string.Empty;
         CommentFilePath = string.Empty;
-        WithOutput();
+        _semanticAnalysistor = [UsingAnalysistor._usingSemanticDelegate];
+        WithFileOutput();
         if (HasInitialized)
         {
-            _semanticAnalysistor = [UsingAnalysistor._usingSemanticDelegate];
+            
             this
                 .WithCombineUsingCode(UsingLoadBehavior.WithAll)
                 .WithReleaseCompile()
@@ -38,7 +39,7 @@ public sealed partial class AssemblyCSharpBuilder
         }
         else
         {
-            _semanticAnalysistor = [];
+
             this
                 .WithCombineUsingCode(UsingLoadBehavior.WithCurrent)
                 .WithReleaseCompile()

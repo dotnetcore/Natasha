@@ -17,6 +17,7 @@ namespace NatashaFunctionUT.Compile
             using (DomainManagement.Random().CreateScope())
             {
                 AssemblyCSharpBuilder builder = new();
+                builder.UseSmartMode();
                 builder.Add(code);
 
                 var assembly = builder.GetAssembly();
@@ -38,6 +39,7 @@ namespace NatashaFunctionUT.Compile
             using (DomainManagement.Random().CreateScope())
             {
                 AssemblyCSharpBuilder builder = new();
+                builder.UseSmartMode();
                 builder.Add(code);
 
                 var assembly = builder.GetAssembly();
@@ -61,6 +63,7 @@ namespace NatashaFunctionUT.Compile
             using (DomainManagement.Create("compileUntiTestFoDelegate").CreateScope())
             {
                 AssemblyCSharpBuilder builder = new("compileUntiTestFoDelegateAssembly");
+                builder.UseSmartMode();
                 builder.Add(code);
 
                 var assembly = builder.GetAssembly();

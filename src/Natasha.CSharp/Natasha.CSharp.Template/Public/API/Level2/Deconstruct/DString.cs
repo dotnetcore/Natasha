@@ -12,6 +12,10 @@ namespace System
         {
 
             AssemblyCSharpBuilder builder = new();
+#if NETCOREAPP3_0_OR_GREATER
+            builder.UseSmartMode();
+#endif
+
             builder.Add(script);
             NatashaCompilationLog nlog = default!;
             builder.LogCompilationEvent += (item) => { nlog = item; };
