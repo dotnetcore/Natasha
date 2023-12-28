@@ -6,20 +6,46 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Reflection.Metadata;
-using System.Reflection.PortableExecutable;
 
-public static class NatashaReferencePathsHelper
+internal static class NatashaAsssemblyHelper
 {
-    public static IEnumerable<string>? GetReferenceFiles(Func<AssemblyName, string?, bool> excludeReferencesFunc)
+    internal static Assembly[] GetRuntimeAssemblies()
     {
-
+        var defaultContext = DependencyContext.Default;
+        if (defaultContext != null)
+        {
+            return new HashSet<Assembly>(defaultContext
+            .RuntimeLibraries
+            .SelectMany(lib => lib
+                .GetDefaultAssemblyNames(defaultContext)
+                .Select(Assembly.Load)))
+            .ToArray();
+        }
+        else
+        {
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (var assembly in assemblies)
+            {
+                var referenceNames = assembly.GetReferencedAssemblies();
+                foreach (var asmName in referenceNames)
+                {
+                    Assembly.Load(asmName);
+                }
+            }
+            return AppDomain.CurrentDomain.GetAssemblies();
+        }
+         
+    }
+    internal static IEnumerable<string>? GetReferenceAssmeblyFiles(Func<AssemblyName, string?, bool> excludeReferencesFunc)
+    {
 
         IEnumerable<string>? paths = null;
         try
         {
             paths = DependencyContext.Default?
-            .CompileLibraries.SelectMany(cl => cl.ResolveReferencePaths()).ToList();
+            .CompileLibraries
+            .SelectMany(cl => cl.ResolveReferencePaths())
+            .ToList();
         }
         catch
         {

@@ -41,7 +41,7 @@ public static class NatashaInitializer
 #endif
 
                 DefaultUsing.SetDefaultUsingFilter(excludeReferencesFunc);
-                IEnumerable<string>? paths = NatashaReferencePathsHelper.GetReferenceFiles(excludeReferencesFunc);
+                IEnumerable<string>? paths = NatashaAsssemblyHelper.GetReferenceAssmeblyFiles(excludeReferencesFunc);
 
 
 #if DEBUG

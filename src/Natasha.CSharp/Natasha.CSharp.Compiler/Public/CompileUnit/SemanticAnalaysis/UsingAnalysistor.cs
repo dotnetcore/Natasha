@@ -1,7 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Natasha.CSharp.Extension.Inner;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -34,11 +33,14 @@ namespace Natasha.CSharp.Compiler.SemanticAnalaysis
                     var errors = semantiModel.GetDiagnostics();
 #if DEBUG
                     stopwatch.StopAndShowCategoreInfo("[Semantic]", "语义诊断获取", 3);
-                    stopwatch.Restart();
+                    //stopwatch.Restart();
 #endif
 
                     if (errors.Length > 0)
                     {
+#if DEBUG
+                        stopwatch.Restart();
+#endif
                         var errorNodes = new HashSet<SyntaxNode>();
                         for (int i = 0; i < errors.Length; i++)
                         {
@@ -74,17 +76,19 @@ namespace Natasha.CSharp.Compiler.SemanticAnalaysis
                         }
 
 #if DEBUG
-                        stopwatch.RestartAndShowCategoreInfo("[Semantic]", "语义节点筛查", 3);
-
+                        stopwatch.StopAndShowCategoreInfo("[Semantic]", "语义节点筛查", 3);
 #endif
                         if (errorNodes.Count > 0)
                         {
+#if DEBUG
+                            stopwatch.Restart();
+#endif
                             compilation = compilation.ReplaceSyntaxTree(tree, root.RemoveNodes(errorNodes, SyntaxRemoveOptions.KeepNoTrivia)!.SyntaxTree);
+#if DEBUG
+                            stopwatch.StopAndShowCategoreInfo("[Semantic]", "语义节点替换", 3);
+#endif
                         }
 
-#if DEBUG
-                        stopwatch.StopAndShowCategoreInfo("[Semantic]", "语义节点替换", 3);
-#endif
                     }
 
                 }
