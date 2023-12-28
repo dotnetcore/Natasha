@@ -94,7 +94,7 @@ namespace Natasha.CSharp.Compiler.Public.Component.Metadata
                     });
                     while (!result.IsCompleted)
                     {
-                        Thread.Sleep(80);
+                        Thread.Sleep(50);
                     }
                 }
                 else
@@ -152,9 +152,6 @@ namespace Natasha.CSharp.Compiler.Public.Component.Metadata
                     if (filter == null || !filter(asmName, asmName.Name))
                     {
                         peStream.Seek(0, SeekOrigin.Begin);
-
-                        //NatashaReferenceDomain.DefaultDomain.References.AddReference(asmName, peStream);
-                        //NatashaReferenceDomain.DefaultDomain.UsingRecorder.Using(tempUsingCache);
                         var tempUsingCache = GetNamespacesFromMetadata(metadataReader, filter);
                         return (asmName, CreateMetadataReference(peStream), tempUsingCache);
                     }

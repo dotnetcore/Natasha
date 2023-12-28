@@ -1,5 +1,6 @@
 ﻿using HotReloadPlugin;
 using Microsoft.CodeAnalysis;
+using Microsoft.Extensions.DependencyModel;
 using Natasha.CSharp.Codecov.Utils;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
@@ -29,8 +30,9 @@ namespace ReferenceSample
             //var asm = domain.LoadPluginUseDefaultDependency("I:\\OpenSource\\Natasha\\samples\\ReferenceSample\\bin\\Debug\\net8.0\\DynamicLibraryFolders\\Nc0e9a864079d427680ea239b5a9e525e\\a69937be3d244336a20c46843d51d19b.dll");
             //var a = typeof(CodecovMonitor);
             //var b = typeof(A);
-            //NatashaManagement.Preheating(true, true);
-            TestMini();
+            NatashaManagement.Preheating(true, true);
+            TestMini1();
+            TestMini1();
             //var a = Math.Min(1, args.Length);
             //NatashaManagement.Preheating(false, false);
             //Console.WriteLine("=============================");
@@ -80,16 +82,17 @@ namespace ReferenceSample
         {
             AssemblyCSharpBuilder builder = new();
             builder
-                .UseRandomDomain()
-               .WithCombineUsingCode(UsingLoadBehavior.WithDefault)
-               .UseSmartMode()
+               .UseRandomDomain()
+                .UseSmartMode()
+                .ConfigCompilerOption(item => item.WithLowerVersionsAssembly().WithDiagnosticLevel(ReportDiagnostic.Warn))
+                //.WithFileOutput()
+                .WithDebugCompile(item => item.WriteToAssembly())
                 //.UseSimpleMode()
-                ////.WithOutsideReferences([MetadataReference.CreateFromFile("a")])
-                //.WithDebugCompile(item => item.WriteToAssembly())
-                //.AddReferenceAndUsingCode(typeof(object).Assembly)
-                //.AddReferenceAndUsingCode(typeof(Math).Assembly)
-                //.AddReferenceAndUsingCode(typeof(MathF).Assembly)
-                //.AddReferenceAndUsingCode(typeof(SuppressMessageAttribute))
+               // .AddReferenceAndUsingCode(typeof(Math).Assembly)
+               // .AddReferenceAndUsingCode(typeof(MathF).Assembly)
+               // .AddReferenceAndUsingCode(typeof(A)).AddDependencyReferences(typeof(A))
+               // .AddReferenceAndUsingCode(typeof(CodecovMonitor)).AddDependencyReferences(typeof(CodecovMonitor))
+               // .AddReferenceAndUsingCode(typeof(SuppressMessageAttribute))
                ;
 
             builder.Add(@"
@@ -123,7 +126,7 @@ namespace MyNamespace{
             AssemblyCSharpBuilder builder = new();
             builder
                 .UseRandomDomain()
-                .UseSmartMode()
+                //.UseSmartMode()
                 .ConfigCompilerOption(item => item.WithLowerVersionsAssembly().WithDiagnosticLevel(ReportDiagnostic.Warn))
                 //.WithFileOutput()
                 .WithDebugCompile(item => item.WriteToAssembly())
@@ -132,7 +135,8 @@ namespace MyNamespace{
                 .AddReferenceAndUsingCode(typeof(MathF).Assembly)
                 .AddReferenceAndUsingCode(typeof(A)).AddDependencyReferences(typeof(A))
                 .AddReferenceAndUsingCode(typeof(CodecovMonitor)).AddDependencyReferences(typeof(CodecovMonitor))
-                .AddReferenceAndUsingCode(typeof(SuppressMessageAttribute));
+                .AddReferenceAndUsingCode(typeof(SuppressMessageAttribute))
+                ;
 
 
             builder.Add(@"
