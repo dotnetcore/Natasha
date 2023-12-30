@@ -7,11 +7,6 @@ using System.IO;
 using System.Reflection;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-
-
-
 
 #if NETCOREAPP3_0_OR_GREATER
 using Natasha.CSharp.Component.Domain;
@@ -179,14 +174,14 @@ public sealed partial class AssemblyCSharpBuilder
 #if NETCOREAPP3_0_OR_GREATER
         if (compileResult.Success)
         {
-
             if (_compilation.Options.OptimizationLevel == OptimizationLevel.Debug)
             {
                 pdbStream?.Dispose();
             }
-            dllStream.Seek(0, SeekOrigin.Begin);
+
             if (!_notLoadIntoDomain)
             {
+                dllStream.Seek(0, SeekOrigin.Begin);
                 assembly = Domain.LoadAssemblyFromStream(dllStream, null);
                 CompileSucceedEvent?.Invoke(_compilation, assembly!);
             }

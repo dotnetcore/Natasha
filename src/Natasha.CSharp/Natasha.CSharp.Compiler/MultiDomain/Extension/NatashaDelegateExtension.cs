@@ -4,7 +4,6 @@ using System;
 
 public static class NatashaDelegateExtension
 {
-
     public static NatashaReferenceDomain GetDomain(this Delegate @delegate)
     {
 
