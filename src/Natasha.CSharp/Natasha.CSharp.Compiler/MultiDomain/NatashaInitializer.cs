@@ -31,6 +31,7 @@ public static class NatashaInitializer
                 {
                     return;
                 }
+
                 _excludeReferencesFunc = excludeReferencesFunc;
 #if DEBUG
                 //StopwatchExtension.EnableMemoryMonitor();
@@ -46,6 +47,7 @@ public static class NatashaInitializer
                 
                 var task = Task.Run(() =>
                 {
+
                     AssemblyCSharpBuilder tempBuilder = new();
                     tempBuilder
                     .UseRandomDomain()
@@ -147,7 +149,6 @@ public static class NatashaInitializer
                             {
                                 parallelLoopResults.Enqueue(InitReferenceAndUsingFromPath(paths));
                             }
-
                         }
                         else
                         {
