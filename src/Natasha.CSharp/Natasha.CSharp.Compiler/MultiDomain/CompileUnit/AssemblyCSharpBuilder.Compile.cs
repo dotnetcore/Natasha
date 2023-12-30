@@ -70,28 +70,6 @@ public sealed partial class AssemblyCSharpBuilder
         return this;
     }
 
-    private readonly List<MetadataReference> _dependencyReferences;
-    /// <summary>
-    /// 设置依赖元数据引用，依赖元数据总是会被加载
-    /// </summary>
-    /// <param name="metadataReferences"></param>
-    /// <returns></returns>
-    public AssemblyCSharpBuilder WithDependencyReferences(IEnumerable<MetadataReference> metadataReferences)
-    {
-        lock (_dependencyReferences)
-        {
-            _dependencyReferences.AddRange(metadataReferences);
-        }
-        return this;
-    }
-    public AssemblyCSharpBuilder ClearDependencyReferences()
-    {
-        lock (_dependencyReferences)
-        {
-            _dependencyReferences.Clear();
-        }
-        return this;
-    }
 
     /// <summary>
     /// 配置引用过滤策略
@@ -152,11 +130,6 @@ public sealed partial class AssemblyCSharpBuilder
         if (_referencesFilter != null)
         {
             references = _referencesFilter(references);
-        }
-
-        if (_dependencyReferences.Count > 0)
-        {
-            references = references.Concat(_dependencyReferences);
         }
 
         _compilation = CSharpCompilation.Create(AssemblyName, SyntaxTrees, references, options);

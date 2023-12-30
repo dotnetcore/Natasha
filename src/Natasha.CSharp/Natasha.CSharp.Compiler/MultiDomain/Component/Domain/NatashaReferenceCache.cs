@@ -82,6 +82,10 @@ namespace Natasha.CSharp.Component
             _referenceCache[assemblyName] = reference;
 
         }
+        public bool HasReference(AssemblyName assemblyName)
+        {
+            return _referenceCache.ContainsKey(assemblyName) || _referenceNameCache.ContainsKey(assemblyName.GetUniqueName());
+        }
         public void RemoveReference(AssemblyName assemblyName)
         {
             _referenceCache!.Remove(assemblyName);
