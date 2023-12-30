@@ -31,7 +31,6 @@ public sealed partial class AssemblyCSharpBuilder
         _domainConfiguration = new DomainConfiguration();
         _semanticAnalysistor = [UsingAnalysistor._usingSemanticDelegate];
         _specifiedReferences = [];
-        _dependencyReferences = [];
     }
 
     /// <summary>

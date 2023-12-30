@@ -30,7 +30,7 @@ namespace ReferenceSample
             //var asm = domain.LoadPluginUseDefaultDependency("I:\\OpenSource\\Natasha\\samples\\ReferenceSample\\bin\\Debug\\net8.0\\DynamicLibraryFolders\\Nc0e9a864079d427680ea239b5a9e525e\\a69937be3d244336a20c46843d51d19b.dll");
             //var a = typeof(CodecovMonitor);
             //var b = typeof(A);
-            NatashaManagement.Preheating(true, true);
+            //NatashaManagement.Preheating(true, true);
             TestMini1();
             TestMini1();
             //var a = Math.Min(1, args.Length);
@@ -82,17 +82,17 @@ namespace ReferenceSample
         {
             AssemblyCSharpBuilder builder = new();
             builder
-               .UseRandomDomain()
+               .UseNewDomain("adasd")
                 .UseSmartMode()
                 .ConfigCompilerOption(item => item.WithLowerVersionsAssembly().WithDiagnosticLevel(ReportDiagnostic.Warn))
                 //.WithFileOutput()
                 .WithDebugCompile(item => item.WriteToAssembly())
-                //.UseSimpleMode()
-               // .AddReferenceAndUsingCode(typeof(Math).Assembly)
-               // .AddReferenceAndUsingCode(typeof(MathF).Assembly)
-               // .AddReferenceAndUsingCode(typeof(A)).AddDependencyReferences(typeof(A))
-               // .AddReferenceAndUsingCode(typeof(CodecovMonitor)).AddDependencyReferences(typeof(CodecovMonitor))
-               // .AddReferenceAndUsingCode(typeof(SuppressMessageAttribute))
+                .UseSimpleMode()
+                .AddReferenceAndUsingCode(typeof(Math).Assembly)
+                .AddReferenceAndUsingCode(typeof(MathF).Assembly)
+                .AddReferenceAndUsingCode(typeof(A))
+                .AddReferenceAndUsingCode(typeof(CodecovMonitor))
+                .AddReferenceAndUsingCode(typeof(SuppressMessageAttribute))
                ;
 
             builder.Add(@"
@@ -133,8 +133,8 @@ namespace MyNamespace{
                 .UseSimpleMode()
                 .AddReferenceAndUsingCode(typeof(Math).Assembly)
                 .AddReferenceAndUsingCode(typeof(MathF).Assembly)
-                .AddReferenceAndUsingCode(typeof(A)).AddDependencyReferences(typeof(A))
-                .AddReferenceAndUsingCode(typeof(CodecovMonitor)).AddDependencyReferences(typeof(CodecovMonitor))
+                .AddReferenceAndUsingCode(typeof(A))
+                .AddReferenceAndUsingCode(typeof(CodecovMonitor))
                 .AddReferenceAndUsingCode(typeof(SuppressMessageAttribute))
                 ;
 

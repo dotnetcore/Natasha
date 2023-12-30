@@ -61,6 +61,27 @@ public static class NatashaAssemblyBuilderMultiExtension
         if (result.HasValue)
         {
             builder.Domain.AddReferenceAndUsing(result.Value.asmName, result.Value.metadata, result.Value.namespaces, loadReferenceBehavior);
+
+            var assemblyNames = assembly.GetReferencedAssemblies();
+            if (assemblyNames != null && assemblyNames.Length > 0)
+            {
+                foreach (var asmName in assemblyNames)
+                {
+                    if (asmName != null && !builder.Domain.References.HasReference(asmName))
+                    {
+                       var depAssembly = Assembly.Load(asmName);
+                        if (depAssembly!=null)
+                        {
+                            result = MetadataHelper.GetMetadataAndNamespaceFromMemory(depAssembly, null);
+                            if (result.HasValue)
+                            {
+                                builder.Domain.AddReferenceAndUsing(asmName, result.Value.metadata, result.Value.namespaces, loadReferenceBehavior);
+                            }
+                        }
+                    }
+                }
+
+            }
         }
         return builder;
     }
@@ -79,26 +100,6 @@ public static class NatashaAssemblyBuilderMultiExtension
             builder.Domain.AddReferenceAndUsing(result.Value.asmName, result.Value.metadata, result.Value.namespaces, loadReferenceBehavior);
         }
         return builder;
-    }
-    /// <summary>
-    /// 将程序集中的元数据引用加到编译单元中
-    /// </summary>
-    /// <param name="builder">Natasha 编译单元</param>
-    /// <param name="assembly">程序集</param>
-    /// <returns></returns>
-    public static AssemblyCSharpBuilder AddDependencyReferences(this AssemblyCSharpBuilder builder, Assembly assembly)
-    {
-        return builder.WithDependencyReferences(assembly.GetDependencyReferences());
-    }
-    /// <summary>
-    /// 将类型所在的程序集中的元数据引用加到编译单元中
-    /// </summary>
-    /// <param name="builder">Natasha 编译单元</param>
-    /// <param name="type">类型</param>
-    /// <returns></returns>
-    public static AssemblyCSharpBuilder AddDependencyReferences(this AssemblyCSharpBuilder builder, Type type)
-    {
-        return builder.WithDependencyReferences(type.GetDependencyReferences());
     }
 }
 
