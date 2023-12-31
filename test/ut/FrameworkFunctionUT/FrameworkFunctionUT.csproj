@@ -24,7 +24,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\..\src\Natasha.CSharp\Natasha.CSharp.Template\Natasha.CSharp.Template.csproj" />
+	  <ProjectReference Include="..\..\..\src\Natasha.CSharp\Framework\Natasha.CSharp.Template.Framework\Natasha.CSharp.Template.Framework.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

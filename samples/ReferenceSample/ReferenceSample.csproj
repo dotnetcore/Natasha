@@ -38,7 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Natasha.CSharp\Extension\Natasha.CSharp.Codecov\Natasha.CSharp.Codecov.csproj" />
+    <ProjectReference Include="..\..\src\Natasha.CSharp\Core\Extension\Natasha.CSharp.Codecov\Natasha.CSharp.Codecov.csproj" />
     <ProjectReference Include="..\HotReloadPlugin\HotReloadPlugin.csproj" />
   </ItemGroup>
 
