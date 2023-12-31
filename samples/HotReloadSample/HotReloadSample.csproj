@@ -11,7 +11,7 @@
 
   <ItemGroup>
 	<PackageReference Include="DotNetCore.Compile.Environment" Version="3.2.0" />
-    <ProjectReference Include="..\..\src\Natasha.CSharp\Natasha.CSharp.Compiler\Natasha.CSharp.Compiler.csproj" />
+	<ProjectReference Include="..\..\src\Natasha.CSharp\Core\Natasha.CSharp.Compiler\Natasha.CSharp.Compiler.csproj" />
     <ProjectReference Include="..\HotReloadPlugin\HotReloadPlugin.csproj" />
   </ItemGroup>
 

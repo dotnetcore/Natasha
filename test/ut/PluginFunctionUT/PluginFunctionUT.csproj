@@ -32,7 +32,7 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-		<ProjectReference Include="..\..\..\src\Natasha.CSharp\Natasha.CSharp.Template\Natasha.CSharp.Template.csproj" />
+		<ProjectReference Include="..\..\..\src\Natasha.CSharp\Core\Natasha.CSharp.Template\Natasha.CSharp.Template.csproj" />
 		<ProjectReference Include="..\PluginLibraries\MetadataDiff\MetadataDiff\MetadataDiff.csproj" />
 		<ProjectReference Include="..\PluginLibraries\PluginBase\PluginBase.csproj" />
 	</ItemGroup>

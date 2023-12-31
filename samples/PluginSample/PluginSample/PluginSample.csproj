@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\Natasha.Domain\Natasha.Domain.csproj" />
+    <ProjectReference Include="..\..\..\src\Natasha.CSharp\Core\Natasha.Domain\Natasha.Domain.csproj" />
     <ProjectReference Include="..\PluginBase\PluginBase.csproj" />
   </ItemGroup>
 
