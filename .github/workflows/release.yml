@@ -34,7 +34,7 @@ jobs:
       hasCoverageKey: ${{steps.outter.outputs.HAS_COVERAGE_KEY}}
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     #- name: 🔨 Setup .NET 6.X SDK
     #  uses: actions/setup-dotnet@v3
@@ -70,7 +70,7 @@ jobs:
       WORKER_NAME: PROJECT_ARCHIVE
       
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
      #- name: 🔨 Setup .NET 6.X SDK
      #  uses: actions/setup-dotnet@v3
@@ -89,7 +89,7 @@ jobs:
     needs: prepare_check
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: 🔨 Setup .NET SDK
       uses: actions/setup-dotnet@v3
       with:
@@ -119,7 +119,7 @@ jobs:
       PACK_STRING: ${{needs.prepare_check.outputs.releasePackString}}
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: 🎉 Release
       run: |
         RELEASE_ID=$(gh api graphql -H "X-Github-Next-Global-ID: 1" -f query='
