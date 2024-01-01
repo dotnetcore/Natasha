@@ -1,12 +1,13 @@
 ﻿using Natasha.CSharp.Builder;
 using System;
+using System.ComponentModel;
 using Xunit;
 
 namespace NatashaFunctionUT.Template
 {
 
     [Trait("基础功能测试", "模板")]
-    public class MethodTemplateTest
+    public class MethodTemplateTest: DomainPrepareBase
     {
 
         [Fact(DisplayName = "静态方法1")]

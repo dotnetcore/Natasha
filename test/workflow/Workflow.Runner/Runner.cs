@@ -151,15 +151,14 @@ namespace Workflow.Runner
                     Assert.Fail(repoId);
                 }
                 NMSGithubSdk.SetGraphSecretByEnvKey("GITHUB_TOKEN");
-                var labels = SolutionRecorder.GetNewestSolution().GetAllLabels();
+                var labels = new List<GithubLabelBase>(SolutionRecorder.GetNewestSolution().GetAllLabels());
                 if (labels != null && labels.Any())
                 {
-                    var labelsWithBlockUser = labels
-                        .Append(new GithubLabelBase() { Name = "aaa-block-user", Color = "ff0000", Description = "该标签为屏蔽标签,打上该标签的 ISSUE 作者将被屏蔽." })
-                        .Append(new GithubLabelBase() { Name = "phasee-done", Color = "020E91", Description = "任务或计划阶段性结束." })
-                        .Append(new GithubLabelBase() { Name = "continuous", Color = "AEB941", Description = "该问题或建议或编码任务将持续进行." })
-                        ;
-                    var result = await NMSGithubSdk.ExpectLabelsCreateAndUpadateAsync(labelsWithBlockUser, repoId, ownerName, repoName);
+                    labels.Add(new GithubLabelBase() { Name = "aaa-block-user", Color = "ff0000", Description = "该标签为屏蔽标签,打上该标签的 ISSUE 作者将被屏蔽." });
+                    labels.Add(new GithubLabelBase() { Name = "phasee-done", Color = "020E91", Description = "任务或计划阶段性结束." });
+                    labels.Add(new GithubLabelBase() { Name = "continuous", Color = "AEB941", Description = "该问题或建议或编码任务将持续进行." });
+                    labels.Add(new GithubLabelBase() { Name = "tasklist", Color = "bfdadc", Description = "计划任务清单." });
+                    var result = await NMSGithubSdk.ExpectLabelsCreateAndUpadateAsync(labels, repoId, ownerName, repoName);
                     if (result != string.Empty)
                     {
                         Assert.Fail(result);
