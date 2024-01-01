@@ -1,0 +1,22 @@
+﻿using Natasha.DynamicLoad.Base;
+using System;
+
+
+public static class NatashaDelegateExtension
+{
+    public static INatashaDynamicLoadContextBase? GetDomain(this Delegate @delegate)
+    {
+
+        return @delegate.Method.Module.Assembly.GetDomain();
+
+    }
+
+
+
+    public static void DisposeDomain(this Delegate @delegate)
+    {
+
+        @delegate.Method.Module.Assembly.DisposeDomain();
+
+    }
+}

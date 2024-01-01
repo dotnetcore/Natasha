@@ -8,18 +8,15 @@ using Xunit;
 namespace NatashaFunctionUT.Domain.Load
 {
     [Trait("基础功能测试", "插件与域")]
-    public class UnloadTest
+    public class UnloadTest : DomainPrepareBase
     {
-       
+
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static string CreateAndUnload()
         {
             NatashaDomain? domain = default;
-            using (DomainManagement.Create("au_test").CreateScope())
-            {
-                domain = DomainManagement.CurrentDomain;
-                Assert.Equal("au_test", domain.Name);
-            }
+            domain = (NatashaDomain)DomainManagement.Create("au_test").Domain;
+            Assert.Equal("au_test", domain.Name);
             domain.Dispose();
             return "au_test";
         }
@@ -44,16 +41,14 @@ namespace NatashaFunctionUT.Domain.Load
         {
             var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory!, "Domain", "Reference", "Libraries", "DNDV1.dll");
             NatashaDomain? domain = default;
-            using (DomainManagement.Create("au_test_plugin").CreateScope())
-            {
-                domain = DomainManagement.CurrentDomain;
-                Assert.Equal("au_test_plugin", domain.Name);
-                var assembly = domain.LoadPluginWithHighDependency(path, item => item.Name != null && item.Name.Contains("PluginBase"));
-                //var type = assembly.GetTypes().Where(item => item.Name == "P1").First();
-                //IPluginBase plugin = (IPluginBase)(Activator.CreateInstance(type)!);
-                //强制加载所有引用
-                //var result = plugin!.PluginMethod1();
-            }
+
+            domain = (NatashaDomain)DomainManagement.Create("au_test_plugin").Domain;
+            Assert.Equal("au_test_plugin", domain.Name);
+            var assembly = domain.LoadPluginWithHighDependency(path, item => item.Name != null && item.Name.Contains("PluginBase"));
+            //var type = assembly.GetTypes().Where(item => item.Name == "P1").First();
+            //IPluginBase plugin = (IPluginBase)(Activator.CreateInstance(type)!);
+            //强制加载所有引用
+            //var result = plugin!.PluginMethod1();
             domain.Dispose();
             return "au_test_plugin";
         }
@@ -61,7 +56,7 @@ namespace NatashaFunctionUT.Domain.Load
         [Fact(DisplayName = "域的清理与卸载")]
         public static void ClearAndUnload()
         {
-            
+
             var name = LoadPluginAndUnload();
             for (int i = 0; i < 6; i++)
             {

@@ -6,7 +6,7 @@ using Xunit;
 namespace NatashaFunctionUT.Compile
 {
     [Trait("基础功能测试", "编译")]
-    public class CompileLogTest : DomainPrepare
+    public class CompileLogTest : CompilerPrepareBase
     {
         [Fact(DisplayName = "错误日志1")]
         public void CompareErrorLog1()
@@ -21,6 +21,8 @@ public void Show(){
             try
             {
                 AssemblyCSharpBuilder builder = new("ee79d3e2b027491f93705a4098568bc8");
+                builder.UseRandomDomain();
+                builder.WithCombineReferences(item=>item.UseDefaultReferences());
                 builder.WithoutCombineUsingCode();
                 builder.Add(code);
                 builder.CompileFailedEvent += (compilation, errors) =>
@@ -75,6 +77,7 @@ public string Address;
             {
                 AssemblyCSharpBuilder builder = new("ee79d3e2b027491f93705a4098578bcc");
                 builder
+                    .UseRandomDomain()
                     .UseSmartMode()
                     .WithoutCombineUsingCode();
                 builder.Add(code);
@@ -113,7 +116,7 @@ public int Get(){
             try
             {
                 AssemblyCSharpBuilder builder = new("ed79d3e2b027491f93705a4098578bcd");
-                builder.WithoutCombineUsingCode();
+                builder.UseRandomDomain().WithCombineReferences(item=>item.UseDefaultReferences()).WithoutCombineUsingCode();
                 builder.Add(code1);
                 builder.Add(code2);
                 builder.ConfigCompilerOption(opt => opt.WithNullableCompile(Microsoft.CodeAnalysis.NullableContextOptions.Disable));
@@ -148,8 +151,10 @@ public int Get(){
 }
 }";
             NatashaCompilationLog? log = null;
-            AssemblyCSharpBuilder builder = new("2d79d3e2b027491f93705a4098578bcd");
-            builder.Domain = DomainManagement.Random();
+            AssemblyCSharpBuilder builder = new("2d79d3e2b027491f93705a4098578bcd")
+            {
+                LoadContext = DomainManagement.Random()
+            };
             builder.UseSmartMode();
             builder.WithoutCombineUsingCode();
             builder.ConfigCompilerOption(opt => opt.WithNullableCompile(Microsoft.CodeAnalysis.NullableContextOptions.Disable));

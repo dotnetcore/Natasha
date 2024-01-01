@@ -87,10 +87,9 @@ samples:
   projects: []
 src:
   folded_projects:
-  - src/Natasha.CSharp/Core/Extension/Natasha.CSharp.Extension.Ambiguity/Natasha.CSharp.Extension.Ambiguity.csproj
-  - src/Natasha.CSharp/Core/Extension/Natasha.CSharp.Codecov/Natasha.CSharp.Codecov.csproj
-  - src/Natasha.CSharp/Framework/Natasha.CSharp.Compiler.Framework/Natasha.CSharp.Compiler.Framework.csproj
   - src/Natasha.CSharp/Framework/Natasha.CSharp.Template.Framework/Natasha.CSharp.Template.Framework.csproj
+  - src/Natasha.CSharp/Extension/Natasha.CSharp.Codecov/Natasha.CSharp.Codecov.csproj
+  - src/Natasha.CSharp/Extension/Natasha.CSharp.Extension.Ambiguity/Natasha.CSharp.Extension.Ambiguity.csproj
   global_labels:
   - name: pr_src
     description: 此次提交包含 [源码工程] 相关的改动.
@@ -102,40 +101,13 @@ src:
       - System
       - System.Runtime.CompilerServices
       - System.Reflection
-    id: 806EDCE9-74E4-41F3-9E97-74317EB209B3
+    id: 6A64FCC4-0E19-4181-ABD8-D951DB6B75E9
     is_ignored: false
     is_folded: false
-    relative_path: src/Natasha.CSharp/Core/Natasha.CSharp.Template/Natasha.CSharp.Template.csproj
-    project_name: Natasha.CSharp.Template
-    package_name: DotNetCore.Natasha.CSharp.Template
-    project_folder: src/Natasha.CSharp/Core/Natasha.CSharp.Template
-    labels: 
-    dependency_config: 
-  - using_output:
-      enable: true
-      ignores: 
-    id: B810A41B-66BC-4FD4-B78E-CBFA0CF96A33
-    is_ignored: false
-    is_folded: false
-    relative_path: src/Natasha.CSharp/Core/Natasha.Domain/Natasha.Domain.csproj
-    project_name: Natasha.Domain
-    package_name: DotNetCore.Natasha.Domain
-    project_folder: src/Natasha.CSharp/Core/Natasha.Domain
-    labels: 
-    dependency_config: 
-  - using_output:
-      enable: true
-      ignores:
-      - System
-      - System.Runtime.CompilerServices
-      - System.Reflection
-    id: 4DFD079F-2353-48A1-BDC7-1711491CB82C
-    is_ignored: false
-    is_folded: false
-    relative_path: src/Natasha.CSharp/Core/Natasha.CSharp.Compiler/Natasha.CSharp.Compiler.csproj
+    relative_path: src/Natasha.CSharp/Natasha.CSharp.Compiler/Natasha.CSharp.Compiler.csproj
     project_name: Natasha.CSharp.Compiler
     package_name: DotNetCore.Natasha.CSharp.Compiler
-    project_folder: src/Natasha.CSharp/Core/Natasha.CSharp.Compiler
+    project_folder: src/Natasha.CSharp/Natasha.CSharp.Compiler
     labels: 
     dependency_config:
       type: nuget
@@ -151,6 +123,66 @@ src:
       - name: Microsoft.Extensions.DependencyModel
         versions: 
         versions_type: 
+  - using_output:
+      enable: true
+      ignores:
+      - System
+      - System.Runtime.CompilerServices
+      - System.Reflection
+    id: A6A252E0-BC83-43D1-A118-371721F1A5D4
+    is_ignored: false
+    is_folded: false
+    relative_path: src/Natasha.CSharp/Natasha.DynamicLoad.Base/Natasha.DynamicLoad.Base.csproj
+    project_name: Natasha.DynamicLoad.Base
+    package_name: 
+    project_folder: src/Natasha.CSharp/Natasha.DynamicLoad.Base
+    labels: 
+    dependency_config: 
+  - using_output:
+      enable: true
+      ignores:
+      - System
+      - System.Runtime.CompilerServices
+      - System.Reflection
+    id: 02D796A3-A9FB-4E9C-972C-50B173DE213C
+    is_ignored: false
+    is_folded: false
+    relative_path: src/Natasha.CSharp/Component/Core/Natasha.Domain/Natasha.Domain.csproj
+    project_name: Natasha.Domain
+    package_name: DotNetCore.Natasha.Domain
+    project_folder: src/Natasha.CSharp/Component/Core/Natasha.Domain
+    labels: 
+    dependency_config: 
+  - using_output:
+      enable: true
+      ignores:
+      - System
+      - System.Runtime.CompilerServices
+      - System.Reflection
+    id: CE5B5331-3F4F-412F-8169-8DA1D37170C6
+    is_ignored: false
+    is_folded: false
+    relative_path: src/Natasha.CSharp/Component/Core/Natasha.CSharp.Compiler.Domain/Natasha.CSharp.Compiler.Domain.csproj
+    project_name: Natasha.CSharp.Compiler.Domain
+    package_name: 
+    project_folder: src/Natasha.CSharp/Component/Core/Natasha.CSharp.Compiler.Domain
+    labels: 
+    dependency_config: 
+  - using_output:
+      enable: true
+      ignores:
+      - System
+      - System.Runtime.CompilerServices
+      - System.Reflection
+    id: 1A79A124-5C6D-456E-8402-33A1FA68C566
+    is_ignored: false
+    is_folded: false
+    relative_path: src/Natasha.CSharp/Component/Core/Natasha.CSharp.Template.Core/Natasha.CSharp.Template.Core.csproj
+    project_name: Natasha.CSharp.Template.Core
+    package_name: DotNetCore.Natasha.CSharp.Template
+    project_folder: src/Natasha.CSharp/Component/Core/Natasha.CSharp.Template.Core
+    labels: 
+    dependency_config: 
 test:
   folded_projects: []
   global_labels:

@@ -22,8 +22,8 @@ public class DomainPrepare
         _runtimeVersion = "net8.0";
 #endif
         DefaultAssembliesCount = AssemblyLoadContext.Default.Assemblies.Count();
-        NatashaInitializer.Preheating((item, name) => name!.Contains("IO"), true, false);
-        DefaultUsingCount = NatashaReferenceDomain.DefaultDomain.References.Count;
+        NatashaManagement.Preheating((item, name) => name!.Contains("IO"), true, false);
+        DefaultUsingCount = NatashaLoadContext.DefaultContext.References.Count;
     }
 
 }

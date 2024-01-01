@@ -7,7 +7,7 @@ version: 2
 updates:
 
   - package-ecosystem: "nuget"
-    directory: "src/Natasha.CSharp/Core/Natasha.CSharp.Compiler"
+    directory: "src/Natasha.CSharp/Natasha.CSharp.Compiler"
     schedule:
       interval: "daily"
     commit-message:

@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;</TargetFrameworks>
+		<Description>Natasha 的 C# 版编译器</Description>
+		<PackageId>DotNetCore.Natasha.CSharp.Compiler</PackageId>
+		<PackageReleaseNotes>升级到最新版.</PackageReleaseNotes>
+		<PackageTags>Roslyn;IL;Script;Dynamic;Natasha;NMS;Compiler;</PackageTags>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<Version>8.0.0.0</Version>
+		<FileVersion>8.0.0.0</FileVersion>
+		<AssemblyVersion>8.0.0.0</AssemblyVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="8.0.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.8.0" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="build\netstandard2.0\DotNetCore.Natasha.CSharp.Compiler.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildTransitive\netstandard2.0\DotNetCore.Natasha.CSharp.Compiler.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildMultiTargeting\netstandard2.0\DotNetCore.Natasha.CSharp.Compiler.targets" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <ProjectReference Include="..\Natasha.DynamicLoad.Base\Natasha.DynamicLoad.Base.csproj" />
+	</ItemGroup>
+
+</Project>

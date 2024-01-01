@@ -5,7 +5,7 @@ using Xunit;
 namespace NatashaFunctionUT.Special
 {
     [Trait("高级API功能测试", "其他")]
-    public class ReadonlyTest : DomainPrepare
+    public class ReadonlyTest : CompilerPrepareBase
     {
 
         [Fact(DisplayName = "私有只读成员动态赋值")]

@@ -5,15 +5,17 @@ using Xunit;
 namespace NatashaFunctionUT.Compile
 {
     [Trait("基础功能测试", "编译")]
-    public class CompileSemanticTest : DomainPrepare
+    public class CompileSemanticTest : CompilerPrepareBase
     {
         [Fact(DisplayName = "[语义过滤]编译测试")]
         public void SemanticTest1()
         {
 
-            var code = NatashaReferenceDomain.DefaultDomain.UsingRecorder.ToString() + "using abcde;public class A{ public string Name;}";
-            AssemblyCSharpBuilder builder = new();
-            builder.Domain = DomainManagement.Random();
+            var code = NatashaLoadContext.DefaultContext.UsingRecorder.ToString() + "using abcde;public class A{ public string Name;}";
+            AssemblyCSharpBuilder builder = new()
+            {
+                LoadContext = DomainManagement.Random()
+            };
             builder.UseSmartMode();
             builder.EnableSemanticHandler = false;
             builder.Add(code);

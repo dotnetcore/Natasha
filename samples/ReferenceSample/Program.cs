@@ -31,8 +31,9 @@ namespace ReferenceSample
             //var a = typeof(CodecovMonitor);
             //var b = typeof(A);
             //NatashaManagement.Preheating(true, true);
-            TestMini1();
-            TestMini1();
+            NatashaManagement.RegistDomainCreator<NatashaDomainCreator>();
+            TestMini();
+            TestMini();
             //var a = Math.Min(1, args.Length);
             //NatashaManagement.Preheating(false, false);
             //Console.WriteLine("=============================");
@@ -250,7 +251,7 @@ public class A{
             builder.ConfigCompilerOption(item => item.AddSupperess("CS0108"));
             builder.WithoutAnalysisAccessibility();
 
-            builder.Domain = DomainManagement.Random();
+            builder.LoadContext = DomainManagement.Random();
 
 
             builder.Add("public class A { public string Name {get;set;} = \"abc\"; }", UsingLoadBehavior.WithDefault);
