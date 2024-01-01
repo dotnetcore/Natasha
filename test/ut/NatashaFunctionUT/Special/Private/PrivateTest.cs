@@ -5,7 +5,7 @@ using Xunit;
 namespace NatashaFunctionUT.Special
 {
     [Trait("高级API功能测试", "其他")]
-    public class PrivateTest : DomainPrepare
+    public class PrivateTest : CompilerPrepareBase
     {
 
         [Fact(DisplayName = "私有成员调用")]
@@ -32,7 +32,7 @@ namespace NatashaFunctionUT.Special
         public void Test1()
         {
 
-            PrivateMemberClassModel test = new PrivateMemberClassModel();
+            PrivateMemberClassModel test = new();
             var action = NDelegate
                 .RandomDomain(builder => builder.UseSmartMode().ConfigCompilerOption(opt => opt
                     .WithAllMetadata()
@@ -46,7 +46,7 @@ namespace NatashaFunctionUT.Special
         [Fact(DisplayName = "私有成员调用3")]
         public void Test2()
         {
-            PrivateMemberClassModel test = new PrivateMemberClassModel();
+            PrivateMemberClassModel test = new();
             var action = NDelegate
                 .RandomDomain(builder => 
                 {

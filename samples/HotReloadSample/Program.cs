@@ -116,7 +116,7 @@ namespace HotReloadSample
             Console.WriteLine(obj==null);
         }
 
-        public static Assembly OldAssembly(NatashaReferenceDomain domain)
+        public static Assembly OldAssembly(NatashaLoadContext domain)
         {
             AssemblyCSharpBuilder builder = new AssemblyCSharpBuilder
             {
@@ -126,7 +126,7 @@ namespace HotReloadSample
             return builder.GetAssembly();
         }
 
-        public static Assembly NewAssembly(NatashaReferenceDomain domain)
+        public static Assembly NewAssembly(NatashaLoadContext domain)
         {
             AssemblyCSharpBuilder builder = new AssemblyCSharpBuilder();
             builder.Domain = domain;

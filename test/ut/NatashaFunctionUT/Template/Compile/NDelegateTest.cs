@@ -5,7 +5,7 @@ using Xunit;
 namespace NatashaFunctionUT.Template.Compile
 {
     [Trait("高级API功能测试", "方法")]
-    public class NDelegateTest : DomainPrepare
+    public class NDelegateTest : CompilerPrepareBase
     {
         [Fact(DisplayName = "委托混合测试")]
         public void CNDelegate()

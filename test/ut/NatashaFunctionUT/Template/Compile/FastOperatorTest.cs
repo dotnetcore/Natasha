@@ -7,7 +7,7 @@ namespace NatashaFunctionUT.Template.Compile
 {
 
     [Trait("高级API功能测试", "模板")]
-    public class FastOperatorTest : DomainPrepare
+    public class FastOperatorTest : CompilerPrepareBase
     {
 
         [Fact(DisplayName = "委托构建1")]
