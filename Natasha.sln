@@ -14,6 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "report.template", "report.t
 		.github\ISSUE_TEMPLATE\config.yml = .github\ISSUE_TEMPLATE\config.yml
 		.github\ISSUE_TEMPLATE\feature.yml = .github\ISSUE_TEMPLATE\feature.yml
 		.github\ISSUE_TEMPLATE\feedback.yml = .github\ISSUE_TEMPLATE\feedback.yml
+		.github\ISSUE_TEMPLATE\tasklist.md = .github\ISSUE_TEMPLATE\tasklist.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pr", "pr", "{15F494AB-94DF-4334-BD73-9F8ACF84E0C1}"
@@ -201,7 +202,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Component", "Component", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natasha.CSharp.Compiler", "src\Natasha.CSharp\Natasha.CSharp.Compiler\Natasha.CSharp.Compiler.csproj", "{6A64FCC4-0E19-4181-ABD8-D951DB6B75E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Natasha.DynamicLoad.Base", "src\Natasha.CSharp\Natasha.DynamicLoad.Base\Natasha.DynamicLoad.Base.csproj", "{A6A252E0-BC83-43D1-A118-371721F1A5D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natasha.DynamicLoad.Base", "src\Natasha.CSharp\Natasha.DynamicLoad.Base\Natasha.DynamicLoad.Base.csproj", "{A6A252E0-BC83-43D1-A118-371721F1A5D4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natasha.Domain", "src\Natasha.CSharp\Component\Core\Natasha.Domain\Natasha.Domain.csproj", "{02D796A3-A9FB-4E9C-972C-50B173DE213C}"
 EndProject
