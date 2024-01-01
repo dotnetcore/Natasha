@@ -42,8 +42,9 @@ body:
       multiple: true
       description: What version of our software are you running?
       options:
+        - .NET8(LTS) (Default)
         - .NET7(STS)
-        - .NET6(LTS) (Default)
+        - .NET6(LTS)
         - .NET5
         - .NET Core 3.1(LTS)
         - .NET Core 3.0
