@@ -1,6 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.DependencyModel;
-using Natasha.CSharp.Component;
+using Natasha.CSharp.Compiler.Component;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,16 +19,15 @@ namespace NatashaFunctionUT.Reference
                 .Default
                 .CompileLibraries.SelectMany(cl => cl.ResolveReferencePaths());
 
-            var count = NatashaReferenceDomain.DefaultDomain.References.Count;
-            Assert.True(NatashaReferenceDomain.DefaultDomain.UsingRecorder.HasUsing("System.Threading"));
-            Assert.False(NatashaReferenceDomain.DefaultDomain.UsingRecorder.HasUsing("System.IO"));
-
+            var count = NatashaLoadContext.DefaultContext.References.Count;
+            Assert.True(NatashaLoadContext.DefaultContext.UsingRecorder.HasUsing("System.Threading"));
+            Assert.False(NatashaLoadContext.DefaultContext.UsingRecorder.HasUsing("System.IO"));
         }
         [Fact(DisplayName = "[默认引用]排重测试")]
         public unsafe void DefaultDistinctReference()
         {
 
-            NatashaReferenceCache referenceCache = new();
+            NatashaMetadataCache referenceCache = new();
             var assembilies = AppDomain.CurrentDomain.GetAssemblies();// AssemblyLoadContext.Default.Assemblies;
             int count = 0;
             foreach (var assembly in assembilies)
@@ -70,8 +69,8 @@ namespace NatashaFunctionUT.Reference
         public void DistinctReferenceWithoutCompare()
         {
             var sets = GetPortableExecutableReferences(AssemblyCompareInfomation.None);
-            //dapper + json + plugin 
-            Assert.Equal(3, sets.Count);
+            //dapper + json(12.0) + DNDV1 + runtime
+            Assert.Equal(4, sets.Count);
 
         }
 
@@ -79,24 +78,40 @@ namespace NatashaFunctionUT.Reference
         public void DistinctReferenceWithHighVersion()
         {
             var sets = GetPortableExecutableReferences(AssemblyCompareInfomation.UseHighVersion);
-            //dapper + json + plugin 
+#if NETCOREAPP3_1
+            //dapper + json(12.0) + DNDV1
             Assert.Equal(3, sets.Count);
+#else
+            //dapper + json(12.0) + DNDV1
+            Assert.Equal(3, sets.Count);
+#endif
         }
 
         [Fact(DisplayName = "[低版本引用]排重测试")]
         public void DistinctReferenceWithLowVersion()
         {
             var sets = GetPortableExecutableReferences(AssemblyCompareInfomation.UseLowVersion);
-            //dapper + plugin
+#if NETCOREAPP3_1
+            //dapper + DNDV1
             Assert.Equal(2, sets.Count);
+#else
+            //dapper + DNDV1 
+            Assert.Equal(2, sets.Count);
+#endif
         }
 
         [Fact(DisplayName = "[非同名引用]排重测试")]
         public void DistinctReferenceWithExistVersion()
         {
             var sets = GetPortableExecutableReferences(AssemblyCompareInfomation.UseDefault);
-            //dapper + plugin
+#if NETCOREAPP3_1
+            //dapper + DNDV1
             Assert.Equal(2, sets.Count);
+#else
+            //dapper + DNDV1
+            Assert.Equal(2, sets.Count);
+#endif
+
         }
     } 
 }

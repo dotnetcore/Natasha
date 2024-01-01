@@ -6,7 +6,7 @@ namespace NatashaFunctionUT.Template.Compile
 {
 
     [Trait("高级API功能测试", "OOP")]
-    public class StructBuilderTest : DomainPrepare
+    public class StructBuilderTest : CompilerPrepareBase
     {
 
         [Fact(DisplayName = "结构体构建与编译1")]

@@ -6,7 +6,7 @@ namespace NatashaFunctionUT.Template.Compile
 {
 
     [Trait("高级API功能测试", "模板")]
-    public class FakeOperatorTest : DomainPrepare
+    public class FakeOperatorTest : CompilerPrepareBase
     {
 
         [Fact(DisplayName = "普通函数克隆")]

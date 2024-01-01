@@ -12,7 +12,7 @@ namespace NatashaFunctionUT.Special
             using (DomainManagement.Random().CreateScope())
             {
 
-                (var assembly, var log) = "public class A{ public A(){ Age = 1;} public int Age; }";
+                (var assembly, var log) = "public class AH4H4H{ public AH4H4H(){ Age = 1;} public int Age; }";
 
                 Assert.NotNull(assembly);
                 Assert.False(log.HasError);

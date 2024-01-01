@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<Description>Natasha 域加载上下文的接口规范.</Description>
+		<PackageId>DotNetCore.Natasha.DynamicLoad.Base</PackageId>
+		<PackageReleaseNotes>升级到最新版.</PackageReleaseNotes>
+		<PackageTags>Natasha;Compiler;LoadContext;Interface;</PackageTags>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<Version>8.0.0.0</Version>
+		<FileVersion>8.0.0.0</FileVersion>
+		<AssemblyVersion>8.0.0.0</AssemblyVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="build\netstandard2.0\DotNetCore.Natasha.DynamicLoad.Base.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildTransitive\netstandard2.0\DotNetCore.Natasha.DynamicLoad.Base.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildMultiTargeting\netstandard2.0\DotNetCore.Natasha.DynamicLoad.Base.targets" />
+	</ItemGroup>
+</Project>

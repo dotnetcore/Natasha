@@ -5,7 +5,7 @@ namespace NatashaFunctionUT.Template.Compile
 {
 
     [Trait("高级API功能测试", "OOP")]
-    public class InterfaceBuilderTest : DomainPrepare
+    public class InterfaceBuilderTest : CompilerPrepareBase
     {
 
         [Fact(DisplayName = "接口构建与编译")]

@@ -4,33 +4,46 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Natasha.CSharp.Component;
+using Natasha.CSharp.Compiler.Component;
 using System.Text;
+using System.Diagnostics;
 
 public class ReferencePrepare : DomainPrepare
 {
-    internal protected static readonly NatashaReferenceCache DefaultReferences;
+    internal protected static readonly NatashaMetadataCache DefaultReferences;
 
     static ReferencePrepare()
     {
-        DefaultReferences = NatashaReferenceDomain.DefaultDomain.References;
+        NatashaManagement.RegistDomainCreator<NatashaDomainCreator>();
+        DefaultReferences = NatashaLoadContext.DefaultContext.References;
     }
     internal static HashSet<MetadataReference> GetPortableExecutableReferences(AssemblyCompareInfomation loadBehavior)
     {
-        var domain = DomainManagement.Random();
-
+        var loadContext = DomainManagement.Random();
+        var domain = (NatashaDomain)(loadContext.Domain);
+        AssemblyCSharpBuilder builder = new()
+        {
+            LoadContext = loadContext
+        };
+        //12 1.6 3.1
         var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory!, "Domain", "Reference", "Libraries", "DNDV1.dll");
-        var assembly = domain.LoadPluginWithHighDependency(path,item=>item.Name!.Contains("PluginBase"));
-
+        var assembly = domain.LoadPluginWithAllDependency(path,item=>item.Name!.Contains("PluginBase"));
+        builder.AddReferenceAndUsingCode(assembly, item => item.Name!.Contains("PluginBase"));
         var type1 = assembly.GetTypes().Where(item => item.Name == "P1").First();
         IPluginBase plugin1 = (IPluginBase)(Activator.CreateInstance(type1)!);
         //强制加载所有引用
         var result = plugin1!.PluginMethod1();
-
-        var references = domain.References.CombineWithDefaultReferences(DefaultReferences, loadBehavior);
+        var references = loadContext.References.CombineWithDefaultReferences(DefaultReferences, loadBehavior);
         var sets = new HashSet<MetadataReference>(references);
         //在合法的引用中排除默认引用
         sets.ExceptWith(DefaultReferences.GetReferences());
+        foreach (var item in sets)
+        {
+            var asm = loadContext.References.GetAssmeblyNameByMetadata(item);
+            asm ??= NatashaLoadContext.DefaultContext.References.GetAssmeblyNameByMetadata(item);
+            Debug.WriteLine("[[[=================="+asm.FullName);
+        }
+        
         return sets;
     }
 }

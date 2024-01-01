@@ -9,12 +9,12 @@ using Xunit;
 namespace NatashaFunctionUT
 {
     [Trait("基础功能测试", "Using")]
-    public class UsingTest : DomainPrepare
+    public class UsingTest : CompilerPrepareBase
     {
         [Fact(DisplayName = "默认Using的添加")]
         public void DefaultUsingTest()
         {
-            Assert.True(NatashaReferenceDomain.DefaultDomain.UsingRecorder.ToString() != string.Empty);
+            Assert.True(NatashaLoadContext.DefaultContext.UsingRecorder.ToString() != string.Empty);
 
             for (int i = 0; i < 6; i++)
             {

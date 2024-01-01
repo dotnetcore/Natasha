@@ -5,7 +5,7 @@ using Xunit;
 namespace NatashaFunctionUT.Syntax
 {
     [Trait("基础功能测试", "语法")]
-    public class SyntaxOopNameTest
+    public class SyntaxOopNameTest : DomainPrepareBase
     {
         [Fact(DisplayName = "获取存储结构名")]
         public void GetOOPName1()
