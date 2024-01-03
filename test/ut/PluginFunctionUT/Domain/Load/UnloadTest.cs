@@ -8,9 +8,12 @@ using Xunit;
 namespace NatashaFunctionUT.Domain.Load
 {
     [Trait("基础功能测试", "插件与域")]
-    public class UnloadTest : DomainPrepareBase
+    public class UnloadTest
     {
-
+        static UnloadTest()
+        {
+            NatashaManagement.Preheating<NatashaDomainCreator>();
+        }
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static string CreateAndUnload()
         {
@@ -56,7 +59,6 @@ namespace NatashaFunctionUT.Domain.Load
         [Fact(DisplayName = "域的清理与卸载")]
         public static void ClearAndUnload()
         {
-
             var name = LoadPluginAndUnload();
             for (int i = 0; i < 6; i++)
             {

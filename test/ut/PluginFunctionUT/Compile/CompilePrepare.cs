@@ -22,7 +22,7 @@ namespace NatashaFunctionUT.Compile
                 var pAssembly = builder.Domain.LoadPlugin(path);
                 var pType = pAssembly.GetTypes().Where(item => item.Name == "MetadataModel").First();
                 var plugin = Activator.CreateInstance(pType);
-                builder.AddReferenceAndUsingCode(pAssembly);
+                builder.LoadContext.AddReferenceAndUsingCode(pAssembly);
                 builder.Add(code);
                 try
                 {

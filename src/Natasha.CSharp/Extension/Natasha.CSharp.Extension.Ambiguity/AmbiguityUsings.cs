@@ -15,7 +15,7 @@ namespace Natasha.CSharp.Extension.Ambiguity
         {
             SemanticAction = (builder, compilation, ignoreAccessibility) =>
             {
-                builder.CheckNullLoadContext();
+
                 var trees = compilation.SyntaxTrees;
                 foreach (var tree in trees)
                 {

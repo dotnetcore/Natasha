@@ -15,7 +15,7 @@ namespace NatashaFunctionUT.Compile
         {
 
             var loadContext = DomainManagement.Random();
-            var referenceCount = DomainManagement.Random().References.Count;
+            var referenceCount = DomainManagement.Random().ReferenceRecorder.Count;
 
 
             AssemblyCSharpBuilder builder = new()
@@ -34,7 +34,7 @@ namespace NatashaFunctionUT.Compile
             builder.Clear();
 
             builder.AssemblyName = "ASDASD2";
-            Assert.Equal(referenceCount, loadContext.References.Count - 1);
+            Assert.Equal(referenceCount, loadContext.ReferenceRecorder.Count - 1);
             builder.Add(@"namespace TestB 
 { 
     public class B 
@@ -54,7 +54,7 @@ namespace NatashaFunctionUT.Compile
             Thread.Sleep(2000);
             builder.Clear();
             builder.AssemblyName = "ASDASD3";
-            Assert.Equal(referenceCount, loadContext.References.Count - 2);
+            Assert.Equal(referenceCount, loadContext.ReferenceRecorder.Count - 2);
             builder.Add("public class C { public static string Show(){ return (new A()).Name+(new B()).Name; } }");
             var assemblyC = builder.GetAssembly();
             var type = assemblyC.GetTypes().Where(item => item.Name == "C").First();
@@ -100,7 +100,7 @@ namespace NatashaFunctionUT.Compile
             var domain2 = DomainManagement.Get("DiffDomainReferenceCompare2")!;
             Assert.True(domain1.Domain.Assemblies.Any());
             Assert.Equal(domain1.Domain.Assemblies.Count(), domain2.Domain.Assemblies.Count());
-            Assert.True(domain1.References.Count == domain2.References.Count);
+            Assert.True(domain1.ReferenceRecorder.Count == domain2.ReferenceRecorder.Count);
         }
     }
 }

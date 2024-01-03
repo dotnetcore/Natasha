@@ -61,7 +61,7 @@ internal static class NatashaInitializer
                             Natasha.CSharp.Compiler.CompilerBinderFlags.GenericConstraintsClause |
                             Natasha.CSharp.Compiler.CompilerBinderFlags.UncheckedRegion)
                     )
-                    .AddReferenceAndUsingCode(typeof(object))
+                .ConfigLoadContext(load=>load.AddReferenceAndUsingCode(typeof(object)))
                     .FastAddScriptWithoutCheck("public class A{}");
                     tempBuilder.GetAssembly();
                     tempBuilder.Domain.Dispose();
@@ -200,7 +200,7 @@ internal static class NatashaInitializer
                         var result = MetadataHelper.GetMetadataFromMemory(assembly, _excludeReferencesFunc);
                         if (result != null)
                         {
-                            NatashaLoadContext.DefaultContext.References.AddReference(result.Value.asmName, result.Value.metadata, AssemblyCompareInfomation.None);
+                            NatashaLoadContext.DefaultContext.ReferenceRecorder.AddReference(result.Value.asmName, result.Value.metadata, AssemblyCompareInfomation.None);
                         }
                     });
                 }
@@ -241,7 +241,7 @@ internal static class NatashaInitializer
                         var result = MetadataHelper.GetMetadataFromFile(path, _excludeReferencesFunc);
                         if (result != null)
                         {
-                            NatashaLoadContext.DefaultContext.References.AddReference(result.Value.asmName, result.Value.metadata, AssemblyCompareInfomation.None);
+                            NatashaLoadContext.DefaultContext.ReferenceRecorder.AddReference(result.Value.asmName, result.Value.metadata, AssemblyCompareInfomation.None);
                         }
                     });
                 }
