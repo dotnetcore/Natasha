@@ -23,7 +23,7 @@ public class DomainPrepare
 #endif
         DefaultAssembliesCount = AssemblyLoadContext.Default.Assemblies.Count();
         NatashaManagement.Preheating((item, name) => name!.Contains("IO"), true, false);
-        DefaultUsingCount = NatashaLoadContext.DefaultContext.References.Count;
+        DefaultUsingCount = NatashaLoadContext.DefaultContext.ReferenceRecorder.Count;
     }
 
 }

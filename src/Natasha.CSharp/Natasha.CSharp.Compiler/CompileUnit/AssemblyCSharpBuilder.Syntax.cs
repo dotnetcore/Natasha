@@ -136,17 +136,14 @@ public sealed partial class AssemblyCSharpBuilder
         switch (usingLoadBehavior)
         {
             case UsingLoadBehavior.WithDefault:
-                this.CheckNullLoadContext();
                 return AddScript(NatashaLoadContext.DefaultContext.UsingRecorder + script);
             case UsingLoadBehavior.WithCurrent:
-                this.CheckNullLoadContext();
                 if (Domain!.Name == NatashaLoadContext.DefaultName)
                 {
                     return AddScript(NatashaLoadContext.DefaultContext.UsingRecorder + script);
                 }
                 return AddScript(LoadContext!.UsingRecorder + script);
             case UsingLoadBehavior.WithAll:
-                this.CheckNullLoadContext();
                 if (Domain!.Name == NatashaLoadContext.DefaultName)
                 {
                     return AddScript(NatashaLoadContext.DefaultContext.UsingRecorder + script);

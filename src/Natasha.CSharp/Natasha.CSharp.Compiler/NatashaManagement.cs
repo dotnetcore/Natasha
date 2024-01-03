@@ -5,7 +5,7 @@ using System.Reflection;
 
 public static partial class NatashaManagement
 {
-    public static void Preheating<T>(Func<AssemblyName?, string?, bool>? excludeReferencesFunc = null,
+    public static void Preheating<T>(Func<AssemblyName?, string?, bool>? excludeReferencesFunc,
         bool useRuntimeUsing = false,
         bool useRuntimeReference = false,
         bool useFileCache = false) where T : INatashaDynamicLoadContextCreator, new ()
@@ -14,7 +14,7 @@ public static partial class NatashaManagement
         NatashaInitializer.Preheating(excludeReferencesFunc, useRuntimeUsing, useRuntimeReference, useFileCache);
     }
 
-    public static void Preheatingg<T>(
+    public static void Preheating<T>(
         bool useRuntimeUsing = false,
         bool useRuntimeReference = false,
         bool useFileCache = false) where T : INatashaDynamicLoadContextCreator, new()
@@ -27,7 +27,7 @@ public static partial class NatashaManagement
     /// 和 NatashaInitializer.Preheating(); 一样
     /// </summary>
     public static void Preheating(
-        Func<AssemblyName?, string?, bool>? excludeReferencesFunc = null,
+        Func<AssemblyName?, string?, bool>? excludeReferencesFunc,
         bool useRuntimeUsing = false, 
         bool useRuntimeReference = false,
         bool useFileCache = false)
@@ -163,7 +163,7 @@ public static partial class NatashaManagement
         {
             return false;
         }
-        NatashaLoadContext.DefaultContext.References.RemoveReference(type.Assembly.GetName());
+        NatashaLoadContext.DefaultContext.ReferenceRecorder.RemoveReference(type.Assembly.GetName());
         return true;
     }
 }

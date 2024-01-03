@@ -110,7 +110,6 @@ public sealed partial class AssemblyCSharpBuilder
         //{
         //    _compilerOptions.WithLowerVersionsAssembly();
         //}
-        this.CheckNullLoadContext();
         var options = _compilerOptions.GetCompilationOptions(_codeOptimizationLevel, _withDebugInfo);
         if (initOptionsFunc != null)
         {
@@ -123,7 +122,7 @@ public sealed partial class AssemblyCSharpBuilder
         }
         else if (_combineReferenceBehavior == CombineReferenceBehavior.UseCurrent)
         {
-            references = LoadContext!.References.GetReferences();
+            references = LoadContext!.ReferenceRecorder.GetReferences();
         }
         else
         {

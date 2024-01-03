@@ -6,14 +6,14 @@ namespace NatashaFunctionUT.Template
 {
 
     [Trait("基础功能测试", "模板")]
-    public class FieldTemplateTest
+    public class FieldTemplateTest:DomainPrepareBase
     {
 
         [Fact(DisplayName = "静态字段1")]
         public void Test1()
         {
 
-            FieldBuilder template = new FieldBuilder();
+            FieldBuilder template = new();
             var result = template
                 .AttributeAppend("[Test]")
                 .Access("public")
@@ -34,7 +34,7 @@ namespace NatashaFunctionUT.Template
         public void Test2()
         {
 
-            FieldBuilder template = new FieldBuilder();
+            FieldBuilder template = new();
             var result = template
                 .AttributeAppend("[Test][Test1]")
                 .Access(AccessFlags.Public)
@@ -55,7 +55,7 @@ namespace NatashaFunctionUT.Template
         public void Test3()
         {
 
-            FieldBuilder template = new FieldBuilder();
+            FieldBuilder template = new();
             var result = template
                 .AttributeAppend("[Test]")
                 .Access(AccessFlags.Public)
@@ -74,7 +74,7 @@ namespace NatashaFunctionUT.Template
         public void Test4()
         {
 
-            FieldBuilder template = new FieldBuilder();
+            FieldBuilder template = new();
             var result = template
                 .AttributeAppend<ClassDataAttribute>()
                 .Access(AccessFlags.Public)
@@ -92,7 +92,7 @@ namespace NatashaFunctionUT.Template
         public void Test5()
         {
 
-            FieldBuilder template = new FieldBuilder();
+            FieldBuilder template = new();
             var result = template
                 .AttributeAppend<ClassDataAttribute>()
                 .Access(AccessFlags.Public)

@@ -8,7 +8,7 @@ namespace NatashaFunctionUT
     {
         static DomainPrepareBase()
         {
-            NatashaManagement.RegistDomainCreator<NatashaDomainCreator>();
+            NatashaManagement.Preheating<NatashaDomainCreator>();
         }
     }
 }

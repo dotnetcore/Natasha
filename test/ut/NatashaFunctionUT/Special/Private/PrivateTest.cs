@@ -11,7 +11,7 @@ namespace NatashaFunctionUT.Special
         [Fact(DisplayName = "私有成员调用")]
         public void Test()
         {
-            PrivateMemberClassModel test = new PrivateMemberClassModel();
+            PrivateMemberClassModel test = new();
             var action = NDelegate
                 .RandomDomain(builder => builder
                     .UseSmartMode()
@@ -52,9 +52,11 @@ namespace NatashaFunctionUT.Special
                 {
                     builder
                     .UseSimpleMode()
-                    .AddReferenceAndUsingCode(typeof(List<int>))
+                    .ConfigLoadContext(ld=>
+                    ld.AddReferenceAndUsingCode(typeof(List<int>))
                     .AddReferenceAndUsingCode(typeof(object))
                     .AddReferenceAndUsingCode(typeof(System.Runtime.CompilerServices.IgnoresAccessChecksToAttribute))
+                    )
                     .ConfigCompilerOption(opt => opt
                         .WithAllMetadata()
                         .WithCompilerFlag(Natasha.CSharp.Compiler.CompilerBinderFlags.IgnoreAccessibility | Natasha.CSharp.Compiler.CompilerBinderFlags.IgnoreCorLibraryDuplicatedTypes));
@@ -63,7 +65,7 @@ namespace NatashaFunctionUT.Special
                     foreach (var name in assemblyNames)
                     {
                         var assmebly = Assembly.Load(name);
-                        builder.AddReferenceAndUsingCode(assmebly, AssemblyCompareInfomation.UseForce);
+                        builder.LoadContext!.AddReferenceAndUsingCode(assmebly, AssemblyCompareInfomation.UseForce);
                     }
 
                 })

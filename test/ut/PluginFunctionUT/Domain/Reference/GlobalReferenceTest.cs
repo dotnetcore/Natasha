@@ -19,7 +19,7 @@ namespace NatashaFunctionUT.Reference
                 .Default
                 .CompileLibraries.SelectMany(cl => cl.ResolveReferencePaths());
 
-            var count = NatashaLoadContext.DefaultContext.References.Count;
+            var count = NatashaLoadContext.DefaultContext.ReferenceRecorder.Count;
             Assert.True(NatashaLoadContext.DefaultContext.UsingRecorder.HasUsing("System.Threading"));
             Assert.False(NatashaLoadContext.DefaultContext.UsingRecorder.HasUsing("System.IO"));
         }
