@@ -1,31 +1,50 @@
 ﻿using Natasha.CSharp.Compiler.Component;
 using Natasha.DynamicLoad.Base;
 using System;
+using System.Diagnostics;
 using System.Reflection;
 
 public static partial class NatashaManagement
 {
-    public static void Preheating<T>(Func<AssemblyName?, string?, bool>? excludeReferencesFunc,
+    /// <summary>
+    /// 预热方法
+    /// </summary>
+    /// <typeparam name="TCreator">实现 INatashaDynamicLoadContextCreator 的类</typeparam>
+    /// <param name="excludeReferencesFunc"></param>
+    /// <param name="useRuntimeUsing">是否使用实现程序集的 using</param>
+    /// <param name="useRuntimeReference">是否使用实现程序集的元数据</param>
+    /// <param name="useFileCache">是否使用 using 缓存</param>
+    public static void Preheating<TCreatorT>(Func<AssemblyName?, string?, bool>? excludeReferencesFunc,
         bool useRuntimeUsing = false,
         bool useRuntimeReference = false,
-        bool useFileCache = false) where T : INatashaDynamicLoadContextCreator, new ()
+        bool useFileCache = false) where TCreatorT : INatashaDynamicLoadContextCreator, new ()
     {
-        RegistDomainCreator<T>();
+        RegistDomainCreator<TCreatorT>();
         NatashaInitializer.Preheating(excludeReferencesFunc, useRuntimeUsing, useRuntimeReference, useFileCache);
     }
-
-    public static void Preheating<T>(
+    /// <summary>
+    /// 预热方法
+    /// </summary>
+    /// <typeparam name="TCreator">实现 INatashaDynamicLoadContextCreator 的类</typeparam>
+    /// <param name="useRuntimeUsing">是否使用实现程序集的 using</param>
+    /// <param name="useRuntimeReference">是否使用实现程序集的元数据</param>
+    /// <param name="useFileCache">是否使用 using 缓存</param>
+    public static void Preheating<TCreator>(
         bool useRuntimeUsing = false,
         bool useRuntimeReference = false,
-        bool useFileCache = false) where T : INatashaDynamicLoadContextCreator, new()
+        bool useFileCache = false) where TCreator : INatashaDynamicLoadContextCreator, new()
     {
-        RegistDomainCreator<T>();
+        RegistDomainCreator<TCreator>();
         NatashaInitializer.Preheating(null, useRuntimeUsing, useRuntimeReference, useFileCache);
     }
 
     /// <summary>
-    /// 和 NatashaInitializer.Preheating(); 一样
+    /// 预热方法,调用此方法之前需要调用 RegistDomainCreator<TCreatorT> 确保域的创建
     /// </summary>
+    /// <param name="excludeReferencesFunc"></param>
+    /// <param name="useRuntimeUsing">是否使用实现程序集的 using</param>
+    /// <param name="useRuntimeReference">是否使用实现程序集的元数据</param>
+    /// <param name="useFileCache">是否使用 using 缓存</param>
     public static void Preheating(
         Func<AssemblyName?, string?, bool>? excludeReferencesFunc,
         bool useRuntimeUsing = false, 
@@ -34,6 +53,13 @@ public static partial class NatashaManagement
     {
         NatashaInitializer.Preheating(excludeReferencesFunc, useRuntimeUsing, useRuntimeReference, useFileCache);
     }
+
+    /// <summary>
+    /// 预热方法,调用此方法之前需要调用 RegistDomainCreator<TCreatorT> 确保域的创建
+    /// </summary>
+    /// <param name="useRuntimeUsing">是否使用实现程序集的 using</param>
+    /// <param name="useRuntimeReference">是否使用实现程序集的元数据</param>
+    /// <param name="useFileCache">是否使用 using 缓存</param>
     public static void Preheating(
         bool useRuntimeUsing = false,
         bool useRuntimeReference = false, 
@@ -42,45 +68,23 @@ public static partial class NatashaManagement
         NatashaInitializer.Preheating(null, useRuntimeUsing, useRuntimeReference, useFileCache);
     }
 
-    public static void RegistDomainCreator<T>() where T : INatashaDynamicLoadContextCreator, new()
-    {
-        NatashaLoadContext<T>.Prepare();
-    }
-
     /// <summary>
-    /// 增加全局 Using 引用,其他编译将默认添加该 Using
-    /// 例如: AddGlobalUsing("System.IO");
+    /// 注册域的实现
     /// </summary>
-    /// <param name="namespaces"></param>
-    public static void AddGlobalUsing(params string[] @namespaces)
+    /// <typeparam name="TCreator">INatashaDynamicLoadContextCreator 的实现类</typeparam>
+    public static void RegistDomainCreator<TCreator>() where TCreator : INatashaDynamicLoadContextCreator, new()
     {
-        NatashaLoadContext.DefaultContext.UsingRecorder.Using(@namespaces);
+#if DEBUG
+        //StopwatchExtension.EnableMemoryMonitor();
+        Stopwatch stopwatch = new();
+        stopwatch.Start();
+#endif
+        NatashaLoadContext<TCreator>.Prepare();
+#if DEBUG
+        stopwatch.StopAndShowCategoreInfo("[  Regist Domain  ]", "注册域实现", 1);
+#endif
     }
 
-    /// <summary>
-    /// 增加全局 Using 引用,其他编译将默认添加该 Using
-    /// 例如: AddGlobalUsing("System.IO");
-    /// </summary>
-    /// <param name="namespaces"></param>
-    public static void AddGlobalUsing(params Assembly[] @namespaces)
-    {
-        foreach (var item in @namespaces)
-        {
-            NatashaLoadContext.DefaultContext.UsingRecorder.Using(item);
-
-
-        }
-    }
-
-    /// <summary>
-    /// 移除全局 Using 引用
-    /// 例如: RemoveGlobalUsing("System.IO");
-    /// </summary>
-    /// <param name="namespaces"></param>
-    public static void RemoveGlobalUsing(params string[] @namespaces)
-    {
-        NatashaLoadContext.DefaultContext.UsingRecorder.Remove(@namespaces);
-    }
 
     /// <summary>
     /// 获取系统域
@@ -106,65 +110,6 @@ public static partial class NatashaManagement
     public static NatashaLoadContext CreateRandomDomain()
     {
         return DomainManagement.Random();
-    }
-
-    /// <summary>
-    /// 增加元数据引用,从内存中提取实现程序集并加载到共享域中.
-    /// </summary>
-    /// <param name="type"></param>
-    /// <param name="loadBehavior">加载行为,如果有相同类型的引用, 那么此枚举会比较新旧程序集版本</param>
-    /// <returns></returns>
-    public static bool AddGlobalReferenceAndUsing(Type type, AssemblyCompareInfomation loadBehavior = AssemblyCompareInfomation.None)
-    {
-        return AddGlobalReferenceAndUsing(type.Assembly, loadBehavior);
-    }
-    /// <summary>
-    /// 增加元数据引用,从内存中提取实现程序集并加载到共享域中.
-    /// </summary>
-    /// <param name="assembly"></param>
-    /// <param name="loadBehavior"></param>
-    /// <returns></returns>
-    public static bool AddGlobalReferenceAndUsing(Assembly assembly, AssemblyCompareInfomation loadBehavior = AssemblyCompareInfomation.None)
-    {
-        var result = MetadataHelper.GetMetadataAndNamespaceFromMemory(assembly);
-        if (result != null)
-        {
-            NatashaLoadContext.DefaultContext.AddReferenceAndUsing(result.Value.asmName, result.Value.metadata, result.Value.namespaces, loadBehavior);
-            return true;
-        }
-        return false;
-    }
-
-    /// <summary>
-    /// 增加元数据以及UsingCode, 从文件中提取元数据并加载到共享域中。
-    /// </summary>
-    /// <param name="filePath"></param>
-    /// <returns></returns>
-    public static bool AddGlobalReferenceAndUsing(string filePath, AssemblyCompareInfomation loadBehavior = AssemblyCompareInfomation.None)
-    {
-        var result = MetadataHelper.GetMetadataAndNamespaceFromFile(filePath);
-        if (result != null)
-        {
-            NatashaLoadContext.DefaultContext.AddReferenceAndUsing(result.Value.asmName, result.Value.metadata, result.Value.namespaces, loadBehavior);
-            return true;
-        }
-        return false;
-    }
-
-    /// <summary>
-    /// 移除元数据引用,编译需要元数据支持.
-    /// </summary>
-    /// <param name="type"></param>
-    /// <param name="loadBehavior">加载行为,如果有相同类型的引用, 那么此枚举会比较新旧程序集版本</param>
-    /// <returns></returns>
-    public static bool RemoveGlobalReference(Type type, AssemblyCompareInfomation loadBehavior = AssemblyCompareInfomation.None)
-    {
-        if (type.Assembly.IsDynamic || type.Assembly.GetName() == null)
-        {
-            return false;
-        }
-        NatashaLoadContext.DefaultContext.ReferenceRecorder.RemoveReference(type.Assembly.GetName());
-        return true;
     }
 }
 
