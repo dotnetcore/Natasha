@@ -34,7 +34,6 @@ internal static class NatashaInitializer
 
                 _excludeReferencesFunc = excludeReferencesFunc;
 #if DEBUG
-                //StopwatchExtension.EnableMemoryMonitor();
                 Stopwatch stopwatchTotal = new();
                 stopwatchTotal.Start();
 #endif
@@ -42,9 +41,6 @@ internal static class NatashaInitializer
                 AssemblyCSharpBuilder.HasInitialized = true;
                 _isCompleted = true;
 
-               
-                //var randomDomain = DomainManagement.Random();
-                
                 var task = Task.Run(() =>
                 {
 
@@ -62,24 +58,18 @@ internal static class NatashaInitializer
                             Natasha.CSharp.Compiler.CompilerBinderFlags.UncheckedRegion)
                     )
                 .ConfigLoadContext(load=>load.AddReferenceAndUsingCode(typeof(object)))
+                .WithoutInjectToDomain()
                     .FastAddScriptWithoutCheck("public class A{}");
                     tempBuilder.GetAssembly();
                     tempBuilder.Domain.Dispose();
 
                 });
 
-
-
 #if DEBUG
                 Stopwatch stopwatch = new();
                 stopwatch.Start();
-                stopwatch.RestartAndShowCategoreInfo("[  Domain  ]", "默认信息初始化", 1);
 #endif
 
-                var assemblies = NatashaAsssemblyHelper.GetRuntimeAssemblies();
-#if DEBUG
-                stopwatch.RestartAndShowCategoreInfo("[  Assembly  ]", "程序集扫描与加载", 1);
-#endif
                 Queue<ParallelLoopResult> parallelLoopResults = [];
                 var namespaceCacheFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Natasha.Namespace.cache");
                 //不需要处理 using
@@ -91,6 +81,7 @@ internal static class NatashaInitializer
                     NatashaLoadContext.DefaultContext.UsingRecorder.Using(namespaceText);
                     if (useRuntimeReference)
                     {
+                        var assemblies = NatashaAsssemblyHelper.GetRuntimeAssemblies();
                         parallelLoopResults.Enqueue(InitReferenceFromRuntime(assemblies));
                     }
                     else
@@ -112,10 +103,12 @@ internal static class NatashaInitializer
                     {
                         if (useRuntimeUsing)
                         {
+                            var assemblies = NatashaAsssemblyHelper.GetRuntimeAssemblies();
                             parallelLoopResults.Enqueue(InitReferenceAndUsingFromRuntime(assemblies));
                         }
                         else
                         {
+                            var assemblies = NatashaAsssemblyHelper.GetRuntimeAssemblies();
                             parallelLoopResults.Enqueue(InitReferenceFromRuntime(assemblies));
                             var paths = NatashaAsssemblyHelper.GetReferenceAssmeblyFiles(excludeReferencesFunc);
                             if (paths != null && paths.Any())
@@ -136,6 +129,7 @@ internal static class NatashaInitializer
                             if (useRuntimeUsing)
                             {
                                 parallelLoopResults.Enqueue(InitReferenceFromPath(paths));
+                                var assemblies = NatashaAsssemblyHelper.GetRuntimeAssemblies();
                                 parallelLoopResults.Enqueue(InitUsingFromRuntime(assemblies));
                             }
                             else
@@ -167,6 +161,7 @@ internal static class NatashaInitializer
                 cSharpBuilder
                     .UseRandomDomain()
                     .UseSmartMode()
+                    .WithoutInjectToDomain()
                     .FastAddScriptWithoutCheck(@"public class B{}")
                     .GetAssembly();
 

@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFrameworks>netcoreapp3.1;net5.0;net6.0;net7.0;net8.0;</TargetFrameworks>
 		<Description>Natasha 的编译模板</Description>
-		<PackageId>DotNetCore.Natasha.CSharp.Template</PackageId>
+		<PackageId>DotNetCore.Natasha.CSharp.Template.Core</PackageId>
 		<PackageReleaseNotes>升级到最新版.</PackageReleaseNotes>
 		<PackageTags>Roslyn;Script;Dynamic;Natasha;NMS;Template;</PackageTags>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
