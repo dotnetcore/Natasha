@@ -18,7 +18,7 @@ namespace UnloadTest31
             Console.WriteLine($"初始内存占用:{Process.GetCurrentProcess().PrivateMemorySize64 / 1024 / 1024}M");
             Console.WriteLine("-----------------------------------------------------------------------------------------");
 
-            ShowTaskResoucesInfomation("Natasha预热", ()=> { NatashaInitializer.Preheating(); }, ConsoleColor.Magenta);
+            ShowTaskResoucesInfomation("Natasha预热", ()=> { NatashaManagement.Preheating(); }, ConsoleColor.Magenta);
             Thread.Sleep(1000);
             Console.WriteLine("-----------------------------------------------------------------------------------------");
             Console.WriteLine($"预热后内存占用:{Process.GetCurrentProcess().PrivateMemorySize64 / 1024 / 1024}M");

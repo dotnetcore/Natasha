@@ -157,7 +157,6 @@ internal static class NatashaInitializer
                 stopwatch.RestartAndShowCategoreInfo("[  Metadata  ]", "编译缓存初始化", 1);
 #endif
                 AssemblyCSharpBuilder cSharpBuilder = new();
-                cSharpBuilder.ConfigCompilerOption(item => item.AddSupperess("CS8019"));
                 cSharpBuilder
                     .UseRandomDomain()
                     .UseSmartMode()
