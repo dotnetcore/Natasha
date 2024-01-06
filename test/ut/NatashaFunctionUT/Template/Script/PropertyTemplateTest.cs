@@ -6,7 +6,7 @@ namespace NatashaFunctionUT.Template
 {
 
     [Trait("基础功能测试", "模板")]
-    public class PropertyTemplateTest
+    public class PropertyTemplateTest : DomainPrepareBase
     {
         [Fact(DisplayName = "静态属性1")]
         public void Test1()

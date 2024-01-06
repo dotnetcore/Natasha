@@ -57,10 +57,10 @@ namespace ReferenceTest50
             //Microsoft.CodeAnalysis.Workspaces.ErrorLogger
             Check();
 
-            NatashaInitializer.Preheating((asm,name)=>name.Contains("IO"));
+            NatashaManagement.Preheating((asm,name)=>name.Contains("IO"));
             Check();
             AssemblyCSharpBuilder builder = new();
-            builder.Domain = DomainManagement.Random();
+            builder.LoadContext = DomainManagement.Random();
             builder.Add("public class Abved{ string Name; public int Age;}");
             var asm = builder.GetAssembly();
             Check();

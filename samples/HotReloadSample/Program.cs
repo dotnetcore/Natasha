@@ -120,7 +120,7 @@ namespace HotReloadSample
         {
             AssemblyCSharpBuilder builder = new AssemblyCSharpBuilder
             {
-                Domain = domain
+                LoadContext = domain
             };
             builder.Add("public class A{  public int Code = 1; public void Show(){ Console.WriteLine(Code);  }   }", UsingLoadBehavior.WithDefault);
             return builder.GetAssembly();
@@ -129,7 +129,7 @@ namespace HotReloadSample
         public static Assembly NewAssembly(NatashaLoadContext domain)
         {
             AssemblyCSharpBuilder builder = new AssemblyCSharpBuilder();
-            builder.Domain = domain;
+            builder.LoadContext = domain;
             builder.Add("public class A{  public int Code = 2; public void Show(){ Console.WriteLine(Code);  }   }", UsingLoadBehavior.WithDefault);
             return builder.GetAssembly();
         }

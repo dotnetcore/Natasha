@@ -31,7 +31,7 @@ public sealed partial class AssemblyCSharpBuilder
         _loadContext = NatashaLoadContext.DefaultContext;
         if (_loadContext == default!)
         {
-            throw new NullReferenceException("LoadContext 为空！请检查是否调用 NatashaManagement.Preheating 或 NatashaManagement.RegistDomainCreator, 若调用，请检查 Builder 是否创建了域！");
+            throw new NullReferenceException("LoadContext 为空！请检查是否调用 NatashaManagement.Preheating<> 或 NatashaManagement.RegistDomainCreator!");
         }
     }
 

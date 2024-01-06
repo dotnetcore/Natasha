@@ -36,17 +36,32 @@ namespace ReferenceSample
             //TestMini();
             //var a = Math.Min(1, args.Length);
             NatashaManagement.Preheating<NatashaDomainCreator>(true, true);
+
             //Console.WriteLine("=============================");
-            //AssemblyCSharpBuilder builder = new();
-            //var asm = builder
-            //    .UseRandomDomain()
-            //    .ConfigCompilerOption(item=>item.AddSupperess("CS8019"))
-            //    .WithCombineReferences(item => item.UseDefaultReferences())
-            //    .WithCombineUsingCode(UsingLoadBehavior.WithAll)
-            //    .Add("public class A{}",UsingLoadBehavior.WithAll)
-            //    .GetAssembly();
-            //Console.WriteLine(asm.FullName);
-            //Console.ReadKey();
+            AssemblyCSharpBuilder builder = new();
+            var asm = builder
+                .UseRandomDomain()
+                .UseSmartMode()
+                //.WithoutCombineUsingCode()
+                .WithFileOutput()
+                .WithReleaseCompile()
+                .WithoutInjectToDomain()
+                .OutputAsRefAssembly()
+                .Add(@"
+/// <summary>
+/// 测试类
+/// </summary>
+public class A{ 
+    /// <summary>
+    /// 输出信息
+    /// </summary>
+    public void Show(){ 
+        Console.WriteLine(1); 
+    }
+}")
+                .GetAssembly();
+            Console.WriteLine(asm.FullName);
+            Console.ReadKey();
             //NatashaInitializer.Preheating((asmName, name) => {
             //    if (name != null)
             //    {
