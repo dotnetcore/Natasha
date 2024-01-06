@@ -8,7 +8,7 @@ using Xunit;
 namespace NatashaFunctionUT.Template
 {
     [Trait("基础功能测试", "模板")]
-    public class OopTemplateTest 
+    public class OopTemplateTest : DomainPrepareBase
     {
 
         [Fact(DisplayName = "构建类")]
