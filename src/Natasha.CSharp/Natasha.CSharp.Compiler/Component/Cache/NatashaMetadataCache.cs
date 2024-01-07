@@ -84,9 +84,15 @@ namespace Natasha.CSharp.Compiler.Component
                 }
 
             }
+            if (_referenceNameCache.TryGetValue(name,out var asmName))
+            {
+                if (asmName.FullName == assemblyName.FullName)
+                {
+                    return;
+                }
+            }
             _referenceNameCache[name] = assemblyName;
             _referenceCache[assemblyName] = reference;
-
         }
         public bool HasReference(AssemblyName assemblyName)
         {

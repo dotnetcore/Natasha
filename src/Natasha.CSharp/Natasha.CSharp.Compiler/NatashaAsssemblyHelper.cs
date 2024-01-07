@@ -13,15 +13,19 @@ internal static class NatashaAsssemblyHelper
         var defaultContext = DependencyContext.Default;
         if (defaultContext != null)
         {
-            return new HashSet<Assembly>(defaultContext
+            var tempAssemblies = new HashSet<Assembly>(defaultContext
             .RuntimeLibraries
             .SelectMany(lib => lib
                 .GetDefaultAssemblyNames(defaultContext)
                 .Select(Assembly.Load)))
-            .ToArray();
+            {
+                typeof(object).Assembly
+            };
+            return [.. tempAssemblies];
         }
         else
         {
+            var noUseAsm = typeof(object).Assembly;
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
             foreach (var assembly in assemblies)
             {

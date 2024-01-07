@@ -35,6 +35,10 @@ namespace Natasha.CSharp.Compiler.Component.Exception
             {
                 exception.Formatter = first.Location.SourceTree.ToString();
             }
+            else if(compilation.SyntaxTrees.Length > 0)
+            {
+                exception.Formatter = compilation.SyntaxTrees[0].ToString();
+            }
             exception.CompileMessage = $"编译程序集为:{compilation.AssemblyName};CSharp版本:{compilation.LanguageVersion};";
             exception.ErrorKind = NatashaExceptionKind.Compile;
             return exception;

@@ -3,6 +3,7 @@ using Natasha.CSharp.Compiler.Component;
 using Natasha.DynamicLoad.Base;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 public static class NatashaLoadContext<TCreator> where TCreator : INatashaDynamicLoadContextCreator, new()
@@ -92,7 +93,7 @@ public sealed class NatashaLoadContext : IDisposable
         {
             AddReferenceAndUsing(result.Value.asmName, result.Value.metadata, result.Value.namespaces, loadReferenceBehavior);
             var assmblies = Creator.GetDependencyAssemblies(assembly);
-            if (assmblies != null)
+            if (assmblies != null && assmblies.Any())
             {
                 if (excludeAssembliesFunc != null)
                 {
