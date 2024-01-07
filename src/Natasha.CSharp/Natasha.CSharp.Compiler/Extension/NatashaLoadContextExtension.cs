@@ -3,7 +3,17 @@ using System.Reflection;
 
 public static class NatashaLoadContextExtension
 {
-
+    /// <summary>
+    /// 根据类型所在的 Assmely及其引用的程序集 增加元数据 和 using
+    /// </summary>
+    /// <typeparam name="T">要添加引用的类型</typeparam>
+    /// <param name="context">Natasha 加载上下文</param>
+    /// <param name="loadReferenceBehavior">加载行为</param>
+    /// <returns></returns>
+    public static NatashaLoadContext AddReferenceAndUsingCode<T>(this NatashaLoadContext context, AssemblyCompareInfomation loadReferenceBehavior = AssemblyCompareInfomation.None)
+    {
+        return context.AddReferenceAndUsingCode(typeof(T).Assembly, null, loadReferenceBehavior);
+    }
     /// <summary>
     /// 根据类型所在的 Assmely及其引用的程序集 增加元数据 和 using
     /// </summary>

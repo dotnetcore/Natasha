@@ -23,7 +23,7 @@ namespace NatashaFunctionUT
         _runtimeVersion = "net8.0";
 #endif
             DefaultAssembliesCount = AssemblyLoadContext.Default.Assemblies.Count();
-            NatashaInitializer.Preheating((item, name) => name!.Contains("IO"), true, false);
+            NatashaManagement.Preheating((item, name) => name!.Contains("IO"), true, true);
             DefaultUsingCount = NatashaLoadContext.DefaultContext.UsingRecorder.Count;
         }
     }

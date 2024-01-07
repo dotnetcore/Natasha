@@ -17,9 +17,14 @@ namespace Natasha.CSharp.Compiler.SemanticAnalaysis
             {
 
                 var trees = compilation.SyntaxTrees;
+#if DEBUG
+                int index = 0;
+#endif
                 foreach (var tree in trees)
                 {
 #if DEBUG
+                    index += 1;
+                    string treeName = $"脚本{index}";
                     Stopwatch stopwatch = new();
                     stopwatch.Start();
 #endif
@@ -27,12 +32,12 @@ namespace Natasha.CSharp.Compiler.SemanticAnalaysis
 
                     SemanticModel semantiModel = compilation.GetSemanticModel(tree, ignoreAccessibility);
 #if DEBUG
-                    stopwatch.RestartAndShowCategoreInfo("[Semantic]", "语义节点获取", 3);
+                    stopwatch.RestartAndShowCategoreInfo("[Semantic]", $"{treeName}_语义节点获取", 3);
 #endif
 
                     var errors = semantiModel.GetDiagnostics();
 #if DEBUG
-                    stopwatch.StopAndShowCategoreInfo("[Semantic]", "语义诊断获取", 3);
+                    stopwatch.StopAndShowCategoreInfo("[Semantic]", $"{treeName}_语义诊断获取", 3);
                     //stopwatch.Restart();
 #endif
 
@@ -76,7 +81,7 @@ namespace Natasha.CSharp.Compiler.SemanticAnalaysis
                         }
 
 #if DEBUG
-                        stopwatch.StopAndShowCategoreInfo("[Semantic]", "语义节点筛查", 3);
+                        stopwatch.StopAndShowCategoreInfo("[Semantic]", $"{treeName}_语义节点筛查", 3);
 #endif
                         if (errorNodes.Count > 0)
                         {
@@ -85,12 +90,14 @@ namespace Natasha.CSharp.Compiler.SemanticAnalaysis
 #endif
                             compilation = compilation.ReplaceSyntaxTree(tree, root.RemoveNodes(errorNodes, SyntaxRemoveOptions.KeepNoTrivia)!.SyntaxTree);
 #if DEBUG
-                            stopwatch.StopAndShowCategoreInfo("[Semantic]", "语义节点替换", 3);
+                            stopwatch.StopAndShowCategoreInfo("[Semantic]", $"{treeName}_语义节点替换", 3);
 #endif
                         }
-
                     }
 
+#if DEBUG
+                    Console.WriteLine();
+#endif
                 }
                 return compilation;
             };

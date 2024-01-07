@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -18,15 +19,18 @@ namespace Natasha.CSharp.Compiler.Component
         #region metadata & namespace in memroy
         public static unsafe (AssemblyName asmName, MetadataReference metadata, HashSet<string> namespaces)? GetMetadataAndNamespaceFromMemory(Assembly assembly, Func<AssemblyName?, string?, bool>? filter = null)
         {
+#if DEBUG
+            Debug.WriteLine($"~~提取元数据:{assembly.FullName}");
+#endif
             var asmName = assembly.GetName();
             if (NatashaLoadContext.Creator.TryGetRawMetadata(assembly, out var blob, out var length))
             {
                 if (filter == null || !filter(asmName, asmName.Name))
                 {
-
-                    return (asmName
-                        , AssemblyMetadata.Create(ModuleMetadata.CreateFromMetadata((IntPtr)blob, length)).GetReference()
-                        , GetNamespaceFromMemroy(assembly, filter)
+                    return (
+                        asmName, 
+                        AssemblyMetadata.Create(ModuleMetadata.CreateFromMetadata((IntPtr)blob, length)).GetReference(),
+                        GetNamespaceFromMemroy(assembly, filter)
                         );
                 }
             }
@@ -34,12 +38,14 @@ namespace Natasha.CSharp.Compiler.Component
         }
         public static unsafe (AssemblyName asmName, MetadataReference metadata)? GetMetadataFromMemory(Assembly assembly, Func<AssemblyName?, string?, bool>? filter = null)
         {
+#if DEBUG
+            Debug.WriteLine($"~~提取元数据:{assembly.FullName}");
+#endif
             var asmName = assembly.GetName();
             if (NatashaLoadContext.Creator.TryGetRawMetadata(assembly, out var blob, out var length))
             {
                 if (filter == null || !filter(asmName, asmName.Name))
                 {
-
                     return (asmName, AssemblyMetadata.Create(ModuleMetadata.CreateFromMetadata((IntPtr)blob, length)).GetReference());
                 }
             }
@@ -228,7 +234,7 @@ namespace Natasha.CSharp.Compiler.Component
             }
             return tempSets;
         }
-        #endregion
+#endregion
 
         #region metadata & namespace in file
         internal static (AssemblyName asmName, MetadataReference metadata, HashSet<string> namespaces)? GetMetadataAndNamespaceFromFile(string path, Func<AssemblyName?, string?, bool>? filter = null)

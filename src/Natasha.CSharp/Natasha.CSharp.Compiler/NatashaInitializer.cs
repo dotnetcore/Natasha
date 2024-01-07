@@ -57,9 +57,9 @@ internal static class NatashaInitializer
                             Natasha.CSharp.Compiler.CompilerBinderFlags.GenericConstraintsClause |
                             Natasha.CSharp.Compiler.CompilerBinderFlags.UncheckedRegion)
                     )
-                .ConfigLoadContext(load=>load.AddReferenceAndUsingCode(typeof(object)))
-                .WithoutInjectToDomain()
-                    .FastAddScriptWithoutCheck("public class A{}");
+                    .WithoutInjectToDomain()
+                    .ConfigLoadContext(ldc => ldc.AddReferenceAndUsingCode(typeof(object)))
+                    .FastAddScriptWithoutCheck("public class A{  public object? Test(){ return null; } }");
                     tempBuilder.GetAssembly();
                     tempBuilder.Domain.Dispose();
 
@@ -73,7 +73,7 @@ internal static class NatashaInitializer
                 Queue<ParallelLoopResult> parallelLoopResults = [];
                 var namespaceCacheFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Natasha.Namespace.cache");
                 //不需要处理 using
-                if(File.Exists(namespaceCacheFilePath) && useFileCache)
+                if (File.Exists(namespaceCacheFilePath) && useFileCache)
                 {
                     //从缓存文件中读取 using
                     var namespaceCache = File.ReadAllText(namespaceCacheFilePath, Encoding.UTF8);
@@ -87,7 +87,7 @@ internal static class NatashaInitializer
                     else
                     {
                         var paths = NatashaAsssemblyHelper.GetReferenceAssmeblyFiles(excludeReferencesFunc);
-                        if (paths != null && paths.Any()) 
+                        if (paths != null && paths.Any())
                         {
                             parallelLoopResults.Enqueue(InitReferenceFromPath(paths));
                         }
@@ -144,7 +144,7 @@ internal static class NatashaInitializer
                     }
                 }
 
-                while (parallelLoopResults.Count>0)
+                while (parallelLoopResults.Count > 0)
                 {
                     var result = parallelLoopResults.Dequeue();
                     while (!result.IsCompleted)
@@ -156,12 +156,13 @@ internal static class NatashaInitializer
 #if DEBUG
                 stopwatch.RestartAndShowCategoreInfo("[  Metadata  ]", "编译缓存初始化", 1);
 #endif
+
                 AssemblyCSharpBuilder cSharpBuilder = new();
                 cSharpBuilder
                     .UseRandomDomain()
                     .UseSmartMode()
                     .WithoutInjectToDomain()
-                    .FastAddScriptWithoutCheck(@"public class B{}")
+                    .FastAddScriptWithoutCheck(@"public class B{ public object? Test(){ return null; } }")
                     .GetAssembly();
 
                 cSharpBuilder.Domain.Dispose();

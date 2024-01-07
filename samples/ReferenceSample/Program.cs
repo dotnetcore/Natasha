@@ -1,6 +1,4 @@
-﻿using HotReloadPlugin;
-using Microsoft.CodeAnalysis;
-using Microsoft.Extensions.DependencyModel;
+﻿using Microsoft.CodeAnalysis;
 using Natasha.CSharp.Codecov.Utils;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
@@ -31,37 +29,41 @@ namespace ReferenceSample
             //var a = typeof(CodecovMonitor);
             //var b = typeof(A);
             //NatashaManagement.Preheating(true, true);
-            //NatashaManagement.RegistDomainCreator<NatashaDomainCreator>();
+            //Console.WriteLine(typeof(Attribute).Assembly.FullName);
+            //Console.WriteLine(typeof(Console).Assembly.FullName);
+            //Console.WriteLine(typeof(Math).Assembly.FullName);
+            NatashaManagement.RegistDomainCreator<NatashaDomainCreator>();
+            NatashaManagement.Preheating(true, true);
             //TestMini();
             //TestMini();
             //var a = Math.Min(1, args.Length);
-            NatashaManagement.Preheating<NatashaDomainCreator>(true, true);
+//            NatashaManagement.Preheating<NatashaDomainCreator>(true, true);
 
-            //Console.WriteLine("=============================");
-            AssemblyCSharpBuilder builder = new();
-            var asm = builder
-                .UseRandomDomain()
-                .UseSmartMode()
-                //.WithoutCombineUsingCode()
-                .WithFileOutput()
-                .WithReleaseCompile()
-                .WithoutInjectToDomain()
-                .OutputAsRefAssembly()
-                .Add(@"
-/// <summary>
-/// 测试类
-/// </summary>
-public class A{ 
-    /// <summary>
-    /// 输出信息
-    /// </summary>
-    public void Show(){ 
-        Console.WriteLine(1); 
-    }
-}")
-                .GetAssembly();
-            Console.WriteLine(asm.FullName);
-            Console.ReadKey();
+//            //Console.WriteLine("=============================");
+//            AssemblyCSharpBuilder builder = new();
+//            var asm = builder
+//                .UseRandomDomain()
+//                .UseSmartMode()
+//                //.WithoutCombineUsingCode()
+//                .WithFileOutput()
+//                .WithReleaseCompile()
+//                .WithoutInjectToDomain()
+//                .OutputAsRefAssembly()
+//                .Add(@"
+///// <summary>
+///// 测试类
+///// </summary>
+//public class A{ 
+//    /// <summary>
+//    /// 输出信息
+//    /// </summary>
+//    public void Show(){ 
+//        Console.WriteLine(1); 
+//    }
+//}")
+//                .GetAssembly();
+//            //Console.WriteLine(asm.FullName);
+//            Console.ReadKey();
             //NatashaInitializer.Preheating((asmName, name) => {
             //    if (name != null)
             //    {
@@ -99,15 +101,15 @@ public class A{
             AssemblyCSharpBuilder builder = new();
             builder
                .UseNewDomain("adasd")
-                .UseSmartMode()
-                .ConfigCompilerOption(item => item.WithLowerVersionsAssembly().WithDiagnosticLevel(ReportDiagnostic.Warn))
+                .ConfigCompilerOption(item => item.WithLowerVersionsAssembly())
                 //.WithFileOutput()
                 .WithDebugCompile(item => item.WriteToAssembly())
                 .UseSimpleMode()
                 .ConfigLoadContext(ldc=> ldc
                     .AddReferenceAndUsingCode(typeof(Math).Assembly)
                     .AddReferenceAndUsingCode(typeof(MathF).Assembly)
-                    .AddReferenceAndUsingCode(typeof(A))
+                    .AddReferenceAndUsingCode(typeof(object))
+                    .AddReferenceAndUsingCode(typeof(System.Runtime.AmbiguousImplementationException))
                     .AddReferenceAndUsingCode(typeof(CodecovMonitor))
                     .AddReferenceAndUsingCode(typeof(SuppressMessageAttribute)))
                ;
@@ -139,21 +141,22 @@ namespace MyNamespace{
         public static void TestMini()
         {
 
-            
             AssemblyCSharpBuilder builder = new();
             builder
                 .UseRandomDomain()
-                //.UseSmartMode()
-                .ConfigCompilerOption(item => item.WithLowerVersionsAssembly().WithDiagnosticLevel(ReportDiagnostic.Warn))
+                .ConfigCompilerOption(item => item.WithLowerVersionsAssembly())
                 //.WithFileOutput()
                 .WithDebugCompile(item => item.WriteToAssembly())
                 .UseSimpleMode()
-                .ConfigLoadContext(ldc=>ldc
-                    .AddReferenceAndUsingCode(typeof(Math).Assembly)
-                    .AddReferenceAndUsingCode(typeof(MathF).Assembly)
-                    .AddReferenceAndUsingCode(typeof(A))
-                    .AddReferenceAndUsingCode(typeof(CodecovMonitor))
-                    .AddReferenceAndUsingCode(typeof(SuppressMessageAttribute)))
+                .UseSmartMode()
+                //.ConfigLoadContext(ldc => ldc
+                //    .AddReferenceAndUsingCode(typeof(Math).Assembly)
+                //    .AddReferenceAndUsingCode(typeof(MathF).Assembly)
+                //    .AddReferenceAndUsingCode(typeof(object))
+                //    .AddReferenceAndUsingCode(typeof(Console))
+                //    .AddReferenceAndUsingCode(typeof(Attribute))
+                //    .AddReferenceAndUsingCode(typeof(CodecovMonitor))
+                //    .AddReferenceAndUsingCode(typeof(SuppressMessageAttribute)))
                 ;
 
 
@@ -175,8 +178,8 @@ public class A{
     /// </summary>
     public static object Invoke(){
         if(N1 == 10){
-            HotReloadPlugin.A asdasd = new();
-            asdasd.Show();
+            //HotReloadPlugin.A asdasd = new();
+           // asdasd.Show();
             int[] a = [1,2,3];
             Console.WriteLine(a);
             return N1 + MathF.Log10((float)Math.Sqrt(MathF.Sqrt(N2) + Math.Tan(N3)));
