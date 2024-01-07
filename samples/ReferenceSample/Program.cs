@@ -35,7 +35,7 @@ namespace ReferenceSample
             //TestMini();
             //TestMini();
             //var a = Math.Min(1, args.Length);
-            NatashaManagement.Preheating<NatashaDomainCreator>(true, true);
+            NatashaManagement.Preheating<NatashaDomainCreator>(true, true,true);
 
             //Console.WriteLine("=============================");
             AssemblyCSharpBuilder builder = new();
