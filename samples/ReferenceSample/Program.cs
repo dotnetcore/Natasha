@@ -34,7 +34,7 @@ namespace ReferenceSample
             //Console.WriteLine(typeof(Math).Assembly.FullName);
             NatashaManagement.RegistDomainCreator<NatashaDomainCreator>();
             NatashaManagement.Preheating(true, true);
-            //TestMini();
+            TestMini();
             //TestMini();
             //var a = Math.Min(1, args.Length);
 //            NatashaManagement.Preheating<NatashaDomainCreator>(true, true);
@@ -143,9 +143,9 @@ namespace MyNamespace{
 
             AssemblyCSharpBuilder builder = new();
             builder
+                //.ConfigSyntaxOptions(opt=>opt.WithLanguageVersion(Microsoft.CodeAnalysis.CSharp.LanguageVersion.CSharp11))
                 .UseRandomDomain()
                 .ConfigCompilerOption(item => item.WithLowerVersionsAssembly())
-                //.WithFileOutput()
                 .WithDebugCompile(item => item.WriteToAssembly())
                 .UseSimpleMode()
                 .UseSmartMode()
