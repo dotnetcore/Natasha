@@ -267,14 +267,14 @@ public sealed partial class AssemblyCSharpBuilder
                 }
             }
         }
-        dllStream.Dispose();
-        pdbStream?.Dispose();
-        xmlStream?.Dispose();
-        if (!compileResult.Success)
+        else
         {
             CompileFailedEvent?.Invoke(_compilation, compileResult.Diagnostics);
             throw NatashaExceptionAnalyzer.GetCompileException(_compilation, compileResult.Diagnostics);
         }
+        dllStream.Dispose();
+        pdbStream?.Dispose();
+        xmlStream?.Dispose();
 
 #if DEBUG
         stopwatch.StopAndShowCategoreInfo("[  Emit  ]", "编译时长", 2);
