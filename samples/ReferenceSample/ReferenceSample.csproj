@@ -39,7 +39,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Natasha.CSharp\Component\Core\Natasha.CSharp.Compiler.Domain\Natasha.CSharp.Compiler.Domain.csproj" />
-    <ProjectReference Include="..\..\src\Natasha.CSharp\Extension\Natasha.CSharp.Codecov\Natasha.CSharp.Codecov.csproj" />
+    <ProjectReference Include="..\..\src\Natasha.CSharp\Extension\Natasha.CSharp.Extension.Codecov\Natasha.CSharp.Extension.Codecov.csproj" />
   </ItemGroup>
 
   <!--<ItemGroup>
