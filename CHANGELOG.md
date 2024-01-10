@@ -20,6 +20,10 @@ Example:
 ## [8.0.0.0] - 2024-01-10 
 
 
+### DotNetCore.Natasha.DynamicLoad.Base _ v8.0.0.0:
+- INatashaDynamicLoadContextBase 接口来规范域的行为.
+- INatashaDynamicLoadContextCreator 接口来规范创建域以及其他 Runtime 方法的实现.
+
 ### DotNetCore.Natasha.Domain _ v8.0.0.0:
 - 优化域加载时程序集比对的逻辑.
 - 相同依赖不会二次加载.
@@ -53,8 +57,3 @@ Example:
 
 ### DotNetCore.Natasha.CSharp.Extension.Ambiguity _ v8.0.0.0:
 - 全面兼容 Standard2.0.
-
-
-### DotNetCore.Natasha.DynamicLoad.Base _ v8.0.0.0:
-- INatashaDynamicLoadContextBase 接口来规范域的行为.
-- INatashaDynamicLoadContextCreator 接口来规范创建域以及其他 Runtime 方法的实现.
