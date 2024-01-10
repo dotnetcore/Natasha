@@ -13,21 +13,21 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="build\netcoreapp3.1\DotNetCore.Natasha.CSharp.Template.targets" />
-		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildTransitive\netcoreapp3.1\DotNetCore.Natasha.CSharp.Template.targets" />
-		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildMultiTargeting\netcoreapp3.1\DotNetCore.Natasha.CSharp.Template.targets" />
-		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="build\net5.0\DotNetCore.Natasha.CSharp.Template.targets" />
-		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildTransitive\net5.0\DotNetCore.Natasha.CSharp.Template.targets" />
-		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildMultiTargeting\net5.0\DotNetCore.Natasha.CSharp.Template.targets" />
-		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="build\net6.0\DotNetCore.Natasha.CSharp.Template.targets" />
-		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildTransitive\net6.0\DotNetCore.Natasha.CSharp.Template.targets" />
-		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildMultiTargeting\net6.0\DotNetCore.Natasha.CSharp.Template.targets" />
-		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="build\net7.0\DotNetCore.Natasha.CSharp.Template.targets" />
-		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildTransitive\net7.0\DotNetCore.Natasha.CSharp.Template.targets" />
-		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildMultiTargeting\net7.0\DotNetCore.Natasha.CSharp.Template.targets" />
-		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="build\net8.0\DotNetCore.Natasha.CSharp.Template.targets" />
-		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildTransitive\net8.0\DotNetCore.Natasha.CSharp.Template.targets" />
-		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildMultiTargeting\net8.0\DotNetCore.Natasha.CSharp.Template.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="build\netcoreapp3.1\DotNetCore.Natasha.CSharp.Template.Core.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildTransitive\netcoreapp3.1\DotNetCore.Natasha.CSharp.Template.Core.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildMultiTargeting\netcoreapp3.1\DotNetCore.Natasha.CSharp.Template.Core.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="build\net5.0\DotNetCore.Natasha.CSharp.Template.Core.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildTransitive\net5.0\DotNetCore.Natasha.CSharp.Template.Core.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildMultiTargeting\net5.0\DotNetCore.Natasha.CSharp.Template.Core.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="build\net6.0\DotNetCore.Natasha.CSharp.Template.Core.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildTransitive\net6.0\DotNetCore.Natasha.CSharp.Template.Core.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildMultiTargeting\net6.0\DotNetCore.Natasha.CSharp.Template.Core.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="build\net7.0\DotNetCore.Natasha.CSharp.Template.Core.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildTransitive\net7.0\DotNetCore.Natasha.CSharp.Template.Core.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildMultiTargeting\net7.0\DotNetCore.Natasha.CSharp.Template.Core.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="build\net8.0\DotNetCore.Natasha.CSharp.Template.Core.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildTransitive\net8.0\DotNetCore.Natasha.CSharp.Template.Core.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildMultiTargeting\net8.0\DotNetCore.Natasha.CSharp.Template.Core.targets" />
 	</ItemGroup>
 
 	<ItemGroup>

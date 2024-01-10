@@ -87,9 +87,8 @@ samples:
   projects: []
 src:
   folded_projects:
-  - src/Natasha.CSharp/Framework/Natasha.CSharp.Template.Framework/Natasha.CSharp.Template.Framework.csproj
-  - src/Natasha.CSharp/Extension/Natasha.CSharp.Codecov/Natasha.CSharp.Codecov.csproj
   - src/Natasha.CSharp/Extension/Natasha.CSharp.Extension.Ambiguity/Natasha.CSharp.Extension.Ambiguity.csproj
+  - src/Natasha.CSharp/Extension/Natasha.CSharp.Extension.Codecov/Natasha.CSharp.Extension.Codecov.csproj
   global_labels:
   - name: pr_src
     description: 此次提交包含 [源码工程] 相关的改动.
@@ -134,7 +133,7 @@ src:
     is_folded: false
     relative_path: src/Natasha.CSharp/Natasha.DynamicLoad.Base/Natasha.DynamicLoad.Base.csproj
     project_name: Natasha.DynamicLoad.Base
-    package_name: 
+    package_name: DotNetCore.Natasha.DynamicLoad.Base
     project_folder: src/Natasha.CSharp/Natasha.DynamicLoad.Base
     labels: 
     dependency_config: 
