@@ -19,6 +19,7 @@ Example:
 
 
 ## [8.0.0.0] - 2024-01-10 
+
 ### DotNetCore.Natasha.DynamicLoad.Base _ v8.0.0.0:
 - INatashaDynamicLoadContextBase 接口来规范域的行为.
 - INatashaDynamicLoadContextCreator 接口来规范创建域以及其他 Runtime 方法的实现.
