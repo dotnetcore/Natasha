@@ -4,6 +4,7 @@ Note: In this file, do not use the hard wrap in the middle of a sentence for com
 
 发布日志节点案例格式如下(支持多版本发布):
 
+
 Example:
 
 ## [5.1.0.0] - 2023-04-02
@@ -17,38 +18,43 @@ Example:
 -->
 
 
-## [5.2.0.0] - 2023-04-26 
-### DotNetCore.Natasha.CSharp _ v5.2.2.1:
-- 使用 NMS Template 接管 CI 的部分功能.
-- 取消 SourceLink.GitHub 的继承性.
-- 优化几处内存占用问题.
-- 增加隐式 using 配置文件以支持隐式 using 引用. 当项目开启 `<ImplicitUsings>enable</ImplicitUsings>` 时,自动生效.
-- 增加初始化 PE 信息判断, 跳过无效 DLL 文件.
-- 整改 AssemblyCSharpBuilder, 修改几处 API:
-  - 增加 GetAvailableCompilation, 开发者使用此API可以进行单独编译信息整合以及语义语法修剪,其结果为 Compilation 属性, 为下一步编译程序集做准备.
-  - 增加 ClearCompilationCache 移除当前 编译单元的编译信息, 运行 GetAvailableCompilation/GetAssembly 将重新构建编译信息.
-  - 增加 WithRandomAssenblyName 将当前编译单元的程序集名更改为 GUID 随机名.
-  - 增加 ClearScript 清除当前编译单元储存的所有C#脚本代码.
-  - 增加 Clear 清除脚本代码,清除编译信息,清除程序集名.
-- 增加一个节省性能开销的 API.
-  - AnalysisIgnoreAccessibility(), 调用此方法,语义检测将检测元数据的访问级别,可能增加性能开销.
-  - NotAnalysisIgnoreAccessibility(), 调用此方法,语义检测将忽视检测元数据的访问级别,降低开销(编译单元默认使用的是低开销方案), 安全编程请选择此项.
-- 编译单元增加两个方便操作的 API.
-  - AddWithFullUsing(script): 增加脚本时,默认覆盖全域的 Using 引用.
-  - AddWithDefaultUsing(script): 增加脚本时,默认覆盖主域的 Using 引用.
-- 新增 Type 的扩展 API:
-  - GetDelegateFromType , 参考 GetDelegateFromShortName 的用法.
-- **[破坏性更改]** 下列 API, 从 AssemblyCSharpBuilder 的扩展方法 更改为 Assembly 类型的扩展方法:
-  - GetTypeFromShortName / GetTypeFromFullName, 
-  - GetMethodFromShortName / GetMethodFromFullName
-  - GetDelegateFromShortName / GetDelegateFromFullName
-> 使用迁移: builder.GetDelegateFromShortName() 更改为 builder.GetAssembly().GetDelegateFromShortName();
-> builder.GetAssembly() 仍然不可多次编译, 请及时缓存结果.
+## [8.0.0.0] - 2024-01-10 
+### DotNetCore.Natasha.DynamicLoad.Base _ v8.0.0.0:
+- INatashaDynamicLoadContextBase 接口来规范域的行为.
+- INatashaDynamicLoadContextCreator 接口来规范创建域以及其他 Runtime 方法的实现.
 
-### DotNetCore.Natasha.Domain _ v5.2.0.1:
-- 取消 SourceLink.GitHub 的继承性.
-- 增加隐式 using 配置文件以支持隐自动 using 引用.
 
-### DotNetCore.Natasha.Extension.Ambiguity _ v1.0.0.4:
-- 升级依赖
+### DotNetCore.Natasha.Domain _ v8.0.0.0:
+- 优化域加载时程序集比对的逻辑.
+- 相同依赖不会二次加载.
+
+
+### DotNetCore.Natasha.CSharp.Compiler.Domain _ v8.0.0.0:
+- 实现 `DotNetCore.Natasha.DynamicLoad.Base` 接口，支持 Natasha 域操作.
+
+
+### DotNetCore.Natasha.CSharp.Compiler _ v8.0.0.0:
+- 新增 智能模式、轻便模式、自定义模式 三种编译方式.
+- 新增 NatashaLoadContext 统一管理元数据.
+- 支持 实现程序集、引用程序集两种预热方式.
+- 支持 动态断点调试.
+- 支持 引用程序集输出.
+- 支持 隐藏的 Release 模式.
+- 全面兼容 Standard2.0.
+- 优化预热性能.
+- 优化预热内存涨幅.
+
+
+### DotNetCore.Natasha.CSharp.Template.Core _ v8.0.0.0:
+- 全面兼容 Standard2.0.
+- 为 `DotNetCore.Natasha.CSharp.Compiler` 提供 .NET Core3.1+ 脚本模板支持.
+
+
+### DotNetCore.Natasha.CSharp.Extension.Codecov _ v8.0.0.0:
+- 全面兼容 Standard2.0.
+- 支持动态程序集的方法使用率统计
+
+
+### DotNetCore.Natasha.CSharp.Extension.Ambiguity _ v8.0.0.0:
+- 全面兼容 Standard2.0.
 
