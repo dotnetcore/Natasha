@@ -4,6 +4,7 @@ Note: In this file, do not use the hard wrap in the middle of a sentence for com
 
 发布日志节点案例格式如下(支持多版本发布):
 
+
 Example:
 
 ## [5.1.0.0] - 2023-04-02
