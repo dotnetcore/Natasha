@@ -81,7 +81,6 @@ jobs:
       run: dotnet test './test/workflow/Workflow.Runner' --nologo -c Release
 
 
-        
 
   publish:
 
@@ -98,6 +97,7 @@ jobs:
           5.0.x
           6.0.x
           7.0.x
+          8.0.x
 
     - name: ✊ Release Dll
       run: dotnet build -c Release
