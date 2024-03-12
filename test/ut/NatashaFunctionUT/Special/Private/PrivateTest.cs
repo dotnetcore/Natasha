@@ -65,7 +65,7 @@ namespace NatashaFunctionUT.Special
                     foreach (var name in assemblyNames)
                     {
                         var assmebly = Assembly.Load(name);
-                        builder.LoadContext!.AddReferenceAndUsingCode(assmebly, AssemblyCompareInfomation.UseForce);
+                        builder.LoadContext!.AddReferenceAndUsingCode(assmebly, AssemblyCompareInformation.UseForce);
                     }
 
                 })

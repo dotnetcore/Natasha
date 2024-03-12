@@ -19,7 +19,7 @@ public partial class NatashaDomain : AssemblyLoadContext,IDisposable
         
         Default.Resolving += Default_Resolving;
         Default.ResolvingUnmanagedDll += Default_ResolvingUnmanagedDll;
-        AssemblyLoadBehavior = AssemblyCompareInfomation.None;
+        AssemblyLoadBehavior = AssemblyCompareInformation.None;
         _excludePluginReferencesFunc = item => false;
         _dependencyResolver = new AssemblyDependencyResolver(AppDomain.CurrentDomain.BaseDirectory!);
         Unsafe.AsRef(in DefaultDomain) = this;
@@ -34,7 +34,7 @@ public partial class NatashaDomain : AssemblyLoadContext,IDisposable
             throw new Exception("不可重复创建共享域！");
         }
        
-        AssemblyLoadBehavior = AssemblyCompareInfomation.None;
+        AssemblyLoadBehavior = AssemblyCompareInformation.None;
         _excludePluginReferencesFunc = item => false;
         _dependencyResolver = new AssemblyDependencyResolver(AppDomain.CurrentDomain.BaseDirectory!);
 

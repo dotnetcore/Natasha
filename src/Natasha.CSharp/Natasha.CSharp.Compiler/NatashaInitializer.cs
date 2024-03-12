@@ -195,7 +195,7 @@ internal static class NatashaInitializer
                         var result = MetadataHelper.GetMetadataFromMemory(assembly, _excludeReferencesFunc);
                         if (result != null)
                         {
-                            NatashaLoadContext.DefaultContext.ReferenceRecorder.AddReference(result.Value.asmName, result.Value.metadata, AssemblyCompareInfomation.None);
+                            NatashaLoadContext.DefaultContext.ReferenceRecorder.AddReference(result.Value.asmName, result.Value.metadata, AssemblyCompareInformation.None);
                         }
                     });
                 }
@@ -236,7 +236,7 @@ internal static class NatashaInitializer
                         var result = MetadataHelper.GetMetadataFromFile(path, _excludeReferencesFunc);
                         if (result != null)
                         {
-                            NatashaLoadContext.DefaultContext.ReferenceRecorder.AddReference(result.Value.asmName, result.Value.metadata, AssemblyCompareInfomation.None);
+                            NatashaLoadContext.DefaultContext.ReferenceRecorder.AddReference(result.Value.asmName, result.Value.metadata, AssemblyCompareInformation.None);
                         }
                     });
                 }

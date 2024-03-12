@@ -36,7 +36,7 @@ namespace NatashaFunctionUT.Reference
                 {
                     var metadata = AssemblyMetadata.Create(ModuleMetadata.CreateFromMetadata((IntPtr)blob, length));
                     var metadataReference = metadata.GetReference();
-                    referenceCache.AddReference(assembly.GetName(), metadataReference, AssemblyCompareInfomation.None);
+                    referenceCache.AddReference(assembly.GetName(), metadataReference, AssemblyCompareInformation.None);
                     count += 1;
                 }
                 //if (!item.IsDynamic && item.Location != string.Empty)
@@ -51,7 +51,7 @@ namespace NatashaFunctionUT.Reference
                 }
             }
             //Assembly Path='C:\Program Files\dotnet\shared\Microsoft.NETCore.App\5.0.12\System.Private.CoreLib.dll'
-            var references = referenceCache.CombineWithDefaultReferences(DefaultReferences, AssemblyCompareInfomation.UseDefault);
+            var references = referenceCache.CombineWithDefaultReferences(DefaultReferences, AssemblyCompareInformation.UseDefault);
            
 
             if (DefaultReferences.Count != references.Count)
@@ -68,7 +68,7 @@ namespace NatashaFunctionUT.Reference
         [Fact(DisplayName = "[合并版本引用]排重测试")]
         public void DistinctReferenceWithoutCompare()
         {
-            var sets = GetPortableExecutableReferences(AssemblyCompareInfomation.None);
+            var sets = GetPortableExecutableReferences(AssemblyCompareInformation.None);
             //dapper + json(12.0) + DNDV1 + runtime
             Assert.Equal(4, sets.Count);
 
@@ -77,7 +77,7 @@ namespace NatashaFunctionUT.Reference
         [Fact(DisplayName = "[高版本引用]排重测试")]
         public void DistinctReferenceWithHighVersion()
         {
-            var sets = GetPortableExecutableReferences(AssemblyCompareInfomation.UseHighVersion);
+            var sets = GetPortableExecutableReferences(AssemblyCompareInformation.UseHighVersion);
 #if NETCOREAPP3_1
             //dapper + json(12.0) + DNDV1
             Assert.Equal(3, sets.Count);
@@ -90,7 +90,7 @@ namespace NatashaFunctionUT.Reference
         [Fact(DisplayName = "[低版本引用]排重测试")]
         public void DistinctReferenceWithLowVersion()
         {
-            var sets = GetPortableExecutableReferences(AssemblyCompareInfomation.UseLowVersion);
+            var sets = GetPortableExecutableReferences(AssemblyCompareInformation.UseLowVersion);
 #if NETCOREAPP3_1
             //dapper + DNDV1
             Assert.Equal(2, sets.Count);
@@ -103,7 +103,7 @@ namespace NatashaFunctionUT.Reference
         [Fact(DisplayName = "[非同名引用]排重测试")]
         public void DistinctReferenceWithExistVersion()
         {
-            var sets = GetPortableExecutableReferences(AssemblyCompareInfomation.UseDefault);
+            var sets = GetPortableExecutableReferences(AssemblyCompareInformation.UseDefault);
 #if NETCOREAPP3_1
             //dapper + DNDV1
             Assert.Equal(2, sets.Count);

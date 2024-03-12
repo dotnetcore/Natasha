@@ -1,13 +1,13 @@
 ﻿public class DomainConfiguration
 {
-    internal AssemblyCompareInfomation _dependencyLoadBehavior = AssemblyCompareInfomation.None;
+    internal AssemblyCompareInformation _dependencyLoadBehavior = AssemblyCompareInformation.None;
 
     /// <summary>
     /// 配置当前域程序集的加载行为
     /// </summary>
     /// <param name="loadBehavior"></param>
     /// <returns></returns>
-    public void SetAssemblyLoadBehavior(AssemblyCompareInfomation loadBehavior)
+    public void SetAssemblyLoadBehavior(AssemblyCompareInformation loadBehavior)
     {
         _dependencyLoadBehavior = loadBehavior;
     }
@@ -17,7 +17,7 @@
     /// <returns></returns>
     public void WithHighVersionDependency()
     {
-        _dependencyLoadBehavior = AssemblyCompareInfomation.UseHighVersion;
+        _dependencyLoadBehavior = AssemblyCompareInformation.UseHighVersion;
     }
     /// <summary>
     /// 域加载动态程序集或者插件时，若遇到依赖程序集与主域程序集同名，则选择较低版本的依赖
@@ -25,7 +25,7 @@
     /// <returns></returns>
     public void WithLowVersionDependency()
     {
-        _dependencyLoadBehavior = AssemblyCompareInfomation.UseLowVersion;
+        _dependencyLoadBehavior = AssemblyCompareInformation.UseLowVersion;
     }
     /// <summary>
     /// 域加载动态程序集或者插件时，若遇到依赖程序集与主域程序集同名，则选择默认域的依赖程序集
@@ -33,7 +33,7 @@
     /// <returns></returns>
     public void WithDefaultVersionDependency()
     {
-        _dependencyLoadBehavior = AssemblyCompareInfomation.UseDefault;
+        _dependencyLoadBehavior = AssemblyCompareInformation.UseDefault;
     }
     /// <summary>
     /// 域加载动态程序集或者插件时，若遇到依赖程序集与主域程序集同名，则选择当前域的依赖程序集
@@ -41,7 +41,7 @@
     /// <returns></returns>
     public void WithCustomVersionDependency()
     {
-        _dependencyLoadBehavior = AssemblyCompareInfomation.UseCustom;
+        _dependencyLoadBehavior = AssemblyCompareInformation.UseCustom;
     }
 
 }

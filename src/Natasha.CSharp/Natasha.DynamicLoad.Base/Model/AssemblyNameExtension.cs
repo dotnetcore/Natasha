@@ -21,30 +21,30 @@ namespace System.Reflection
         /// <param name="defaultName">默认程序集名</param>
         /// <param name="loadBehavior">加载行为</param>
         /// <returns></returns>
-        public static AssemblyLoadVersionResult CompareWithDefault(this AssemblyName customaryName, AssemblyName defaultName, AssemblyCompareInfomation loadBehavior)
+        public static AssemblyLoadVersionResult CompareWithDefault(this AssemblyName customaryName, AssemblyName defaultName, AssemblyCompareInformation loadBehavior)
         {
-            if (loadBehavior == AssemblyCompareInfomation.None)
+            if (loadBehavior == AssemblyCompareInformation.None)
             {
                 return AssemblyLoadVersionResult.NoAction;
             }
-            else if (loadBehavior == AssemblyCompareInfomation.UseDefault)
+            else if (loadBehavior == AssemblyCompareInformation.UseDefault)
             {
                 return AssemblyLoadVersionResult.UseDefault;
             }
-            else if (loadBehavior == AssemblyCompareInfomation.UseCustom)
+            else if (loadBehavior == AssemblyCompareInformation.UseCustom)
             {
                 return AssemblyLoadVersionResult.UseCustomer;
             }
             else if (customaryName.Version != default && defaultName.Version != default)
             {
-                if (loadBehavior == AssemblyCompareInfomation.UseHighVersion)
+                if (loadBehavior == AssemblyCompareInformation.UseHighVersion)
                 {
                     if (customaryName.Version > defaultName.Version)
                     {
                         return AssemblyLoadVersionResult.UseCustomer;
                     }
                 }
-                else if (loadBehavior == AssemblyCompareInfomation.UseLowVersion)
+                else if (loadBehavior == AssemblyCompareInformation.UseLowVersion)
                 {
                     if (customaryName.Version < defaultName.Version)
                     {

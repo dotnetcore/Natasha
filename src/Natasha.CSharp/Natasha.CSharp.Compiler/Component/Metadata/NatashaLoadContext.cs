@@ -72,7 +72,7 @@ public sealed class NatashaLoadContext : IDisposable
     }
 
 
-    public NatashaLoadContext AddReferenceAndUsing(AssemblyName name, MetadataReference metadataReference, HashSet<string> usings, AssemblyCompareInfomation compareInfomation = AssemblyCompareInfomation.None)
+    public NatashaLoadContext AddReferenceAndUsing(AssemblyName name, MetadataReference metadataReference, HashSet<string> usings, AssemblyCompareInformation compareInfomation = AssemblyCompareInformation.None)
     {
         ReferenceRecorder.AddReference(name, metadataReference, compareInfomation);
         UsingRecorder.Using(usings);
@@ -86,7 +86,7 @@ public sealed class NatashaLoadContext : IDisposable
     /// <param name="assembly">程序集</param>
     /// <param name="excludeAssembliesFunc">过滤委托</param>
     /// <param name="loadReferenceBehavior">加载行为</param>
-    public NatashaLoadContext AddReferenceAndUsingCode(Assembly assembly, Func<AssemblyName, bool>? excludeAssembliesFunc = null, AssemblyCompareInfomation loadReferenceBehavior = AssemblyCompareInfomation.None)
+    public NatashaLoadContext AddReferenceAndUsingCode(Assembly assembly, Func<AssemblyName, bool>? excludeAssembliesFunc = null, AssemblyCompareInformation loadReferenceBehavior = AssemblyCompareInformation.None)
     {
         var result = MetadataHelper.GetMetadataAndNamespaceFromMemory(assembly, null);
         if (result.HasValue)
@@ -136,7 +136,7 @@ public sealed class NatashaLoadContext : IDisposable
     /// </summary>
     /// <param name="path">文件路径</param>
     /// <param name="loadReferenceBehavior">加载行为</param>
-    public NatashaLoadContext AddReferenceAndUsingCode(string path, AssemblyCompareInfomation loadReferenceBehavior = AssemblyCompareInfomation.None)
+    public NatashaLoadContext AddReferenceAndUsingCode(string path, AssemblyCompareInformation loadReferenceBehavior = AssemblyCompareInformation.None)
     {
         var result = MetadataHelper.GetMetadataAndNamespaceFromFile(path, null);
         if (result.HasValue)

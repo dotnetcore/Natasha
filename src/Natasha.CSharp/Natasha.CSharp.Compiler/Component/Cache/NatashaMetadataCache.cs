@@ -56,13 +56,13 @@ namespace Natasha.CSharp.Compiler.Component
         }
 
         public int Count { get { return _referenceCache.Count + _forceReferenceCache.Count; } }
-        public void AddReference(AssemblyName assemblyName, MetadataReference reference, AssemblyCompareInfomation loadReferenceBehavior)
+        public void AddReference(AssemblyName assemblyName, MetadataReference reference, AssemblyCompareInformation loadReferenceBehavior)
         {
 
             var name = assemblyName.GetUniqueName();
-            if (loadReferenceBehavior != AssemblyCompareInfomation.None)
+            if (loadReferenceBehavior != AssemblyCompareInformation.None)
             {
-                if (loadReferenceBehavior == AssemblyCompareInfomation.UseForce)
+                if (loadReferenceBehavior == AssemblyCompareInformation.UseForce)
                 {
                     lock (_forceReferenceCache)
                     {
@@ -128,13 +128,13 @@ namespace Natasha.CSharp.Compiler.Component
             }
             return _referenceCache.Values.Concat(_forceReferenceCache);
         }
-        internal HashSet<MetadataReference> CombineWithDefaultReferences(NatashaMetadataCache defaultCache, AssemblyCompareInfomation loadBehavior = AssemblyCompareInfomation.None, Func<AssemblyName, AssemblyName, AssemblyLoadVersionResult>? useAssemblyNameFunc = null)
+        internal HashSet<MetadataReference> CombineWithDefaultReferences(NatashaMetadataCache defaultCache, AssemblyCompareInformation loadBehavior = AssemblyCompareInformation.None, Func<AssemblyName, AssemblyName, AssemblyLoadVersionResult>? useAssemblyNameFunc = null)
         {
             var sets = new HashSet<MetadataReference>(_referenceCache.Values);
             var excludeNods = new HashSet<MetadataReference>();
             var defaultReferences = defaultCache._referenceCache;
             var defaultNameReferences = defaultCache._referenceNameCache;
-            if (loadBehavior != AssemblyCompareInfomation.None || useAssemblyNameFunc != null)
+            if (loadBehavior != AssemblyCompareInformation.None || useAssemblyNameFunc != null)
             {
                 foreach (var item in _referenceNameCache)
                 {

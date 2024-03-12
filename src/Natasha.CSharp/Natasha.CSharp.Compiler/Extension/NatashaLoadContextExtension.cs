@@ -10,7 +10,7 @@ public static class NatashaLoadContextExtension
     /// <param name="context">Natasha 加载上下文</param>
     /// <param name="loadReferenceBehavior">加载行为</param>
     /// <returns></returns>
-    public static NatashaLoadContext AddReferenceAndUsingCode<T>(this NatashaLoadContext context, AssemblyCompareInfomation loadReferenceBehavior = AssemblyCompareInfomation.None)
+    public static NatashaLoadContext AddReferenceAndUsingCode<T>(this NatashaLoadContext context, AssemblyCompareInformation loadReferenceBehavior = AssemblyCompareInformation.None)
     {
         return context.AddReferenceAndUsingCode(typeof(T).Assembly, null, loadReferenceBehavior);
     }
@@ -20,7 +20,7 @@ public static class NatashaLoadContextExtension
     /// <param name="context">Natasha 加载上下文</param>
     /// <param name="type">要添加引用的类型</param>
     /// <param name="loadReferenceBehavior">加载行为</param>
-    public static NatashaLoadContext AddReferenceAndUsingCode(this NatashaLoadContext context, Type type, AssemblyCompareInfomation loadReferenceBehavior = AssemblyCompareInfomation.None)
+    public static NatashaLoadContext AddReferenceAndUsingCode(this NatashaLoadContext context, Type type, AssemblyCompareInformation loadReferenceBehavior = AssemblyCompareInformation.None)
     {
         return context.AddReferenceAndUsingCode(type.Assembly, null, loadReferenceBehavior);
     }
@@ -32,7 +32,7 @@ public static class NatashaLoadContextExtension
     /// <param name="excludeAssembliesFunc">过滤委托</param>
     public static NatashaLoadContext AddReferenceAndUsingCode(this NatashaLoadContext context, Type type, Func<AssemblyName, bool> excludeAssembliesFunc)
     {
-        return context.AddReferenceAndUsingCode(type.Assembly, excludeAssembliesFunc, AssemblyCompareInfomation.None);
+        return context.AddReferenceAndUsingCode(type.Assembly, excludeAssembliesFunc, AssemblyCompareInformation.None);
     }
 
     /// <summary>
@@ -43,7 +43,7 @@ public static class NatashaLoadContextExtension
     /// <param name="excludeAssembliesFunc">过滤委托</param>
     public static NatashaLoadContext AddReferenceAndUsingCode(this NatashaLoadContext context, Assembly assembly, Func<AssemblyName, bool> excludeAssembliesFunc)
     {
-        return context.AddReferenceAndUsingCode(assembly, excludeAssembliesFunc, AssemblyCompareInfomation.None);
+        return context.AddReferenceAndUsingCode(assembly, excludeAssembliesFunc, AssemblyCompareInformation.None);
     }
 
     /// <summary>
@@ -52,7 +52,7 @@ public static class NatashaLoadContextExtension
     /// <param name="context">Natasha 加载上下文</param>
     /// <param name="assembly">程序集</param>
     /// <param name="loadReferenceBehavior">加载行为</param>
-    public static NatashaLoadContext AddReferenceAndUsingCode(this NatashaLoadContext context, Assembly assembly, AssemblyCompareInfomation loadReferenceBehavior)
+    public static NatashaLoadContext AddReferenceAndUsingCode(this NatashaLoadContext context, Assembly assembly, AssemblyCompareInformation loadReferenceBehavior)
     {
         return context.AddReferenceAndUsingCode(assembly, null, loadReferenceBehavior);
     }

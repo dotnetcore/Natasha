@@ -17,23 +17,23 @@ namespace NatashaFunctionUT.Domain.Plugin
             var path1 = PathCombine1("DNDV1.dll");
             var path2 = PathCombine2("DNDV2.dll");
 
-            var result = PluginAssertHelper.GetResult(path1, path2, AssemblyCompareInfomation.None, false);
+            var result = PluginAssertHelper.GetResult(path1, path2, AssemblyCompareInformation.None, false);
             Assert.Equal("InvalidCastException", result.r1);
             Assert.Equal("InvalidCastException", result.r2);
 
-            result = PluginAssertHelper.GetResult(path1, path2, AssemblyCompareInfomation.None);
+            result = PluginAssertHelper.GetResult(path1, path2, AssemblyCompareInformation.None);
             Assert.Equal("Json:12.0.0.0;Dapper:1.60.0.0;IPluginBase:1.0.0.0;Self:1.0.0.0", result.r1);
             Assert.Equal("FileLoadException", result.r2);
 
-            result = PluginAssertHelper.GetResult(path1, path2, AssemblyCompareInfomation.UseHighVersion);
+            result = PluginAssertHelper.GetResult(path1, path2, AssemblyCompareInformation.UseHighVersion);
             Assert.Equal("Json:12.0.0.0;Dapper:1.60.0.0;IPluginBase:1.0.0.0;Self:1.0.0.0", result.r1);
             Assert.Equal("Json:12.0.0.0;Dapper:1.60.0.0;IPluginBase:1.0.0.0;Self:1.0.0.0", result.r2);
 
-            result = PluginAssertHelper.GetResult(path1, path2, AssemblyCompareInfomation.UseLowVersion);
+            result = PluginAssertHelper.GetResult(path1, path2, AssemblyCompareInformation.UseLowVersion);
             Assert.Equal("Json:9.0.0.0;Dapper:1.60.0.0;IPluginBase:1.0.0.0;Self:1.0.0.0", result.r1);
             Assert.Equal("Json:9.0.0.0;Dapper:1.60.0.0;IPluginBase:1.0.0.0;Self:1.0.0.0", result.r2);
 
-            result = PluginAssertHelper.GetResult(path1, path2, AssemblyCompareInfomation.UseDefault);
+            result = PluginAssertHelper.GetResult(path1, path2, AssemblyCompareInformation.UseDefault);
             Assert.Equal("Json:9.0.0.0;Dapper:1.60.0.0;IPluginBase:1.0.0.0;Self:1.0.0.0", result.r1);
             Assert.Equal("Json:9.0.0.0;Dapper:1.60.0.0;IPluginBase:1.0.0.0;Self:1.0.0.0", result.r2);
         }

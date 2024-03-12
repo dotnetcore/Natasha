@@ -1,4 +1,4 @@
-﻿public enum AssemblyCompareInfomation
+﻿public enum AssemblyCompareInformation
 {
     None,
     UseHighVersion,

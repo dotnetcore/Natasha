@@ -4,17 +4,17 @@ using Natasha.CSharp.Component.Load;
 
 public class ReferenceConfiguration
 {
-    internal AssemblyCompareInfomation _compileReferenceBehavior = AssemblyCompareInfomation.None;
+    internal AssemblyCompareInformation _compileReferenceBehavior = AssemblyCompareInformation.None;
     internal Func<AssemblyName, AssemblyName, AssemblyLoadVersionResult>? _referenceSameNamePickFunc=null;
 
     /// <summary>
     /// 手动设置引用比较时，适用的程序集比较行为
     /// </summary>
-    /// <param name="assemblyCompareInfomation"></param>
+    /// <param name="AssemblyCompareInformation"></param>
     /// <returns></returns>
-    public ReferenceConfiguration SetCompareInfomation(AssemblyCompareInfomation assemblyCompareInfomation)
+    public ReferenceConfiguration SetCompareInfomation(AssemblyCompareInformation AssemblyCompareInformation)
     {
-        _compileReferenceBehavior = assemblyCompareInfomation;
+        _compileReferenceBehavior = AssemblyCompareInformation;
         return this;
     }
     /// <summary>
@@ -23,7 +23,7 @@ public class ReferenceConfiguration
     /// <returns></returns>
     public ReferenceConfiguration UseHighVersionReferences()
     {
-        _compileReferenceBehavior = AssemblyCompareInfomation.UseHighVersion;
+        _compileReferenceBehavior = AssemblyCompareInformation.UseHighVersion;
         return this;
     }
     /// <summary>
@@ -32,7 +32,7 @@ public class ReferenceConfiguration
     /// <returns></returns>
     public ReferenceConfiguration UseLowVersionReferences()
     {
-        _compileReferenceBehavior = AssemblyCompareInfomation.UseLowVersion;
+        _compileReferenceBehavior = AssemblyCompareInformation.UseLowVersion;
         return this;
     }
     /// <summary>
@@ -41,7 +41,7 @@ public class ReferenceConfiguration
     /// <returns></returns>
     public ReferenceConfiguration UseAllReferences()
     {
-        _compileReferenceBehavior = AssemblyCompareInfomation.None;
+        _compileReferenceBehavior = AssemblyCompareInformation.None;
         return this;
     }
     /// <summary>
@@ -50,7 +50,7 @@ public class ReferenceConfiguration
     /// <returns></returns>
     public ReferenceConfiguration UseDefaultReferences()
     {
-        _compileReferenceBehavior = AssemblyCompareInfomation.UseDefault;
+        _compileReferenceBehavior = AssemblyCompareInformation.UseDefault;
         return this;
     }
     /// <summary>
@@ -59,7 +59,7 @@ public class ReferenceConfiguration
     /// <returns></returns>
     public ReferenceConfiguration UseCustomReferences()
     {
-        _compileReferenceBehavior = AssemblyCompareInfomation.UseCustom;
+        _compileReferenceBehavior = AssemblyCompareInformation.UseCustom;
         return this;
     }
 
