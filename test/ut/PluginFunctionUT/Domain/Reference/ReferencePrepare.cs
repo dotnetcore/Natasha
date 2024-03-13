@@ -17,7 +17,7 @@ public class ReferencePrepare : DomainPrepare
         NatashaManagement.RegistDomainCreator<NatashaDomainCreator>();
         DefaultReferences = NatashaLoadContext.DefaultContext.ReferenceRecorder;
     }
-    internal static HashSet<MetadataReference> GetPortableExecutableReferences(AssemblyCompareInfomation loadBehavior)
+    internal static HashSet<MetadataReference> GetPortableExecutableReferences(AssemblyCompareInformation loadBehavior)
     {
         var loadContext = DomainManagement.Random();
         var domain = (NatashaDomain)(loadContext.Domain);

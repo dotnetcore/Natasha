@@ -13,7 +13,7 @@ namespace NatashaFunctionUT
     internal static class PluginAssertHelper
     {
 
-        public static (string r1,string r2) GetResult(string path1, string path2, AssemblyCompareInfomation loadBehaviorEnum,bool ignoreBase = true)
+        public static (string r1,string r2) GetResult(string path1, string path2, AssemblyCompareInformation loadBehaviorEnum,bool ignoreBase = true)
         {
             string typeName1 = "P1";
             string typeName2 = typeName1;

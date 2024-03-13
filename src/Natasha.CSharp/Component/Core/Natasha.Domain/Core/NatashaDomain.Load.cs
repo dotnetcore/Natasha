@@ -14,13 +14,13 @@ using System.Xml.Linq;
 public partial class NatashaDomain
 {
 
-    public AssemblyCompareInfomation AssemblyLoadBehavior;
+    public AssemblyCompareInformation AssemblyLoadBehavior;
 
     /// <summary>
     /// 设置加载行为
     /// </summary>
     /// <param name="loadBehavior">加载行为枚举</param>
-    public void SetAssemblyLoadBehavior(AssemblyCompareInfomation loadBehavior)
+    public void SetAssemblyLoadBehavior(AssemblyCompareInformation loadBehavior)
     {
         AssemblyLoadBehavior = loadBehavior;
     }
@@ -116,7 +116,7 @@ public partial class NatashaDomain
         Debug.WriteLine($"[解析]程序集:{assemblyName.Name},全名:{assemblyName.FullName}");
 #endif
         var result = _excludePluginReferencesFunc(assemblyName);
-        if (AssemblyLoadBehavior != AssemblyCompareInfomation.None && Name != "Default")
+        if (AssemblyLoadBehavior != AssemblyCompareInformation.None && Name != "Default")
         {
             var name = assemblyName.GetUniqueName();
 #if DEBUG

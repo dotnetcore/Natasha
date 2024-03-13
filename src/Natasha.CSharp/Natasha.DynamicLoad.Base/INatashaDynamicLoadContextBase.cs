@@ -33,7 +33,7 @@ namespace Natasha.DynamicLoad.Base
         /// 设置程序集比较行为
         /// </summary>
         /// <param name="loadBehavior"></param>
-        void SetAssemblyLoadBehavior(AssemblyCompareInfomation loadBehavior);
+        void SetAssemblyLoadBehavior(AssemblyCompareInformation loadBehavior);
         /// <summary>
         /// 当前域的所有程序集
         /// </summary>
