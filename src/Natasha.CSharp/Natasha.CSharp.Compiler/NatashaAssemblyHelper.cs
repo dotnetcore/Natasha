@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-internal static class NatashaAsssemblyHelper
+internal static class NatashaAssemblyHelper
 {
     internal static Assembly[] GetRuntimeAssemblies()
     {

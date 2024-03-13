@@ -81,12 +81,12 @@ internal static class NatashaInitializer
                     NatashaLoadContext.DefaultContext.UsingRecorder.Using(namespaceText);
                     if (useRuntimeReference)
                     {
-                        var assemblies = NatashaAsssemblyHelper.GetRuntimeAssemblies();
+                        var assemblies = NatashaAssemblyHelper.GetRuntimeAssemblies();
                         parallelLoopResults.Enqueue(InitReferenceFromRuntime(assemblies));
                     }
                     else
                     {
-                        var paths = NatashaAsssemblyHelper.GetReferenceAssmeblyFiles(excludeReferencesFunc);
+                        var paths = NatashaAssemblyHelper.GetReferenceAssmeblyFiles(excludeReferencesFunc);
                         if (paths != null && paths.Any())
                         {
                             parallelLoopResults.Enqueue(InitReferenceFromPath(paths));
@@ -103,14 +103,14 @@ internal static class NatashaInitializer
                     {
                         if (useRuntimeUsing)
                         {
-                            var assemblies = NatashaAsssemblyHelper.GetRuntimeAssemblies();
+                            var assemblies = NatashaAssemblyHelper.GetRuntimeAssemblies();
                             parallelLoopResults.Enqueue(InitReferenceAndUsingFromRuntime(assemblies));
                         }
                         else
                         {
-                            var assemblies = NatashaAsssemblyHelper.GetRuntimeAssemblies();
+                            var assemblies = NatashaAssemblyHelper.GetRuntimeAssemblies();
                             parallelLoopResults.Enqueue(InitReferenceFromRuntime(assemblies));
-                            var paths = NatashaAsssemblyHelper.GetReferenceAssmeblyFiles(excludeReferencesFunc);
+                            var paths = NatashaAssemblyHelper.GetReferenceAssmeblyFiles(excludeReferencesFunc);
                             if (paths != null && paths.Any())
                             {
                                 parallelLoopResults.Enqueue(InitUsingFromPath(paths));
@@ -123,13 +123,13 @@ internal static class NatashaInitializer
                     }
                     else
                     {
-                        var paths = NatashaAsssemblyHelper.GetReferenceAssmeblyFiles(excludeReferencesFunc);
+                        var paths = NatashaAssemblyHelper.GetReferenceAssmeblyFiles(excludeReferencesFunc);
                         if (paths != null && paths.Any())
                         {
                             if (useRuntimeUsing)
                             {
                                 parallelLoopResults.Enqueue(InitReferenceFromPath(paths));
-                                var assemblies = NatashaAsssemblyHelper.GetRuntimeAssemblies();
+                                var assemblies = NatashaAssemblyHelper.GetRuntimeAssemblies();
                                 parallelLoopResults.Enqueue(InitUsingFromRuntime(assemblies));
                             }
                             else
