@@ -244,6 +244,7 @@ namespace Natasha.CSharp.Compiler.Component
                                    //deterministic: true,
                                    nullableContextOptions: _nullableCompileOption,
                                    //strongNameProvider: a,
+                                   specificDiagnosticOptions: _reportDiagnostics,
                                    deterministic: false,
                                    concurrentBuild: true,
                                    moduleName: Guid.NewGuid().ToString(),

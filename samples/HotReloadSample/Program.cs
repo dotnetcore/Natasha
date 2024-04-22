@@ -15,6 +15,7 @@ using System.Diagnostics;
 using System.Reflection.PortableExecutable;
 using System.Runtime.Intrinsics;
 using Microsoft.CodeAnalysis.Operations;
+using Microsoft.Extensions.DependencyModel;
 
 [assembly: Debuggable(DebuggableAttribute.DebuggingModes.EnableEditAndContinue)]
 namespace HotReloadSample
@@ -23,7 +24,33 @@ namespace HotReloadSample
     {
         static unsafe void Main(string[] args)
         {
+            NatashaManagement.RegistDomainCreator<NatashaDomainCreator>();
+
+           // AssemblyCSharpBuilder builder = new();
+           // builder.UseRandomDomain();
+           // builder.UseSimpleMode();
+           // builder.WithoutCombineUsingCode();
+           // builder.ConfigCompilerOption(opt => opt
+           // .AddSupperess("CS8618")
+           //// .WithDiagnosticLevel(ReportDiagnostic.Info)
+           // );
+           // builder.ConfigLoadContext(opt => 
+           //     opt
+           //     .AddReferenceAndUsingCode<object>()
+           //     .AddReferenceAndUsingCode<Task>()
+           // );
+           // builder.Add("using System.Threading.Tasks; public class A{ public string Name; public async Task Delay() {return;} }");
+           // builder.SetLogEvent((log) =>
+           // {
+           //     Console.WriteLine(log.ToString());
+           // });
+           // var asm = builder.GetAssembly();
+           // Console.WriteLine(asm.FullName);
+
+
+
             Console.WriteLine(MetadataUpdater.IsSupported);
+            Console.WriteLine(Debugger.IsAttached);
             //Console.WriteLine(Vector128<short>.Count); 
             //var asm = typeof(A).Assembly;
             //Stopwatch stopwatch = Stopwatch.StartNew();
@@ -31,8 +58,7 @@ namespace HotReloadSample
             //HashSet<string> names1 = new HashSet<string>();
             //foreach (var item in asm.ExportedTypes)
             //{
-            //    if (item.Namespace!=null)
-            //    {
+            //    if (item.Namespace!=null)            //    {
             //        names.Add(item.Namespace);
             //    }
             //}
@@ -61,77 +87,73 @@ namespace HotReloadSample
             //Test(typeof(A).Assembly);
             //HotReloadService.UpdateApplicationEvent += HotReloadService_UpdateApplicationEvent;
             //NatashaManagement.Preheating(null,false,true);
-            //var domain = NatashaManagement.CreateRandomDomain();
-            ////var asm1 = OldAssembly(domain);
-            ////Show(asm1);
-            //var asm2 = NewAssembly(domain);
-            //Show(asm2);
-            //Update(typeof(A).Assembly, asm2);
-            //Show(typeof(A).Assembly);
-            ////MetadataUpdater.ApplyUpdate();
-            Console.ReadKey();
-            
-        }
-
-        public  unsafe static void Test(Assembly assembly)
-        {
-            if (assembly.TryGetRawMetadata(out var blob, out var length))
+            var domain = NatashaManagement.CreateRandomDomain();
+            var asm1 = OldAssembly(domain);
+            var typeA = asm1.GetTypeFromShortName("A");
+            var methodInfo = typeA.GetMethod("Show");
+            var obj = Activator.CreateInstance(typeA);
+             methodInfo.Invoke(obj, null);
+            Console.WriteLine();
+            Assembly asm2 = asm1;
+            try
             {
-                //HXD04
-                //var metadataReference = AssemblyMetadata.Create(ModuleMetadata.CreateFromMetadata((IntPtr)blob, length)).GetReference();
-                var metaReader = new MetadataReader(blob, length);
-                foreach (var item in metaReader.MethodDefinitions)
-                {
-                    var methodDefine = metaReader.GetMethodDefinition(item);
-                    var methodName = metaReader.GetString(methodDefine.Name);
-                    if (methodName == "Show2")
-                    {
-                        Console.WriteLine(metaReader.GetString(metaReader.GetTypeDefinition(methodDefine.GetDeclaringType()).Name));
-                        Console.WriteLine(Encoding.UTF8.GetString(metaReader.GetBlobBytes(methodDefine.Signature)));
-                        foreach (var parameter in methodDefine.GetParameters())
-                        {
-                            var para = metaReader.GetParameter(parameter);
-                            foreach (var paraAttr in para.GetCustomAttributes())
-                            {
-                                Console.WriteLine(Encoding.UTF8.GetString(metaReader.GetBlobBytes(metaReader.GetCustomAttribute(paraAttr).Value)));
-                            }
-                            Console.WriteLine(metaReader.GetString(para.Name));
-                        }
-                        Console.WriteLine();
-                    }
-                    
-                }
-               
-
-                var asmDefinition = metaReader.GetNamespaceDefinitionRoot();
-                foreach (var handle in asmDefinition.NamespaceDefinitions)
-                {
-                    var nameDefinition = metaReader.GetNamespaceDefinition(handle);
-                    Console.WriteLine($"{nameDefinition.Name.IsNil} : {metaReader.GetString(handle)} : {nameDefinition.TypeDefinitions.Length}");
-                }           
+                asm2 = NewAssembly(domain, asm1);
             }
+            catch (Exception ex)
+            {
+                var ex1 = ex as InvalidOperationException;
+                Console.WriteLine(ex1.Message);
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+                return;
+            }
+           
+            var members = asm2.GetTypeFromShortName("A").GetMembers();
+            var typeA1 = asm2.GetTypeFromShortName("A");
+            methodInfo = typeA1.GetMethod("Show");
+            var obj1 = Activator.CreateInstance(typeA1);
+            methodInfo.Invoke(obj1, null);
+            Console.ReadKey();
         }
-        private static void HotReloadService_UpdateApplicationEvent(Type[]? obj)
-        {
-            Console.WriteLine(obj==null);
-        }
+
+        //private static void HotReloadService_UpdateApplicationEvent(Type[]? obj)
+        //{
+        //    Console.WriteLine(obj==null);
+        //}
 
         public static Assembly OldAssembly(NatashaLoadContext domain)
         {
-            AssemblyCSharpBuilder builder = new AssemblyCSharpBuilder
+            AssemblyCSharpBuilder builder = new()
             {
                 LoadContext = domain
             };
-            builder.Add("public class A{  public int Code = 1; public void Show(){ Console.WriteLine(Code);  }   }", UsingLoadBehavior.WithDefault);
+            builder.UseSimpleMode();
+            builder.ConfigLoadContext(opt => opt
+                .AddReferenceAndUsingCode(typeof(object))
+                .AddReferenceAndUsingCode(typeof(Console))
+                );
+            builder.WithDebugCompile(opt => opt.WriteToAssembly());
+            builder.Add("public class A{  public int Code = 1; public void Show(){ Console.WriteLine(Code);  }   }");
             return builder.GetAssembly();
         }
-
-        public static Assembly NewAssembly(NatashaLoadContext domain)
+        //CTRL+F5
+        public static Assembly NewAssembly(NatashaLoadContext domain, Assembly oldAssembly)
         {
-            AssemblyCSharpBuilder builder = new AssemblyCSharpBuilder();
+            AssemblyCSharpBuilder builder = new AssemblyCSharpBuilder(oldAssembly.GetName().Name);
             builder.LoadContext = domain;
-            builder.Add("public class A{  public int Code = 2; public void Show(){ Console.WriteLine(Code);  }   }", UsingLoadBehavior.WithDefault);
-            return builder.GetAssembly();
+            builder.WithFileOutput();
+            builder.UseSimpleMode();
+            builder.ConfigLoadContext(opt => opt
+                .AddReferenceAndUsingCode(typeof(object))
+                .AddReferenceAndUsingCode(typeof(Console))
+                );
+            //builder.WithDebugCompile(opt => opt.WriteToAssembly());
+            builder.Add("public class A{  public int Code = 2; public int Code1 = 0; public void Show(){ Console.WriteLine(Code);  }   }");
+            var result = builder.UpdateAssembly(oldAssembly);
+            //Console.WriteLine(1);
+            //MetadataUpdater.ApplyUpdate(result.Item1, result.Item2, result.Item3, result.Item4);
+            //return result.Item1;
+            return result.Item1;
         }
 
         public static void Show(Assembly assembly)
@@ -140,14 +162,13 @@ namespace HotReloadSample
             var method = type!.GetMethod("Show");
             method!.Invoke(Activator.CreateInstance(type), null);
         }
-
         public unsafe static void Update(Assembly oldAssembly,Assembly newAssembly)
         {
             Console.WriteLine(RuntimeFeature.IsDynamicCodeCompiled);
             Console.WriteLine(MetadataUpdater.IsSupported);
             if (newAssembly.TryGetRawMetadata(out var newBlob, out var newLength))
             {
-                ReadOnlySpan<byte> newMetadataSpan = new ReadOnlySpan<byte>(newBlob, newLength);
+                ReadOnlySpan<byte> newMetadataSpan = new(newBlob, newLength);
                 MetadataUpdater.ApplyUpdate(oldAssembly, newMetadataSpan, Encoding.UTF8.GetBytes(File.ReadAllText("1.txt")), ReadOnlySpan<byte>.Empty);
             }
 
