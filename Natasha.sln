@@ -19,6 +19,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pr", "pr", "{15F494AB-94DF-4334-BD73-9F8ACF84E0C1}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\pr_archive.yml = .github\workflows\pr_archive.yml
+		.github\workflows\pr_command.yml = .github\workflows\pr_command.yml
 		.github\workflows\pr_label.yml = .github\workflows\pr_label.yml
 		.github\workflows\pr_recommend.yml = .github\workflows\pr_recommend.yml
 		.github\workflows\pr_test.yml = .github\workflows\pr_test.yml
@@ -212,7 +213,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natasha.CSharp.Extension.Am
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natasha.CSharp.Extension.MethodCreator", "src\Natasha.CSharp\Extension\Natasha.CSharp.Extension.MethodCreator\Natasha.CSharp.Extension.MethodCreator.csproj", "{5A9A10B4-5790-4607-850B-A5A6C6C68737}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtensionSample", "samples\ExtensionSample\ExtensionSample.csproj", "{0C73673D-8514-4058-8DB0-9F03FDE9D9B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtensionSample", "samples\ExtensionSample\ExtensionSample.csproj", "{0C73673D-8514-4058-8DB0-9F03FDE9D9B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

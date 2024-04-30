@@ -128,6 +128,29 @@ namespace Workflow.Runner
 
         }
 
+        [Fact(DisplayName = "推送 @coderabbitai 指令")]
+        public async Task PRCommand()
+        {
+            if (NMSGithubSdk.JudgeCurrnetWorker("CODE_COMMAND"))
+            {
+                if (!NMSGithubSdk.TryGetTokenFromEnviroment(out string token, "GITHUB_TOKEN"))
+                {
+                    Assert.Fail(token);
+                }
+                if (!NMSGithubSdk.TryGetEnviromentValue(out string prId, "PR_ID", "${{ github.event.pull_request.node_id }}"))
+                {
+                    Assert.Fail(prId);
+                }
+                NMSGithubSdk.SetGraphSecretByEnvKey("GITHUB_TOKEN");
+                var error = await NMSGithubSdk.SetCommentForCurrentItemIdAsync(prId, "@coderabbitai review");
+                if (error != string.Empty)
+                {
+                    Assert.Fail(error);
+                }
+            }
+
+        }
+
         [Fact(DisplayName = "标签初始化")]
         public async Task InitLabels()
         {

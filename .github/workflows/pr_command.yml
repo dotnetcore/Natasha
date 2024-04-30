@@ -1,0 +1,28 @@
+name: Command For PR
+
+on:
+  pull_request:
+    types: [opened]
+    branches:
+      - dev**
+
+
+jobs:
+    recommend:
+      runs-on: ubuntu-latest
+
+      steps:
+      - uses: actions/checkout@v4
+
+      #- name: 🔨 Setup .NET 6.X SDK
+      #  uses: actions/setup-dotnet@v3
+      #  with:
+      #    dotnet-version: '6.x'
+          
+      - name: 🌈 Recommend
+        run: dotnet test './test/workflow/Workflow.Runner' --nologo -c Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.REPO_GITHUB_TOKEN }}
+          PR_ID: ${{ github.event.pull_request.node_id }}
+          WORKER_NAME: CODE_COMMAND
+
