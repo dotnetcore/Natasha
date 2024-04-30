@@ -39,7 +39,7 @@ namespace Natasha.CSharp.Reverser
 
 
             //后缀
-            StringBuilder Suffix = new StringBuilder();
+            StringBuilder Suffix = new();
 
 
             //数组判别
@@ -68,7 +68,7 @@ namespace Natasha.CSharp.Reverser
             if (type.IsGenericType)
             {
 
-                StringBuilder result = new StringBuilder();
+                StringBuilder result = new();
                 if (string.IsNullOrEmpty(fatherString) && !string.IsNullOrEmpty(type.Namespace) && !string.IsNullOrEmpty(type.FullName))
                 {
                     result.Append(type.Namespace + ".");
@@ -161,7 +161,7 @@ namespace Natasha.CSharp.Reverser
 
 
             //后缀
-            StringBuilder Suffix = new StringBuilder();
+            StringBuilder Suffix = new();
 
 
             //数组判别
@@ -194,7 +194,7 @@ namespace Natasha.CSharp.Reverser
             if (type.IsGenericType)
             {
 
-                StringBuilder result = new StringBuilder();
+                StringBuilder result = new();
                 result.Append($"{type.Name.Split('`')[0]}<");
 
                 if (type.GenericTypeArguments.Length > 0)
