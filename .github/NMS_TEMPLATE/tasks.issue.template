@@ -11,16 +11,18 @@ body:
   - type: textarea
     id: repro
     attributes:
-      label: 💡 描述一下你理想中的任务计划 (Describe the tasks you'd like).
+      label: 📃 计划清单 (Tasklist).
       description: 请简单清晰地描述一下每条任务(Please describe each task simply and clearly.).
       value: |
-        ### 📃计划清单
+
         ```[tasklist]
+
         ### 删除并添加标题
         - [x] 1.  已完成计划xxxx。
         - [ ] 2.  未完成计划xxxxx。
+
         ```
-      render: bash
+
     validations:
       required: true
 
