@@ -13,7 +13,7 @@ issues_template_configs:
 - panel_name: " \U0001F4A1 新的想法 (Feature request)"
   file_name: feature
   panel_description: 我知道您有一个比较赞的想法想和我说 (Suggest an idea for this project).
-  pull_request_prefix: '[Feature]:'
+  pull_request_prefix: '[Feature]: '
   pull_request_labels:
   - name: enhancement
     description: New feature or request.
@@ -21,15 +21,15 @@ issues_template_configs:
 - panel_name: " \U0001F4E3 和作者进行灵魂沟通 (Feedback)"
   file_name: feedback
   panel_description: 来聊聊咱这个库好在哪里,差在哪里和你的期待在哪里 (Give us general feedback about the repository).
-  pull_request_prefix: '[Feedback]:'
+  pull_request_prefix: '[Feedback]: '
   pull_request_labels:
   - name: feedback
     description: Something want to say.
     color: d4c5f9
 - panel_name: " \U0001F4C3 规划任务计划 (Tasks)"
   file_name: tasks
-  panel_description: 创建您的任务计划。在 ISSUE 区进行建议搜集和讨论。 (Create your task plan. Conduct suggestion collection and discussion in the ISSUE area).
-  pull_request_prefix: '[Tasks]:'
+  panel_description: 创建您的任务计划。在 ISSUE 区进行建议搜集和讨论。 (Create your task plan. Conduct suggestion collection and discussion).
+  pull_request_prefix: '[Tasks]: '
   pull_request_labels:
   - name: tasks
     description: This is a tasklist.
