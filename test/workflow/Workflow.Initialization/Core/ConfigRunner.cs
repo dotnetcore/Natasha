@@ -96,6 +96,7 @@ namespace Workflow.Initialization.Core
                 {
                     if (project.TriggerPullRequestTest)
                     {
+                        utString.AppendLine(GetBuildTaskString(project.ProjectName, project.ProjectFolder));
                         utString.AppendLine(GetUTTestTaskString(project.ProjectName, project.ProjectFolder));
                     }
                 }
@@ -112,6 +113,10 @@ namespace Workflow.Initialization.Core
                 File.Delete(ymlFile);
             }
 
+            static string GetBuildTaskString(string projectName, string projectFolder)
+            {
+                return $"    - name: 🚦 Build {projectName} \r\n      run:  dotnet build './{projectFolder}' -c Release --nologo";
+            }
             //UT测试以及报告输出
             static string GetUTTestTaskString(string projectName, string projectFolder)
             {
