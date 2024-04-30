@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>netcoreapp3.1;net6.0;net8.0;</TargetFrameworks>
-		
+		<GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
 		<IsPackable>false</IsPackable>
 		<Nullable>enable</Nullable>
 		<LangVersion>preview</LangVersion>
