@@ -20,7 +20,7 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: |
-          3.1.32
+          3.1.425
           6.0.x
           8.0.x
           
