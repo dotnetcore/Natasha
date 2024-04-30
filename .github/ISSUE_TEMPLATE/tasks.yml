@@ -1,6 +1,6 @@
 name: 📃 规划任务计划 (Tasks)
-description: 创建您的任务计划。在 ISSUE 区进行建议搜集和讨论。 (Create your task plan. Conduct suggestion collection and discussion).
-title: "[Tasks]: "
+description: 创建您的任务计划。在 ISSUE 区进行意见搜集和讨论 (Create your task plan. Conduct suggestion collection and discussion).
+title: "[Tasks]: 有关【xxx】相关功能的规划与任务细化 (意见搜集与讨论)"
 labels: ["tasks"]
 body:
   - type: markdown
