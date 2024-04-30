@@ -1,0 +1,37 @@
+name: 📃 规划任务计划 (Tasks)
+description: 创建您的任务计划。在 ISSUE 区进行建议搜集和讨论。 (Create your task plan. Conduct suggestion collection and discussion in the ISSUE area).
+title: "[Tasks]:"
+labels: ["tasks"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢您为此项目提出具体的任务计划.(Thank you for proposing specific task plans for this project!)
+
+  - type: textarea
+    id: story
+    attributes:
+      label: 💡 描述一下你理想中的任务计划 (Describe the tasks you'd like).
+      description: 请简单清晰地描述一下每条任务(Please describe each task simply and clearly.).
+      placeholder: Feature Context!
+    validations:
+      required: false
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction steps
+      description: "How do you trigger this bug? Please walk us through it step by step."
+      value: |
+        ### 📃计划清单
+        ```[tasklist]
+        1.
+        2.
+        3.
+        ...
+        ```
+      render: bash
+    validations:
+      required: true
+
+

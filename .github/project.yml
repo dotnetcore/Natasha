@@ -26,6 +26,14 @@ issues_template_configs:
   - name: feedback
     description: Something want to say.
     color: d4c5f9
+- panel_name: " \U0001F4C3 规划任务计划 (Tasks)"
+  file_name: tasks
+  panel_description: 创建您的任务计划。在 ISSUE 区进行建议搜集和讨论。 (Create your task plan. Conduct suggestion collection and discussion in the ISSUE area).
+  pull_request_prefix: '[Tasks]:'
+  pull_request_labels:
+  - name: tasks
+    description: This is a tasklist.
+    color: 5319e7
 action:
   folded_projects: 
   global_labels:

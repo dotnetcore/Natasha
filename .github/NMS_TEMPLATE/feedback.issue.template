@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        感谢您能抽出时间填写这个 Feature 表单.(Thanks for taking the time to fill out this feature report!)
+        感谢您能抽出时间填写这个 Feedback 表单.(Thank you for taking the time to fill out this Feedback form!)
 
   - type: textarea
     id: loved
