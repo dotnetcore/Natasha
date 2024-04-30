@@ -34,7 +34,7 @@ namespace ReferenceSample
             //Console.WriteLine(typeof(Math).Assembly.FullName);
             NatashaManagement.RegistDomainCreator<NatashaDomainCreator>();
             NatashaManagement.Preheating(true, true);
-            TestMini();
+            TestMini1();
             //TestMini();
             //var a = Math.Min(1, args.Length);
 //            NatashaManagement.Preheating<NatashaDomainCreator>(true, true);
@@ -103,8 +103,8 @@ namespace ReferenceSample
                .UseNewDomain("adasd")
                 .ConfigCompilerOption(item => item.WithLowerVersionsAssembly())
                 //.WithFileOutput()
-                .WithDebugCompile(item => item.WriteToAssembly())
                 .UseSimpleMode()
+                .WithDebugCompile(item => item.WriteToAssembly())
                 .ConfigLoadContext(ldc=> ldc
                     .AddReferenceAndUsingCode(typeof(Math).Assembly)
                     .AddReferenceAndUsingCode(typeof(MathF).Assembly)
@@ -148,15 +148,15 @@ namespace MyNamespace{
                 .ConfigCompilerOption(item => item.WithLowerVersionsAssembly())
                 .WithDebugCompile(item => item.WriteToAssembly())
                 .UseSimpleMode()
-                .UseSmartMode()
-                //.ConfigLoadContext(ldc => ldc
-                //    .AddReferenceAndUsingCode(typeof(Math).Assembly)
-                //    .AddReferenceAndUsingCode(typeof(MathF).Assembly)
-                //    .AddReferenceAndUsingCode(typeof(object))
-                //    .AddReferenceAndUsingCode(typeof(Console))
-                //    .AddReferenceAndUsingCode(typeof(Attribute))
-                //    .AddReferenceAndUsingCode(typeof(CodecovMonitor))
-                //    .AddReferenceAndUsingCode(typeof(SuppressMessageAttribute)))
+                //.UseSmartMode()
+                .ConfigLoadContext(ldc => ldc
+                    .AddReferenceAndUsingCode(typeof(Math).Assembly)
+                    .AddReferenceAndUsingCode(typeof(MathF).Assembly)
+                    .AddReferenceAndUsingCode(typeof(object))
+                    .AddReferenceAndUsingCode(typeof(Console))
+                    .AddReferenceAndUsingCode(typeof(Attribute))
+                    .AddReferenceAndUsingCode(typeof(CodecovMonitor))
+                    .AddReferenceAndUsingCode(typeof(SuppressMessageAttribute)))
                 ;
 
 
@@ -205,14 +205,7 @@ public class A{
     }
 }");
             
-            //a09e6bef-ff64-4b5f-8bb8-fc495ebb50ba
-            DebugDirectoryBuilder debug = new();
-            debug.AddReproducibleEntry();
-            debug.AddReproducibleEntry();
-
-
-
-            builder.WithCodecov();
+            //builder.WithCodecov();
             var asm = builder.GetAssembly();
 
             //执行A.Invoke

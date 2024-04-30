@@ -1,6 +1,8 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
+using Microsoft.Extensions.DependencyModel;
+using Natasha.CSharp.Compiler.Component;
 using Natasha.CSharp.Compiler.Component.Exception;
 using Natasha.CSharp.Extension.Inner;
 using System;
@@ -10,6 +12,7 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Text;
 /// <summary>
 /// 程序集编译构建器 - 编译选项
 /// </summary>
@@ -202,6 +205,15 @@ public sealed partial class AssemblyCSharpBuilder
                         Directory.CreateDirectory(tempPdbOutputFolder);
                     }
                 }
+                if (File.Exists(PdbFilePath))
+                {
+                    var tempPdbOutputFolder = Path.Combine(GlobalOutputFolder, Domain.Name!);
+                    PdbFilePath = Path.Combine(tempPdbOutputFolder, $"repeate.{AssemblyName}.{Guid.NewGuid():N}.pdb");
+                    if (!Directory.Exists(tempPdbOutputFolder))
+                    {
+                        Directory.CreateDirectory(tempPdbOutputFolder);
+                    }
+                }
                 pdbStream = File.Create(PdbFilePath);
             }
             else
@@ -280,5 +292,130 @@ public sealed partial class AssemblyCSharpBuilder
         stopwatch.StopAndShowCategoreInfo("[  Emit  ]", "编译时长", 2);
 #endif
         return assembly!;
+    }
+
+
+    public unsafe (Assembly, byte[], byte[], byte[]) UpdateAssembly(Assembly oldAssembly)
+    {
+        _compilation ??= GetAvailableCompilation();
+        if (Domain!.Name != "Default")
+        {
+            Domain.SetAssemblyLoadBehavior(_domainConfiguration._dependencyLoadBehavior);
+        }
+
+#if DEBUG
+        Stopwatch stopwatch = new();
+        stopwatch.Start();
+#endif
+        Stream dllStream = new MemoryStream();
+        Stream pdbStream = new MemoryStream();
+        Stream metaStream = new MemoryStream();
+        Stream? xmlStream = null;
+        if (DllFilePath != string.Empty)
+        {
+            dllStream = File.Create(DllFilePath);
+        }
+
+        if (CommentFilePath != string.Empty)
+        {
+            xmlStream = File.Create(CommentFilePath);
+        }
+
+        var debugInfoFormat = _debugConfiguration._informationFormat;
+        if (_compilation!.Options.OptimizationLevel == OptimizationLevel.Debug)
+        {
+
+            if (debugInfoFormat != DebugInformationFormat.Embedded)
+            {
+                if (string.IsNullOrEmpty(PdbFilePath))
+                {
+                    var tempPdbOutputFolder = Path.Combine(GlobalOutputFolder, Domain.Name!);
+                    PdbFilePath = Path.Combine(tempPdbOutputFolder, $"{AssemblyName}.pdb");
+                    if (!Directory.Exists(tempPdbOutputFolder))
+                    {
+                        Directory.CreateDirectory(tempPdbOutputFolder);
+                    }
+                }
+                if (File.Exists(PdbFilePath))
+                {
+                    var tempPdbOutputFolder = Path.Combine(GlobalOutputFolder, Domain.Name!);
+                    PdbFilePath = Path.Combine(tempPdbOutputFolder, $"repeate.{AssemblyName}.{Guid.NewGuid():N}.pdb");
+                    if (!Directory.Exists(tempPdbOutputFolder))
+                    {
+                        Directory.CreateDirectory(tempPdbOutputFolder);
+                    }
+                }
+                pdbStream = File.Create(PdbFilePath);
+            }
+            else
+            {
+                PdbFilePath = null;
+            }
+        }
+       
+        var emitOption = new EmitOptions(
+               //runtimeMetadataVersion: Assembly.GetExecutingAssembly().ImageRuntimeVersion,
+               //instrumentationKinds: [InstrumentationKind.TestCoverage],
+               includePrivateMembers: _includePrivateMembers,
+               metadataOnly: _isReferenceAssembly,
+               pdbFilePath: PdbFilePath,
+               debugInformationFormat: debugInfoFormat
+               );
+
+        if (_emitOptionHandle != null)
+        {
+            while (!_emitOptionHandle.IsEmpty)
+            {
+                while (_emitOptionHandle.TryDequeue(out var func))
+                {
+                    emitOption = func(emitOption);
+                }
+            }
+        }
+
+        var compileResult = _compilation.Emit(
+           dllStream,
+           pdbStream: pdbStream,
+           xmlDocumentationStream: xmlStream,
+           //options: emitOption,
+           metadataPEStream: metaStream
+           );
+        LogCompilationEvent?.Invoke(_compilation.GetNatashaLog());
+
+
+        if (compileResult.Success)
+        {
+            var ilDelta = AsReadOnlySpan(dllStream);
+            var pdbDelta = AsReadOnlySpan(pdbStream);
+            var metadataDelta = AsReadOnlySpan(metaStream);
+            RuntimeInnerHelper.ApplyUpdate(oldAssembly, metadataDelta, ilDelta, pdbDelta);
+            return (oldAssembly!, metadataDelta.ToArray(), ilDelta.ToArray(), pdbDelta.ToArray());
+
+        }
+        else
+        {
+            CompileFailedEvent?.Invoke(_compilation, compileResult.Diagnostics);
+            throw NatashaExceptionAnalyzer.GetCompileException(_compilation, compileResult.Diagnostics);
+        }
+        dllStream.Dispose();
+        pdbStream.Dispose();
+        metaStream.Dispose();
+        xmlStream?.Dispose();
+
+#if DEBUG
+        stopwatch.StopAndShowCategoreInfo("[  Emit  ]", "编译时长", 2);
+#endif
+        return default!;
+
+        static ReadOnlySpan<byte> AsReadOnlySpan(Stream input)
+        {
+            input.Seek(0, SeekOrigin.Begin);
+            // 创建一个 MemoryStream 对象来保存 Stream 的数据
+            using MemoryStream ms = new MemoryStream();
+            input.CopyTo(ms);
+
+            // 将 MemoryStream 的数据转换为 Span 对象
+            return ms.GetBuffer().AsSpan();
+        }
     }
 }
