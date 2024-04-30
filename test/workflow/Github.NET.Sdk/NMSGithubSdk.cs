@@ -77,6 +77,17 @@ namespace Github.NET.Sdk
 
         }
 
+        public static async Task<string> SetCommentForCurrentItemIdAsync(string currentItemId, string comment)
+        {
+            (var commentResult, string error) = await GithubSdk.IssueOrPullRequest.AddCommentAsync(currentItemId, comment);
+            if (!commentResult)
+            {
+                return $"提交评论 {comment} 时出错：{error}";
+            }
+            return error;
+        }
+
+
         public static async Task<string> SetRecommendCompareWithIssuesAsync(string ownerName, string repoName, string currentItemId, string sourceTitle, bool? isOpen, List<(int count, double min, double max)> pickInfo, Func<RecommendResultModel[], string> commentAction)
         {
 
