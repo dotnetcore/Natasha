@@ -12,15 +12,13 @@ body:
     id: repro
     attributes:
       label: 📃 计划清单 (Tasklist).
-      description: 请简单清晰地描述一下每条任务(Please describe each task simply and clearly.).
+      description: 请简单清晰地描述一下每条任务, 每行之间不要出现换行。(Please describe each task simply and clearly.).
       value: |
 
         ```[tasklist]
-
         ### 删除并添加标题
         - [x] 1.  已完成计划xxxx。
         - [ ] 2.  未完成计划xxxxx。
-
         ```
 
     validations:
