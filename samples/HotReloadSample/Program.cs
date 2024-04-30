@@ -24,6 +24,8 @@ namespace HotReloadSample
     {
         static unsafe void Main(string[] args)
         {
+            //ArgumentNullException.ThrowIfNull(args);
+
             NatashaManagement.RegistDomainCreator<NatashaDomainCreator>();
 
            // AssemblyCSharpBuilder builder = new();
@@ -139,8 +141,10 @@ namespace HotReloadSample
         //CTRL+F5
         public static Assembly NewAssembly(NatashaLoadContext domain, Assembly oldAssembly)
         {
-            AssemblyCSharpBuilder builder = new AssemblyCSharpBuilder(oldAssembly.GetName().Name);
-            builder.LoadContext = domain;
+            AssemblyCSharpBuilder builder = new(oldAssembly.GetName().Name)
+            {
+                LoadContext = domain
+            };
             builder.WithFileOutput();
             builder.UseSimpleMode();
             builder.ConfigLoadContext(opt => opt
@@ -169,7 +173,7 @@ namespace HotReloadSample
             if (newAssembly.TryGetRawMetadata(out var newBlob, out var newLength))
             {
                 ReadOnlySpan<byte> newMetadataSpan = new(newBlob, newLength);
-                MetadataUpdater.ApplyUpdate(oldAssembly, newMetadataSpan, Encoding.UTF8.GetBytes(File.ReadAllText("1.txt")), ReadOnlySpan<byte>.Empty);
+                MetadataUpdater.ApplyUpdate(oldAssembly, newMetadataSpan, Encoding.UTF8.GetBytes(File.ReadAllText("1.txt")), []);
             }
 
         }
