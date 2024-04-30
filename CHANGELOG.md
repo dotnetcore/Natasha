@@ -17,43 +17,24 @@ Example:
 
 -->
 
-## [8.0.0.0] - 2024-01-10 
+## [8.1.2.1] - 2024-05-01 
+
+### DotNetCore.Natasha.CSharp.Compiler _ v8.1.2.1:
+- 保留热重载相关 API.
+- 升级 Roslyn 依赖.
+- 修复诊断警告相关 BUG.
+- 修复错别字.
 
 
-### DotNetCore.Natasha.DynamicLoad.Base _ v8.0.0.0:
-- INatashaDynamicLoadContextBase 接口来规范域的行为.
-- INatashaDynamicLoadContextCreator 接口来规范创建域以及其他 Runtime 方法的实现.
+### DotNetCore.Natasha.CSharp.Template.Core _ v8.0.0.1:
+- 跟随 Compiler 升级依赖.
 
-### DotNetCore.Natasha.Domain _ v8.0.0.0:
-- 优化域加载时程序集比对的逻辑.
-- 相同依赖不会二次加载.
+### DotNetCore.Natasha.CSharp.Extension.Codecov _ v8.0.0.1:
+- 跟随 Compiler 升级依赖.
 
+### DotNetCore.Natasha.CSharp.Extension.Ambiguity _ v8.0.0.1:
+- 跟随 Compiler 升级依赖.
 
-### DotNetCore.Natasha.CSharp.Compiler.Domain _ v8.0.0.0:
-- 实现 `DotNetCore.Natasha.DynamicLoad.Base` 接口，支持 Natasha 域操作.
-
-
-### DotNetCore.Natasha.CSharp.Compiler _ v8.0.0.0:
-- 新增 智能模式、轻便模式、自定义模式 三种编译方式.
-- 新增 NatashaLoadContext 统一管理元数据.
-- 支持 实现程序集、引用程序集两种预热方式.
-- 支持 动态断点调试.
-- 支持 引用程序集输出.
-- 支持 隐藏的 Release 模式.
-- 全面兼容 Standard2.0.
-- 优化预热性能.
-- 优化预热内存涨幅.
-
-
-### DotNetCore.Natasha.CSharp.Template.Core _ v8.0.0.0:
-- 全面兼容 Standard2.0.
-- 为 `DotNetCore.Natasha.CSharp.Compiler` 提供 .NET Core3.1+ 脚本模板支持.
-
-
-### DotNetCore.Natasha.CSharp.Extension.Codecov _ v8.0.0.0:
-- 全面兼容 Standard2.0.
-- 支持动态程序集的方法使用率统计
-
-
-### DotNetCore.Natasha.CSharp.Extension.Ambiguity _ v8.0.0.0:
-- 全面兼容 Standard2.0.
+### DotNetCore.Natasha.CSharp.Extension.MethodCreator _ v8.0.0.1:
+- 发布 便捷动态方法编译模板.
+- 跟随其他扩展库版本号发布.

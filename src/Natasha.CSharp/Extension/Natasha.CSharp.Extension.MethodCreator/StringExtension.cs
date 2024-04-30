@@ -18,7 +18,7 @@ public static class StringExtension
         return (script, builder);
     }
 
-    public static T? CreateMethod<T>(in this (string script, AssemblyCSharpBuilder builder) buildInfo, string? modifier = null) where T: Delegate
+    public static T? ToDelegate<T>(in this (string script, AssemblyCSharpBuilder builder) buildInfo, string? modifier = null) where T: Delegate
     {
 
         var className = $"N{Guid.NewGuid():N}";
@@ -46,17 +46,17 @@ public static class StringExtension
         }
         return null;
     }
-    public static T? CreateAsyncMethod<T>(in this (string script, AssemblyCSharpBuilder builder) buildInfo) where T : Delegate
+    public static T? ToAsyncDelegate<T>(in this (string script, AssemblyCSharpBuilder builder) buildInfo) where T : Delegate
     {
-        return CreateMethod<T>(buildInfo, "async");
+        return ToDelegate<T>(buildInfo, "async");
     }
-    public static T? CreateUnsafeMethod<T>(in this (string script, AssemblyCSharpBuilder builder) buildInfo) where T : Delegate
+    public static T? ToUnsafeDelegate<T>(in this (string script, AssemblyCSharpBuilder builder) buildInfo) where T : Delegate
     {
-        return CreateMethod<T>(buildInfo, "unsafe");
+        return ToDelegate<T>(buildInfo, "unsafe");
     }
-    public static T? CreateUnsafeAsyncMethod<T>(in this (string script, AssemblyCSharpBuilder builder) buildInfo) where T : Delegate
+    public static T? ToUnsafeAsyncDelegate<T>(in this (string script, AssemblyCSharpBuilder builder) buildInfo) where T : Delegate
     {
-        return CreateMethod<T>(buildInfo, "unsafe async");
+        return ToDelegate<T>(buildInfo, "unsafe async");
     }
 }
 
