@@ -8,11 +8,16 @@ reviews:
   poem: true
   review_status: true
   collapse_walkthrough: false
+  path_filters:
+  - "!**/*.xml"
+  - "!**/generated/**"
   auto_review:
     enabled: true
     ignore_title_keywords:
       - "WIP"
       - "DO NOT MERGE"
+    base_branches:
+      - "dev/.*"
     drafts: false
 chat:
   auto_reply: true
