@@ -22,7 +22,7 @@ jobs:
         dotnet-version: |
           3.1.425
           6.0.x
-          8.0
+          8.0.x
           
 ${{nms.tests}}
 
