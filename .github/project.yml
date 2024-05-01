@@ -1,6 +1,10 @@
 ignore_projects:
 - test/ut/DebugTest/DebugTest.csproj
 - test/ut/FrameworkFunctionUT/FrameworkFunctionUT.csproj
+- test/ut/PluginLibraries/Plugin1/Plugin1.csproj
+- test/ut/PluginLibraries/Plugin2/Plugin2.csproj
+- test/ut/PluginLibraries/PluginBase/PluginBase.csproj
+- test/ut/PluginFunctionUT/PluginFunctionUT.csproj
 issues_template_configs:
 - panel_name: " \U0001F41E 上报 BUG (Report bug)"
   file_name: bug
@@ -199,26 +203,28 @@ test:
     description: 此次提交包含 [测试工程] 相关的改动.
     color: 68E0F8
   projects:
-  - trigger_pull_request_test: true
-    trigger_codecov: true
+  - trigger_pull_request_test: false
+    trigger_codecov: false
+    o_s: 
     id: 7EC1DFB6-3332-4A4D-867B-B7C32D2AB0FE
     is_ignored: false
     is_folded: false
     relative_path: test/ut/NatashaFunctionUT/NatashaFunctionUT.csproj
     project_name: NatashaFunctionUT
-    package_name: NatashaFunctionUT
+    package_name: 
     project_folder: test/ut/NatashaFunctionUT
     labels: 
     dependency_config: 
-  - trigger_pull_request_test: false
-    trigger_codecov: false
-    id: 716B9CEC-8CA2-433F-9E9A-974E536C4099
+  - trigger_pull_request_test: true
+    trigger_codecov: true
+    o_s: linux
+    id: C4427931-E3B0-47DC-B0B8-26D4E4AC1D2E
     is_ignored: false
     is_folded: false
-    relative_path: test/ut/PluginFunctionUT/PluginFunctionUT.csproj
-    project_name: PluginFunctionUT
+    relative_path: test/ut/CompileUnit/RefAssemblyUT/RefAssemblyUT.csproj
+    project_name: RefAssemblyUT
     package_name: 
-    project_folder: test/ut/PluginFunctionUT
+    project_folder: test/ut/CompileUnit/RefAssemblyUT
     labels: 
     dependency_config: 
 workflow:

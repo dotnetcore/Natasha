@@ -22,14 +22,22 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: |
-          3.1.425
+          3.1.x
           6.0.x
           8.0.x
           
-    - name: 🚦 Build NatashaFunctionUT 
-      run:  dotnet build './test/ut/NatashaFunctionUT' -c Release --nologo
-    - name: 🚦 NatashaFunctionUT UT Test
-      run: dotnet test './test/ut/NatashaFunctionUT' --nologo -c Release -l "trx;LogFileName=NatashaFunctionUT.trx" --results-directory "TestResults"
+    - name: 👀 Test & Pack Codecov - RefAssemblyUT
+      run: dotnet test "./test/ut/CompileUnit/RefAssemblyUT/RefAssemblyUT.csproj" --nologo -f net6.0 -c Release  -l "trx;LogFileName=RefAssemblyUT.trx" --results-directory "TestResults" --collect:"XPlat Code Coverage"
+    - name: 📶 Push to Codecov
+      if: matrix.os == 'ubuntu-latest'
+      uses: codecov/codecov-action@v4.3.0
+      with:
+        token: ${{ secrets.COVERAGE_KEY }}
+        directory: TestResults
+    - name: 🚦 RefAssemblyUT UT Test Not on ubuntu-latest
+      if: matrix.os != 'ubuntu-latest'
+      run: dotnet test './test/ut/CompileUnit/RefAssemblyUT' --nologo -c Release -l "trx;LogFileName=RefAssemblyUT.trx" --results-directory "TestResults"
+
 
 
     - name: Publish Test Results
