@@ -79,7 +79,7 @@ public static class SolutionConfigurationExtension
                 }
             };
         solutionInfo.Src.Projects = GetProjects<SrcProjectConfiguration>("src", ignoreProjects);
-        solutionInfo.Test.Projects = GetProjects<TestProjectConfiguration>("test\\ut", ignoreProjects, 3);
+        solutionInfo.Test.Projects = GetProjects<TestProjectConfiguration>("test\\ut", ignoreProjects, 4);
         solutionInfo.Samples.Projects = GetProjects<SamplesProjectConfiguration>("samples", ignoreProjects);
         solutionInfo.Workflow.Projects = GetProjects<WorkflowProjectConfiguration>("test\\workflow", ignoreProjects);
 
@@ -121,7 +121,7 @@ public static class SolutionConfigurationExtension
                 var shut = !unExpectProjects.Contains(unixPath);
                 if (deepth!=0)
                 {
-                    shut = shut && unixPath.Split('/').Length == deepth + 1;
+                    shut = shut && unixPath.Split('/').Length <= deepth + 1;
                 }
                 return shut;
             }

@@ -1,4 +1,5 @@
 ﻿using Github.NET.Sdk.Model;
+using System.Runtime.InteropServices;
 
 namespace Github.NMSAcion.NET.Sdk.Model
 {
@@ -27,7 +28,14 @@ namespace Github.NMSAcion.NET.Sdk.Model
     {
         public bool TriggerPullRequestTest { get; set; }
         public bool TriggerCodecov { get; set; }
+        /// <summary>
+        /// win
+        /// linux
+        /// osx
+        /// </summary>
+        public string? OS { get; set; }
     }
+
 
     public sealed class WorkflowProjectConfiguration : CSProjectConfigurationBase
     {
