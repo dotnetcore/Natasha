@@ -67,12 +67,12 @@ public sealed class NatashaLoadContext : IDisposable
         var result = MetadataHelper.GetMetadataAndNamespaceFromMemory(assembly);
         if (result.HasValue)
         {
-            AddReferenceAndUsing(result.Value.asmName, result.Value.metadata, result.Value.namespaces);
+            AddReferenceAndUsingCode(result.Value.asmName, result.Value.metadata, result.Value.namespaces);
         }
     }
 
 
-    public NatashaLoadContext AddReferenceAndUsing(AssemblyName name, MetadataReference metadataReference, HashSet<string> usings, AssemblyCompareInformation compareInfomation = AssemblyCompareInformation.None)
+    public NatashaLoadContext AddReferenceAndUsingCode(AssemblyName name, MetadataReference metadataReference, HashSet<string> usings, AssemblyCompareInformation compareInfomation = AssemblyCompareInformation.None)
     {
         ReferenceRecorder.AddReference(name, metadataReference, compareInfomation);
         UsingRecorder.Using(usings);
@@ -91,7 +91,7 @@ public sealed class NatashaLoadContext : IDisposable
         var result = MetadataHelper.GetMetadataAndNamespaceFromMemory(assembly, null);
         if (result.HasValue)
         {
-            AddReferenceAndUsing(result.Value.asmName, result.Value.metadata, result.Value.namespaces, loadReferenceBehavior);
+            AddReferenceAndUsingCode(result.Value.asmName, result.Value.metadata, result.Value.namespaces, loadReferenceBehavior);
             var assmblies = Creator.GetDependencyAssemblies(assembly);
             if (assmblies != null && assmblies.Any())
             {
@@ -105,7 +105,7 @@ public sealed class NatashaLoadContext : IDisposable
                             result = MetadataHelper.GetMetadataAndNamespaceFromMemory(depAssembly, null);
                             if (result.HasValue)
                             {
-                                AddReferenceAndUsing(asmName, result.Value.metadata, result.Value.namespaces, loadReferenceBehavior);
+                                AddReferenceAndUsingCode(asmName, result.Value.metadata, result.Value.namespaces, loadReferenceBehavior);
                             }
                         }
                     }
@@ -120,7 +120,7 @@ public sealed class NatashaLoadContext : IDisposable
                             result = MetadataHelper.GetMetadataAndNamespaceFromMemory(depAssembly, null);
                             if (result.HasValue)
                             {
-                                AddReferenceAndUsing(asmName, result.Value.metadata, result.Value.namespaces, loadReferenceBehavior);
+                                AddReferenceAndUsingCode(asmName, result.Value.metadata, result.Value.namespaces, loadReferenceBehavior);
                             }
                         }
                     }
@@ -141,7 +141,7 @@ public sealed class NatashaLoadContext : IDisposable
         var result = MetadataHelper.GetMetadataAndNamespaceFromFile(path, null);
         if (result.HasValue)
         {
-            AddReferenceAndUsing(result.Value.asmName, result.Value.metadata, result.Value.namespaces, loadReferenceBehavior);
+            AddReferenceAndUsingCode(result.Value.asmName, result.Value.metadata, result.Value.namespaces, loadReferenceBehavior);
         }
         return this;
     }

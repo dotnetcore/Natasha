@@ -3,7 +3,9 @@ using Microsoft.CodeAnalysis.CSharp;
 using Natasha.CSharp.Compiler.Component;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics;
+using System.Dynamic;
 /// <summary>
 /// 程序集编译构建器 - 编译选项
 /// </summary>
@@ -17,6 +19,11 @@ public sealed partial class AssemblyCSharpBuilder
     {
         action(_compilerOptions);
         return this;
+    }
+
+    public ImmutableArray<Diagnostic>? GetDiagnostics()
+    {
+        return _compilation?.GetDiagnostics();
     }
 
     private bool _isReferenceAssembly;

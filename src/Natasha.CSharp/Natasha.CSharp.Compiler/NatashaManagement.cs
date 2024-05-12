@@ -1,5 +1,4 @@
-﻿using Natasha.CSharp.Compiler.Component;
-using Natasha.DynamicLoad.Base;
+﻿using Natasha.DynamicLoad.Base;
 using System;
 using System.Diagnostics;
 using System.Reflection;

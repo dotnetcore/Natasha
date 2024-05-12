@@ -1,4 +1,6 @@
-﻿public static class NatashaAssemblyBuilderExtension
+﻿using System.IO;
+
+public static class NatashaAssemblyBuilderExtension
 {
     public static AssemblyCSharpBuilder SetOutputFolder(this AssemblyCSharpBuilder builder, string folder)
     {
@@ -7,16 +9,31 @@
     }
     public static AssemblyCSharpBuilder SetDllFilePath(this AssemblyCSharpBuilder builder, string dllFilePath)
     {
+        var folder = Path.GetDirectoryName(dllFilePath);
+        if (!Directory.Exists(folder))
+        {
+            Directory.CreateDirectory(folder);
+        }
         builder.DllFilePath = dllFilePath;
         return builder;
     }
     public static AssemblyCSharpBuilder SetPdbFilePath(this AssemblyCSharpBuilder builder, string pdbFilePath)
     {
+        var folder = Path.GetDirectoryName(pdbFilePath);
+        if (!Directory.Exists(folder))
+        {
+            Directory.CreateDirectory(folder);
+        }
         builder.PdbFilePath = pdbFilePath;
         return builder;
     }
     public static AssemblyCSharpBuilder SetCommentFilePath(this AssemblyCSharpBuilder builder, string commentFilePath)
     {
+        var folder = Path.GetDirectoryName(commentFilePath);
+        if (!Directory.Exists(folder))
+        {
+            Directory.CreateDirectory(folder);
+        }
         builder.CommentFilePath = commentFilePath;
         return builder;
     }

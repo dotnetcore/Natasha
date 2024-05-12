@@ -43,10 +43,34 @@ public sealed partial class AssemblyCSharpBuilder
     /// <returns></returns>
     public AssemblyCSharpBuilder WithFileOutput(string dllFilePath, string? pdbFilePath = null, string? commentFilePath = null)
     {
-        DllFilePath = dllFilePath;
+        if (dllFilePath!=string.Empty)
+        {
+            var folder = Path.GetDirectoryName(dllFilePath);
+            if (!Directory.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
+            }
+            DllFilePath = dllFilePath;
+        }
+       
+        if (pdbFilePath != null)
+        {
+            var folder = Path.GetDirectoryName(pdbFilePath);
+            if (!Directory.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
+            }
+        }
         PdbFilePath = pdbFilePath;
+        
+
         if (commentFilePath != null)
         {
+            var folder = Path.GetDirectoryName(commentFilePath);
+            if (!Directory.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
+            }
             CommentFilePath = commentFilePath;
         }
         return this;
