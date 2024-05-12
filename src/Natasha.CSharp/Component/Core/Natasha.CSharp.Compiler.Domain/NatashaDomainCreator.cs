@@ -32,7 +32,7 @@ public class NatashaDomainCreator : INatashaDynamicLoadContextCreator
         var assemblyDomain = AssemblyLoadContext.GetLoadContext(assembly);
         if (assemblyDomain != null)
         {
-            return (NatashaCompilerDomain)assemblyDomain;
+            return assemblyDomain as NatashaCompilerDomain;
         }
         return null;
     }

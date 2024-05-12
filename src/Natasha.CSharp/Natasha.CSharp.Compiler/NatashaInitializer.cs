@@ -206,7 +206,7 @@ internal static class NatashaInitializer
                         var result = MetadataHelper.GetMetadataAndNamespaceFromMemory(assembly, _excludeReferencesFunc);
                         if (result.HasValue)
                         {
-                            NatashaLoadContext.DefaultContext.AddReferenceAndUsing(result.Value.asmName, result.Value.metadata, result.Value.namespaces);
+                            NatashaLoadContext.DefaultContext.AddReferenceAndUsingCode(result.Value.asmName, result.Value.metadata, result.Value.namespaces);
                         }
                     });
                 }
@@ -247,7 +247,7 @@ internal static class NatashaInitializer
                         var result = MetadataHelper.GetMetadataAndNamespaceFromFile(path, _excludeReferencesFunc);
                         if (result.HasValue)
                         {
-                            NatashaLoadContext.DefaultContext.AddReferenceAndUsing(result.Value.asmName, result.Value.metadata, result.Value.namespaces);
+                            NatashaLoadContext.DefaultContext.AddReferenceAndUsingCode(result.Value.asmName, result.Value.metadata, result.Value.namespaces);
                         }
                     });
                 }

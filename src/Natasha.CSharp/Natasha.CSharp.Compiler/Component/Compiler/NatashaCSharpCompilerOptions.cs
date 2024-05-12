@@ -57,10 +57,21 @@ namespace Natasha.CSharp.Compiler.Component
             return this;
         }
 
+        /// <summary>
+        /// 移除所有禁断代码
+        /// </summary>
+        /// <returns></returns>
+        public NatashaCSharpCompilerOptions ClearSupperess()
+        {
+            _reportDiagnostics.Clear();
+            return this;
+        }
+
 
         private bool _suppressReportShut = false;
         /// <summary>
         /// 启用禁断的报告
+        /// 该方法与 SuppressMessage 相关，目前 UT 测试尚未跑通，但不影响其他功能使用。
         /// </summary>
         /// <returns></returns>
         public NatashaCSharpCompilerOptions WithSuppressReportor()
@@ -70,6 +81,7 @@ namespace Natasha.CSharp.Compiler.Component
         }
         /// <summary>
         /// 关闭禁断的报告(默认)
+        /// 该方法与 SuppressMessage 相关，目前 UT 测试尚未跑通，但不影响其他功能使用。
         /// </summary>
         /// <returns></returns>
         public NatashaCSharpCompilerOptions WithoutSuppressReportor()

@@ -76,7 +76,7 @@ public static class NatashaAssemblyExtension
         var type = GetTypeFromShortName(assembly, typeName);
         try
         {
-            var info = type.GetMethod(methodName);
+            var info = type.GetMethod(methodName,BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
             if (info == null)
             {
                 throw new Exception("获取方法返回空!");
@@ -110,7 +110,7 @@ public static class NatashaAssemblyExtension
         try
         {
 
-            return info.CreateDelegate(delegateType, target);
+            return info.CreateDelegate(delegateType,target);
 
         }
         catch (Exception ex)
@@ -223,7 +223,12 @@ public static class NatashaAssemblyExtension
 
     public static INatashaDynamicLoadContextBase? GetDomain(this Assembly assembly)
     {
-        return NatashaLoadContext.Creator.GetDomain(assembly);
+        var loadContext = NatashaLoadContext.Creator.GetDomain(assembly);
+        if (loadContext == null)
+        {
+            return NatashaLoadContext.DefaultContext.Domain;
+        }
+        return loadContext;
     }
 
     public static void DisposeDomain(this Assembly assembly)

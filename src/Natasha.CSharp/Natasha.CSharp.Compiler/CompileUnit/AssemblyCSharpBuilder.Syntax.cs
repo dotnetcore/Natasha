@@ -91,7 +91,7 @@ public sealed partial class AssemblyCSharpBuilder
     /// </summary>
     /// <param name="script"></param>
     /// <returns></returns>
-    internal AssemblyCSharpBuilder FastAddScriptWithoutCheck(string script)
+    public AssemblyCSharpBuilder FastAddScriptWithoutCheck(string script)
     {
         SyntaxTrees.Add(NatashaCSharpSyntax.ParseTree(script, _options));
         return this;
