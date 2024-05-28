@@ -28,6 +28,11 @@ public sealed partial class AssemblyCSharpBuilder
 
     }
 
+    /// <summary>
+    /// 设置程序集名称
+    /// </summary>
+    /// <param name="asmName"></param>
+    /// <returns>链式对象(调用方法的实例本身).</returns>
     public AssemblyCSharpBuilder SetAssemblyName(string asmName)
     {
         AssemblyName = asmName;
@@ -40,7 +45,7 @@ public sealed partial class AssemblyCSharpBuilder
     /// <param name="dllFilePath"></param>
     /// <param name="pdbFilePath"></param>
     /// <param name="commentFilePath"></param>
-    /// <returns></returns>
+    /// <returns>链式对象(调用方法的实例本身).</returns>
     public AssemblyCSharpBuilder WithFileOutput(string dllFilePath, string? pdbFilePath = null, string? commentFilePath = null)
     {
         if (dllFilePath!=string.Empty)
@@ -81,7 +86,7 @@ public sealed partial class AssemblyCSharpBuilder
     /// 默认不输出到文件，只输出到内存。
     /// </summary>
     /// <param name="folder">文件夹路径</param>
-    /// <returns></returns>
+    /// <returns>链式对象(调用方法的实例本身).</returns>
     public AssemblyCSharpBuilder WithFileOutput(string? folder = null)
     {
         if (folder == null)

@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
-using System.Dynamic;
 /// <summary>
 /// 程序集编译构建器 - 编译选项
 /// </summary>
@@ -14,13 +13,34 @@ public sealed partial class AssemblyCSharpBuilder
     private readonly NatashaCSharpCompilerOptions _compilerOptions;
     private CSharpCompilation? _compilation;
     public CSharpCompilation? Compilation { get { return _compilation; } }
- 
+
+    /// <summary>
+    /// 配置编译选项.
+    /// <list type="table">
+    /// <item>复用 Builder 场景:
+    /// <list type="bullet">
+    /// <item>
+    ///     该方法为一次性方法，配置不会被缓存.
+    /// </item>
+    /// <item>
+    ///     用 <see cref="Clear"/> 方法后，重调此方法并传入您的配置逻辑.
+    /// </item>
+    /// </list>
+    /// </item>
+    /// </list>
+    /// </summary>
+    /// <param name="action">配置 [编译载体] 的逻辑.</param>
+    /// <returns>链式对象(调用方法的实例本身).</returns>
     public AssemblyCSharpBuilder ConfigCompilerOption(Action<NatashaCSharpCompilerOptions> action)
     {
         action(_compilerOptions);
         return this;
     }
 
+    /// <summary>
+    /// 获取当前 [编译载体] 的诊断信息.
+    /// </summary>
+    /// <returns>诊断信息集合</returns>
     public ImmutableArray<Diagnostic>? GetDiagnostics()
     {
         return _compilation?.GetDiagnostics();
@@ -31,18 +51,21 @@ public sealed partial class AssemblyCSharpBuilder
     private bool _includePrivateMembers;
 
     /// <summary>
-    /// 输出文件包含私有字段信息
+    /// 输出文件包含私有字段信息.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>链式对象(调用方法的实例本身).</returns>
     public AssemblyCSharpBuilder WithPrivateMembers()
     {
         _includePrivateMembers = true;
         return this;
     }
     /// <summary>
-    /// 输出文件不包含私有字段信息(默认)
+    /// 输出文件不包含私有字段信息(默认).
     /// </summary>
-    /// <returns></returns>
+    /// <remarks>
+    /// 注：选项状态会被缓存，复用时无需重复调用.
+    /// </remarks>
+    /// <returns>链式对象(调用方法的实例本身).</returns>
     public AssemblyCSharpBuilder WithoutPrivateMembers()
     {
         _includePrivateMembers = false;
@@ -50,9 +73,12 @@ public sealed partial class AssemblyCSharpBuilder
     }
 
     /// <summary>
-    /// 是否以引用程序集方式输出
+    /// 是否以引用程序集方式输出.
     /// </summary>
-    /// <returns></returns>
+    /// <remarks>
+    /// 注：选项状态会被缓存，复用时无需重复调用.
+    /// </remarks>
+    /// <returns>链式对象(调用方法的实例本身).</returns>
     public AssemblyCSharpBuilder OutputAsRefAssembly()
     {
         _isReferenceAssembly = true;
@@ -60,9 +86,12 @@ public sealed partial class AssemblyCSharpBuilder
         return this;
     }
     /// <summary>
-    /// 是否以完全程序集方式输出(默认)
+    /// 是否以完全程序集方式输出(默认).
     /// </summary>
-    /// <returns></returns>
+    /// <remarks>
+    /// 注：选项状态会被缓存，复用时无需重复调用.
+    /// </remarks>
+    /// <returns>链式对象(调用方法的实例本身).</returns>
     public AssemblyCSharpBuilder OutputAsFullAssembly()
     {
         _isReferenceAssembly = false;
@@ -74,9 +103,12 @@ public sealed partial class AssemblyCSharpBuilder
     private OptimizationLevel _codeOptimizationLevel;
 
     /// <summary>
-    /// 编译时使用 Debug 模式
+    /// 编译时使用 Debug 模式.
     /// </summary>
-    /// <returns></returns>
+    /// <remarks>
+    /// 注：选项状态会被缓存，复用时无需重复调用.
+    /// </remarks>
+    /// <returns>链式对象(调用方法的实例本身).</returns>
     public AssemblyCSharpBuilder WithDebugCompile(Action<DebugConfiguration>? action = null)
     {
         action?.Invoke(_debugConfiguration);
@@ -84,9 +116,12 @@ public sealed partial class AssemblyCSharpBuilder
         return this;
     }
     /// <summary>
-    /// 编译时使用 Release 模式优化（默认）
+    /// 编译时使用 Release 模式优化（默认）.
     /// </summary>
-    /// <returns></returns>
+    /// <remarks>
+    /// 注：选项状态会被缓存，复用时无需重复调用.
+    /// </remarks>
+    /// <returns>链式对象(调用方法的实例本身).</returns>
     public AssemblyCSharpBuilder WithReleaseCompile()
     {
         _withDebugInfo = false;
@@ -94,9 +129,12 @@ public sealed partial class AssemblyCSharpBuilder
         return this;
     }
     /// <summary>
-    /// 编译时使用携带有 DebugInfo 的 Release 模式优化（默认）
+    /// 编译时使用携带有 DebugInfo 的 Release 模式优化（默认）.
     /// </summary>
-    /// <returns></returns>
+    /// <remarks>
+    /// 注：选项状态会被缓存，复用时无需重复调用.
+    /// </remarks>
+    /// <returns>链式对象(调用方法的实例本身).</returns>
     public AssemblyCSharpBuilder WithFullReleaseCompile()
     {
         _withDebugInfo = true;
@@ -104,7 +142,22 @@ public sealed partial class AssemblyCSharpBuilder
         return this;
     }
 
-
+    /// <summary>
+    /// 获取一个配置好的 [编译载体].
+    /// <list type="bullet">
+    /// <item>
+    ///     语法树已经完成格式化.
+    /// </item>
+    /// <item>
+    ///     语法树已经完成语义过滤(若开启).
+    /// </item>
+    /// <item>
+    ///     元数据已经填充完毕.
+    /// </item>
+    /// </list>
+    /// </summary>
+    /// <param name="initOptionsFunc"></param>
+    /// <returns>编译载体.</returns>
     public CSharpCompilation GetAvailableCompilation(Func<CSharpCompilationOptions, CSharpCompilationOptions>? initOptionsFunc = null)
     {
 

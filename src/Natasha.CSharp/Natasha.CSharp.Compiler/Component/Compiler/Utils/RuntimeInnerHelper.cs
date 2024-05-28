@@ -13,7 +13,7 @@ namespace Natasha.CSharp.Compiler.Component
         {
             AssemblyCSharpBuilder builder = new AssemblyCSharpBuilder();
             var assembly = builder
-                .UseDefaultDomain()
+                .UseDefaultLoadContext()
                 .UseSimpleMode()
                 .WithDebugCompile(opt=>opt.WriteToAssembly())
                 .ConfigLoadContext(context => context

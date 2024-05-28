@@ -259,7 +259,7 @@ namespace Natasha.CSharp.Compiler.Component
                                    specificDiagnosticOptions: _reportDiagnostics,
                                    deterministic: false,
                                    concurrentBuild: true,
-                                   moduleName: Guid.NewGuid().ToString(),
+                                   moduleName: 'M'+Guid.NewGuid().ToString(),
                                    reportSuppressedDiagnostics: _suppressReportShut,
                                    metadataImportOptions: _metadataImportOptions,
                                    outputKind: _assemblyKind,

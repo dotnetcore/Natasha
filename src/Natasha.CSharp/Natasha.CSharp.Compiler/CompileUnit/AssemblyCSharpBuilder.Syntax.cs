@@ -16,9 +16,10 @@ public sealed partial class AssemblyCSharpBuilder
     private CSharpParseOptions? _options;
     private UsingLoadBehavior _parsingBehavior;
     /// <summary>
-    /// 配置语法树选项
+    /// 配置语法树选项.
+    /// (注：该方法为一次性方法，使用过 Clear 方法后需要重新调用以达到您预期的配置)
     /// </summary>
-    /// <param name="cSharpParseOptions"></param>
+    /// <param name="cSharpParseOptions">直接传入语法树选项</param>
     /// <returns></returns>
     public AssemblyCSharpBuilder ConfigSyntaxOptions(CSharpParseOptions cSharpParseOptions)
     {
@@ -27,8 +28,9 @@ public sealed partial class AssemblyCSharpBuilder
     }
     /// <summary>
     /// 配置语法树选项
+    /// (注：该方法为一次性方法，使用过 Clear 方法后需要重新调用以达到您预期的配置)
     /// </summary>
-    /// <param name="cSharpParseOptionsAction"></param>
+    /// <param name="cSharpParseOptionsAction">传入语法树配置逻辑</param>
     /// <returns></returns>
     public AssemblyCSharpBuilder ConfigSyntaxOptions(Func<CSharpParseOptions, CSharpParseOptions> cSharpParseOptionsAction)
     {
@@ -55,10 +57,10 @@ public sealed partial class AssemblyCSharpBuilder
 
     /// <summary>
     /// 注入代码并拼接using，拼接 using 的逻辑与 WithCombineUsingCode 方法设置有关.
-    /// 在开启预热后，将自动拼接主域与当前域的 using.
+    /// (注：在开启预热后，将自动拼接主域与当前域的 using.)
     /// </summary>
     /// <param name="script">C#代码</param>
-    /// <returns></returns>
+    /// <returns>链式对象(调用方法的实例本身).</returns>
     public AssemblyCSharpBuilder Add(string script)
     {
         return Add(script, _parsingBehavior);
@@ -68,12 +70,14 @@ public sealed partial class AssemblyCSharpBuilder
     /// 添加脚本
     /// </summary>
     /// <param name="script"></param>
+    /// <returns>链式对象(调用方法的实例本身).</returns>
     private AssemblyCSharpBuilder AddScript(string script)
     {
         var tree = NatashaCSharpSyntax.ParseTree(script, _options);
         var exception = NatashaExceptionAnalyzer.GetSyntaxException(tree);
         if (exception != null)
         {
+            _exception = exception;
             throw exception;
         }
         else
@@ -87,10 +91,10 @@ public sealed partial class AssemblyCSharpBuilder
     }
 
     /// <summary>
-    /// 快速添加语法树，无检查
+    /// 快速添加语法树，无检查.
     /// </summary>
     /// <param name="script"></param>
-    /// <returns></returns>
+    /// <returns>链式对象(调用方法的实例本身).</returns>
     public AssemblyCSharpBuilder FastAddScriptWithoutCheck(string script)
     {
         SyntaxTrees.Add(NatashaCSharpSyntax.ParseTree(script, _options));
@@ -98,9 +102,11 @@ public sealed partial class AssemblyCSharpBuilder
     }
 
     /// <summary>
-    /// 添加语法树
+    /// 添加语法树.
+    /// (注：如果希望跳过检查和格式化，可以使用 FastAddScriptWithoutCheck 方法.)
     /// </summary>
     /// <param name="tree"></param>
+    /// <returns>链式对象(调用方法的实例本身).</returns>
     public AssemblyCSharpBuilder Add(SyntaxTree tree)
     {
         tree = NatashaCSharpSyntax.FormartTree(tree, _options);
@@ -118,7 +124,10 @@ public sealed partial class AssemblyCSharpBuilder
         }
         return this;
     }
-
+    /// <summary>
+    /// 清除编译单元内的语法树
+    /// </summary>
+    /// <returns>链式对象(调用方法的实例本身).</returns>
     public AssemblyCSharpBuilder ClearScript()
     {
         SyntaxTrees.Clear();
@@ -130,7 +139,7 @@ public sealed partial class AssemblyCSharpBuilder
     /// </summary>
     /// <param name="script">C#代码</param>
     /// <param name="usingLoadBehavior">using 拼接行为</param>
-    /// <returns></returns>
+    /// <returns>链式对象(调用方法的实例本身).</returns>
     public AssemblyCSharpBuilder Add(string script, UsingLoadBehavior usingLoadBehavior)
     {
         switch (usingLoadBehavior)

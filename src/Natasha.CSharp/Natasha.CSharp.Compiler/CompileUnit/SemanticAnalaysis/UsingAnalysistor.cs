@@ -51,12 +51,13 @@ namespace Natasha.CSharp.Compiler.SemanticAnalaysis
                         {
                             var error = errors[i];
                             //NamespaceName2 中的命名空间 NamespaceName1 与 NamespaceName3 中的类型 TypeName1 冲突
-                            if (error.Id == "CS0434")
-                            {
-                                error.RemoveDefaultUsingAndUsingNode(root, errorNodes);
-                            }
+                            //if (error.Id == "CS0434")
+                            //{
+                            //    error.RemoveDefaultUsingAndUsingNode(root, errorNodes);
+                            //}
                             //无用 using , 不必要的 using 指令。
-                            else if (error.Id == "CS8019")
+                            //else 
+                            if (error.Id == "CS8019")
                             {
                                 var node = error.GetTypeSyntaxNode<UsingDirectiveSyntax>(root);
                                 if (node != null)

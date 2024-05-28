@@ -11,6 +11,12 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("Natasha.CSharp.UnitTest.Base, PublicKey=002400000480000094000000060200000024000052534131000400000100010069acb31dd0d9918441d6ed2b49cd67ae17d15fd6ded4ccd2f99b4a88df8cddacbf72d5897bb54f406b037688d99f482ff1c3088638b95364ef614f01c3f3f2a2a75889aa53286865463fb1803876056c8b98ec57f0b3cf2b1185de63d37041ba08f81ddba0dccf81efcdbdc912032e8d2b0efa21accc96206c386b574b9d9cb8")]
 public sealed partial class AssemblyCSharpBuilder
 {
+    private NatashaException? _exception;
+
+    public NatashaException? GetException()
+    {
+        return _exception;
+    }
 
     public AssemblyCSharpBuilder() : this(Guid.NewGuid().ToString("N"))
     {
@@ -37,12 +43,21 @@ public sealed partial class AssemblyCSharpBuilder
 
     internal static bool HasInitialized;
     /// <summary>
-    /// 清空编译信息, 下次编译重组 Compilation .
+    /// 清空编译载体信息, 下次编译重组 Compilation .
     /// </summary>
-    /// <returns></returns>
+    /// <returns>链式对象(调用方法的实例本身).</returns>
     public AssemblyCSharpBuilder ClearCompilationCache()
     {
         _compilation = null;
+        return this;
+    }
+    /// <summary>
+    /// 清空 emitOption 配置逻辑.
+    /// </summary>
+    /// <returns>链式对象(调用方法的实例本身).</returns>
+    public AssemblyCSharpBuilder ClearEmitOptionCache()
+    {
+        _emitOptionHandle = null;
         return this;
     }
 
@@ -53,6 +68,7 @@ public sealed partial class AssemblyCSharpBuilder
     public AssemblyCSharpBuilder Clear()
     {
         _compilation = null;
+        _emitOptionHandle = null;
         SyntaxTrees.Clear();
         AssemblyName = string.Empty;
         return this;
@@ -70,7 +86,7 @@ public sealed partial class AssemblyCSharpBuilder
     }
 
     /// <summary>
-    /// 轻便模式：无合并行为，使用当前域的 Using，无语义检查
+    /// 轻便模式：无合并行为，仅使用当前域的元数据、Using，无语义检查.
     /// </summary>
     /// <returns></returns>
     public AssemblyCSharpBuilder UseSimpleMode()
@@ -84,7 +100,7 @@ public sealed partial class AssemblyCSharpBuilder
         return this;
     }
     /// <summary>
-    /// 智能模式：默认合并所有元数据，合并当前域及主域 Using，开启语义检查
+    /// 智能模式：合并当前域及主域 的元数据、Using，开启语义检查.
     /// </summary>
     /// <returns></returns>
     public AssemblyCSharpBuilder UseSmartMode()
