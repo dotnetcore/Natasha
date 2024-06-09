@@ -107,7 +107,20 @@ namespace Natasha.CSharp.Extension.HotExecutor
                 Process[] processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(_outputNewExeFile));
                 if (processes.Length > 0)
                 {
-                    return new ValueTask<bool>(true);
+                    foreach (var item in processes)
+                    {
+                        try
+                        {
+                            if (item.HasExited == false)
+                            {
+                                return new ValueTask<bool>(true);
+                            }
+                        }
+                        catch
+                        { 
+                        }
+
+                    }
                 }
             }
             catch (Exception e)
