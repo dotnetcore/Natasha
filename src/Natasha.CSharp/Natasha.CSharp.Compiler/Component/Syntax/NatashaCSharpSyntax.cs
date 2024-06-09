@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis.CSharp;
 
 namespace Natasha.CSharp.Compiler.Component
 {
-    internal static class NatashaCSharpSyntax
+    public static class NatashaCSharpSyntax
     {
 
         //private readonly static AdhocWorkspace _workSpace;
@@ -68,16 +68,16 @@ namespace Natasha.CSharp.Compiler.Component
         }
 
 
-        internal static SyntaxTree ParseTree(string script, CSharpParseOptions? options)
+        public static SyntaxTree ParseTree(string script, CSharpParseOptions? options)
         {
-            if (options==null)
+            if (options == null)
             {
                 options = _options;
             }
             //Mark1 : 647ms
             //Mark2 : 128ms
             //Mark : 5.0M (Memory:2023-02-27)
-            var tree = CSharpSyntaxTree.ParseText(script.Trim(), _options);
+            var tree = CSharpSyntaxTree.ParseText(script.Trim(), options);
             return FormartTree(tree, options);
 
         }
@@ -88,7 +88,7 @@ namespace Natasha.CSharp.Compiler.Component
         /// </summary>
         /// <param name="tree"></param>
         /// <returns></returns>
-        internal static SyntaxTree FormartTree(SyntaxTree tree, CSharpParseOptions? options)
+        public static SyntaxTree FormartTree(SyntaxTree tree, CSharpParseOptions? options)
         {
             if (options == null)
             {

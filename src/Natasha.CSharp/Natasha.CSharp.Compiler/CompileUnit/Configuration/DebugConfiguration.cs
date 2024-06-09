@@ -24,7 +24,7 @@ public class DebugConfiguration
         return this;
     }
     /// <summary>
-    /// 将Pdb输出到程序集中，并直接从程序集加载Pdb调试信息
+    /// 将 Pdb 输出到程序集中，并直接从程序集加载 Pdb 调试信息
     /// </summary>
     /// <returns></returns>
     public DebugConfiguration WriteToAssembly()

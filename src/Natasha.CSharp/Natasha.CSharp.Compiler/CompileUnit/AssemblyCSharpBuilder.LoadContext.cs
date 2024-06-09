@@ -15,7 +15,7 @@ public sealed partial class AssemblyCSharpBuilder
     /// <item>复用 Builder 场景:
     /// <list type="bullet">
     /// <item>
-    ///     没有需要处理的，除非想重新创建一个上下文.
+    ///     不需要处理，除非想重新创建一个上下文.
     /// </item>
     /// <item>
     ///     别在同一个域创建同名程序集.
@@ -28,7 +28,7 @@ public sealed partial class AssemblyCSharpBuilder
     /// 注：[加载上下文] 的内容包括该域成功编译后产生的 [元数据引用]、[UsingCode]. 
     /// </remarks>
     /// <param name="handle"></param>
-    /// <returns></returns>
+    /// <returns>链式对象(调用方法的实例本身).</returns>
     public AssemblyCSharpBuilder ConfigLoadContext(Func<NatashaLoadContext, NatashaLoadContext> handle)
     {
         _loadContext = handle(_loadContext);

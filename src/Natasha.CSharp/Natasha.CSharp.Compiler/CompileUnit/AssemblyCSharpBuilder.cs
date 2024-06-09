@@ -45,12 +45,13 @@ public sealed partial class AssemblyCSharpBuilder
     /// <summary>
     /// 清空编译载体信息, 下次编译重组 Compilation .
     /// </summary>
-    /// <returns>链式对象(调用方法的实例本身).</returns>
+    [Obsolete("Compilation 每次编译都会重新创建，或使用 GetAvailableCompilation 方法重建。", true)]
     public AssemblyCSharpBuilder ClearCompilationCache()
     {
         _compilation = null;
         return this;
     }
+
     /// <summary>
     /// 清空 emitOption 配置逻辑.
     /// </summary>
@@ -64,7 +65,7 @@ public sealed partial class AssemblyCSharpBuilder
     /// <summary>
     /// 清空所有记录,包括编译信息和脚本记录,以及程序集名称.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>链式对象(调用方法的实例本身).</returns>
     public AssemblyCSharpBuilder Clear()
     {
         _compilation = null;
@@ -74,11 +75,65 @@ public sealed partial class AssemblyCSharpBuilder
         return this;
     }
 
+    private bool _usePreCompilationOptions;
+    /// <summary>
+    /// 复用之前的编译选项.
+    /// </summary>
+    /// <remarks>
+    /// 注：该状态会被缓存，复用时无需重复调用.
+    /// </remarks>
+    /// <returns>链式对象(调用方法的实例本身).</returns>
+    public AssemblyCSharpBuilder WithPreCompilationOptions()
+    {
+        _usePreCompilationOptions = true;
+        return this;
+    }
+    /// <summary>
+    /// 不复用之前的编译选项.(默认)
+    /// </summary>
+    /// <remarks>
+    /// 注：该状态会被缓存，复用时无需重复调用.
+    /// </remarks>
+    /// <returns>链式对象(调用方法的实例本身).</returns>
+    public AssemblyCSharpBuilder WithoutPreCompilationOptions()
+    {
+        _usePreCompilationOptions = false;
+        return this;
+    }
+
+    private bool _usePreCompilationReferences;
+    /// <summary>
+    /// 复用之前的编译选项.
+    /// </summary>
+    /// <remarks>
+    /// 注：该状态会被缓存，复用时无需重复调用.
+    /// </remarks>
+    /// <returns>链式对象(调用方法的实例本身).</returns>
+    public AssemblyCSharpBuilder WithPreCompilationReferences()
+    {
+        _usePreCompilationReferences = true;
+        return this;
+    }
+    /// <summary>
+    /// 不复用之前的编译选项.(默认)
+    /// </summary>
+    /// <remarks>
+    /// 注：该状态会被缓存，复用时无需重复调用.
+    /// </remarks>
+    /// <returns>链式对象(调用方法的实例本身).</returns>
+    public AssemblyCSharpBuilder WithoutPreCompilationReferences()
+    {
+        _usePreCompilationReferences = false;
+        return this;
+    }
 
     /// <summary>
     /// 自动使用 GUID 作为程序集名称.
     /// </summary>
-    /// <returns></returns>
+    /// <remarks>
+    /// 注：该状态[不会]被缓存，复用时需要重建调用此方法来生成随机程序集名.
+    /// </remarks>
+    /// <returns>链式对象(调用方法的实例本身).</returns>
     public AssemblyCSharpBuilder WithRandomAssenblyName()
     {
         AssemblyName = Guid.NewGuid().ToString("N");
@@ -88,7 +143,10 @@ public sealed partial class AssemblyCSharpBuilder
     /// <summary>
     /// 轻便模式：无合并行为，仅使用当前域的元数据、Using，无语义检查.
     /// </summary>
-    /// <returns></returns>
+    /// <remarks>
+    /// 注：该状态会被缓存，复用时无需重复调用.
+    /// </remarks>
+    /// <returns>链式对象(调用方法的实例本身).</returns>
     public AssemblyCSharpBuilder UseSimpleMode()
     {
         this
@@ -102,7 +160,10 @@ public sealed partial class AssemblyCSharpBuilder
     /// <summary>
     /// 智能模式：合并当前域及主域 的元数据、Using，开启语义检查.
     /// </summary>
-    /// <returns></returns>
+    /// <remarks>
+    /// 注：该状态会被缓存，复用时无需重复调用.
+    /// </remarks>
+    /// <returns>链式对象(调用方法的实例本身).</returns>
     public AssemblyCSharpBuilder UseSmartMode()
     {
         this

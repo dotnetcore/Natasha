@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Reflection.Metadata;
 
 
 public static class NatashaAssemblyExtension
@@ -77,11 +76,7 @@ public static class NatashaAssemblyExtension
         try
         {
             var info = type.GetMethod(methodName,BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
-            if (info == null)
-            {
-                throw new Exception("获取方法返回空!");
-            }
-            return info!;
+            return info ?? throw new Exception("获取方法返回空!");
         }
         catch (Exception ex)
         {
