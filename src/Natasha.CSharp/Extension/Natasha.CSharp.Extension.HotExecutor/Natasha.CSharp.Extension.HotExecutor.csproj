@@ -5,7 +5,7 @@
 	  <ImplicitUsings>enable</ImplicitUsings>
 	  <Nullable>enable</Nullable>
 	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-	  <Description>动态重载开发代码.</Description>
+	  <Description>动态重载控制台代码结果.</Description>
 	  <PackageId>DotNetCore.Natasha.CSharp.Extension.HotReload</PackageId>
 	  <PackageReleaseNotes>升级到最新版.</PackageReleaseNotes>
 	  <PackageTags>Natasha;Compiler;Extension;Codecov;HotReload;</PackageTags>

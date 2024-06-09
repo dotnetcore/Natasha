@@ -449,7 +449,7 @@ public static class ProjectDynamicProxy
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            Console.WriteLine($"Error during hot execution: {ex}");
         }
         return Task.CompletedTask;
     }
