@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+	  <ImplicitUsings>enable</ImplicitUsings>
+	  <Nullable>enable</Nullable>
+	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	  <Description>动态重载开发代码.</Description>
+	  <PackageId>DotNetCore.Natasha.CSharp.Extension.HotReload</PackageId>
+	  <PackageReleaseNotes>升级到最新版.</PackageReleaseNotes>
+	  <PackageTags>Natasha;Compiler;Extension;Codecov;HotReload;</PackageTags>
+	  <Version>8.0.0.0</Version>
+	  <FileVersion>8.0.0.0</FileVersion>
+	  <AssemblyVersion>8.0.0.0</AssemblyVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Natasha.CSharp.Compiler\Natasha.CSharp.Compiler.csproj" />
+  </ItemGroup>
+
+</Project>
