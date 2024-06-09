@@ -16,19 +16,10 @@ public sealed partial class AssemblyCSharpBuilder
 
     /// <summary>
     /// 配置编译选项.
-    /// <list type="table">
-    /// <item>复用 Builder 场景:
-    /// <list type="bullet">
-    /// <item>
-    ///     该方法为一次性方法，配置不会被缓存.
-    /// </item>
-    /// <item>
-    ///     用 <see cref="Clear"/> 方法后，重调此方法并传入您的配置逻辑.
-    /// </item>
-    /// </list>
-    /// </item>
-    /// </list>
     /// </summary>
+    /// <remarks>
+    /// 注：配置委托的运行结果会被缓存，复用时无需重复调用.
+    /// </remarks>
     /// <param name="action">配置 [编译载体] 的逻辑.</param>
     /// <returns>链式对象(调用方法的实例本身).</returns>
     public AssemblyCSharpBuilder ConfigCompilerOption(Action<NatashaCSharpCompilerOptions> action)
@@ -128,6 +119,7 @@ public sealed partial class AssemblyCSharpBuilder
         _codeOptimizationLevel = OptimizationLevel.Release;
         return this;
     }
+
     /// <summary>
     /// 编译时使用携带有 DebugInfo 的 Release 模式优化（默认）.
     /// </summary>
@@ -143,16 +135,19 @@ public sealed partial class AssemblyCSharpBuilder
     }
 
     /// <summary>
-    /// 获取一个配置好的 [编译载体].
+    /// 创建一个新的 [编译载体].
     /// <list type="bullet">
     /// <item>
-    ///     语法树已经完成格式化.
+    ///     检查复用信息.
     /// </item>
     /// <item>
-    ///     语法树已经完成语义过滤(若开启).
+    ///     语法树已完成格式化.
     /// </item>
     /// <item>
-    ///     元数据已经填充完毕.
+    ///     语法树将语义过滤(若开启).
+    /// </item>
+    /// <item>
+    ///     元数据将填充完毕.
     /// </item>
     /// </list>
     /// </summary>
@@ -170,24 +165,41 @@ public sealed partial class AssemblyCSharpBuilder
         //{
         //    _compilerOptions.WithLowerVersionsAssembly();
         //}
-        var options = _compilerOptions.GetCompilationOptions(_codeOptimizationLevel, _withDebugInfo);
-        if (initOptionsFunc != null)
+        CSharpCompilationOptions options;
+        if (_usePreCompilationOptions && _compilation != null)
         {
-            options = initOptionsFunc(options);
-        }
-        IEnumerable<MetadataReference> references;
-        if (_combineReferenceBehavior == CombineReferenceBehavior.CombineDefault)
-        {
-            references = LoadContext!.GetReferences(_referenceConfiguration);
-        }
-        else if (_combineReferenceBehavior == CombineReferenceBehavior.UseCurrent)
-        {
-            references = LoadContext!.ReferenceRecorder.GetReferences();
+            options = _compilation.Options;
         }
         else
         {
-            references = _specifiedReferences;
+            options = _compilerOptions.GetCompilationOptions(_codeOptimizationLevel, _withDebugInfo);
+            if (initOptionsFunc != null)
+            {
+                options = initOptionsFunc(options);
+            }
         }
+
+        IEnumerable<MetadataReference> references;
+        if (_usePreCompilationReferences && _compilation != null)
+        {
+            references = _compilation.References;
+        }
+        else
+        {
+            if (_combineReferenceBehavior == CombineReferenceBehavior.CombineDefault)
+            {
+                references = LoadContext!.GetReferences(_referenceConfiguration);
+            }
+            else if (_combineReferenceBehavior == CombineReferenceBehavior.UseCurrent)
+            {
+                references = LoadContext!.ReferenceRecorder.GetReferences();
+            }
+            else
+            {
+                references = _specifiedReferences;
+            }
+        }
+        
 
         if (_referencesFilter != null)
         {
@@ -195,6 +207,7 @@ public sealed partial class AssemblyCSharpBuilder
         }
 
         _compilation = CSharpCompilation.Create(AssemblyName, SyntaxTrees, references, options);
+
 #if DEBUG
         stopwatch.StopAndShowCategoreInfo("[Compiler]", "获取编译单元", 2);
 #endif

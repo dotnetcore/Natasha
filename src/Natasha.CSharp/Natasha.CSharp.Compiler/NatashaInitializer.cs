@@ -18,8 +18,8 @@ internal static class NatashaInitializer
     private static Func<AssemblyName?, string?, bool>? _excludeReferencesFunc;
 
     public static void Preheating(Func<AssemblyName?, string?, bool>? excludeReferencesFunc = null
-        , bool useRuntimeUsing = false
-        , bool useRuntimeReference = false
+        , bool? useRuntimeUsing = false
+        , bool? useRuntimeReference = false
         , bool useFileCache = false
         )
     {
@@ -46,7 +46,7 @@ internal static class NatashaInitializer
 
                     AssemblyCSharpBuilder tempBuilder = new();
                     tempBuilder
-                    .UseRandomDomain()
+                    .UseRandomLoadContext()
                     .UseSimpleMode()
                     .ConfigCompilerOption(opt => opt
                             .WithCompilerFlag(
@@ -57,10 +57,9 @@ internal static class NatashaInitializer
                             Natasha.CSharp.Compiler.CompilerBinderFlags.GenericConstraintsClause |
                             Natasha.CSharp.Compiler.CompilerBinderFlags.UncheckedRegion)
                     )
-                    .WithoutInjectToDomain()
                     .ConfigLoadContext(ldc => ldc.AddReferenceAndUsingCode(typeof(object)))
                     .FastAddScriptWithoutCheck("public class A{  public object? Test(){ return null; } }");
-                    tempBuilder.GetAssembly();
+                    tempBuilder.CompileWithoutAssembly();
                     tempBuilder.Domain.Dispose();
 
                 });
@@ -79,41 +78,85 @@ internal static class NatashaInitializer
                     var namespaceCache = File.ReadAllText(namespaceCacheFilePath, Encoding.UTF8);
                     var namespaceText = namespaceCache.Split(["+?"], StringSplitOptions.RemoveEmptyEntries);
                     NatashaLoadContext.DefaultContext.UsingRecorder.Using(namespaceText);
-                    if (useRuntimeReference)
+                    if (useRuntimeReference!=null)
                     {
-                        var assemblies = NatashaAssemblyHelper.GetRuntimeAssemblies();
-                        parallelLoopResults.Enqueue(InitReferenceFromRuntime(assemblies));
-                    }
-                    else
-                    {
-                        var paths = NatashaAssemblyHelper.GetReferenceAssmeblyFiles(excludeReferencesFunc);
-                        if (paths != null && paths.Any())
-                        {
-                            parallelLoopResults.Enqueue(InitReferenceFromPath(paths));
-                        }
-                        else
-                        {
-                            throw new Exception("Natasha 初始化失败，无法获取到引用程序集！建议引入：DotNetCore.Compile.Environment 环境包。");
-                        }
-                    }
-                }
-                else
-                {
-                    if (useRuntimeReference)
-                    {
-                        if (useRuntimeUsing)
-                        {
-                            var assemblies = NatashaAssemblyHelper.GetRuntimeAssemblies();
-                            parallelLoopResults.Enqueue(InitReferenceAndUsingFromRuntime(assemblies));
-                        }
-                        else
+                        if (useRuntimeReference.Value)
                         {
                             var assemblies = NatashaAssemblyHelper.GetRuntimeAssemblies();
                             parallelLoopResults.Enqueue(InitReferenceFromRuntime(assemblies));
+                        }
+                        else
+                        {
                             var paths = NatashaAssemblyHelper.GetReferenceAssmeblyFiles(excludeReferencesFunc);
                             if (paths != null && paths.Any())
                             {
-                                parallelLoopResults.Enqueue(InitUsingFromPath(paths));
+                                parallelLoopResults.Enqueue(InitReferenceFromPath(paths));
+                            }
+                            else
+                            {
+                                throw new Exception("Natasha 初始化失败，无法获取到引用程序集！建议引入：DotNetCore.Compile.Environment 环境包。");
+                            }
+                        }
+                    }
+                    
+                }
+                else
+                {
+                    if (useRuntimeReference != null)
+                    {
+                        if (useRuntimeReference.Value)
+                        {
+                            if (useRuntimeUsing!=null)
+                            {
+                                if (useRuntimeUsing.Value)
+                                {
+                                    var assemblies = NatashaAssemblyHelper.GetRuntimeAssemblies();
+                                    parallelLoopResults.Enqueue(InitReferenceAndUsingFromRuntime(assemblies));
+                                }
+                                else
+                                {
+                                    var assemblies = NatashaAssemblyHelper.GetRuntimeAssemblies();
+                                    parallelLoopResults.Enqueue(InitReferenceFromRuntime(assemblies));
+                                    var paths = NatashaAssemblyHelper.GetReferenceAssmeblyFiles(excludeReferencesFunc);
+                                    if (paths != null && paths.Any())
+                                    {
+                                        parallelLoopResults.Enqueue(InitUsingFromPath(paths));
+                                    }
+                                    else
+                                    {
+                                        throw new Exception("Natasha 初始化失败，无法获取到引用程序集！建议引入：DotNetCore.Compile.Environment 环境包。");
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                var assemblies = NatashaAssemblyHelper.GetRuntimeAssemblies();
+                                parallelLoopResults.Enqueue(InitReferenceFromRuntime(assemblies));
+                            }
+                        }
+                        else
+                        {
+                            var paths = NatashaAssemblyHelper.GetReferenceAssmeblyFiles(excludeReferencesFunc);
+                            if (paths != null && paths.Any())
+                            {
+                                if (useRuntimeUsing!=null)
+                                {
+                                    if (useRuntimeUsing.Value)
+                                    {
+                                        parallelLoopResults.Enqueue(InitReferenceFromPath(paths));
+                                        var assemblies = NatashaAssemblyHelper.GetRuntimeAssemblies();
+                                        parallelLoopResults.Enqueue(InitUsingFromRuntime(assemblies));
+                                    }
+                                    else
+                                    {
+                                        parallelLoopResults.Enqueue(InitReferenceAndUsingFromPath(paths));
+                                    }
+                                }
+                                else
+                                {
+                                    parallelLoopResults.Enqueue(InitReferenceFromPath(paths));
+                                }
+                                
                             }
                             else
                             {
@@ -123,23 +166,25 @@ internal static class NatashaInitializer
                     }
                     else
                     {
-                        var paths = NatashaAssemblyHelper.GetReferenceAssmeblyFiles(excludeReferencesFunc);
-                        if (paths != null && paths.Any())
+                        if (useRuntimeUsing != null)
                         {
-                            if (useRuntimeUsing)
+                            if (useRuntimeUsing.Value)
                             {
-                                parallelLoopResults.Enqueue(InitReferenceFromPath(paths));
                                 var assemblies = NatashaAssemblyHelper.GetRuntimeAssemblies();
                                 parallelLoopResults.Enqueue(InitUsingFromRuntime(assemblies));
                             }
                             else
                             {
-                                parallelLoopResults.Enqueue(InitReferenceAndUsingFromPath(paths));
+                                var paths = NatashaAssemblyHelper.GetReferenceAssmeblyFiles(excludeReferencesFunc);
+                                if (paths != null && paths.Any())
+                                {
+                                    parallelLoopResults.Enqueue(InitUsingFromPath(paths));
+                                }
+                                else
+                                {
+                                    throw new Exception("Natasha 初始化失败，无法获取到引用程序集！建议引入：DotNetCore.Compile.Environment 环境包。");
+                                }
                             }
-                        }
-                        else
-                        {
-                            throw new Exception("Natasha 初始化失败，无法获取到引用程序集！建议引入：DotNetCore.Compile.Environment 环境包。");
                         }
                     }
                 }
@@ -156,16 +201,18 @@ internal static class NatashaInitializer
 #if DEBUG
                 stopwatch.RestartAndShowCategoreInfo("[  Metadata  ]", "编译缓存初始化", 1);
 #endif
+                if (useRuntimeReference!=null)
+                {
+                    AssemblyCSharpBuilder cSharpBuilder = new();
+                    cSharpBuilder
+                        .UseRandomLoadContext()
+                        .UseSmartMode()
+                        .FastAddScriptWithoutCheck(@"using System; public class B{ public object? Test(){ return null; } }")
+                        .CompileWithoutAssembly();
 
-                AssemblyCSharpBuilder cSharpBuilder = new();
-                cSharpBuilder
-                    .UseRandomDomain()
-                    .UseSmartMode()
-                    .WithoutInjectToDomain()
-                    .FastAddScriptWithoutCheck(@"public class B{ public object? Test(){ return null; } }")
-                    .GetAssembly();
-
-                cSharpBuilder.Domain.Dispose();
+                    cSharpBuilder.Domain.Dispose();
+                }
+               
 
                 if (!File.Exists(namespaceCacheFilePath) && useFileCache)
                 {
