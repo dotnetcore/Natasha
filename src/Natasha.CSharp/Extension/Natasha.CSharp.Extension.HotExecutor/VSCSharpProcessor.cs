@@ -22,10 +22,14 @@ namespace Natasha.CSharp.Extension.HotExecutor
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 UseShellExecute = false,
-                CreateNoWindow = true
+                CreateNoWindow = true,
             };
+            _builder.StandardOutputEncoding = Encoding.UTF8;
+            _builder.StandardErrorEncoding = Encoding.UTF8;
             ResetOutputInfo();
         }
+
+
 
         private void ResetOutputInfo()
         {

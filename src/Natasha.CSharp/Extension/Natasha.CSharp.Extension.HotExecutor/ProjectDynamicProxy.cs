@@ -28,10 +28,14 @@ public static class ProjectDynamicProxy
     private static bool _isFaildBuild;
     internal static bool IsRelease;
     private readonly static CSharpParseOptions _debugOptions;
+    private static Action? _endCallback;
     static ProjectDynamicProxy()
     {
 
         _builderCache = new();
+        _builderCache.ConfigCompilerOption(opt => opt
+            .AppendCompilerFlag(
+            Natasha.CSharp.Compiler.CompilerBinderFlags.IgnoreAccessibility | Natasha.CSharp.Compiler.CompilerBinderFlags.IgnoreCorLibraryDuplicatedTypes));
         _builderCache.UseRandomLoadContext();
         _builderCache.UseSmartMode();
         _builderCache.WithoutSemanticCheck();
@@ -250,7 +254,26 @@ public static class ProjectDynamicProxy
         
     }
     
-    
+    /// <summary>
+    /// 重执行之前需要做的工作
+    /// </summary>
+    /// <param name="callback"></param>
+    public static void ConfigEndBackcall(Action callback)
+    {
+        _endCallback = callback;
+    }
+
+    public static void NeedBeDisposedObject(params IAsyncDisposable[] disposableObjects)
+    {
+        _endCallback = async () => 
+        {
+            foreach (var disposableObject in disposableObjects)
+            {
+                await disposableObject.DisposeAsync();
+            }
+        };
+    }
+
     public static void BuildWithRelease()
     {
         IsRelease = true;
@@ -370,6 +393,7 @@ public static class ProjectDynamicProxy
             }
         }
 
+        HotExecute();
     }
 
     //use FileStream read a text file
@@ -424,6 +448,8 @@ public static class ProjectDynamicProxy
             var types = assembly.GetTypes();
             var typeInfo = assembly.GetTypeFromShortName(_className!);
             var methods = typeInfo.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
+           
+            _endCallback?.Invoke();
             if (methods.Any(item => item.Name == _argumentsMethodName))
             {
                 _args.Clear();
