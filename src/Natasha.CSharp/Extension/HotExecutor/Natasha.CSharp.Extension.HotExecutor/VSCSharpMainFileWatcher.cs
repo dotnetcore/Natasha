@@ -52,7 +52,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
        Console.WriteLine($"Created: {e.FullPath}");
 #endif
                
-                if (CheckFileAvailiable(e.FullPath))
+                if (VSCSharpFolder.CheckFileAvailiable(e.FullPath))
                 {
                     _compileLock.GetAndWaitLock();
                     CreateFileAction(e.FullPath);
@@ -71,7 +71,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
 #if DEBUG
        Console.WriteLine($"Deleted: {e.FullPath}");
 #endif
-                if (CheckFileAvailiable(e.FullPath))
+                if (VSCSharpFolder.CheckFileAvailiable(e.FullPath))
                 {
                     _compileLock.GetAndWaitLock();
                     DeleteFileAction(e.FullPath);
@@ -95,11 +95,11 @@ namespace Natasha.CSharp.Extension.HotExecutor
                     if (e.FullPath.EndsWith(".cs"))
                     {
                         _compileLock.GetAndWaitLock();
-                        if (CheckFileAvailiable(e.FullPath))
+                        if (VSCSharpFolder.CheckFileAvailiable(e.FullPath))
                         {
                             CreateFileAction(e.FullPath);
                         }
-                        if (CheckFileAvailiable(e.OldFullPath))
+                        if (VSCSharpFolder.CheckFileAvailiable(e.OldFullPath))
                         {
                             DeleteFileAction(e.OldFullPath);
                         }
@@ -109,7 +109,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
                     else if (e.FullPath.StartsWith(e.OldFullPath) && e.FullPath.EndsWith(".TMP"))
                     {
                        
-                        if (CheckFileAvailiable(e.OldFullPath))
+                        if (VSCSharpFolder.CheckFileAvailiable(e.OldFullPath))
                         {
                             _compileLock.GetAndWaitLock();
                             ChangeFileAction(e.OldFullPath);
@@ -135,14 +135,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
         }
 #endif
         }
-        public bool CheckFileAvailiable(string file)
-        {
-            if (file.StartsWith(VSCSharpFolder.ObjPath) || file.StartsWith(VSCSharpFolder.BinPath))
-            {
-                return false;
-            }
-            return true;
-        }
+       
         private static void Error(object sender, ErrorEventArgs e)
         {
             PrintException(e.GetException());

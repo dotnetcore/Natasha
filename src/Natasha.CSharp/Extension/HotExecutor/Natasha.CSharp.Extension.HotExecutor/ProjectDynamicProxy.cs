@@ -29,8 +29,14 @@ public static class ProjectDynamicProxy
     private static Action? _endCallback;
     private static readonly HESpinLock _buildLock;
     private static readonly VSCSharpMainFileWatcher _mainWatcher;
+    private static string _commentTag = "//Once";
     //private static readonly MethodDeclarationSyntax _emptyMainTree;
     //private static string _callMethod;
+
+    public static void SetCommentTag(string comment)
+    {
+        _commentTag = comment;
+    }
     static ProjectDynamicProxy()
     {
         NatashaManagement.Preheating(true, true);
@@ -196,13 +202,12 @@ public static class ProjectDynamicProxy
 
                     foreach (var file in srcCodeFiles)
                     {
-                        if (_mainWatcher.CheckFileAvailiable(file))
+                        if (VSCSharpFolder.CheckFileAvailiable(file))
                         {
                             var content = ReadFile(file);
                             var tree = HandleTree(content);
                             var root = tree.GetRoot();
                             _fileCache[file] = root.SyntaxTree;
-
                         }
                     }
 
@@ -244,7 +249,7 @@ public static class ProjectDynamicProxy
                     var trivias = statement.GetLeadingTrivia();
                     foreach (var trivia in trivias)
                     {
-                        if (trivia.IsKind(SyntaxKind.SingleLineCommentTrivia) && trivia.ToString().Trim().StartsWith("//Once"))
+                        if (trivia.IsKind(SyntaxKind.SingleLineCommentTrivia) && trivia.ToString().Trim().StartsWith(_commentTag))
                         {
                             removeIndexs.Add(i);
                             break;
