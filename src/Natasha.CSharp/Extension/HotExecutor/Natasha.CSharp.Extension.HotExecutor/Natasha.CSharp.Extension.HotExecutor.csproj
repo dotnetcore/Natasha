@@ -15,7 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Natasha.CSharp.Compiler\Natasha.CSharp.Compiler.csproj" />
+    <ProjectReference Include="..\..\..\Natasha.CSharp.Compiler\Natasha.CSharp.Compiler.csproj" />
   </ItemGroup>
 
 </Project>

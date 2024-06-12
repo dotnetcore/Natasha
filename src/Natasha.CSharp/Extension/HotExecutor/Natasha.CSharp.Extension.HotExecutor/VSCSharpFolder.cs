@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Xml;
 
 namespace Natasha.CSharp.Extension.HotExecutor
 {
@@ -13,8 +14,10 @@ namespace Natasha.CSharp.Extension.HotExecutor
         public static readonly string ExecuteName;
         public static readonly string ExecutePath;
         public static readonly string CSProjFilePath;
+        public static readonly HashSet<string> ExpectFiles;
         static VSCSharpFolder()
         {
+            ExpectFiles = [];
             var currentExeFilePath = Process.GetCurrentProcess().MainModule.FileName;
             ExecutePath = new FileInfo(currentExeFilePath).Directory!.FullName;
             var currentDirectoryInfo = new DirectoryInfo(ExecutePath);
@@ -27,6 +30,25 @@ namespace Natasha.CSharp.Extension.HotExecutor
             ReleasePath = Path.Combine(BinPath, "Release");
             ExecuteName = Path.GetFileName(currentExeFilePath);
             SlnPath = FindFileDirectory(currentDirectoryInfo,"*.sln");
+
+            XmlDocument doc = new XmlDocument();
+            doc.Load(CSProjFilePath);
+
+            XmlNodeList itemGroupNodes = doc.SelectNodes("//ItemGroup");
+
+            foreach (XmlNode itemGroupNode in itemGroupNodes)
+            {
+                XmlNodeList compileNodes = itemGroupNode.SelectNodes("Compile[@Remove]");
+
+                foreach (XmlNode compileNode in compileNodes)
+                {
+                    string removedFile = compileNode.Attributes["Remove"].Value;
+                    if (removedFile.EndsWith(".cs"))
+                    {
+                        ExpectFiles.Add(Path.Combine(MainCsprojPath,removedFile));
+                    }
+                }
+            }
         }
 
         static string FindFileDirectory(DirectoryInfo csprojDirectory, string suffix)
@@ -41,6 +63,15 @@ namespace Natasha.CSharp.Extension.HotExecutor
                 directory = directory.Parent;
             }
             throw new Exception("没有找到 sln 根文件！");
+        }
+
+        public static bool CheckFileAvailiable(string file)
+        {
+            if (file.StartsWith(VSCSharpFolder.ObjPath) || file.StartsWith(VSCSharpFolder.BinPath) || VSCSharpFolder.ExpectFiles.Contains(file))
+            {
+                return false;
+            }
+            return true;
         }
     }
 }
