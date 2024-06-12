@@ -7,47 +7,46 @@ using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
+using static System.Reflection.Metadata.Ecma335.MethodBodyStreamEncoder;
 
 
 public static class ProjectDynamicProxy
 {
-    private static readonly FileSystemWatcher _delAndCreateAndRenameWatcher;
-    //private static readonly FileSystemWatcher _changeWatcher;
-    private static string? _mainFile;
     private static string? _className;
-    private static string? _proxyMethodName;
+    private static string? _proxyMethodName = "Main";
     private static string? _argumentsMethodName;
     private static readonly ConcurrentDictionary<string, SyntaxTree> _fileCache = new();
-    private static readonly object _fileLock = new object();
+    private static readonly object _runLock = new object();
     private static readonly List<string> _args = [];
     private static readonly VSCSharpProcessor _processor;
     private static readonly VSCSharpProjectFileWatcher _csprojWatcher;
     private static bool _isCompiling;
-    private static readonly AssemblyCSharpBuilder _builderCache;
     private static bool _isFaildBuild;
     internal static bool IsRelease;
     private readonly static CSharpParseOptions _debugOptions;
     private static Action? _endCallback;
+    private static readonly HESpinLock _buildLock;
+    private static readonly VSCSharpMainFileWatcher _mainWatcher;
+    //private static readonly MethodDeclarationSyntax _emptyMainTree;
+    //private static string _callMethod;
     static ProjectDynamicProxy()
     {
-
-        _builderCache = new();
-        _builderCache.ConfigCompilerOption(opt => opt
-            .AppendCompilerFlag(
-            Natasha.CSharp.Compiler.CompilerBinderFlags.IgnoreAccessibility | Natasha.CSharp.Compiler.CompilerBinderFlags.IgnoreCorLibraryDuplicatedTypes));
-        _builderCache.UseRandomLoadContext();
-        _builderCache.UseSmartMode();
-        _builderCache.WithoutSemanticCheck();
-        _builderCache.WithPreCompilationOptions();
-        _builderCache.WithoutPreCompilationReferences();
-        _builderCache.WithoutCombineUsingCode();
-        _debugOptions = new CSharpParseOptions(LanguageVersion.Preview, preprocessorSymbols: ["DEBUG","RELEASE"]);
+        NatashaManagement.Preheating(true, true);
+        _debugOptions = new CSharpParseOptions(LanguageVersion.Preview, preprocessorSymbols: ["DEBUG", "RELEASE"]);
+//        var emptyTreeScript = @"internal class Program{
+//    static void Main(){ }
+//}";
+//        _emptyMainTree = CSharpSyntaxTree.ParseText(emptyTreeScript).GetRoot().DescendantNodes().OfType<MethodDeclarationSyntax>().First();
+        _buildLock = new();
+        _mainWatcher = new();
+        
         _processor = new();
         _csprojWatcher = new(VSCSharpFolder.CSProjFilePath, async () => {
 
 
-            if (GetLock())
+            if (_buildLock.GetLock())
             {
                 _isCompiling = true;
 #if DEBUG
@@ -68,10 +67,11 @@ public static class ProjectDynamicProxy
 #if DEBUG
                         Console.WriteLine("抢占成功，将重新编译！");
 #endif
-                        ReleaseLock();
+                        _buildLock.ReleaseLock();
                         _csprojWatcher!.Notify();
                         return;
                     }
+
 #if DEBUG
                     Console.WriteLine("构建成功，准备启动！");
 #endif
@@ -80,20 +80,19 @@ public static class ProjectDynamicProxy
 #if DEBUG
                         Console.WriteLine("启动成功，退出当前程序！");
 #endif
-                        try
-                        {
-                            Environment.Exit(0);
-                        }
-                        catch (Exception ex)
-                        {
-                        }
-
+                        //try
+                        //{
+                        //    Environment.Exit(0);
+                        //}
+                        //catch (Exception ex)
+                        //{
+                        //}
                     }
                 }
                 else
                 {
                     _isFaildBuild = true;
-                    ReleaseLock();
+                    _buildLock.ReleaseLock();
 #if DEBUG
                     Console.WriteLine("构建失败！");
 #endif
@@ -106,152 +105,37 @@ public static class ProjectDynamicProxy
             }
 
         });
-
-
         _csprojWatcher.StartMonitor();
 
-        _delAndCreateAndRenameWatcher = new FileSystemWatcher
-        {
-            Path = VSCSharpFolder.MainCsprojPath,
-            Filter = "*.cs",
-            EnableRaisingEvents = true,
-            IncludeSubdirectories = true,
-            NotifyFilter = NotifyFilters.FileName | NotifyFilters.CreationTime | NotifyFilters.LastWrite
-        };
-
-        //_changeWatcher = new FileSystemWatcher
-        //{
-        //    Path = VSCSharpFolder.MainCsprojPath,
-        //    Filter = "*.cs",
-        //    EnableRaisingEvents = true,
-        //    IncludeSubdirectories = true,
-        //    NotifyFilter = NotifyFilters.LastWrite
-        //};
-
-        AppDomain.CurrentDomain.ProcessExit += (sender, e) =>
-        {
-            _delAndCreateAndRenameWatcher.Dispose();
-        };
-
-        //_changeWatcher.Changed += async (sender, e) =>
-        //{
-        //    Debug.WriteLine($"Changed: {e.FullPath}");
-        //    Console.WriteLine($"Changed: {e.ChangeType }{e.FullPath}");
-        //    if (e.ChangeType == WatcherChangeTypes.Changed)
-        //    {
-        //        if (CheckFileAvailiable(e.FullPath))
-        //        {
-        //            ChangeFile(e.FullPath);
-        //            await HotExecute();
-        //        }
-        //    }
-        //};
-
-        _delAndCreateAndRenameWatcher.Created += async (sender, e) =>
+        _mainWatcher.PreFunction = () =>
         {
             if (_isFaildBuild)
             {
                 _csprojWatcher.Notify();
-                return;
+                return true;
             }
-#if DEBUG
-       Console.WriteLine($"Created: {e.FullPath}");
-#endif
-            if (CheckFileAvailiable(e.FullPath))
-            {
-                CreateFile(e.FullPath);
-                await HotExecute();
-            }
-
+            return false;
         };
 
-        _delAndCreateAndRenameWatcher.Deleted += async (sender, e) =>
-        {
-            if (_isFaildBuild)
-            {
-                _csprojWatcher.Notify();
-                return;
-            }
-#if DEBUG
-       Console.WriteLine($"Deleted: {e.FullPath}");
-#endif
-            if (CheckFileAvailiable(e.FullPath))
-            {
-                DeleteFile(e.FullPath);
-                await HotExecute();
-            }
-        };
+        _mainWatcher.AfterFunction = HotExecute;
 
-        _delAndCreateAndRenameWatcher.Renamed += async (sender, e) =>
-        {
-            if (_isFaildBuild)
-            {
-                _csprojWatcher.Notify();
-                return;
-            }
-#if DEBUG
-        Console.WriteLine($"Renamed: {e.OldFullPath} -> {e.FullPath}");
-#endif
-
-
-            if (e.OldFullPath.EndsWith(".cs"))
-            {
-                if (e.FullPath.EndsWith(".cs"))
-                {
-                    if (CheckFileAvailiable(e.FullPath))
-                    {
-                        CreateFile(e.FullPath);
-                    }
-                    if (CheckFileAvailiable(e.OldFullPath))
-                    {
-                        DeleteFile(e.OldFullPath);
-                    }
-                    await HotExecute();
-                }
-                else if (e.FullPath.StartsWith(e.OldFullPath) && e.FullPath.EndsWith(".TMP"))
-                {
-                    if (CheckFileAvailiable(e.OldFullPath))
-                    {
-                        ChangeFile(e.OldFullPath);
-                        await HotExecute();
-                    }
-                }
-
-            }
-        };
-
-        _delAndCreateAndRenameWatcher.Error += Error;
-
-        static void CreateFile(string file)
-        {
+        _mainWatcher.ChangeFileAction = file => {
             var content = ReadFile(file);
-            if (file == _mainFile)
-            {
-                return;
-            }
-            var tree = NatashaCSharpSyntax.ParseTree(content, _debugOptions);
+            var tree = HandleTree(content);
             _fileCache[file] = tree;
-        }
+        };
 
-        static void DeleteFile(string file)
-        {
+        _mainWatcher.DeleteFileAction = file => {
             _fileCache.TryRemove(file, out _);
-        }
+        };
 
-        static void ChangeFile(string file)
+        _mainWatcher.CreateFileAction = file =>
         {
             var content = ReadFile(file);
-            var tree = NatashaCSharpSyntax.ParseTree(content, _debugOptions);
+            var tree = HandleTree(content);
             _fileCache[file] = tree;
-        }
-
-        static void RenameFile(string file)
-        {
-            DeleteFile(file);
-            CreateFile(file);
-        }
-
-        
+        };
+        _mainWatcher.StartMonitor();
     }
     
     /// <summary>
@@ -284,65 +168,6 @@ public static class ProjectDynamicProxy
         IsRelease = false;
     }
     
-    
-    private static int _lockCount = 0;
-
-
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static bool GetLock()
-    {
-        return Interlocked.CompareExchange(ref _lockCount, 1, 0) == 0;
-
-    }
-
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static void GetAndWaitLock()
-    {
-        while (Interlocked.CompareExchange(ref _lockCount, 1, 0) != 0)
-        {
-            Thread.Sleep(20);
-        }
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static void ReleaseLock()
-    {
-
-        _lockCount = 0;
-
-    }
-    private static void CurrentDomain_ProcessExit(object sender, EventArgs e)
-    {
-        _delAndCreateAndRenameWatcher.Dispose();
-    }
-
-    private static void Error(object sender, ErrorEventArgs e)
-    {
-        PrintException(e.GetException());
-    }
-    private static void PrintException(Exception? ex)
-    {
-        if (ex != null)
-        {
-            Console.WriteLine($"Message: {ex.Message}");
-            Console.WriteLine("Stacktrace:");
-            Console.WriteLine(ex.StackTrace);
-            Console.WriteLine();
-            PrintException(ex.InnerException);
-        }
-    }
-
-    static bool CheckFileAvailiable(string file)
-    {
-        if (file.StartsWith(VSCSharpFolder.ObjPath) || file.StartsWith(VSCSharpFolder.BinPath))
-        {
-            return false;
-        }
-        return true;
-    }
-
     public static void AppendArgs(string arg)
     {
         _args.Add(arg);
@@ -355,47 +180,112 @@ public static class ProjectDynamicProxy
     {
         _args.Clear();
     }
-    public static void Run(string proxyMethodName = "ProxyMain", string? argumentsMethodName= "ProxyMainArguments")
+
+    private static bool _isFirstRun = true;
+    public static void Run(string? argumentsMethodName = "ProxyMainArguments")
     {
-        _proxyMethodName = proxyMethodName;
-        _argumentsMethodName = argumentsMethodName;
-        var srcCodeFiles = Directory.GetFiles(VSCSharpFolder.MainCsprojPath, "*.cs", SearchOption.AllDirectories);
-
-        foreach (var file in srcCodeFiles)
+        if (_isFirstRun)
         {
-            if (CheckFileAvailiable(file))
+            lock (_runLock)
             {
-                var content = ReadFile(file);
-                //Console.WriteLine(file);
-                //Console.WriteLine(content);
-                //Console.WriteLine("------------");
-                var tree = NatashaCSharpSyntax.ParseTree(content, null);
-                var mainMethod = tree.GetRoot().DescendantNodes()
-                                     .OfType<MethodDeclarationSyntax>()
-                                     .FirstOrDefault(m => m.Identifier.Text == "Main");
-
-                if (mainMethod != null)
+                if (_isFirstRun)
                 {
-                    ClassDeclarationSyntax? parentClass = mainMethod.Parent as ClassDeclarationSyntax ?? throw new Exception("获取 Main 方法类名出现错误！");
-                    _className = parentClass.Identifier.Text;
+                    _isFirstRun = false;
+                    _argumentsMethodName = argumentsMethodName;
+                    var srcCodeFiles = Directory.GetFiles(VSCSharpFolder.MainCsprojPath, "*.cs", SearchOption.AllDirectories);
 
-                    var proxyMethod = tree.GetRoot().DescendantNodes()
-                                     .OfType<MethodDeclarationSyntax>()
-                                     .FirstOrDefault(m => m.Identifier.Text == proxyMethodName);
-
-                    if (proxyMethod == null)
+                    foreach (var file in srcCodeFiles)
                     {
-                        throw new Exception($"{_className} 中未找到 {proxyMethodName} 代理方法！");
+                        if (_mainWatcher.CheckFileAvailiable(file))
+                        {
+                            var content = ReadFile(file);
+                            var tree = HandleTree(content);
+                            var root = tree.GetRoot();
+                            _fileCache[file] = root.SyntaxTree;
+
+                        }
                     }
-                    _mainFile = file;
+
+                    //HotExecute();
                 }
-                _fileCache[file] = tree;
+            }
+        }
+#if DEBUG
+        else
+        {
+            Console.WriteLine("已经初始化过了！");
+        }
+#endif
+
+    }
+    private static SyntaxTree HandleTree(string content)
+    {
+        var tree = NatashaCSharpSyntax.ParseTree(content, _debugOptions);
+        var root = tree.GetRoot();
+
+        var methodDeclarations = root.DescendantNodes().OfType<MethodDeclarationSyntax>();
+        Dictionary<MethodDeclarationSyntax, MethodDeclarationSyntax> replaceMethodCache = [];
+        foreach (var methodDeclaration in methodDeclarations)
+        {
+            var removeIndexs = new HashSet<int>();
+            // 获取方法体
+            var methodBody = methodDeclaration.Body;
+            if (methodBody == null)
+            {
+                continue;
+            }
+            // 遍历方法体中的语句
+            for (int i = 0; i < methodBody.Statements.Count; i++)
+            {
+                // 获取当前语句
+                var statement = methodBody.Statements[i];
+                if (statement is ExpressionStatementSyntax)
+                {
+                    var trivias = statement.GetLeadingTrivia();
+                    foreach (var trivia in trivias)
+                    {
+                        if (trivia.IsKind(SyntaxKind.SingleLineCommentTrivia) && trivia.ToString().Trim().StartsWith("//Once"))
+                        {
+                            removeIndexs.Add(i);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            // 如果找到，创建新的方法体列表并排除该语句
+            if (removeIndexs.Count > 0)
+            {
+                var newMethodBody = new List<StatementSyntax>(methodBody.Statements.Where((s, index) => !removeIndexs.Contains(index)));
+                replaceMethodCache[methodDeclaration] = methodDeclaration.WithBody(SyntaxFactory.Block(newMethodBody));
             }
         }
 
-        HotExecute();
-    }
+        foreach (var item in replaceMethodCache)
+        {
+//#if DEBUG
+//            Console.WriteLine();
+//            Console.WriteLine("方法：");
+//            Console.WriteLine(item.Key.ToFullString());
+//            Console.WriteLine("替换为：");
+//            Console.WriteLine(item.Value.ToFullString());
+//            Console.WriteLine();
+//#endif
+            root = root.ReplaceNode(item.Key, item.Value);
+            tree = root.SyntaxTree;
+        }
 
+        var mainMethod = root.DescendantNodes()
+                             .OfType<MethodDeclarationSyntax>()
+                             .FirstOrDefault(m => m.Identifier.Text == "Main");
+
+        if (mainMethod != null)
+        {
+            ClassDeclarationSyntax? parentClass = mainMethod.Parent as ClassDeclarationSyntax ?? throw new Exception("获取 Main 方法类名出现错误！");
+            _className = parentClass.Identifier.Text;
+        }
+        return tree;
+    }
     //use FileStream read a text file
     private static string ReadFile(string file)
     {
@@ -433,22 +323,12 @@ public static class ProjectDynamicProxy
     {
         try
         {
-            _builderCache.WithRandomAssenblyName();
-            _builderCache.SyntaxTrees.Clear();
-            _builderCache.SyntaxTrees.AddRange(_fileCache.Values);
-            if (IsRelease)
-            {
-                _builderCache.WithReleaseCompile();
-            }
-            else
-            {
-                _builderCache.WithDebugCompile();
-            }
-            var assembly = _builderCache.GetAssembly();
+            Console.Clear();
+            var assembly = HECompiler.ReCompile(_fileCache.Values,IsRelease);
             var types = assembly.GetTypes();
             var typeInfo = assembly.GetTypeFromShortName(_className!);
             var methods = typeInfo.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
-           
+            
             _endCallback?.Invoke();
             if (methods.Any(item => item.Name == _argumentsMethodName))
             {
@@ -459,23 +339,33 @@ public static class ProjectDynamicProxy
 
             var proxyMethodInfo = typeInfo.GetMethod(_proxyMethodName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
             object? instance = null;
-            if (!proxyMethodInfo.IsStatic)
+            try
             {
-                instance = Activator.CreateInstance(typeInfo);
+                
+                if (!proxyMethodInfo.IsStatic)
+                {
+                    instance = Activator.CreateInstance(typeInfo);
+                }
+
+                if (proxyMethodInfo.GetParameters().Length > 0)
+                {
+                    proxyMethodInfo.Invoke(instance, [_args.ToArray()]);
+                }
+                else
+                {
+                    proxyMethodInfo.Invoke(instance, []);
+                }
             }
-            if (proxyMethodInfo.GetParameters().Length == 1)
+            catch (Exception ex)
             {
-                proxyMethodInfo.Invoke(instance, [_args.ToArray()]);
-            }
-            else
-            {
-                proxyMethodInfo.Invoke(instance, []);
+                Console.WriteLine(ex.Message);
             }
 
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Error during hot execution: {ex}");
+
         }
         return Task.CompletedTask;
     }

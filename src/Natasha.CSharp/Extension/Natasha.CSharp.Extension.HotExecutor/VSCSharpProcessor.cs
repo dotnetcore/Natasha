@@ -13,6 +13,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
 
         public VSCSharpProcessor()
         {
+            _process = Process.GetCurrentProcess();
             _outpuNewAppFolder = string.Empty;
             _outputNewExeFile = string.Empty;
             _builder = new ProcessStartInfo()
@@ -85,14 +86,8 @@ namespace Natasha.CSharp.Extension.HotExecutor
         {
             try
             {
-                if (_process != null)
-                {
-                    _process.Kill();
-                    _process.Dispose();
-                    
-                }
 
-                _process = new Process()
+                var process = new Process()
                 {
                     StartInfo = new()
                     {
@@ -105,7 +100,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
 #if DEBUG
                 Console.WriteLine($"执行: {Path.Combine(_outpuNewAppFolder, VSCSharpFolder.ExecuteName)}");
 #endif
-                _process.Start();
+                process.Start();
                 // 等待一小段时间，让进程有机会启动
                 System.Threading.Thread.Sleep(1000);
                 Process[] processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(_outputNewExeFile));
@@ -117,6 +112,13 @@ namespace Natasha.CSharp.Extension.HotExecutor
                         {
                             if (item.HasExited == false)
                             {
+                                //释放前一个进程
+                                if (_process != null)
+                                {
+                                    _process.Kill();
+                                    _process.Dispose();
+                                    _process = process;
+                                }
                                 return new ValueTask<bool>(true);
                             }
                         }
