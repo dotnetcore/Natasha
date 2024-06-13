@@ -157,6 +157,7 @@ public static class ProjectDynamicProxy
     }
 
     private static readonly HashSet<IAsyncDisposable> _asyncDisposables = [];
+    private static readonly HashSet<IDisposable> _disposables = [];
     public static void NeedBeDisposedObject(IEnumerable<IAsyncDisposable> disposableObjects)
     {
         _asyncDisposables.UnionWith(disposableObjects);
@@ -164,6 +165,14 @@ public static class ProjectDynamicProxy
     public static void NeedBeDisposedObject(IAsyncDisposable disposableObject)
     {
         _asyncDisposables.Add(disposableObject);
+    }
+    public static void NeedBeDisposedObject(IEnumerable<IDisposable> disposableObjects)
+    {
+        _disposables.UnionWith(disposableObjects);
+    }
+    public static void NeedBeDisposedObject(IDisposable disposableObject)
+    {
+        _disposables.Add(disposableObject);
     }
 
     public static void BuildWithRelease()
@@ -343,6 +352,14 @@ public static class ProjectDynamicProxy
                     await disposableObject.DisposeAsync();
                 }
                 _asyncDisposables.Clear();
+            }
+            if (_disposables.Count > 0)
+            {
+                foreach (var disposableObject in _disposables)
+                {
+                    disposableObject.Dispose();
+                }
+                _disposables.Clear();
             }
             if (methods.Any(item => item.Name == _argumentsMethodName))
             {
