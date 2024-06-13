@@ -1,9 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Natasha.CSharp.Compiler;
-using System;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 
 namespace Natasha.CSharp.Extension.HotExecutor
 {
@@ -12,6 +9,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
         private static readonly AssemblyCSharpBuilder _builderCache;
         static HECompiler()
         {
+            ProjectDynamicProxy.CompileInitAction();
             _builderCache = new();
             _builderCache.ConfigCompilerOption(opt => opt
             .AppendCompilerFlag(

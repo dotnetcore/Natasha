@@ -3,13 +3,11 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Natasha.CSharp.Compiler.Component;
 using Natasha.CSharp.Extension.HotExecutor;
+using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System.Text;
-using static System.Reflection.Metadata.Ecma335.MethodBodyStreamEncoder;
 
 
 public static class ProjectDynamicProxy
@@ -32,14 +30,19 @@ public static class ProjectDynamicProxy
     private static string _commentTag = "//Once";
     //private static readonly MethodDeclarationSyntax _emptyMainTree;
     //private static string _callMethod;
+    internal static Action CompileInitAction;
 
+    public static void SetCompileInitAction(Action action)
+    {
+        CompileInitAction = action;
+    }
     public static void SetCommentTag(string comment)
     {
         _commentTag = comment;
     }
     static ProjectDynamicProxy()
     {
-        NatashaManagement.Preheating(true, true);
+        CompileInitAction = () => { NatashaManagement.Preheating(true, true); };
         _debugOptions = new CSharpParseOptions(LanguageVersion.Preview, preprocessorSymbols: ["DEBUG", "RELEASE"]);
 //        var emptyTreeScript = @"internal class Program{
 //    static void Main(){ }
@@ -148,20 +151,19 @@ public static class ProjectDynamicProxy
     /// 重执行之前需要做的工作
     /// </summary>
     /// <param name="callback"></param>
-    public static void ConfigEndBackcall(Action callback)
+    public static void ConfigPreHotExecut(Action callback)
     {
         _endCallback = callback;
     }
 
-    public static void NeedBeDisposedObject(params IAsyncDisposable[] disposableObjects)
+    private static readonly HashSet<IAsyncDisposable> _asyncDisposables = [];
+    public static void NeedBeDisposedObject(IEnumerable<IAsyncDisposable> disposableObjects)
     {
-        _endCallback = async () => 
-        {
-            foreach (var disposableObject in disposableObjects)
-            {
-                await disposableObject.DisposeAsync();
-            }
-        };
+        _asyncDisposables.UnionWith(disposableObjects);
+    }
+    public static void NeedBeDisposedObject(IAsyncDisposable disposableObject)
+    {
+        _asyncDisposables.Add(disposableObject);
     }
 
     public static void BuildWithRelease()
@@ -210,8 +212,6 @@ public static class ProjectDynamicProxy
                             _fileCache[file] = root.SyntaxTree;
                         }
                     }
-
-                    //HotExecute();
                 }
             }
         }
@@ -266,16 +266,17 @@ public static class ProjectDynamicProxy
             }
         }
 
+
         foreach (var item in replaceMethodCache)
         {
-//#if DEBUG
-//            Console.WriteLine();
-//            Console.WriteLine("方法：");
-//            Console.WriteLine(item.Key.ToFullString());
-//            Console.WriteLine("替换为：");
-//            Console.WriteLine(item.Value.ToFullString());
-//            Console.WriteLine();
-//#endif
+#if DEBUG
+            Console.WriteLine();
+            Console.WriteLine("方法：");
+            Console.WriteLine(item.Key.ToFullString());
+            Console.WriteLine("替换为：");
+            Console.WriteLine(item.Value.ToFullString());
+            Console.WriteLine();
+#endif
             root = root.ReplaceNode(item.Key, item.Value);
             tree = root.SyntaxTree;
         }
@@ -324,17 +325,25 @@ public static class ProjectDynamicProxy
 
     }
 
-    private static Task HotExecute()
+    private static async Task HotExecute()
     {
         try
         {
+
             Console.Clear();
             var assembly = HECompiler.ReCompile(_fileCache.Values,IsRelease);
             var types = assembly.GetTypes();
             var typeInfo = assembly.GetTypeFromShortName(_className!);
             var methods = typeInfo.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
-            
             _endCallback?.Invoke();
+            if (_asyncDisposables.Count > 0)
+            {
+                foreach (var disposableObject in _asyncDisposables)
+                {
+                    await disposableObject.DisposeAsync();
+                }
+                _asyncDisposables.Clear();
+            }
             if (methods.Any(item => item.Name == _argumentsMethodName))
             {
                 _args.Clear();
@@ -372,7 +381,7 @@ public static class ProjectDynamicProxy
             Console.WriteLine($"Error during hot execution: {ex}");
 
         }
-        return Task.CompletedTask;
+        return;
     }
 }
 

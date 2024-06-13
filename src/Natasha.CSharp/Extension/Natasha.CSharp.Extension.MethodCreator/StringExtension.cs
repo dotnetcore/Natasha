@@ -1,24 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 public static class StringExtension
 {
 
-    public static (string script, AssemblyCSharpBuilder builder) WithAssemblyBuilder(this string script, Func<AssemblyCSharpBuilder, AssemblyCSharpBuilder> config)
+    public static (string script, string[] usings, AssemblyCSharpBuilder builder) WithAssemblyBuilder(this string script, Func<AssemblyCSharpBuilder, AssemblyCSharpBuilder> config)
     {
         AssemblyCSharpBuilder builder = new();
         config?.Invoke(builder);
-        return (script, builder);
+        return (script, [], builder);
     }
-    public static (string script, AssemblyCSharpBuilder builder) WithAssemblyBuilder(this string script, Func<NatashaLoadContext, NatashaLoadContext> config)
+    public static (string script, string[] usings, AssemblyCSharpBuilder builder) WithAssemblyBuilder(this string script, Func<NatashaLoadContext, NatashaLoadContext> config)
     {
         AssemblyCSharpBuilder builder = new();
         builder.ConfigLoadContext(config);
-        return (script, builder);
+        return (script, [], builder);
     }
-
-    public static T? ToDelegate<T>(in this (string script, AssemblyCSharpBuilder builder) buildInfo, string? modifier = null) where T: Delegate
+    public static (string script, string[] usings, AssemblyCSharpBuilder builder) WithUsings(in this (string script, string[] usings, AssemblyCSharpBuilder builder) buildInfo,params string[] usings)
+    {
+        return (buildInfo.script, usings, buildInfo.builder);
+    }
+    public static T? ToDelegate<T>(in this (string script, string[] usings, AssemblyCSharpBuilder builder) buildInfo, string modifier = "") where T: Delegate
     {
 
         var className = $"N{Guid.NewGuid():N}";
@@ -36,8 +40,13 @@ public static class StringExtension
         {
             parameterScript.Length -= 1;
         }
+        StringBuilder usingCode = new();
+        foreach (var item in buildInfo.usings)
+	    {
+            usingCode.AppendLine($"using {item};");
 
-        buildInfo.builder.Add($"public static class {className} {{ public static {(modifier ?? string.Empty)} {returnTypeScript} Invoke({parameterScript}){{ {buildInfo.script} }} }}");
+        }               
+        buildInfo.builder.Add($"{usingCode} public static class {className} {{ public static {(modifier ?? string.Empty)} {returnTypeScript} Invoke({parameterScript}){{ {buildInfo.script} }} }}");
         var asm = buildInfo.builder.GetAssembly();
         var type = asm.GetType(className);
         if (type != null)
@@ -46,15 +55,15 @@ public static class StringExtension
         }
         return null;
     }
-    public static T? ToAsyncDelegate<T>(in this (string script, AssemblyCSharpBuilder builder) buildInfo) where T : Delegate
+    public static T? ToAsyncDelegate<T>(in this (string script, string[] usings, AssemblyCSharpBuilder builder) buildInfo) where T : Delegate
     {
         return ToDelegate<T>(buildInfo, "async");
     }
-    public static T? ToUnsafeDelegate<T>(in this (string script, AssemblyCSharpBuilder builder) buildInfo) where T : Delegate
+    public static T? ToUnsafeDelegate<T>(in this (string script, string[] usings, AssemblyCSharpBuilder builder) buildInfo) where T : Delegate
     {
         return ToDelegate<T>(buildInfo, "unsafe");
     }
-    public static T? ToUnsafeAsyncDelegate<T>(in this (string script, AssemblyCSharpBuilder builder) buildInfo) where T : Delegate
+    public static T? ToUnsafeAsyncDelegate<T>(in this (string script, string[] usings, AssemblyCSharpBuilder builder) buildInfo) where T : Delegate
     {
         return ToDelegate<T>(buildInfo, "unsafe async");
     }
