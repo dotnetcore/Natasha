@@ -17,7 +17,8 @@ public static class NatashaLoadContext<TCreator> where TCreator : INatashaDynami
 public sealed class NatashaLoadContext : IDisposable
 {
     public INatashaDynamicLoadContextBase Domain;
-
+    private static readonly object _initLock = new();
+    private static bool _isInitialized;
     internal NatashaLoadContext()
     {
         Domain = Creator.CreateDefaultContext();
@@ -34,9 +35,21 @@ public sealed class NatashaLoadContext : IDisposable
 
     internal static void SetLoadContextCreator<TCreator>() where TCreator : INatashaDynamicLoadContextCreator, new()
     {
-        Creator = new TCreator();
-        DefaultContext = new NatashaLoadContext();
-        DomainManagement.Add(DefaultName, DefaultContext);
+        if (!_isInitialized)
+        {
+            lock (_initLock)
+            {
+                if (!_isInitialized)
+                {
+                    _isInitialized = true;
+                    Creator = new TCreator();
+                    DefaultContext = new NatashaLoadContext();
+                    DomainManagement.Add(DefaultName, DefaultContext);
+                }
+            }
+        }
+        
+        
     }
 
     public static NatashaLoadContext DefaultContext = default!;
