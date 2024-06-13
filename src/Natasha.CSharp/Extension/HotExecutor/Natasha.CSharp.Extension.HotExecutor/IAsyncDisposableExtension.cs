@@ -1,4 +1,4 @@
-﻿public static class IAsyncDisposableExtension
+﻿public static class DisposableExtension
 {
     public static void DisposedInHotExecutor(this IAsyncDisposable obj)
     {
