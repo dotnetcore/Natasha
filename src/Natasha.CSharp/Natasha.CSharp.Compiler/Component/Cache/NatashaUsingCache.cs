@@ -1,6 +1,10 @@
-﻿using System;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 
@@ -169,6 +173,18 @@ namespace Natasha.CSharp.Compiler.Component
         }
 
         private string _usingScript = string.Empty;
+
+        public IEnumerable<UsingDirectiveSyntax> GetUsingNodes()
+        {
+            lock (_usings)
+            {
+                return _usings.Select(item =>
+                    SyntaxFactory.UsingDirective(
+                        SyntaxFactory.ParseName(item)
+                        .WithLeadingTrivia(SyntaxFactory.Space)
+                    ).WithLeadingTrivia(SyntaxFactory.EndOfLine(Environment.NewLine))).ToList();
+            }
+        }
         public override string ToString()
         {
             lock (_usings)
