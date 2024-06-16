@@ -103,9 +103,25 @@ public sealed partial class AssemblyCSharpBuilder
     public AssemblyCSharpBuilder WithDebugCompile(Action<DebugConfiguration>? action = null)
     {
         action?.Invoke(_debugConfiguration);
+        _withDebugInfo = false;
         _codeOptimizationLevel = OptimizationLevel.Debug;
         return this;
     }
+    /// <summary>
+    /// 编译时使用超级 Debug 模式.
+    /// </summary>
+    /// <remarks>
+    /// 注：选项状态会被缓存，复用时无需重复调用.
+    /// </remarks>
+    /// <returns>链式对象(调用方法的实例本身).</returns>
+    public AssemblyCSharpBuilder WithDebugPlusCompile(Action<DebugConfiguration>? action = null)
+    {
+        action?.Invoke(_debugConfiguration);
+        _withDebugInfo = true;
+        _codeOptimizationLevel = OptimizationLevel.Debug;
+        return this;
+    }
+
     /// <summary>
     /// 编译时使用 Release 模式优化（默认）.
     /// </summary>
