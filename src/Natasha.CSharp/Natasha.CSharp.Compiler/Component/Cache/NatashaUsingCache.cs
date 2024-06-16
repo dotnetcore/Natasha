@@ -176,12 +176,14 @@ namespace Natasha.CSharp.Compiler.Component
 
         public IEnumerable<UsingDirectiveSyntax> GetUsingNodes()
         {
-            return _usings.Select(item => 
-                SyntaxFactory.UsingDirective(
-                    SyntaxFactory
-                    .ParseName(item)
-                    .WithLeadingTrivia(SyntaxFactory.Space)
-                ).WithLeadingTrivia(SyntaxFactory.EndOfLine(Environment.NewLine)));
+            lock (_usings)
+            {
+                return _usings.Select(item =>
+                    SyntaxFactory.UsingDirective(
+                        SyntaxFactory.ParseName(item)
+                        .WithLeadingTrivia(SyntaxFactory.Space)
+                    ).WithLeadingTrivia(SyntaxFactory.EndOfLine(Environment.NewLine))).ToList();
+            }
         }
         public override string ToString()
         {
