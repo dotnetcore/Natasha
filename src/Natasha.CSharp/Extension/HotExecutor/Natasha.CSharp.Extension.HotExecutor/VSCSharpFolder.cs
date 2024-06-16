@@ -3,7 +3,7 @@ using System.Xml;
 
 namespace Natasha.CSharp.Extension.HotExecutor
 {
-    public static class VSCSharpFolder
+    public static class VSCSharpProjectInfomation
     {
         public static readonly string MainCsprojPath;
         public static readonly string BinPath;
@@ -15,7 +15,9 @@ namespace Natasha.CSharp.Extension.HotExecutor
         public static readonly string ExecutePath;
         public static readonly string CSProjFilePath;
         public static readonly HashSet<string> ExpectFiles;
-        static VSCSharpFolder()
+        public static readonly bool EnableImplicitUsings;
+        public static IEnumerable<string>? MainAssemblyUsings;
+        static VSCSharpProjectInfomation()
         {
             ExpectFiles = [];
             var currentExeFilePath = Process.GetCurrentProcess().MainModule.FileName;
@@ -33,6 +35,17 @@ namespace Natasha.CSharp.Extension.HotExecutor
 
             XmlDocument doc = new XmlDocument();
             doc.Load(CSProjFilePath);
+
+            XmlNode implicitUsingsNode = doc.SelectSingleNode("//ImplicitUsings");
+
+            if (implicitUsingsNode != null)
+            {
+                string value = implicitUsingsNode.InnerText.Trim().ToLower();
+                if (value == "enable" || value == "true")
+                {
+                    EnableImplicitUsings = true;
+                }
+            }
 
             XmlNodeList itemGroupNodes = doc.SelectNodes("//ItemGroup");
 
@@ -67,11 +80,17 @@ namespace Natasha.CSharp.Extension.HotExecutor
 
         public static bool CheckFileAvailiable(string file)
         {
-            if (file.StartsWith(VSCSharpFolder.ObjPath) || file.StartsWith(VSCSharpFolder.BinPath) || VSCSharpFolder.ExpectFiles.Contains(file))
+            if (file.StartsWith(ObjPath) || file.StartsWith(BinPath) || ExpectFiles.Contains(file))
             {
                 return false;
             }
             return true;
         }
+
+        public static void SetMainUsing(IEnumerable<string> mainUsings)
+        {
+            MainAssemblyUsings = mainUsings;
+        }
+
     }
 }

@@ -8,6 +8,7 @@ using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Reflection;
 using System.Text;
+using System.Xml;
 
 
 public static class ProjectDynamicProxy
@@ -27,6 +28,7 @@ public static class ProjectDynamicProxy
     private static Action? _endCallback;
     private static readonly HESpinLock _buildLock;
     private static readonly VSCSharpMainFileWatcher _mainWatcher;
+    private static readonly VSCSharpUsingManagment _usingCache;
     private static string _commentTag = "//Once";
     //private static readonly MethodDeclarationSyntax _emptyMainTree;
     //private static string _callMethod;
@@ -42,6 +44,7 @@ public static class ProjectDynamicProxy
     }
     static ProjectDynamicProxy()
     {
+        _usingCache = new();
         CompileInitAction = () => { NatashaManagement.Preheating(true, true); };
         _debugOptions = new CSharpParseOptions(LanguageVersion.Preview, preprocessorSymbols: ["DEBUG", "RELEASE"]);
 //        var emptyTreeScript = @"internal class Program{
@@ -52,7 +55,7 @@ public static class ProjectDynamicProxy
         _mainWatcher = new();
         
         _processor = new();
-        _csprojWatcher = new(VSCSharpFolder.CSProjFilePath, async () => {
+        _csprojWatcher = new(VSCSharpProjectInfomation.CSProjFilePath, async () => {
 
 
             if (_buildLock.GetLock())
@@ -129,19 +132,21 @@ public static class ProjectDynamicProxy
         _mainWatcher.AfterFunction = HotExecute;
 
         _mainWatcher.ChangeFileAction = file => {
-            var content = ReadFile(file);
-            var tree = HandleTree(content);
+            var tree = HandleTree(file);
             _fileCache[file] = tree;
         };
 
         _mainWatcher.DeleteFileAction = file => {
             _fileCache.TryRemove(file, out _);
+            if (VSCSharpProjectInfomation.EnableImplicitUsings)
+            {
+                _usingCache.RemoveUsing(file);
+            }
         };
 
         _mainWatcher.CreateFileAction = file =>
         {
-            var content = ReadFile(file);
-            var tree = HandleTree(content);
+            var tree = HandleTree(file);
             _fileCache[file] = tree;
         };
         _mainWatcher.StartMonitor();
@@ -209,17 +214,20 @@ public static class ProjectDynamicProxy
                 {
                     _isFirstRun = false;
                     _argumentsMethodName = argumentsMethodName;
-                    var srcCodeFiles = Directory.GetFiles(VSCSharpFolder.MainCsprojPath, "*.cs", SearchOption.AllDirectories);
+                    var srcCodeFiles = Directory.GetFiles(VSCSharpProjectInfomation.MainCsprojPath, "*.cs", SearchOption.AllDirectories);
 
                     foreach (var file in srcCodeFiles)
                     {
-                        if (VSCSharpFolder.CheckFileAvailiable(file))
+                        if (VSCSharpProjectInfomation.CheckFileAvailiable(file))
                         {
-                            var content = ReadFile(file);
-                            var tree = HandleTree(content);
+                            var tree = HandleTree(file);
                             var root = tree.GetRoot();
                             _fileCache[file] = root.SyntaxTree;
                         }
+                    }
+                    if (VSCSharpProjectInfomation.EnableImplicitUsings)
+                    {
+                        VSCSharpProjectInfomation.SetMainUsing(_usingCache.GetMainUsings());
                     }
                 }
             }
@@ -232,10 +240,32 @@ public static class ProjectDynamicProxy
 #endif
 
     }
-    private static SyntaxTree HandleTree(string content)
+    private static SyntaxTree HandleTree(string file)
     {
+        var content = ReadFile(file);
         var tree = NatashaCSharpSyntax.ParseTree(content, _debugOptions);
-        var root = tree.GetRoot();
+        var root = (CompilationUnitSyntax)tree.GetRoot();
+        var firstMember = root.Members[0];
+        if (firstMember!=null && firstMember.IsKind(SyntaxKind.GlobalStatement))
+        {
+#if DEBUG
+            Console.WriteLine("检测到顶级语句！");
+#endif
+            var usings = root.Usings;
+            root = root.RemoveNodes(usings, SyntaxRemoveOptions.KeepNoTrivia);
+            content = "public class Program{ async static Task Main(string[] args){" + root!.ToFullString() + "}}";
+            tree = NatashaCSharpSyntax.ParseTree(content, _debugOptions);
+            root = (CompilationUnitSyntax)tree.GetRoot();
+            if (!VSCSharpProjectInfomation.EnableImplicitUsings)
+            {
+                root = root.AddUsings([.. usings]);
+            }
+        }
+
+        if (VSCSharpProjectInfomation.EnableImplicitUsings)
+        {
+            _usingCache.ChangeUsing(file,root);
+        }
 
         var methodDeclarations = root.DescendantNodes().OfType<MethodDeclarationSyntax>();
         Dictionary<MethodDeclarationSyntax, MethodDeclarationSyntax> replaceMethodCache = [];
@@ -278,16 +308,17 @@ public static class ProjectDynamicProxy
 
         foreach (var item in replaceMethodCache)
         {
-#if DEBUG
-            Console.WriteLine();
-            Console.WriteLine("方法：");
-            Console.WriteLine(item.Key.ToFullString());
-            Console.WriteLine("替换为：");
-            Console.WriteLine(item.Value.ToFullString());
-            Console.WriteLine();
-#endif
+//#if DEBUG
+//            Console.WriteLine();
+//            Console.WriteLine("方法：");
+//            Console.WriteLine(item.Key.ToFullString());
+//            Console.WriteLine("替换为：");
+//            Console.WriteLine(item.Value.ToFullString());
+//            Console.WriteLine();
+//#endif
             root = root.ReplaceNode(item.Key, item.Value);
             tree = root.SyntaxTree;
+           
         }
 
         var mainMethod = root.DescendantNodes()
@@ -340,11 +371,35 @@ public static class ProjectDynamicProxy
         {
 
             Console.Clear();
-            var assembly = HECompiler.ReCompile(_fileCache.Values,IsRelease);
+#if DEBUG
+            foreach (var item in _usingCache.GetMainUsings())
+            {
+                Console.WriteLine("Current Using :" + item);
+            }
+#endif
+            Assembly assembly;
+            if (VSCSharpProjectInfomation.EnableImplicitUsings)
+            {
+                var usingNodes = _usingCache.GetUsingNodes().ToArray();
+                var defaultNodes = HECompiler.GetDefaultUsingNodes();
+                List<SyntaxTree> needBeCompileTrees = [];
+                foreach (var item in _fileCache)
+                {
+                    var root = (CompilationUnitSyntax)item.Value.GetRoot();
+                    needBeCompileTrees.Add(root.AddUsings(usingNodes).AddUsings(defaultNodes.ToArray()).SyntaxTree);
+                }
+                assembly = HECompiler.ReCompile(needBeCompileTrees, IsRelease);
+            }
+            else
+            {
+                assembly = HECompiler.ReCompile(_fileCache.Values, IsRelease);
+            }
+            
             var types = assembly.GetTypes();
             var typeInfo = assembly.GetTypeFromShortName(_className!);
             var methods = typeInfo.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
             _endCallback?.Invoke();
+            
             if (_asyncDisposables.Count > 0)
             {
                 foreach (var disposableObject in _asyncDisposables)
@@ -395,7 +450,21 @@ public static class ProjectDynamicProxy
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error during hot execution: {ex}");
+            if (ex is NatashaException nex)
+            {
+                var errors = nex!.Diagnostics;
+                StringBuilder errorBuilder = new();
+                errorBuilder.AppendLine();
+                foreach (var error in errors)
+                {
+                    errorBuilder.AppendLine(error.ToString());
+                }
+                Console.WriteLine($"Error during hot execution: {errorBuilder}");
+            }
+            else
+            {
+                Console.WriteLine($"Error during hot execution: {ex}");
+            }
 
         }
         return;

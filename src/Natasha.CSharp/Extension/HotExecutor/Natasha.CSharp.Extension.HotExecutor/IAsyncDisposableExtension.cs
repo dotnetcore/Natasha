@@ -1,10 +1,10 @@
 ﻿public static class DisposableExtension
 {
-    public static void DisposedInHotExecutor(this IAsyncDisposable obj)
+    public static void AsyncDisposedInHotExecutor(this IAsyncDisposable obj)
     {
        ProjectDynamicProxy.NeedBeDisposedObject(obj);
     }
-    public static void DisposedInHotExecutor(this IEnumerable<IAsyncDisposable> objs)
+    public static void AsyncDisposedInHotExecutor(this IEnumerable<IAsyncDisposable> objs)
     {
         ProjectDynamicProxy.NeedBeDisposedObject(objs);
     }

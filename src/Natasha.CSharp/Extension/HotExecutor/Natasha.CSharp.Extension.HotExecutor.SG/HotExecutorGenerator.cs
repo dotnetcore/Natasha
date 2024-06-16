@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
 using System.Diagnostics;
 using System.Linq;
 
@@ -16,10 +17,12 @@ namespace Natasha.CSharp.Extension.HotExecutor.SG
 
         void ISourceGenerator.Execute(GeneratorExecutionContext context)
         {
+            var className = context.Compilation.GetEntryPoint(cancellationToken: new System.Threading.CancellationToken())!.ContainingType.Name;
+            var nameSapce = context.Compilation.GetEntryPoint(cancellationToken: new System.Threading.CancellationToken())!.ContainingNamespace.Name;
             string proxyMethodContent = $@"
 #if DEBUG
 using System.Runtime.CompilerServices;
-
+{(string.IsNullOrEmpty(nameSapce) ? string.Empty : "using " + nameSapce + ";")}
 namespace System{{
 
 

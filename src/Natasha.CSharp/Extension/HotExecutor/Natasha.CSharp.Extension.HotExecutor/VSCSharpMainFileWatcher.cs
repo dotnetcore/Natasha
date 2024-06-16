@@ -30,7 +30,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
         {
             _mainWatcher = new FileSystemWatcher
             {
-                Path = VSCSharpFolder.MainCsprojPath,
+                Path = VSCSharpProjectInfomation.MainCsprojPath,
                 Filter = "*.cs",
                 EnableRaisingEvents = true,
                 IncludeSubdirectories = true,
@@ -52,7 +52,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
        Console.WriteLine($"Created: {e.FullPath}");
 #endif
                
-                if (VSCSharpFolder.CheckFileAvailiable(e.FullPath))
+                if (VSCSharpProjectInfomation.CheckFileAvailiable(e.FullPath))
                 {
                     _compileLock.GetAndWaitLock();
                     CreateFileAction(e.FullPath);
@@ -71,7 +71,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
 #if DEBUG
        Console.WriteLine($"Deleted: {e.FullPath}");
 #endif
-                if (VSCSharpFolder.CheckFileAvailiable(e.FullPath))
+                if (VSCSharpProjectInfomation.CheckFileAvailiable(e.FullPath))
                 {
                     _compileLock.GetAndWaitLock();
                     DeleteFileAction(e.FullPath);
@@ -95,11 +95,11 @@ namespace Natasha.CSharp.Extension.HotExecutor
                     if (e.FullPath.EndsWith(".cs"))
                     {
                         _compileLock.GetAndWaitLock();
-                        if (VSCSharpFolder.CheckFileAvailiable(e.FullPath))
+                        if (VSCSharpProjectInfomation.CheckFileAvailiable(e.FullPath))
                         {
                             CreateFileAction(e.FullPath);
                         }
-                        if (VSCSharpFolder.CheckFileAvailiable(e.OldFullPath))
+                        if (VSCSharpProjectInfomation.CheckFileAvailiable(e.OldFullPath))
                         {
                             DeleteFileAction(e.OldFullPath);
                         }
@@ -109,7 +109,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
                     else if (e.FullPath.StartsWith(e.OldFullPath) && e.FullPath.EndsWith(".TMP"))
                     {
                        
-                        if (VSCSharpFolder.CheckFileAvailiable(e.OldFullPath))
+                        if (VSCSharpProjectInfomation.CheckFileAvailiable(e.OldFullPath))
                         {
                             _compileLock.GetAndWaitLock();
                             ChangeFileAction(e.OldFullPath);
