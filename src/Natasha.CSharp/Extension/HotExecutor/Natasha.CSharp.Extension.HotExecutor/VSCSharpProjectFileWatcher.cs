@@ -16,9 +16,9 @@ namespace Natasha.CSharp.Extension.HotExecutor
             _execute = executeAction;
             _projctWatcherCache = [];
             _mainExecuteCache = [];
-            _mainExecuteCache.Add(VSCSharpFolder.DebugPath);
-            _mainExecuteCache.Add(VSCSharpFolder.ReleasePath);
-            _mainExecuteCache.Add(VSCSharpFolder.ExecutePath);
+            _mainExecuteCache.Add(VSCSharpProjectInfomation.DebugPath);
+            _mainExecuteCache.Add(VSCSharpProjectInfomation.ReleasePath);
+            _mainExecuteCache.Add(VSCSharpProjectInfomation.ExecutePath);
             _ = new VSCSharpProjectFileInternalWatcher(csprojPath, _projctWatcherCache, Notify);
             _projctWatcherCache[csprojPath].csFileWatcher.Dispose();
         }
@@ -69,7 +69,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
         private void Clean()
         {
             var currentProcessExePath = Process.GetCurrentProcess().MainModule.FileName;
-            Process[] processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(VSCSharpFolder.ExecuteName));
+            Process[] processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(VSCSharpProjectInfomation.ExecuteName));
             if (processes.Length > 1)
             {
                 for (int i = 0; i < processes.Length; i++)
@@ -90,7 +90,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
             }
             else if (processes.Length == 1)
             {
-                var folders = Directory.GetDirectories(VSCSharpFolder.BinPath);
+                var folders = Directory.GetDirectories(VSCSharpProjectInfomation.BinPath);
                 foreach (var folder in folders)
                 {
                     if (!_mainExecuteCache.Contains(folder))
@@ -144,7 +144,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
                         Path = folder,
                         Filter = "*.cs",
                         EnableRaisingEvents = true,
-                        IncludeSubdirectories = true
+                        IncludeSubdirectories = true,
                     };
                     csfileWatcher.Changed += handler;
                     csfileWatcher.Deleted += handler;
@@ -157,6 +157,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
                         Filter = fileName,
                         EnableRaisingEvents = true,
                         IncludeSubdirectories = false,
+                        NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.CreationTime | NotifyFilters.DirectoryName | NotifyFilters.LastAccess
                     };
 
                     csprojWatcher.Changed += handler;

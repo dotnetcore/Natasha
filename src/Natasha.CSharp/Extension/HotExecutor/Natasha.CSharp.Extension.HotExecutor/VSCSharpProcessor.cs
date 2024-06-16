@@ -19,7 +19,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
             _builder = new ProcessStartInfo()
             {
                 FileName = "dotnet.exe",
-                WorkingDirectory = VSCSharpFolder.SlnPath,
+                WorkingDirectory = VSCSharpProjectInfomation.SlnPath,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 UseShellExecute = false,
@@ -34,9 +34,9 @@ namespace Natasha.CSharp.Extension.HotExecutor
 
         private void ResetOutputInfo()
         {
-            _outpuNewAppFolder = Path.Combine(VSCSharpFolder.BinPath, "T" + Guid.NewGuid().ToString("N"));
-            _outputNewExeFile = Path.Combine(_outpuNewAppFolder, VSCSharpFolder.ExecuteName);
-            _builder.Arguments = $"build \"{VSCSharpFolder.MainCsprojPath}\" -c {(ProjectDynamicProxy.IsRelease?"Release":"Debug")} --nologo -o \"{_outpuNewAppFolder}\"";
+            _outpuNewAppFolder = Path.Combine(VSCSharpProjectInfomation.BinPath, "T" + Guid.NewGuid().ToString("N"));
+            _outputNewExeFile = Path.Combine(_outpuNewAppFolder, VSCSharpProjectInfomation.ExecuteName);
+            _builder.Arguments = $"build \"{VSCSharpProjectInfomation.MainCsprojPath}\" -c {(ProjectDynamicProxy.IsRelease?"Release":"Debug")} --nologo -o \"{_outpuNewAppFolder}\"";
         }
 
 
@@ -91,14 +91,14 @@ namespace Natasha.CSharp.Extension.HotExecutor
                 {
                     StartInfo = new()
                     {
-                        FileName = VSCSharpFolder.ExecuteName,
+                        FileName = VSCSharpProjectInfomation.ExecuteName,
                         WorkingDirectory = _outpuNewAppFolder,
                         CreateNoWindow = true,
                         UseShellExecute = true,
                     }
                 };
 #if DEBUG
-                Console.WriteLine($"执行: {Path.Combine(_outpuNewAppFolder, VSCSharpFolder.ExecuteName)}");
+                Console.WriteLine($"执行: {Path.Combine(_outpuNewAppFolder, VSCSharpProjectInfomation.ExecuteName)}");
 #endif
                 process.Start();
                 // 等待一小段时间，让进程有机会启动
