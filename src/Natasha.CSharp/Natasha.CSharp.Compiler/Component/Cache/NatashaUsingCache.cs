@@ -64,10 +64,13 @@ namespace Natasha.CSharp.Compiler.Component
 
         public NatashaUsingCache Using(IEnumerable<string> @using)
         {
-            lock (_usings)
+            if (@using.Any())
             {
-                _usings.UnionWith(@using);
-                _changed = true;
+                lock (_usings)
+                {
+                    _usings.UnionWith(@using);
+                    _changed = true;
+                }
             }
             return this;
         }
@@ -143,10 +146,13 @@ namespace Natasha.CSharp.Compiler.Component
 
         public NatashaUsingCache Remove(IEnumerable<string> @usings)
         {
-            lock (_usings)
+            if (@usings.Any())
             {
-                _usings.ExceptWith(@usings);
-                _changed = true;
+                lock (_usings)
+                {
+                    _usings.ExceptWith(@usings);
+                    _changed = true;
+                }
             }
             return this;
         }

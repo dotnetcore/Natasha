@@ -592,7 +592,7 @@ public sealed partial class AssemblyCSharpBuilder
         {
             input.Seek(0, SeekOrigin.Begin);
             // 创建一个 MemoryStream 对象来保存 Stream 的数据
-            using MemoryStream ms = new MemoryStream();
+            using MemoryStream ms = new();
             input.CopyTo(ms);
 
             // 将 MemoryStream 的数据转换为 Span 对象
