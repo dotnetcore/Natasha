@@ -16,7 +16,7 @@ public static class ProjectDynamicProxy
     private static string? _className;
     private static string? _proxyMethodName = "Main";
     private static string? _argumentsMethodName;
-    private static readonly ConcurrentDictionary<string, SyntaxTree> _fileCache = new();
+    private static readonly ConcurrentDictionary<string, SyntaxTree> _fileSyntaxTreeCache = new();
     private static readonly object _runLock = new object();
     private static readonly List<string> _args = [];
     private static readonly VSCSharpProcessor _processor;
@@ -28,7 +28,6 @@ public static class ProjectDynamicProxy
     private static Action? _endCallback;
     private static readonly HESpinLock _buildLock;
     private static readonly VSCSharpMainFileWatcher _mainWatcher;
-    private static readonly VSCSharpUsingManagment _usingCache;
     private static string _commentTag = "//Once";
     //private static readonly MethodDeclarationSyntax _emptyMainTree;
     //private static string _callMethod;
@@ -42,20 +41,30 @@ public static class ProjectDynamicProxy
     {
         _commentTag = comment;
     }
+    private static UsingDirectiveSyntax[] _defaultUsingNodes = [];
+    public static void SetDefaultUsingCode(UsingDirectiveSyntax[] usings)
+    {
+        _defaultUsingNodes = usings;
+        foreach (var item in _fileSyntaxTreeCache)
+        {
+            var root = item.Value.GetCompilationUnitRoot();
+            _fileSyntaxTreeCache[item.Key] = root.AddUsings(_defaultUsingNodes).SyntaxTree;
+        }
+    }
     static ProjectDynamicProxy()
     {
-        _usingCache = new();
         CompileInitAction = () => { NatashaManagement.Preheating(true, true); };
         _debugOptions = new CSharpParseOptions(LanguageVersion.Preview, preprocessorSymbols: ["DEBUG", "RELEASE"]);
-//        var emptyTreeScript = @"internal class Program{
-//    static void Main(){ }
-//}";
-//        _emptyMainTree = CSharpSyntaxTree.ParseText(emptyTreeScript).GetRoot().DescendantNodes().OfType<MethodDeclarationSyntax>().First();
+        //        var emptyTreeScript = @"internal class Program{
+        //    static void Main(){ }
+        //}";
+        //        _emptyMainTree = CSharpSyntaxTree.ParseText(emptyTreeScript).GetRoot().DescendantNodes().OfType<MethodDeclarationSyntax>().First();
         _buildLock = new();
         _mainWatcher = new();
-        
+
         _processor = new();
-        _csprojWatcher = new(VSCSharpProjectInfomation.CSProjFilePath, async () => {
+        _csprojWatcher = new(VSCSharpProjectInfomation.CSProjFilePath, async () =>
+        {
 
 
             if (_buildLock.GetLock())
@@ -64,7 +73,7 @@ public static class ProjectDynamicProxy
 #if DEBUG
                 Console.WriteLine("准备重新构建！");
 #endif
-                
+
                 if (await _processor.BuildProject())
                 {
                     var needReBuildAgain = false;
@@ -131,27 +140,31 @@ public static class ProjectDynamicProxy
 
         _mainWatcher.AfterFunction = HotExecute;
 
-        _mainWatcher.ChangeFileAction = file => {
+        _mainWatcher.ChangeFileAction = file =>
+        {
             var tree = HandleTree(file);
-            _fileCache[file] = tree;
+            if (tree != null)
+            {
+                _fileSyntaxTreeCache[file] = tree;
+            }
         };
 
-        _mainWatcher.DeleteFileAction = file => {
-            _fileCache.TryRemove(file, out _);
-            if (VSCSharpProjectInfomation.EnableImplicitUsings)
-            {
-                _usingCache.RemoveUsing(file);
-            }
+        _mainWatcher.DeleteFileAction = file =>
+        {
+            _fileSyntaxTreeCache.TryRemove(file, out _);
         };
 
         _mainWatcher.CreateFileAction = file =>
         {
             var tree = HandleTree(file);
-            _fileCache[file] = tree;
+            if (tree != null)
+            {
+                _fileSyntaxTreeCache[file] = tree;
+            }
         };
         _mainWatcher.StartMonitor();
     }
-    
+
     /// <summary>
     /// 重执行之前需要做的工作
     /// </summary>
@@ -189,7 +202,7 @@ public static class ProjectDynamicProxy
     {
         IsRelease = false;
     }
-    
+
     public static void AppendArgs(string arg)
     {
         _args.Add(arg);
@@ -221,13 +234,12 @@ public static class ProjectDynamicProxy
                         if (VSCSharpProjectInfomation.CheckFileAvailiable(file))
                         {
                             var tree = HandleTree(file);
-                            var root = tree.GetRoot();
-                            _fileCache[file] = root.SyntaxTree;
+                            if (tree != null)
+                            {
+                                //Console.WriteLine(tree.ToString());
+                                _fileSyntaxTreeCache[file] = tree;
+                            }
                         }
-                    }
-                    if (VSCSharpProjectInfomation.EnableImplicitUsings)
-                    {
-                        VSCSharpProjectInfomation.SetMainUsing(_usingCache.GetMainUsings());
                     }
                 }
             }
@@ -240,13 +252,30 @@ public static class ProjectDynamicProxy
 #endif
 
     }
-    private static SyntaxTree HandleTree(string file)
+    private static SyntaxTree? HandleTree(string file)
     {
+
         var content = ReadFile(file);
         var tree = NatashaCSharpSyntax.ParseTree(content, _debugOptions);
-        var root = (CompilationUnitSyntax)tree.GetRoot();
+        if (tree == null)
+        {
+#if DEBUG
+
+            Console.WriteLine($"检测到空文件 {file}.");
+#endif
+            return null;
+        }
+        var root = tree.GetCompilationUnitRoot()!;
+        if (root.Members.Count == 0)
+        {
+#if DEBUG
+
+            Console.WriteLine($"检测到空成员文件 {file}.");
+#endif
+            return tree;
+        }
         var firstMember = root.Members[0];
-        if (firstMember!=null && firstMember.IsKind(SyntaxKind.GlobalStatement))
+        if (firstMember != null && firstMember.IsKind(SyntaxKind.GlobalStatement))
         {
 #if DEBUG
             Console.WriteLine("检测到顶级语句！");
@@ -255,19 +284,31 @@ public static class ProjectDynamicProxy
             root = root.RemoveNodes(usings, SyntaxRemoveOptions.KeepNoTrivia);
             content = "public class Program{ async static Task Main(string[] args){" + root!.ToFullString() + "}}";
             tree = NatashaCSharpSyntax.ParseTree(content, _debugOptions);
-            root = (CompilationUnitSyntax)tree.GetRoot();
+            root = tree.GetCompilationUnitRoot();
             if (!VSCSharpProjectInfomation.EnableImplicitUsings)
             {
                 root = root.AddUsings([.. usings]);
             }
         }
 
+
         if (VSCSharpProjectInfomation.EnableImplicitUsings)
         {
-            _usingCache.ChangeUsing(file,root);
+            var usings = root.Usings;
+            if (usings.Count > 0)
+            {
+                root = root.AddUsings(_defaultUsingNodes);
+            }
         }
 
+
+
         var methodDeclarations = root.DescendantNodes().OfType<MethodDeclarationSyntax>();
+        if (methodDeclarations == null)
+        {
+            return root.SyntaxTree;
+        }
+
         Dictionary<MethodDeclarationSyntax, MethodDeclarationSyntax> replaceMethodCache = [];
         foreach (var methodDeclaration in methodDeclarations)
         {
@@ -283,16 +324,13 @@ public static class ProjectDynamicProxy
             {
                 // 获取当前语句
                 var statement = methodBody.Statements[i];
-                if (statement is ExpressionStatementSyntax)
+                var trivias = statement.GetLeadingTrivia();
+                foreach (var trivia in trivias)
                 {
-                    var trivias = statement.GetLeadingTrivia();
-                    foreach (var trivia in trivias)
+                    if (trivia.IsKind(SyntaxKind.SingleLineCommentTrivia) && trivia.ToString().Trim().StartsWith(_commentTag))
                     {
-                        if (trivia.IsKind(SyntaxKind.SingleLineCommentTrivia) && trivia.ToString().Trim().StartsWith(_commentTag))
-                        {
-                            removeIndexs.Add(i);
-                            break;
-                        }
+                        removeIndexs.Add(i);
+                        break;
                     }
                 }
             }
@@ -308,17 +346,15 @@ public static class ProjectDynamicProxy
 
         foreach (var item in replaceMethodCache)
         {
-//#if DEBUG
-//            Console.WriteLine();
-//            Console.WriteLine("方法：");
-//            Console.WriteLine(item.Key.ToFullString());
-//            Console.WriteLine("替换为：");
-//            Console.WriteLine(item.Value.ToFullString());
-//            Console.WriteLine();
-//#endif
+            //#if DEBUG
+            //            Console.WriteLine();
+            //            Console.WriteLine("方法：");
+            //            Console.WriteLine(item.Key.ToFullString());
+            //            Console.WriteLine("替换为：");
+            //            Console.WriteLine(item.Value.ToFullString());
+            //            Console.WriteLine();
+            //#endif
             root = root.ReplaceNode(item.Key, item.Value);
-            tree = root.SyntaxTree;
-           
         }
 
         var mainMethod = root.DescendantNodes()
@@ -330,7 +366,7 @@ public static class ProjectDynamicProxy
             ClassDeclarationSyntax? parentClass = mainMethod.Parent as ClassDeclarationSyntax ?? throw new Exception("获取 Main 方法类名出现错误！");
             _className = parentClass.Identifier.Text;
         }
-        return tree;
+        return root.SyntaxTree;
     }
     //use FileStream read a text file
     private static string ReadFile(string file)
@@ -354,7 +390,7 @@ public static class ProjectDynamicProxy
             catch (Exception)
             {
 #if DEBUG
-            Console.WriteLine("命中文件锁！");
+                Console.WriteLine("命中文件锁！");
 #endif
 
                 Thread.Sleep(200);
@@ -371,35 +407,42 @@ public static class ProjectDynamicProxy
         {
 
             Console.Clear();
-#if DEBUG
-            foreach (var item in _usingCache.GetMainUsings())
-            {
-                Console.WriteLine("Current Using :" + item);
-            }
-#endif
             Assembly assembly;
             if (VSCSharpProjectInfomation.EnableImplicitUsings)
             {
-                var usingNodes = _usingCache.GetUsingNodes().ToArray();
-                var defaultNodes = HECompiler.GetDefaultUsingNodes();
-                List<SyntaxTree> needBeCompileTrees = [];
-                foreach (var item in _fileCache)
+                if (_defaultUsingNodes.Length == 0)
                 {
-                    var root = (CompilationUnitSyntax)item.Value.GetRoot();
-                    needBeCompileTrees.Add(root.AddUsings(usingNodes).AddUsings(defaultNodes.ToArray()).SyntaxTree);
+                    foreach (var item in _fileSyntaxTreeCache)
+                    {
+                        var namespaces = item
+                                            .Value
+                                            .GetCompilationUnitRoot()
+                                            .DescendantNodes()
+                                            .OfType<NamespaceDeclarationSyntax>()
+                                            .Select(ns => ns.Name.ToString())
+                                            .ToList();
+                        HECompiler.RemoveUsings(namespaces);
+                    }
+                    SetDefaultUsingCode(HECompiler.GetDefaultUsingNodes());
+                }
+                List<SyntaxTree> needBeCompileTrees = [];
+                foreach (var item in _fileSyntaxTreeCache)
+                {
+                    var root = item.Value.GetCompilationUnitRoot();
+                    needBeCompileTrees.Add(root.SyntaxTree);
                 }
                 assembly = HECompiler.ReCompile(needBeCompileTrees, IsRelease);
             }
             else
             {
-                assembly = HECompiler.ReCompile(_fileCache.Values, IsRelease);
+                assembly = HECompiler.ReCompile(_fileSyntaxTreeCache.Values, IsRelease);
             }
-            
+
             var types = assembly.GetTypes();
             var typeInfo = assembly.GetTypeFromShortName(_className!);
             var methods = typeInfo.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
             _endCallback?.Invoke();
-            
+
             if (_asyncDisposables.Count > 0)
             {
                 foreach (var disposableObject in _asyncDisposables)
@@ -427,7 +470,6 @@ public static class ProjectDynamicProxy
             object? instance = null;
             try
             {
-                
                 if (!proxyMethodInfo.IsStatic)
                 {
                     instance = Activator.CreateInstance(typeInfo);
@@ -457,7 +499,10 @@ public static class ProjectDynamicProxy
                 errorBuilder.AppendLine();
                 foreach (var error in errors)
                 {
-                    errorBuilder.AppendLine(error.ToString());
+                    if (error.DefaultSeverity == DiagnosticSeverity.Error)
+                    {
+                        errorBuilder.AppendLine(error.ToString());
+                    }
                 }
                 Console.WriteLine($"Error during hot execution: {errorBuilder}");
             }
