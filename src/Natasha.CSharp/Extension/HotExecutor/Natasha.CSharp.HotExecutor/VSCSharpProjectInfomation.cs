@@ -36,6 +36,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
             XmlDocument doc = new XmlDocument();
             doc.Load(CSProjFilePath);
 
+
             XmlNode implicitUsingsNode = doc.SelectSingleNode("//ImplicitUsings");
 
             if (implicitUsingsNode != null)
@@ -46,7 +47,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
                     EnableImplicitUsings = true;
                 }
             }
-
+            //EnableImplicitUsings = false;
             XmlNodeList itemGroupNodes = doc.SelectNodes("//ItemGroup");
 
             foreach (XmlNode itemGroupNode in itemGroupNodes)
