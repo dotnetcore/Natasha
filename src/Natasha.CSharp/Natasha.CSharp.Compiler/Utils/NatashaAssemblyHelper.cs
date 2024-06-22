@@ -39,7 +39,7 @@ internal static class NatashaAssemblyHelper
         }
          
     }
-    internal static IEnumerable<string>? GetReferenceAssmeblyFiles(Func<AssemblyName, string?, bool> excludeReferencesFunc)
+    internal static IEnumerable<string>? GetReferenceAssmeblyFiles(Func<AssemblyName, string?, bool>? excludeReferencesFunc)
     {
 
         IEnumerable<string>? paths = null;
