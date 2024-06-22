@@ -124,16 +124,25 @@ namespace Natasha.CSharp.Extension.HotExecutor
         }
         private async Task ExecuteAfterFunction()
         {
-            if (_compileLock.GetLock())
+            try
             {
-                await AfterFunction();
-                _compileLock.ReleaseLock();
-            }
+                if (_compileLock.GetLock())
+                {
+                    await AfterFunction();
+                    _compileLock.ReleaseLock();
+                }
 #if DEBUG
-        else{
-            Console.WriteLine($"争抢编译，做出让步！");
-        }
+                else
+                {
+                    Console.WriteLine($"争抢编译，做出让步！");
+                }
 #endif
+            }
+            catch
+            {
+
+                
+            }
         }
        
         private static void Error(object sender, ErrorEventArgs e)
