@@ -58,12 +58,12 @@ namespace Natasha.CSharp.Extension.HotExecutor
             _builderCache.WithRandomAssenblyName();
             _builderCache.SyntaxTrees.Clear();
             _builderCache.SyntaxTrees.AddRange(trees);
-#if DEBUG
-            foreach (var item in trees)
-            {
-                Console.WriteLine($"{Path.GetFileName(item.FilePath)} : {(item.Options.PreprocessorSymbolNames.Count() ==1 ? item.Options.PreprocessorSymbolNames.First() :"not found")}");
-            }
-#endif
+//#if DEBUG
+//            foreach (var item in trees)
+//            {
+//                Console.WriteLine($"{Path.GetFileName(item.FilePath)} : {(item.Options.PreprocessorSymbolNames.Count() ==1 ? item.Options.PreprocessorSymbolNames.First() :"not found")}");
+//            }
+//#endif
             if (isRelease)
             {
                 _builderCache.WithReleasePlusCompile();

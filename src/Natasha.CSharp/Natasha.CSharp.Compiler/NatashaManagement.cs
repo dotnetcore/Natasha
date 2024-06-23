@@ -1,10 +1,16 @@
-﻿using Natasha.DynamicLoad.Base;
+﻿using Natasha.CSharp.Compiler.Utils;
+using Natasha.DynamicLoad.Base;
 using System;
 using System.Diagnostics;
 using System.Reflection;
 
 public static partial class NatashaManagement
 {
+    public static NatashaInitializeHelper GetInitializer()
+    {
+        return new NatashaInitializeHelper();
+    }
+
     /// <summary>
     ///  是 <see cref="Preheating{TCreator}(Func{AssemblyName?, string?, bool}?, bool?, bool?, bool)"/> 的封装方法.
     /// </summary>

@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using System.Text;
 
 namespace Natasha.CSharp.Compiler.Component
 {
@@ -77,9 +78,20 @@ namespace Natasha.CSharp.Compiler.Component
             //Mark1 : 647ms
             //Mark2 : 128ms
             //Mark : 5.0M (Memory:2023-02-27)
-            var tree = CSharpSyntaxTree.ParseText(script.Trim(), options);
+            var tree = CSharpSyntaxTree.ParseText(script.Trim(), options, encoding: Encoding.UTF8);
             return FormartTree(tree, options);
-
+        }
+        public static SyntaxTree ParseTree(string script, string filePath, CSharpParseOptions? options)
+        {
+            if (options == null)
+            {
+                options = _options;
+            }
+            //Mark1 : 647ms
+            //Mark2 : 128ms
+            //Mark : 5.0M (Memory:2023-02-27)
+            var tree = CSharpSyntaxTree.ParseText(script.Trim(), options, filePath, Encoding.UTF8);
+            return FormartTree(tree, options);
         }
 
 
@@ -98,7 +110,7 @@ namespace Natasha.CSharp.Compiler.Component
             //Console.ReadKey();
             //Mark : 0.3M (Memory:2023-02-27)
             //Roslyn BUG https://github.com/dotnet/roslyn/issues/58150
-            return CSharpSyntaxTree.ParseText(tree.GetRoot().NormalizeWhitespace().SyntaxTree.ToString(), options);
+            return CSharpSyntaxTree.ParseText(tree.GetRoot().NormalizeWhitespace().SyntaxTree.ToString(), options, tree.FilePath, encoding: Encoding.UTF8);
         }
     }
 }

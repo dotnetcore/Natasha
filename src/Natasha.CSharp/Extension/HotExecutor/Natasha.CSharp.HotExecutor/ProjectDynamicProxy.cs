@@ -11,17 +11,17 @@ using System.Reflection;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Xml;
-using static System.Reflection.Metadata.Ecma335.MethodBodyStreamEncoder;
-
 
 public static class ProjectDynamicProxy
 {
     private static string? _className;
     private static string? _proxyMethodName = "Main";
-    private static string _proxyOPLCommentDebug = "//HE:Debug".ToLower();
-    private static string _proxyOPLCommentRelease = "//HE:Release".ToLower();
+    private static string _proxyCommentOPLDebug = "//HE:Debug".ToLower();
+    private static string _proxyCommentOPLRelease = "//HE:Release".ToLower();
+    private static string _proxyCommentCS0104Using = "//HE:CS0104".ToLower();
     private static string? _argumentsMethodName;
     private static readonly ConcurrentDictionary<string, SyntaxTree> _fileSyntaxTreeCache = new();
+    private static readonly ConcurrentDictionary<string, HashSet<string>> _cs0104UsingCache = new();
     //private static readonly ConcurrentDictionary<string, CSharpParseOptions?> _mixOPLCommentCache = new();
     private static readonly object _runLock = new object();
     private static readonly List<string> _args = [];
@@ -41,7 +41,7 @@ public static class ProjectDynamicProxy
     //private static string _callMethod;
     internal static Action CompileInitAction;
 
-   
+
 
     private static UsingDirectiveSyntax[] _defaultUsingNodes = [];
     public static void SetDefaultUsingCode(UsingDirectiveSyntax[] usings)
@@ -50,7 +50,7 @@ public static class ProjectDynamicProxy
         foreach (var item in _fileSyntaxTreeCache)
         {
             var root = item.Value.GetCompilationUnitRoot();
-            _fileSyntaxTreeCache[item.Key] = GetOptimizationLevelNode(item.Key, root.AddUsings(_defaultUsingNodes));
+            _fileSyntaxTreeCache[item.Key] = GetOptimizationLevelNode(item.Key, HandleImplicitUsings(item.Key, root));
         }
     }
     static ProjectDynamicProxy()
@@ -172,7 +172,7 @@ public static class ProjectDynamicProxy
 
     private static readonly HashSet<IAsyncDisposable> _asyncDisposables = [];
     private static readonly HashSet<IDisposable> _disposables = [];
-    
+
 
     private static bool _isFirstRun = true;
     public static void Run(string? argumentsMethodName = "ProxyMainArguments")
@@ -219,10 +219,14 @@ public static class ProjectDynamicProxy
         }
 
         root = HandleToplevelNodes(file, root);
-        root = HandleImplicitUsings(file, root);
+        HandleCSO1O4Usings(file, root);
+        if (VSCSharpProjectInfomation.EnableImplicitUsings)
+        {
+            root = HandleImplicitUsings(file, root);
+        }
         HandlePickedMainMethod(root);
         root = HandleMethodReplace(root);
-        return GetOptimizationLevelNode(file, root); 
+        return GetOptimizationLevelNode(file, root);
     }
 
 
@@ -241,7 +245,7 @@ public static class ProjectDynamicProxy
                 _currentOptions = _debugOptions;
                 ReAnalysisFiles();
             }
-            
+
             Console.Clear();
             if (VSCSharpProjectInfomation.EnableImplicitUsings)
             {
@@ -345,7 +349,6 @@ public static class ProjectDynamicProxy
     {
 #if DEBUG
         Console.WriteLine("重新扫描文件！");
-        Thread.Sleep(10000);
 #endif
 
 
@@ -460,18 +463,30 @@ public static class ProjectDynamicProxy
     }
     private static CompilationUnitSyntax HandleImplicitUsings(string file, CompilationUnitSyntax root)
     {
-        if (VSCSharpProjectInfomation.EnableImplicitUsings)
+        List<UsingDirectiveSyntax> usingList = [];
+        if (_cs0104UsingCache.TryGetValue(file, out var sets))
         {
-            //var usings = root.Usings;
-            //if (usings.Count > 0)
-            //{
-            //    _cs0104FileUsingCache[file] = new HashSet<string>(usings
-            //        .Where(item => item.Name != null)
-            //        .Select(item => item.Name!.ToFullString()));
-            //}
-            root = root.AddUsings(_defaultUsingNodes);
+            if (sets.Count > 0)
+            {
+                foreach (var node in _defaultUsingNodes)
+                {
+                    var name = node.Name!.ToString();
+                    if (!sets.Contains(name))
+                    {
+                        usingList.Add(node);
+                    }
+                }
+                return root.AddUsings([.. usingList]);
+            }
         }
-        return root;
+        return root.AddUsings(_defaultUsingNodes);
+        //var usings = root.Usings;
+        //if (usings.Count > 0)
+        //{
+        //    _cs0104FileUsingCache[file] = new HashSet<string>(usings
+        //        .Where(item => item.Name != null)
+        //        .Select(item => item.Name!.ToFullString()));
+        //}
     }
     private static CompilationUnitSyntax HandleMethodReplace(CompilationUnitSyntax root)
     {
@@ -541,7 +556,7 @@ public static class ProjectDynamicProxy
             ClassDeclarationSyntax? parentClass = mainMethod.Parent as ClassDeclarationSyntax ?? throw new Exception("获取 Main 方法类名出现错误！");
             _className = parentClass.Identifier.Text;
         }
-    } 
+    }
     private static void HandleOptimizationLevel(MethodDeclarationSyntax methodNode)
     {
         var body = methodNode.Body;
@@ -556,12 +571,12 @@ public static class ProjectDynamicProxy
                 if (trivia.IsKind(SyntaxKind.SingleLineCommentTrivia))
                 {
                     var commentText = trivia.ToString().Trim().ToLower();
-                    if (commentText.StartsWith(_proxyOPLCommentDebug))
+                    if (commentText.StartsWith(_proxyCommentOPLDebug))
                     {
                         IsRelease = false;
                         return;
                     }
-                    else if (commentText.StartsWith(_proxyOPLCommentRelease))
+                    else if (commentText.StartsWith(_proxyCommentOPLRelease))
                     {
                         IsRelease = true;
                         return;
@@ -569,6 +584,40 @@ public static class ProjectDynamicProxy
                 }
             }
         }
+    }
+
+    private static void HandleCSO1O4Usings(string file, CompilationUnitSyntax root)
+    {
+        HashSet<string> tempSets = [];
+        HashSet<SyntaxTrivia> triviaSets = [];
+        foreach (SyntaxNode node in root.DescendantNodesAndSelf())
+        {
+            foreach (SyntaxTrivia trivia in node.GetLeadingTrivia())
+            {
+                if (triviaSets.Contains(trivia))
+                {
+                    continue;
+                }
+                if (trivia.IsKind(SyntaxKind.SingleLineCommentTrivia))
+                {
+                    var commentText = trivia.ToString().Trim().ToLower();
+                    if (commentText.Length > _proxyCommentCS0104Using.Length)
+                    {
+                        if (commentText.StartsWith(_proxyCommentCS0104Using))
+                        {
+                            triviaSets.Add(trivia);
+#if DEBUG
+                            Console.WriteLine($"找到剔除点：{commentText}");
+                            Console.WriteLine($"整个节点为：{node.ToFullString()}");
+#endif
+                            var usingStrings = trivia.ToString().Trim().Substring(_proxyCommentCS0104Using.Length, commentText.Length - _proxyCommentCS0104Using.Length);
+                            tempSets.UnionWith(usingStrings.Split([';'], StringSplitOptions.RemoveEmptyEntries).Select(item => item.Trim()));
+                        }
+                    }
+                }
+            }
+        }
+        _cs0104UsingCache[file] = tempSets;
     }
     /*
     private static void HandleOptimizationLevel(string file, CompilationUnitSyntax root) {
@@ -656,11 +705,15 @@ public static class ProjectDynamicProxy
     }
     public static void SetDebugCommentTag(string comment)
     {
-        _proxyOPLCommentDebug = comment.Trim().ToLower();
+        _proxyCommentOPLDebug = comment.Trim().ToLower();
     }
     public static void SetReleaseCommentTag(string comment)
     {
-        _proxyOPLCommentRelease = comment.Trim().ToLower();
+        _proxyCommentOPLRelease = comment.Trim().ToLower();
+    }
+    public static void SetCS0104CommentTag(string comment)
+    {
+        _proxyCommentCS0104Using = comment.Trim().ToLower();
     }
     #endregion
 }

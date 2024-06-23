@@ -143,7 +143,7 @@ public sealed partial class AssemblyCSharpBuilder
     /// 注：选项状态会被缓存，复用时无需重复调用.
     /// </remarks>
     /// <returns>链式对象(调用方法的实例本身).</returns>
-    public AssemblyCSharpBuilder WithFullReleaseCompile()
+    public AssemblyCSharpBuilder WithReleasePlusCompile()
     {
         _withDebugInfo = true;
         _codeOptimizationLevel = OptimizationLevel.Release;
