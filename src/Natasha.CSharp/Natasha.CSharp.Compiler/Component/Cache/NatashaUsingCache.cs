@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Natasha.CSharp.Compiler.Component
@@ -191,6 +192,49 @@ namespace Natasha.CSharp.Compiler.Component
                     ).WithLeadingTrivia(SyntaxFactory.EndOfLine(Environment.NewLine))).ToList();
             }
         }
+
+
+        /// <summary>
+        /// 根据当前 using 缓存以及需要被排除的 using code , 返回一个新的 using 缓存.
+        /// </summary>
+        /// <param name="exceptUsings">从当前 using 中排除的 Using Code</param>
+        /// <returns></returns>
+        public NatashaUsingCache WithExpectedUsing(HashSet<string> exceptUsings)
+        {
+            NatashaUsingCache newCache = new();
+            foreach (var item in _usings)
+            {
+                if (!exceptUsings.Contains(item))
+                {
+                    newCache._usings.Add(item);
+                }
+            }
+            newCache._changed = true;
+            return newCache;
+        }
+        public NatashaUsingCache WithExpectedUsing(IEnumerable<string> exceptUsings)
+        {
+            return WithExpectedUsing(new HashSet<string>(exceptUsings));
+        }
+
+
+
+
+
+        /// <summary>
+        /// 使用当前 using 缓存包装脚本
+        /// </summary>
+        /// <param name="script">需要被包装的脚本</param>
+        /// <returns></returns>
+        public string WrapperScript(string script)
+        {
+            lock (_usings)
+            {
+                return $"{ToString()}{Environment.NewLine}{script}";
+            }
+        }
+
+
         public override string ToString()
         {
             lock (_usings)
