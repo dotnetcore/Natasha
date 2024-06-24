@@ -13,7 +13,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
         private static readonly HashSet<MetadataReference> _references;
         static HECompiler()
         {
-            ProjectDynamicProxy.CompileInitAction();
+            HEProxy.CompileInitAction();
             if (VSCSharpProjectInfomation.EnableImplicitUsings)
 	        {
                 _usingCache = new();

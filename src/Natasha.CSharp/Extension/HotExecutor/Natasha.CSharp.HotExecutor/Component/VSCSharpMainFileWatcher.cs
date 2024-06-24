@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Transactions;
 
 namespace Natasha.CSharp.Extension.HotExecutor
 {
@@ -25,14 +26,17 @@ namespace Natasha.CSharp.Extension.HotExecutor
             CreateFileAction = (str) => { };
             ChangeFileAction = (str) => { };
         }
-
         public void StartMonitor()
+        {
+            _mainWatcher.EnableRaisingEvents = true;
+        }
+        public void DeployMonitor()
         {
             _mainWatcher = new FileSystemWatcher
             {
                 Path = VSCSharpProjectInfomation.MainCsprojPath,
                 Filter = "*.cs",
-                EnableRaisingEvents = true,
+                EnableRaisingEvents = false,
                 IncludeSubdirectories = true,
                 NotifyFilter = NotifyFilters.FileName | NotifyFilters.CreationTime | NotifyFilters.LastWrite
             };
