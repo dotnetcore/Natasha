@@ -36,7 +36,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
         {
             _outpuNewAppFolder = Path.Combine(VSCSharpProjectInfomation.BinPath, "T" + Guid.NewGuid().ToString("N"));
             _outputNewExeFile = Path.Combine(_outpuNewAppFolder, VSCSharpProjectInfomation.ExecuteName);
-            _builder.Arguments = $"build \"{VSCSharpProjectInfomation.MainCsprojPath}\" -c {(ProjectDynamicProxy.IsRelease?"Release":"Debug")} --nologo -o \"{_outpuNewAppFolder}\"";
+            _builder.Arguments = $"build \"{VSCSharpProjectInfomation.MainCsprojPath}\" -c {(HEProxy.IsRelease?"Release":"Debug")} --nologo -o \"{_outpuNewAppFolder}\"";
         }
 
 

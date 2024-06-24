@@ -2,19 +2,19 @@
 {
     public static void AsyncDisposedInHotExecutor(this IAsyncDisposable obj)
     {
-       ProjectDynamicProxy.NeedBeDisposedObject(obj);
+       HEProxy.NeedBeDisposedObject(obj);
     }
     public static void AsyncDisposedInHotExecutor(this IEnumerable<IAsyncDisposable> objs)
     {
-        ProjectDynamicProxy.NeedBeDisposedObject(objs);
+        HEProxy.NeedBeDisposedObject(objs);
     }
     public static void DisposedInHotExecutor(this IDisposable obj)
     {
-        ProjectDynamicProxy.NeedBeDisposedObject(obj);
+        HEProxy.NeedBeDisposedObject(obj);
     }
     public static void DisposedInHotExecutor(this IEnumerable<IDisposable> objs)
     {
-        ProjectDynamicProxy.NeedBeDisposedObject(objs);
+        HEProxy.NeedBeDisposedObject(objs);
     }
 }
 

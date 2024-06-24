@@ -12,14 +12,14 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Xml;
 
-public static class ProjectDynamicProxy
+public static class HEProxy
 {
     private static string? _className;
-    private static string? _proxyMethodName = "Main";
+    private static string _proxyMethodName = "Main";
     private static string _proxyCommentOPLDebug = "//HE:Debug".ToLower();
     private static string _proxyCommentOPLRelease = "//HE:Release".ToLower();
     private static string _proxyCommentCS0104Using = "//HE:CS0104".ToLower();
-    private static string? _argumentsMethodName;
+    private static string _argumentsMethodName = "ProxyMainArguments";
     private static readonly ConcurrentDictionary<string, SyntaxTree> _fileSyntaxTreeCache = new();
     private static readonly ConcurrentDictionary<string, HashSet<string>> _cs0104UsingCache = new();
     //private static readonly ConcurrentDictionary<string, CSharpParseOptions?> _mixOPLCommentCache = new();
@@ -44,16 +44,8 @@ public static class ProjectDynamicProxy
 
 
     private static UsingDirectiveSyntax[] _defaultUsingNodes = [];
-    public static void SetDefaultUsingCode(UsingDirectiveSyntax[] usings)
-    {
-        _defaultUsingNodes = usings;
-        foreach (var item in _fileSyntaxTreeCache)
-        {
-            var root = item.Value.GetCompilationUnitRoot();
-            _fileSyntaxTreeCache[item.Key] = GetOptimizationLevelNode(item.Key, HandleImplicitUsings(item.Key, root));
-        }
-    }
-    static ProjectDynamicProxy()
+
+    static HEProxy()
     {
         CompileInitAction = () => { NatashaManagement.Preheating(true, true); };
         _debugOptions = new CSharpParseOptions(LanguageVersion.Preview, preprocessorSymbols: ["DEBUG"]);
@@ -158,7 +150,7 @@ public static class ProjectDynamicProxy
                 _fileSyntaxTreeCache[file] = tree;
             }
         };
-        _mainWatcher.StartMonitor();
+        _mainWatcher.DeployMonitor();
     }
 
     /// <summary>
@@ -175,7 +167,7 @@ public static class ProjectDynamicProxy
 
 
     private static bool _isFirstRun = true;
-    public static void Run(string? argumentsMethodName = "ProxyMainArguments")
+    public static void Run()
     {
         if (_isFirstRun)
         {
@@ -184,8 +176,13 @@ public static class ProjectDynamicProxy
                 if (_isFirstRun)
                 {
                     _isFirstRun = false;
-                    _argumentsMethodName = argumentsMethodName;
                     ReAnalysisFiles();
+                    if (_proxyMethodName != "Main")
+                    {
+                        Console.WriteLine($"Waiting for [{_proxyMethodName}] running...");
+                        HotExecute().Wait();
+                    }
+                    _mainWatcher.StartMonitor();
                 }
             }
         }
@@ -224,7 +221,7 @@ public static class ProjectDynamicProxy
         {
             root = HandleImplicitUsings(file, root);
         }
-        HandlePickedMainMethod(root);
+        HandlePickedProxyMethod(root);
         root = HandleMethodReplace(root);
         return GetOptimizationLevelNode(file, root);
     }
@@ -345,6 +342,15 @@ public static class ProjectDynamicProxy
         return;
     }
     #region 辅助方法区
+    public static void SetDefaultUsingCode(UsingDirectiveSyntax[] usings)
+    {
+        _defaultUsingNodes = usings;
+        foreach (var item in _fileSyntaxTreeCache)
+        {
+            var root = item.Value.GetCompilationUnitRoot();
+            _fileSyntaxTreeCache[item.Key] = GetOptimizationLevelNode(item.Key, HandleImplicitUsings(item.Key, root));
+        }
+    }
     private static void ReAnalysisFiles()
     {
 #if DEBUG
@@ -544,16 +550,16 @@ public static class ProjectDynamicProxy
         }
         return root;
     }
-    private static void HandlePickedMainMethod(CompilationUnitSyntax root)
+    private static void HandlePickedProxyMethod(CompilationUnitSyntax root)
     {
-        var mainMethod = root.DescendantNodes()
+        var proxyMethod = root.DescendantNodes()
                              .OfType<MethodDeclarationSyntax>()
-                             .FirstOrDefault(m => m.Identifier.Text == "Main");
+                             .FirstOrDefault(m => m.Identifier.Text == _proxyMethodName);
 
-        if (mainMethod != null)
+        if (proxyMethod != null)
         {
-            HandleOptimizationLevel(mainMethod);
-            ClassDeclarationSyntax? parentClass = mainMethod.Parent as ClassDeclarationSyntax ?? throw new Exception("获取 Main 方法类名出现错误！");
+            HandleOptimizationLevel(proxyMethod);
+            ClassDeclarationSyntax? parentClass = proxyMethod.Parent as ClassDeclarationSyntax ?? throw new Exception($"获取 {_proxyMethodName} 方法类名出现错误！");
             _className = parentClass.Identifier.Text;
         }
     }
@@ -714,6 +720,14 @@ public static class ProjectDynamicProxy
     public static void SetCS0104CommentTag(string comment)
     {
         _proxyCommentCS0104Using = comment.Trim().ToLower();
+    }
+    public static void SetProxyMethodName(string methodName)
+    {
+        _proxyMethodName = methodName;
+    }
+    public static void SetArgumentsMethodName(string methodName)
+    {
+        _argumentsMethodName = methodName;
     }
     #endregion
 }

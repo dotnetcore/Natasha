@@ -32,11 +32,11 @@ namespace System{{
         [ModuleInitializer]
         internal static void PreMain()
         {{
-            ProjectDynamicProxy.SetCompileInitAction(()=>{{
+            HEProxy.SetCompileInitAction(()=>{{
                 NatashaManagement.RegistDomainCreator<NatashaDomainCreator>();
                 NatashaManagement.Preheating((asmName, @namespace) => !string.IsNullOrWhiteSpace(@namespace) && @namespace.StartsWith(""Microsoft.VisualBasic""),true, true);
             }});
-            ProjectDynamicProxy.Run();
+            HEProxy.Run();
         }}
 
     }}
