@@ -1,14 +1,14 @@
 ﻿
-public static class ProxyState<T>
+public static class HEProxyState<T>
 {
     public static T Value = default!;
 }
 
-public static class ProxyState
+public static class HEProxyState
 {
     public static void SetValue<T>(T value)
     {
-        ProxyState<T>.Value = value;
+        HEProxyState<T>.Value = value;
     }
 }
 

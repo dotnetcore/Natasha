@@ -153,15 +153,6 @@ public static class HEProxy
         _mainWatcher.DeployMonitor();
     }
 
-    /// <summary>
-    /// 重执行之前需要做的工作
-    /// </summary>
-    /// <param name="callback"></param>
-    public static void ConfigPreHotExecut(Action callback)
-    {
-        _endCallback = callback;
-    }
-
     private static readonly HashSet<IAsyncDisposable> _asyncDisposables = [];
     private static readonly HashSet<IDisposable> _disposables = [];
 
@@ -662,6 +653,14 @@ public static class HEProxy
     #endregion
 
     #region 普通 API 区
+    /// <summary>
+    /// 重执行之前需要做的工作
+    /// </summary>
+    /// <param name="callback"></param>
+    public static void ConfigPreHotExecut(Action callback)
+    {
+        _endCallback = callback;
+    }
     public static void NeedBeDisposedObject(IEnumerable<IAsyncDisposable> disposableObjects)
     {
         _asyncDisposables.UnionWith(disposableObjects);
