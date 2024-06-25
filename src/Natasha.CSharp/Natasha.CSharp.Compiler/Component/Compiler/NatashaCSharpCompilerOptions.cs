@@ -267,7 +267,8 @@ namespace Natasha.CSharp.Compiler.Component
                                    allowUnsafe: _allowUnsafe,
                                    platform: _processorPlatform,
                                    checkOverflow: false,
-                                   generalDiagnosticOption: _reportLevel);
+                                   generalDiagnosticOption: _reportLevel,
+                                   assemblyIdentityComparer: DesktopAssemblyIdentityComparer.Default);
             if (_compileFlags != 0)
             {
                 CompilerInnerHelper.SetTopLevelBinderFlagDelegate(compilationOptions, (uint)_compileFlags);

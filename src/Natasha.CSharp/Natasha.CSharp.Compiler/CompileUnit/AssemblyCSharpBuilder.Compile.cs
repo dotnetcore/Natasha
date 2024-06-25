@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
 using Natasha.CSharp.Compiler.Component;
 using Natasha.CSharp.Compiler.Component.Exception;
+using Natasha.CSharp.Compiler.Utils;
 using Natasha.CSharp.Extension.Inner;
 using System;
 using System.Collections.Concurrent;
@@ -220,6 +221,8 @@ public sealed partial class AssemblyCSharpBuilder
         }
 
         var debugInfoFormat = _debugConfiguration._informationFormat;
+        debugInfoFormat ??= PdbHelpers.GetPlatformSpecificDebugInformationFormat();
+
         if (_compilation!.Options.OptimizationLevel == OptimizationLevel.Debug)
         {
 
@@ -264,7 +267,7 @@ public sealed partial class AssemblyCSharpBuilder
                includePrivateMembers: _includePrivateMembers,
                metadataOnly: _isReferenceAssembly,
                pdbFilePath: PdbFilePath,
-               debugInformationFormat: debugInfoFormat);
+               debugInformationFormat: debugInfoFormat.Value);
 
         if (_emitOptionHandle != null)
         {
@@ -421,7 +424,7 @@ public sealed partial class AssemblyCSharpBuilder
                includePrivateMembers: _includePrivateMembers,
                metadataOnly: _isReferenceAssembly,
                pdbFilePath: PdbFilePath,
-               debugInformationFormat: debugInfoFormat);
+               debugInformationFormat: debugInfoFormat!.Value);
 
         if (_emitOptionHandle != null)
         {
@@ -540,7 +543,7 @@ public sealed partial class AssemblyCSharpBuilder
                includePrivateMembers: _includePrivateMembers,
                metadataOnly: _isReferenceAssembly,
                pdbFilePath: PdbFilePath,
-               debugInformationFormat: debugInfoFormat
+               debugInformationFormat: debugInfoFormat!.Value
                );
 
         if (_emitOptionHandle != null)

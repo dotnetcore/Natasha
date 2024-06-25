@@ -20,11 +20,12 @@ namespace Natasha.CSharp.Extension.HotExecutor
                 _usingCache.Using(NatashaLoadContext.DefaultContext.UsingRecorder._usings);
                 
             }
+            
             _references =[..NatashaLoadContext.DefaultContext.ReferenceRecorder.GetReferences()];
             var delReference = NatashaLoadContext.DefaultContext.ReferenceRecorder.GetSingleReference(Assembly.GetEntryAssembly().GetName());
             if (delReference != null)
             {
-               // _references.Remove(delReference);
+                _references.Remove(delReference);
             }
             _builderCache = new();
             _builderCache.WithSpecifiedReferences(_references);
