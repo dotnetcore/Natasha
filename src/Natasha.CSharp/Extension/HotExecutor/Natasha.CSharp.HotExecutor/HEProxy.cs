@@ -47,6 +47,7 @@ public static class HEProxy
 
     static HEProxy()
     {
+
         CompileInitAction = () => { NatashaManagement.Preheating(true, true); };
         _debugOptions = new CSharpParseOptions(LanguageVersion.Preview, preprocessorSymbols: ["DEBUG"]);
         _currentOptions = _debugOptions;
@@ -269,6 +270,7 @@ public static class HEProxy
                 }
                 _asyncDisposables.Clear();
             }
+            
             if (_disposables.Count > 0)
             {
                 foreach (var disposableObject in _disposables)
@@ -277,6 +279,7 @@ public static class HEProxy
                 }
                 _disposables.Clear();
             }
+
             if (methods.Any(item => item.Name == _argumentsMethodName))
             {
                 _args.Clear();
@@ -451,10 +454,11 @@ public static class HEProxy
             var content = "public class Program{ async static Task Main(string[] args){" + root!.ToFullString() + "}}";
             var tree = NatashaCSharpSyntax.ParseTree(content, file, _currentOptions);
             root = tree.GetCompilationUnitRoot();
-            if (!VSCSharpProjectInfomation.EnableImplicitUsings)
-            {
-                root = root.AddUsings([.. usings]);
-            }
+            root = root.AddUsings([.. usings]);
+#if DEBUG
+            Console.WriteLine("代理顶级语句：");
+            Console.WriteLine(root.ToFullString());
+#endif
         }
         return root;
     }
@@ -603,10 +607,10 @@ public static class HEProxy
                         if (commentText.StartsWith(_proxyCommentCS0104Using))
                         {
                             triviaSets.Add(trivia);
-#if DEBUG
-                            Console.WriteLine($"找到剔除点：{commentText}");
-                            Console.WriteLine($"整个节点为：{node.ToFullString()}");
-#endif
+//#if DEBUG
+//                            Console.WriteLine($"找到剔除点：{commentText}");
+//                            Console.WriteLine($"整个节点为：{node.ToFullString()}");
+//#endif
                             var usingStrings = trivia.ToString().Trim().Substring(_proxyCommentCS0104Using.Length, commentText.Length - _proxyCommentCS0104Using.Length);
                             tempSets.UnionWith(usingStrings.Split([';'], StringSplitOptions.RemoveEmptyEntries).Select(item => item.Trim()));
                         }

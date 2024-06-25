@@ -3,7 +3,7 @@
 public class DebugConfiguration
 {
     
-    internal DebugInformationFormat _informationFormat = DebugInformationFormat.PortablePdb;
+    internal DebugInformationFormat? _informationFormat;
 
     /// <summary>
     /// 采用文件加载方式搜集源代码信息,兼容 unix
