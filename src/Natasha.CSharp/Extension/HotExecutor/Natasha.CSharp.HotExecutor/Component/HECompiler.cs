@@ -71,7 +71,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
             }
             else
             {
-                _builderCache.WithDebugPlusCompile(debugger=>debugger.WriteToAssembly());
+                _builderCache.WithDebugPlusCompile(debugger=>debugger.ForAssembly());
             }
             return _builderCache.GetAssembly();
         }

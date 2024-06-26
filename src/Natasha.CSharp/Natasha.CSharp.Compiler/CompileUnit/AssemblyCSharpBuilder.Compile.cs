@@ -12,6 +12,7 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Security.Cryptography;
 /// <summary>
 /// 程序集编译构建器 - 编译选项
 /// </summary>
@@ -221,13 +222,13 @@ public sealed partial class AssemblyCSharpBuilder
         }
 
         var debugInfoFormat = _debugConfiguration._informationFormat;
-        debugInfoFormat ??= PdbHelpers.GetPlatformSpecificDebugInformationFormat();
-
+        HashAlgorithmName? hashAlgorithm = null;
         if (_compilation!.Options.OptimizationLevel == OptimizationLevel.Debug)
         {
-
+            debugInfoFormat ??= PdbHelpers.GetPlatformSpecificDebugInformationFormat();
             if (debugInfoFormat != DebugInformationFormat.Embedded)
             {
+                hashAlgorithm = default(HashAlgorithmName);
                 if (string.IsNullOrEmpty(PdbFilePath))
                 {
                     var tempPdbOutputFolder = Path.Combine(GlobalOutputFolder, Domain.Name!);
@@ -267,7 +268,8 @@ public sealed partial class AssemblyCSharpBuilder
                includePrivateMembers: _includePrivateMembers,
                metadataOnly: _isReferenceAssembly,
                pdbFilePath: PdbFilePath,
-               debugInformationFormat: debugInfoFormat.Value);
+               debugInformationFormat: debugInfoFormat.Value,
+               pdbChecksumAlgorithm: hashAlgorithm);
 
         if (_emitOptionHandle != null)
         {
@@ -286,21 +288,15 @@ public sealed partial class AssemblyCSharpBuilder
            xmlDocumentationStream: xmlStream,
            options: emitOption
            );
-        LogCompilationEvent?.Invoke(_compilation.GetNatashaLog());
 
-        if (compileResult.Success)
-        {
-            if (_compilation.Options.OptimizationLevel == OptimizationLevel.Debug)
-            {
-                pdbStream?.Dispose();
-            }
-        }
-        else
+        LogCompilationEvent?.Invoke(_compilation.GetNatashaLog());
+        if (!compileResult.Success)
         {
             CompileFailedEvent?.Invoke(_compilation, compileResult.Diagnostics);
             _exception = NatashaExceptionAnalyzer.GetCompileException(_compilation, compileResult.Diagnostics);
             throw _exception;
         }
+
         dllStream.Dispose();
         pdbStream?.Dispose();
         xmlStream?.Dispose();
@@ -380,11 +376,17 @@ public sealed partial class AssemblyCSharpBuilder
         }
 
         var debugInfoFormat = _debugConfiguration._informationFormat;
+        HashAlgorithmName? hashAlgorithm = null;
         if (_compilation!.Options.OptimizationLevel == OptimizationLevel.Debug)
         {
-
-            if (debugInfoFormat != DebugInformationFormat.Embedded)
+            debugInfoFormat ??= PdbHelpers.GetPlatformSpecificDebugInformationFormat();
+            if (debugInfoFormat == DebugInformationFormat.Embedded)
             {
+                PdbFilePath = null;
+            }
+            else
+            {
+                hashAlgorithm = default(HashAlgorithmName);
                 if (string.IsNullOrEmpty(PdbFilePath))
                 {
                     var tempPdbOutputFolder = Path.Combine(GlobalOutputFolder, Domain.Name!);
@@ -405,10 +407,16 @@ public sealed partial class AssemblyCSharpBuilder
                 }
                 pdbStream = File.Create(PdbFilePath);
             }
+            //pdbStream = new MemoryStream();
+            /*
+            if (debugInfoFormat != DebugInformationFormat.Embedded)
+            {
+                
+            }
             else
             {
                 PdbFilePath = null;
-            }
+            }*/
         }
         else
         {
@@ -424,7 +432,9 @@ public sealed partial class AssemblyCSharpBuilder
                includePrivateMembers: _includePrivateMembers,
                metadataOnly: _isReferenceAssembly,
                pdbFilePath: PdbFilePath,
-               debugInformationFormat: debugInfoFormat!.Value);
+               debugInformationFormat: debugInfoFormat.Value,
+               pdbChecksumAlgorithm: hashAlgorithm
+               );
 
         if (_emitOptionHandle != null)
         {
@@ -448,12 +458,11 @@ public sealed partial class AssemblyCSharpBuilder
 
         if (compileResult.Success)
         {
-            if (_compilation.Options.OptimizationLevel == OptimizationLevel.Debug)
+            dllStream.Position = 0;
+            if (pdbStream != null)
             {
-                pdbStream?.Dispose();
+                pdbStream.Dispose();
             }
-
-            dllStream.Seek(0, SeekOrigin.Begin);
             assembly = Domain.LoadAssemblyFromStream(dllStream, null);
             LoadContext!.LoadMetadataWithAssembly(assembly);
             CompileSucceedEvent?.Invoke(_compilation, assembly!);
@@ -506,6 +515,7 @@ public sealed partial class AssemblyCSharpBuilder
         }
 
         var debugInfoFormat = _debugConfiguration._informationFormat;
+        debugInfoFormat ??= PdbHelpers.GetPlatformSpecificDebugInformationFormat();
         if (_compilation!.Options.OptimizationLevel == OptimizationLevel.Debug)
         {
 
@@ -543,7 +553,8 @@ public sealed partial class AssemblyCSharpBuilder
                includePrivateMembers: _includePrivateMembers,
                metadataOnly: _isReferenceAssembly,
                pdbFilePath: PdbFilePath,
-               debugInformationFormat: debugInfoFormat!.Value
+               debugInformationFormat: debugInfoFormat!.Value,
+               pdbChecksumAlgorithm: debugInfoFormat != null ? default(HashAlgorithmName) : null
                );
 
         if (_emitOptionHandle != null)
@@ -563,6 +574,7 @@ public sealed partial class AssemblyCSharpBuilder
            xmlDocumentationStream: xmlStream,
            //options: emitOption,
            metadataPEStream: metaStream
+
            );
         LogCompilationEvent?.Invoke(_compilation.GetNatashaLog());
 
