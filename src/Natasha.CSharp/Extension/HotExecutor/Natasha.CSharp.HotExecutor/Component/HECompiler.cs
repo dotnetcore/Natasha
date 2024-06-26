@@ -37,7 +37,6 @@ namespace Natasha.CSharp.Extension.HotExecutor
                     CompilerBinderFlags.GenericConstraintsClause | 
                     CompilerBinderFlags.SuppressObsoleteChecks));
             _builderCache
-                .UseRandomLoadContext()
                 .UseSmartMode()
                 .WithoutSemanticCheck()
                 .WithPreCompilationOptions()
@@ -57,6 +56,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
         {
             
             _builderCache.WithRandomAssenblyName();
+            _builderCache.UseRandomLoadContext();
             _builderCache.SyntaxTrees.Clear();
             _builderCache.SyntaxTrees.AddRange(trees);
 //#if DEBUG
