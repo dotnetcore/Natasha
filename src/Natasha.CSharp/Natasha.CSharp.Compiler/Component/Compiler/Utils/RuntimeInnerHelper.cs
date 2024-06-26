@@ -15,7 +15,7 @@ namespace Natasha.CSharp.Compiler.Component
             var assembly = builder
                 .UseDefaultLoadContext()
                 .UseSimpleMode()
-                .WithDebugCompile(opt=>opt.WriteToAssembly())
+                .WithDebugCompile(opt=>opt.ForAssembly())
                 .ConfigLoadContext(context => context
                   .AddReferenceAndUsingCode(typeof(System.Reflection.Metadata.AssemblyReference))
                   .AddReferenceAndUsingCode(typeof(System.Runtime.CompilerServices.RuntimeHelpers))
