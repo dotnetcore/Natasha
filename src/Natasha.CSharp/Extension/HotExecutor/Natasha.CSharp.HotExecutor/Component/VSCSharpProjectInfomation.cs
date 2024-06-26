@@ -21,6 +21,11 @@ namespace Natasha.CSharp.Extension.HotExecutor
         {
             ExpectFiles = [];
             var currentExeFilePath = Process.GetCurrentProcess().MainModule.FileName;
+            var filePathWrapper = AppContext.GetData("CurrentHEExeFilePath");
+            if (filePathWrapper != null)
+            {
+                currentExeFilePath = (string)filePathWrapper;
+            }
             ExecutePath = new FileInfo(currentExeFilePath).Directory!.FullName;
             var currentDirectoryInfo = new DirectoryInfo(ExecutePath);
             MainCsprojPath = FindFileDirectory(currentDirectoryInfo,"*.csproj");

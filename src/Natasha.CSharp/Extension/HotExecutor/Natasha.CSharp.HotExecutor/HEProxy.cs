@@ -272,7 +272,7 @@ public static class HEProxy
                 }
                 _asyncDisposables.Clear();
             }
-            
+
             if (_disposables.Count > 0)
             {
                 foreach (var disposableObject in _disposables)
@@ -453,7 +453,7 @@ public static class HEProxy
             Console.WriteLine("检测到顶级语句！");
 #endif
             var usings = root.Usings;
-            root = root.RemoveNodes(usings, SyntaxRemoveOptions.KeepNoTrivia)!;
+            root = root.RemoveNodes(usings, SyntaxRemoveOptions.KeepLeadingTrivia)!;
             var content = "public class Program{ async static Task Main(string[] args){" + root!.ToFullString() + "}}";
             var tree = NatashaCSharpSyntax.ParseTree(content, file, _currentOptions);
             root = tree.GetCompilationUnitRoot();
@@ -494,6 +494,7 @@ public static class HEProxy
     }
     private static CompilationUnitSyntax HandleMethodReplace(CompilationUnitSyntax root)
     {
+
         var methodDeclarations = root.DescendantNodes().OfType<MethodDeclarationSyntax>();
         if (methodDeclarations == null)
         {
@@ -502,88 +503,17 @@ public static class HEProxy
         Dictionary<MethodDeclarationSyntax, MethodDeclarationSyntax> replaceMethodCache = [];
         foreach (var methodDeclaration in methodDeclarations)
         {
-            var removeIndexs = new HashSet<int>();
-            // 获取方法体
             var methodBody = methodDeclaration.Body;
             if (methodBody == null)
             {
                 continue;
             }
-            Dictionary<int, List<StatementSyntax>> showExpressionCache = [];
-            // 遍历方法体中的语句
-            for (int i = 0; i < methodBody.Statements.Count; i++)
-            {
-                // 获取当前语句
-                var statement = methodBody.Statements[i];
-                var trivias = statement.GetLeadingTrivia();
-                foreach (var trivia in trivias)
-                {
-                    
-                    if (trivia.IsKind(SyntaxKind.SingleLineCommentTrivia))
-                    {
-                        var commentText = trivia.ToString();
-                        if (commentText.Length>2)
-                        {
-                            var commentLowerText = commentText.Trim().ToLower();
-                            if (!IsRelease)
-                            {
-                                if (commentLowerText.StartsWith(_proxyCommentDebugShow))
-                                {
-                                    var length = _proxyCommentDebugShow.Length + 1;
-                                    if (commentText.Length > length)
-                                    {
-                                        var statementNode = CreatePreprocessorConsoleWriteLineSyntaxNode(
-                                        commentText.Substring(length,commentText.Length - length));
-                                        if (!showExpressionCache.TryGetValue(i, out var statementList))
-                                        {
-                                            showExpressionCache[i] = [];
-                                        }
-                                        showExpressionCache[i].Add(statementNode);
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                if (commentLowerText.StartsWith(_proxyCommentReleaseShow))
-                                {
-                                    var length = _proxyCommentReleaseShow.Length + 1;
-                                    if (commentText.Length > length)
-                                    {
-                                        var statementNode = CreatePreprocessorConsoleWriteLineSyntaxNode(
-                                        commentText.Substring(length,commentText.Length - length));
-                                        if (!showExpressionCache.TryGetValue(i, out var statementList))
-                                        {
-                                            showExpressionCache[i] = [];
-                                        }
-                                        showExpressionCache[i].Add(statementNode);
-                                    }
-                                }
-                            }
-                            if (commentLowerText.StartsWith(_commentTag))
-                            {
-                                removeIndexs.Add(i);
-                            }
-                        }
-                    }
-                }
-            }
+            Console.WriteLine(methodBody.ToFullString());
+            var newStatments = GetNewStatementSyntax(methodBody);
 
-            // 如果找到，创建新的方法体列表并排除该语句
-            if (removeIndexs.Count > 0)
+            if (newStatments != null)
             {
-                var statements = methodBody.Statements;
-                SyntaxList<StatementSyntax> newStatments = [];
-                for (int i = 0; i < statements.Count; i++)
-                {
-                    if (showExpressionCache.ContainsKey(i))
-                    {
-                        newStatments = newStatments.AddRange(showExpressionCache[i]);
-                    }
-                    if (!removeIndexs.Contains(i))
-                    {
-                        newStatments = newStatments.Add(statements[i]);
-                    }
-                }
+                Console.WriteLine(methodDeclaration.WithBody(SyntaxFactory.Block(newStatments)).ToFullString());
                 replaceMethodCache[methodDeclaration] = methodDeclaration.WithBody(SyntaxFactory.Block(newStatments));
             }
         }
@@ -602,11 +532,199 @@ public static class HEProxy
             root = root.ReplaceNode(item.Key, item.Value);
         }
         return root;
+
+        static SyntaxList<StatementSyntax>? GetNewStatementSyntax(BlockSyntax methodBody)
+        {
+
+
+            var removeIndexs = new HashSet<int>();
+            // 获取方法体
+            Dictionary<int, List<StatementSyntax>> addStatementCache = [];
+            if (methodBody.OpenBraceToken.HasLeadingTrivia)
+            {
+                HandleTriviaComment(methodBody.OpenBraceToken.LeadingTrivia, -1, false);
+            }
+            var statementCount = methodBody.Statements.Count;
+            // 遍历方法体中的语句
+            for (int i = 0; i < statementCount; i++)
+            {
+                // 获取当前语句
+                var statement = methodBody.Statements[i];
+
+                if (statement.HasLeadingTrivia)
+                {
+                    var trivias = statement.GetLeadingTrivia();
+                    HandleTriviaComment(trivias, i, true);
+                }
+
+                if (statement.IsKind(SyntaxKind.LocalFunctionStatement))
+                {
+                    var localStatementSyntax = (LocalFunctionStatementSyntax)statement;
+                    var body = localStatementSyntax.Body;
+                    if (body != null)
+                    {
+                        var newSyntaxList = GetNewStatementSyntax(body);
+                        if (newSyntaxList.HasValue && newSyntaxList.Value.Count > 0)
+                        {
+                            if (!addStatementCache.TryGetValue(i, out var statementList))
+                            {
+                                addStatementCache[i] = [];
+                            }
+                            addStatementCache[i].Add(SyntaxFactory
+                                .LocalFunctionStatement(
+                                    localStatementSyntax.Modifiers,
+                                    localStatementSyntax.ReturnType,
+                                    localStatementSyntax.Identifier,
+                                    localStatementSyntax.TypeParameterList,
+                                    localStatementSyntax.ParameterList,
+                                    localStatementSyntax.ConstraintClauses,
+                                    SyntaxFactory.Block(newSyntaxList),
+                                    localStatementSyntax.ExpressionBody
+                                 ));
+                            removeIndexs.Add(i);
+                        }
+                        
+                    }
+                }
+                else if (statement.IsKind(SyntaxKind.LocalDeclarationStatement))
+                {
+                    var localStatementSyntax = (LocalDeclarationStatementSyntax)statement;
+                    var lambdaExpression = localStatementSyntax
+                        .DescendantNodes()
+                        .OfType<ParenthesizedLambdaExpressionSyntax>()
+                        .FirstOrDefault();
+                    if (lambdaExpression!=null)
+                    {
+                        var body = lambdaExpression.Block;
+                        if (body != null)
+                        {
+                            var newSyntaxList = GetNewStatementSyntax(body);
+                            if (newSyntaxList.HasValue && newSyntaxList.Value.Count > 0)
+                            {
+                                if (!addStatementCache.TryGetValue(i, out var statementList))
+                                {
+                                    addStatementCache[i] = [];
+                                }
+                                Console.WriteLine(localStatementSyntax.ReplaceNode(
+                                        lambdaExpression, lambdaExpression.WithBlock(SyntaxFactory.Block(newSyntaxList))).ToFullString());
+                                addStatementCache[i]
+                                    .Add(localStatementSyntax.ReplaceNode(
+                                        lambdaExpression, lambdaExpression.WithBlock(SyntaxFactory.Block(newSyntaxList))));
+                                removeIndexs.Add(i);
+                            }
+                        }
+                    }
+                }
+
+
+                
+
+                if (statement.HasTrailingTrivia)
+                {
+                    var trivias = statement.GetTrailingTrivia();
+                    HandleTriviaComment(trivias, i, true);
+                }
+                
+            }
+
+            if (methodBody.CloseBraceToken.HasLeadingTrivia)
+            {
+                HandleTriviaComment(methodBody.CloseBraceToken.LeadingTrivia, -2, false);
+            }
+            // 如果找到，创建新的方法体列表并排除该语句
+            if (removeIndexs.Count > 0 || addStatementCache.Count > 0)
+            {
+                var statements = methodBody.Statements;
+                List<StatementSyntax> newStatments = [];
+                if (addStatementCache.TryGetValue(-1, out var headList))
+                {
+                    newStatments.AddRange(headList);
+                }
+                if (statements.Count != 0)
+                {
+                    for (int i = 0; i < statements.Count; i++)
+                    {
+                        if (addStatementCache.ContainsKey(i))
+                        {
+                            newStatments.AddRange(addStatementCache[i]);
+                        }
+                        if (!removeIndexs.Contains(i))
+                        {
+                            newStatments.Add(statements[i]);
+                        }
+                    }
+                }
+                if (addStatementCache.TryGetValue(-2, out var tailList))
+                {
+                    newStatments.AddRange(tailList);
+                }
+                return new SyntaxList<StatementSyntax>(newStatments);
+            }
+
+            return null;
+            void HandleTriviaComment(SyntaxTriviaList trivias, int i, bool needDeleted)
+            {
+                foreach (var trivia in trivias)
+                {
+
+                    if (trivia.IsKind(SyntaxKind.SingleLineCommentTrivia))
+                    {
+                        var commentText = trivia.ToString();
+                        if (commentText.Length > 2)
+                        {
+                            var commentLowerText = commentText.Trim().ToLower();
+                            if (!IsRelease)
+                            {
+                                if (commentLowerText.StartsWith(_proxyCommentDebugShow))
+                                {
+                                    var length = _proxyCommentDebugShow.Length + 1;
+                                    if (commentText.Length > length)
+                                    {
+                                        var statementNode = CreatePreprocessorConsoleWriteLineSyntaxNode(
+                                        commentText.Substring(length, commentText.Length - length));
+                                        if (!addStatementCache.TryGetValue(i, out var statementList))
+                                        {
+                                            addStatementCache[i] = [];
+                                        }
+                                        addStatementCache[i].Add(statementNode);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (commentLowerText.StartsWith(_proxyCommentReleaseShow))
+                                {
+                                    var length = _proxyCommentReleaseShow.Length + 1;
+                                    if (commentText.Length > length)
+                                    {
+                                        var statementNode = CreatePreprocessorConsoleWriteLineSyntaxNode(
+                                        commentText.Substring(length, commentText.Length - length));
+                                        if (!addStatementCache.TryGetValue(i, out var statementList))
+                                        {
+                                            addStatementCache[i] = [];
+                                        }
+                                        addStatementCache[i].Add(statementNode);
+                                    }
+                                }
+                            }
+                            if (needDeleted)
+                            {
+                                if (commentLowerText.StartsWith(_commentTag))
+                                {
+                                    removeIndexs.Add(i);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
     }
 
     private static StatementSyntax CreatePreprocessorConsoleWriteLineSyntaxNode(string content)
     {
-        return SyntaxFactory.ParseStatement($"Console.WriteLine(\"{content}\");");
+        return SyntaxFactory.ParseStatement($"Console.WriteLine({content});");
     }
     private static void HandlePickedProxyMethod(CompilationUnitSyntax root)
     {
@@ -670,10 +788,10 @@ public static class HEProxy
                         if (commentText.StartsWith(_proxyCommentCS0104Using))
                         {
                             triviaSets.Add(trivia);
-//#if DEBUG
-//                            Console.WriteLine($"找到剔除点：{commentText}");
-//                            Console.WriteLine($"整个节点为：{node.ToFullString()}");
-//#endif
+                            //#if DEBUG
+                            //                            Console.WriteLine($"找到剔除点：{commentText}");
+                            //                            Console.WriteLine($"整个节点为：{node.ToFullString()}");
+                            //#endif
                             var usingStrings = trivia.ToString().Trim().Substring(_proxyCommentCS0104Using.Length, commentText.Length - _proxyCommentCS0104Using.Length);
                             tempSets.UnionWith(usingStrings.Split([';'], StringSplitOptions.RemoveEmptyEntries).Select(item => item.Trim()));
                         }
