@@ -16,6 +16,8 @@ public static class HEProxy
 {
     private static string? _className;
     private static string _proxyMethodName = "Main";
+    private static string _proxyCommentDebugShow = "//DS".ToLower();
+    private static string _proxyCommentReleaseShow = "//RS".ToLower();
     private static string _proxyCommentOPLDebug = "//HE:Debug".ToLower();
     private static string _proxyCommentOPLRelease = "//HE:Release".ToLower();
     private static string _proxyCommentCS0104Using = "//HE:CS0104".ToLower();
@@ -36,7 +38,7 @@ public static class HEProxy
     private static Action? _endCallback;
     private static readonly HESpinLock _buildLock;
     private static readonly VSCSharpMainFileWatcher _mainWatcher;
-    private static string _commentTag = "//Once";
+    private static string _commentTag = "//Once".ToLower();
     //private static readonly MethodDeclarationSyntax _emptyMainTree;
     //private static string _callMethod;
     internal static Action CompileInitAction;
@@ -315,6 +317,7 @@ public static class HEProxy
         {
             if (ex is NatashaException nex)
             {
+                var code = nex.Formatter;
                 var errors = nex!.Diagnostics;
                 StringBuilder errorBuilder = new();
                 errorBuilder.AppendLine();
@@ -506,6 +509,7 @@ public static class HEProxy
             {
                 continue;
             }
+            Dictionary<int, List<StatementSyntax>> showExpressionCache = [];
             // 遍历方法体中的语句
             for (int i = 0; i < methodBody.Statements.Count; i++)
             {
@@ -514,10 +518,52 @@ public static class HEProxy
                 var trivias = statement.GetLeadingTrivia();
                 foreach (var trivia in trivias)
                 {
-                    if (trivia.IsKind(SyntaxKind.SingleLineCommentTrivia) && trivia.ToString().Trim().StartsWith(_commentTag))
+                    
+                    if (trivia.IsKind(SyntaxKind.SingleLineCommentTrivia))
                     {
-                        removeIndexs.Add(i);
-                        break;
+                        var commentText = trivia.ToString();
+                        if (commentText.Length>2)
+                        {
+                            var commentLowerText = commentText.Trim().ToLower();
+                            if (!IsRelease)
+                            {
+                                if (commentLowerText.StartsWith(_proxyCommentDebugShow))
+                                {
+                                    var length = _proxyCommentDebugShow.Length + 1;
+                                    if (commentText.Length > length)
+                                    {
+                                        var statementNode = CreatePreprocessorConsoleWriteLineSyntaxNode(
+                                        commentText.Substring(length,commentText.Length - length));
+                                        if (!showExpressionCache.TryGetValue(i, out var statementList))
+                                        {
+                                            showExpressionCache[i] = [];
+                                        }
+                                        showExpressionCache[i].Add(statementNode);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (commentLowerText.StartsWith(_proxyCommentReleaseShow))
+                                {
+                                    var length = _proxyCommentReleaseShow.Length + 1;
+                                    if (commentText.Length > length)
+                                    {
+                                        var statementNode = CreatePreprocessorConsoleWriteLineSyntaxNode(
+                                        commentText.Substring(length,commentText.Length - length));
+                                        if (!showExpressionCache.TryGetValue(i, out var statementList))
+                                        {
+                                            showExpressionCache[i] = [];
+                                        }
+                                        showExpressionCache[i].Add(statementNode);
+                                    }
+                                }
+                            }
+                            if (commentLowerText.StartsWith(_commentTag))
+                            {
+                                removeIndexs.Add(i);
+                            }
+                        }
                     }
                 }
             }
@@ -525,8 +571,20 @@ public static class HEProxy
             // 如果找到，创建新的方法体列表并排除该语句
             if (removeIndexs.Count > 0)
             {
-                var newMethodBody = new List<StatementSyntax>(methodBody.Statements.Where((s, index) => !removeIndexs.Contains(index)));
-                replaceMethodCache[methodDeclaration] = methodDeclaration.WithBody(SyntaxFactory.Block(newMethodBody));
+                var statements = methodBody.Statements;
+                SyntaxList<StatementSyntax> newStatments = [];
+                for (int i = 0; i < statements.Count; i++)
+                {
+                    if (showExpressionCache.ContainsKey(i))
+                    {
+                        newStatments = newStatments.AddRange(showExpressionCache[i]);
+                    }
+                    if (!removeIndexs.Contains(i))
+                    {
+                        newStatments = newStatments.Add(statements[i]);
+                    }
+                }
+                replaceMethodCache[methodDeclaration] = methodDeclaration.WithBody(SyntaxFactory.Block(newStatments));
             }
         }
 
@@ -544,6 +602,11 @@ public static class HEProxy
             root = root.ReplaceNode(item.Key, item.Value);
         }
         return root;
+    }
+
+    private static StatementSyntax CreatePreprocessorConsoleWriteLineSyntaxNode(string content)
+    {
+        return SyntaxFactory.ParseStatement($"Console.WriteLine(\"{content}\");");
     }
     private static void HandlePickedProxyMethod(CompilationUnitSyntax root)
     {
@@ -710,7 +773,7 @@ public static class HEProxy
     }
     public static void SetOnceCommentTag(string comment)
     {
-        _commentTag = comment;
+        _commentTag = comment.ToLower();
     }
     public static void SetDebugCommentTag(string comment)
     {
