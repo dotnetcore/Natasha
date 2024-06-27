@@ -458,10 +458,10 @@ public static class HEProxy
             var tree = NatashaCSharpSyntax.ParseTree(content, file, _currentOptions);
             root = tree.GetCompilationUnitRoot();
             root = root.AddUsings([.. usings]);
-#if DEBUG
-            Console.WriteLine("代理顶级语句：");
-            Console.WriteLine(root.ToFullString());
-#endif
+//#if DEBUG
+//            Console.WriteLine("代理顶级语句：");
+//            Console.WriteLine(root.ToFullString());
+//#endif
         }
         return root;
     }
@@ -508,12 +508,10 @@ public static class HEProxy
             {
                 continue;
             }
-            Console.WriteLine(methodBody.ToFullString());
             var newStatments = GetNewStatementSyntax(methodBody);
 
-            if (newStatments != null)
+            if (newStatments.HasValue && newStatments.Value.Count > 0)
             {
-                Console.WriteLine(methodDeclaration.WithBody(SyntaxFactory.Block(newStatments)).ToFullString());
                 replaceMethodCache[methodDeclaration] = methodDeclaration.WithBody(SyntaxFactory.Block(newStatments));
             }
         }
@@ -605,8 +603,6 @@ public static class HEProxy
                                 {
                                     addStatementCache[i] = [];
                                 }
-                                Console.WriteLine(localStatementSyntax.ReplaceNode(
-                                        lambdaExpression, lambdaExpression.WithBlock(SyntaxFactory.Block(newSyntaxList))).ToFullString());
                                 addStatementCache[i]
                                     .Add(localStatementSyntax.ReplaceNode(
                                         lambdaExpression, lambdaExpression.WithBlock(SyntaxFactory.Block(newSyntaxList))));
