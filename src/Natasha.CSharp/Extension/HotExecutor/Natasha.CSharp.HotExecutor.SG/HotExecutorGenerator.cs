@@ -66,6 +66,7 @@ HEProxy.ExtGlobalUsing.Add(""System.Windows.Forms"");
             var nameSapce = context.Compilation.GetEntryPoint(cancellationToken: new System.Threading.CancellationToken())!.ContainingNamespace.Name;
             string proxyMethodContent = $@"
 //#if DEBUG
+using System.IO;
 using System.Runtime.CompilerServices;
 using Natasha.CSharp.HotExecutor.Component;
 using Natasha.CSharp.Extension.HotExecutor;

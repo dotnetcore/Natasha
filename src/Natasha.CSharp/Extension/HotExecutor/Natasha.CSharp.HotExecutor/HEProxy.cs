@@ -50,6 +50,7 @@ public static class HEProxy
     private static UsingDirectiveSyntax[] _defaultUsingNodes = [];
     private static readonly HashSet<IAsyncDisposable> _asyncDisposables = [];
     private static readonly HashSet<IDisposable> _disposables = [];
+    private static readonly List<CancellationTokenSource> _cancellations = [];
     private static bool _isFirstRun = true;
 
     static HEProxy()
@@ -265,6 +266,18 @@ public static class HEProxy
             ShowMessage($"执行主入口前导方法....");
             _preCallback?.Invoke();
 
+            if (_cancellations.Count > 0)
+            {
+                foreach (var item in _cancellations)
+                {
+                    if (item.Token.CanBeCanceled && !item.Token.IsCancellationRequested)
+                    {
+                        item.Cancel();
+                    }
+                }
+                _cancellations.Clear();
+            }
+
             if (_asyncDisposables.Count > 0)
             {
                 foreach (var disposableObject in _asyncDisposables)
@@ -282,6 +295,8 @@ public static class HEProxy
                 }
                 _disposables.Clear();
             }
+
+            
 
             if (methods.Any(item => item.Name == _argumentsMethodName))
             {
@@ -964,6 +979,14 @@ try{{
     public static void SetAftHotExecut(Action callback)
     {
         _endCallback = callback;
+    }
+    public static void NeedBeCancelObject(CancellationTokenSource cancelObject)
+    {
+        _cancellations.Add(cancelObject);
+    }
+    public static void NeedBeCancelObject(IEnumerable<CancellationTokenSource> cancelObjects)
+    {
+        _cancellations.AddRange(cancelObjects);
     }
     public static void NeedBeDisposedObject(IEnumerable<IAsyncDisposable> disposableObjects)
     {
