@@ -33,8 +33,9 @@ namespace Natasha.CSharp.Extension.HotExecutor.SG
                 // 这里可以根据判断结果执行相应的操作
                 // 例如生成特定的代码或输出信息
                 coreScript = @"
+string debugFilePath = Path.Combine(VSCSharpProjectInfomation.MainCsprojPath,""HEDebug.txt""); 
 HEProxy.ShowMessage = msg => {
-    HEProxy.WriteUtf8File(""debug.txt"", msg + Environment.NewLine);
+    HEProxy.WriteUtf8File(debugFilePath, msg + Environment.NewLine);
 };
 HEProxy.SetProjectKind(HEProjectKind.Winform);
 HEProxy.ExtGlobalUsing.Add(""System.Windows.Controls"");
@@ -50,8 +51,9 @@ HEProxy.ExtGlobalUsing.Add(""System.Windows"");
                 if (hasWPFWindowClass && fileList.Any(item => item.EndsWith(".xaml.cs")))
                 {
                     coreScript = @"
+string debugFilePath = Path.Combine(VSCSharpProjectInfomation.MainCsprojPath,""HEDebug.txt""); 
 HEProxy.ShowMessage = msg => {
-    HEProxy.WriteUtf8File(""debug.txt"", msg + Environment.NewLine);
+    HEProxy.WriteUtf8File(debugFilePath, msg + Environment.NewLine);
 };
 HEProxy.SetProjectKind(HEProjectKind.WPF);
 HEProxy.ExtGlobalUsing.Add(""System.Windows.Forms"");
@@ -66,6 +68,7 @@ HEProxy.ExtGlobalUsing.Add(""System.Windows.Forms"");
 //#if DEBUG
 using System.Runtime.CompilerServices;
 using Natasha.CSharp.HotExecutor.Component;
+using Natasha.CSharp.Extension.HotExecutor;
 {(string.IsNullOrEmpty(nameSapce) ? string.Empty : "using " + nameSapce + ";")}
 namespace System{{
 
