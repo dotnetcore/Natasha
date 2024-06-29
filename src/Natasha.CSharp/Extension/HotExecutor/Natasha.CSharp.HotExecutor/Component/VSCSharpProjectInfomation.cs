@@ -86,11 +86,28 @@ namespace Natasha.CSharp.Extension.HotExecutor
 
         public static bool CheckFileAvailiable(string file)
         {
-            if (file.StartsWith(ObjPath) || file.StartsWith(BinPath) || ExpectFiles.Contains(file))
+            if (ExpectFiles.Contains(file))
             {
                 return false;
             }
-            return true;
+            return CheckFileAvivaliable(file, BinPath, ObjPath);
+        }
+
+        public static bool CheckFileAvivaliable(string file, string binPath, string objPath)
+        {
+            if (file.EndsWith(".cs") || file.EndsWith(".xaml") || file.EndsWith(".resx"))
+            {
+                if (file.StartsWith(binPath))
+                {
+                    return false;
+                }
+                if (!file.EndsWith(".g.cs") && file.StartsWith(ObjPath))
+                {
+                    return false;
+                }
+                return true;
+            }
+            return false;
         }
 
         public static void SetMainUsing(IEnumerable<string> mainUsings)

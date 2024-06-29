@@ -18,7 +18,6 @@ namespace Natasha.CSharp.Extension.HotExecutor
 	        {
                 _usingCache = new();
                 _usingCache.Using(NatashaLoadContext.DefaultContext.UsingRecorder._usings);
-                
             }
             
             _references =[..NatashaLoadContext.DefaultContext.ReferenceRecorder.GetReferences()];
@@ -59,12 +58,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
             _builderCache.UseRandomLoadContext();
             _builderCache.SyntaxTrees.Clear();
             _builderCache.SyntaxTrees.AddRange(trees);
-//#if DEBUG
-//            foreach (var item in trees)
-//            {
-//                Console.WriteLine($"{Path.GetFileName(item.FilePath)} : {(item.Options.PreprocessorSymbolNames.Count() ==1 ? item.Options.PreprocessorSymbolNames.First() :"not found")}");
-//            }
-//#endif
+
             if (isRelease)
             {
                 _builderCache.WithReleasePlusCompile();

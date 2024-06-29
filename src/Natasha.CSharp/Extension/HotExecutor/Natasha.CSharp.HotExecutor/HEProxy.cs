@@ -4,13 +4,16 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Host;
 using Natasha.CSharp.Compiler.Component;
 using Natasha.CSharp.Extension.HotExecutor;
+using Natasha.CSharp.HotExecutor.Component;
 using System;
+using System.Buffers.Text;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Reflection;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Xml;
+using static System.Net.Mime.MediaTypeNames;
 
 public static class HEProxy
 {
@@ -22,6 +25,7 @@ public static class HEProxy
     private static string _proxyCommentOPLRelease = "//HE:Release".ToLower();
     private static string _proxyCommentCS0104Using = "//HE:CS0104".ToLower();
     private static string _argumentsMethodName = "ProxyMainArguments";
+    private static string _commentTag = "//Once".ToLower();
     private static readonly ConcurrentDictionary<string, SyntaxTree> _fileSyntaxTreeCache = new();
     private static readonly ConcurrentDictionary<string, HashSet<string>> _cs0104UsingCache = new();
     //private static readonly ConcurrentDictionary<string, CSharpParseOptions?> _mixOPLCommentCache = new();
@@ -35,17 +39,18 @@ public static class HEProxy
     private readonly static CSharpParseOptions _debugOptions;
     private readonly static CSharpParseOptions _releaseOptions;
     private static CSharpParseOptions _currentOptions;
+    private static Action? _preCallback;
     private static Action? _endCallback;
     private static readonly HESpinLock _buildLock;
     private static readonly VSCSharpMainFileWatcher _mainWatcher;
-    private static string _commentTag = "//Once".ToLower();
-    //private static readonly MethodDeclarationSyntax _emptyMainTree;
-    //private static string _callMethod;
+
     internal static Action CompileInitAction;
-
-
-
+    public static Action<string> ShowMessage = Console.WriteLine;
+    public static readonly HashSet<string> ExtGlobalUsing = [];
     private static UsingDirectiveSyntax[] _defaultUsingNodes = [];
+    private static readonly HashSet<IAsyncDisposable> _asyncDisposables = [];
+    private static readonly HashSet<IDisposable> _disposables = [];
+    private static bool _isFirstRun = true;
 
     static HEProxy()
     {
@@ -58,9 +63,14 @@ public static class HEProxy
         //    static void Main(){ }
         //}";
         //        _emptyMainTree = CSharpSyntaxTree.ParseText(emptyTreeScript).GetRoot().DescendantNodes().OfType<MethodDeclarationSyntax>().First();
+#if DEBUG
+        if (Console.Out is not StreamWriter)
+        {
+            ShowMessage = msg => { Debug.WriteLine(msg); };
+        }
+#endif
         _buildLock = new();
         _mainWatcher = new();
-
         _processor = new();
         _csprojWatcher = new(VSCSharpProjectInfomation.CSProjFilePath, async () =>
         {
@@ -69,7 +79,7 @@ public static class HEProxy
             {
                 _isCompiling = true;
 #if DEBUG
-                Console.WriteLine("准备重新构建！");
+                ShowMessage("准备重新构建！");
 #endif
 
                 if (await _processor.BuildProject())
@@ -83,21 +93,18 @@ public static class HEProxy
                     }
                     if (needReBuildAgain)
                     {
-#if DEBUG
-                        Console.WriteLine("抢占成功，将重新编译！");
-#endif
+                        ShowMessage("抢占成功，将重新编译！");
                         _buildLock.ReleaseLock();
                         _csprojWatcher!.Notify();
                         return;
                     }
-
 #if DEBUG
-                    Console.WriteLine("构建成功，准备启动！");
+                    ShowMessage("构建成功，准备启动！");
 #endif
                     if (await _processor.Run())
                     {
 #if DEBUG
-                        Console.WriteLine("启动成功，退出当前程序！");
+                        ShowMessage("启动成功，退出当前程序！");
 #endif
                     }
                 }
@@ -106,14 +113,15 @@ public static class HEProxy
                     _isFaildBuild = true;
                     _buildLock.ReleaseLock();
 #if DEBUG
-                    Console.WriteLine("构建失败！");
+                    ShowMessage("构建失败！");
 #endif
+
                 }
             }
             else
             {
                 _isCompiling = false;
-                Console.WriteLine("检测到多次更改触发多次抢占编译，当前将尽可能抢占编译权限！");
+                ShowMessage("检测到多次更改触发多次抢占编译，当前将尽可能抢占编译权限！");
             }
 
         });
@@ -156,11 +164,7 @@ public static class HEProxy
         _mainWatcher.DeployMonitor();
     }
 
-    private static readonly HashSet<IAsyncDisposable> _asyncDisposables = [];
-    private static readonly HashSet<IDisposable> _disposables = [];
 
-
-    private static bool _isFirstRun = true;
     public static void Run()
     {
         if (_isFirstRun)
@@ -173,7 +177,7 @@ public static class HEProxy
                     ReAnalysisFiles();
                     if (_proxyMethodName != "Main")
                     {
-                        Console.WriteLine($"Waiting for [{_proxyMethodName}] running...");
+                        ShowMessage($"Waiting for [{_proxyMethodName}] running...");
                         HotExecute().Wait();
                     }
                     _mainWatcher.StartMonitor();
@@ -183,7 +187,7 @@ public static class HEProxy
 #if DEBUG
         else
         {
-            Console.WriteLine("已经初始化过了！");
+            ShowMessage("已经初始化过了！");
         }
 #endif
 
@@ -191,12 +195,13 @@ public static class HEProxy
 
     private static SyntaxTree? HandleTree(string file)
     {
-        var tree = NatashaCSharpSyntax.ParseTree(ReadFile(file), file, _currentOptions);
+        var tree = NatashaCSharpSyntax.ParseTree(ReadUtf8File(file), file, _currentOptions, Encoding.UTF8);
         if (tree == null)
         {
 #if DEBUG
-            Console.WriteLine($"检测到空文件 {file}.");
+            ShowMessage($"检测到空文件 {file}.");
 #endif
+
             return null;
         }
 
@@ -204,8 +209,9 @@ public static class HEProxy
         if (root.Members.Count == 0)
         {
 #if DEBUG
-            Console.WriteLine($"检测到空成员文件 {file}.");
+            ShowMessage($"检测到空成员文件 {file}.");
 #endif
+
             return tree;
         }
 
@@ -215,12 +221,16 @@ public static class HEProxy
         {
             root = HandleImplicitUsings(file, root);
         }
-        HandlePickedProxyMethod(root);
+        root = HandlePickedProxyMethod(root);
         root = HandleMethodReplace(root);
-        return GetOptimizationLevelNode(file, root);
+        Debug.WriteLine(root.ToFullString());
+        return GetOptimizationLevelNode(file, root, Encoding.UTF8);
     }
-
-
+    private static HEProjectKind _projectKind;
+    public static void SetProjectKind(HEProjectKind kind)
+    {
+        _projectKind = kind;
+    }
     private static async Task HotExecute()
     {
         try
@@ -236,8 +246,10 @@ public static class HEProxy
                 _currentOptions = _debugOptions;
                 ReAnalysisFiles();
             }
-
-            Console.Clear();
+            if (Console.Out is StreamWriter)
+            {
+                Console.Clear();
+            }
             if (VSCSharpProjectInfomation.EnableImplicitUsings)
             {
                 //implicit usings fill
@@ -262,7 +274,7 @@ public static class HEProxy
             var types = assembly.GetTypes();
             var typeInfo = assembly.GetTypeFromShortName(_className!);
             var methods = typeInfo.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
-            _endCallback?.Invoke();
+            _preCallback?.Invoke();
 
             if (_asyncDisposables.Count > 0)
             {
@@ -306,10 +318,11 @@ public static class HEProxy
                 {
                     proxyMethodInfo.Invoke(instance, []);
                 }
+                _endCallback?.Invoke();
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                ShowMessage(ex.Message);
             }
 
         }
@@ -328,11 +341,17 @@ public static class HEProxy
                         errorBuilder.AppendLine(error.ToString());
                     }
                 }
-                Console.WriteLine($"Error during hot execution: {errorBuilder}");
+
+#if DEBUG
+                ShowMessage($"Error during hot execution: {errorBuilder}");
+#endif
+
             }
             else
             {
-                Console.WriteLine($"Error during hot execution: {ex}");
+#if DEBUG
+                ShowMessage($"Error during hot execution: {ex}");
+#endif
             }
 
         }
@@ -351,7 +370,7 @@ public static class HEProxy
     private static void ReAnalysisFiles()
     {
 #if DEBUG
-        Console.WriteLine("重新扫描文件！");
+        ShowMessage("重新扫描文件！");
 #endif
 
 
@@ -395,46 +414,66 @@ public static class HEProxy
 #if DEBUG
                 else
                 {
-                    Console.WriteLine(item.Key + "存在值！");
+                    Debug.WriteLine(item.Key + "存在值！");
                 }
 #endif
 
             }
         }
     }*/
-    private static SyntaxTree GetOptimizationLevelNode(string file, CompilationUnitSyntax root)
+    private static SyntaxTree GetOptimizationLevelNode(string file, CompilationUnitSyntax root,Encoding? encoding = null)
     {
-        //if (_mixOPLCommentCache.TryGetValue(file, out var value))
-        //{
-        //    if (value != null)
-        //    {
-        //        return CSharpSyntaxTree.Create(root, value, file, Encoding.UTF8);
-        //    }
-        //}
-        return CSharpSyntaxTree.Create(root, _currentOptions, file, Encoding.UTF8);
+        return CSharpSyntaxTree.Create(root, _currentOptions, file, encoding == null? Encoding.UTF8 : encoding);
     }
-    private static string ReadFile(string file)
+
+    private static string ReadUtf8File(string file)
     {
-        FileStream stream;
+        if (!File.Exists(file))
+        {
+#if DEBUG
+            ShowMessage($"不存在文件：{file}");
+#endif
+            return string.Empty;
+        }
+        StreamReader stream;
         do
         {
             try
             {
-                stream = new(file, FileMode.Open, FileAccess.Read, FileShare.Read);
-                StringBuilder stringBuilder = new();
-                byte[] buffer = new byte[1024];
-                int bytesRead;
-                while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) > 0)
-                {
-                    stringBuilder.Append(Encoding.UTF8.GetString(buffer, 0, bytesRead));
-                }
+                stream = new(file, Encoding.UTF8);
+                var content = stream.ReadToEnd();
                 stream.Dispose();
-                return stringBuilder.ToString();
+                return content;
+            }
+            catch (Exception ex)
+            {
+#if DEBUG
+                ShowMessage("命中文件锁！");
+#endif
+
+                Thread.Sleep(200);
+            }
+
+
+        } while (true);
+
+    }
+    public static void WriteUtf8File(string file, string msg)
+    {
+        StreamWriter stream;
+        do
+        {
+            try
+            {
+                stream = new(file,true, Encoding.UTF8);
+                stream.Write(msg);
+                stream.Dispose();
+                return;
             }
             catch (Exception)
             {
 #if DEBUG
-                Console.WriteLine("命中文件锁！");
+                ShowMessage("命中文件锁！");
 #endif
 
                 Thread.Sleep(200);
@@ -450,7 +489,7 @@ public static class HEProxy
         if (firstMember != null && firstMember.IsKind(SyntaxKind.GlobalStatement))
         {
 #if DEBUG
-            Console.WriteLine("检测到顶级语句！");
+            ShowMessage("检测到顶级语句！");
 #endif
             var usings = root.Usings;
             root = root.RemoveNodes(usings, SyntaxRemoveOptions.KeepLeadingTrivia)!;
@@ -459,8 +498,8 @@ public static class HEProxy
             root = tree.GetCompilationUnitRoot();
             root = root.AddUsings([.. usings]);
 //#if DEBUG
-//            Console.WriteLine("代理顶级语句：");
-//            Console.WriteLine(root.ToFullString());
+//            Debug.WriteLine("代理顶级语句：");
+//            Debug.WriteLine(root.ToFullString());
 //#endif
         }
         return root;
@@ -479,6 +518,12 @@ public static class HEProxy
                     {
                         usingList.Add(node);
                     }
+#if DEBUG
+                    else
+                    {
+                        ShowMessage($"排除 {name}");
+                    }
+#endif
                 }
                 return root.AddUsings([.. usingList]);
             }
@@ -520,12 +565,12 @@ public static class HEProxy
         foreach (var item in replaceMethodCache)
         {
             //#if DEBUG
-            //            Console.WriteLine();
-            //            Console.WriteLine("方法：");
-            //            Console.WriteLine(item.Key.ToFullString());
-            //            Console.WriteLine("替换为：");
-            //            Console.WriteLine(item.Value.ToFullString());
-            //            Console.WriteLine();
+            //            Debug.WriteLine();
+            //            Debug.WriteLine("方法：");
+            //            Debug.WriteLine(item.Key.ToFullString());
+            //            Debug.WriteLine("替换为：");
+            //            Debug.WriteLine(item.Value.ToFullString());
+            //            Debug.WriteLine();
             //#endif
             root = root.ReplaceNode(item.Key, item.Value);
         }
@@ -720,9 +765,9 @@ public static class HEProxy
 
     private static StatementSyntax CreatePreprocessorConsoleWriteLineSyntaxNode(string content)
     {
-        return SyntaxFactory.ParseStatement($"Console.WriteLine({content});");
+        return SyntaxFactory.ParseStatement($"HEProxy.ShowMessage({content});");
     }
-    private static void HandlePickedProxyMethod(CompilationUnitSyntax root)
+    private static CompilationUnitSyntax HandlePickedProxyMethod(CompilationUnitSyntax root)
     {
         var proxyMethod = root.DescendantNodes()
                              .OfType<MethodDeclarationSyntax>()
@@ -733,7 +778,79 @@ public static class HEProxy
             HandleOptimizationLevel(proxyMethod);
             ClassDeclarationSyntax? parentClass = proxyMethod.Parent as ClassDeclarationSyntax ?? throw new Exception($"获取 {_proxyMethodName} 方法类名出现错误！");
             _className = parentClass.Identifier.Text;
+            if (proxyMethod.Body!=null)
+            {
+                var newBody = HandleProjectInjectCode(proxyMethod.Body);
+                if (newBody != null)
+                {
+                    root = root.ReplaceNode(proxyMethod.Body, newBody);
+                }
+            }
+            
         }
+
+        return root;
+    }
+    private static BlockSyntax? HandleProjectInjectCode(BlockSyntax blockSyntax)
+    {
+        if (_projectKind == HEProjectKind.Winform)
+        {
+            StatementSyntax? runNode = null;
+            foreach (var item in blockSyntax.Statements)
+            {
+                if (item.ToString().StartsWith("Application.Run"))
+                {
+                    runNode = item;
+                }
+            }
+            if (runNode != null)
+            {
+                return blockSyntax.ReplaceNode(runNode, [SyntaxFactory.ParseStatement(@$"HEProxy.SetAftHotExecut(() => {{
+                    Task.Run(() => {{
+                        for (int i = 0; i < Application.OpenForms.Count; i++)
+                        {{
+                            var form = Application.OpenForms[i];
+                            if (form != null)
+                            {{
+                                try
+                                {{
+                                    form.Dispose();
+                                }}
+                                catch
+                                {{
+
+                                }}
+                            }}
+                        }}
+try{{
+    {runNode}
+}}catch(Exception ex)
+{{
+    HEProxy.ShowMessage(ex.Message);
+}}
+                        
+                    }});
+                }});")]);
+            }
+        }
+        else if (_projectKind == HEProjectKind.WPF)
+        {
+            return blockSyntax.WithStatements([SyntaxFactory.ParseStatement(@$"HEProxy.SetAftHotExecut(() => {{
+                    Task.Run(() => {{
+                       for (int i = 0; i < Application.Current.Windows.Count; i++)
+                       {{
+                            var window = Application.Current.Windows[i];
+                            try{{
+                                window.Close();
+                            }}catch{{
+
+                            }}
+                        }}
+                       Application.Current.Run();
+                    }});
+                }});")]);
+        }
+        return null;
     }
     private static void HandleOptimizationLevel(MethodDeclarationSyntax methodNode)
     {
@@ -785,8 +902,8 @@ public static class HEProxy
                         {
                             triviaSets.Add(trivia);
                             //#if DEBUG
-                            //                            Console.WriteLine($"找到剔除点：{commentText}");
-                            //                            Console.WriteLine($"整个节点为：{node.ToFullString()}");
+                            //                            Debug.WriteLine($"找到剔除点：{commentText}");
+                            //                            Debug.WriteLine($"整个节点为：{node.ToFullString()}");
                             //#endif
                             var usingStrings = trivia.ToString().Trim().Substring(_proxyCommentCS0104Using.Length, commentText.Length - _proxyCommentCS0104Using.Length);
                             tempSets.UnionWith(usingStrings.Split([';'], StringSplitOptions.RemoveEmptyEntries).Select(item => item.Trim()));
@@ -810,7 +927,7 @@ public static class HEProxy
                     if (trivia.ToString().Trim().ToLower().StartsWith(_proxyOPLCommentDebug))
                     {
 #if DEBUG
-                        Console.WriteLine($"{file} 中找到匹配的 DEBUG 节点: {trivia}");
+                        Debug.WriteLine($"{file} 中找到匹配的 DEBUG 节点: {trivia}");
                         Thread.Sleep(5000);
 #endif
                         _mixOPLCommentCache[file] = _debugOptions;
@@ -819,7 +936,7 @@ public static class HEProxy
                     else if (trivia.ToString().Trim().ToLower().StartsWith(_proxyOPLCommentRelease))
                     {
 #if DEBUG
-                        Console.WriteLine($"{file} 中找到匹配的 RELEASE 节点: {trivia}");
+                        Debug.WriteLine($"{file} 中找到匹配的 RELEASE 节点: {trivia}");
                         Thread.Sleep(5000);
 #endif
 
@@ -838,7 +955,11 @@ public static class HEProxy
     /// 重执行之前需要做的工作
     /// </summary>
     /// <param name="callback"></param>
-    public static void ConfigPreHotExecut(Action callback)
+    public static void SetPreHotExecut(Action callback)
+    {
+        _preCallback = callback;
+    }
+    public static void SetAftHotExecut(Action callback)
     {
         _endCallback = callback;
     }
