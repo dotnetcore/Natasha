@@ -59,10 +59,7 @@ public static class HEProxy
         _debugOptions = new CSharpParseOptions(LanguageVersion.Preview, preprocessorSymbols: ["DEBUG"]);
         _currentOptions = _debugOptions;
         _releaseOptions = new CSharpParseOptions(LanguageVersion.Preview, preprocessorSymbols: ["RELEASE"]);
-        //        var emptyTreeScript = @"internal class Program{
-        //    static void Main(){ }
-        //}";
-        //        _emptyMainTree = CSharpSyntaxTree.ParseText(emptyTreeScript).GetRoot().DescendantNodes().OfType<MethodDeclarationSyntax>().First();
+
 #if DEBUG
         if (Console.Out is not StreamWriter)
         {
@@ -98,9 +95,8 @@ public static class HEProxy
                         _csprojWatcher!.Notify();
                         return;
                     }
-#if DEBUG
+
                     ShowMessage("构建成功，准备启动！");
-#endif
                     if (await _processor.Run())
                     {
 #if DEBUG
@@ -112,9 +108,7 @@ public static class HEProxy
                 {
                     _isFaildBuild = true;
                     _buildLock.ReleaseLock();
-#if DEBUG
                     ShowMessage("构建失败！");
-#endif
 
                 }
             }
@@ -271,9 +265,11 @@ public static class HEProxy
             }
 
             var assembly = HECompiler.ReCompile(_fileSyntaxTreeCache.Values, IsRelease);
+            ShowMessage($"获取元数据....");
             var types = assembly.GetTypes();
             var typeInfo = assembly.GetTypeFromShortName(_className!);
             var methods = typeInfo.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
+            ShowMessage($"执行主入口前导方法....");
             _preCallback?.Invoke();
 
             if (_asyncDisposables.Count > 0)
@@ -318,6 +314,7 @@ public static class HEProxy
                 {
                     proxyMethodInfo.Invoke(instance, []);
                 }
+                ShowMessage($"执行主入口回调方法....");
                 _endCallback?.Invoke();
             }
             catch (Exception ex)
@@ -328,6 +325,7 @@ public static class HEProxy
         }
         catch (Exception ex)
         {
+            ShowMessage($"热编译运行失败....");
             if (ex is NatashaException nex)
             {
                 var code = nex.Formatter;
@@ -341,17 +339,12 @@ public static class HEProxy
                         errorBuilder.AppendLine(error.ToString());
                     }
                 }
-
-#if DEBUG
                 ShowMessage($"Error during hot execution: {errorBuilder}");
-#endif
 
             }
             else
             {
-#if DEBUG
                 ShowMessage($"Error during hot execution: {ex}");
-#endif
             }
 
         }

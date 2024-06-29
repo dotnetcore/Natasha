@@ -52,12 +52,13 @@ namespace Natasha.CSharp.Extension.HotExecutor
                 {
                     return;
                 }
-#if DEBUG
-                HEProxy.ShowMessage($"Created: {e.FullPath}");
-#endif
-               
+
                 if (VSCSharpProjectInfomation.CheckFileAvailiable(e.FullPath))
                 {
+#if DEBUG
+                    HEProxy.ShowMessage($"Created: {e.FullPath}");
+#endif
+
                     _compileLock.GetAndWaitLock();
                     CreateFileAction(e.FullPath);
                     _compileLock.ReleaseLock();
@@ -72,11 +73,11 @@ namespace Natasha.CSharp.Extension.HotExecutor
                 {
                     return;
                 }
-#if DEBUG
-                HEProxy.ShowMessage($"Deleted: {e.FullPath}");
-#endif
                 if (VSCSharpProjectInfomation.CheckFileAvailiable(e.FullPath))
                 {
+#if DEBUG
+                    HEProxy.ShowMessage($"Deleted: {e.FullPath}");
+#endif
                     _compileLock.GetAndWaitLock();
                     DeleteFileAction(e.FullPath);
                     _compileLock.ReleaseLock();
@@ -91,13 +92,14 @@ namespace Natasha.CSharp.Extension.HotExecutor
                 {
                     return;
                 }
-#if DEBUG
-                HEProxy.ShowMessage($"Renamed: {e.OldFullPath} -> {e.FullPath}");
-#endif
+
                 if (e.OldFullPath.EndsWith(".cs") || e.OldFullPath.EndsWith(".xaml"))
                 {
-                    if (e.FullPath.EndsWith(".cs") || e.OldFullPath.EndsWith(".xaml"))
+                    if (e.FullPath.EndsWith(".cs") || e.FullPath.EndsWith(".xaml"))
                     {
+#if DEBUG
+                        HEProxy.ShowMessage($"Renamed: {e.OldFullPath} -> {e.FullPath}");
+#endif
                         _compileLock.GetAndWaitLock();
                         if (VSCSharpProjectInfomation.CheckFileAvailiable(e.FullPath))
                         {
@@ -112,7 +114,9 @@ namespace Natasha.CSharp.Extension.HotExecutor
                     }
                     else if (e.FullPath.StartsWith(e.OldFullPath) && e.FullPath.EndsWith(".TMP"))
                     {
-                       
+#if DEBUG
+                        HEProxy.ShowMessage($"Renamed: {e.OldFullPath} -> {e.FullPath}");
+#endif
                         if (VSCSharpProjectInfomation.CheckFileAvailiable(e.OldFullPath))
                         {
                             _compileLock.GetAndWaitLock();
@@ -128,6 +132,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
         }
         private async Task ExecuteAfterFunction()
         {
+            HEProxy.ShowMessage($"准备执行热编译...");
             try
             {
                 if (_compileLock.GetLock())
