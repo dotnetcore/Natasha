@@ -9,7 +9,7 @@ using System.Text;
 /// <summary>
 /// 程序集编译构建器 - 语法树相关
 /// </summary>
-public sealed partial class AssemblyCSharpBuilder 
+public sealed partial class AssemblyCSharpBuilder
 {
 
     public readonly List<SyntaxTree> SyntaxTrees;
@@ -84,9 +84,9 @@ public sealed partial class AssemblyCSharpBuilder
     /// </remarks>
     /// <param name="script">C#代码</param>
     /// <returns>链式对象(调用方法的实例本身).</returns>
-    public AssemblyCSharpBuilder Add(string script)
+    public AssemblyCSharpBuilder Add(string script, Encoding? encoding = null)
     {
-        return Add(script, _parsingBehavior);
+        return Add(script, _parsingBehavior, encoding);
     }
 
     /// <summary>
@@ -94,13 +94,13 @@ public sealed partial class AssemblyCSharpBuilder
     /// </summary>
     /// <param name="script">c#脚本代码</param>
     /// <returns>链式对象(调用方法的实例本身).</returns>
-    private AssemblyCSharpBuilder AddScript(string script)
+    private AssemblyCSharpBuilder AddScript(string script, Encoding? encoding = null)
     {
         if (_scriptHandle != null)
         {
             script = _scriptHandle(script);
         }
-        var tree = NatashaCSharpSyntax.ParseTree(script, _options);
+        var tree = NatashaCSharpSyntax.ParseTree(script, _options, encoding);
         var exception = NatashaExceptionAnalyzer.GetSyntaxException(tree);
         if (exception != null)
         {
@@ -122,9 +122,9 @@ public sealed partial class AssemblyCSharpBuilder
     /// </summary>
     /// <param name="script"></param>
     /// <returns>链式对象(调用方法的实例本身).</returns>
-    public AssemblyCSharpBuilder FastAddScriptWithoutCheck(string script)
+    public AssemblyCSharpBuilder FastAddScriptWithoutCheck(string script, Encoding? encoding = null)
     {
-        SyntaxTrees.Add(NatashaCSharpSyntax.ParseTree(script, _options));
+        SyntaxTrees.Add(NatashaCSharpSyntax.ParseTree(script, _options, encoding));
         return this;
     }
 
@@ -136,9 +136,9 @@ public sealed partial class AssemblyCSharpBuilder
     /// </remarks>
     /// <param name="tree"></param>
     /// <returns>链式对象(调用方法的实例本身).</returns>
-    public AssemblyCSharpBuilder Add(SyntaxTree tree)
+    public AssemblyCSharpBuilder Add(SyntaxTree tree, Encoding? encoding = null)
     {
-        tree = NatashaCSharpSyntax.FormartTree(tree, _options);
+        tree = NatashaCSharpSyntax.FormartTree(tree, _options, encoding);
         var exception = NatashaExceptionAnalyzer.GetSyntaxException(tree);
         if (exception != null)
         {
@@ -169,22 +169,22 @@ public sealed partial class AssemblyCSharpBuilder
     /// <param name="script">C#代码</param>
     /// <param name="usingLoadBehavior">using 拼接行为</param>
     /// <returns>链式对象(调用方法的实例本身).</returns>
-    public AssemblyCSharpBuilder Add(string script, UsingLoadBehavior usingLoadBehavior)
+    public AssemblyCSharpBuilder Add(string script, UsingLoadBehavior usingLoadBehavior, Encoding? encoding = null)
     {
         switch (usingLoadBehavior)
         {
             case UsingLoadBehavior.WithDefault:
-                return AddScript(NatashaLoadContext.DefaultContext.UsingRecorder + script);
+                return AddScript(NatashaLoadContext.DefaultContext.UsingRecorder + script, encoding);
             case UsingLoadBehavior.WithCurrent:
                 if (Domain!.Name == NatashaLoadContext.DefaultName)
                 {
-                    return AddScript(NatashaLoadContext.DefaultContext.UsingRecorder + script);
+                    return AddScript(NatashaLoadContext.DefaultContext.UsingRecorder + script, encoding);
                 }
-                return AddScript(LoadContext!.UsingRecorder + script);
+                return AddScript(LoadContext!.UsingRecorder + script, encoding);
             case UsingLoadBehavior.WithAll:
                 if (Domain!.Name == NatashaLoadContext.DefaultName)
                 {
-                    return AddScript(NatashaLoadContext.DefaultContext.UsingRecorder + script);
+                    return AddScript(NatashaLoadContext.DefaultContext.UsingRecorder + script, encoding);
                 }
                 StringBuilder usingBuilder = new();
                 foreach (var item in LoadContext!.UsingRecorder._usings)
@@ -194,9 +194,9 @@ public sealed partial class AssemblyCSharpBuilder
                         usingBuilder.AppendLine($"using {item};");
                     }
                 }
-                return AddScript(NatashaLoadContext.DefaultContext.UsingRecorder.ToString() + usingBuilder + script);
+                return AddScript(NatashaLoadContext.DefaultContext.UsingRecorder.ToString() + usingBuilder + script, encoding);
             default:
-                return AddScript(script);
+                return AddScript(script, encoding);
         }
     }
 

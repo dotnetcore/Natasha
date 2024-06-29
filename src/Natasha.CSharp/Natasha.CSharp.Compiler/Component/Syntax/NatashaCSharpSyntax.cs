@@ -69,29 +69,23 @@ namespace Natasha.CSharp.Compiler.Component
         }
 
 
-        public static SyntaxTree ParseTree(string script, CSharpParseOptions? options)
+        public static SyntaxTree ParseTree(string script, CSharpParseOptions? options, Encoding? encoding = null)
         {
-            if (options == null)
-            {
-                options = _options;
-            }
-            //Mark1 : 647ms
-            //Mark2 : 128ms
-            //Mark : 5.0M (Memory:2023-02-27)
-            var tree = CSharpSyntaxTree.ParseText(script.Trim(), options, encoding: Encoding.UTF8);
-            return FormartTree(tree, options);
+            return ParseTree(script, "", options, encoding);
         }
-        public static SyntaxTree ParseTree(string script, string filePath, CSharpParseOptions? options)
+
+        public static SyntaxTree ParseTree(string script, string filePath, CSharpParseOptions? options, Encoding? encoding = null)
         {
             if (options == null)
             {
                 options = _options;
             }
+            encoding = encoding == null ? Encoding.UTF8 : encoding;
             //Mark1 : 647ms
             //Mark2 : 128ms
             //Mark : 5.0M (Memory:2023-02-27)
-            var tree = CSharpSyntaxTree.ParseText(script.Trim(), options, filePath, Encoding.UTF8);
-            return FormartTree(tree, options);
+            var tree = CSharpSyntaxTree.ParseText(script.Trim(), options, filePath, encoding);
+            return FormartTree(tree, options, encoding);
         }
 
 
@@ -100,7 +94,7 @@ namespace Natasha.CSharp.Compiler.Component
         /// </summary>
         /// <param name="tree"></param>
         /// <returns></returns>
-        public static SyntaxTree FormartTree(SyntaxTree tree, CSharpParseOptions? options)
+        public static SyntaxTree FormartTree(SyntaxTree tree, CSharpParseOptions? options, Encoding encoding)
         {
             if (options == null)
             {
@@ -110,7 +104,7 @@ namespace Natasha.CSharp.Compiler.Component
             //Console.ReadKey();
             //Mark : 0.3M (Memory:2023-02-27)
             //Roslyn BUG https://github.com/dotnet/roslyn/issues/58150
-            return CSharpSyntaxTree.ParseText(tree.GetRoot().NormalizeWhitespace().SyntaxTree.ToString(), options, tree.FilePath, encoding: Encoding.UTF8);
+            return CSharpSyntaxTree.ParseText(tree.GetRoot().NormalizeWhitespace().SyntaxTree.ToString(), options, tree.FilePath, encoding: encoding);
         }
     }
 }
