@@ -53,14 +53,14 @@ namespace Natasha.CSharp.Extension.HotExecutor
                 {
                     if (!string.IsNullOrEmpty(e.Data))
                     {
-                        Console.WriteLine(utf8.GetString(utf8.GetBytes(e.Data)));
+                        HEProxy.ShowMessage(utf8.GetString(utf8.GetBytes(e.Data)));
                     }
                 };
                 process.ErrorDataReceived += (sender, e) =>
                 {
                     if (!string.IsNullOrEmpty(e.Data))
                     {
-                        Console.WriteLine(utf8.GetString(utf8.GetBytes(e.Data)));
+                        HEProxy.ShowMessage(utf8.GetString(utf8.GetBytes(e.Data)));
                     }
                 };
 
@@ -68,7 +68,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
                 process.BeginOutputReadLine();
                 process.BeginErrorReadLine();
 #if DEBUG
-                Console.WriteLine($"正在执行 {_builder.FileName} {_builder.Arguments}");
+                HEProxy.ShowMessage($"正在执行 {_builder.FileName} {_builder.Arguments}");
 #endif
                 process.WaitForExit();
                 return new ValueTask<bool>(process.ExitCode == 0);
@@ -76,7 +76,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
             catch (Exception ex)
             {
 #if DEBUG
-                Console.WriteLine($"执行出错 {ex.Message}");
+                HEProxy.ShowMessage($"执行出错 {ex.Message}");
 #endif
             }
             return new ValueTask<bool>(false);
@@ -98,7 +98,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
                     }
                 };
 #if DEBUG
-                Console.WriteLine($"执行: {Path.Combine(_outpuNewAppFolder, VSCSharpProjectInfomation.ExecuteName)}");
+                HEProxy.ShowMessage($"执行: {Path.Combine(_outpuNewAppFolder, VSCSharpProjectInfomation.ExecuteName)}");
 #endif
                 process.Start();
                 // 等待一小段时间，让进程有机会启动
@@ -131,7 +131,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
             }
             catch (Exception e)
             {
-                Console.WriteLine("Error starting the process: " + e.Message);
+                HEProxy.ShowMessage("Error starting the process: " + e.Message);
             }
             return new ValueTask<bool>(false);
         }

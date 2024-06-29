@@ -35,7 +35,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
             _mainWatcher = new FileSystemWatcher
             {
                 Path = VSCSharpProjectInfomation.MainCsprojPath,
-                Filter = "*.cs",
+                Filter = "*",
                 EnableRaisingEvents = false,
                 IncludeSubdirectories = true,
                 NotifyFilter = NotifyFilters.FileName | NotifyFilters.CreationTime | NotifyFilters.LastWrite
@@ -53,7 +53,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
                     return;
                 }
 #if DEBUG
-       Console.WriteLine($"Created: {e.FullPath}");
+                HEProxy.ShowMessage($"Created: {e.FullPath}");
 #endif
                
                 if (VSCSharpProjectInfomation.CheckFileAvailiable(e.FullPath))
@@ -73,7 +73,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
                     return;
                 }
 #if DEBUG
-       Console.WriteLine($"Deleted: {e.FullPath}");
+                HEProxy.ShowMessage($"Deleted: {e.FullPath}");
 #endif
                 if (VSCSharpProjectInfomation.CheckFileAvailiable(e.FullPath))
                 {
@@ -92,11 +92,11 @@ namespace Natasha.CSharp.Extension.HotExecutor
                     return;
                 }
 #if DEBUG
-        Console.WriteLine($"Renamed: {e.OldFullPath} -> {e.FullPath}");
+                HEProxy.ShowMessage($"Renamed: {e.OldFullPath} -> {e.FullPath}");
 #endif
-                if (e.OldFullPath.EndsWith(".cs"))
+                if (e.OldFullPath.EndsWith(".cs") || e.OldFullPath.EndsWith(".xaml"))
                 {
-                    if (e.FullPath.EndsWith(".cs"))
+                    if (e.FullPath.EndsWith(".cs") || e.OldFullPath.EndsWith(".xaml"))
                     {
                         _compileLock.GetAndWaitLock();
                         if (VSCSharpProjectInfomation.CheckFileAvailiable(e.FullPath))
@@ -138,7 +138,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
 #if DEBUG
                 else
                 {
-                    Console.WriteLine($"争抢编译，做出让步！");
+                    HEProxy.ShowMessage($"争抢编译，做出让步！");
                 }
 #endif
             }
@@ -157,10 +157,10 @@ namespace Natasha.CSharp.Extension.HotExecutor
         {
             if (ex != null)
             {
-                Console.WriteLine($"Message: {ex.Message}");
-                Console.WriteLine("Stacktrace:");
-                Console.WriteLine(ex.StackTrace);
-                Console.WriteLine();
+                HEProxy.ShowMessage($"Message: {ex.Message}");
+                HEProxy.ShowMessage("Stacktrace:");
+                HEProxy.ShowMessage(ex.StackTrace);
+                HEProxy.ShowMessage("");
                 PrintException(ex.InnerException);
             }
         }

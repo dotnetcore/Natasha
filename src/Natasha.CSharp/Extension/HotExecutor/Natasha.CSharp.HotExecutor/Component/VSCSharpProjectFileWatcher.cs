@@ -120,20 +120,23 @@ namespace Natasha.CSharp.Extension.HotExecutor
                     }
 
 #if DEBUG
-                    Console.WriteLine($"部署对 {csprojPath} 的监控. ");
+                    HEProxy.ShowMessage($"部署对 {csprojPath} 的监控. ");
 #endif
                     var folder = Path.GetDirectoryName(csprojPath);
                     var fileName = Path.GetFileName(csprojPath);
                     var binFolder = Path.Combine(folder, "bin");
                     var objFolder = Path.Combine(folder, "obj");
                     FileSystemEventHandler handler = (sender, e) => {
-                        if (!e.FullPath.StartsWith(binFolder) && !e.FullPath.StartsWith(objFolder))
+
+                        if (VSCSharpProjectInfomation.CheckFileAvivaliable(e.FullPath, binFolder, objFolder))
                         {
                             _notify?.Invoke();
                         }
+
                     };
                     RenamedEventHandler reNameHandler = (sender, e) => {
-                        if (!e.FullPath.StartsWith(binFolder) && !e.FullPath.StartsWith(objFolder))
+
+                        if (VSCSharpProjectInfomation.CheckFileAvivaliable(e.FullPath, binFolder, objFolder))
                         {
                             _notify?.Invoke();
                         }
@@ -142,7 +145,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
                     var csfileWatcher = new FileSystemWatcher()
                     {
                         Path = folder,
-                        Filter = "*.cs",
+                        Filter = "*",
                         EnableRaisingEvents = true,
                         IncludeSubdirectories = true,
                     };
@@ -205,7 +208,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
             }
             catch (Exception e)
             {
-                Console.WriteLine("错误: " + e.Message);
+                HEProxy.ShowMessage("错误: " + e.Message);
             }
         }
     }
