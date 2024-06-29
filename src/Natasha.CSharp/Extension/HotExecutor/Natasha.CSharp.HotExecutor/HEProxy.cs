@@ -59,13 +59,6 @@ public static class HEProxy
         _debugOptions = new CSharpParseOptions(LanguageVersion.Preview, preprocessorSymbols: ["DEBUG"]);
         _currentOptions = _debugOptions;
         _releaseOptions = new CSharpParseOptions(LanguageVersion.Preview, preprocessorSymbols: ["RELEASE"]);
-
-#if DEBUG
-        if (Console.Out is not StreamWriter)
-        {
-            ShowMessage = msg => { Debug.WriteLine(msg); };
-        }
-#endif
         _buildLock = new();
         _mainWatcher = new();
         _processor = new();
@@ -186,7 +179,6 @@ public static class HEProxy
 #endif
 
     }
-
     private static SyntaxTree? HandleTree(string file)
     {
         var tree = NatashaCSharpSyntax.ParseTree(ReadUtf8File(file), file, _currentOptions, Encoding.UTF8);
@@ -220,6 +212,7 @@ public static class HEProxy
         Debug.WriteLine(root.ToFullString());
         return GetOptimizationLevelNode(file, root, Encoding.UTF8);
     }
+
     private static HEProjectKind _projectKind;
     public static void SetProjectKind(HEProjectKind kind)
     {
@@ -240,7 +233,7 @@ public static class HEProxy
                 _currentOptions = _debugOptions;
                 ReAnalysisFiles();
             }
-            if (Console.Out is StreamWriter)
+            if (_projectKind == HEProjectKind.Console || _projectKind == HEProjectKind.AspnetCore)
             {
                 Console.Clear();
             }
@@ -350,6 +343,7 @@ public static class HEProxy
         }
         return;
     }
+
     #region 辅助方法区
     public static void SetDefaultUsingCode(UsingDirectiveSyntax[] usings)
     {
@@ -485,7 +479,7 @@ public static class HEProxy
             ShowMessage("检测到顶级语句！");
 #endif
             var usings = root.Usings;
-            root = root.RemoveNodes(usings, SyntaxRemoveOptions.KeepLeadingTrivia)!;
+            root = root.RemoveNodes(usings, SyntaxRemoveOptions.KeepExteriorTrivia)!;
             var content = "public class Program{ async static Task Main(string[] args){" + root!.ToFullString() + "}}";
             var tree = NatashaCSharpSyntax.ParseTree(content, file, _currentOptions);
             root = tree.GetCompilationUnitRoot();
@@ -758,7 +752,11 @@ public static class HEProxy
 
     private static StatementSyntax CreatePreprocessorConsoleWriteLineSyntaxNode(string content)
     {
-        return SyntaxFactory.ParseStatement($"HEProxy.ShowMessage({content});");
+        if (_projectKind == HEProjectKind.AspnetCore || _projectKind == HEProjectKind.Console)
+        {
+            return SyntaxFactory.ParseStatement($"Console.WriteLine({content});");
+        }
+        return SyntaxFactory.ParseStatement($"HEProxy.ShowMessage(({content}).ToString());");
     }
     private static CompilationUnitSyntax HandlePickedProxyMethod(CompilationUnitSyntax root)
     {
@@ -842,6 +840,17 @@ try{{
                        Application.Current.Run();
                     }});
                 }});")]);
+        }
+        else if (_projectKind == HEProjectKind.Console)
+        {
+            if (blockSyntax.Statements.Count>0)
+            {
+                var node = blockSyntax.Statements.Last();
+                if (node.ToString() =="Console.ReadKey();")
+                {
+                    return blockSyntax.RemoveNode(node, SyntaxRemoveOptions.KeepExteriorTrivia);
+                }
+            }
         }
         return null;
     }
