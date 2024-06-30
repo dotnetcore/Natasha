@@ -34,6 +34,7 @@ namespace Natasha.CSharp.Extension.HotExecutor.SG
                 // 例如生成特定的代码或输出信息
                 coreScript = @"
 string debugFilePath = Path.Combine(VSCSharpProjectInfomation.MainCsprojPath,""HEDebug.txt""); 
+if(File.Exists(debugFilePath)){ File.Delete(debugFilePath); }
 HEProxy.ShowMessage = msg => {
     HEProxy.WriteUtf8File(debugFilePath, msg + Environment.NewLine);
 };
@@ -52,12 +53,12 @@ HEProxy.ExtGlobalUsing.Add(""System.Windows"");
                 {
                     coreScript = @"
 string debugFilePath = Path.Combine(VSCSharpProjectInfomation.MainCsprojPath,""HEDebug.txt""); 
+if(File.Exists(debugFilePath)){ File.Delete(debugFilePath); }
 HEProxy.ShowMessage = msg => {
     HEProxy.WriteUtf8File(debugFilePath, msg + Environment.NewLine);
 };
 HEProxy.SetProjectKind(HEProjectKind.WPF);
 HEProxy.ExtGlobalUsing.Add(""System.Windows.Forms"");
-//HEProxy.ExtGlobalUsing.Add(""System.Windows"");
 ";
                 }
             }

@@ -12,4 +12,13 @@
 		<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" PrivateAssets="all" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <None Update="targets\DotNetCore.Natasha.CSharp.HotExecutor.SG.targets">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+		<None Include="targets\DotNetCore.Natasha.CSharp.HotExecutor.SG.targets" Pack="true" PackagePath="build\netstandard2.1\DotNetCore.Natasha.CSharp.HotExecutor.SG.targets" />
+		<None Include="targets\DotNetCore.Natasha.CSharp.HotExecutor.SG.targets" Pack="true" PackagePath="buildTransitive\netstandard2.1\DotNetCore.Natasha.CSharp.HotExecutor.SG.targets" />
+	</ItemGroup>
+
+	
 </Project>

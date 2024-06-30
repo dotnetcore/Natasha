@@ -210,7 +210,6 @@ public static class HEProxy
         }
         root = HandlePickedProxyMethod(root);
         root = HandleMethodReplace(root);
-        Debug.WriteLine(root.ToFullString());
         return GetOptimizationLevelNode(file, root, Encoding.UTF8);
     }
 
@@ -219,11 +218,13 @@ public static class HEProxy
     {
         _projectKind = kind;
     }
+    public static bool _isHotCompiling;
+    public static bool IsHotCompiling { get { return _isHotCompiling; } }
     private static async Task HotExecute()
     {
         try
         {
-
+            _isHotCompiling = true;
             if (IsRelease && _currentOptions != _releaseOptions)
             {
                 _currentOptions = _releaseOptions;
@@ -356,9 +357,9 @@ public static class HEProxy
             }
 
         }
+        _isHotCompiling = false;
         return;
     }
-
     #region 辅助方法区
     public static void SetDefaultUsingCode(UsingDirectiveSyntax[] usings)
     {
@@ -801,42 +802,111 @@ public static class HEProxy
     {
         if (_projectKind == HEProjectKind.Winform)
         {
+            string runArgumentScript = string.Empty;
             StatementSyntax? runNode = null;
             foreach (var item in blockSyntax.Statements)
             {
-                if (item.ToString().StartsWith("Application.Run"))
-                {
-                    runNode = item;
-                }
+                if (item is ExpressionStatementSyntax node)
+	            {
+                    var invoke = node.DescendantNodes().OfType<InvocationExpressionSyntax>().FirstOrDefault();
+                    if (invoke != null)
+                    {
+                        var invokeCaller = invoke.DescendantNodes().OfType<MemberAccessExpressionSyntax>().FirstOrDefault();
+                        if (invokeCaller!=null)
+                        {
+                            var memberList = invoke.DescendantNodes().OfType<IdentifierNameSyntax>().ToList();
+                            if (memberList.Count > 1)
+                            {
+                                if (memberList[0].ToString()=="Application" && memberList[1].ToString() == "Run")
+                                {
+                                    if (invoke.ArgumentList.Arguments.Count > 0)
+                                    {
+                                        runNode = item;
+                                        runArgumentScript = invoke.ArgumentList.Arguments[0].ToString();
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        ShowMessage("Application.Run() 方法参数不正确！HE 目前只能针对 Application.Run(Form) 做处理！");
+                                    }
+                                }
+                            }
+                        }
+                    }   
+	            } 
             }
+            ShowMessage(runArgumentScript);
             if (runNode != null)
             {
-                return blockSyntax.ReplaceNode(runNode, [SyntaxFactory.ParseStatement(@$"HEProxy.SetAftHotExecut(() => {{
-                    Task.Run(() => {{
-                        for (int i = 0; i < Application.OpenForms.Count; i++)
-                        {{
-                            var form = Application.OpenForms[i];
-                            if (form != null)
-                            {{
-                                try
-                                {{
-                                    form.Dispose();
-                                }}
-                                catch
-                                {{
 
+                return blockSyntax.ReplaceNode(runNode, [SyntaxFactory.ParseStatement(@$"
+
+        HEProxy.SetAftHotExecut(() => 
+        {{
+            Task.Run(() => 
+            {{
+
+                while(!DiposeAndGetHash()){{}};
+
+                
+                var __heProxInstance = {runArgumentScript};
+                Form tempForm;
+                if (__heProxInstance is Form)
+	            {{
+                    tempForm = ((object)__heProxInstance as Form)!;
+                }}
+                else
+                {{
+                   tempForm = (Form)(typeof(ApplicationContext).GetProperty(""MainForm"")!.GetValue(__heProxInstance)!);
+                }}   
+                tempForm.FormClosed += (s, e) =>
+                {{
+                   if (!HEProxy.IsHotCompiling)
+                   {{
+                        var result = MessageBox.Show(""请确认是否退出主程序？"", ""HotExecutor 提醒"", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+                        if (result.HasFlag(DialogResult.OK))
+                        {{
+                           Application.Exit();
+	                    }}
+                   }}
+                }};
+               
+                try{{
+
+                   Application.Run(__heProxInstance); 
+
+                }}catch(Exception ex)
+                {{
+                    HEProxy.ShowMessage(ex.Message);
+                }}
+
+                static bool DiposeAndGetHash()
+                {{
+                    try{{
+                                for (int i = 0; i < Application.OpenForms.Count; i++)
+                                {{
+                                    var form = Application.OpenForms[i];
+                                    try{{
+                                        if (form!=null)
+                                        {{
+                                            HEProxy.ShowMessage($""当前将被注销的开放窗体{{form.Name}}"");
+                                            form.Dispose();
+                                        }}
+                                    }}catch{{
+
+                                    }}
                                 }}
-                            }}
-                        }}
-try{{
-    {runNode}
-}}catch(Exception ex)
-{{
-    HEProxy.ShowMessage(ex.Message);
-}}
-                        
-                    }});
-                }});")]);
+                    }}catch{{
+                        return false;
+                    }}
+                    return true;
+                }}
+            }});
+        }});")]);
+            }
+            else
+            {
+                ShowMessage("HE Winform 目前只能针对 Application.Run(Form/ApplicationContext) 做处理！请务在 Main 中使用 Application.Run 方法及参数！");
             }
         }
         else if (_projectKind == HEProjectKind.WPF)
