@@ -9,17 +9,9 @@ namespace Natasha.CSharp.Extension.HotExecutor
     internal static class HECompiler
     {
         private static readonly AssemblyCSharpBuilder _builderCache;
-        private static readonly NatashaUsingCache? _usingCache;
         private static readonly HashSet<MetadataReference> _references;
         static HECompiler()
         {
-            HEProxy.CompileInitAction();
-            if (VSCSharpProjectInfomation.EnableImplicitUsings)
-	        {
-                _usingCache = new();
-                _usingCache.Using(NatashaLoadContext.DefaultContext.UsingRecorder._usings);
-            }
-            
             _references =[..NatashaLoadContext.DefaultContext.ReferenceRecorder.GetReferences()];
             var delReference = NatashaLoadContext.DefaultContext.ReferenceRecorder.GetSingleReference(Assembly.GetEntryAssembly().GetName());
             if (delReference != null)
@@ -42,18 +34,9 @@ namespace Natasha.CSharp.Extension.HotExecutor
                 .WithoutPreCompilationReferences()
                 .WithoutCombineUsingCode();
         }
-        public static void RemoveUsings(IEnumerable<string> usings)
-        {
-            _usingCache!.Remove(usings);
-        }
-        public static UsingDirectiveSyntax[] GetDefaultUsingNodes()
-        {
-            return _usingCache!.GetUsingNodes().ToArray();
-        }
 
-        public static Assembly ReCompile(IEnumerable<SyntaxTree> trees,bool isRelease)
+        public static Task<Assembly> ReCompile(IEnumerable<SyntaxTree> trees,bool isRelease)
         {
-            
             _builderCache.WithRandomAssenblyName();
             _builderCache.UseRandomLoadContext();
             _builderCache.SyntaxTrees.Clear();
@@ -67,7 +50,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
             {
                 _builderCache.WithDebugPlusCompile(debugger=>debugger.ForAssembly());
             }
-            return _builderCache.GetAssembly();
+            return Task.FromResult(_builderCache.GetAssembly());
         }
     }
 }

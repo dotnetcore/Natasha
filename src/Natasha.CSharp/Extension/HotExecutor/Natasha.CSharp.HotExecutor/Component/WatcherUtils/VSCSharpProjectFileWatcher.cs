@@ -11,9 +11,8 @@ namespace Natasha.CSharp.Extension.HotExecutor
         private long _timeStamp;
         private bool _needExecuted;
         private readonly ConcurrentDictionary<string, (FileSystemWatcher csprojWatcher, FileSystemWatcher csFileWatcher)> _projctWatcherCache;
-        public VSCSharpProjectFileWatcher(string csprojPath, Func<Task>? executeAction)
+        public VSCSharpProjectFileWatcher(string csprojPath)
         {
-            _execute = executeAction;
             _projctWatcherCache = [];
             _mainExecuteCache = [];
             _mainExecuteCache.Add(VSCSharpProjectInfomation.DebugPath);
@@ -21,6 +20,10 @@ namespace Natasha.CSharp.Extension.HotExecutor
             _mainExecuteCache.Add(VSCSharpProjectInfomation.ExecutePath);
             _ = new VSCSharpProjectFileInternalWatcher(csprojPath, _projctWatcherCache, Notify);
             _projctWatcherCache[csprojPath].csFileWatcher.Dispose();
+        }
+        public void SetExecute(Func<Task> execute)
+        {
+            _execute = execute;
         }
 
         public void Notify()
