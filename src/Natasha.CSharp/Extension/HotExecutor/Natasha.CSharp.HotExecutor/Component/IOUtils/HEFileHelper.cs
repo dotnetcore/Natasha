@@ -10,27 +10,21 @@ namespace Natasha.CSharp.HotExecutor.Component
     {
         public async static Task<string> ReadUtf8FileAsync(string file)
         {
-            if (!File.Exists(file))
-            {
-#if DEBUG
-                HEProxy.ShowMessage($"不存在文件：{file}");
-#endif
-                return string.Empty;
-            }
-            StreamReader stream;
             do
             {
                 try
                 {
-                    stream = new(file, Encoding.UTF8);
-                    var content = await stream.ReadToEndAsync();
-                    stream.Dispose();
-                    return content;
+                    if (File.Exists(file))
+                    {
+                        using StreamReader stream = new(file, Encoding.UTF8);
+                        return await stream.ReadToEndAsync();
+                    }
+                    return string.Empty;
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine("命中文件读锁！");
-                    Thread.Sleep(200);
+                    await Task.Delay(200);
                 }
 
 
@@ -50,7 +44,7 @@ namespace Natasha.CSharp.HotExecutor.Component
                 catch (Exception)
                 {
                     Debug.WriteLine("命中文件写锁！");
-                    Thread.Sleep(200);
+                    await Task.Delay(200);
                 }
 
 

@@ -11,7 +11,14 @@ namespace Natasha.CSharp.HotExecutor.Component
         public static void GetDelegate(string methodName,BindingFlags flags)
         {
             var methodInfo = typeof(T).GetMethod(methodName, flags);
-            Execute = (Action<T>)Delegate.CreateDelegate(typeof(Action<T>), methodInfo);
+            if (methodInfo != null)
+            {
+                Execute = (Action<T>)Delegate.CreateDelegate(typeof(Action<T>), methodInfo);
+            }
+            else
+            {
+                throw new InvalidOperationException($"Method {methodName} not found in type {typeof(T)}");
+            }
         }
     }
     public static class DelegateHelper<T,R>
@@ -20,7 +27,14 @@ namespace Natasha.CSharp.HotExecutor.Component
         public static void GetDelegate(string methodName, BindingFlags flags)
         {
             var methodInfo = typeof(T).GetMethod(methodName, flags);
-            Execute = (Action<T, R>)Delegate.CreateDelegate(typeof(Action<T, R>), methodInfo);
+            if (methodInfo != null)
+            {
+                Execute = (Action<T, R>)Delegate.CreateDelegate(typeof(Action<T, R>), methodInfo);
+            }
+            else
+            {
+                throw new InvalidOperationException($"Method {methodName} not found in type {typeof(T)}");
+            }
         }
     }
 }

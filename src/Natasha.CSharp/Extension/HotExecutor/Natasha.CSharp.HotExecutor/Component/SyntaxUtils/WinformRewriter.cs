@@ -10,9 +10,9 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
         {
             string runArgumentScript = string.Empty;
             StatementSyntax? runNode = null;
-            foreach (var item in blockSyntax.Statements)
+            foreach (var statement in blockSyntax.Statements)
             {
-                if (item is ExpressionStatementSyntax node)
+                if (statement is ExpressionStatementSyntax node)
                 {
                     var invoke = node.DescendantNodes().OfType<InvocationExpressionSyntax>().FirstOrDefault();
                     if (invoke != null)
@@ -25,10 +25,10 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
                             {
                                 if (memberList[0].ToString() == "Application" && memberList[1].ToString() == "Run")
                                 {
-                                    if (invoke.ArgumentList.Arguments.Count > 0)
+                                    if (invoke.ArgumentList != null && invoke.ArgumentList.Arguments != null && invoke.ArgumentList.Arguments.Count > 0)
                                     {
-                                        runNode = item;
-                                        runArgumentScript = invoke.ArgumentList.Arguments[0].ToString();
+                                        runNode = statement;
+                                        runArgumentScript = invoke.ArgumentList!.Arguments[0].ToString();
                                         break;
                                     }
                                     else
@@ -41,18 +41,15 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
                     }
                 }
             }
-            HEProxy.ShowMessage(runArgumentScript);
+
             if (runNode != null)
             {
 
                 return blockSyntax.ReplaceNode(runNode, [SyntaxFactory.ParseStatement(@$"
-
         HEProxy.SetAftHotExecut(() => 
         {{
-
             Task.Run(() => 
             {{
-
                 Application.ExitThread();
                 while(!DiposeWindows()){{}};
                 var __heProxInstance = {runArgumentScript};
@@ -78,9 +75,7 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
                 }};
                
                 try{{
-
                    Application.Run(__heProxInstance); 
-
                 }}catch(Exception ex)
                 {{
                     HEProxy.ShowMessage(ex.Message);
@@ -88,22 +83,20 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
 
                 static bool DiposeWindows()
                 {{
-
                     try{{
-                                for (int i = 0; i < Application.OpenForms.Count; i++)
+                        for (int i = 0; i < Application.OpenForms.Count; i++)
+                        {{
+                            var form = Application.OpenForms[i];
+                            try{{
+                                if (form!=null)
                                 {{
-                                    var form = Application.OpenForms[i];
-                                    try{{
-                                        if (form!=null)
-                                        {{
-                                            HEProxy.ShowMessage($""当前将被注销的开放窗体 {{form.Name}}"");
-                                            form.Dispose();
-                                            DelegateHelper<FormCollection, Form>.Execute.Invoke(Application.OpenForms, form);
-                                        }}
-                                    }}catch{{
-
-                                    }}
+                                    HEProxy.ShowMessage($""当前将被注销的开放窗体 {{form.Name}}"");
+                                    form.Dispose();
+                                    DelegateHelper<FormCollection, Form>.Execute.Invoke(Application.OpenForms, form);
                                 }}
+                            }}catch{{
+                            }}
+                        }}
                     }}catch{{
                         return false;
                     }}
