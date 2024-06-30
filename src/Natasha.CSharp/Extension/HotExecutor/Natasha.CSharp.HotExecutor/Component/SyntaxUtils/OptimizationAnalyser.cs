@@ -16,22 +16,20 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
             var body = methodNode.Body;
             if (body != null)
             {
-                foreach (SyntaxNode node in body.DescendantNodesAndSelf())
+                var comment = body.DescendantNodesAndSelf()
+                        .SelectMany(node => node.GetLeadingTrivia())
+                        .FirstOrDefault(trivia => trivia.IsKind(SyntaxKind.SingleLineCommentTrivia));
+
+                if (comment != default)
                 {
-                    foreach (SyntaxTrivia trivia in node.GetLeadingTrivia())
+                    var commentText = comment.ToString().Trim().ToLower();
+                    if (commentText.StartsWith(_proxyCommentOPLDebug))
                     {
-                        if (trivia.IsKind(SyntaxKind.SingleLineCommentTrivia))
-                        {
-                            var commentText = trivia.ToString().Trim().ToLower();
-                            if (commentText.StartsWith(_proxyCommentOPLDebug))
-                            {
-                                return false;
-                            }
-                            else if (commentText.StartsWith(_proxyCommentOPLRelease))
-                            {
-                                return true;
-                            }
-                        }
+                        return false;
+                    }
+                    else if (commentText.StartsWith(_proxyCommentOPLRelease))
+                    {
+                        return true;
                     }
                 }
             }

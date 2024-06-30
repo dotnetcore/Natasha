@@ -38,27 +38,23 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
             if (_defaultUsingNodes.Length == 0)
             {
                 var filePath = root.SyntaxTree.FilePath;
-                List<UsingDirectiveSyntax> usingList = [];
-                if (cs0104Cache.TryGetValue(filePath, out var sets))
+                if (cs0104Cache.TryGetValue(filePath, out var sets) && sets.Count > 0)
                 {
-                    if (sets.Count > 0)
-                    {
-                        foreach (var node in _defaultUsingNodes)
-                        {
-                            var name = node.Name!.ToString();
-                            if (!sets.Contains(name))
-                            {
-                                usingList.Add(node);
-                            }
+                    var usingList = _defaultUsingNodes
+                        .Where(node => !sets.Contains(node.Name!.ToString()))
+                        .ToList();
+
 #if DEBUG
-                            else
-                            {
-                                HEProxy.ShowMessage($"排除 {name}");
-                            }
-#endif
+                    foreach (var node in _defaultUsingNodes)
+                    {
+                        var name = node.Name!.ToString();
+                        if (sets.Contains(name))
+                        {
+                            HEProxy.ShowMessage($"Excluded {name}");
                         }
-                        return root.AddUsings([.. usingList]);
                     }
+#endif
+                    return root.AddUsings(usingList.ToArray());
                 }
                 return root.AddUsings(_defaultUsingNodes);
             }
@@ -69,16 +65,14 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
         {
             if (_defaultUsingNodes.Length == 0)
 	        {
-                foreach (var tree in cache.Values)
-                {
-                    var namespaces = tree
-                                        .GetCompilationUnitRoot()
-                                        .DescendantNodes()
-                                        .OfType<NamespaceDeclarationSyntax>()
-                                        .Select(ns => ns.Name.ToString())
-                                        .ToList();
-                    RemoveUsings(namespaces);
-                }
+                var namespaces = cache.Values
+                    .SelectMany(tree => tree.GetCompilationUnitRoot()
+                    .DescendantNodes()
+                    .OfType<NamespaceDeclarationSyntax>()
+                    .Select(ns => ns.Name.ToString()))
+                    .ToList();
+
+                RemoveUsings(namespaces);
                 FirstRunAndFillUsingCache();
 
                 foreach (var item in cache)

@@ -11,13 +11,13 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
     {
         public static CompilationUnitSyntax Handle(CompilationUnitSyntax root, Func<string,string?> replaceFunc)
         {
-            var guid = System.Guid.NewGuid().ToString();
+
             var methodDeclarations = root.DescendantNodes().OfType<MethodDeclarationSyntax>();
             if (methodDeclarations == null)
             {
                 return root;
             }
-            Dictionary<BlockSyntax, BlockSyntax> replaceBodyCache = [];
+            ConcurrentDictionary<BlockSyntax, BlockSyntax> replaceBodyCache = [];
             foreach (var methodDeclaration in methodDeclarations)
             {
                 
@@ -53,7 +53,7 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
         }
 
         private static BlockSyntax? GetNewBlockSyntax(
-                BlockSyntax methodBody,
+                BlockSyntax methodBodySyntax,
                 Func<string, string?> replaceFunc,
                 ConcurrentDictionary<SyntaxNode, BlockSyntax>? blockCache
                 )
@@ -61,46 +61,46 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
             var removeIndexs = new HashSet<int>();
             // 获取方法体
             Dictionary<int, List<StatementSyntax>> addStatementCache = [];
-            if (methodBody.OpenBraceToken.HasLeadingTrivia)
+            if (methodBodySyntax.OpenBraceToken.HasLeadingTrivia)
             {
-                var tempLeadingResult = HandleTriviaComment(methodBody.OpenBraceToken.LeadingTrivia, false, replaceFunc);
-                if (tempLeadingResult.newStatements.Count>0)
+                var (needDelete, newStatements) = HandleTriviaComment(methodBodySyntax.OpenBraceToken.LeadingTrivia, false, replaceFunc);
+                if (newStatements.Count>0)
                 {
-                    addStatementCache[-1] = tempLeadingResult.newStatements;
+                    addStatementCache[-1] = newStatements;
                 }
             }
-            var statementCount = methodBody.Statements.Count;
+            var statementCount = methodBodySyntax.Statements.Count;
             // 遍历方法体中的语句
             for (int i = 0; i < statementCount; i++)
             {
 
                 // 获取当前语句
-                var statement = methodBody.Statements[i];
-                var tempStatementResult = GetNewStatmentSyntax(statement, replaceFunc, blockCache);
-                if (tempStatementResult.needDelete)
+                var statement = methodBodySyntax.Statements[i];
+                var (needDelete, newStatements) = GetNewStatmentSyntax(statement, replaceFunc, blockCache);
+                if (needDelete)
                 {
                     removeIndexs.Add(i);
                 }
-                if (tempStatementResult.newStatements.Count>0)
+                if (newStatements.Count>0)
                 {
-                    addStatementCache[i] = tempStatementResult.newStatements;
+                    addStatementCache[i] = newStatements;
                 }
 
             }
 
-            if (methodBody.CloseBraceToken.HasLeadingTrivia)
+            if (methodBodySyntax.CloseBraceToken.HasLeadingTrivia)
             {
-                var tempTailResult = HandleTriviaComment(methodBody.CloseBraceToken.LeadingTrivia, false, replaceFunc);
-                if (tempTailResult.newStatements.Count > 0)
+                var (needDelete, newStatements) = HandleTriviaComment(methodBodySyntax.CloseBraceToken.LeadingTrivia, false, replaceFunc);
+                if (newStatements.Count > 0)
                 {
-                    addStatementCache[-2] = tempTailResult.newStatements;
+                    addStatementCache[-2] = newStatements;
                 }
             }
 
             // 如果找到，创建新的方法体列表并排除该语句
             if (removeIndexs.Count > 0 || addStatementCache.Count > 0)
             {
-                var statements = methodBody.Statements;
+                var statements = methodBodySyntax.Statements;
                 List<StatementSyntax> newStatments = [];
                 if (addStatementCache.TryGetValue(-1, out var headList))
                 {
@@ -136,14 +136,14 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
             Func<string, string?> replaceFunc,
             ConcurrentDictionary<SyntaxNode, BlockSyntax>? blockCache)
         {
-            bool del = false;
+            bool shouldDelete = false;
             List<StatementSyntax> statementList = [];
             if (statement.HasLeadingTrivia)
             {
                 var trivias = statement.GetLeadingTrivia();
-                (del, statementList) = HandleTriviaComment(trivias, true, replaceFunc);
+                (shouldDelete, statementList) = HandleTriviaComment(trivias, true, replaceFunc);
             }
-            if (!del)
+            if (!shouldDelete)
             {
                 if (blockCache != null && blockCache.TryGetValue(statement, out var subBlock))
                 {
@@ -151,7 +151,7 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
                     if (newBlock != null)
                     {
                         statementList.Add(statement.ReplaceNode(subBlock, newBlock));
-                        del = true;
+                        shouldDelete = true;
                     }
                 }
             }
@@ -159,25 +159,25 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
             if (statement.HasTrailingTrivia)
             {
                 var trivias = statement.GetTrailingTrivia();
-                var tailResult = HandleTriviaComment(trivias, true, replaceFunc);
-                if (!del && tailResult.needDelete)
+                var (needDelete, newStatements) = HandleTriviaComment(trivias, true, replaceFunc);
+                if (!shouldDelete && needDelete)
                 {
-                    del = true;
+                    shouldDelete = true;
                 }
-                statementList.AddRange(tailResult.newStatements);
+                statementList.AddRange(newStatements);
             }
 
-            return (del, statementList);
+            return (shouldDelete, statementList);
         }
 
         public static (bool needDelete, List<StatementSyntax> newStatements) HandleTriviaComment(SyntaxTriviaList trivias, bool needDeleted, Func<string, string?> replaceFunc)
         {
-            bool del = false;
+            bool shouldDelete = false;
             List<StatementSyntax> syntaxList = [];
             foreach (var trivia in trivias)
             {
 
-                if (trivia.IsKind(SyntaxKind.SingleLineCommentTrivia))
+                if (trivia != null && trivia.IsKind(SyntaxKind.SingleLineCommentTrivia))
                 {
                     var commentText = trivia.ToString();
                     if (commentText.Length > 2)
@@ -187,7 +187,7 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
                         {
                             if (needDeleted && result == string.Empty)
                             {
-                                del = true;
+                                shouldDelete = true;
                             }
                             else
                             {
@@ -198,7 +198,7 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
                     }
                 }
             }
-            return (del, syntaxList);
+            return (shouldDelete, syntaxList);
         }
     }
 }

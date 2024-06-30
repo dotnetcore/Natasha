@@ -13,31 +13,20 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
         public static HashSet<string> Handle(CompilationUnitSyntax root)
         {
             HashSet<string> tempSets = [];
-            HashSet<SyntaxTrivia> triviaSets = [];
-            foreach (SyntaxNode node in root.DescendantNodesAndSelf())
+            var comments = root.DescendantNodesAndSelf()
+                .SelectMany(node => node.GetLeadingTrivia())
+                .Where(trivia => trivia.IsKind(SyntaxKind.SingleLineCommentTrivia))
+                .Distinct();
+
+            foreach (var comment in comments)
             {
-                foreach (SyntaxTrivia trivia in node.GetLeadingTrivia())
+                var commentText = comment.ToString().Trim().ToLower();
+                if (commentText.StartsWith(_proxyCommentCS0104Using))
                 {
-                    if (triviaSets.Contains(trivia))
+                    var usingStrings = commentText[_proxyCommentCS0104Using.Length..].Split(';', StringSplitOptions.RemoveEmptyEntries);
+                    foreach (var usingString in usingStrings)
                     {
-                        continue;
-                    }
-                    if (trivia.IsKind(SyntaxKind.SingleLineCommentTrivia))
-                    {
-                        var commentText = trivia.ToString().Trim().ToLower();
-                        if (commentText.Length > _proxyCommentCS0104Using.Length)
-                        {
-                            if (commentText.StartsWith(_proxyCommentCS0104Using))
-                            {
-                                triviaSets.Add(trivia);
-                                //#if DEBUG
-                                //                            Debug.WriteLine($"找到剔除点：{commentText}");
-                                //                            Debug.WriteLine($"整个节点为：{node.ToFullString()}");
-                                //#endif
-                                var usingStrings = trivia.ToString().Trim().Substring(_proxyCommentCS0104Using.Length, commentText.Length - _proxyCommentCS0104Using.Length);
-                                tempSets.UnionWith(usingStrings.Split([';'], StringSplitOptions.RemoveEmptyEntries).Select(item => item.Trim()));
-                            }
-                        }
+                        tempSets.Add(usingString.Trim());
                     }
                 }
             }
