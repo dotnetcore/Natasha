@@ -19,6 +19,13 @@ namespace Natasha.CSharp.Extension.HotExecutor.SG
         {
 
             string coreScript = "HEProxy.SetProjectKind(HEProjectKind.Console);";
+            string winformAndwpfLoggerScript = @"
+string debugFilePath = Path.Combine(VSCSharpProjectInfomation.MainCsprojPath,""HEDebug.txt""); 
+if(File.Exists(debugFilePath)){ File.Delete(debugFilePath); }
+HEFileLogger logger = new HEFileLogger(debugFilePath);
+HEProxy.ShowMessage = async msg => {
+    await logger.WriteUtf8FileAsync(msg + Environment.NewLine);
+};";
             var syntaxTrees = context.Compilation.SyntaxTrees;
             var fileList = syntaxTrees.Select(item => item.FilePath).ToList();
             var classNodes = syntaxTrees
@@ -32,15 +39,12 @@ namespace Natasha.CSharp.Extension.HotExecutor.SG
             {
                 // 这里可以根据判断结果执行相应的操作
                 // 例如生成特定的代码或输出信息
-                coreScript = @"
-string debugFilePath = Path.Combine(VSCSharpProjectInfomation.MainCsprojPath,""HEDebug.txt""); 
-if(File.Exists(debugFilePath)){ File.Delete(debugFilePath); }
-HEProxy.ShowMessage = msg => {
-    HEProxy.WriteUtf8File(debugFilePath, msg + Environment.NewLine);
-};
+                coreScript = $@"
+{winformAndwpfLoggerScript}
 HEProxy.SetProjectKind(HEProjectKind.Winform);
-HEProxy.ExtGlobalUsing.Add(""System.Windows.Controls"");
-HEProxy.ExtGlobalUsing.Add(""System.Windows"");
+HEProxy.NatashaExtGlobalUsing.Add(""System.Windows.Controls"");
+HEProxy.NatashaExtGlobalUsing.Add(""System.Windows"");
+DelegateHelper<System.Windows.Forms.FormCollection, System.Windows.Forms.Form>.GetDelegate(""Remove"", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
 ";
             }
             else
@@ -51,14 +55,10 @@ HEProxy.ExtGlobalUsing.Add(""System.Windows"");
 
                 if (hasWPFWindowClass && fileList.Any(item => item.EndsWith(".xaml.cs")))
                 {
-                    coreScript = @"
-string debugFilePath = Path.Combine(VSCSharpProjectInfomation.MainCsprojPath,""HEDebug.txt""); 
-if(File.Exists(debugFilePath)){ File.Delete(debugFilePath); }
-HEProxy.ShowMessage = msg => {
-    HEProxy.WriteUtf8File(debugFilePath, msg + Environment.NewLine);
-};
+                    coreScript = $@"
+{winformAndwpfLoggerScript}
 HEProxy.SetProjectKind(HEProjectKind.WPF);
-HEProxy.ExtGlobalUsing.Add(""System.Windows.Forms"");
+HEProxy.NatashaExtGlobalUsing.Add(""System.Windows.Forms"");
 ";
                 }
             }
@@ -85,7 +85,7 @@ namespace System{{
             {coreScript}
             HEProxy.SetCompileInitAction(()=>{{
                 NatashaManagement.RegistDomainCreator<NatashaDomainCreator>();
-                NatashaManagement.Preheating((asmName, @namespace) => !string.IsNullOrWhiteSpace(@namespace) && (@namespace.StartsWith(""Microsoft.VisualBasic"")|| HEProxy.ExtGlobalUsing.Contains(@namespace)),true, true);
+                NatashaManagement.Preheating((asmName, @namespace) => !string.IsNullOrWhiteSpace(@namespace) && (@namespace.StartsWith(""Microsoft.VisualBasic"")|| HEProxy.NatashaExtGlobalUsing.Contains(@namespace)),true, true);
 
             }});
             HEProxy.Run();

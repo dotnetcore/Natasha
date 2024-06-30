@@ -22,6 +22,11 @@ namespace Natasha.CSharp.Extension.HotExecutor
             }
         }
 
+        public bool IsLocking()
+        {
+            return _lockCount == 1;
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void ReleaseLock()
         {
