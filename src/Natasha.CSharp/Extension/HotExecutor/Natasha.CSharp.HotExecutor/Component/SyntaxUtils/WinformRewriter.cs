@@ -86,8 +86,8 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
                     try{{
                         for (int i = 0; i < Application.OpenForms.Count; i++)
                         {{
-                            var form = Application.OpenForms[i];
                             try{{
+                                var form = Application.OpenForms[i];
                                 if (form!=null)
                                 {{
                                     HEProxy.ShowMessage($""当前将被注销的开放窗体 {{form.Name}}"");
