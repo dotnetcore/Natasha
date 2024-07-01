@@ -12,22 +12,24 @@ namespace Natasha.CSharp.Compiler.Component.Exception
         {
 
             var diagnostics = tree.GetDiagnostics();
-            var errors = diagnostics.Where(item => !item.IsSuppressed).ToArray();
-            if (errors.Length > 0)
+            if (diagnostics.Any())
             {
-                var first = errors.FirstOrDefault(item => item.DefaultSeverity == DiagnosticSeverity.Error);
-                if (first == null)
+                var errors = diagnostics.Where(item => !item.IsSuppressed).ToArray();
+                if (errors != null && errors.Length > 0)
                 {
-                    first = errors[0];
+                    var first = errors.FirstOrDefault(item => item.DefaultSeverity == DiagnosticSeverity.Error);
+                    if (first == null)
+                    {
+                        first = errors[0];
+                    }
+                    var exception = new NatashaException(first.GetMessage());
+                    exception.Diagnostics.AddRange(errors);
+                    exception.Formatter = tree.ToString();
+                    exception.ErrorKind = NatashaExceptionKind.Syntax;
+                    return exception;
                 }
-                var exception = new NatashaException(first.GetMessage());
-                exception.Diagnostics.AddRange(errors);
-                exception.Formatter = tree.ToString();
-                exception.ErrorKind = NatashaExceptionKind.Syntax;
-                return exception;
             }
             return null;
-
         }
 
         internal static NatashaException GetCompileException(CSharpCompilation compilation, ImmutableArray<Diagnostic> errors)

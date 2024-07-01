@@ -12,7 +12,7 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
                 var node = blockSyntax.Statements.Last();
                 if (node.IsKind(Microsoft.CodeAnalysis.CSharp.SyntaxKind.ExpressionStatement))
                 {
-                    if (node.ToString() == "Console.ReadKey();")
+                    if (node.ToString().StartsWith("Console.Read"))
                     {
                         return blockSyntax.RemoveNode(node, SyntaxRemoveOptions.KeepExteriorTrivia);
                     }
