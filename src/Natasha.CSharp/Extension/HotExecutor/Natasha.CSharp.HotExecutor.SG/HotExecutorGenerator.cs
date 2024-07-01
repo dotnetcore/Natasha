@@ -1,7 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System;
-using System.Diagnostics;
 using System.Linq;
 
 namespace Natasha.CSharp.Extension.HotExecutor.SG
