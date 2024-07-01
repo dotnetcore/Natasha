@@ -555,6 +555,15 @@ public static class HEProxy
     {
         _argumentsMethodName = methodName;
     }
+
+    public static void ExcludeGlobalUsing(string usingCode)
+    {
+        NatashaExtGlobalUsing.Add(usingCode);
+    }
+    public static bool IsExcluded(string usingCode)
+    {
+        return NatashaExtGlobalUsing.Contains(usingCode);
+    }
     #endregion
 }
 

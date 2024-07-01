@@ -22,45 +22,47 @@ string debugFilePath = Path.Combine(VSCSharpProjectInfomation.MainCsprojPath,""H
 if(File.Exists(debugFilePath)){ File.Delete(debugFilePath); }
 HEFileLogger logger = new HEFileLogger(debugFilePath);
 HEProxy.ShowMessage = async msg => {
-    await logger.WriteUtf8FileAsync(msg + Environment.NewLine);
+    await logger.WriteUtf8FileAsync(msg);
 };";
             var syntaxTrees = context.Compilation.SyntaxTrees;
             var fileList = syntaxTrees.Select(item => item.FilePath).ToList();
             var classNodes = syntaxTrees
               .SelectMany(t => t.GetRoot().DescendantNodes())
               .OfType<ClassDeclarationSyntax>().ToList();
-            // 检查是否有继承自 System.Windows.Forms.Form 的类
-            var hasWinFormFormClass = classNodes
-              .Any(c => c.BaseList != null && c.BaseList.Types.Any(t => t.Type.ToString() == "Form"));
-
-            if (hasWinFormFormClass && fileList.Any(item=>item.EndsWith(".Designer.cs")))
+            if (classNodes != null && classNodes.Count>0)
             {
-                // 这里可以根据判断结果执行相应的操作
-                // 例如生成特定的代码或输出信息
-                coreScript = $@"
-{winformAndwpfLoggerScript}
-HEProxy.SetProjectKind(HEProjectKind.Winform);
-HEProxy.NatashaExtGlobalUsing.Add(""System.Windows.Controls"");
-HEProxy.NatashaExtGlobalUsing.Add(""System.Windows"");
-DelegateHelper<System.Windows.Forms.FormCollection, System.Windows.Forms.Form>.GetDelegate(""Remove"", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-";
-            }
-            else
-            {
+                // 检查是否有继承自 System.Windows.Forms.Form 的类
+                var hasWinFormFormClass = classNodes
+                  .Any(c => c.BaseList != null && c.BaseList.Types.Any(t => t.Type.ToString() == "Form"));
 
-                var hasWPFWindowClass = classNodes
-                  .Any(c => c.BaseList != null && c.BaseList.Types.Any(t => t.Type.ToString() == "Window"));
-
-                if (hasWPFWindowClass && fileList.Any(item => item.EndsWith(".xaml.cs")))
+                if (hasWinFormFormClass && fileList.Any(item => item.EndsWith(".Designer.cs")))
                 {
+                    // 这里可以根据判断结果执行相应的操作
+                    // 例如生成特定的代码或输出信息
                     coreScript = $@"
 {winformAndwpfLoggerScript}
-HEProxy.SetProjectKind(HEProjectKind.WPF);
-HEProxy.NatashaExtGlobalUsing.Add(""System.Windows.Forms"");
+HEProxy.SetProjectKind(HEProjectKind.Winform);
+HEProxy.ExcludeGlobalUsing(""System.Windows.Controls"");
+HEProxy.ExcludeGlobalUsing(""System.Windows"");
+DelegateHelper<System.Windows.Forms.FormCollection, System.Windows.Forms.Form>.GetDelegate(""Remove"", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
 ";
                 }
-            }
+                else
+                {
 
+                    var hasWPFWindowClass = classNodes
+                      .Any(c => c.BaseList != null && c.BaseList.Types.Any(t => t.Type.ToString() == "Window"));
+
+                    if (hasWPFWindowClass && fileList.Any(item => item.EndsWith(".xaml.cs")))
+                    {
+                        coreScript = $@"
+{winformAndwpfLoggerScript}
+HEProxy.SetProjectKind(HEProjectKind.WPF);
+HEProxy.ExcludeGlobalUsing(""System.Windows.Forms"");
+";
+                    }
+                }
+            }
 
             var nameSapce = context.Compilation.GetEntryPoint(cancellationToken: new System.Threading.CancellationToken())!.ContainingNamespace.Name;
             string proxyMethodContent = $@"
@@ -83,7 +85,7 @@ namespace System{{
             {coreScript}
             HEProxy.SetCompileInitAction(()=>{{
                 NatashaManagement.RegistDomainCreator<NatashaDomainCreator>();
-                NatashaManagement.Preheating((asmName, @namespace) => !string.IsNullOrWhiteSpace(@namespace) && (@namespace.StartsWith(""Microsoft.VisualBasic"")|| HEProxy.NatashaExtGlobalUsing.Contains(@namespace)),true, true);
+                NatashaManagement.Preheating((asmName, @namespace) => !string.IsNullOrWhiteSpace(@namespace) && (@namespace.StartsWith(""Microsoft.VisualBasic"")|| HEProxy.IsExcluded(@namespace)),true, true);
 
             }});
             HEProxy.Run();
