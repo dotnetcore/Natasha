@@ -22,7 +22,7 @@ string debugFilePath = Path.Combine(VSCSharpProjectInfomation.MainCsprojPath,""H
 if(File.Exists(debugFilePath)){ File.Delete(debugFilePath); }
 HEFileLogger logger = new HEFileLogger(debugFilePath);
 HEProxy.ShowMessage = async msg => {
-    await logger.WriteUtf8FileAsync(msg + Environment.NewLine);
+    await logger.WriteUtf8FileAsync(msg);
 };";
             var syntaxTrees = context.Compilation.SyntaxTrees;
             var fileList = syntaxTrees.Select(item => item.FilePath).ToList();
@@ -40,8 +40,8 @@ HEProxy.ShowMessage = async msg => {
                 coreScript = $@"
 {winformAndwpfLoggerScript}
 HEProxy.SetProjectKind(HEProjectKind.Winform);
-HEProxy.NatashaExtGlobalUsing.Add(""System.Windows.Controls"");
-HEProxy.NatashaExtGlobalUsing.Add(""System.Windows"");
+HEProxy.ExcludeGlobalUsing(""System.Windows.Controls"");
+HEProxy.ExcludeGlobalUsing(""System.Windows"");
 DelegateHelper<System.Windows.Forms.FormCollection, System.Windows.Forms.Form>.GetDelegate(""Remove"", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
 ";
             }
@@ -56,7 +56,7 @@ DelegateHelper<System.Windows.Forms.FormCollection, System.Windows.Forms.Form>.G
                     coreScript = $@"
 {winformAndwpfLoggerScript}
 HEProxy.SetProjectKind(HEProjectKind.WPF);
-HEProxy.NatashaExtGlobalUsing.Add(""System.Windows.Forms"");
+HEProxy.ExcludeGlobalUsing(""System.Windows.Forms"");
 ";
                 }
             }
@@ -83,7 +83,7 @@ namespace System{{
             {coreScript}
             HEProxy.SetCompileInitAction(()=>{{
                 NatashaManagement.RegistDomainCreator<NatashaDomainCreator>();
-                NatashaManagement.Preheating((asmName, @namespace) => !string.IsNullOrWhiteSpace(@namespace) && (@namespace.StartsWith(""Microsoft.VisualBasic"")|| HEProxy.NatashaExtGlobalUsing.Contains(@namespace)),true, true);
+                NatashaManagement.Preheating((asmName, @namespace) => !string.IsNullOrWhiteSpace(@namespace) && (@namespace.StartsWith(""Microsoft.VisualBasic"")|| HEProxy.IsExcluded(@namespace)),true, true);
 
             }});
             HEProxy.Run();

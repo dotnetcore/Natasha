@@ -4,7 +4,7 @@
     {
        HEProxy.NeedBeDisposedObject(obj);
     }
-    public static void AsyncInHotExecutor(this IEnumerable<IAsyncDisposable> objs)
+    public static void AsyncToHotExecutor(this IEnumerable<IAsyncDisposable> objs)
     {
         HEProxy.NeedBeDisposedObject(objs);
     }
