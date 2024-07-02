@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Natasha.CSharp.Compiler.Utils;
+using System;
 using System.IO;
 
 /// <summary>
@@ -27,7 +28,25 @@ public sealed partial class AssemblyCSharpBuilder
         }
 
     }
-
+    private bool _cleanOutput;
+    /// <summary>
+    /// 重复编译时，强制清除已存在的文件.
+    /// </summary>
+    /// <returns></returns>
+    public AssemblyCSharpBuilder WithForceCleanOutput()
+    {
+        _cleanOutput = true;
+        return this;
+    }
+    /// <summary>
+    /// 重复编译时，不清除已存在的文件. 使用 old -> repeate.guid.oldname 进行替换.(不指定默认使用该方案)
+    /// </summary>
+    /// <returns></returns>
+    public AssemblyCSharpBuilder WithoutForceCleanOutput()
+    {
+        _cleanOutput = false;
+        return this;
+    }
     /// <summary>
     /// 设置程序集名称.
     /// </summary>
@@ -131,6 +150,23 @@ public sealed partial class AssemblyCSharpBuilder
         PdbFilePath = Path.Combine(OutputFolder, $"{AssemblyName}.pdb");
         CommentFilePath = Path.Combine(OutputFolder, $"{AssemblyName}.xml");
         return this;
+    }
+
+
+    private string FileHandle(string file)
+    {
+        if (File.Exists(DllFilePath))
+        {
+            if (_cleanOutput)
+            {
+                File.Delete(DllFilePath);
+            }
+            else
+            {
+                return NatashaFileRepeateHelper.GetAvaliableFilePath(DllFilePath);
+            }
+        }
+        return file;
     }
     #endregion
 

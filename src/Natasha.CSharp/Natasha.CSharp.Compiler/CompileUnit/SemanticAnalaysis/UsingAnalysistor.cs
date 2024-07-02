@@ -70,13 +70,13 @@ namespace Natasha.CSharp.Compiler.SemanticAnalaysis
                                 var node = error.GetTypeSyntaxNode<UsingDirectiveSyntax>(root);
                                 if (node != null)
                                 {
-                                    NatashaDiagnosticsExtension.RemoveUsingAndNode(node, errorNodes);
+                                    node.RemoveUsingAndNode(errorNodes);
                                 }
                             }
                             //命名空间“namespace”中不存在类型或命名空间名“name”（是否缺少程序集引用？）
                             else if (error.Id == "CS0234")
                             {
-                                error.RemoveUsingAndNodesFromStartName(root, errorNodes);
+                                error.RemoveDefaultUsingAndNodesByStartName(root, errorNodes);
                             }
                         }
 
