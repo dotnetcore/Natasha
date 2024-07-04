@@ -16,10 +16,10 @@ public sealed partial class AssemblyCSharpBuilder
     /// 重复编译
     /// <list type="number">
     ///     <item>
-    ///     该方法逻辑：
+    ///     当前方法逻辑为：
     ///         <list type="bullet">
-    ///             <item>用 WithPreCompilationOptions() 方法阻止创建新的 编译选项.</item>
-    ///             <item>用 WithPreCompilationReferences() 方法阻止覆盖新的引用. </item>
+    ///             <item>调用 WithPreCompilationOptions() 阻止创建新的编译选项.</item>
+    ///             <item>调用 WithPreCompilationReferences() 阻止覆盖新的引用. </item>
     ///         </list>
     ///     </item>
     ///     <item>
