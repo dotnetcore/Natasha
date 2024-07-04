@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
@@ -10,31 +11,50 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
     {
         public static BlockSyntax? Handle(BlockSyntax blockSyntax)
         {
-            return blockSyntax.WithStatements([SyntaxFactory.ParseStatement(@$"HEProxy.SetAftHotExecut(() => {{
-                    Task.Run(() => {{
-                       
-                       while(!DiposeWindows()){{}};
-                       Application.Current.Run();
+            var mainStatement = SyntaxFactory.ParseStatement(@"
 
+                System.Windows.Application.Current.Dispatcher.Invoke(()=>{
+
+                        while(!DiposeWindows()){};
+                        
                         static bool DiposeWindows()
-                        {{
-                            try{{
-                                   for (int i = 0; i < Application.Current.Windows.Count; i++)
-                                   {{
-                                        var window = Application.Current.Windows[i];
-                                        try{{
-                                            window.Close();
-                                        }}catch{{
+                        {
+                            try{
+                                   //HEProxy.ShowMessage($""当前将被注销的开放窗体个数 {System.Windows.Application.Current.Windows.Count}"");
+                                   for (int i = 0; i < System.Windows.Application.Current.Windows.Count; i++)
+                                   {
+                                       
+                                        try{
+                                            var window = System.Windows.Application.Current.Windows[i];
+                                            window.Dispatcher.Invoke(()=>{ window.Close(); });
+                                        }catch{
 
-                                        }}
-                                   }}
-                            }}catch{{
-                                return false;
-                            }}
+                                        }
+                                   }
+
+                            }catch(System.Exception ex){
+
+                                HEProxy.ShowMessage($""出现异常 {ex.GetType()}{ex.Message}"");
+                                if(ex is not System.InvalidOperationException){
+                                    return false;
+                                }
+
+                            }
                             return true;
-                        }}
-                    }});
-                }});")]);
+                        }
+                });
+                System.Windows.Application.Current.Shutdown();
+            ");
+
+            var newStatement = SyntaxFactory.ParseStatement(@$"
+           
+            HEProxy.SetAftHotExecut(() => {{
+
+{blockSyntax.Statements.ToFullString()}
+                
+            }});");
+            Debug.WriteLine(mainStatement.ToFullString());
+            return blockSyntax.WithStatements([newStatement]);
         }
     }
 }

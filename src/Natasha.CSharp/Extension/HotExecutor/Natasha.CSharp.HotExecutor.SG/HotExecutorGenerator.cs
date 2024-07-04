@@ -18,8 +18,15 @@ namespace Natasha.CSharp.Extension.HotExecutor.SG
 
             string coreScript = "HEProxy.SetProjectKind(HEProjectKind.Console);";
             string winformAndwpfLoggerScript = @"
-string debugFilePath = Path.Combine(VSCSharpProjectInfomation.MainCsprojPath,""HEDebug.txt""); 
-if(File.Exists(debugFilePath)){ File.Delete(debugFilePath); }
+string debugFilePath = Path.Combine(VSCSharpProjectInfomation.HEOutputPath,""Debug.txt""); 
+if (Directory.Exists(VSCSharpProjectInfomation.HEOutputPath))
+{
+    var files = Directory.GetFiles(VSCSharpProjectInfomation.HEOutputPath);
+    foreach (var file in files)
+    {
+        File.Delete(file);
+    }
+}
 HEFileLogger logger = new HEFileLogger(debugFilePath);
 HEProxy.ShowMessage = async msg => {
     await logger.WriteUtf8FileAsync(msg);

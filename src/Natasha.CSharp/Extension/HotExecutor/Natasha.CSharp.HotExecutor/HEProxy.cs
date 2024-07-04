@@ -232,10 +232,6 @@ public static class HEProxy
         var root = tree.GetCompilationUnitRoot()!;
         if (root.Members.Count == 0)
         {
-#if DEBUG
-            ShowMessage($"检测到空成员文件 {file}.");
-#endif
-
             return tree;
         }
 
@@ -350,11 +346,12 @@ public static class HEProxy
             }
             ShowMessage($"执行主入口回调方法....");
             _endCallback?.Invoke();
-
+            ShowMessage($"入口回调方法执行完毕.");
 
         }
         catch (Exception ex)
         {
+
             ShowMessage($"热编译运行失败....");
             if (ex is NatashaException nex)
             {
@@ -370,13 +367,22 @@ public static class HEProxy
                     }
                 }
                 ShowMessage($"Error during hot execution: {errorBuilder}");
-
+                var files = Directory.GetFiles(VSCSharpProjectInfomation.HEOutputPath);
+                foreach (var file in files)
+                {
+                    if (file.StartsWith("error."))
+                    {
+                        File.Delete(file);
+                    }
+                }
+                File.WriteAllText(Path.Combine(VSCSharpProjectInfomation.HEOutputPath, "error." + Guid.NewGuid().ToString("N") + ".txt"), nex.Formatter);
             }
             else
             {
                 ShowMessage($"Error during hot execution: {ex}");
             }
 
+           
         }
         _isHotCompiling = false;
         return;
