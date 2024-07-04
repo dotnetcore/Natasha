@@ -29,7 +29,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
         public void Notify()
         {
 #if DEBUG
-            Console.WriteLine($"接收重建通知！");
+            Debug.WriteLine($"接收重建通知！");
 #endif
             _timeStamp = DateTime.UtcNow.Ticks / 10000;
             _needExecuted = true;
@@ -46,7 +46,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
                     {
                         Clean();
 #if DEBUG
-                        Console.WriteLine($"时间戳差值: {DateTime.UtcNow.Ticks / 10000 - _timeStamp}");
+                        Debug.WriteLine($"时间戳差值: {DateTime.UtcNow.Ticks / 10000 - _timeStamp}");
 #endif
                         if (DateTime.UtcNow.Ticks / 10000 - _timeStamp > 2000)
                         {
@@ -129,7 +129,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
                     var fileName = Path.GetFileName(csprojPath);
                     var binFolder = Path.Combine(folder, "bin");
                     var objFolder = Path.Combine(folder, "obj");
-                    FileSystemEventHandler handler = (sender, e) => {
+                    FileSystemEventHandler csFileHandler = (sender, e) => {
 
                         if (VSCSharpProjectInfomation.CheckFileAvivaliable(e.FullPath, binFolder, objFolder))
                         {
@@ -137,9 +137,24 @@ namespace Natasha.CSharp.Extension.HotExecutor
                         }
 
                     };
-                    RenamedEventHandler reNameHandler = (sender, e) => {
+                    RenamedEventHandler csRenameHandler = (sender, e) => {
 
                         if (VSCSharpProjectInfomation.CheckFileAvivaliable(e.FullPath, binFolder, objFolder))
+                        {
+                            _notify?.Invoke();
+                        }
+                    };
+                    FileSystemEventHandler csprojFileHandler = (sender, e) => {
+
+                        if (e.FullPath == csprojPath)
+                        {
+                            _notify?.Invoke();
+                        }
+
+                    };
+                    RenamedEventHandler csprojRenameHandler = (sender, e) => {
+
+                        if (e.FullPath == csprojPath)
                         {
                             _notify?.Invoke();
                         }
@@ -152,10 +167,10 @@ namespace Natasha.CSharp.Extension.HotExecutor
                         EnableRaisingEvents = true,
                         IncludeSubdirectories = true,
                     };
-                    csfileWatcher.Changed += handler;
-                    csfileWatcher.Deleted += handler;
-                    csfileWatcher.Created += handler;
-                    csfileWatcher.Renamed += reNameHandler;
+                    csfileWatcher.Changed += csFileHandler;
+                    csfileWatcher.Deleted += csFileHandler;
+                    csfileWatcher.Created += csFileHandler;
+                    csfileWatcher.Renamed += csRenameHandler;
 
                     var csprojWatcher = new FileSystemWatcher()
                     {
@@ -166,8 +181,8 @@ namespace Natasha.CSharp.Extension.HotExecutor
                         NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.CreationTime | NotifyFilters.DirectoryName | NotifyFilters.LastAccess
                     };
 
-                    csprojWatcher.Changed += handler;
-                    csprojWatcher.Renamed += reNameHandler;
+                    csprojWatcher.Changed += csprojFileHandler;
+                    csprojWatcher.Renamed += csprojRenameHandler;
                     csprojWatcher.Deleted += (sender, e) =>
                     {
                         if (e.FullPath == csprojPath)

@@ -17,6 +17,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
         public static readonly HashSet<string> ExpectFiles;
         public static readonly bool EnableImplicitUsings;
         public static IEnumerable<string>? MainAssemblyUsings;
+        public static readonly string HEOutputPath;
         static VSCSharpProjectInfomation()
         {
             ExpectFiles = [];
@@ -29,6 +30,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
             ExecutePath = new FileInfo(currentExeFilePath).Directory!.FullName;
             var currentDirectoryInfo = new DirectoryInfo(ExecutePath);
             MainCsprojPath = FindFileDirectory(currentDirectoryInfo,"*.csproj");
+            HEOutputPath = Path.Combine(MainCsprojPath, "HEOutput");
             var files = Directory.GetFiles(MainCsprojPath,"*.csproj");
             CSProjFilePath = files[0];
             BinPath = Path.Combine(MainCsprojPath, "bin");
@@ -93,9 +95,13 @@ namespace Natasha.CSharp.Extension.HotExecutor
             return CheckFileAvivaliable(file, BinPath, ObjPath);
         }
 
+        public static bool IsXamlAndResxFile(string file)
+        {
+            return file.EndsWith(".xaml") || file.EndsWith(".resx");
+        }
         public static bool CheckFileAvivaliable(string file, string binPath, string objPath)
         {
-            if (file.EndsWith(".cs") || file.EndsWith(".xaml") || file.EndsWith(".resx"))
+            if (file.EndsWith(".cs"))
             {
                 if (file.StartsWith(binPath))
                 {

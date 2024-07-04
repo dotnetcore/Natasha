@@ -52,8 +52,12 @@ namespace Natasha.CSharp.Extension.HotExecutor
                 {
                     return;
                 }
+                if (VSCSharpProjectInfomation.IsXamlAndResxFile(e.FullPath))
+                {
+                    await ExecuteAfterFunction();
 
-                if (VSCSharpProjectInfomation.CheckFileAvailiable(e.FullPath))
+                }
+                else if (VSCSharpProjectInfomation.CheckFileAvailiable(e.FullPath))
                 {
 #if DEBUG
                     HEProxy.ShowMessage($"Created: {e.FullPath}");
@@ -62,6 +66,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
                     _compileLock.GetAndWaitLock();
                     CreateFileAction(e.FullPath);
                     _compileLock.ReleaseLock();
+
                     await ExecuteAfterFunction();
                 }
 
@@ -73,7 +78,12 @@ namespace Natasha.CSharp.Extension.HotExecutor
                 {
                     return;
                 }
-                if (VSCSharpProjectInfomation.CheckFileAvailiable(e.FullPath))
+                if (VSCSharpProjectInfomation.IsXamlAndResxFile(e.FullPath))
+                {
+                    await ExecuteAfterFunction();
+
+                }
+                else if (VSCSharpProjectInfomation.CheckFileAvailiable(e.FullPath))
                 {
 #if DEBUG
                     HEProxy.ShowMessage($"Deleted: {e.FullPath}");
@@ -83,7 +93,7 @@ namespace Natasha.CSharp.Extension.HotExecutor
                     _compileLock.ReleaseLock();
                     await ExecuteAfterFunction();
                 }
-                
+
             };
 
             _mainWatcher.Renamed += async (sender, e) =>
@@ -92,10 +102,13 @@ namespace Natasha.CSharp.Extension.HotExecutor
                 {
                     return;
                 }
-
-                if (e.OldFullPath.EndsWith(".cs") || e.OldFullPath.EndsWith(".xaml"))
+                if (VSCSharpProjectInfomation.IsXamlAndResxFile(e.OldFullPath) || VSCSharpProjectInfomation.IsXamlAndResxFile(e.FullPath))
                 {
-                    if (e.FullPath.EndsWith(".cs") || e.FullPath.EndsWith(".xaml"))
+                    await ExecuteAfterFunction();
+
+                }else if (e.OldFullPath.EndsWith(".cs"))
+                {
+                    if (e.FullPath.EndsWith(".cs"))
                     {
 #if DEBUG
                         HEProxy.ShowMessage($"Renamed: {e.OldFullPath} -> {e.FullPath}");
@@ -150,10 +163,10 @@ namespace Natasha.CSharp.Extension.HotExecutor
             catch
             {
 
-                
+
             }
         }
-       
+
         private static void Error(object sender, ErrorEventArgs e)
         {
             PrintException(e.GetException());

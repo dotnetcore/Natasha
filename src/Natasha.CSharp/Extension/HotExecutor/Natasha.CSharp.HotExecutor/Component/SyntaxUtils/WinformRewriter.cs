@@ -44,39 +44,40 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
 
             if (runNode != null)
             {
-
                 return blockSyntax.ReplaceNode(runNode, [SyntaxFactory.ParseStatement(@$"
         HEProxy.SetAftHotExecut(() => 
         {{
-            Task.Run(() => 
+            System.Threading.Tasks.Task.Run(() => 
             {{
-                Application.ExitThread();
+                System.Windows.Forms.Application.ExitThread();
                 while(!DiposeWindows()){{}};
                 var __heProxInstance = {runArgumentScript};
-                Form tempForm;
-                if (__heProxInstance is Form)
+                System.Windows.Forms.Form tempForm;
+                if (__heProxInstance is System.Windows.Forms.Form)
 	            {{
-                    tempForm = ((object)__heProxInstance as Form)!;
+                    tempForm = ((object)__heProxInstance as System.Windows.Forms.Form)!;
                 }}
                 else
                 {{
-                   tempForm = (Form)(typeof(ApplicationContext).GetProperty(""MainForm"")!.GetValue(__heProxInstance)!);
+                   tempForm = (System.Windows.Forms.Form)(typeof(System.Windows.Forms.ApplicationContext).GetProperty(""MainForm"")!.GetValue(__heProxInstance)!);
                 }}   
                 tempForm.FormClosed += (s, e) =>
                 {{
                    if (!HEProxy.IsHotCompiling)
                    {{
-                        var result = MessageBox.Show(""请确认是否退出主程序？"", ""HotExecutor 提醒"", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
-                        if (result.HasFlag(DialogResult.OK))
+                        var result = System.Windows.Forms.MessageBox.Show(""请确认是否退出主程序？"", ""HotExecutor 提醒"", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+                        if (result.HasFlag(System.Windows.Forms.DialogResult.OK))
                         {{
-                           Application.Exit();
+                           System.Windows.Forms.Application.Exit();
 	                    }}
                    }}
                 }};
                
                 try{{
-                   Application.Run(__heProxInstance); 
-                }}catch(Exception ex)
+
+                   System.Windows.Forms.Application.Run(__heProxInstance); 
+
+                }}catch(System.Exception ex)
                 {{
                     HEProxy.ShowMessage(ex.Message);
                 }}
@@ -84,15 +85,15 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
                 static bool DiposeWindows()
                 {{
                     try{{
-                        for (int i = 0; i < Application.OpenForms.Count; i++)
+                        for (int i = 0; i < System.Windows.Forms.Application.OpenForms.Count; i++)
                         {{
                             try{{
-                                var form = Application.OpenForms[i];
+                                var form = System.Windows.Forms.Application.OpenForms[i];
                                 if (form!=null)
                                 {{
                                     HEProxy.ShowMessage($""当前将被注销的开放窗体 {{form.Name}}"");
                                     form.Dispose();
-                                    DelegateHelper<FormCollection, Form>.Execute.Invoke(Application.OpenForms, form);
+                                    Natasha.CSharp.HotExecutor.Component.DelegateHelper<System.Windows.Forms.FormCollection, System.Windows.Forms.Form>.Execute.Invoke(System.Windows.Forms.Application.OpenForms, form);
                                 }}
                             }}catch{{
                             }}
