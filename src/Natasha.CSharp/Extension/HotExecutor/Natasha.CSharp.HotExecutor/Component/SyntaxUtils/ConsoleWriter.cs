@@ -9,7 +9,7 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
         {
             if (blockSyntax.Statements.Count > 0)
             {
-                var node = blockSyntax.Statements.Last();
+                var node = blockSyntax.Statements.Last(item=>item is not LocalFunctionStatementSyntax);
                 if (node.IsKind(Microsoft.CodeAnalysis.CSharp.SyntaxKind.ExpressionStatement))
                 {
                     if (node.ToString().StartsWith("Console.Read"))

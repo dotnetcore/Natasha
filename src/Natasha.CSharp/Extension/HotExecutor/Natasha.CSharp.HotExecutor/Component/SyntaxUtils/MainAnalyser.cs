@@ -7,12 +7,15 @@ using System.Text;
 
 namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
 {
-    internal static class OptimizationAnalyser
+    internal static class MainAnalyser
     {
+        public static string _asyncCommentTag = "//HE:Async".ToLower();
         internal static string _proxyCommentOPLDebug = "//HE:Debug".ToLower();
         internal static string _proxyCommentOPLRelease = "//HE:Release".ToLower();
-        public static bool? Handle(MethodDeclarationSyntax methodNode)
+        public static void Handle(MethodDeclarationSyntax methodNode, out bool isRelease, out bool isAsync)
         {
+            isRelease = false;
+            isAsync = false;
             var body = methodNode.Body;
             if (body != null)
             {
@@ -23,17 +26,16 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
                 if (comment != default)
                 {
                     var commentText = comment.ToString().Trim().ToLower();
-                    if (commentText.StartsWith(_proxyCommentOPLDebug))
+                    if (commentText.StartsWith(_proxyCommentOPLRelease))
                     {
-                        return false;
+                        isRelease = true;
                     }
-                    else if (commentText.StartsWith(_proxyCommentOPLRelease))
+                    else if (commentText.StartsWith(_asyncCommentTag))
                     {
-                        return true;
+                        isAsync = true;
                     }
                 }
             }
-            return null;
         }
     }
 }

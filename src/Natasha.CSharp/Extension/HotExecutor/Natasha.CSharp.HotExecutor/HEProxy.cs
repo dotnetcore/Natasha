@@ -27,6 +27,7 @@ public static class HEProxy
     private static bool _isCompiling;
     private static bool _isFaildBuild;
     internal static bool IsRelease;
+    internal static bool IsAsync;
     private readonly static CSharpParseOptions _debugOptions;
     private readonly static CSharpParseOptions _releaseOptions;
     private static CSharpParseOptions _currentOptions;
@@ -71,11 +72,11 @@ public static class HEProxy
                 var length = _proxyCommentReleaseShow.Length + 1;
                 if (comment.Length > length)
                 {
-                    return CreatePreprocessorReplaceScript(GetCommentScript(comment,length));
+                    return CreatePreprocessorReplaceScript(GetCommentScript(comment, length));
                 }
             }
             return null;
-            static string GetCommentScript(string comment,int startIndex)
+            static string GetCommentScript(string comment, int startIndex)
             {
                 if (comment.EndsWith(";"))
                 {
@@ -237,6 +238,7 @@ public static class HEProxy
 
         //顶级语句处理
         root = ToplevelRewriter.Handle(root);
+
         //CS0104处理
         _cs0104UsingCache[file] = CS0104Analyser.Handle(root);
         if (VSCSharpProjectInfomation.EnableImplicitUsings)
@@ -244,10 +246,13 @@ public static class HEProxy
             //从默认Using缓存中排除 CS0104 
             root = UsingsRewriter.Handle(root, _cs0104UsingCache);
         }
+
         //HE命令处理
         root = MethodTriviaRewriter.Handle(root, _triviaHandle);
+
         //主入口处理
         root = HandleProxyMainMethod(root);
+
         return CSharpSyntaxTree.Create(root, _currentOptions, file, Encoding.UTF8);
     }
     private static bool _isFirstCompile = true;
@@ -336,14 +341,41 @@ public static class HEProxy
                 instance = Activator.CreateInstance(typeInfo);
             }
 
-            if (proxyMethodInfo.GetParameters().Length > 0)
+            if (IsAsync)
             {
-                proxyMethodInfo.Invoke(instance, [_args.ToArray()]);
+                Task mainTask;
+
+                if (proxyMethodInfo.GetParameters().Length > 0)
+                {
+                    mainTask = Task.Run(() =>
+                    {
+
+                        proxyMethodInfo.Invoke(instance, [_args.ToArray()]);
+
+                    });
+                }
+                else
+                {
+                    mainTask = Task.Run(() =>
+                    {
+                        proxyMethodInfo.Invoke(instance, []);
+                    });
+                }
+                mainTask.Exception?.Handle(ex => { ShowMessage($"Error during hot execution: {ex}"); return true; });
             }
             else
             {
-                proxyMethodInfo.Invoke(instance, []);
+                if (proxyMethodInfo.GetParameters().Length > 0)
+                {
+                    proxyMethodInfo.Invoke(instance, [_args.ToArray()]);
+                }
+                else
+                {
+                    proxyMethodInfo.Invoke(instance, []);
+                }
             }
+
+
             ShowMessage($"执行主入口回调方法....");
             _endCallback?.Invoke();
             ShowMessage($"入口回调方法执行完毕.");
@@ -382,7 +414,7 @@ public static class HEProxy
                 ShowMessage($"Error during hot execution: {ex}");
             }
 
-           
+
         }
         _isHotCompiling = false;
         return;
@@ -420,7 +452,7 @@ public static class HEProxy
         if (proxyMethod != null)
         {
             //预处理符号分析
-            IsRelease = OptimizationAnalyser.Handle(proxyMethod) ?? false;
+            MainAnalyser.Handle(proxyMethod, out IsRelease, out IsAsync);
             ClassDeclarationSyntax? parentClass = proxyMethod.Parent as ClassDeclarationSyntax ?? throw new Exception($"获取 {_proxyMethodName} 方法类名出现错误！");
             _className = parentClass.Identifier.Text;
             if (proxyMethod.Body != null)
@@ -449,16 +481,16 @@ public static class HEProxy
         }
         else if (_projectKind == HEProjectKind.Console)
         {
-            ConsoleWriter.Handle(blockSyntax);
+            return ConsoleWriter.Handle(blockSyntax);
         }
         return null;
     }
     private static string CreatePreprocessorReplaceScript(string content)
     {
-        if (_projectKind == HEProjectKind.AspnetCore || _projectKind == HEProjectKind.Console)
-        {
-            return $"Console.WriteLine({content});";
-        }
+        //if (_projectKind == HEProjectKind.AspnetCore || _projectKind == HEProjectKind.Console)
+        //{
+        //    return $"Console.WriteLine({content});";
+        //}
         return $"HEProxy.ShowMessage(({content}).ToString());";
     }
     #endregion
@@ -543,11 +575,15 @@ public static class HEProxy
     }
     public static void SetDebugCommentTag(string comment)
     {
-        OptimizationAnalyser._proxyCommentOPLDebug = comment.Trim().ToLower();
+        MainAnalyser._proxyCommentOPLDebug = comment.Trim().ToLower();
     }
     public static void SetReleaseCommentTag(string comment)
     {
-        OptimizationAnalyser._proxyCommentOPLRelease = comment.Trim().ToLower();
+        MainAnalyser._proxyCommentOPLRelease = comment.Trim().ToLower();
+    }
+    public static void SetAsyncCommentTag(string comment)
+    {
+        MainAnalyser._asyncCommentTag = comment.Trim().ToLower();
     }
     public static void SetCS0104CommentTag(string comment)
     {
