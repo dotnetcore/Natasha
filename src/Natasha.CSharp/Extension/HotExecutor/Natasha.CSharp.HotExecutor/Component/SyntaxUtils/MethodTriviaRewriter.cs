@@ -32,7 +32,16 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
                         .Where(item => item.Parent != null);
                     if (tempDict.Any())
                     {
-                        blockCache = new(tempDict.ToDictionary(item => item.Parent!, item => item));
+                        blockCache = new(tempDict.ToDictionary(item => {
+
+                            SyntaxNode parent = item.Parent!;
+                            while (!parent.IsKind(SyntaxKind.MethodDeclaration) && parent is not StatementSyntax)
+                            {
+                                 parent = parent.Parent!;
+                            }
+                            return parent;
+
+                        } , item => item));
                     }
 
                     var newBody = GetNewBlockSyntax(bodyNode, replaceFunc, blockCache);
