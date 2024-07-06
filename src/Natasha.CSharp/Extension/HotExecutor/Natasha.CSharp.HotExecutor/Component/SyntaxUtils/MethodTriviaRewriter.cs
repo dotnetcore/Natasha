@@ -9,7 +9,7 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
 {
     internal static class MethodTriviaRewriter
     {
-        public static CompilationUnitSyntax Handle(CompilationUnitSyntax root, Func<string,string?> replaceFunc)
+        public static CompilationUnitSyntax Handle(CompilationUnitSyntax root, Func<string, string?> replaceFunc)
         {
 
             var methodDeclarations = root.DescendantNodes().OfType<MethodDeclarationSyntax>();
@@ -20,7 +20,7 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
             ConcurrentDictionary<BlockSyntax, BlockSyntax> replaceBodyCache = [];
             foreach (var methodDeclaration in methodDeclarations)
             {
-                
+
                 var bodyNode = methodDeclaration.Body;
                 if (bodyNode != null)
                 {
@@ -32,16 +32,22 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
                         .Where(item => item.Parent != null);
                     if (tempDict.Any())
                     {
-                        blockCache = new(tempDict.ToDictionary(item => {
+                        blockCache = new(tempDict.ToDictionary(item =>
+                        {
 
                             SyntaxNode parent = item.Parent!;
-                            while (!parent.IsKind(SyntaxKind.MethodDeclaration) && parent is not StatementSyntax)
+                            while (
+                            !parent.IsKind(SyntaxKind.MethodDeclaration) && 
+                            parent is not StatementSyntax && 
+                            parent is not CatchClauseSyntax && 
+                            parent is not FinallyClauseSyntax &&
+                            parent is not ElseClauseSyntax)
                             {
-                                 parent = parent.Parent!;
+                                parent = parent.Parent!;
                             }
                             return parent;
 
-                        } , item => item));
+                        }, item => item));
                     }
 
                     var newBody = GetNewBlockSyntax(bodyNode, replaceFunc, blockCache);
@@ -62,7 +68,7 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
         }
 
         private static BlockSyntax? GetNewBlockSyntax(
-                BlockSyntax methodBodySyntax,
+                BlockSyntax bodySyntax,
                 Func<string, string?> replaceFunc,
                 ConcurrentDictionary<SyntaxNode, BlockSyntax>? blockCache
                 )
@@ -70,36 +76,36 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
             var removeIndexs = new HashSet<int>();
             // 获取方法体
             Dictionary<int, List<StatementSyntax>> addStatementCache = [];
-            if (methodBodySyntax.OpenBraceToken.HasLeadingTrivia)
+            if (bodySyntax.OpenBraceToken.HasLeadingTrivia)
             {
-                var (needDelete, newStatements) = HandleTriviaComment(methodBodySyntax.OpenBraceToken.LeadingTrivia, false, replaceFunc);
-                if (newStatements.Count>0)
+                var (needDelete, newStatements) = HandleTriviaComment(bodySyntax.OpenBraceToken.LeadingTrivia, false, replaceFunc);
+                if (newStatements.Count > 0)
                 {
                     addStatementCache[-1] = newStatements;
                 }
             }
-            var statementCount = methodBodySyntax.Statements.Count;
+            var statementCount = bodySyntax.Statements.Count;
             // 遍历方法体中的语句
             for (int i = 0; i < statementCount; i++)
             {
 
                 // 获取当前语句
-                var statement = methodBodySyntax.Statements[i];
+                var statement = bodySyntax.Statements[i];
+
                 var (needDelete, newStatements) = GetNewStatmentSyntax(statement, replaceFunc, blockCache);
                 if (needDelete)
                 {
                     removeIndexs.Add(i);
                 }
-                if (newStatements.Count>0)
+                if (newStatements.Count > 0)
                 {
                     addStatementCache[i] = newStatements;
                 }
-
             }
 
-            if (methodBodySyntax.CloseBraceToken.HasLeadingTrivia)
+            if (bodySyntax.CloseBraceToken.HasLeadingTrivia)
             {
-                var (needDelete, newStatements) = HandleTriviaComment(methodBodySyntax.CloseBraceToken.LeadingTrivia, false, replaceFunc);
+                var (needDelete, newStatements) = HandleTriviaComment(bodySyntax.CloseBraceToken.LeadingTrivia, false, replaceFunc);
                 if (newStatements.Count > 0)
                 {
                     addStatementCache[-2] = newStatements;
@@ -109,7 +115,7 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
             // 如果找到，创建新的方法体列表并排除该语句
             if (removeIndexs.Count > 0 || addStatementCache.Count > 0)
             {
-                var statements = methodBodySyntax.Statements;
+                var statements = bodySyntax.Statements;
                 List<StatementSyntax> newStatments = [];
                 if (addStatementCache.TryGetValue(-1, out var headList))
                 {
@@ -137,10 +143,10 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
             }
 
             return null;
-            
+
         }
 
-        private static (bool needDelete,List<StatementSyntax> newStatements) GetNewStatmentSyntax(
+        private static (bool needDelete, List<StatementSyntax> newStatements) GetNewStatmentSyntax(
             StatementSyntax statement,
             Func<string, string?> replaceFunc,
             ConcurrentDictionary<SyntaxNode, BlockSyntax>? blockCache)
@@ -154,13 +160,98 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
             }
             if (!shouldDelete)
             {
-                if (blockCache != null && blockCache.TryGetValue(statement, out var subBlock))
+                if (blockCache != null)
                 {
-                    var newBlock = GetNewBlockSyntax(subBlock, replaceFunc, blockCache);
-                    if (newBlock != null)
+                    if (statement is TryStatementSyntax trySyntax)
                     {
-                        statementList.Add(statement.ReplaceNode(subBlock, newBlock));
+                        BlockSyntax newTryBlock = trySyntax.Block;
+                        if (blockCache.TryGetValue(trySyntax, out var subBlock))
+                        {
+                            var newTempTryBlock = GetNewBlockSyntax(trySyntax.Block, replaceFunc, blockCache);
+                            if (newTempTryBlock != null)
+                            {
+                                newTryBlock = newTempTryBlock;
+                            }
+                        }
+                        SyntaxList<CatchClauseSyntax> newCatchList = [];
+                        foreach (var catchStatement in trySyntax.Catches)
+                        {
+                            if (blockCache.TryGetValue(catchStatement, out var subCacheBlock))
+                            {
+                                var newBlock = GetNewBlockSyntax(subCacheBlock, replaceFunc, blockCache);
+                                if (newBlock != null)
+                                {
+                                    newCatchList = newCatchList.Add(catchStatement.ReplaceNode(subCacheBlock, newBlock));
+                                }
+                                else
+                                {
+                                    newCatchList = newCatchList.Add(catchStatement);
+                                }
+                            }
+                        }
+                        FinallyClauseSyntax? newFinally = trySyntax.Finally;
+                        if (trySyntax.Finally != null && blockCache.TryGetValue(trySyntax.Finally, out var subFinallyBlock))
+                        {
+                            var newBlock = GetNewBlockSyntax(subFinallyBlock, replaceFunc, blockCache);
+                            if (newBlock != null)
+                            {
+                                newFinally = SyntaxFactory.FinallyClause(newBlock);
+                            }
+                        }
+                        trySyntax = SyntaxFactory.TryStatement(newTryBlock, newCatchList, newFinally);
+                        statementList.Add(trySyntax);
                         shouldDelete = true;
+                    }
+                    else if (statement is IfStatementSyntax ifSyntax && blockCache.TryGetValue(statement, out var subIfBlock))
+                    {
+                        StatementSyntax newIfStatmentBlock = subIfBlock;
+                        ElseClauseSyntax? newElseClause = ifSyntax.Else;
+                        var newIfBlock = GetNewBlockSyntax(subIfBlock, replaceFunc, blockCache);
+                        if (newIfBlock != null)
+                        {
+                            newIfStatmentBlock = newIfBlock;
+                        }
+                        if (ifSyntax.Else != null)
+                        {
+                            if (ifSyntax.Else.Statement is IfStatementSyntax elseIfSyntax)
+                            {
+                                var tempElseResult = GetNewStatmentSyntax(
+                                    elseIfSyntax
+                                    , replaceFunc, blockCache);
+                                if (tempElseResult.needDelete)
+                                {
+                                    var newTempIfStatementSyntax = (tempElseResult.newStatements[0] as IfStatementSyntax)!;
+                                    newElseClause = SyntaxFactory.ElseClause(newTempIfStatementSyntax);
+                                }
+                                
+                            }
+                            else if (ifSyntax.Else.Statement is BlockSyntax elseBlockSyntax && blockCache.TryGetValue(ifSyntax.Else, out var subElseIfBlock))
+                            {
+                                var newElseBlockSyntax = GetNewBlockSyntax(
+                                    subElseIfBlock
+                                    , replaceFunc, blockCache);
+                                if (newElseBlockSyntax != null) {
+
+                                    newElseClause = SyntaxFactory.ElseClause(newElseBlockSyntax);
+                                }
+                                
+                            }
+                        }
+
+                        statementList.Add(SyntaxFactory.IfStatement(ifSyntax.Condition, newIfStatmentBlock, newElseClause));
+                        shouldDelete = true;
+                    }
+                    else
+                    {
+                        if (blockCache.TryGetValue(statement, out var subBlock))
+                        {
+                            var newBlock = GetNewBlockSyntax(subBlock, replaceFunc, blockCache);
+                            if (newBlock != null)
+                            {
+                                statementList.Add(statement.ReplaceNode(subBlock, newBlock));
+                                shouldDelete = true;
+                            }
+                        }
                     }
                 }
             }
