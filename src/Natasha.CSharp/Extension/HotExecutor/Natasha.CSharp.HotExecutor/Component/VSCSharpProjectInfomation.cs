@@ -31,6 +31,10 @@ namespace Natasha.CSharp.Extension.HotExecutor
             var currentDirectoryInfo = new DirectoryInfo(ExecutePath);
             MainCsprojPath = FindFileDirectory(currentDirectoryInfo,"*.csproj");
             HEOutputPath = Path.Combine(MainCsprojPath, "HEOutput");
+            if (!Directory.Exists(HEOutputPath))
+            {
+                Directory.CreateDirectory(HEOutputPath);
+            }
             var files = Directory.GetFiles(MainCsprojPath,"*.csproj");
             CSProjFilePath = files[0];
             BinPath = Path.Combine(MainCsprojPath, "bin");

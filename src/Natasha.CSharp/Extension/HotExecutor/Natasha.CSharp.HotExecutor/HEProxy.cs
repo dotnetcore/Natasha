@@ -260,6 +260,15 @@ public static class HEProxy
     {
         try
         {
+            CleanErrorFiles();
+        }
+        catch (Exception ex)
+        {
+            ShowMessage("清除 HEOutput 文件夹时出错："+ ex.Message);
+        }
+
+        try
+        {
             if (_isFirstCompile)
             {
                 _isFirstCompile = false;
@@ -399,14 +408,6 @@ public static class HEProxy
                     }
                 }
                 ShowMessage($"Error during hot execution: {errorBuilder}");
-                var files = Directory.GetFiles(VSCSharpProjectInfomation.HEOutputPath);
-                foreach (var file in files)
-                {
-                    if (file.StartsWith("error."))
-                    {
-                        File.Delete(file);
-                    }
-                }
                 File.WriteAllText(Path.Combine(VSCSharpProjectInfomation.HEOutputPath, "error." + Guid.NewGuid().ToString("N") + ".txt"), nex.Formatter);
             }
             else
@@ -420,6 +421,18 @@ public static class HEProxy
         return;
     }
     #region 辅助方法区
+
+    private static void CleanErrorFiles()
+    {
+        var files = Directory.GetFiles(VSCSharpProjectInfomation.HEOutputPath);
+        foreach (var file in files)
+        {
+            if (Path.GetFileName(file).StartsWith("error."))
+            {
+                File.Delete(file);
+            }
+        }
+    }
     private async static Task ReAnalysisFiles()
     {
 #if DEBUG
