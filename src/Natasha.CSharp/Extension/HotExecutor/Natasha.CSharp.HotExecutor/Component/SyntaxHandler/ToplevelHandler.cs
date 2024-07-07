@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
 {
-    internal static class ToplevelRewriter
+    internal static class ToplevelHandler
     {
         public static CompilationUnitSyntax Handle(CompilationUnitSyntax root)
         {
