@@ -2,19 +2,16 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Natasha.CSharp.Compiler.Component;
-using Natasha.CSharp.Extension.HotExecutor;
-using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Text;
 
-namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
+namespace Natasha.CSharp.HotExecutor.Component
 {
-    internal static class UsingsRewriter
+    internal static class UsingsHandler
     {
         private static readonly NatashaUsingCache _usingCache;
         private static UsingDirectiveSyntax[] _defaultUsingNodes = [];
-        static UsingsRewriter()
+        static UsingsHandler()
         {
             _usingCache = new();
             

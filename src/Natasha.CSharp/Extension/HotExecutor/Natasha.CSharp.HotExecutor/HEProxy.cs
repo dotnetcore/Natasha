@@ -11,12 +11,7 @@ using System.Text;
 
 public static class HEProxy
 {
-    private static string? _className;
-    private static string _proxyMethodName = "Main";
     private static string _argumentsMethodName = "ProxyMainArguments";
-    public static string _proxyCommentDebugShow = "//DS".ToLower();
-    public static string _proxyCommentReleaseShow = "//RS".ToLower();
-    public static string _commentTag = "//Once".ToLower();
     private static readonly ConcurrentDictionary<string, SyntaxTree> _fileSyntaxTreeCache = new();
     private static readonly ConcurrentDictionary<string, HashSet<string>> _cs0104UsingCache = new();
     //private static readonly ConcurrentDictionary<string, CSharpParseOptions?> _mixOPLCommentCache = new();
@@ -26,8 +21,6 @@ public static class HEProxy
     private static readonly VSCSharpProjectFileWatcher _csprojWatcher;
     private static bool _isCompiling;
     private static bool _isFaildBuild;
-    internal static bool IsRelease;
-    internal static bool IsAsync;
     private readonly static CSharpParseOptions _debugOptions;
     private readonly static CSharpParseOptions _releaseOptions;
     private static CSharpParseOptions _currentOptions;
@@ -42,49 +35,20 @@ public static class HEProxy
     private static readonly HashSet<IDisposable> _disposables = [];
     private static readonly List<CancellationTokenSource> _cancellations = [];
     private static bool _isFirstRun = true;
-    private static readonly Func<string, string?> _triviaHandle;
     private static HEProjectKind _projectKind;
     public static bool _isHotCompiling;
     public static bool IsHotCompiling { get { return _isHotCompiling; } }
 
+    private static readonly ProxyMethodPlugin _proxyMethodPlugin = new("Main");
+    private static readonly AsyncTriviaPlugin _asyncTriviaPlugin = new("//HE:Async");
+    private static readonly OptimizationTriviaPlugin _optimizationTriviaPlugin = new("//HE:Debug","//HE:Release");
+    private static readonly CS0104TriviaPlugin _cs0104TriviaPlugin = new("//HE:CS0104");
+    private static readonly OutputTriviaPlugin _outputTriviaPlugin = new("//DS","//RS",() => _optimizationTriviaPlugin.IsRelease);
+    private static readonly HETreeMethodRewriter _treeMethodRewriter = new();
+    private static readonly HETreeTriviaRewriter _treeTrivialRewriter = new();
+    public static bool IsRelease { get { return _optimizationTriviaPlugin.IsRelease; } }
     static HEProxy()
     {
-        _triviaHandle = comment =>
-        {
-            var commentLower = comment.ToLower();
-            if (commentLower.StartsWith(_commentTag))
-            {
-                return string.Empty;
-            }
-            if (!IsRelease)
-            {
-                if (commentLower.StartsWith(_proxyCommentDebugShow))
-                {
-                    var length = _proxyCommentDebugShow.Length + 1;
-                    if (comment.Length > length)
-                    {
-                        return CreatePreprocessorReplaceScript(GetCommentScript(comment, length));
-                    }
-                }
-            }
-            else if (commentLower.StartsWith(_proxyCommentReleaseShow))
-            {
-                var length = _proxyCommentReleaseShow.Length + 1;
-                if (comment.Length > length)
-                {
-                    return CreatePreprocessorReplaceScript(GetCommentScript(comment, length));
-                }
-            }
-            return null;
-            static string GetCommentScript(string comment, int startIndex)
-            {
-                if (comment.EndsWith(";"))
-                {
-                    return comment.Substring(startIndex, comment.Length - startIndex - 1);
-                }
-                return comment[startIndex..];
-            }
-        };
 
         CompileInitAction = () => { NatashaManagement.Preheating(true, true); };
         _debugOptions = new CSharpParseOptions(LanguageVersion.Preview, preprocessorSymbols: ["DEBUG"]);
@@ -94,7 +58,17 @@ public static class HEProxy
         _mainWatcher = new();
         _processor = new();
         _csprojWatcher = new(VSCSharpProjectInfomation.CSProjFilePath);
-
+        _proxyMethodPlugin
+            .RegisteTriviaPlugin(_asyncTriviaPlugin)
+            .RegisteTriviaPlugin(_optimizationTriviaPlugin);
+        _treeMethodRewriter
+            .RegistePlugin(_proxyMethodPlugin);
+        _treeTrivialRewriter
+            .RegistePlugin(_outputTriviaPlugin);
+        if (VSCSharpProjectInfomation.EnableImplicitUsings)
+        {
+            _treeTrivialRewriter.RegistePlugin(_cs0104TriviaPlugin);
+        }  
     }
     private static void DeployCSProjWatcher()
     {
@@ -200,11 +174,6 @@ public static class HEProxy
                     ReAnalysisFiles().Wait();
                     DeployCSProjWatcher();
                     DeployMainWatcher();
-                    if (_proxyMethodName != "Main")
-                    {
-                        ShowMessage($"Waiting for [{_proxyMethodName}] running...");
-                        HotExecute().Wait();
-                    }
                     _mainWatcher.StartMonitor();
                     _csprojWatcher.StartMonitor();
                 }
@@ -237,24 +206,41 @@ public static class HEProxy
         }
 
         //顶级语句处理
-        root = ToplevelRewriter.Handle(root);
-
-        //CS0104处理
-        _cs0104UsingCache[file] = CS0104Analyser.Handle(root);
+        root = ToplevelHandler.Handle(root);
+        root = OnceHandler.Handle(root);
+        
         if (VSCSharpProjectInfomation.EnableImplicitUsings)
         {
-            //从默认Using缓存中排除 CS0104 
-            root = UsingsRewriter.Handle(root, _cs0104UsingCache);
+            _cs0104TriviaPlugin.Initialize();
         }
+        //语法树重写
+        root = NatashaCSharpSyntax
+            .ParseTree(
+                _treeTrivialRewriter
+                    .Visit(root)
+                    .ToFullString()
+                    .Replace(_outputTriviaPlugin.CommentPrefix, "")
+                , file
+                , _currentOptions
+                , Encoding.UTF8)
+            .GetCompilationUnitRoot();
 
-        //HE命令处理
-        root = MethodTriviaRewriter.Handle(root, _triviaHandle);
+        //方法重写
+        root = (CompilationUnitSyntax)_treeMethodRewriter.Visit(root);
+        ShowMessage(root.ToFullString());
 
-        //主入口处理
-        root = HandleProxyMainMethod(root);
-
-        return CSharpSyntaxTree.Create(root, _currentOptions, file, Encoding.UTF8);
+        //CS0104处理
+        if (VSCSharpProjectInfomation.EnableImplicitUsings)
+        {
+            _cs0104UsingCache[file] = _cs0104TriviaPlugin.ExcludeUsings;
+            //从默认Using缓存中排除 CS0104 
+            root = UsingsHandler.Handle(root, _cs0104UsingCache);
+            return CSharpSyntaxTree.Create(root, _currentOptions, file, Encoding.UTF8);
+        }
+        return root.SyntaxTree;
     }
+
+
     private static bool _isFirstCompile = true;
     private static async Task HotExecute()
     {
@@ -276,12 +262,12 @@ public static class HEProxy
             }
 
             _isHotCompiling = true;
-            if (IsRelease && _currentOptions != _releaseOptions)
+            if (_optimizationTriviaPlugin.IsRelease && _currentOptions != _releaseOptions)
             {
                 _currentOptions = _releaseOptions;
                 await ReAnalysisFiles();
             }
-            else if (!IsRelease && _currentOptions != _debugOptions)
+            else if (!_optimizationTriviaPlugin.IsRelease && _currentOptions != _debugOptions)
             {
                 _currentOptions = _debugOptions;
                 await ReAnalysisFiles();
@@ -293,12 +279,12 @@ public static class HEProxy
 
             if (VSCSharpProjectInfomation.EnableImplicitUsings)
             {
-                UsingsRewriter.OnceInitDefaultUsing(_fileSyntaxTreeCache, _currentOptions);
+                UsingsHandler.OnceInitDefaultUsing(_fileSyntaxTreeCache, _currentOptions);
             }
 
-            var assembly = await HECompiler.ReCompile(_fileSyntaxTreeCache.Values, IsRelease);
+            var assembly = await HECompiler.ReCompile(_fileSyntaxTreeCache.Values, _optimizationTriviaPlugin.IsRelease);
             var types = assembly.GetTypes();
-            var typeInfo = assembly.GetTypeFromShortName(_className!);
+            var typeInfo = assembly.GetTypeFromShortName(_proxyMethodPlugin.ClassName!);
             var methods = typeInfo.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
             ShowMessage($"执行主入口前导方法....");
             _preCallback?.Invoke();
@@ -342,7 +328,7 @@ public static class HEProxy
                 argumentMethodInfo.Invoke(null, []);
             }
 
-            var proxyMethodInfo = typeInfo.GetMethod(_proxyMethodName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
+            var proxyMethodInfo = typeInfo.GetMethod(_proxyMethodPlugin.MethodName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
             object? instance = null;
 
             if (!proxyMethodInfo.IsStatic)
@@ -350,7 +336,7 @@ public static class HEProxy
                 instance = Activator.CreateInstance(typeInfo);
             }
 
-            if (IsAsync)
+            if (_asyncTriviaPlugin.IsAsync)
             {
                 Task mainTask;
 
@@ -456,56 +442,8 @@ public static class HEProxy
             }
         }
     }
-    private static CompilationUnitSyntax HandleProxyMainMethod(CompilationUnitSyntax root)
-    {
-        var proxyMethod = root.DescendantNodes()
-                             .OfType<MethodDeclarationSyntax>()
-                             .FirstOrDefault(m => m.Identifier.Text == _proxyMethodName);
 
-        if (proxyMethod != null)
-        {
-            //预处理符号分析
-            MainAnalyser.Handle(proxyMethod, out IsRelease, out IsAsync);
-            ClassDeclarationSyntax? parentClass = proxyMethod.Parent as ClassDeclarationSyntax ?? throw new Exception($"获取 {_proxyMethodName} 方法类名出现错误！");
-            _className = parentClass.Identifier.Text;
-            if (proxyMethod.Body != null)
-            {
-                //入口重写
-                var newBody = HotStatupRewrite(proxyMethod.Body);
-                if (newBody != null)
-                {
-                    root = root.ReplaceNode(proxyMethod.Body, newBody);
-                }
-            }
-
-        }
-
-        return root;
-    }
-    private static BlockSyntax? HotStatupRewrite(BlockSyntax blockSyntax)
-    {
-        if (_projectKind == HEProjectKind.Winform)
-        {
-            return WinformRewriter.Handle(blockSyntax);
-        }
-        else if (_projectKind == HEProjectKind.WPF)
-        {
-            return WpfWriter.Handle(blockSyntax);
-        }
-        else if (_projectKind == HEProjectKind.Console)
-        {
-            return ConsoleWriter.Handle(blockSyntax);
-        }
-        return null;
-    }
-    private static string CreatePreprocessorReplaceScript(string content)
-    {
-        //if (_projectKind == HEProjectKind.AspnetCore || _projectKind == HEProjectKind.Console)
-        //{
-        //    return $"Console.WriteLine({content});";
-        //}
-        return $"HEProxy.ShowMessage(({content}).ToString());";
-    }
+    
     #endregion
 
     #region 普通 API 区
@@ -556,15 +494,6 @@ public static class HEProxy
         _disposables.Add(disposableObject);
     }
 
-    public static void BuildWithRelease()
-    {
-        IsRelease = true;
-    }
-
-    public static void BuildWithDebug()
-    {
-        IsRelease = false;
-    }
 
     public static void AppendArgs(string arg)
     {
@@ -584,31 +513,37 @@ public static class HEProxy
     }
     public static void SetOnceCommentTag(string comment)
     {
-        _commentTag = comment.ToLower();
+        OnceHandler.SetOnceComment(comment);
     }
     public static void SetDebugCommentTag(string comment)
     {
-        MainAnalyser._proxyCommentOPLDebug = comment.Trim().ToLower();
+        _optimizationTriviaPlugin.SetDebugCommentTag(comment);
     }
     public static void SetReleaseCommentTag(string comment)
     {
-        MainAnalyser._proxyCommentOPLRelease = comment.Trim().ToLower();
+        _optimizationTriviaPlugin.SetReleaseCommentTag(comment);
     }
     public static void SetAsyncCommentTag(string comment)
     {
-        MainAnalyser._asyncCommentTag = comment.Trim().ToLower();
+        _asyncTriviaPlugin.SetAsyncCommentTag(comment);
     }
     public static void SetCS0104CommentTag(string comment)
     {
-        CS0104Analyser._proxyCommentCS0104Using = comment.Trim().ToLower();
+        _cs0104TriviaPlugin.SetMatchComment(comment);
     }
-    public static void SetProxyMethodName(string methodName)
-    {
-        _proxyMethodName = methodName;
-    }
+    
     public static void SetArgumentsMethodName(string methodName)
     {
         _argumentsMethodName = methodName;
+    }
+
+    public static void SetDebugOutputCommentTag(string debugComment)
+    {
+        _outputTriviaPlugin.SetDebugOutputCommentTag(debugComment);
+    }
+    public static void SetReleaseOutputCommentTag(string releaseComment)
+    {
+        _outputTriviaPlugin.SetReleaseOutputCommentTag(releaseComment);
     }
 
     public static void ExcludeGlobalUsing(string usingCode)
@@ -618,6 +553,15 @@ public static class HEProxy
     public static bool IsExcluded(string usingCode)
     {
         return NatashaExtGlobalUsing.Contains(usingCode);
+    }
+
+    public static void RegisteTrivialPlugin(TriviaSyntaxPluginBase plugin)
+    {
+        _treeTrivialRewriter.RegistePlugin(plugin);
+    }
+    public static void RegisteMethodPlugin(MethodSyntaxPluginBase plugin)
+    {
+        _treeMethodRewriter.RegistePlugin(plugin);
     }
     #endregion
 }
