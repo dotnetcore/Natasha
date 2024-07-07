@@ -6,19 +6,21 @@ using Natasha.CSharp.Extension.HotExecutor;
 using Natasha.CSharp.HotExecutor.Component;
 using Natasha.CSharp.HotExecutor.Component.SyntaxUtils;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Reflection;
 using System.Text;
 
 public static class HEProxy
 {
+    public static Assembly CurrentAssembly = default!;
     private static string _argumentsMethodName = "ProxyMainArguments";
     private static readonly ConcurrentDictionary<string, SyntaxTree> _fileSyntaxTreeCache = new();
     private static readonly ConcurrentDictionary<string, HashSet<string>> _cs0104UsingCache = new();
     //private static readonly ConcurrentDictionary<string, CSharpParseOptions?> _mixOPLCommentCache = new();
     private static readonly object _runLock = new object();
     private static readonly List<string> _args = [];
-    private static readonly VSCSharpProcessor _processor;
-    private static readonly VSCSharpProjectFileWatcher _csprojWatcher;
+    private static readonly VSCSProcessor _processor;
+    private static readonly VSCSDependencyProjectWatcher _csprojWatcher;
     private static bool _isCompiling;
     private static bool _isFaildBuild;
     private readonly static CSharpParseOptions _debugOptions;
@@ -26,8 +28,8 @@ public static class HEProxy
     private static CSharpParseOptions _currentOptions;
     private static Action? _preCallback;
     private static Action? _endCallback;
-    private static readonly HESpinLock _buildLock;
-    private static readonly VSCSharpMainFileWatcher _mainWatcher;
+    private static readonly HESpinLockHelper _buildLock;
+    private static readonly VSCSMainProjectWatcher _mainWatcher;
     internal static Action CompileInitAction;
     public static Action<string> ShowMessage = Console.WriteLine;
     public static readonly HashSet<string> NatashaExtGlobalUsing = [];
@@ -57,7 +59,7 @@ public static class HEProxy
         _buildLock = new();
         _mainWatcher = new();
         _processor = new();
-        _csprojWatcher = new(VSCSharpProjectInfomation.CSProjFilePath);
+        _csprojWatcher = new(VSCSProjectInfoHelper.CSProjFilePath);
         _proxyMethodPlugin
             .RegisteTriviaPlugin(_asyncTriviaPlugin)
             .RegisteTriviaPlugin(_optimizationTriviaPlugin);
@@ -65,7 +67,7 @@ public static class HEProxy
             .RegistePlugin(_proxyMethodPlugin);
         _treeTrivialRewriter
             .RegistePlugin(_outputTriviaPlugin);
-        if (VSCSharpProjectInfomation.EnableImplicitUsings)
+        if (VSCSProjectInfoHelper.EnableImplicitUsings)
         {
             _treeTrivialRewriter.RegistePlugin(_cs0104TriviaPlugin);
         }  
@@ -207,14 +209,15 @@ public static class HEProxy
 
         //顶级语句处理
         root = ToplevelHandler.Handle(root);
+        //Debug.WriteLine(root.ToFullString());
         root = OnceHandler.Handle(root);
-        
-        if (VSCSharpProjectInfomation.EnableImplicitUsings)
+        //Debug.WriteLine(root.ToFullString());
+        if (VSCSProjectInfoHelper.EnableImplicitUsings)
         {
             _cs0104TriviaPlugin.Initialize();
         }
         //语法树重写
-        root = NatashaCSharpSyntax
+        var reBuildRoot = NatashaCSharpSyntax
             .ParseTree(
                 _treeTrivialRewriter
                     .Visit(root)
@@ -226,15 +229,18 @@ public static class HEProxy
             .GetCompilationUnitRoot();
 
         //方法重写
-        root = (CompilationUnitSyntax)_treeMethodRewriter.Visit(root);
-        ShowMessage(root.ToFullString());
+        root = (CompilationUnitSyntax)_treeMethodRewriter.Visit(reBuildRoot);
 
         //CS0104处理
-        if (VSCSharpProjectInfomation.EnableImplicitUsings)
+        if (VSCSProjectInfoHelper.EnableImplicitUsings)
         {
             _cs0104UsingCache[file] = _cs0104TriviaPlugin.ExcludeUsings;
             //从默认Using缓存中排除 CS0104 
             root = UsingsHandler.Handle(root, _cs0104UsingCache);
+            return CSharpSyntaxTree.Create(root, _currentOptions, file, Encoding.UTF8);
+        }
+        if (root != reBuildRoot)
+        {
             return CSharpSyntaxTree.Create(root, _currentOptions, file, Encoding.UTF8);
         }
         return root.SyntaxTree;
@@ -277,14 +283,14 @@ public static class HEProxy
                 Console.Clear();
             }
 
-            if (VSCSharpProjectInfomation.EnableImplicitUsings)
+            if (VSCSProjectInfoHelper.EnableImplicitUsings)
             {
                 UsingsHandler.OnceInitDefaultUsing(_fileSyntaxTreeCache, _currentOptions);
             }
 
-            var assembly = await HECompiler.ReCompile(_fileSyntaxTreeCache.Values, _optimizationTriviaPlugin.IsRelease);
-            var types = assembly.GetTypes();
-            var typeInfo = assembly.GetTypeFromShortName(_proxyMethodPlugin.ClassName!);
+            CurrentAssembly = await HECompiler.ReCompile(_fileSyntaxTreeCache.Values, _optimizationTriviaPlugin.IsRelease);
+            var types = CurrentAssembly.GetTypes();
+            var typeInfo = CurrentAssembly.GetTypeFromShortName(_proxyMethodPlugin.ClassName!);
             var methods = typeInfo.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
             ShowMessage($"执行主入口前导方法....");
             _preCallback?.Invoke();
@@ -394,7 +400,7 @@ public static class HEProxy
                     }
                 }
                 ShowMessage($"Error during hot execution: {errorBuilder}");
-                File.WriteAllText(Path.Combine(VSCSharpProjectInfomation.HEOutputPath, "error." + Guid.NewGuid().ToString("N") + ".txt"), nex.Formatter);
+                File.WriteAllText(Path.Combine(VSCSProjectInfoHelper.HEOutputPath, "error." + Guid.NewGuid().ToString("N") + ".txt"), nex.Formatter);
             }
             else
             {
@@ -410,7 +416,7 @@ public static class HEProxy
 
     private static void CleanErrorFiles()
     {
-        var files = Directory.GetFiles(VSCSharpProjectInfomation.HEOutputPath);
+        var files = Directory.GetFiles(VSCSProjectInfoHelper.HEOutputPath);
         foreach (var file in files)
         {
             if (Path.GetFileName(file).StartsWith("error."))
@@ -428,11 +434,11 @@ public static class HEProxy
 
         _fileSyntaxTreeCache.Clear();
 
-        var srcCodeFiles = Directory.GetFiles(VSCSharpProjectInfomation.MainCsprojPath, "*.cs", SearchOption.AllDirectories);
+        var srcCodeFiles = Directory.GetFiles(VSCSProjectInfoHelper.MainCsprojPath, "*.cs", SearchOption.AllDirectories);
 
         foreach (var file in srcCodeFiles)
         {
-            if (VSCSharpProjectInfomation.CheckFileAvailiable(file))
+            if (VSCSProjectInfoHelper.CheckFileAvailiable(file))
             {
                 var tree = await HandleTree(file);
                 if (tree != null)
