@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Text;
 
 namespace Natasha.CSharp.Compiler.Component
@@ -85,16 +86,16 @@ namespace Natasha.CSharp.Compiler.Component
             //Mark2 : 128ms
             //Mark : 5.0M (Memory:2023-02-27)
             var tree = CSharpSyntaxTree.ParseText(script.Trim(), options, filePath, encoding);
-            return FormartTree(tree, options, encoding);
+            return FormartTree(tree.GetCompilationUnitRoot(), options, encoding);
         }
 
 
         /// <summary>
-        /// 直接加载树，并缓存
+        /// 格式化语法树
         /// </summary>
-        /// <param name="tree"></param>
+        /// <param name="root"></param>
         /// <returns></returns>
-        public static SyntaxTree FormartTree(SyntaxTree tree, CSharpParseOptions? options, Encoding encoding)
+        public static SyntaxTree FormartTree(CompilationUnitSyntax root, CSharpParseOptions? options, Encoding encoding, string filePath = "")
         {
             if (options == null)
             {
@@ -104,7 +105,7 @@ namespace Natasha.CSharp.Compiler.Component
             //Console.ReadKey();
             //Mark : 0.3M (Memory:2023-02-27)
             //Roslyn BUG https://github.com/dotnet/roslyn/issues/58150
-            return CSharpSyntaxTree.ParseText(tree.GetRoot().NormalizeWhitespace().SyntaxTree.ToString(), options, tree.FilePath, encoding: encoding);
+            return CSharpSyntaxTree.ParseText(root.NormalizeWhitespace().SyntaxTree.ToString(), options, filePath, encoding: encoding);
         }
     }
 }

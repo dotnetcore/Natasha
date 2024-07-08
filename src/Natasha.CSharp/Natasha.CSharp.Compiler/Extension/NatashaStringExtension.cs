@@ -1,9 +1,21 @@
-﻿using Natasha.CSharp.Compiler.Component;
+﻿using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Natasha.CSharp.Compiler.Utils;
 using System.Collections.Generic;
-using System.ComponentModel;
 
 public static class NatashaStringExtension
 {
+    public static CompilationUnitSyntax ToAccessPrivateTree(this string script, params object[] objects)
+    {
+        var tree = CSharpSyntaxTree.ParseText(script);
+        var treeRoot = tree.GetCompilationUnitRoot();
+        var rootResult = NatashaPrivateAssemblySyntaxHelper.Handle(tree.GetCompilationUnitRoot(), objects);
+        if (rootResult == null)
+        {
+            return treeRoot;
+        }
+        return rootResult;
+    }
 
     public static string ToReadonlyScript(this string field)
     {
