@@ -33,9 +33,9 @@ namespace Natasha.CSharp.HotExecutor.Component
                     {
                         await _writer.WriteLineAsync(msg);
                         isWritten = true;
-                        _fileLock.ReleaseLock();
                         await _writer.FlushAsync();
                     }
+                    _fileLock.ReleaseLock();
                     return;
                 }
                 catch (Exception)

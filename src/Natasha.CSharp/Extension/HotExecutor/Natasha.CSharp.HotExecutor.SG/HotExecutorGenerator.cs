@@ -18,10 +18,10 @@ namespace Natasha.CSharp.Extension.HotExecutor.SG
 
             string coreScript = "HEProxy.SetProjectKind(HEProjectKind.Console);";
             string winformAndwpfLoggerScript = @"
-string debugFilePath = Path.Combine(VSCSharpProjectInfomation.HEOutputPath,""Debug.txt""); 
-if (Directory.Exists(VSCSharpProjectInfomation.HEOutputPath))
+string debugFilePath = Path.Combine(VSCSProjectInfoHelper.HEOutputPath,""Debug.txt""); 
+if (Directory.Exists(VSCSProjectInfoHelper.HEOutputPath))
 {
-    var files = Directory.GetFiles(VSCSharpProjectInfomation.HEOutputPath);
+    var files = Directory.GetFiles(VSCSProjectInfoHelper.HEOutputPath);
     foreach (var file in files)
     {
         File.Delete(file);
@@ -51,7 +51,7 @@ HEProxy.ShowMessage = async msg => {
 HEProxy.SetProjectKind(HEProjectKind.Winform);
 HEProxy.ExcludeGlobalUsing(""System.Windows.Controls"");
 HEProxy.ExcludeGlobalUsing(""System.Windows"");
-DelegateHelper<System.Windows.Forms.FormCollection, System.Windows.Forms.Form>.GetDelegate(""Remove"", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+HEDelegateHelper<System.Windows.Forms.FormCollection, System.Windows.Forms.Form>.GetDelegate(""Remove"", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
 ";
                 }
                 else
@@ -75,6 +75,7 @@ HEProxy.ExcludeGlobalUsing(""System.Windows.Forms"");
             string proxyMethodContent = $@"
 //#if DEBUG
 using System.IO;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Natasha.CSharp.HotExecutor.Component;
 using Natasha.CSharp.Extension.HotExecutor;
@@ -91,6 +92,7 @@ namespace System{{
 
             {coreScript}
             HEProxy.SetCompileInitAction(()=>{{
+
                 NatashaManagement.RegistDomainCreator<NatashaDomainCreator>();
                 NatashaManagement.Preheating((asmName, @namespace) => !string.IsNullOrWhiteSpace(@namespace) && (@namespace.StartsWith(""Microsoft.VisualBasic"")|| HEProxy.IsExcluded(@namespace)),true, true);
 

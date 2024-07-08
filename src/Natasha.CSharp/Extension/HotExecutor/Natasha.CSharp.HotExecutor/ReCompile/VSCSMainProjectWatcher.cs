@@ -98,6 +98,9 @@ namespace Natasha.CSharp.Extension.HotExecutor
 
             _mainWatcher.Renamed += async (sender, e) =>
             {
+#if DEBUG
+                HEProxy.ShowMessage($"Renamed: {e.OldFullPath} -> {e.FullPath}");
+#endif
                 if (PreFunction())
                 {
                     return;
@@ -106,13 +109,10 @@ namespace Natasha.CSharp.Extension.HotExecutor
                 {
                     await ExecuteAfterFunction();
 
-                }else if (e.OldFullPath.EndsWith(".cs"))
+                }else if (e.FullPath.EndsWith(".cs"))
                 {
-                    if (e.FullPath.EndsWith(".cs"))
+                    if (e.OldFullPath.EndsWith(".cs"))
                     {
-#if DEBUG
-                        HEProxy.ShowMessage($"Renamed: {e.OldFullPath} -> {e.FullPath}");
-#endif
                         _compileLock.GetAndWaitLock();
                         if (VSCSProjectInfoHelper.CheckFileAvailiable(e.FullPath))
                         {
@@ -125,15 +125,12 @@ namespace Natasha.CSharp.Extension.HotExecutor
                         _compileLock.ReleaseLock();
                         await ExecuteAfterFunction();
                     }
-                    else if (e.FullPath.StartsWith(e.OldFullPath) && e.FullPath.EndsWith(".TMP"))
+                    else 
                     {
-#if DEBUG
-                        HEProxy.ShowMessage($"Renamed: {e.OldFullPath} -> {e.FullPath}");
-#endif
-                        if (VSCSProjectInfoHelper.CheckFileAvailiable(e.OldFullPath))
+                        if (VSCSProjectInfoHelper.CheckFileAvailiable(e.FullPath))
                         {
                             _compileLock.GetAndWaitLock();
-                            ChangeFileAction(e.OldFullPath);
+                            ChangeFileAction(e.FullPath);
                             _compileLock.ReleaseLock();
                             await ExecuteAfterFunction();
                         }

@@ -12,6 +12,8 @@ using System.Text;
 
 public static class HEProxy
 {
+    public static bool IsRuntimeFirstRun = true;
+    public static object? ObjectInstance;
     public static Assembly CurrentAssembly = default!;
     private static string _argumentsMethodName = "ProxyMainArguments";
     private static readonly ConcurrentDictionary<string, SyntaxTree> _fileSyntaxTreeCache = new();
@@ -237,6 +239,7 @@ public static class HEProxy
             _cs0104UsingCache[file] = _cs0104TriviaPlugin.ExcludeUsings;
             //从默认Using缓存中排除 CS0104 
             root = UsingsHandler.Handle(root, _cs0104UsingCache);
+            ShowMessage(root.ToFullString());
             return CSharpSyntaxTree.Create(root, _currentOptions, file, Encoding.UTF8);
         }
         if (root != reBuildRoot)
@@ -342,6 +345,7 @@ public static class HEProxy
                 instance = Activator.CreateInstance(typeInfo);
             }
 
+            ShowMessage($"执行主入口回调方法....");
             if (_asyncTriviaPlugin.IsAsync)
             {
                 Task mainTask;
@@ -377,9 +381,9 @@ public static class HEProxy
             }
 
 
-            ShowMessage($"执行主入口回调方法....");
+            ShowMessage($"执行入口回调方法....");
             _endCallback?.Invoke();
-            ShowMessage($"入口回调方法执行完毕.");
+            ShowMessage($"执行系列方法执行完毕.");
 
         }
         catch (Exception ex)
@@ -456,6 +460,7 @@ public static class HEProxy
 
     public static void SetProjectKind(HEProjectKind kind)
     {
+        _proxyMethodPlugin.SetProjectKind(kind);
         _projectKind = kind;
     }
 
