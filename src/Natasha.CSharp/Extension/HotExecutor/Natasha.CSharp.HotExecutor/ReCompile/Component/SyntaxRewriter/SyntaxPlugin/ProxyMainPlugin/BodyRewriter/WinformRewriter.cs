@@ -50,7 +50,6 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
             System.Threading.Tasks.Task.Run(() => 
             {{
                 System.Windows.Forms.Application.ExitThread();
-                while(!DiposeWindows()){{}};
                 var __heProxInstance = {runArgumentScript};
                 System.Windows.Forms.Form tempForm;
                 if (__heProxInstance is System.Windows.Forms.Form)
@@ -60,7 +59,9 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
                 else
                 {{
                    tempForm = (System.Windows.Forms.Form)(typeof(System.Windows.Forms.ApplicationContext).GetProperty(""MainForm"")!.GetValue(__heProxInstance)!);
-                }}   
+                }}
+                System.Diagnostics.Debug.WriteLine($""当前主窗体程序集为 {{tempForm.GetType().Assembly.FullName}}!"");  
+                System.Diagnostics.Debug.WriteLine($""当前主窗体为 {{tempForm.Name}}!""); 
                 tempForm.FormClosed += (s, e) =>
                 {{
                    if (!HEProxy.IsHotCompiling)
@@ -72,35 +73,88 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
 	                    }}
                    }}
                 }};
-               
+                Action? removeHandler = null;
+                System.EventHandler handler = (s, e) =>
+                {{
+                    while(!DiposeWindows(tempForm)){{}};
+                    removeHandler?.Invoke();
+
+                }};
+                removeHandler = () => {{
+
+                    tempForm.Shown -= handler;
+
+                }};
+
+                tempForm.Shown += handler;
                 try{{
 
+                   System.Diagnostics.Debug.WriteLine(tempForm.button4.Text);
                    System.Windows.Forms.Application.Run(__heProxInstance); 
 
                 }}catch(System.Exception ex)
                 {{
-                    HEProxy.ShowMessage(ex.Message);
+                    System.Diagnostics.Debug.WriteLine(""启动出错"" + ex.Message);
                 }}
-
-                static bool DiposeWindows()
+                
+                static bool DiposeWindows(System.Windows.Forms.Form aliveForm)
                 {{
-                    try{{
-                        for (int i = 0; i < System.Windows.Forms.Application.OpenForms.Count; i++)
+                        System.Collections.Generic.HashSet<System.Windows.Forms.Form> forms = [];
+                        System.Collections.Generic.HashSet<System.Windows.Forms.Form> removeForms = [];
+                        if(HEProxy.ObjectInstance!=null)
                         {{
-                            try{{
+                            forms.Add((System.Windows.Forms.Form)HEProxy.ObjectInstance);
+                        }}  
+                        forms.Add(aliveForm);
+                        System.Diagnostics.Debug.WriteLine(System.Windows.Forms.Application.OpenForms.Count);
+
+                        int i = 0;
+                        do
+                        {{
+                            try
+                            {{
+
                                 var form = System.Windows.Forms.Application.OpenForms[i];
-                                if (form!=null)
+                                if(forms.Contains(form))
                                 {{
-                                    HEProxy.ShowMessage($""当前将被注销的开放窗体 {{form.Name}}"");
-                                    form.Dispose();
-                                    Natasha.CSharp.HotExecutor.Component.DelegateHelper<System.Windows.Forms.FormCollection, System.Windows.Forms.Form>.Execute.Invoke(System.Windows.Forms.Application.OpenForms, form);
+                                    i+=1;
+                                    continue;
                                 }}
-                            }}catch{{
+                                
+                                if (form != null && form != aliveForm)
+                                {{
+
+                                    if(HEProxy.ObjectInstance==null){{
+                                        HEProxy.ObjectInstance = form;
+                                        form.BeginInvoke(new Action(() => {{
+                                            System.Diagnostics.Debug.WriteLine($""当前将被隐藏的开放窗体 {{form.Name}}!"");
+                                            form.Hide();   
+                                            removeForms.Add(form);
+                                        }})); 
+                                        forms.Add(form);
+                                    }}else {{
+                                        form.BeginInvoke(new Action(() => {{
+                                            System.Diagnostics.Debug.WriteLine($""当前将被注销的开放窗体 {{form.Name}}!"");
+                                            form.Dispose();
+                                            removeForms.Add(form);  
+                                        }})); 
+                                        forms.Add(form); 
+                                    }}
+                                }}
+
                             }}
-                        }}
-                    }}catch{{
-                        return false;
+                            catch (System.Exception ex)
+                            {{
+                                 System.Diagnostics.Debug.WriteLine($""注销窗体出错 {{ex.Message}}!"");
+                                 return false;
+                            }}
+                        }} while (System.Windows.Forms.Application.OpenForms.Count > i);
+
+                    foreach(var removeForm in removeForms)
+                    {{
+                        Natasha.CSharp.HotExecutor.Component.HEDelegateHelper<System.Windows.Forms.FormCollection, System.Windows.Forms.Form>.Execute.Invoke(System.Windows.Forms.Application.OpenForms, removeForm);
                     }}
+                    
                     return true;
                 }}
             }});

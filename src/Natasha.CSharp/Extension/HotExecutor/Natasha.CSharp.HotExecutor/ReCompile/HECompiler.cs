@@ -29,7 +29,6 @@ namespace Natasha.CSharp.Extension.HotExecutor
                     CompilerBinderFlags.SuppressObsoleteChecks));
             _builderCache
                 .UseSmartMode()
-                .WithFileOutput()
                 .WithoutSemanticCheck()
                 .WithPreCompilationOptions()
                 .WithoutPreCompilationReferences()
