@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Natasha.CSharp.Compiler.Utils;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 public static class NatashaStringExtension
 {

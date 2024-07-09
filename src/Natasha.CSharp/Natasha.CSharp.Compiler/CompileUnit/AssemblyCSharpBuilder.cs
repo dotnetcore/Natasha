@@ -1,4 +1,5 @@
 ﻿using Natasha.CSharp.Compiler.SemanticAnalaysis;
+using Natasha.CSharp.Compiler.Utils;
 using System;
 using System.Runtime.CompilerServices;
 
@@ -11,6 +12,7 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("Natasha.CSharp.UnitTest.Base, PublicKey=002400000480000094000000060200000024000052534131000400000100010069acb31dd0d9918441d6ed2b49cd67ae17d15fd6ded4ccd2f99b4a88df8cddacbf72d5897bb54f406b037688d99f482ff1c3088638b95364ef614f01c3f3f2a2a75889aa53286865463fb1803876056c8b98ec57f0b3cf2b1185de63d37041ba08f81ddba0dccf81efcdbdc912032e8d2b0efa21accc96206c386b574b9d9cb8")]
 public sealed partial class AssemblyCSharpBuilder
 {
+
     private NatashaException? _exception;
 
     public NatashaException? GetException()
@@ -42,6 +44,29 @@ public sealed partial class AssemblyCSharpBuilder
     }
 
     internal static bool HasInitialized;
+
+
+    private bool _allowCompileWithPrivate;
+
+    /// <summary>
+    /// 该方法允许编译单元导入私有成员并进行编译
+    /// </summary>
+    /// <returns></returns>
+    public AssemblyCSharpBuilder WithPrivateAccess()
+    {
+        _allowCompileWithPrivate = true;
+        return this;
+    }
+    /// <summary>
+    /// 该方法不允许编译私有成员
+    /// </summary>
+    /// <returns></returns>
+    public AssemblyCSharpBuilder WithoutPrivateAccess()
+    {
+        _allowCompileWithPrivate = false;
+        return this;
+    }
+
     /// <summary>
     /// 清空编译载体信息, 下次编译重组 Compilation .
     /// </summary>

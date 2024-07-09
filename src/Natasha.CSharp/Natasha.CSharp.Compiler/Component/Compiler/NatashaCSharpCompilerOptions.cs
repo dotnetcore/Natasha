@@ -199,9 +199,13 @@ namespace Natasha.CSharp.Compiler.Component
         /// <returns></returns>
         public NatashaCSharpCompilerOptions AppendCompilerFlag(params CompilerBinderFlags[] flags)
         {
+
             for (int i = 0; i < flags.Length; i++)
             {
-                _compileFlags |= flags[i];
+                if (!_compileFlags.HasFlag(flags[i]))
+                {
+                    _compileFlags |= flags[i];
+                }
             }
             return this;
         }

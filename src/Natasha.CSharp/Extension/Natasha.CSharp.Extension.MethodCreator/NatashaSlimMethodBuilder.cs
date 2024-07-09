@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Text;
 
 namespace Natasha.CSharp.Extension.MethodCreator
 {
@@ -99,6 +97,7 @@ namespace Natasha.CSharp.Extension.MethodCreator
             var fullScript = $"{usingCode} public static class {className} {{ public static {(modifier ?? string.Empty)} {returnTypeScript} Invoke({parameterScript}){{ {Script} }} }}";
             if (PrivateObjects!=null)
             {
+                Builder.WithPrivateAccess();
                 Builder.Add(fullScript.ToAccessPrivateTree(PrivateObjects));
             }
             else
