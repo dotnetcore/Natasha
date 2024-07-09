@@ -1,6 +1,7 @@
 ﻿using Natasha.CSharp.Compiler.Utils;
 using System;
 using System.IO;
+using System.Reflection;
 
 /// <summary>
 /// 程序集编译构建器-输出
@@ -20,7 +21,6 @@ public sealed partial class AssemblyCSharpBuilder
     public static readonly string GlobalOutputFolder;
     static AssemblyCSharpBuilder()
     {
-
         GlobalOutputFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory!, "DynamicLibraryFolders");
         if (!Directory.Exists(GlobalOutputFolder))
         {

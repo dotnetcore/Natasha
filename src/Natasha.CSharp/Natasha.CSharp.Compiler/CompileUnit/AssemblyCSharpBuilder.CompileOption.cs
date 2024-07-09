@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Natasha.CSharp.Compiler.Component;
+using Natasha.CSharp.Compiler.Utils;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -45,7 +46,7 @@ public sealed partial class AssemblyCSharpBuilder
     /// 输出文件包含私有字段信息.
     /// </summary>
     /// <returns>链式对象(调用方法的实例本身).</returns>
-    public AssemblyCSharpBuilder WithPrivateMembers()
+    public AssemblyCSharpBuilder WithPrivateMembersOutput()
     {
         _includePrivateMembers = true;
         return this;
@@ -57,7 +58,7 @@ public sealed partial class AssemblyCSharpBuilder
     /// 注：选项状态会被缓存，复用时无需重复调用.
     /// </remarks>
     /// <returns>链式对象(调用方法的实例本身).</returns>
-    public AssemblyCSharpBuilder WithoutPrivateMembers()
+    public AssemblyCSharpBuilder WithoutPrivateMembersOutput()
     {
         _includePrivateMembers = false;
         return this;
@@ -171,6 +172,11 @@ public sealed partial class AssemblyCSharpBuilder
     /// <returns>编译载体.</returns>
     public CSharpCompilation GetAvailableCompilation(Func<CSharpCompilationOptions, CSharpCompilationOptions>? initOptionsFunc = null)
     {
+
+        if (_allowCompileWithPrivate)
+        {
+            NatashaAccessHelper.AccessHandle(this);
+        }
 
 #if DEBUG
         Stopwatch stopwatch = new();

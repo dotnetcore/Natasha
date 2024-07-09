@@ -6,6 +6,7 @@ using System.Reflection;
 
 public static partial class NatashaManagement
 {
+
     public static NatashaInitializeHelper GetInitializer()
     {
         return new NatashaInitializeHelper();
