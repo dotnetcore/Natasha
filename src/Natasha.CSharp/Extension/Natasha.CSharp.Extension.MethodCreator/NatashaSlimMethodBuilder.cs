@@ -56,7 +56,7 @@ namespace Natasha.CSharp.Extension.MethodCreator
 
         public NatashaSlimMethodBuilder WithMetadata(params Type[] types)
         {
-            if (types!=null && types.Length == 0)
+            if (types!=null && types.Length > 0)
             {
                 foreach (var type in types)
                 {
