@@ -3,7 +3,7 @@ using Natasha.CSharp.Extension.MethodCreator;
 
 namespace System
 {
-    public static class SystemDelegateExtension
+    public static class NatashaDelegateExtension
     {
         #region Action Delegate
         public static Action<T1> ToAction<T1>(this NatashaSlimMethodBuilder builder)
@@ -55,7 +55,6 @@ namespace System
             return builder.ToDelegate<Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>>();
         }
         #endregion
-
 
         #region Func Delegate
         public static Func<T1> ToFunc<T1>(this NatashaSlimMethodBuilder builder)
