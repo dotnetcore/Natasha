@@ -1,10 +1,6 @@
 ﻿using Natasha.CSharp.Extension.MethodCreator;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
 
-public static class StringExtension
+public static class StringToBuilderExtension
 {
 
     public static NatashaSlimMethodBuilder WithSlimMethodBuilder(this string script, Action<AssemblyCSharpBuilder> config)
@@ -39,6 +35,20 @@ public static class StringExtension
         var builder = new NatashaSlimMethodBuilder(script);
         builder.WithSmartBuilder();
         builder.WithoutUsings(usings);
+        return builder;
+    }
+    public static NatashaSlimMethodBuilder WithMetadata(this string script, Type type)
+    {
+        var builder = new NatashaSlimMethodBuilder(script);
+        builder.WithSimpleBuilder();
+        builder.WithMetadata(type);
+        return builder;
+    }
+    public static NatashaSlimMethodBuilder WithMetadata<T>(this string script)
+    {
+        var builder = new NatashaSlimMethodBuilder(script);
+        builder.WithSimpleBuilder();
+        builder.WithMetadata<T>();
         return builder;
     }
 }
