@@ -7,7 +7,8 @@ namespace Natasha.CSharp.Extension.MethodCreator
         public readonly AssemblyCSharpBuilder Builder;
         public readonly string Script;
         public readonly HashSet<string> Usings;
-        public object[]? PrivateObjects;
+        private HashSet<string>? _exceptUsings;
+        private object[]? _privateObjects;
         private Action<NatashaLoadContext>? _ctxConfig;
         private Action<AssemblyCSharpBuilder>? _builderConfig;
         public NatashaSlimMethodBuilder(string script)
@@ -18,10 +19,10 @@ namespace Natasha.CSharp.Extension.MethodCreator
         }
         public NatashaSlimMethodBuilder WithPrivateAccess(params object[] objs)
         {
-            PrivateObjects = objs;
+            _privateObjects = objs;
             return this;
         }
-        
+
         public NatashaSlimMethodBuilder ConfigBuilder(Action<AssemblyCSharpBuilder> config)
         {
             _builderConfig = config;
@@ -39,13 +40,23 @@ namespace Natasha.CSharp.Extension.MethodCreator
             Builder.ConfigLoadContext(ctx => ctx.AddReferenceAndUsingCode<object>());
             return this;
         }
+        public NatashaSlimMethodBuilder WithSmartBuilder()
+        {
+            Builder.UseRandomLoadContext();
+            Builder.UseSmartMode();
+            return this;
+        }
 
         public NatashaSlimMethodBuilder WithUsings(params string[] usings)
         {
             Usings.UnionWith(usings);
             return this;
         }
-
+        public NatashaSlimMethodBuilder WithoutUsings(params string[] usings)
+        {
+            Builder.AppendExceptUsings(usings);
+            return this;
+        }
         public NatashaSlimMethodBuilder WithMetadata<T>()
         {
             Builder.ConfigLoadContext(ctx => ctx.AddReferenceAndUsingCode<T>());
@@ -95,10 +106,10 @@ namespace Natasha.CSharp.Extension.MethodCreator
 
             }
             var fullScript = $"{usingCode} public static class {className} {{ public static {(modifier ?? string.Empty)} {returnTypeScript} Invoke({parameterScript}){{ {Script} }} }}";
-            if (PrivateObjects!=null)
+            if (_privateObjects != null)
             {
                 Builder.WithPrivateAccess();
-                Builder.Add(fullScript.ToAccessPrivateTree(PrivateObjects));
+                Builder.Add(fullScript.ToAccessPrivateTree(_privateObjects));
             }
             else
             {

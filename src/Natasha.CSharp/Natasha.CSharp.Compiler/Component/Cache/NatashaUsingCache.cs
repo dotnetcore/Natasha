@@ -199,9 +199,10 @@ namespace Natasha.CSharp.Compiler.Component
         /// </summary>
         /// <param name="exceptUsings">从当前 using 中排除的 Using Code</param>
         /// <returns></returns>
-        public NatashaUsingCache WithExpectedUsing(HashSet<string> exceptUsings)
+        public NatashaUsingCache WithExceptUsing(HashSet<string> exceptUsings)
         {
             NatashaUsingCache newCache = new();
+            _usings.Except(exceptUsings);
             foreach (var item in _usings)
             {
                 if (!exceptUsings.Contains(item))
@@ -212,9 +213,9 @@ namespace Natasha.CSharp.Compiler.Component
             newCache._changed = true;
             return newCache;
         }
-        public NatashaUsingCache WithExpectedUsing(IEnumerable<string> exceptUsings)
+        public NatashaUsingCache WithExceptUsing(IEnumerable<string> exceptUsings)
         {
-            return WithExpectedUsing(new HashSet<string>(exceptUsings));
+            return WithExceptUsing(new HashSet<string>(exceptUsings));
         }
 
 

@@ -27,5 +27,19 @@ public static class StringExtension
         builder.WithSimpleBuilder();
         return builder;
     }
+    public static NatashaSlimMethodBuilder WithSmartMethodBuilder(this string script)
+    {
+        var builder = new NatashaSlimMethodBuilder(script);
+        builder.WithSmartBuilder();
+        return builder;
+    }
+
+    public static NatashaSlimMethodBuilder WithoutUsings(this string script, params string[] usings)
+    {
+        var builder = new NatashaSlimMethodBuilder(script);
+        builder.WithSmartBuilder();
+        builder.WithoutUsings(usings);
+        return builder;
+    }
 }
 

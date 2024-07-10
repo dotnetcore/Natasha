@@ -220,81 +220,163 @@ public sealed partial class AssemblyCSharpBuilder
     public AssemblyCSharpBuilder Add(string script, UsingLoadBehavior usingLoadBehavior, Encoding? encoding = null, string filePath = "")
     {
         var usingScript = string.Empty;
-        switch (usingLoadBehavior)
+        if (ExceptUsings.Count == 0)
         {
-            case UsingLoadBehavior.WithDefault:
-                usingScript = NatashaLoadContext.DefaultContext.UsingRecorder.ToString();
-                break;
-            case UsingLoadBehavior.WithCurrent:
-                if (Domain!.Name == NatashaLoadContext.DefaultName)
-                {
+            switch (usingLoadBehavior)
+            {
+                case UsingLoadBehavior.WithDefault:
                     usingScript = NatashaLoadContext.DefaultContext.UsingRecorder.ToString();
-                }
-                else
-                {
-                    usingScript = LoadContext!.UsingRecorder.ToString();
-                }
-                break;
-            case UsingLoadBehavior.WithAll:
-                if (Domain!.Name == NatashaLoadContext.DefaultName)
-                {
-                    usingScript = NatashaLoadContext.DefaultContext.UsingRecorder.ToString();
-                }
-                else
-                {
-                    StringBuilder usingBuilder = new();
-                    foreach (var item in LoadContext!.UsingRecorder._usings)
+                    break;
+                case UsingLoadBehavior.WithCurrent:
+                    if (Domain!.Name == NatashaLoadContext.DefaultName)
                     {
-                        if (!NatashaLoadContext.DefaultContext.UsingRecorder.HasUsing(item))
-                        {
-                            usingBuilder.AppendLine($"using {item};");
-                        }
+                        usingScript = NatashaLoadContext.DefaultContext.UsingRecorder.ToString();
                     }
-                    usingScript = NatashaLoadContext.DefaultContext.UsingRecorder.ToString() + usingBuilder;
-                }
-                break;
-            default:
-                break;
+                    else
+                    {
+                        usingScript = LoadContext!.UsingRecorder.ToString();
+                    }
+                    break;
+                case UsingLoadBehavior.WithAll:
+                    if (Domain!.Name == NatashaLoadContext.DefaultName)
+                    {
+                        usingScript = NatashaLoadContext.DefaultContext.UsingRecorder.ToString();
+                    }
+                    else
+                    {
+                        StringBuilder usingBuilder = new();
+                        foreach (var item in LoadContext!.UsingRecorder._usings)
+                        {
+                            if (!NatashaLoadContext.DefaultContext.UsingRecorder.HasUsing(item))
+                            {
+                                usingBuilder.AppendLine($"using {item};");
+                            }
+                        }
+                        usingScript = NatashaLoadContext.DefaultContext.UsingRecorder.ToString() + usingBuilder;
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
+        else
+        {
+            switch (usingLoadBehavior)
+            {
+                case UsingLoadBehavior.WithDefault:
+                    usingScript = NatashaLoadContext.DefaultContext.UsingRecorder.WithExceptUsing(ExceptUsings).ToString();
+                    break;
+                case UsingLoadBehavior.WithCurrent:
+                    if (Domain!.Name == NatashaLoadContext.DefaultName)
+                    {
+                        usingScript = NatashaLoadContext.DefaultContext.UsingRecorder.WithExceptUsing(ExceptUsings).ToString();
+                    }
+                    else
+                    {
+                        usingScript = LoadContext!.UsingRecorder.WithExceptUsing(ExceptUsings).ToString();
+                    }
+                    break;
+                case UsingLoadBehavior.WithAll:
+                    if (Domain!.Name == NatashaLoadContext.DefaultName)
+                    {
+                        usingScript = NatashaLoadContext.DefaultContext.UsingRecorder.WithExceptUsing(ExceptUsings).ToString();
+                    }
+                    else
+                    {
+                        var defaultUsings = NatashaLoadContext.DefaultContext.UsingRecorder.WithExceptUsing(ExceptUsings);
+                        var currentUsings = LoadContext!.UsingRecorder.WithExceptUsing(ExceptUsings)._usings;
+                        StringBuilder usingBuilder = new();
+                        foreach (var item in currentUsings)
+                        {
+                            if (!defaultUsings.HasUsing(item))
+                            {
+                                usingBuilder.AppendLine($"using {item};");
+                            }
+                        }
+                        usingScript = defaultUsings.ToString() + usingBuilder;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        
         return InternalAddScript(usingScript + script, encoding, filePath);
     }
 
     public AssemblyCSharpBuilder Add(CompilationUnitSyntax root, UsingLoadBehavior usingLoadBehavior, Encoding? encoding = null, string filePath = "")
     {
         IEnumerable<UsingDirectiveSyntax> usingNodes = [];
-        switch (usingLoadBehavior)
+        if (ExceptUsings.Count == 0)
         {
-            case UsingLoadBehavior.WithDefault:
-                usingNodes = NatashaLoadContext.DefaultContext.UsingRecorder.GetUsingNodes();
-                break;
-            case UsingLoadBehavior.WithCurrent:
-                if (Domain!.Name == NatashaLoadContext.DefaultName)
-                {
+            switch (usingLoadBehavior)
+            {
+                case UsingLoadBehavior.WithDefault:
                     usingNodes = NatashaLoadContext.DefaultContext.UsingRecorder.GetUsingNodes();
-                }
-                else
-                {
-                    usingNodes = LoadContext!.UsingRecorder.GetUsingNodes();
-                }
-                break;
-            case UsingLoadBehavior.WithAll:
-                if (Domain!.Name == NatashaLoadContext.DefaultName)
-                {
-                    usingNodes = NatashaLoadContext.DefaultContext.UsingRecorder.GetUsingNodes();
-                }
-                else
-                {
-                    HashSet<UsingDirectiveSyntax> tempUsings = [];
-                    StringBuilder usingBuilder = new();
-                    tempUsings.UnionWith(LoadContext!.UsingRecorder.GetUsingNodes());
-                    tempUsings.UnionWith(NatashaLoadContext.DefaultContext.UsingRecorder.GetUsingNodes());
-                    usingNodes = tempUsings;
-                }
-                break;
-            default:
-                break;
+                    break;
+                case UsingLoadBehavior.WithCurrent:
+                    if (Domain!.Name == NatashaLoadContext.DefaultName)
+                    {
+                        usingNodes = NatashaLoadContext.DefaultContext.UsingRecorder.GetUsingNodes();
+                    }
+                    else
+                    {
+                        usingNodes = LoadContext!.UsingRecorder.GetUsingNodes();
+                    }
+                    break;
+                case UsingLoadBehavior.WithAll:
+                    if (Domain!.Name == NatashaLoadContext.DefaultName)
+                    {
+                        usingNodes = NatashaLoadContext.DefaultContext.UsingRecorder.GetUsingNodes();
+                    }
+                    else
+                    {
+                        HashSet<UsingDirectiveSyntax> tempUsings = [];
+                        tempUsings.UnionWith(LoadContext!.UsingRecorder.GetUsingNodes());
+                        tempUsings.UnionWith(NatashaLoadContext.DefaultContext.UsingRecorder.GetUsingNodes());
+                        usingNodes = tempUsings;
+                    }
+                    break;
+                default:
+                    break;
+            }
+
         }
-        
+        else
+        {
+            switch (usingLoadBehavior)
+            {
+                case UsingLoadBehavior.WithDefault:
+                    usingNodes = NatashaLoadContext.DefaultContext.UsingRecorder.WithExceptUsing(ExceptUsings).GetUsingNodes();
+                    break;
+                case UsingLoadBehavior.WithCurrent:
+                    if (Domain!.Name == NatashaLoadContext.DefaultName)
+                    {
+                        usingNodes = NatashaLoadContext.DefaultContext.UsingRecorder.WithExceptUsing(ExceptUsings).GetUsingNodes();
+                    }
+                    else
+                    {
+                        usingNodes = LoadContext!.UsingRecorder.WithExceptUsing(ExceptUsings).GetUsingNodes();
+                    }
+                    break;
+                case UsingLoadBehavior.WithAll:
+                    if (Domain!.Name == NatashaLoadContext.DefaultName)
+                    {
+                        usingNodes = NatashaLoadContext.DefaultContext.UsingRecorder.WithExceptUsing(ExceptUsings).GetUsingNodes();
+                    }
+                    else
+                    {
+                        HashSet<UsingDirectiveSyntax> tempUsings = [];
+                        tempUsings.UnionWith(LoadContext!.UsingRecorder.WithExceptUsing(ExceptUsings).GetUsingNodes());
+                        tempUsings.UnionWith(NatashaLoadContext.DefaultContext.UsingRecorder.WithExceptUsing(ExceptUsings).GetUsingNodes());
+                        usingNodes = tempUsings;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
         return InternalAddRootSyntax(root.AddUsings(usingNodes.ToArray()), encoding, filePath);
     }
 

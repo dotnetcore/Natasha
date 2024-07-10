@@ -45,7 +45,7 @@ public static class NatashaStringExtension
     /// <returns></returns>
     public static string WithAllUsingCode(this string script, IEnumerable<string> exceptUsings)
     {
-        var newCache = NatashaLoadContext.DefaultContext.UsingRecorder.WithExpectedUsing(exceptUsings);
+        var newCache = NatashaLoadContext.DefaultContext.UsingRecorder.WithExceptUsing(exceptUsings);
         return newCache.WrapperScript(script);
     }
 }
