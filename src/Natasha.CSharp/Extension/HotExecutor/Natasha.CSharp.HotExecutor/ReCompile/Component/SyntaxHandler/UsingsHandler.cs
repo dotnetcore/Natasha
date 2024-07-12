@@ -23,7 +23,7 @@ namespace Natasha.CSharp.HotExecutor.Component
         public static UsingDirectiveSyntax[] FirstRunAndFillUsingCache()
         {
             _usingCache.Using(NatashaLoadContext.DefaultContext.UsingRecorder._usings);
-            return _usingCache!.GetUsingNodes().ToArray();
+            return _usingCache!.ToUsingNodes().ToArray();
         }
 
         public static void InitDefaultUsings(UsingDirectiveSyntax[] nodes)

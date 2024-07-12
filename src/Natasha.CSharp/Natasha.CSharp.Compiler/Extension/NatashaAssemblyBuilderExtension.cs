@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Natasha.CSharp.Compiler.Component;
+using System;
 using System.IO;
 
 public static class NatashaAssemblyBuilderExtension
@@ -89,9 +90,9 @@ public static class NatashaAssemblyBuilderExtension
     /// </summary>
     /// <param name="builder">编译单元</param>
     /// <returns></returns>
-    public static AssemblyCSharpBuilder UseRandomLoadContext(this AssemblyCSharpBuilder builder)
+    public static AssemblyCSharpBuilder UseRandomLoadContext(this AssemblyCSharpBuilder builder, NatashaUsingCache? usingCache = null)
     {
-        builder.LoadContext = DomainManagement.Random();
+        builder.LoadContext = DomainManagement.Random(usingCache);
         return builder;
     }
 
@@ -104,9 +105,9 @@ public static class NatashaAssemblyBuilderExtension
     /// <param name="builder">编译单元</param>
     /// <param name="domainName">域名字</param>
     /// <returns></returns>
-    public static AssemblyCSharpBuilder UseNewLoadContext(this AssemblyCSharpBuilder builder, string domainName)
+    public static AssemblyCSharpBuilder UseNewLoadContext(this AssemblyCSharpBuilder builder, string domainName, NatashaUsingCache? usingCache = null)
     {
-        builder.LoadContext = DomainManagement.Create(domainName);
+        builder.LoadContext = DomainManagement.Create(domainName, usingCache);
         return builder;
     }
 

@@ -312,28 +312,28 @@ public sealed partial class AssemblyCSharpBuilder
             switch (usingLoadBehavior)
             {
                 case UsingLoadBehavior.WithDefault:
-                    usingNodes = NatashaLoadContext.DefaultContext.UsingRecorder.GetUsingNodes();
+                    usingNodes = NatashaLoadContext.DefaultContext.UsingRecorder.ToUsingNodes();
                     break;
                 case UsingLoadBehavior.WithCurrent:
                     if (Domain!.Name == NatashaLoadContext.DefaultName)
                     {
-                        usingNodes = NatashaLoadContext.DefaultContext.UsingRecorder.GetUsingNodes();
+                        usingNodes = NatashaLoadContext.DefaultContext.UsingRecorder.ToUsingNodes();
                     }
                     else
                     {
-                        usingNodes = LoadContext!.UsingRecorder.GetUsingNodes();
+                        usingNodes = LoadContext!.UsingRecorder.ToUsingNodes();
                     }
                     break;
                 case UsingLoadBehavior.WithAll:
                     if (Domain!.Name == NatashaLoadContext.DefaultName)
                     {
-                        usingNodes = NatashaLoadContext.DefaultContext.UsingRecorder.GetUsingNodes();
+                        usingNodes = NatashaLoadContext.DefaultContext.UsingRecorder.ToUsingNodes();
                     }
                     else
                     {
                         HashSet<UsingDirectiveSyntax> tempUsings = [];
-                        tempUsings.UnionWith(LoadContext!.UsingRecorder.GetUsingNodes());
-                        tempUsings.UnionWith(NatashaLoadContext.DefaultContext.UsingRecorder.GetUsingNodes());
+                        tempUsings.UnionWith(LoadContext!.UsingRecorder.ToUsingNodes());
+                        tempUsings.UnionWith(NatashaLoadContext.DefaultContext.UsingRecorder.ToUsingNodes());
                         usingNodes = tempUsings;
                     }
                     break;
@@ -347,28 +347,28 @@ public sealed partial class AssemblyCSharpBuilder
             switch (usingLoadBehavior)
             {
                 case UsingLoadBehavior.WithDefault:
-                    usingNodes = NatashaLoadContext.DefaultContext.UsingRecorder.WithExceptUsing(ExceptUsings).GetUsingNodes();
+                    usingNodes = NatashaLoadContext.DefaultContext.UsingRecorder.WithExceptUsing(ExceptUsings).ToUsingNodes();
                     break;
                 case UsingLoadBehavior.WithCurrent:
                     if (Domain!.Name == NatashaLoadContext.DefaultName)
                     {
-                        usingNodes = NatashaLoadContext.DefaultContext.UsingRecorder.WithExceptUsing(ExceptUsings).GetUsingNodes();
+                        usingNodes = NatashaLoadContext.DefaultContext.UsingRecorder.WithExceptUsing(ExceptUsings).ToUsingNodes();
                     }
                     else
                     {
-                        usingNodes = LoadContext!.UsingRecorder.WithExceptUsing(ExceptUsings).GetUsingNodes();
+                        usingNodes = LoadContext!.UsingRecorder.WithExceptUsing(ExceptUsings).ToUsingNodes();
                     }
                     break;
                 case UsingLoadBehavior.WithAll:
                     if (Domain!.Name == NatashaLoadContext.DefaultName)
                     {
-                        usingNodes = NatashaLoadContext.DefaultContext.UsingRecorder.WithExceptUsing(ExceptUsings).GetUsingNodes();
+                        usingNodes = NatashaLoadContext.DefaultContext.UsingRecorder.WithExceptUsing(ExceptUsings).ToUsingNodes();
                     }
                     else
                     {
                         HashSet<UsingDirectiveSyntax> tempUsings = [];
-                        tempUsings.UnionWith(LoadContext!.UsingRecorder.WithExceptUsing(ExceptUsings).GetUsingNodes());
-                        tempUsings.UnionWith(NatashaLoadContext.DefaultContext.UsingRecorder.WithExceptUsing(ExceptUsings).GetUsingNodes());
+                        tempUsings.UnionWith(LoadContext!.UsingRecorder.WithExceptUsing(ExceptUsings).ToUsingNodes());
+                        tempUsings.UnionWith(NatashaLoadContext.DefaultContext.UsingRecorder.WithExceptUsing(ExceptUsings).ToUsingNodes());
                         usingNodes = tempUsings;
                     }
                     break;

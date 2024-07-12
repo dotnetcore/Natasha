@@ -18,23 +18,51 @@ namespace Natasha.CSharp.Compiler.Component
     {
         private bool _changed;
         public readonly HashSet<string> _usings;
-        //internal readonly HashSet<Type> _usingTypes;
-        //private static readonly Regex _using_regex;
+        private List<UsingDirectiveSyntax> _usingNodes;
+        private string _usingScript = string.Empty;
+        public int Count { get { return _usings.Count; } }
 
-        //static NatashaUsingCache()
-        //{
-        //    _using_regex = new Regex("[a-zA-Z.]+")
-        //}
         public NatashaUsingCache()
         {
-
+            _usingNodes = [];
             _usings = [];
 
         }
 
-        public int Count { get { return _usings.Count; } }
+        private void ApplyIfChanged()
+        {
+            lock (_usings)
+            {
+                if (_changed)
+                {
+                    StringBuilder usings = new();
+                    foreach (var item in _usings)
+                    {
+                        usings.AppendLine($"using {item};");
+                    }
+                    _usingScript = usings.ToString();
+                    _usingNodes.Clear();
+                    _usingNodes.AddRange(_usings.Select(item =>
+                    SyntaxFactory.UsingDirective(
+                        SyntaxFactory.ParseName(item)
+                        .WithLeadingTrivia(SyntaxFactory.Space)
+                    ).WithLeadingTrivia(SyntaxFactory.EndOfLine(Environment.NewLine))));
+                    _changed = false;
+                }
+            }
+        }
 
+        public override string ToString()
+        {
+            ApplyIfChanged();
+            return _usingScript;
+        }
 
+        public List<UsingDirectiveSyntax> ToUsingNodes()
+        {
+            ApplyIfChanged();
+            return _usingNodes;
+        }
 
         public bool HasUsing(string @using)
         {
@@ -86,7 +114,6 @@ namespace Natasha.CSharp.Compiler.Component
         /// <returns></returns>
         public NatashaUsingCache Using(Assembly assembly)
         {
-
             if (assembly != default)
             {
                 try
@@ -158,8 +185,6 @@ namespace Natasha.CSharp.Compiler.Component
             return this;
         }
 
-
-
         public NatashaUsingCache Using(IEnumerable<Type> namespaces)
         {
             foreach (var item in namespaces)
@@ -171,55 +196,28 @@ namespace Natasha.CSharp.Compiler.Component
             return this;
         }
 
-
-
-
         public NatashaUsingCache Using(Type type)
         {
-            return Using(type.Namespace);
-        }
-
-        private string _usingScript = string.Empty;
-
-        public IEnumerable<UsingDirectiveSyntax> GetUsingNodes()
-        {
-            lock (_usings)
+            if (type.IsPublic || type.IsNestedPublic)
             {
-                return _usings.Select(item =>
-                    SyntaxFactory.UsingDirective(
-                        SyntaxFactory.ParseName(item)
-                        .WithLeadingTrivia(SyntaxFactory.Space)
-                    ).WithLeadingTrivia(SyntaxFactory.EndOfLine(Environment.NewLine))).ToList();
+                return Using(type.Namespace);
             }
+            return this;
         }
-
 
         /// <summary>
         /// 根据当前 using 缓存以及需要被排除的 using code , 返回一个新的 using 缓存.
         /// </summary>
         /// <param name="exceptUsings">从当前 using 中排除的 Using Code</param>
         /// <returns></returns>
-        public NatashaUsingCache WithExceptUsing(HashSet<string> exceptUsings)
+        public NatashaUsingCache WithExceptUsing(IEnumerable<string> exceptUsings)
         {
             NatashaUsingCache newCache = new();
-            _usings.Except(exceptUsings);
-            foreach (var item in _usings)
-            {
-                if (!exceptUsings.Contains(item))
-                {
-                    newCache._usings.Add(item);
-                }
-            }
+            newCache._usings.UnionWith(_usings);
+            newCache._usings.ExceptWith(exceptUsings);
             newCache._changed = true;
             return newCache;
         }
-        public NatashaUsingCache WithExceptUsing(IEnumerable<string> exceptUsings)
-        {
-            return WithExceptUsing(new HashSet<string>(exceptUsings));
-        }
-
-
-
 
 
         /// <summary>
@@ -235,24 +233,6 @@ namespace Natasha.CSharp.Compiler.Component
             }
         }
 
-
-        public override string ToString()
-        {
-            lock (_usings)
-            {
-                if (_changed)
-                {
-                    StringBuilder usings = new();
-                    foreach (var item in _usings)
-                    {
-                        usings.AppendLine($"using {item};");
-                    }
-                    _usingScript =  usings.ToString();
-                    _changed = false;
-                }
-            }
-            return _usingScript; 
-        }
 
         public IEnumerator<string> GetEnumerator()
         {
@@ -270,6 +250,7 @@ namespace Natasha.CSharp.Compiler.Component
         public void Dispose()
         {
             _usings.Clear();
+            _usingNodes.Clear();
             _usingScript = string.Empty;
         }
     }
