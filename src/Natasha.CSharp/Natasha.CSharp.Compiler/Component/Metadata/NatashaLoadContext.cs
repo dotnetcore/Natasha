@@ -19,13 +19,29 @@ public sealed class NatashaLoadContext : IDisposable
     public INatashaDynamicLoadContextBase Domain;
     private static readonly object _initLock = new();
     private static bool _isInitialized;
-    internal NatashaLoadContext()
+    internal NatashaLoadContext(NatashaUsingCache? usingCache = null)
     {
+        if (usingCache!=null)
+        {
+            UsingRecorder = usingCache;
+        }
+        else
+        {
+            UsingRecorder = new();
+        }
         Domain = Creator.CreateDefaultContext();
         Domain.SetCallerReference(this);
     }
-    internal NatashaLoadContext(string key)
+    internal NatashaLoadContext(string key, NatashaUsingCache? usingCache = null)
     {
+        if (usingCache != null)
+        {
+            UsingRecorder = usingCache;
+        }
+        else
+        {
+            UsingRecorder = new();
+        }
         Domain = Creator.CreateContext(key);
         Domain.SetCallerReference(this);
     }
@@ -73,7 +89,7 @@ public sealed class NatashaLoadContext : IDisposable
     /// <summary>
     /// Using 记录
     /// </summary>
-    public readonly NatashaUsingCache UsingRecorder = new();
+    public readonly NatashaUsingCache UsingRecorder;
 
     internal void LoadMetadataWithAssembly(Assembly assembly)
     {
