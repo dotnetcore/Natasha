@@ -5,12 +5,12 @@ using System.Reflection;
 public sealed partial class NatashaLoadContext
 {
 
-    public NatashaLoadContext AddUsings(HashSet<string> usings, AssemblyCompareInformation compareInfomation = AssemblyCompareInformation.None)
+    public NatashaLoadContext AddUsings(HashSet<string> usings)
     {
         UsingRecorder.Using(usings);
         return this;
     }
-    public NatashaLoadContext AddUsings(Assembly assembly, AssemblyCompareInformation compareInfomation = AssemblyCompareInformation.None)
+    public NatashaLoadContext AddUsings(Assembly assembly)
     {
         var result = MetadataHelper.GetNamespaceFromMemroy(assembly, null);
         if (result != null)
@@ -19,7 +19,7 @@ public sealed partial class NatashaLoadContext
         }
         return this;
     }
-    public NatashaLoadContext AddUsings<T>(AssemblyCompareInformation compareInfomation = AssemblyCompareInformation.None)
+    public NatashaLoadContext AddUsings<T>()
     {
         return AddUsings(typeof(T).Assembly);
     }
