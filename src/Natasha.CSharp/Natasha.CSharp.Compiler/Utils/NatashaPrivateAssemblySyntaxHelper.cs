@@ -21,34 +21,28 @@ namespace Natasha.CSharp.Compiler.Utils
             {
                 return null;
             }
-            HashSet<Type> types = new(objects.Select(obj =>
+            HashSet<string> assemblyNames = new(objects.Select(obj =>
             {
                 if (obj is Type type)
                 {
-                    return type;
+                    return type.Assembly.GetName().Name;
+                }
+                else if (obj is string assemblyName)
+                {
+                    return assemblyName;
                 }
                 else
                 {
-                    return obj.GetType();
+                    return obj.GetType().Assembly.GetName().Name;
                 }
             })!);
-            return InternalHandle(rootSyntax, types);
+            return InternalHandle(rootSyntax, assemblyNames);
         }
 
-        internal static CompilationUnitSyntax InternalHandle(CompilationUnitSyntax rootSyntax, HashSet<Type> types)
+        internal static CompilationUnitSyntax InternalHandle(CompilationUnitSyntax rootSyntax, HashSet<string> assemblyNames)
         {
-            HashSet<Assembly> assemblies = [];
-            foreach (var type in types)
-            {
-                var assembly = type.Assembly;
-                if (!assemblies.Contains(assembly))
-                {
-                    assemblies.Add(assembly);
-                }
-            }
-
             // 创建 assembly 级别的属性列表
-            var assemblyAttributeList = assemblies.Select(asm =>
+            var assemblyAttributeList = assemblyNames.Select(asmName =>
               {
                   var attrSyntax = SyntaxFactory.AttributeList(
                           SyntaxFactory.SingletonSeparatedList(
@@ -57,7 +51,7 @@ namespace Natasha.CSharp.Compiler.Utils
                                     .IdentifierName("assembly:System.Runtime.CompilerServices.IgnoresAccessChecksToAttribute"))
                                     .AddArgumentListArguments(
                                         SyntaxFactory.AttributeArgument(
-                                            SyntaxFactory.ParseExpression($"\"{asm.GetName().Name!}\"")))));
+                                            SyntaxFactory.ParseExpression($"\"{asmName}\"")))));
                   return attrSyntax
                   .ReplaceToken(
                       attrSyntax.CloseBracketToken,
