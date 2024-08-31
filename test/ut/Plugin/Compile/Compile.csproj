@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>netcoreapp3.1;net6.0;net8.0;</TargetFrameworks>
+		<IsPackable>false</IsPackable>
+		<Nullable>enable</Nullable>
+		<LangVersion>preview</LangVersion>
+		<ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+		<SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
+		<SignAssembly>True</SignAssembly>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<AssemblyOriginatorKeyFile>natasha.snk</AssemblyOriginatorKeyFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Remove="CS0104Test.cs" />
+		<Compile Remove="Special\CS0104\CS0104Test.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="DotNetCore.Compile.Environment" Version="3.1.2" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
+		<PackageReference Include="xunit" Version="2.4.2" />
+		<PackageReference Include="coverlet.collector" Version="6.0.0">
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+	
+	<ItemGroup>
+		<ProjectReference Include="..\..\Natasha.CSharp.UnitTest.Base\Natasha.CSharp.UnitTest.Base.csproj" />
+		<ProjectReference Include="..\PluginLibraries\MetadataDiff\MetadataDiff\MetadataDiff.csproj" />
+		<ProjectReference Include="..\PluginLibraries\PluginBase\PluginBase.csproj" />
+	</ItemGroup>
+
+</Project>

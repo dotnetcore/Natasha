@@ -1,41 +1,49 @@
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 using Microsoft.Extensions.DependencyInjection;
 using Natasha.CSharp.HotExecutor.Component;
-using Swashbuckle.AspNetCore.Swagger;
-using System.Reflection;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
-namespace WebapiSample
+namespace Webapi2Sample
 {
     public class Program
     {
         public static void Main(string[] args)
         {
+            NatashaManagement.RegistDomainCreator<NatashaDomainCreator>();
+
             //HE:Async
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddAuthorization();
 
-            TestHECommand();
-            builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            
+
             var app = builder.Build();
-            
-            for (int i = 0; i < 7; i++)
-            {
-                GC.Collect();
-            }
-            foreach (var item in DomainManagement.Cache)
-            {
-                if (item.Value.Target != null)
-                {
-                    Console.WriteLine(item.Key + " alive!");
-                }
-            }
+
+            var modelMetadataProvider = app.Services.GetService<IModelMetadataProvider>();
+            var controllerActivatorProvider = app.Services.GetService<IControllerActivatorProvider>();
+
+            HEProxy.SetPreHotExecut(() => {
+
+                var action = HEDelegateHelper.GetDelegate(modelMetadataProvider.GetType(), "ClearCache", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+                action(modelMetadataProvider);
+
+                var action2 = HEDelegateHelper.GetDelegate(controllerActivatorProvider.GetType(), "ClearCache", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+                action2(modelMetadataProvider);
+
+            });
+
+            var action = "arg1.ClearCache();arg2.ClearCache();Debug.WriteLine(1111);"
+                .WithSlimMethodBuilder()
+                .WithMetadata(typeof(Debug))
+                .WithPrivateAccess(typeof(IModelMetadataProvider), typeof(IControllerActivatorProvider))
+                .ToAction<IModelMetadataProvider, IControllerActivatorProvider>()!;
+            action(modelMetadataProvider!, controllerActivatorProvider!);
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -43,64 +51,58 @@ namespace WebapiSample
                 app.UseSwaggerUI();
             }
             app.AsyncToHotExecutor();
-            app.MapControllers();
-            var modelMetadataProvider = app.Services.GetService<IModelMetadataProvider>();
-            var controllerActivatorProvider = app.Services.GetService<IControllerActivatorProvider>();
-            var endBuilder = app.Services.GetService<IEndpointRouteBuilder>();
-            var routeBuilder = app.Services.GetService<IRouteBuilder>();
-            var swagger = app.Services.GetService<ISwaggerProvider>();
+            app.UseAuthorization();
 
-            HEProxy.SetPreHotExecut(() => {
-
-                //endBuilder.DataSources.Clear();
-                swagger.GetSwagger("v1").Paths.Clear();
-                var methodInfo1 = modelMetadataProvider.GetType().GetMethod("ClearCache", BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
-                if (methodInfo1 != null)
-                {
-                    methodInfo1?.Invoke(modelMetadataProvider, new object[0]);
-                }
-                //DS "In HEProxy.SetPreHotExecut2"
-                var methodInfo2 = controllerActivatorProvider.GetType().GetMethod("ClearCache", BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
-                if (methodInfo2 != null)
-                {
-                    methodInfo2?.Invoke(controllerActivatorProvider, new object[0]);
-                }
-            });
-            app.Run();
-        }
-
-        public static void TestHECommand()
-        {
-            TestLocalMethod();
-            static void TestLocalMethod()
+            var summaries = new[]
             {
-                //DS "In TestLocalMethod"
-                Action lambda = () =>
-                {
-                    //DS "In lambda action"
-                    InnerLocalMethod();
-                    static void InnerLocalMethod()
+                "Freezing1", "Bracing1", "Chilly1", "Cool1", "Mild1", "Warm1", "Balmy1", "Hot1", "Sweltering1", "Scorching1"
+            };
+
+            app.MapGet("/weatherforecast", (HttpContext httpContext) =>
+            {
+                var forecast = Enumerable.Range(1, 5).Select(index =>
+                    new WeatherForecast
                     {
-                        Action lambda2 = () =>
-                        {
+                        Date = DateTime.Now.AddDays(index),
+                        TemperatureC = Random.Shared.Next(-20, 55),
+                        Summary = summaries[Random.Shared.Next(summaries.Length)]
+                    })
+                    .ToArray();
+                return forecast;
+            })
+            .WithName("GetWeatherForecast");
 
 
-                            //DS "In lambda2"
-                            var temp = 6;
-                            //DS temp+1
-                            //DS temp+1 == 1
-                            //DS "Out lambda2"
-                        };
-                        //DS "In InnerLocalMethod"
-                        lambda2();
-                        //DS "Out InnerLocalMethod"
+            app.MapGet("/weatherforecast1", (HttpContext httpContext) =>
+            {
+                var forecast = Enumerable.Range(1, 5).Select(index =>
+                    new WeatherForecast
+                    {
+                        Date = DateTime.Now.AddDays(index),
+                        TemperatureC = Random.Shared.Next(-20, 55),
+                        Summary = summaries[Random.Shared.Next(summaries.Length)]
+                    })
+                    .ToArray();
+                return forecast;
+            })
+            .WithName("GetWeatherForecast1");
 
-                    }
-                    //DS "Out lambda action"
-                };
-                lambda();
-                //DS "Out TestLocalMethod"
-            }
+
+            app.MapGet("/weatherforecast2", (HttpContext httpContext) =>
+            {
+                var forecast = Enumerable.Range(1, 5).Select(index =>
+                    new WeatherForecast
+                    {
+                        Date = DateTime.Now.AddDays(index),
+                        TemperatureC = Random.Shared.Next(-20, 55),
+                        Summary = summaries[Random.Shared.Next(summaries.Length)]
+                    })
+                    .ToArray();
+                return forecast;
+            })
+            .WithName("GetWeatherForecast2");
+
+            app.Run();
         }
     }
 }

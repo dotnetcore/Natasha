@@ -12,13 +12,15 @@ namespace UnloadTest31
         static Type[] func = new Type[count];
         static void Main(string[] args)
         {
+            NatashaManagement.RegistDomainCreator<NatashaDomainCreator>();
+
             Stopwatch watch = new Stopwatch();
             Thread.Sleep(1000);
             Console.WriteLine("-----------------------------------------------------------------------------------------");
             Console.WriteLine($"初始内存占用:{Process.GetCurrentProcess().PrivateMemorySize64 / 1024 / 1024}M");
             Console.WriteLine("-----------------------------------------------------------------------------------------");
 
-            ShowTaskResoucesInfomation("Natasha预热", ()=> { NatashaManagement.Preheating(); }, ConsoleColor.Magenta);
+            ShowTaskResoucesInfomation("Natasha预热", ()=> { NatashaManagement.Preheating(true, true); }, ConsoleColor.Magenta);
             Thread.Sleep(1000);
             Console.WriteLine("-----------------------------------------------------------------------------------------");
             Console.WriteLine($"预热后内存占用:{Process.GetCurrentProcess().PrivateMemorySize64 / 1024 / 1024}M");
@@ -128,7 +130,7 @@ namespace UnloadTest31
 
             for (int i = 0; i < count; i++)
             {
-                var type = NClass.CreateDomain("test" + i.ToString(),item=>item.WithoutSemanticCheck())
+                var type = NClass.CreateDomain("test" + i.ToString(),item=>item.WithoutSemanticCheck().UseSmartMode())
                      .Namespace("Test")
                      .UseRandomName()
                      .PublicField<string>("Name")

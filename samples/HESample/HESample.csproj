@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.10.0" />
+  </ItemGroup>
+
+	
+  <ItemGroup>
+	  <ProjectReference Include="..\..\src\Natasha.CSharp\Extension\HotExecutor\Natasha.CSharp.HotExecutor\Natasha.CSharp.HotExecutor.csproj" />
+	  <ProjectReference Include="..\..\src\Natasha.CSharp\Component\Core\Natasha.CSharp.Compiler.Domain\Natasha.CSharp.Compiler.Domain.csproj" />
+	  <ProjectReference Include="..\..\src\Natasha.CSharp\Extension\HotExecutor\Natasha.CSharp.HotExecutor.SG\Natasha.CSharp.HotExecutor.SG.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+	  <ProjectReference Include="..\..\src\Natasha.CSharp\Extension\Natasha.CSharp.Extension.MethodCreator\Natasha.CSharp.Extension.MethodCreator.csproj" />
+  </ItemGroup>
+
+</Project>
