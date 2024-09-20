@@ -155,15 +155,15 @@ public sealed partial class AssemblyCSharpBuilder
 
     private string FileHandle(string file)
     {
-        if (File.Exists(DllFilePath))
+        if (File.Exists(file))
         {
             if (_cleanOutput)
             {
-                File.Delete(DllFilePath);
+                File.Delete(file);
             }
             else
             {
-                return NatashaFileRepeateHelper.GetAvaliableFilePath(DllFilePath);
+                return NatashaFileRepeateHelper.GetAvaliableFilePath(file);
             }
         }
         return file;

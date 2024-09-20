@@ -19,7 +19,8 @@ namespace MemAssembly.Log.Utils
                 builder
                     .UseRandomLoadContext()
                     .ConfigLoadContext(ctx => ctx.AddReferenceAndUsingCode(typeof(object)))
-                    .WithCombineReferences(item => item.UseDefaultReferences())
+                    .WithCombineReferences(item => item.UseCustomReferences())
+                    .UseSimpleMode()
                     .WithSemanticCheck()
                     .WithoutCombineUsingCode();
                 if (withNullable)
@@ -64,7 +65,8 @@ namespace MemAssembly.Log.Utils
                 builder
                     .UseRandomLoadContext()
                     .ConfigLoadContext(ctx => ctx.AddReferenceAndUsingCode(typeof(object)))
-                    .WithCombineReferences(item => item.UseDefaultReferences())
+                    .WithCombineReferences(item => item.UseCustomReferences())
+                    .UseSimpleMode()
                     .WithoutCombineUsingCode();
                 if (withNullable)
                 {

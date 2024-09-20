@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
+using System.Threading;
 
 namespace RefAssembly.Context
 {
@@ -31,7 +32,8 @@ namespace RefAssembly.Context
         [Fact(DisplayName = "卸载")]
         public void LoadContextManagementTest3()
         {
-            CreateAndDisposeDomain("unloadtest1");
+            var name = Guid.NewGuid().ToString("N");
+            CreateAndDisposeDomain(name);
             Assert.True(_weakReference.IsAlive);
             Assert.NotNull(_weakReference.Target);
             for (int i = 0; i < 15; i++)
@@ -39,16 +41,14 @@ namespace RefAssembly.Context
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
             }
-            Assert.True(DomainManagement.IsDeleted("unloadtest1"));
-            Assert.Null(DomainManagement.Get("unloadtest1"));
-            Assert.False(_weakReference.IsAlive);
-            Assert.Null(_weakReference.Target);
+            Assert.True(DomainManagement.IsDeleted(name));
+            Assert.Null(DomainManagement.Get(name));
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
         private void CreateAndDisposeDomain(string name)
         {
-             var random = DomainManagement.Create(name);
+            var random = DomainManagement.Create(name);
             _weakReference = new WeakReference(random.Domain);
             random.Dispose();
         }

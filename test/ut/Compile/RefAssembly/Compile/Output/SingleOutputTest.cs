@@ -11,14 +11,14 @@ namespace RefAssembly.Compile.Output
         [Fact(DisplayName = "仅 DLL")]
         public void FileTest1()
         {
-            string domainNmae = "single1";
-            string domainPath = Path.Combine(_path, domainNmae);
+            string domainName = "single1";
+            string domainPath = Path.Combine(_path, domainName);
             string dllPath = Path.Combine(domainPath, "output", "test1.dll");
             ClearFolder(domainPath);
             _script.GetAssemblyForUT(
                 builder => builder
                 .SetAssemblyName("fileut1")
-                .UseNewLoadContext(domainNmae)
+                .UseNewLoadContext(domainName)
                 .WithReleaseCompile()
                 .SetDllFilePath(dllPath).ConfigLoadContext(ctx => ctx.AddReferenceAndUsingCode<object>()));
             Assert.True(File.Exists(dllPath));
@@ -30,14 +30,14 @@ namespace RefAssembly.Compile.Output
         [Fact(DisplayName = "仅 PDB")]
         public void FileTest2()
         {
-            string domainNmae = "single2";
-            string domainPath = Path.Combine(_path, domainNmae);
+            string domainName = "single2";
+            string domainPath = Path.Combine(_path, domainName);
             string pdbPath = Path.Combine(domainPath, "output", "test1.pdb");
             ClearFolder(domainPath);
             _script.GetAssemblyForUT(
                 builder => builder
                 .SetAssemblyName("fileut1")
-                .UseNewLoadContext(domainNmae)
+                .UseNewLoadContext(domainName)
                 .SetPdbFilePath(pdbPath).ConfigLoadContext(ctx => ctx.AddReferenceAndUsingCode<object>()));
             Assert.True(File.Exists(pdbPath));
             Assert.False(File.Exists(Path.Combine(domainPath, "test1.dll")));
@@ -50,14 +50,14 @@ namespace RefAssembly.Compile.Output
         [Fact(DisplayName = "仅 XML")]
         public void FileTest3()
         {
-            string domainNmae = "single3";
-            string domainPath = Path.Combine(_path, domainNmae);
+            string domainName = "single3";
+            string domainPath = Path.Combine(_path, domainName);
             string xmlPath = Path.Combine(domainPath, "output", "test1.xml");
             ClearFolder(domainPath);
             _script.GetAssemblyForUT(
                 builder => builder
                 .SetAssemblyName("fileut1")
-                .UseNewLoadContext(domainNmae)
+                .UseNewLoadContext(domainName)
                 .WithReleaseCompile()
                 .SetCommentFilePath(xmlPath).ConfigLoadContext(ctx => ctx.AddReferenceAndUsingCode<object>()));
             Assert.True(File.Exists(xmlPath));

@@ -7,10 +7,10 @@ namespace RefAssembly.Log.Utils
 {
     internal static class LogCheckHelper
     {
-        
+
         static Regex removeTime = new("Time     :\t.*?\n", RegexOptions.Compiled | RegexOptions.Singleline);
 
-        internal static void JudgeLogError(string script, string fileName, bool withNullable = true,params string[]? otherScripts)
+        internal static void JudgeLogError(string script, string fileName, bool withNullable = true, params string[]? otherScripts)
         {
             NatashaCompilationLog? log = null;
             try
@@ -18,7 +18,10 @@ namespace RefAssembly.Log.Utils
                 AssemblyCSharpBuilder builder = new(fileName);
                 builder
                     .UseRandomLoadContext()
-                    .WithCombineReferences(item => item.UseDefaultReferences())
+                    .ConfigLoadContext(ctx => ctx.AddReferenceAndUsingCode(typeof(object)))
+                    .WithCombineReferences(item => item.UseCustomReferences())
+                    .UseSimpleMode()
+                    .WithSemanticCheck()
                     .WithoutCombineUsingCode();
                 if (withNullable)
                 {
@@ -29,7 +32,7 @@ namespace RefAssembly.Log.Utils
                     builder.ConfigCompilerOption(opt => opt.WithNullableCompile(Microsoft.CodeAnalysis.NullableContextOptions.Disable));
                 }
                 builder.Add(script);
-                if (otherScripts!=null)
+                if (otherScripts != null)
                 {
                     for (int i = 0; i < otherScripts.Length; i++)
                     {
@@ -61,7 +64,9 @@ namespace RefAssembly.Log.Utils
                 AssemblyCSharpBuilder builder = new(fileName);
                 builder
                     .UseRandomLoadContext()
-                    .WithCombineReferences(item => item.UseDefaultReferences())
+                    .ConfigLoadContext(ctx => ctx.AddReferenceAndUsingCode(typeof(object)))
+                    .WithCombineReferences(item => item.UseCustomReferences())
+                    .UseSimpleMode()
                     .WithoutCombineUsingCode();
                 if (withNullable)
                 {
@@ -79,7 +84,7 @@ namespace RefAssembly.Log.Utils
                         builder.Add(otherScripts[i]);
                     }
                 }
-                builder.CompileFailedEvent += (compilation, errors) =>
+                builder.CompileSucceedEvent += (compilation, errors) =>
                 {
                     log = compilation.GetNatashaLog();
                 };
@@ -102,7 +107,7 @@ namespace RefAssembly.Log.Utils
 
         private static string GetText(string fileName)
         {
-            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory!, "Compile", "LogFile", fileName + ".txt");
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory!, "LogInfo", "LogFile", fileName + ".txt");
             return File.ReadAllText(path);
         }
     }
