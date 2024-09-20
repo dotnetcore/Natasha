@@ -1,4 +1,5 @@
 ﻿using Github.NET.Sdk.Model;
+using Github.NET.Sdk.Request;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -141,10 +142,10 @@ namespace Github.NET.Sdk
                         var projectLabels = map.Value;
                         foreach (var labelBase in projectLabels)
                         {
-                            if (labels.TryAdd(labelBase.Name, labelBase))
+                            if (labels.TryAdd(labelBase.Title, labelBase))
                             {
 
-                                (var label, error) = await CreateLabelIfNotExist(labelBase.Name, repoId, ownerName, repoName, labelBase.Color, labelBase.Description);
+                                (var label, error) = await CreateLabelIfNotExist(labelBase.Title, repoId, ownerName, repoName, labelBase.Color, labelBase.Description);
                                 if (label != null)
                                 {
                                     addLabelIds.Add(label.Id);
@@ -362,33 +363,33 @@ namespace Github.NET.Sdk
             (var myLabels, string error) = await GithubSdk.Label.GetsAsync(ownerName, repoName);
             if (myLabels != null)
             {
-                var existLabels = myLabels.ToDictionary(item => item.Name, item => item);
+                var existLabels = myLabels.ToDictionary(item => item.Title, item => item);
                 foreach (var label in expectLabels)
                 {
-                    if (!existLabels.ContainsKey(label.Name))
+                    if (!existLabels.ContainsKey(label.Title))
                     {
                         if (string.IsNullOrEmpty(label.Description))
                         {
                             if (string.IsNullOrEmpty(label.Description))
                             {
-                                label.Description = $"[{label.Name}] made by nmsbot.";
+                                label.Description = $"[{label.Title}] made by nmsbot.";
                             }
                         }
-                        (var result, error) = await GithubSdk.Label.CreateAsync(repoId, label.Name, label.Color, label.Description);
+                        (var result, error) = await GithubSdk.Label.CreateAsync(repoId, label.Title, label.Color, label.Description);
                         if (result == null)
                         {
-                            return $"API 创建 #{label.Color} 颜色的 <{label.Name}> 标签失败! {error}";
+                            return $"API 创建 #{label.Color} 颜色的 <{label.Title}> 标签失败! {error}";
                         }
                     }
                     else
                     {
-                        var existLabel = existLabels[label.Name];
+                        var existLabel = existLabels[label.Title];
                         if (label.Color != existLabel.Color || label.Description != existLabel.Description)
                         {
-                            (var result, error) = await GithubSdk.Label.UpdateAsync(existLabel.Id, label.Name, label.Color, label.Description);
+                            (var result, error) = await GithubSdk.Label.UpdateAsync(existLabel.Id, label.Title, label.Color, label.Description);
                             if (result == null)
                             {
-                                return $"API 更新 #{label.Color} 颜色的 <{label.Name}> 标签失败! {error}";
+                                return $"API 更新 #{label.Color} 颜色的 <{label.Title}> 标签失败! {error}";
                             }
                         }
                     }
@@ -401,7 +402,7 @@ namespace Github.NET.Sdk
             (var myLabels, string error) = await GithubSdk.Label.GetsAsync(ownerName, repoName);
             if (myLabels != null)
             {
-                expectLabels.ExceptWith(myLabels!.Select(item => item.Name));
+                expectLabels.ExceptWith(myLabels!.Select(item => item.Title));
                 if (expectLabels.Count > 0)
                 {
 
@@ -413,7 +414,7 @@ namespace Github.NET.Sdk
                         {
                             foreach (var item in labels)
                             {
-                                referecLabelMap[item.Name.ToLowerInvariant()] = item;
+                                referecLabelMap[item.Title.ToLowerInvariant()] = item;
                             }
                         }
                         else
@@ -470,7 +471,7 @@ namespace Github.NET.Sdk
             (var myLabels, string error) = await GithubSdk.Label.GetsAsync(ownerName, repoName);
             if (myLabels != null)
             {
-                expectLabels.ExceptWith(myLabels!.Select(item => item.Name));
+                expectLabels.ExceptWith(myLabels!.Select(item => item.Title));
                 if (expectLabels.Count > 0)
                 {
 
@@ -482,7 +483,7 @@ namespace Github.NET.Sdk
                         {
                             foreach (var item in labels)
                             {
-                                referecLabelMap[item.Name.ToLowerInvariant()] = item;
+                                referecLabelMap[item.Title.ToLowerInvariant()] = item;
                             }
                         }
                         else
@@ -554,7 +555,7 @@ namespace Github.NET.Sdk
                 }
                 else
                 {
-                    createLabel.Name = newLabelName;
+                    createLabel.Title = newLabelName;
                 }
                 if (createLabel.Color == string.Empty)
                 {
@@ -580,10 +581,10 @@ namespace Github.NET.Sdk
                 }
 
 
-                (var result, error) = await GithubSdk.Label.CreateAsync(repoId, createLabel.Name, createLabel.Color, createLabel.Description);
+                (var result, error) = await GithubSdk.Label.CreateAsync(repoId, createLabel.Title, createLabel.Color, createLabel.Description);
                 if (result == null)
                 {
-                    return (null, $"API 创建 #{createLabel.Color} 颜色的 <{createLabel.Name}> 标签失败! {error}");
+                    return (null, $"API 创建 #{createLabel.Color} 颜色的 <{createLabel.Title}> 标签失败! {error}");
                 }
                 return (result, error);
             }

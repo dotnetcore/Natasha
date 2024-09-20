@@ -1,0 +1,25 @@
+{
+  "WorkflowConfig": {
+    "Deepth": -1,
+    "Directories": []
+  },
+  "SrcConfig": {
+    "Deepth": -1,
+    "Directories": []
+  },
+  "TestConfig": {
+    "Deepth": -1,
+    "Directories": []
+  },
+  "SampleConfig": {
+    "Deepth": -1,
+    "Directories": []
+  },
+  "IssuesConfig": {
+    "Discussion": true,
+    "Bug": true,
+    "Task": true,
+    "Feature": true,
+    "Feedback": false
+  }
+}

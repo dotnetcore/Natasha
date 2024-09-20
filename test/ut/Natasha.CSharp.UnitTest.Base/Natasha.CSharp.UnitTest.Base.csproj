@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>netcoreapp3.1;net6.0;net8.0;</TargetFrameworks>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<LangVersion>preview</LangVersion>
+		<SignAssembly>True</SignAssembly>
+		<Nullable>enable</Nullable>
+		<AssemblyOriginatorKeyFile>natasha.snk</AssemblyOriginatorKeyFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\src\Natasha.CSharp\Component\Core\Natasha.CSharp.Compiler.Domain\Natasha.CSharp.Compiler.Domain.csproj" />
+		<ProjectReference Include="..\..\..\src\Natasha.CSharp\Natasha.CSharp.Compiler\Natasha.CSharp.Compiler.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="natasha.snk">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+</Project>

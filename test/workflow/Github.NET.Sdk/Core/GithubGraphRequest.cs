@@ -15,10 +15,14 @@ namespace Github.NET.Sdk
         static GithubGraphRequest()
         {
 
-            _jsonSerializer = new JsonSerializerOptions();
-            _jsonSerializer.PropertyNameCaseInsensitive = true;
-            _client = new();
-            _client.BaseAddress = new Uri("https://api.github.com/graphql");
+            _jsonSerializer = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            _client = new()
+            {
+                BaseAddress = new Uri("https://api.github.com/graphql")
+            };
             _client.DefaultRequestHeaders.Add("X-Github-Next-Global-ID", "1");
             _client.DefaultRequestHeaders.Add("Accept", "application/vnd.github.bane-preview+json");
             _client.DefaultRequestHeaders.Add("User-Agent", "Awesome-Octocat-App");
@@ -112,8 +116,6 @@ namespace Github.NET.Sdk
 
         }
 
-
-
         public static GraphEntity Query()
         {
             return new GraphEntity();
@@ -157,6 +159,7 @@ namespace Github.NET.Sdk
         private string _nodeName = string.Empty;
         private string _methodParameter = string.Empty;
         private bool _hasChild;
+
         public GraphEntity DefineWithStrongType(string methodOrEntityName, Action<GraphParameter>? paramAction = null)
         {
             return Define($"...on {methodOrEntityName}", paramAction);

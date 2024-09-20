@@ -20,7 +20,6 @@ namespace WebapiWIthController
 
             var app = builder.Build();
 
-
             var action = @"
 var modelMetadataProvider = arg1.Services.GetService<IModelMetadataProvider>();
 var controllerActivatorProvider = arg1.Services.GetService<IControllerPropertyActivator>();

@@ -30,7 +30,7 @@ ${{nms.tests}}
 
     - name: Publish Test Results
       if: matrix.os == 'ubuntu-latest'
-      uses: EnricoMi/publish-unit-test-result-action@v2
+      uses: EnricoMi/publish-unit-test-result-action/linux@v2
       with:
         check_name: 'UT Test - Ubuntu'
         files: |
@@ -38,7 +38,7 @@ ${{nms.tests}}
 
 #    - name: Publish Test Results
 #      if: matrix.os == 'macos-latest'
-#      uses: EnricoMi/publish-unit-test-result-action/composite@v2
+#      uses: EnricoMi/publish-unit-test-result-action/macos@v2
 #      with:
 #        check_name: 'UT Test - Macos'
 #        files: |
@@ -46,7 +46,7 @@ ${{nms.tests}}
 
     - name: Publish Test Results
       if: matrix.os == 'windows-latest'
-      uses: EnricoMi/publish-unit-test-result-action/composite@v2
+      uses: EnricoMi/publish-unit-test-result-action/windows@v2
       with:
         check_name: 'UT Test - Windows'
         files: |

@@ -1,0 +1,57 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFrameworks>netcoreapp3.1;net6.0;net8.0;</TargetFrameworks>
+	  <IsPackable>false</IsPackable>
+	  <Nullable>enable</Nullable>
+	  <LangVersion>preview</LangVersion>
+	  <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+	  <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
+	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Compile\Access\IgnoresAccessChecksToAttribute.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="6.0.2" />
+    <PackageReference Include="DotNetCore.Compile.Environment" Version="3.2.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
+    <PackageReference Include="xunit" Version="2.5.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Natasha.CSharp.UnitTest.Base\Natasha.CSharp.UnitTest.Base.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="LogInfo\LogFile\2d79d3e2b027491f93705a4098578bcd.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="LogInfo\LogFile\ed79d3e2b027491f93705a4098578bcd.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="LogInfo\LogFile\ee79d3e2b027491f93705a4098568bc9.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="LogInfo\LogFile\ee79d3e2b027491f93705a4098568bc8.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="LogInfo\LogFile\ee79d3e2b027491f93705a4098578bcc.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="HotReload\" />
+  </ItemGroup>
+
+</Project>

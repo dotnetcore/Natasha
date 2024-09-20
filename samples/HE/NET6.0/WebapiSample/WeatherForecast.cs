@@ -1,4 +1,4 @@
-namespace WebapiSample
+namespace Webapi2Sample
 {
     public class WeatherForecast
     {
