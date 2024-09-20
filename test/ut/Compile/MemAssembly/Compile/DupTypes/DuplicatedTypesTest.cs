@@ -1,7 +1,5 @@
 ﻿using Natasha.CSharp.Compiler;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MemAssembly.Compile.DuplicatedTypes
 {
@@ -24,9 +22,10 @@ namespace DupliNamespace
         }
     }
 }";
+            var domain = NatashaManagement.CreateRandomDomain();
             var asm = script
                 .GetAssemblyForUT(builder => builder
-                    .UseNewLoadContext("duptest1")
+                    .UseExistLoadContext(domain)
                     .UseSmartMode()
                     .ConfigCompilerOption(opt => opt.WithLowerVersionsAssembly().WithCompilerFlag(CompilerBinderFlags.SuppressConstraintChecks)));
             var type1 = asm.GetTypeFromShortName("DuplicateATest");
@@ -36,7 +35,7 @@ namespace DupliNamespace
 
             asm = script
                 .GetAssemblyForUT(builder => builder
-                    .UseNewLoadContext("duptest1")
+                    .UseExistLoadContext(domain)
                     .UseSmartMode()
                     .ConfigCompilerOption(opt => opt.WithLowerVersionsAssembly().WithCompilerFlag(CompilerBinderFlags.SuppressConstraintChecks)));
             var type2 = asm.GetTypeFromShortName("DuplicateATest");
@@ -62,9 +61,10 @@ namespace DupliNamespace
         }
     }
 }";
+            var domain = NatashaManagement.CreateRandomDomain();
             var asm = script
                 .GetAssemblyForUT(builder => builder
-                    .UseNewLoadContext("duptest1")
+                    .UseExistLoadContext(domain)
                     .UseSmartMode()
                     .ConfigCompilerOption(opt => opt.WithLowerVersionsAssembly().WithCompilerFlag(CompilerBinderFlags.IgnoreCorLibraryDuplicatedTypes)));
             var type1 = asm.GetTypeFromShortName("DuplicateATest");
@@ -74,7 +74,7 @@ namespace DupliNamespace
 
             asm = script
                 .GetAssemblyForUT(builder => builder
-                    .UseNewLoadContext("duptest1")
+                    .UseExistLoadContext(domain)
                     .UseSmartMode()
                     .ConfigCompilerOption(opt => opt.WithLowerVersionsAssembly().WithCompilerFlag(CompilerBinderFlags.IgnoreCorLibraryDuplicatedTypes)));
             var type2 = asm.GetTypeFromShortName("DuplicateATest");
