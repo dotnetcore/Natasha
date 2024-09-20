@@ -112,6 +112,18 @@ public static class NatashaAssemblyBuilderExtension
     }
 
     /// <summary>
+    /// 使用现有的加载上下文
+    /// </summary>
+    /// <param name="builder">编译单元</param>
+    /// <param name="domain">加载上下文</param>
+    /// <returns></returns>
+    public static AssemblyCSharpBuilder UseExistLoadContext(this AssemblyCSharpBuilder builder, NatashaLoadContext domain)
+    {
+        builder.LoadContext = domain;
+        return builder;
+    }
+
+    /// <summary>
     /// 编译单元使用默认域上下文
     /// </summary>
     /// <param name="builder">编译单元</param>
