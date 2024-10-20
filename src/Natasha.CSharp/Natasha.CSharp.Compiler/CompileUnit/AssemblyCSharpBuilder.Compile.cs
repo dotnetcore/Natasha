@@ -14,7 +14,7 @@ public sealed partial class AssemblyCSharpBuilder
 {
     /// <summary>
     /// 重复编译
-    /// <list type="number">
+    /// <list type="bullet">
     ///     <item>
     ///     当前方法逻辑为：
     ///         <list type="bullet">
@@ -201,7 +201,6 @@ public sealed partial class AssemblyCSharpBuilder
     /// <returns>编译成功生成的程序集.</returns>
     public Assembly GetAssembly()
     {
-
         GetAvailableCompilation();
         if (Domain!.Name != "Default")
         {
