@@ -30,11 +30,11 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
-	
+
 	<ItemGroup>
-		<ProjectReference Include="..\..\Natasha.CSharp.UnitTest.Base\Natasha.CSharp.UnitTest.Base.csproj" />
-		<ProjectReference Include="..\PluginLibraries\MetadataDiff\MetadataDiff\MetadataDiff.csproj" />
-		<ProjectReference Include="..\PluginLibraries\PluginBase\PluginBase.csproj" />
+	  <ProjectReference Include="..\..\Natasha.CSharp.UnitTest.Base\Natasha.CSharp.UnitTest.Base.csproj" />
+	  <ProjectReference Include="..\Libraries\MetadataDiff\MetadataDiff\MetadataDiff.csproj" />
+	  <ProjectReference Include="..\Libraries\PluginBase\PluginBase.csproj" />
 	</ItemGroup>
 
 
