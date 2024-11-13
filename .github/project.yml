@@ -237,6 +237,16 @@ src:
     project_folder: src/Natasha.CSharp/Extension/HotExecutor/Natasha.CSharp.HotExecutor.SG
     labels: 
     dependency_config: 
+  - using_output: 
+    id: 8B5F2626-8EB0-44FF-9F1F-A1EFBCF8E030
+    is_ignored: false
+    is_folded: false
+    relative_path: src/Natasha.CSharp/Extension/HotExecutor/Natasha.CSharp.HotExecutor.Wrapper/Natasha.CSharp.HotExecutor.Wrapper.csproj
+    project_name: Natasha.CSharp.HotExecutor.Wrapper
+    package_name: DotNetCore.Natasha.CSharp.HotExecutor.Wrapper
+    project_folder: src/Natasha.CSharp/Extension/HotExecutor/Natasha.CSharp.HotExecutor.Wrapper
+    labels: 
+    dependency_config: 
 test:
   folded_projects: []
   global_labels:

@@ -3,8 +3,6 @@
 		<Using Include="Natasha.CSharp" />
 		<Using Include="Natasha.CSharp.Reverser" />
 		<Using Include="Natasha.CSharp.Compiler.Utils" />
-		<Using Include="System.Runtime.CompilerServices
-            //" />
 		<Using Include="Natasha.CSharp.Compiler.Component" />
 		<Using Include="Natasha.CSharp.Compiler" />
 	</ItemGroup>

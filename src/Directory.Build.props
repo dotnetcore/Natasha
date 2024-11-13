@@ -10,7 +10,7 @@
 				<SignAssembly>true</SignAssembly>
 				<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 				<Company>.NET Core Community</Company>
-				<Authors>NMSAzulx</Authors>
+				<Authors>NMSAzulx;LanX;ncc;</Authors>
 				<LangVersion>preview</LangVersion>
 				<Nullable>enable</Nullable>
 				<SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>

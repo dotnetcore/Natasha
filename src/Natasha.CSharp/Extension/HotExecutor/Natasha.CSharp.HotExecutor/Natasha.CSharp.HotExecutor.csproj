@@ -19,8 +19,8 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="build\netstandard2.1\DotNetCore.Natasha.CSharp.Extension.HotReload.targets" />
-		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildTransitive\netstandard2.1\DotNetCore.Natasha.CSharp.Extension.HotReload.targets" />
-		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildMultiTargeting\netstandard2.1\DotNetCore.Natasha.CSharp.Extension.HotReload.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="build\netstandard2.1\DotNetCore.Natasha.CSharp.HotExecutor.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildTransitive\netstandard2.1\DotNetCore.Natasha.CSharp.HotExecutor.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildMultiTargeting\netstandard2.1\DotNetCore.Natasha.CSharp.HotExecutor.targets" />
 	</ItemGroup>
 </Project>

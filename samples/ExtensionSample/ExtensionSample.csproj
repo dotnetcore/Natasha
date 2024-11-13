@@ -5,7 +5,7 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<LangVersion>preview</LangVersion>
 		<Nullable>enable</Nullable>
-		<ImplicitUsings>enable</ImplicitUsings>
+		<!--<ImplicitUsings>enable</ImplicitUsings>-->
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
 
@@ -14,14 +14,14 @@
 	  <Compile Remove="InteroAttribute.cs" />
 	</ItemGroup>
 
+	<!--<ItemGroup>
+	  <PackageReference Include="DotNetCore.Natasha.CSharp.HotExecutor.Wrapper" Version="8.9.0" />
+	</ItemGroup>-->
+
 	<ItemGroup>
-
+	  <ProjectReference Include="..\..\src\Natasha.CSharp\Component\Core\Natasha.CSharp.Compiler.Domain\Natasha.CSharp.Compiler.Domain.csproj" />
 	  <ProjectReference Include="..\..\src\Natasha.CSharp\Extension\HotExecutor\Natasha.CSharp.HotExecutor.SG\Natasha.CSharp.HotExecutor.SG.csproj" />
-
 	  <ProjectReference Include="..\..\src\Natasha.CSharp\Extension\HotExecutor\Natasha.CSharp.HotExecutor\Natasha.CSharp.HotExecutor.csproj" />
-
-	  <ProjectReference Include="..\..\src\Natasha.CSharp\Extension\Natasha.CSharp.Extension.CompileDirector\Natasha.CSharp.Extension.CompileDirector.csproj" />
-	  <ProjectReference Include="..\..\src\Natasha.CSharp\Extension\Natasha.CSharp.Extension.MethodCreator\Natasha.CSharp.Extension.MethodCreator.csproj" />
 	</ItemGroup>
 
 </Project>

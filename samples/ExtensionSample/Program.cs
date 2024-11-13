@@ -61,8 +61,6 @@ namespace ExtensionSample
             //{
             //    Console.WriteLine("无法获取父进程信息。错误代码: " + status);
             //}
-
-
             HEProxyState<int>.Value += 1;
             for (int i = 0; i < args.Length; i++)
             {
@@ -160,7 +158,7 @@ namespace ExtensionSample
             HEProxy.AppendArgs("参数3");
             HEProxy.AppendArgs("参数4");
         }
-
+        /*
         private static void RunAssemblyBuilder(CompileDirector director)
         {
             var builder = director.CreateBuilder();
@@ -176,7 +174,7 @@ namespace ExtensionSample
             asm.GetDelegateFromShortName<Action>("A", "Show")!();
         }
 
-        /*
+        
         public static async void TestPage()
         {
             GithubQueryData query = new()

@@ -310,7 +310,7 @@ namespace Workflow.Initialization.Core
             }
             var collection = SolutionInfo.GetCSProjectsByStartFolder("src");
             var projectMapper = collection.Projects.ToDictionary(item => item.Id, item => item);
-            Regex usingReg = new Regex("namespace (?<using>.*?)[;{].*?public[^\\r\\n]*?(class|struct|enum|interface|record).*?{", RegexOptions.Singleline | RegexOptions.Compiled);
+            Regex usingReg = new Regex("namespace (?<using>.*?)[ ;{\\r\\n].*?public[^\\r\\n]*?(class|struct|enum|interface|record).*?{", RegexOptions.Singleline | RegexOptions.Compiled);
             Regex buildReg = new Regex("<ItemGroup>[\\s]*?<None Include=\"Targets\\\\Project.Usings.targets\".*?</ItemGroup>", RegexOptions.Singleline | RegexOptions.Compiled);
 
             foreach (var project in solutionInfo.Src.Projects)
