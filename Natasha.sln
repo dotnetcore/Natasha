@@ -261,6 +261,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NETCore3.0", "NETCore3.0", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleSample", "samples\HE\NETCORE3.0\ConsoleSample\ConsoleSample.csproj", "{580C1DBC-5EDB-4C77-A5B9-456E7800BC43}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Natasha.CSharp.HotExecutor.Wrapper", "src\Natasha.CSharp\Extension\HotExecutor\Natasha.CSharp.HotExecutor.Wrapper\Natasha.CSharp.HotExecutor.Wrapper.csproj", "{8B5F2626-8EB0-44FF-9F1F-A1EFBCF8E030}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -475,6 +477,10 @@ Global
 		{580C1DBC-5EDB-4C77-A5B9-456E7800BC43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{580C1DBC-5EDB-4C77-A5B9-456E7800BC43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{580C1DBC-5EDB-4C77-A5B9-456E7800BC43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B5F2626-8EB0-44FF-9F1F-A1EFBCF8E030}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B5F2626-8EB0-44FF-9F1F-A1EFBCF8E030}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B5F2626-8EB0-44FF-9F1F-A1EFBCF8E030}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B5F2626-8EB0-44FF-9F1F-A1EFBCF8E030}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -570,6 +576,7 @@ Global
 		{78A4B5F2-A26B-473D-9035-D2078EDAB02A} = {65FA3AA7-C1CF-4366-AE33-24EBF0291E31}
 		{915508A8-D118-4B5D-A17C-761C7033D32D} = {9546332D-450A-44D1-BF9B-52F43A7F7DDC}
 		{580C1DBC-5EDB-4C77-A5B9-456E7800BC43} = {915508A8-D118-4B5D-A17C-761C7033D32D}
+		{8B5F2626-8EB0-44FF-9F1F-A1EFBCF8E030} = {7A3EC767-1531-4472-8896-60B3F649BF34}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3004E730-B231-40FA-B75C-58D7DDE17679}
