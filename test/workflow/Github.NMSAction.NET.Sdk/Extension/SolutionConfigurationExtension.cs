@@ -57,7 +57,7 @@ public static class SolutionConfigurationExtension
                 new ActionProjectConfiguration()
                 {
                      ProjectFolder = ".github",
-                     Labels = new GithubLabelBase[] { new GithubLabelBase() { Title="pr_action", Color= "68E0F8", Description="The pr will be marked with pr_action label." } },
+                     Labels = new GithubLabelBase[] { new GithubLabelBase() { Name="pr_action", Color= "68E0F8", Description="The pr will be marked with pr_action label." } },
                      DependencyConfig = new DependencyConfiguration()
                      {
                           Type = PackageType.GithubAction,
@@ -69,7 +69,7 @@ public static class SolutionConfigurationExtension
                            {
                                new GithubLabelBase()
                                {
-                                    Title = "dependencies",
+                                    Name = "dependencies",
                                     Color = "68E0F8",
                                     Description = "有依赖需要升级"
                                }
@@ -197,9 +197,9 @@ public static class SolutionConfigurationExtension
                 {
                     foreach (var label in labels)
                     {
-                        if (!cache.ContainsKey(label.Title))
+                        if (!cache.ContainsKey(label.Name))
                         {
-                            cache[label.Title] = label;
+                            cache[label.Name] = label;
                         }
                     }
                 }
@@ -229,9 +229,9 @@ public static class SolutionConfigurationExtension
             {
                 foreach (var item in githubLabels)
                 {
-                    if (!cache.ContainsKey(item.Title))
+                    if (!cache.ContainsKey(item.Name))
                     {
-                        cache[item.Title] = item;
+                        cache[item.Name] = item;
                     }
                 }
             }

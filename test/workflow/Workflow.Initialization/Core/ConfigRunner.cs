@@ -74,7 +74,7 @@ namespace Workflow.Initialization.Core
                         }
                         else
                         {
-                            File.WriteAllText(configPath, content.Replace("${{labels}}", $"labels: [\"{string.Join("\",\"", item.PullRequestLabels.Select(item => item.Title))}\"]"));
+                            File.WriteAllText(configPath, content.Replace("${{labels}}", $"labels: [\"{string.Join("\",\"", item.PullRequestLabels.Select(item => item.Name))}\"]"));
                         }
                     }
                 }
@@ -230,7 +230,7 @@ namespace Workflow.Initialization.Core
                         result.AppendLine("    labels:");
                         foreach (var item in config.Labels)
                         {
-                            result.AppendLine($"      - \"{item.Title}\"");
+                            result.AppendLine($"      - \"{item.Name}\"");
                         }
                     }
                     if (config.Ignore != null)

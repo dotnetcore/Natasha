@@ -26,23 +26,25 @@ jobs:
           6.0.x
           8.0.x
           
-    - name: 👀 Test & Pack Codecov - RefAssemblyUT
-      run: dotnet test "./test/ut/CompileUnit/RefAssemblyUT/RefAssemblyUT.csproj" --nologo -f net6.0 -c Release  -l "trx;LogFileName=RefAssemblyUT.trx" --results-directory "TestResults" --collect:"XPlat Code Coverage"
+    - name: 👀 Test & Pack Codecov - RefAssembly
+      run: dotnet test "./test/ut/Compile/RefAssembly/RefAssembly.csproj" --nologo -f net6.0 -c Release  -l "trx;LogFileName=RefAssembly.trx" --results-directory "TestResults" --collect:"XPlat Code Coverage"
     - name: 📶 Push to Codecov
       if: matrix.os == 'ubuntu-latest'
       uses: codecov/codecov-action@v4.3.0
       with:
         token: ${{ secrets.COVERAGE_KEY }}
         directory: TestResults
-    - name: 🚦 RefAssemblyUT UT Test Not on ubuntu-latest
+    - name: 🚦 RefAssembly UT Test Not on ubuntu-latest
       if: matrix.os != 'ubuntu-latest'
-      run: dotnet test './test/ut/CompileUnit/RefAssemblyUT' --nologo -c Release -l "trx;LogFileName=RefAssemblyUT.trx" --results-directory "TestResults"
+      run: dotnet test './test/ut/Compile/RefAssembly' --nologo -c Release -l "trx;LogFileName=RefAssembly.trx" --results-directory "TestResults"
 
+    - name: 🚦 MemAssembly UT Test
+      run: dotnet test './test/ut/Compile/MemAssembly' --nologo -c Release -l "trx;LogFileName=MemAssembly.trx" --results-directory "TestResults"
 
 
     - name: Publish Test Results
       if: matrix.os == 'ubuntu-latest'
-      uses: EnricoMi/publish-unit-test-result-action@v2
+      uses: EnricoMi/publish-unit-test-result-action/linux@v2
       with:
         check_name: 'UT Test - Ubuntu'
         files: |
@@ -50,7 +52,7 @@ jobs:
 
 #    - name: Publish Test Results
 #      if: matrix.os == 'macos-latest'
-#      uses: EnricoMi/publish-unit-test-result-action/composite@v2
+#      uses: EnricoMi/publish-unit-test-result-action/macos@v2
 #      with:
 #        check_name: 'UT Test - Macos'
 #        files: |
@@ -58,7 +60,7 @@ jobs:
 
     - name: Publish Test Results
       if: matrix.os == 'windows-latest'
-      uses: EnricoMi/publish-unit-test-result-action/composite@v2
+      uses: EnricoMi/publish-unit-test-result-action/windows@v2
       with:
         check_name: 'UT Test - Windows'
         files: |

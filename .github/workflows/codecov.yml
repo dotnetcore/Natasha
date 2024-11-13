@@ -32,8 +32,8 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: 🚦 Check & Pack Codecov - RefAssemblyUT
-      run: dotnet test "./test/ut/CompileUnit/RefAssemblyUT/RefAssemblyUT.csproj" --nologo -f net6.0 -c Release --collect:"XPlat Code Coverage" --results-directory "./coverage/"
+    - name: 🚦 Check & Pack Codecov - RefAssembly
+      run: dotnet test "./test/ut/Compile/RefAssembly/RefAssembly.csproj" --nologo -f net6.0 -c Release --collect:"XPlat Code Coverage" --results-directory "./coverage/"
 
 
     - name: 📶 Push to Codecov

@@ -5,6 +5,8 @@ ignore_projects:
 - test/ut/PluginLibraries/Plugin2/Plugin2.csproj
 - test/ut/PluginLibraries/PluginBase/PluginBase.csproj
 - test/ut/PluginFunctionUT/PluginFunctionUT.csproj
+- test/ut/Plugin/Domain/Domain.csproj
+- test/ut/Natasha.CSharp.UnitTest.Base/Natasha.CSharp.UnitTest.Base.csproj
 issues_template_configs:
 - panel_name: " \U0001F41E 上报 BUG (Report bug)"
   file_name: bug
@@ -89,10 +91,14 @@ samples:
   - samples/PluginSample/PluginA/PluginA.csproj
   - samples/PluginSample/PluginB/PluginB.csproj
   - samples/PluginSample/PluginBase/PluginBase.csproj
-  - samples/ReferenceSample/ReferenceSample.csproj
-  - samples/HotReloadSample/HotReloadSample.csproj
-  - samples/HotReloadPlugin/HotReloadPlugin.csproj
   - samples/ExtensionSample/ExtensionSample.csproj
+  - samples/DebugSample/DebugSample.csproj
+  - samples/AllProxySample/AllProxySample.csproj
+  - samples/HE/NET5.0/ConsoleSample/ConsoleSample.csproj
+  - samples/HE/NET6.0/WebapiSample/WebapiSample.csproj
+  - samples/HE/NET5.0/WinFormsSample/WinFormsSample.csproj
+  - samples/HE/NET6.0/WebapiWIthController/WebapiWIthController.csproj
+  - samples/HE/NETCORE3.0/ConsoleSample/ConsoleSample.csproj
   global_labels:
   - name: pr_samples
     description: 此次提交包含 [案例工程] 相关的改动.
@@ -196,6 +202,46 @@ src:
     project_folder: src/Natasha.CSharp/Component/Core/Natasha.CSharp.Template.Core
     labels: 
     dependency_config: 
+  - using_output:
+      enable: true
+      ignores:
+      - System
+      - System.Runtime.CompilerServices
+      - System.Reflection
+    id: 1F76ECC0-ABD3-4828-87CD-BE4AEEA4FB66
+    is_ignored: false
+    is_folded: false
+    relative_path: src/Natasha.CSharp/Extension/HotExecutor/Natasha.CSharp.HotExecutor/Natasha.CSharp.HotExecutor.csproj
+    project_name: Natasha.CSharp.HotExecutor
+    package_name: DotNetCore.Natasha.CSharp.Extension.HotReload
+    project_folder: src/Natasha.CSharp/Extension/HotExecutor/Natasha.CSharp.HotExecutor
+    labels: 
+    dependency_config: 
+  - using_output: 
+    id: F1B47923-B3CB-446A-8D52-D8075E65B5F8
+    is_ignored: false
+    is_folded: false
+    relative_path: src/Natasha.CSharp/Extension/Natasha.CSharp.Extension.CompileDirector/Natasha.CSharp.Extension.CompileDirector.csproj
+    project_name: Natasha.CSharp.Extension.CompileDirector
+    package_name: DotNetCore.Natasha.CSharp.Extension.CompileDirector
+    project_folder: src/Natasha.CSharp/Extension/Natasha.CSharp.Extension.CompileDirector
+    labels: 
+    dependency_config: 
+  - using_output:
+      enable: true
+      ignores:
+      - System
+      - System.Runtime.CompilerServices
+      - System.Reflection
+    id: 39456A90-01B8-4749-B1C7-B1F3082F2466
+    is_ignored: false
+    is_folded: false
+    relative_path: src/Natasha.CSharp/Extension/HotExecutor/Natasha.CSharp.HotExecutor.SG/Natasha.CSharp.HotExecutor.SG.csproj
+    project_name: Natasha.CSharp.HotExecutor.SG
+    package_name: DotNetCore.Natasha.CSharp.Extension.HotReload.SG
+    project_folder: src/Natasha.CSharp/Extension/HotExecutor/Natasha.CSharp.HotExecutor.SG
+    labels: 
+    dependency_config: 
 test:
   folded_projects: []
   global_labels:
@@ -206,25 +252,37 @@ test:
   - trigger_pull_request_test: false
     trigger_codecov: false
     o_s: 
-    id: 7EC1DFB6-3332-4A4D-867B-B7C32D2AB0FE
+    id: 767438D7-594D-4C59-9C2F-5B7233D5F841
     is_ignored: false
     is_folded: false
-    relative_path: test/ut/NatashaFunctionUT/NatashaFunctionUT.csproj
-    project_name: NatashaFunctionUT
+    relative_path: test/ut/Plugin/Compile/Compile.csproj
+    project_name: Compile
     package_name: 
-    project_folder: test/ut/NatashaFunctionUT
+    project_folder: test/ut/Plugin/Compile
     labels: 
     dependency_config: 
   - trigger_pull_request_test: true
     trigger_codecov: true
     o_s: linux
-    id: C4427931-E3B0-47DC-B0B8-26D4E4AC1D2E
+    id: 67BBDAD5-AFE1-4371-A5CA-C05242A28542
     is_ignored: false
     is_folded: false
-    relative_path: test/ut/CompileUnit/RefAssemblyUT/RefAssemblyUT.csproj
-    project_name: RefAssemblyUT
+    relative_path: test/ut/Compile/RefAssembly/RefAssembly.csproj
+    project_name: RefAssembly
     package_name: 
-    project_folder: test/ut/CompileUnit/RefAssemblyUT
+    project_folder: test/ut/Compile/RefAssembly
+    labels: 
+    dependency_config: 
+  - trigger_pull_request_test: true
+    trigger_codecov: false
+    o_s: 
+    id: AC2E37E8-A930-4092-BA9D-2CCC2E895E5D
+    is_ignored: false
+    is_folded: false
+    relative_path: test/ut/Compile/MemAssembly/MemAssembly.csproj
+    project_name: MemAssembly
+    package_name: 
+    project_folder: test/ut/Compile/MemAssembly
     labels: 
     dependency_config: 
 workflow:

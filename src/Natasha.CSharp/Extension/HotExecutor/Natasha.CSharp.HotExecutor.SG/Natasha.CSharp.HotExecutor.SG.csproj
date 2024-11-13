@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.1</TargetFramework>
@@ -28,4 +28,9 @@
 	</ItemGroup>
 
 	
+	<ItemGroup>
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="build\netstandard2.1\DotNetCore.Natasha.CSharp.Extension.HotReload.SG.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildTransitive\netstandard2.1\DotNetCore.Natasha.CSharp.Extension.HotReload.SG.targets" />
+		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildMultiTargeting\netstandard2.1\DotNetCore.Natasha.CSharp.Extension.HotReload.SG.targets" />
+	</ItemGroup>
 </Project>
