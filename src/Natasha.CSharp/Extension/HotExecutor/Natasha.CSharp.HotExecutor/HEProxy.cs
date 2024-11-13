@@ -97,13 +97,16 @@ public static class HEProxy
                     }
                     if (needReBuildAgain)
                     {
+#if DEBUG
                         ShowMessage("抢占成功，将重新编译！");
+#endif
                         _buildLock.ReleaseLock();
                         _csprojWatcher!.Notify();
                         return;
                     }
-
+#if DEBUG
                     ShowMessage("构建成功，准备启动！");
+#endif
                     if (await _processor.Run())
                     {
 #if DEBUG
@@ -115,14 +118,18 @@ public static class HEProxy
                 {
                     _isFaildBuild = true;
                     _buildLock.ReleaseLock();
+#if DEBUG
                     ShowMessage("构建失败！");
+#endif
 
                 }
             }
             else
             {
                 _isCompiling = false;
+#if DEBUG
                 ShowMessage("检测到多次更改触发多次抢占编译，当前将尽可能抢占编译权限！");
+#endif
             }
 
         });
@@ -239,7 +246,9 @@ public static class HEProxy
             _cs0104UsingCache[file] = _cs0104TriviaPlugin.ExcludeUsings;
             //从默认Using缓存中排除 CS0104 
             root = UsingsHandler.Handle(root, _cs0104UsingCache);
+#if DEBUG
             ShowMessage(root.ToFullString());
+#endif
             return CSharpSyntaxTree.Create(root, _currentOptions, file, Encoding.UTF8);
         }
         if (root != reBuildRoot)
@@ -295,7 +304,9 @@ public static class HEProxy
             var types = CurrentAssembly.GetTypes();
             var typeInfo = CurrentAssembly.GetTypeFromShortName(_proxyMethodPlugin.ClassName!);
             var methods = typeInfo.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
+#if DEBUG
             ShowMessage($"执行主入口前导方法....");
+#endif
             _preCallback?.Invoke();
 
             if (_cancellations.Count > 0)
@@ -344,8 +355,9 @@ public static class HEProxy
             {
                 instance = Activator.CreateInstance(typeInfo);
             }
-
+#if DEBUG
             ShowMessage($"执行主入口回调方法....");
+#endif
             if (_asyncTriviaPlugin.IsAsync)
             {
                 Task mainTask;
@@ -380,15 +392,17 @@ public static class HEProxy
                 }
             }
 
-
+#if DEBUG
             ShowMessage($"执行入口回调方法....");
+#endif
             _endCallback?.Invoke();
+#if DEBUG
             ShowMessage($"执行系列方法执行完毕.");
+#endif
 
         }
         catch (Exception ex)
         {
-
             ShowMessage($"热编译运行失败....");
             if (ex is NatashaException nex)
             {

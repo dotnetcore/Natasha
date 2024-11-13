@@ -15,6 +15,10 @@
 	</ItemGroup>
 
 	<!--<ItemGroup>
+	  <PackageReference Include="DotNetCore.Natasha.CSharp.HotExecutor.Wrapper" Version="9.0.0.2" />
+	</ItemGroup>-->
+
+	<!--<ItemGroup>
 	  <PackageReference Include="DotNetCore.Natasha.CSharp.HotExecutor.Wrapper" Version="9.0.0.1" />
 	</ItemGroup>-->
 

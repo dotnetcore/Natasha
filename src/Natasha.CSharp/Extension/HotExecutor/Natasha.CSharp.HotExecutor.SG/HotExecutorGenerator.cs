@@ -73,7 +73,6 @@ HEProxy.ExcludeGlobalUsing(""System.Windows.Forms"");
 
             var nameSapce = context.Compilation.GetEntryPoint(cancellationToken: new System.Threading.CancellationToken())!.ContainingNamespace.Name;
             string proxyMethodContent = $@"
-//#if DEBUG
 using System.IO;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -103,7 +102,6 @@ namespace System{{
 
     }}
 }}
-//#endif
 ";
 
             context.AddSource($"NatashaHotExecutorProxy.g.cs", proxyMethodContent);
