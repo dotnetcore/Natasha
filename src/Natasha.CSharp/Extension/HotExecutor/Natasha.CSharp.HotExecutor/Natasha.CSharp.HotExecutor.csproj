@@ -6,7 +6,7 @@
 	  <Nullable>enable</Nullable>
 	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	  <Description>动态重载控制台代码结果.</Description>
-	  <PackageId>DotNetCore.Natasha.CSharp.Extension.HotExecutor</PackageId>
+	  <PackageId>DotNetCore.Natasha.CSharp.HotExecutor</PackageId>
 	  <PackageReleaseNotes>升级到最新版.</PackageReleaseNotes>
 	  <PackageTags>Natasha;Compiler;Natasha Extension;HotReload;HotExecutor;</PackageTags>
 	  <Version>8.0.0.0</Version>

@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>netstandard2.1;</TargetFrameworks>
-		<PackageId>DotNetCore.Natasha.CSharp.Extension.HotExecutor.SG</PackageId>
+		<PackageId>DotNetCore.Natasha.CSharp.HotExecutor.SG</PackageId>
 		<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
 		<IncludeBuildOutput>false</IncludeBuildOutput>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -17,6 +17,10 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" PrivateAssets="all" />
 		<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" PrivateAssets="all" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="bin\Debug\netstandard2.1\netstandard2.1\Natasha.CSharp.HotExecutor.SG.dll" />
 	</ItemGroup>
 
 	<ItemGroup>

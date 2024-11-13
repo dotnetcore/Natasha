@@ -62,15 +62,21 @@ Example:
 - 编译导演，每次编译学习并保留有用的 using code.
 - 跟随其他扩展库版本号发布.
 
-### DotNetCore.Natasha.CSharp.Extension.HotExecutor.SG _ v8.9.0.2:
-- 热重载，允许程序在运行时更改代码，并输出新的结果.
-- 跟随其他扩展库版本号发布.
+
 -->
 
 ## [9.0.0.0] - 2024-11-13 
 
-### DotNetCore.Natasha.CSharp.Extension.HotExecutor.Wrapper _ v9.0.0.0:
-- 热重载，允许程序在运行时更改代码，并输出新的结果.
+### DotNetCore.Natasha.CSharp.HotExecutor _ v9.0.0.0:
+- 基于 Natasha 的热执行，允许程序在运行时更改代码，并输出新的结果.
+- 跟随其他扩展库版本号发布.
+
+### DotNetCore.Natasha.CSharp.HotExecutor.SG _ v9.0.0.0:
+- 热执行的 SG 扩展库.
+- 跟随其他扩展库版本号发布.
+
+### DotNetCore.Natasha.CSharp.HotExecutor.Wrapper _ v8.9.0.0:
+- 热执行 + SG 封装库.
 - 跟随其他扩展库版本号发布.
 
 

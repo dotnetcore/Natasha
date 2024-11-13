@@ -1,8 +1,8 @@
 ﻿<Project>
 	<!-- 编辑项目文件，添加指定的 PackageReference 节点 -->
 	<ItemGroup>
-		<PackageReference Include="DotNetCore.Natasha.CSharp.Extension.HotExecutor.SG" Version="8.9.0.2" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
-		<PackageReference Include="DotNetCore.Natasha.CSharp.Extension.HotExecutor" Version="9.0.0.0" />
+		<PackageReference Include="DotNetCore.Natasha.CSharp.HotExecutor.SG" Version="9.0.0.0" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+		<PackageReference Include="DotNetCore.Natasha.CSharp.HotExecutor" Version="9.0.0.0" />
 		<PackageReference Include="DotNetCore.Natasha.CSharp.Compiler.Domain" Version="9.0.0.0" />
 	</ItemGroup>
 </Project>

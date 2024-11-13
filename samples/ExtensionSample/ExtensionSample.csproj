@@ -13,9 +13,13 @@
 	  <Compile Remove="InterceptMain.cs" />
 	  <Compile Remove="InteroAttribute.cs" />
 	</ItemGroup>
+
 	<ItemGroup>
+
 	  <ProjectReference Include="..\..\src\Natasha.CSharp\Extension\HotExecutor\Natasha.CSharp.HotExecutor.SG\Natasha.CSharp.HotExecutor.SG.csproj" />
+
 	  <ProjectReference Include="..\..\src\Natasha.CSharp\Extension\HotExecutor\Natasha.CSharp.HotExecutor\Natasha.CSharp.HotExecutor.csproj" />
+
 	  <ProjectReference Include="..\..\src\Natasha.CSharp\Extension\Natasha.CSharp.Extension.CompileDirector\Natasha.CSharp.Extension.CompileDirector.csproj" />
 	  <ProjectReference Include="..\..\src\Natasha.CSharp\Extension\Natasha.CSharp.Extension.MethodCreator\Natasha.CSharp.Extension.MethodCreator.csproj" />
 	</ItemGroup>
