@@ -88,6 +88,7 @@ namespace ExtensionSample
                 Console.WriteLine(item.Name);
             }
 
+
             //Once
             for (int i = 0; i < 5; i++)
             {
@@ -95,7 +96,7 @@ namespace ExtensionSample
                 Console.WriteLine(i);
             }
 
-            //Console.WriteLine(File.Exists("1.txt"));
+
             Console.WriteLine(Class1.Get());
             Console.WriteLine((new Class4()).ToString());
             Console.WriteLine(JsonSerializer.Serialize(new Class3()));
@@ -105,6 +106,7 @@ namespace ExtensionSample
             Console.ReadKey();
 
         }
+
 
         public static void TestShow()
         {

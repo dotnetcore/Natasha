@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
+		<TargetFrameworks>netstandard2.1;</TargetFrameworks>
 		<Description>编译导演,在编译场景中不断学习 using 使用情况。</Description>
 		<PackageId>DotNetCore.Natasha.CSharp.Extension.CompileDirector</PackageId>
 		<PackageReleaseNotes>升级到最新版.</PackageReleaseNotes>

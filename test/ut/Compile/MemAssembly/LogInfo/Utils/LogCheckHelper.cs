@@ -48,10 +48,10 @@ namespace MemAssembly.Log.Utils
             catch (Exception ex)
             {
 
-                var expectedLog = GetText(fileName);
+                var expectedLog = GetText(fileName).Replace("\r\n", "\n");
                 Assert.NotNull(log);
                 Assert.True(ex is NatashaException);
-                var actualLog = log!.ToString();
+                var actualLog = log!.ToString().Replace("\r\n", "\n");
                 CompareLogEqual(expectedLog, actualLog);
 
             }
@@ -89,9 +89,9 @@ namespace MemAssembly.Log.Utils
                     log = compilation.GetNatashaLog();
                 };
                 builder.GetAssembly();
-                var expectedLog = GetText(fileName);
+                var expectedLog = GetText(fileName).Replace("\r\n", "\n");
                 Assert.NotNull(log);
-                var actualLog = log!.ToString();
+                var actualLog = log!.ToString().Replace("\r\n", "\n");
                 CompareLogEqual(expectedLog, actualLog);
             }
             catch (Exception ex)
@@ -102,7 +102,7 @@ namespace MemAssembly.Log.Utils
         }
         private static void CompareLogEqual(string expected, string actual)
         {
-            Assert.True(OSStringCompare.Equal(removeTime.Replace(expected, ""), removeTime.Replace(actual, "")));
+            Assert.Equal(removeTime.Replace(expected, ""), removeTime.Replace(actual, ""));
         }
 
         private static string GetText(string fileName)

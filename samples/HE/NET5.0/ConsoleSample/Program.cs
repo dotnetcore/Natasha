@@ -10,6 +10,7 @@ namespace ConsoleSample
 
         static void Main(string[] args)
         {
+
             //HE:Async
             TestLocalMethod();
             HEProxyState<int>.Value += 1;
@@ -17,7 +18,6 @@ namespace ConsoleSample
             {
                 //DS args[i]
             }
-
 
             Console.WriteLine(HEProxyState<int>.Value);
             CancellationTokenSource source = new();
