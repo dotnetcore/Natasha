@@ -67,7 +67,11 @@ Example:
 
 ## [9.0.0.0] - 2024-11-13 
 
-### DotNetCore.Natasha.CSharp.Extension.HotReload.SG _ v8.9.0.0:
+### DotNetCore.Natasha.CSharp.Extension.HotExecutor.SG _ v8.9.0.1:
+- 热重载，允许程序在运行时更改代码，并输出新的结果.
+- 跟随其他扩展库版本号发布.
+
+### DotNetCore.Natasha.CSharp.Extension.HotExecutor _ v9.0.0.0:
 - 热重载，允许程序在运行时更改代码，并输出新的结果.
 - 跟随其他扩展库版本号发布.
 
