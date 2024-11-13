@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using YamlDotNet.Core.Tokens;
 
 namespace Workflow.Initialization.Core
 {
@@ -73,7 +74,7 @@ namespace Workflow.Initialization.Core
                         }
                         else
                         {
-                            File.WriteAllText(configPath, content.Replace("${{labels}}", $"labels: [\"{string.Join("\",\"", item.PullRequestLabels.Select(item => item.Name))}\"]"));
+                            File.WriteAllText(configPath, content.Replace("${{labels}}", $"labels: [\"{string.Join("\",\"", item.PullRequestLabels.Select(item => item.Title))}\"]"));
                         }
                     }
                 }
@@ -94,7 +95,13 @@ namespace Workflow.Initialization.Core
                 StringBuilder utString = new StringBuilder();
                 foreach (var project in solutionInfo.Test.Projects)
                 {
-                    if (project.TriggerPullRequestTest)
+
+                    if (project.TriggerCodecov)
+                    {
+                        utString.AppendLine(GetCodecoveTestString(project.ProjectName, project.ProjectFolder, project.OS));
+                        
+                    }
+                    else if (project.TriggerPullRequestTest)
                     {
                         utString.AppendLine(GetUTTestTaskString(project.ProjectName, project.ProjectFolder));
                     }
@@ -112,6 +119,41 @@ namespace Workflow.Initialization.Core
                 File.Delete(ymlFile);
             }
 
+            static string GetCodecoveTestString(string projectName, string projectFolder, string? os)
+            {
+                string osKey = string.Empty;
+                StringBuilder codecovResult = new();
+                codecovResult.AppendLine($"    - name: 👀 Test & Pack Codecov - {projectName}");
+                codecovResult.AppendLine($"      run: dotnet test \"./{projectFolder}/{projectName}.csproj\" --nologo -f net6.0 -c Release  -l \"trx;LogFileName={projectName}.trx\" --results-directory \"TestResults\" --collect:\"XPlat Code Coverage\"");
+                codecovResult.AppendLine("    - name: 📶 Push to Codecov");
+                if (os != null)
+                {
+                    osKey = os switch
+                    {
+                        "win" => "windows-latest",
+                        "linux" => "ubuntu-latest",
+                        "osx" => "macos-latest",
+                        _ => throw new KeyNotFoundException($"不支持 {os} 系统测试环境。 "),
+                    };
+                    codecovResult.AppendLine($"      if: matrix.os == '{osKey}'");
+                }
+                codecovResult.AppendLine("      uses: codecov/codecov-action@v4.3.0");
+                codecovResult.AppendLine("      with:");
+                codecovResult.AppendLine("        token: ${{ secrets.COVERAGE_KEY }}");
+                codecovResult.AppendLine("        directory: TestResults");
+                if (osKey != string.Empty)
+                {
+                    
+                    codecovResult.AppendLine($"    - name: 🚦 {projectName} UT Test Not on {osKey}");
+                    codecovResult.AppendLine($"      if: matrix.os != '{osKey}'");
+                    codecovResult.AppendLine($"      run: dotnet test './{projectFolder}' --nologo -c Release -l \"trx;LogFileName={projectName}.trx\" --results-directory \"TestResults\"");
+                }
+                return codecovResult.ToString();
+            }
+            //static string GetBuildTaskString(string projectName, string projectFolder)
+            //{
+            //    return $"    - name: 🚦 Build {projectName} \r\n      run:  dotnet build './{projectFolder}' -c Release --nologo";
+            //}
             //UT测试以及报告输出
             static string GetUTTestTaskString(string projectName, string projectFolder)
             {
@@ -188,7 +230,7 @@ namespace Workflow.Initialization.Core
                         result.AppendLine("    labels:");
                         foreach (var item in config.Labels)
                         {
-                            result.AppendLine($"      - \"{item.Name}\"");
+                            result.AppendLine($"      - \"{item.Title}\"");
                         }
                     }
                     if (config.Ignore != null)
@@ -234,8 +276,10 @@ namespace Workflow.Initialization.Core
                 {
                     if (project.TriggerCodecov)
                     {
+
                         codecovResult.AppendLine($"    - name: 🚦 Check & Pack Codecov - {project.ProjectName}");
                         codecovResult.AppendLine($"      run: dotnet test \"./{project.ProjectFolder}/{project.ProjectName}.csproj\" --nologo -f net6.0 -c Release --collect:\"XPlat Code Coverage\" --results-directory \"./coverage/\"");
+
                     }
                 }
 
@@ -281,8 +325,7 @@ namespace Workflow.Initialization.Core
                         continue;
                     }
 
-
-                    HashSet<string> publicUsings = new HashSet<string>();
+                    HashSet<string> publicUsings = new();
                     foreach (var file in files)
                     {
                         var matches = usingReg.Matches(File.ReadAllText(file));
@@ -315,7 +358,7 @@ namespace Workflow.Initialization.Core
                     var nodeInfo = projectMapper[project.Id];
                     string targetFilePath = Path.Combine(tagetFolder, "Project.Usings.targets");
                     var csProjFilePath = Path.Combine(SolutionInfo.Root, nodeInfo.RelativePath);
-                   
+
                     if (publicUsings.Count == 0)
                     {
                         if (File.Exists(targetFilePath))
@@ -332,7 +375,7 @@ namespace Workflow.Initialization.Core
                                 .Replace("\t</Project>", "</Project>");
                             File.WriteAllText(csProjFilePath, delContent);
                         }
-                        
+
                         continue;
                     }
                     else

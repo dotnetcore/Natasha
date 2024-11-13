@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Natasha.CSharp.Compiler.Component;
+using System;
 using System.Collections.Concurrent;
 
 public sealed class DomainManagement
@@ -12,13 +13,13 @@ public sealed class DomainManagement
     }
 
 
-    public static NatashaLoadContext Random()
+    public static NatashaLoadContext Random(NatashaUsingCache? usingCache = null)
     {
-        return Create("N" + Guid.NewGuid().ToString("N")); 
+        return Create("N" + Guid.NewGuid().ToString("N"), usingCache); 
     }
 
 
-    public static NatashaLoadContext Create(string key)
+    public static NatashaLoadContext Create(string key, NatashaUsingCache? usingCache = null)
     {
         if (Cache.ContainsKey(key))
         {
@@ -27,7 +28,7 @@ public sealed class DomainManagement
         else
         {
             Clear();
-            var domain = new NatashaLoadContext(key);
+            var domain = new NatashaLoadContext(key, usingCache);
             Add(key, domain);
             return domain;
         }

@@ -1,5 +1,4 @@
-﻿using Natasha;
-using Natasha.CSharp;
+﻿using Natasha.CSharp;
 using System;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -12,8 +11,9 @@ namespace UnloadTest30
         static Func<int[]>[] func = new Func<int[]>[100];
         static void Main(string[] args)
         {
+            NatashaManagement.RegistDomainCreator<NatashaDomainCreator>();
             Console.WriteLine("Roslyn 预热；");
-            var a = NInstance.Creator<Program>();
+            NatashaManagement.Preheating(true, true);
             Console.WriteLine("3秒后开始编译；");
             Thread.Sleep(3000);
             Test();
@@ -76,8 +76,9 @@ namespace UnloadTest30
             for (int i = 0; i < count; i++)
             {
                 var ad = DomainManagement.Create("test" + i.ToString());
-                var builder = FastMethodOperator.DefaultDomain();
+                var builder = FastMethodOperator.RandomDomain();
                 builder.AssemblyBuilder.LoadContext = ad;
+                builder.AssemblyBuilder.UseSmartMode();
                 func[i] = builder.Body($@"
 int[] a = new int[40960];
 for(int i =0;i<40960;i++){{a[i]=i;}}

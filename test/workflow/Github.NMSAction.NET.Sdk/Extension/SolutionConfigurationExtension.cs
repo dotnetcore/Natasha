@@ -57,7 +57,7 @@ public static class SolutionConfigurationExtension
                 new ActionProjectConfiguration()
                 {
                      ProjectFolder = ".github",
-                     Labels = new GithubLabelBase[] { new GithubLabelBase() { Name="pr_action", Color= "68E0F8", Description="The pr will be marked with pr_action label." } },
+                     Labels = new GithubLabelBase[] { new GithubLabelBase() { Title="pr_action", Color= "68E0F8", Description="The pr will be marked with pr_action label." } },
                      DependencyConfig = new DependencyConfiguration()
                      {
                           Type = PackageType.GithubAction,
@@ -69,7 +69,7 @@ public static class SolutionConfigurationExtension
                            {
                                new GithubLabelBase()
                                {
-                                    Name = "dependencies",
+                                    Title = "dependencies",
                                     Color = "68E0F8",
                                     Description = "有依赖需要升级"
                                }
@@ -79,7 +79,7 @@ public static class SolutionConfigurationExtension
                 }
             };
         solutionInfo.Src.Projects = GetProjects<SrcProjectConfiguration>("src", ignoreProjects);
-        solutionInfo.Test.Projects = GetProjects<TestProjectConfiguration>("test\\ut", ignoreProjects, 3);
+        solutionInfo.Test.Projects = GetProjects<TestProjectConfiguration>("test\\ut", ignoreProjects, 4);
         solutionInfo.Samples.Projects = GetProjects<SamplesProjectConfiguration>("samples", ignoreProjects);
         solutionInfo.Workflow.Projects = GetProjects<WorkflowProjectConfiguration>("test\\workflow", ignoreProjects);
 
@@ -121,7 +121,7 @@ public static class SolutionConfigurationExtension
                 var shut = !unExpectProjects.Contains(unixPath);
                 if (deepth!=0)
                 {
-                    shut = shut && unixPath.Split('/').Length == deepth + 1;
+                    shut = shut && unixPath.Split('/').Length <= deepth + 1;
                 }
                 return shut;
             }
@@ -197,9 +197,9 @@ public static class SolutionConfigurationExtension
                 {
                     foreach (var label in labels)
                     {
-                        if (!cache.ContainsKey(label.Name))
+                        if (!cache.ContainsKey(label.Title))
                         {
-                            cache[label.Name] = label;
+                            cache[label.Title] = label;
                         }
                     }
                 }
@@ -229,9 +229,9 @@ public static class SolutionConfigurationExtension
             {
                 foreach (var item in githubLabels)
                 {
-                    if (!cache.ContainsKey(item.Name))
+                    if (!cache.ContainsKey(item.Title))
                     {
-                        cache[item.Name] = item;
+                        cache[item.Title] = item;
                     }
                 }
             }

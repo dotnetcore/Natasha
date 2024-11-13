@@ -1,0 +1,6 @@
+﻿重新扫描文件！
+
+检测到空成员文件 G:\Project\OpenSource\Natasha\samples\WinFormsSample\obj\Debug\net8.0-windows\WinFormsSample.GlobalUsings.g.cs.
+
+检测到空成员文件 G:\Project\OpenSource\Natasha\samples\WinFormsSample\obj\Release\net8.0-windows\WinFormsSample.GlobalUsings.g.cs.
+

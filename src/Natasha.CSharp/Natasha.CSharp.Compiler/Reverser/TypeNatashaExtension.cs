@@ -47,7 +47,7 @@ public static class TypeNatashaExtension
 
     public static HashSet<Type> GetAllTypes(this Type type)
     {
-        HashSet<Type> result = new();
+        HashSet<Type> result = [];
         type.GetAllTypes(result);
         return result;
     }

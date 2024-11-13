@@ -12,30 +12,40 @@ namespace Natasha.CSharp.Compiler.Component.Exception
         {
 
             var diagnostics = tree.GetDiagnostics();
-            var errors = diagnostics.Where(item => !item.IsSuppressed).ToArray();
-            if (errors.Length>0)
+            if (diagnostics.Any())
             {
-                var first = errors[0];
-                var exception = new NatashaException(first.GetMessage());
-                exception.Diagnostics.AddRange(errors);
-                exception.Formatter = tree.ToString();
-                exception.ErrorKind = NatashaExceptionKind.Syntax;
-                return exception;
+                var errors = diagnostics.Where(item => !item.IsSuppressed).ToArray();
+                if (errors != null && errors.Length > 0)
+                {
+                    var first = errors.FirstOrDefault(item => item.DefaultSeverity == DiagnosticSeverity.Error);
+                    if (first == null)
+                    {
+                        first = errors[0];
+                    }
+                    var exception = new NatashaException(first.GetMessage());
+                    exception.Diagnostics.AddRange(errors);
+                    exception.Formatter = tree.ToString();
+                    exception.ErrorKind = NatashaExceptionKind.Syntax;
+                    return exception;
+                }
             }
             return null;
-
         }
 
         internal static NatashaException GetCompileException(CSharpCompilation compilation, ImmutableArray<Diagnostic> errors)
         {
-            var first = errors[0];
+            var first = errors.FirstOrDefault(item=>item.DefaultSeverity == DiagnosticSeverity.Error);
+            if (first == null)
+            {
+                first = errors[0];
+            }   
             var exception = new NatashaException(first.GetMessage());
             exception.Diagnostics.AddRange(errors);
-            if (first.Location.SourceTree!=null)
+            if (first.Location.SourceTree != null)
             {
                 exception.Formatter = first.Location.SourceTree.ToString();
             }
-            else if(compilation.SyntaxTrees.Length > 0)
+            else if (compilation.SyntaxTrees.Length > 0)
             {
                 exception.Formatter = compilation.SyntaxTrees[0].ToString();
             }

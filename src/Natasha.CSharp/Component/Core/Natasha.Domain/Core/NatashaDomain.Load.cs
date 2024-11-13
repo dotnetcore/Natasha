@@ -1,5 +1,6 @@
 ﻿using Natasha.CSharp.Component.Load;
 using System;
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -15,7 +16,6 @@ public partial class NatashaDomain
 {
 
     public AssemblyCompareInformation AssemblyLoadBehavior;
-
     /// <summary>
     /// 设置加载行为
     /// </summary>
@@ -153,7 +153,6 @@ public partial class NatashaDomain
                         {
                             Debug.WriteLine($"\t使用共享域版本:{defaultAsmName.Version}！");
                         }
-                        
 #endif
                         return defaultAsm;
                     }
@@ -169,7 +168,15 @@ public partial class NatashaDomain
 #if DEBUG
                 Debug.WriteLine($"\t[文件依赖解析]依赖路径:{assemblyPath}！");
 #endif
-                return LoadAssemblyFromFile(assemblyPath);
+                try
+                {
+                    return LoadAssemblyFromFile(assemblyPath);
+                }
+                catch
+                {
+
+                }
+                
             }
         }
 #if DEBUG

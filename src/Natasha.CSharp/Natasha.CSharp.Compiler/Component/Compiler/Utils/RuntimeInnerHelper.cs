@@ -11,11 +11,11 @@ namespace Natasha.CSharp.Compiler.Component
         internal readonly static ApplyUpdateDelegate ApplyUpdate;
         static RuntimeInnerHelper()
         {
-            AssemblyCSharpBuilder builder = new AssemblyCSharpBuilder();
+            AssemblyCSharpBuilder builder = new();
             var assembly = builder
-                .UseDefaultDomain()
+                .UseDefaultLoadContext()
                 .UseSimpleMode()
-                .WithDebugCompile(opt=>opt.WriteToAssembly())
+                .WithDebugCompile(opt=>opt.ForAssembly())
                 .ConfigLoadContext(context => context
                   .AddReferenceAndUsingCode(typeof(System.Reflection.Metadata.AssemblyReference))
                   .AddReferenceAndUsingCode(typeof(System.Runtime.CompilerServices.RuntimeHelpers))

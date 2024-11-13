@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+	  <ImplicitUsings>enable</ImplicitUsings>
+	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	  <Description>Natasha 的快捷方法构建扩展.</Description>
+	  <PackageId>DotNetCore.Natasha.CSharp.Extension.MethodCreator</PackageId>
+	  <PackageReleaseNotes>升级到最新版.</PackageReleaseNotes>
+	  <PackageTags>Natasha;Compiler;Extension;MethodCreator;</PackageTags>
+	  <Version>8.0.0.1</Version>
+	  <FileVersion>8.0.0.1</FileVersion>
+	  <AssemblyVersion>8.0.0.1</AssemblyVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Natasha.CSharp.Compiler\Natasha.CSharp.Compiler.csproj" />
+  </ItemGroup>
+
+</Project>

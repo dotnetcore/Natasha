@@ -7,6 +7,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\..\..\src\Natasha.CSharp\Component\Core\Natasha.CSharp.Compiler.Domain\Natasha.CSharp.Compiler.Domain.csproj" />
 	  <ProjectReference Include="..\..\..\src\Natasha.CSharp\Component\Core\Natasha.CSharp.Template.Core\Natasha.CSharp.Template.Core.csproj" />
 	</ItemGroup>
 

@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Reflection.Metadata;
 
 
 public static class NatashaAssemblyExtension
@@ -76,12 +75,8 @@ public static class NatashaAssemblyExtension
         var type = GetTypeFromShortName(assembly, typeName);
         try
         {
-            var info = type.GetMethod(methodName);
-            if (info == null)
-            {
-                throw new Exception("获取方法返回空!");
-            }
-            return info!;
+            var info = type.GetMethod(methodName,BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
+            return info ?? throw new Exception("获取方法返回空!");
         }
         catch (Exception ex)
         {
@@ -110,7 +105,7 @@ public static class NatashaAssemblyExtension
         try
         {
 
-            return info.CreateDelegate(delegateType, target);
+            return info.CreateDelegate(delegateType,target);
 
         }
         catch (Exception ex)
@@ -223,7 +218,12 @@ public static class NatashaAssemblyExtension
 
     public static INatashaDynamicLoadContextBase? GetDomain(this Assembly assembly)
     {
-        return NatashaLoadContext.Creator.GetDomain(assembly);
+        var loadContext = NatashaLoadContext.Creator.GetDomain(assembly);
+        if (loadContext == null)
+        {
+            return NatashaLoadContext.DefaultContext.Domain;
+        }
+        return loadContext;
     }
 
     public static void DisposeDomain(this Assembly assembly)

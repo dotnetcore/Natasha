@@ -24,8 +24,9 @@ namespace HotReloadSample
     {
         static unsafe void Main(string[] args)
         {
-            NatashaManagement.RegistDomainCreator<NatashaDomainCreator>();
+            //ArgumentNullException.ThrowIfNull(args);
 
+            NatashaManagement.RegistDomainCreator<NatashaDomainCreator>();
            // AssemblyCSharpBuilder builder = new();
            // builder.UseRandomDomain();
            // builder.UseSimpleMode();
@@ -92,8 +93,10 @@ namespace HotReloadSample
             var typeA = asm1.GetTypeFromShortName("A");
             var methodInfo = typeA.GetMethod("Show");
             var obj = Activator.CreateInstance(typeA);
+            var M = asm1.Modules.First();
              methodInfo.Invoke(obj, null);
             Console.WriteLine();
+            Console.WriteLine(M.ModuleVersionId);
             Assembly asm2 = asm1;
             try
             {
@@ -137,24 +140,26 @@ namespace HotReloadSample
             return builder.GetAssembly();
         }
         //CTRL+F5
-        public static Assembly NewAssembly(NatashaLoadContext domain, Assembly oldAssembly)
-        {
-            AssemblyCSharpBuilder builder = new AssemblyCSharpBuilder(oldAssembly.GetName().Name);
-            builder.LoadContext = domain;
-            builder.WithFileOutput();
-            builder.UseSimpleMode();
-            builder.ConfigLoadContext(opt => opt
-                .AddReferenceAndUsingCode(typeof(object))
-                .AddReferenceAndUsingCode(typeof(Console))
-                );
-            //builder.WithDebugCompile(opt => opt.WriteToAssembly());
-            builder.Add("public class A{  public int Code = 2; public int Code1 = 0; public void Show(){ Console.WriteLine(Code);  }   }");
-            var result = builder.UpdateAssembly(oldAssembly);
-            //Console.WriteLine(1);
-            //MetadataUpdater.ApplyUpdate(result.Item1, result.Item2, result.Item3, result.Item4);
-            //return result.Item1;
-            return result.Item1;
-        }
+        //public static Assembly NewAssembly(NatashaLoadContext domain, Assembly oldAssembly)
+        //{
+        //    AssemblyCSharpBuilder builder = new(oldAssembly.GetName().Name)
+        //    {
+        //        LoadContext = domain
+        //    };
+        //    builder.WithFileOutput();
+        //    builder.UseSimpleMode();
+        //    builder.ConfigLoadContext(opt => opt
+        //        .AddReferenceAndUsingCode(typeof(object))
+        //        .AddReferenceAndUsingCode(typeof(Console))
+        //        );
+        //    //builder.WithDebugCompile(opt => opt.WriteToAssembly());
+        //    builder.Add("public class A{  public int Code = 2; public int Code1 = 0; public void Show(){ Console.WriteLine(Code);  }   }");
+        //    var result = builder.UpdateAssembly(oldAssembly);
+        //    //Console.WriteLine(1);
+        //    //MetadataUpdater.ApplyUpdate(result.Item1, result.Item2, result.Item3, result.Item4);
+        //    //return result.Item1;
+        //    return result;
+        //}
 
         public static void Show(Assembly assembly)
         {
@@ -169,7 +174,7 @@ namespace HotReloadSample
             if (newAssembly.TryGetRawMetadata(out var newBlob, out var newLength))
             {
                 ReadOnlySpan<byte> newMetadataSpan = new(newBlob, newLength);
-                MetadataUpdater.ApplyUpdate(oldAssembly, newMetadataSpan, Encoding.UTF8.GetBytes(File.ReadAllText("1.txt")), ReadOnlySpan<byte>.Empty);
+                MetadataUpdater.ApplyUpdate(oldAssembly, newMetadataSpan, Encoding.UTF8.GetBytes(File.ReadAllText("1.txt")), []);
             }
 
         }

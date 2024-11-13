@@ -42,7 +42,7 @@ namespace Natasha.CSharp
 
         }
 
-        public static void RemoveUsingAndNodesFromStartName(this Diagnostic diagnostic, CompilationUnitSyntax root, HashSet<SyntaxNode> removeCollection)
+        public static void RemoveDefaultUsingAndNodesByStartName(this Diagnostic diagnostic, CompilationUnitSyntax root, HashSet<SyntaxNode> removeCollection)
         {
             var usingNode = GetTypeSyntaxNode<UsingDirectiveSyntax>(diagnostic, root);
             if (usingNode!=null)

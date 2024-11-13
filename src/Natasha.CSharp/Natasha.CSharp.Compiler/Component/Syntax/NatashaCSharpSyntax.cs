@@ -1,9 +1,11 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System.Text;
 
 namespace Natasha.CSharp.Compiler.Component
 {
-    internal static class NatashaCSharpSyntax
+    public static class NatashaCSharpSyntax
     {
 
         //private readonly static AdhocWorkspace _workSpace;
@@ -68,27 +70,32 @@ namespace Natasha.CSharp.Compiler.Component
         }
 
 
-        internal static SyntaxTree ParseTree(string script, CSharpParseOptions? options)
+        public static SyntaxTree ParseTree(string script, CSharpParseOptions? options, Encoding? encoding = null)
         {
-            if (options==null)
+            return ParseTree(script, "", options, encoding);
+        }
+
+        public static SyntaxTree ParseTree(string script, string filePath, CSharpParseOptions? options, Encoding? encoding = null)
+        {
+            if (options == null)
             {
                 options = _options;
             }
+            encoding = encoding == null ? Encoding.UTF8 : encoding;
             //Mark1 : 647ms
             //Mark2 : 128ms
             //Mark : 5.0M (Memory:2023-02-27)
-            var tree = CSharpSyntaxTree.ParseText(script.Trim(), _options);
-            return FormartTree(tree, options);
-
+            var tree = CSharpSyntaxTree.ParseText(script.Trim(), options, filePath, encoding);
+            return FormartTree(tree.GetCompilationUnitRoot(), options, encoding);
         }
 
 
         /// <summary>
-        /// 直接加载树，并缓存
+        /// 格式化语法树
         /// </summary>
-        /// <param name="tree"></param>
+        /// <param name="root"></param>
         /// <returns></returns>
-        internal static SyntaxTree FormartTree(SyntaxTree tree, CSharpParseOptions? options)
+        public static SyntaxTree FormartTree(CompilationUnitSyntax root, CSharpParseOptions? options, Encoding encoding, string filePath = "")
         {
             if (options == null)
             {
@@ -98,7 +105,7 @@ namespace Natasha.CSharp.Compiler.Component
             //Console.ReadKey();
             //Mark : 0.3M (Memory:2023-02-27)
             //Roslyn BUG https://github.com/dotnet/roslyn/issues/58150
-            return CSharpSyntaxTree.ParseText(tree.GetRoot().NormalizeWhitespace().SyntaxTree.ToString(), options);
+            return CSharpSyntaxTree.ParseText(root.NormalizeWhitespace().SyntaxTree.ToString(), options, filePath, encoding: encoding);
         }
     }
 }

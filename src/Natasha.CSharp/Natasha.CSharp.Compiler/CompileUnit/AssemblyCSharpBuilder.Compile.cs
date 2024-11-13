@@ -1,173 +1,79 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
-using Microsoft.Extensions.DependencyModel;
-using Natasha.CSharp.Compiler.Component;
 using Natasha.CSharp.Compiler.Component.Exception;
+using Natasha.CSharp.Compiler.Utils;
 using Natasha.CSharp.Extension.Inner;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using System.Text;
+using System.Security.Cryptography;
 /// <summary>
-/// 程序集编译构建器 - 编译选项
+/// 程序集编译构建器 - 编译器
 /// </summary>
 public sealed partial class AssemblyCSharpBuilder
 {
-    private Func<IEnumerable<MetadataReference>, IEnumerable<MetadataReference>>? _referencesFilter;
-    private CombineReferenceBehavior _combineReferenceBehavior = CombineReferenceBehavior.UseCurrent;
-    private readonly ReferenceConfiguration _referenceConfiguration = new();
-
-
     /// <summary>
-    /// 编译时，使用主域引用覆盖引用集,并配置同名引用版本行为(默认优先使用主域引用)
-    /// </summary>
-    /// <param name="action">配置委托</param>
-    /// <returns></returns>
-    public AssemblyCSharpBuilder WithCombineReferences(Action<ReferenceConfiguration>? action = null)
-    {
-        action?.Invoke(_referenceConfiguration);
-        _combineReferenceBehavior = CombineReferenceBehavior.CombineDefault;
-        return this;
-    }
-
-    /// <summary>
-    /// 编译时，使用当前域引用来覆盖引用集
-    /// </summary>
-    /// <returns></returns>
-    public AssemblyCSharpBuilder WithCurrentReferences()
-    {
-        _combineReferenceBehavior = CombineReferenceBehavior.UseCurrent;
-        return this;
-    }
-
-    private readonly List<MetadataReference> _specifiedReferences;
-    /// <summary>
-    /// 使用外部指定的引用来覆盖引用集
-    /// </summary>
-    /// <param name="metadataReferences"></param>
-    /// <returns></returns>
-    public AssemblyCSharpBuilder WithSpecifiedReferences(IEnumerable<MetadataReference> metadataReferences)
-    {
-        lock (_specifiedReferences)
-        {
-            _specifiedReferences.AddRange(metadataReferences);
-        }
-        _combineReferenceBehavior = CombineReferenceBehavior.UseSpecified;
-        return this;
-    }
-    public AssemblyCSharpBuilder ClearOutsideReferences()
-    {
-        lock (_specifiedReferences)
-        {
-            _specifiedReferences.Clear();
-        }
-        return this;
-    }
-
-
-    /// <summary>
-    /// 配置引用过滤策略
-    /// </summary>
-    /// <param name="referencesFilter"></param>
-    /// <returns></returns>
-    public AssemblyCSharpBuilder SetReferencesFilter(Func<IEnumerable<MetadataReference>, IEnumerable<MetadataReference>>? referencesFilter)
-    {
-        _referencesFilter = referencesFilter;
-        return this;
-    }
-
-    /// <summary>
-    /// 流编译成功之后触发的事件
-    /// </summary>
-    public event Action<CSharpCompilation, Assembly>? CompileSucceedEvent;
-
-
-
-    /// <summary>
-    /// 流编译失败之后触发的事件
-    /// </summary>
-    public event Action<CSharpCompilation, ImmutableArray<Diagnostic>>? CompileFailedEvent;
-
-
-   
-    private ConcurrentQueue<Func<EmitOptions, EmitOptions>>? _emitOptionHandle;
-    /// <summary>
-    /// 处理默认生成的 emitOption 并返回一个新的
-    /// </summary>
-    /// <param name="handleAndReturnNewEmitOption"></param>
-    /// <returns></returns>
-    public AssemblyCSharpBuilder ConfigEmitOptions(Func<EmitOptions, EmitOptions> handleAndReturnNewEmitOption)
-    {
-        _emitOptionHandle ??= new ConcurrentQueue<Func<EmitOptions, EmitOptions>>();
-        _emitOptionHandle.Enqueue(handleAndReturnNewEmitOption);
-        return this;
-    }
-
-    private bool _notLoadIntoDomain;
-    /// <summary>
-    /// 仅仅生成程序集，而不加载到域。
+    /// 重复编译
+    /// <list type="bullet">
+    ///     <item>
+    ///     当前方法逻辑为：
+    ///         <list type="bullet">
+    ///             <item>调用 WithPreCompilationOptions() 阻止创建新的编译选项.</item>
+    ///             <item>调用 WithPreCompilationReferences() 阻止覆盖新的引用. </item>
+    ///         </list>
+    ///     </item>
+    ///     <item>
+    ///     提示：
+    ///         <list type="bullet">
+    ///             <item>若之前使用了 ConfigEmitOptions. 需要重新再写一遍. </item>
+    ///             <item>若已存在文件 a.dll，则生成 repeate.guid.a.dll.</item>
+    ///             <item>WithForceCleanFile(); 可强制清除已存在文件.</item>
+    ///             <item>WithoutForceCleanFile(); 则 a.dll 被换成 repeate.guid.a.dll.</item>
+    ///             <item>别忘了指定新的程序集名.</item>
+    ///             <item>若需要指定新的域.</item>
+    ///         </list>
+    ///     </item>
+    /// </list>
     /// </summary>
     /// <returns></returns>
-    public AssemblyCSharpBuilder WithoutInjectToDomain()
+    public AssemblyCSharpBuilder Reset()
     {
-        _notLoadIntoDomain = true;
-        return this;
-    }
-    /// <summary>
-    /// 既生成程序集又加载到域。
-    /// </summary>
-    /// <returns></returns>
-    public AssemblyCSharpBuilder WithInjectToDomain()
-    {
-        _notLoadIntoDomain = false;
+        WithPreCompilationOptions();
+        WithPreCompilationReferences();
         return this;
     }
 
     /// <summary>
-    /// 将 SyntaxTrees 中的语法树编译到程序集.如果不成功会抛出 NatashaException.
-    /// </summary>
-    /// <remarks>
-    /// <example>
+    /// 编译并获取程序集.
+    /// <list type="bullet">
+    /// <item>用 <see cref="Compilation"/> 获取编译配置载体.</item>
+    /// <item>用 <see cref="GetDiagnostics"/> 获取诊断结果.</item>
+    /// <item>用 <see cref="GetException"/> 获取抛出的异常结果.</item>
+    /// <item>用 <see cref="CompileSucceedEvent"/> 监听成功编译结果.</item>
+    /// <item>用 <see cref="CompileFailedEvent"/> 监听失败编译结果.</item> 
     /// <code>
-    /// 
-    ///     //Core3.0以上版本
-    ///     //程序集的域加载行为决定了编译后的程序集随着依赖加载到域中的处理结果.
-    ///     //编译单元支持的依赖加载方法:
-    ///     WithHighVersionDependency
-    ///     WithLowVersionDependency
-    ///     WithDefaultVersionDependency
-    ///     WithCustomVersionDependency
-    ///     
-    ///     //编译单元的引用加载行为, 遇到同名不同版本的引用该如何处理.
-    ///     //首先启用合并引用，此方法将允许主域引用和当前域引用进行整合
-    ///     builder.WithCombineReferences(configAction);
-    ///     //其参数支持同名引用的加载逻辑，包括
-    ///         config.UseHighVersionReferences
-    ///         config.UseLowVersionReferences
-    ///         config.UseDefaultReferences
-    ///         config.UseCustomReferences
-    ///         //手动设置同名过滤器
-    ///         config.ConfigSameNameReferencesFilter(func);
-    ///     //手动设置全部引用过滤器
-    ///     builder.SetReferencesFilter
-    /// 
+    ///     builder.CompileFailedEvent += (compilation, errors) =>{
+    ///         log = compilation.GetNatashaLog();
+    ///         log.ToString();
+    ///     };
     /// </code>
-    /// </example>
-    /// </remarks>
-    public Assembly GetAssembly()
+    /// <item>用 <see cref="LogCompilationEvent"/> 监听编译日志.
+    /// <code>
+    ///     builder.LogCompilationEvent += (log) =>{
+    ///         //log.ToString();
+    ///     };
+    /// </code>
+    /// </item>
+    /// </list>
+    /// </summary>
+    public void CompileWithoutAssembly()
     {
-        _compilation ??= GetAvailableCompilation();
+        GetAvailableCompilation();
         if (Domain!.Name != "Default")
         {
             Domain.SetAssemblyLoadBehavior(_domainConfiguration._dependencyLoadBehavior);
         }
-
-       
 
 #if DEBUG
         Stopwatch stopwatch = new();
@@ -178,7 +84,8 @@ public sealed partial class AssemblyCSharpBuilder
         Stream? xmlStream = null;
         if (DllFilePath != string.Empty)
         {
-            dllStream = File.Create(DllFilePath);
+            dllStream = File.Create(FileHandle(DllFilePath));
+
         }
         else
         {
@@ -187,15 +94,17 @@ public sealed partial class AssemblyCSharpBuilder
 
         if (CommentFilePath != string.Empty)
         {
-            xmlStream = File.Create(CommentFilePath);
+            xmlStream = File.Create(FileHandle(CommentFilePath));
         }
 
         var debugInfoFormat = _debugConfiguration._informationFormat;
+        HashAlgorithmName? hashAlgorithm = null;
         if (_compilation!.Options.OptimizationLevel == OptimizationLevel.Debug)
         {
-
+            debugInfoFormat ??= PdbHelpers.GetPlatformSpecificDebugInformationFormat();
             if (debugInfoFormat != DebugInformationFormat.Embedded)
             {
+                hashAlgorithm = default(HashAlgorithmName);
                 if (string.IsNullOrEmpty(PdbFilePath))
                 {
                     var tempPdbOutputFolder = Path.Combine(GlobalOutputFolder, Domain.Name!);
@@ -205,16 +114,7 @@ public sealed partial class AssemblyCSharpBuilder
                         Directory.CreateDirectory(tempPdbOutputFolder);
                     }
                 }
-                if (File.Exists(PdbFilePath))
-                {
-                    var tempPdbOutputFolder = Path.Combine(GlobalOutputFolder, Domain.Name!);
-                    PdbFilePath = Path.Combine(tempPdbOutputFolder, $"repeate.{AssemblyName}.{Guid.NewGuid():N}.pdb");
-                    if (!Directory.Exists(tempPdbOutputFolder))
-                    {
-                        Directory.CreateDirectory(tempPdbOutputFolder);
-                    }
-                }
-                pdbStream = File.Create(PdbFilePath);
+                pdbStream = File.Create(FileHandle(PdbFilePath));
             }
             else
             {
@@ -235,7 +135,139 @@ public sealed partial class AssemblyCSharpBuilder
                includePrivateMembers: _includePrivateMembers,
                metadataOnly: _isReferenceAssembly,
                pdbFilePath: PdbFilePath,
-               debugInformationFormat: debugInfoFormat
+               debugInformationFormat: debugInfoFormat.Value,
+               pdbChecksumAlgorithm: hashAlgorithm);
+
+        if (_emitOptionHandle != null)
+        {
+            while (!_emitOptionHandle.IsEmpty)
+            {
+                while (_emitOptionHandle.TryDequeue(out var func))
+                {
+                    emitOption = func(emitOption);
+                }
+            }
+        }
+
+        var compileResult = _compilation.Emit(
+           dllStream,
+           pdbStream: pdbStream,
+           xmlDocumentationStream: xmlStream,
+           options: emitOption
+           );
+
+        dllStream.Dispose();
+        pdbStream?.Dispose();
+        xmlStream?.Dispose();
+        LogCompilationEvent?.Invoke(_compilation.GetNatashaLog());
+        if (!compileResult.Success)
+        {
+            CompileFailedEvent?.Invoke(_compilation, compileResult.Diagnostics);
+            _exception = NatashaExceptionAnalyzer.GetCompileException(_compilation, compileResult.Diagnostics);
+            throw _exception;
+        }
+
+
+#if DEBUG
+        stopwatch.StopAndShowCategoreInfo("[  Emit  ]", "编译时长", 2);
+#endif
+    }
+
+    /// <summary>
+    /// 编译并获取程序集.
+    /// <list type="bullet">
+    /// <item>用 <see cref="Compilation"/> 获取编译配置载体.</item>
+    /// <item>用 <see cref="GetDiagnostics"/> 获取诊断结果.</item>
+    /// <item>用 <see cref="GetException"/> 获取抛出的异常结果.</item>
+    /// <item>用 <see cref="CompileSucceedEvent"/> 监听成功编译结果.</item>
+    /// <item>用 <see cref="CompileFailedEvent"/> 监听失败编译结果.</item> 
+    /// <code>
+    ///     builder.CompileFailedEvent += (compilation, errors) =>{
+    ///         log = compilation.GetNatashaLog();
+    ///         log.ToString();
+    ///     };
+    /// </code>
+    /// <item>用 <see cref="LogCompilationEvent"/> 监听编译日志.
+    /// <code>
+    ///     builder.LogCompilationEvent += (log) =>{
+    ///         //log.ToString();
+    ///     };
+    /// </code>
+    /// </item>
+    /// </list>
+    /// </summary>
+    /// <remarks>
+    /// 注：若不需要加载到域，请使用 CompileWithoutAssembly 方法.
+    /// </remarks>
+    /// <returns>编译成功生成的程序集.</returns>
+    public Assembly GetAssembly()
+    {
+        GetAvailableCompilation();
+        if (Domain!.Name != "Default")
+        {
+            Domain.SetAssemblyLoadBehavior(_domainConfiguration._dependencyLoadBehavior);
+        }
+
+#if DEBUG
+        Stopwatch stopwatch = new();
+        stopwatch.Start();
+#endif
+        Stream dllStream;
+        Stream? pdbStream = null;
+        Stream? xmlStream = null;
+        if (DllFilePath != string.Empty)
+        {
+            dllStream = File.Create(FileHandle(DllFilePath));
+        }
+        else
+        {
+            dllStream = new MemoryStream();
+        }
+        if (CommentFilePath != string.Empty)
+        {
+            xmlStream = File.Create(FileHandle(CommentFilePath));
+        }
+
+        var debugInfoFormat = _debugConfiguration._informationFormat;
+        HashAlgorithmName? hashAlgorithm = null;
+        if (_compilation!.Options.OptimizationLevel == OptimizationLevel.Debug)
+        {
+            debugInfoFormat ??= PdbHelpers.GetPlatformSpecificDebugInformationFormat();
+            if (debugInfoFormat == DebugInformationFormat.Embedded)
+            {
+                PdbFilePath = null;
+            }
+            else
+            {
+                hashAlgorithm = default(HashAlgorithmName);
+                if (string.IsNullOrEmpty(PdbFilePath))
+                {
+                    var tempPdbOutputFolder = Path.Combine(GlobalOutputFolder, Domain.Name!);
+                    PdbFilePath = Path.Combine(tempPdbOutputFolder, $"{AssemblyName}.pdb");
+                    if (!Directory.Exists(tempPdbOutputFolder))
+                    {
+                        Directory.CreateDirectory(tempPdbOutputFolder);
+                    }
+                }
+                pdbStream = File.Create(FileHandle(PdbFilePath));
+            }
+        }
+        else
+        {
+            if (!string.IsNullOrEmpty(PdbFilePath))
+            {
+                PdbFilePath = null;
+            }
+            debugInfoFormat = 0;
+        }
+        var emitOption = new EmitOptions(
+               //runtimeMetadataVersion: Assembly.GetExecutingAssembly().ImageRuntimeVersion,
+               //instrumentationKinds: [InstrumentationKind.TestCoverage],
+               includePrivateMembers: _includePrivateMembers,
+               metadataOnly: _isReferenceAssembly,
+               pdbFilePath: PdbFilePath,
+               debugInformationFormat: debugInfoFormat.Value,
+               pdbChecksumAlgorithm: hashAlgorithm
                );
 
         if (_emitOptionHandle != null)
@@ -256,166 +288,32 @@ public sealed partial class AssemblyCSharpBuilder
            options: emitOption
            );
         LogCompilationEvent?.Invoke(_compilation.GetNatashaLog());
-        Assembly? assembly = null;
-
-
+        Assembly assembly;
 
         if (compileResult.Success)
         {
-            if (_compilation.Options.OptimizationLevel == OptimizationLevel.Debug)
-            {
-                pdbStream?.Dispose();
-            }
-
-            if (!_notLoadIntoDomain)
-            {
-                dllStream.Seek(0, SeekOrigin.Begin);
-                assembly = Domain.LoadAssemblyFromStream(dllStream, null);
-
-                if (assembly!=null)
-                {
-                    LoadContext!.LoadMetadataWithAssembly(assembly);
-                    CompileSucceedEvent?.Invoke(_compilation, assembly!);
-                }
-            }
+            dllStream.Position = 0;
+            pdbStream?.Dispose();
+            assembly = Domain.LoadAssemblyFromStream(dllStream, null);
+            LoadContext!.LoadMetadataWithAssembly(assembly);
+            CompileSucceedEvent?.Invoke(_compilation, assembly!);
+            dllStream.Dispose();
+            xmlStream?.Dispose();
         }
         else
         {
+            dllStream.Dispose();
+            pdbStream?.Dispose();
+            xmlStream?.Dispose();
             CompileFailedEvent?.Invoke(_compilation, compileResult.Diagnostics);
-            throw NatashaExceptionAnalyzer.GetCompileException(_compilation, compileResult.Diagnostics);
+            _exception = NatashaExceptionAnalyzer.GetCompileException(_compilation, compileResult.Diagnostics);
+            throw _exception;
         }
-        dllStream.Dispose();
-        pdbStream?.Dispose();
-        xmlStream?.Dispose();
+
 
 #if DEBUG
         stopwatch.StopAndShowCategoreInfo("[  Emit  ]", "编译时长", 2);
 #endif
-        return assembly!;
-    }
-
-
-    public unsafe (Assembly, byte[], byte[], byte[]) UpdateAssembly(Assembly oldAssembly)
-    {
-        _compilation ??= GetAvailableCompilation();
-        if (Domain!.Name != "Default")
-        {
-            Domain.SetAssemblyLoadBehavior(_domainConfiguration._dependencyLoadBehavior);
-        }
-
-#if DEBUG
-        Stopwatch stopwatch = new();
-        stopwatch.Start();
-#endif
-        Stream dllStream = new MemoryStream();
-        Stream pdbStream = new MemoryStream();
-        Stream metaStream = new MemoryStream();
-        Stream? xmlStream = null;
-        if (DllFilePath != string.Empty)
-        {
-            dllStream = File.Create(DllFilePath);
-        }
-
-        if (CommentFilePath != string.Empty)
-        {
-            xmlStream = File.Create(CommentFilePath);
-        }
-
-        var debugInfoFormat = _debugConfiguration._informationFormat;
-        if (_compilation!.Options.OptimizationLevel == OptimizationLevel.Debug)
-        {
-
-            if (debugInfoFormat != DebugInformationFormat.Embedded)
-            {
-                if (string.IsNullOrEmpty(PdbFilePath))
-                {
-                    var tempPdbOutputFolder = Path.Combine(GlobalOutputFolder, Domain.Name!);
-                    PdbFilePath = Path.Combine(tempPdbOutputFolder, $"{AssemblyName}.pdb");
-                    if (!Directory.Exists(tempPdbOutputFolder))
-                    {
-                        Directory.CreateDirectory(tempPdbOutputFolder);
-                    }
-                }
-                if (File.Exists(PdbFilePath))
-                {
-                    var tempPdbOutputFolder = Path.Combine(GlobalOutputFolder, Domain.Name!);
-                    PdbFilePath = Path.Combine(tempPdbOutputFolder, $"repeate.{AssemblyName}.{Guid.NewGuid():N}.pdb");
-                    if (!Directory.Exists(tempPdbOutputFolder))
-                    {
-                        Directory.CreateDirectory(tempPdbOutputFolder);
-                    }
-                }
-                pdbStream = File.Create(PdbFilePath);
-            }
-            else
-            {
-                PdbFilePath = null;
-            }
-        }
-       
-        var emitOption = new EmitOptions(
-               //runtimeMetadataVersion: Assembly.GetExecutingAssembly().ImageRuntimeVersion,
-               //instrumentationKinds: [InstrumentationKind.TestCoverage],
-               includePrivateMembers: _includePrivateMembers,
-               metadataOnly: _isReferenceAssembly,
-               pdbFilePath: PdbFilePath,
-               debugInformationFormat: debugInfoFormat
-               );
-
-        if (_emitOptionHandle != null)
-        {
-            while (!_emitOptionHandle.IsEmpty)
-            {
-                while (_emitOptionHandle.TryDequeue(out var func))
-                {
-                    emitOption = func(emitOption);
-                }
-            }
-        }
-
-        var compileResult = _compilation.Emit(
-           dllStream,
-           pdbStream: pdbStream,
-           xmlDocumentationStream: xmlStream,
-           //options: emitOption,
-           metadataPEStream: metaStream
-           );
-        LogCompilationEvent?.Invoke(_compilation.GetNatashaLog());
-
-
-        if (compileResult.Success)
-        {
-            var ilDelta = AsReadOnlySpan(dllStream);
-            var pdbDelta = AsReadOnlySpan(pdbStream);
-            var metadataDelta = AsReadOnlySpan(metaStream);
-            RuntimeInnerHelper.ApplyUpdate(oldAssembly, metadataDelta, ilDelta, pdbDelta);
-            return (oldAssembly!, metadataDelta.ToArray(), ilDelta.ToArray(), pdbDelta.ToArray());
-
-        }
-        else
-        {
-            CompileFailedEvent?.Invoke(_compilation, compileResult.Diagnostics);
-            throw NatashaExceptionAnalyzer.GetCompileException(_compilation, compileResult.Diagnostics);
-        }
-        dllStream.Dispose();
-        pdbStream.Dispose();
-        metaStream.Dispose();
-        xmlStream?.Dispose();
-
-#if DEBUG
-        stopwatch.StopAndShowCategoreInfo("[  Emit  ]", "编译时长", 2);
-#endif
-        return default!;
-
-        static ReadOnlySpan<byte> AsReadOnlySpan(Stream input)
-        {
-            input.Seek(0, SeekOrigin.Begin);
-            // 创建一个 MemoryStream 对象来保存 Stream 的数据
-            using MemoryStream ms = new MemoryStream();
-            input.CopyTo(ms);
-
-            // 将 MemoryStream 的数据转换为 Span 对象
-            return ms.GetBuffer().AsSpan();
-        }
+        return assembly;
     }
 }

@@ -104,7 +104,7 @@ namespace ReferenceSample
                 .ConfigCompilerOption(item => item.WithLowerVersionsAssembly())
                 //.WithFileOutput()
                 .UseSimpleMode()
-                .WithDebugCompile(item => item.WriteToAssembly())
+                .WithDebugCompile(item => item.ForAssembly())
                 .ConfigLoadContext(ldc=> ldc
                     .AddReferenceAndUsingCode(typeof(Math).Assembly)
                     .AddReferenceAndUsingCode(typeof(MathF).Assembly)
@@ -146,7 +146,7 @@ namespace MyNamespace{
                 //.ConfigSyntaxOptions(opt=>opt.WithLanguageVersion(Microsoft.CodeAnalysis.CSharp.LanguageVersion.CSharp11))
                 .UseRandomDomain()
                 .ConfigCompilerOption(item => item.WithLowerVersionsAssembly())
-                .WithDebugCompile(item => item.WriteToAssembly())
+                .WithDebugCompile(item => item.ForAssembly())
                 .UseSimpleMode()
                 //.UseSmartMode()
                 .ConfigLoadContext(ldc => ldc
@@ -275,8 +275,6 @@ public class A{
             ShowAssemblyInfo(assemblyA);
             ShowSyntaxTree(builder.Compilation!);
 
-            //清除编译信息,使 builder 可以重新组合 编译信息.
-            builder.ClearCompilationCache();
             //builder.Domain = DomainManagement.Random();
             //重置程序集名,以免编译时产生冲突.
             builder.WithRandomAssenblyName();

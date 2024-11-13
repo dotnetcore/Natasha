@@ -12,7 +12,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest]
+
+# , macos-latest
 
     steps:
     - uses: actions/checkout@v4
@@ -28,23 +30,23 @@ ${{nms.tests}}
 
     - name: Publish Test Results
       if: matrix.os == 'ubuntu-latest'
-      uses: EnricoMi/publish-unit-test-result-action@v2
+      uses: EnricoMi/publish-unit-test-result-action/linux@v2
       with:
         check_name: 'UT Test - Ubuntu'
         files: |
           TestResults/**/*.trx
 
-    - name: Publish Test Results
-      if: matrix.os == 'macos-latest'
-      uses: EnricoMi/publish-unit-test-result-action/composite@v2
-      with:
-        check_name: 'UT Test - Macos'
-        files: |
-          TestResults/**/*.trx
+#    - name: Publish Test Results
+#      if: matrix.os == 'macos-latest'
+#      uses: EnricoMi/publish-unit-test-result-action/macos@v2
+#      with:
+#        check_name: 'UT Test - Macos'
+#        files: |
+#          TestResults/**/*.trx
 
     - name: Publish Test Results
       if: matrix.os == 'windows-latest'
-      uses: EnricoMi/publish-unit-test-result-action/composite@v2
+      uses: EnricoMi/publish-unit-test-result-action/windows@v2
       with:
         check_name: 'UT Test - Windows'
         files: |

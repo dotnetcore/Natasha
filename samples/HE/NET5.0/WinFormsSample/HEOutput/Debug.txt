@@ -1,0 +1,33 @@
+﻿重新扫描文件！
+Renamed: G:\Project\OpenSource\Natasha\samples\HE\NET5.0\WinFormsSample\Form1.Designer.cs -> G:\Project\OpenSource\Natasha\samples\HE\NET5.0\WinFormsSample\Form1.Designer.cs~RF5a9f4c8.TMP
+准备执行热编译...
+执行主入口前导方法....
+123
+In TestLocalMethod
+In lambda action
+In InnerLocalMethod
+In lambda2
+7
+False
+Out lambda2
+Out InnerLocalMethod
+Out lambda action
+Out TestLocalMethod
+执行主入口回调方法....
+入口回调方法执行完毕.
+Renamed: G:\Project\OpenSource\Natasha\samples\HE\NET5.0\WinFormsSample\Form1.Designer.cs -> G:\Project\OpenSource\Natasha\samples\HE\NET5.0\WinFormsSample\Form1.Designer.cs~RF5aa1fb0.TMP
+准备执行热编译...
+执行主入口前导方法....
+123
+In TestLocalMethod
+In lambda action
+In InnerLocalMethod
+In lambda2
+7
+False
+Out lambda2
+Out InnerLocalMethod
+Out lambda action
+Out TestLocalMethod
+执行主入口回调方法....
+入口回调方法执行完毕.

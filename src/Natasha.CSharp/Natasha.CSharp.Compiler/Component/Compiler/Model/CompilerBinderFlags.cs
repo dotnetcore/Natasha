@@ -2,7 +2,9 @@
 
 namespace Natasha.CSharp.Compiler
 {
-
+    /// <summary>
+    /// https://github.com/doytsujin/roslyn/blob/master/src/Compilers/CSharp/Portable/Binder/BinderFlags.cs
+    /// </summary>
     [Flags]
     public enum CompilerBinderFlags : uint
     {
@@ -104,6 +106,11 @@ namespace Natasha.CSharp.Compiler
         /// </summary>
         InExpressionTree = 1 << 30,
 
+        /// <summary>
+        /// Indicates the binder is used during collection expression conversion
+        /// to verify applicable methods are available.
+        /// </summary>
+        CollectionExpressionConversionValidation = 1u << 31,
 
         // Groups
         AllClearedAtExecutableCodeBoundary = InLockBody | InCatchBlock | InCatchFilter | InFinallyBlock | InTryBlockOfTryCatch | InNestedFinallyBlock,

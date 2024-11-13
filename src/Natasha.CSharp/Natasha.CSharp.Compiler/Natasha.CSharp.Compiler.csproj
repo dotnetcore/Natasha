@@ -7,14 +7,14 @@
 		<PackageReleaseNotes>升级到最新版.</PackageReleaseNotes>
 		<PackageTags>Roslyn;IL;Script;Dynamic;Natasha;NMS;Compiler;</PackageTags>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-			<Version>8.0.0.0</Version>
-		<FileVersion>8.0.0.0</FileVersion>
-		<AssemblyVersion>8.0.0.0</AssemblyVersion>
+		<Version>8.0.0.1</Version>
+		<FileVersion>8.0.0.1</FileVersion>
+		<AssemblyVersion>8.0.0.1</AssemblyVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="8.0.0" />
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.8.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="9.0.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.11.0" />
 	</ItemGroup>
 	
 	<ItemGroup>

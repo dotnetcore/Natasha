@@ -63,7 +63,7 @@ namespace Natasha.CSharp.Compiler.Component
                     var result = Parallel.ForEach(types, type =>
                     {
 
-                        if (type.IsNested && !type.IsNestedPublic)
+                        if ((type.IsNested && !type.IsNestedPublic) || !type.IsPublic)
                         {
                             return;
                         }
@@ -108,7 +108,7 @@ namespace Natasha.CSharp.Compiler.Component
                     foreach (var type in types)
                     {
 
-                        if (type.IsNested && !type.IsNestedPublic)
+                        if ((type.IsNested && !type.IsNestedPublic) || !type.IsPublic)
                         {
                             continue;
                         }
@@ -157,7 +157,7 @@ namespace Natasha.CSharp.Compiler.Component
                     var result = Parallel.ForEach(types, type =>
                     {
 
-                        if (type.IsNested && !type.IsNestedPublic)
+                        if ((type.IsNested && !type.IsNestedPublic) || !type.IsPublic)
                         {
                             return;
                         }
@@ -201,7 +201,7 @@ namespace Natasha.CSharp.Compiler.Component
                     foreach (var type in types)
                     {
 
-                        if (type.IsNested && !type.IsNestedPublic)
+                        if ((type.IsNested && !type.IsNestedPublic) || !type.IsPublic)
                         {
                             continue;
                         }
