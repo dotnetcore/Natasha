@@ -227,12 +227,7 @@ src:
     project_folder: src/Natasha.CSharp/Extension/Natasha.CSharp.Extension.CompileDirector
     labels: 
     dependency_config: 
-  - using_output:
-      enable: true
-      ignores:
-      - System
-      - System.Runtime.CompilerServices
-      - System.Reflection
+  - using_output: 
     id: 39456A90-01B8-4749-B1C7-B1F3082F2466
     is_ignored: false
     is_folded: false
