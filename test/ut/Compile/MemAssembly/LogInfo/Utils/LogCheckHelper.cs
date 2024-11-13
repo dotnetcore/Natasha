@@ -102,7 +102,7 @@ namespace MemAssembly.Log.Utils
         }
         private static void CompareLogEqual(string expected, string actual)
         {
-            Assert.Equal(removeTime.Replace(expected, ""), removeTime.Replace(actual, ""));
+            Assert.True(OSStringCompare.Equal(removeTime.Replace(expected, ""), removeTime.Replace(actual, "")));
         }
 
         private static string GetText(string fileName)
