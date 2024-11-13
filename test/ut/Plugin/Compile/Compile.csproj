@@ -33,8 +33,8 @@
 	
 	<ItemGroup>
 		<ProjectReference Include="..\..\Natasha.CSharp.UnitTest.Base\Natasha.CSharp.UnitTest.Base.csproj" />
-		<ProjectReference Include="..\PluginLibraries\MetadataDiff\MetadataDiff\MetadataDiff.csproj" />
-		<ProjectReference Include="..\PluginLibraries\PluginBase\PluginBase.csproj" />
+		<ProjectReference Include="..\Libraries\MetadataDiff\MetadataDiff\MetadataDiff.csproj" />
+		<ProjectReference Include="..\Libraries\PluginBase\PluginBase.csproj" />
 	</ItemGroup>
 
 </Project>
