@@ -25,6 +25,7 @@ jobs:
           3.1.x
           6.0.x
           8.0.x
+          9.0.x
           
     - name: 👀 Test & Pack Codecov - RefAssembly
       run: dotnet test "./test/ut/Compile/RefAssembly/RefAssembly.csproj" --nologo -f net6.0 -c Release  -l "trx;LogFileName=RefAssembly.trx" --results-directory "TestResults" --collect:"XPlat Code Coverage"
