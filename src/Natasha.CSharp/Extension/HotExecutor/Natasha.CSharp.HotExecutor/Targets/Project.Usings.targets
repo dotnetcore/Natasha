@@ -1,0 +1,7 @@
+<Project>
+	<ItemGroup Condition="'$(ImplicitUsings)' == 'enable' or '$(ImplicitUsings)' == 'true'">
+		<Using Include="Natasha.CSharp.Extension.HotExecutor" />
+		<Using Include="Natasha.CSharp.HotExecutor.Component" />
+		<Using Include="Natasha.CSharp.HotExecutor.Component.SyntaxUtils" />
+	</ItemGroup>
+</Project>

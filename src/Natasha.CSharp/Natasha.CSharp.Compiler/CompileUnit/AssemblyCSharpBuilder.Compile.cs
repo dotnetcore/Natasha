@@ -79,19 +79,9 @@ public sealed partial class AssemblyCSharpBuilder
         Stopwatch stopwatch = new();
         stopwatch.Start();
 #endif
-        Stream dllStream;
-        Stream? pdbStream = null;
+        using Stream dllStream = DllFilePath != string.Empty ? File.Create(FileHandle(DllFilePath)) : new MemoryStream();
+        Stream ? pdbStream = null;
         Stream? xmlStream = null;
-        if (DllFilePath != string.Empty)
-        {
-            dllStream = File.Create(FileHandle(DllFilePath));
-
-        }
-        else
-        {
-            dllStream = new MemoryStream();
-        }
-
         if (CommentFilePath != string.Empty)
         {
             xmlStream = File.Create(FileHandle(CommentFilePath));
@@ -293,16 +283,14 @@ public sealed partial class AssemblyCSharpBuilder
         if (compileResult.Success)
         {
             dllStream.Position = 0;
-            pdbStream?.Dispose();
             assembly = Domain.LoadAssemblyFromStream(dllStream, null);
             LoadContext!.LoadMetadataWithAssembly(assembly);
             CompileSucceedEvent?.Invoke(_compilation, assembly!);
-            dllStream.Dispose();
+            pdbStream?.Dispose();
             xmlStream?.Dispose();
         }
         else
         {
-            dllStream.Dispose();
             pdbStream?.Dispose();
             xmlStream?.Dispose();
             CompileFailedEvent?.Invoke(_compilation, compileResult.Diagnostics);
