@@ -1,6 +1,6 @@
 ﻿<Project>
 	<ItemGroup>
-		<ProjectReference Include="..\..\src\Natasha.CSharp\Component\Core\Natasha.CSharp.Compiler.Domain\Natasha.CSharp.Compiler.Domain.csproj" />
-		<ProjectReference Include="..\..\src\Natasha.CSharp\Extension\HotExecutor\Natasha.CSharp.HotExecutor\Natasha.CSharp.HotExecutor.csproj" />
+		<PackageReference Include="DotNetCore.Natasha.CSharp.Extension.HotReload" Version="9.0.0.0" />
+		<PackageReference Include="DotNetCore.Natasha.CSharp.Compiler.Domain" Version="9.0.0.0" />
 	</ItemGroup>
 </Project>

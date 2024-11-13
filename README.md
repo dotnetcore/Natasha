@@ -30,20 +30,9 @@
 <br/>
 <br/>
 
-### 性能测试
-      
-   - [x]  **动态初始化性能测试（对照组： emit, origin）**  
-     ![初始化性能测试](https://images.gitee.com/uploads/images/2020/1201/161738_b54dd1ad_1478282.png)
-   - [x]  **内存及CPU监测截图**  
-     ![内存及CPU](https://images.gitee.com/uploads/images/2020/1201/161450_96e70709_1478282.png)      
-
-<br/>    
-<br/> 
-
 ### 赞助：
 
-<img width=200 height=200 src="https://images.gitee.com/uploads/images/2020/1201/163955_a29c0b44_1478282.png" title="Scan and donate"/><img width=200 height=200 src="https://images.gitee.com/uploads/images/2020/1201/164809_5a67d5e2_1478282.png" title="Scan and donate"/>
-
+已关闭打赏
 
 #### 捐助明细  
 
