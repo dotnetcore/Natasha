@@ -5,7 +5,7 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<LangVersion>preview</LangVersion>
 		<Nullable>enable</Nullable>
-		<!--<ImplicitUsings>enable</ImplicitUsings>-->
+		<ImplicitUsings>enable</ImplicitUsings>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
 
@@ -13,6 +13,10 @@
 	  <Compile Remove="InterceptMain.cs" />
 	  <Compile Remove="InteroAttribute.cs" />
 	</ItemGroup>
+
+	<!--<ItemGroup>
+	  <PackageReference Include="DotNetCore.Natasha.CSharp.HotExecutor.Wrapper" Version="9.0.0.1" />
+	</ItemGroup>-->
 
 	<!--<ItemGroup>
 	  <PackageReference Include="DotNetCore.Natasha.CSharp.HotExecutor.Wrapper" Version="8.9.0" />
