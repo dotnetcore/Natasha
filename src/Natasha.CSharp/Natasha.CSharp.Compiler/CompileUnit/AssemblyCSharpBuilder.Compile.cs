@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
 using Natasha.CSharp.Compiler.Component.Exception;
 using Natasha.CSharp.Compiler.Utils;
@@ -29,7 +30,7 @@ public sealed partial class AssemblyCSharpBuilder
     ///             <item>若已存在文件 a.dll，则生成 repeate.guid.a.dll.</item>
     ///             <item>WithForceCleanFile(); 可强制清除已存在文件.</item>
     ///             <item>WithoutForceCleanFile(); 则 a.dll 被换成 repeate.guid.a.dll.</item>
-    ///             <item>指定新的程序集名.</item>
+    ///             <item>别忘了指定新的程序集名.</item>
     ///             <item>若需要指定新的域.</item>
     ///         </list>
     ///     </item>
@@ -155,6 +156,9 @@ public sealed partial class AssemblyCSharpBuilder
            options: emitOption
            );
 
+        dllStream.Dispose();
+        pdbStream?.Dispose();
+        xmlStream?.Dispose();
         LogCompilationEvent?.Invoke(_compilation.GetNatashaLog());
         if (!compileResult.Success)
         {
@@ -163,9 +167,6 @@ public sealed partial class AssemblyCSharpBuilder
             throw _exception;
         }
 
-        dllStream.Dispose();
-        pdbStream?.Dispose();
-        xmlStream?.Dispose();
 
 #if DEBUG
         stopwatch.StopAndShowCategoreInfo("[  Emit  ]", "编译时长", 2);
@@ -296,16 +297,19 @@ public sealed partial class AssemblyCSharpBuilder
             assembly = Domain.LoadAssemblyFromStream(dllStream, null);
             LoadContext!.LoadMetadataWithAssembly(assembly);
             CompileSucceedEvent?.Invoke(_compilation, assembly!);
+            dllStream.Dispose();
+            xmlStream?.Dispose();
         }
         else
         {
+            dllStream.Dispose();
+            pdbStream?.Dispose();
+            xmlStream?.Dispose();
             CompileFailedEvent?.Invoke(_compilation, compileResult.Diagnostics);
             _exception = NatashaExceptionAnalyzer.GetCompileException(_compilation, compileResult.Diagnostics);
             throw _exception;
         }
-        dllStream.Dispose();
-        pdbStream?.Dispose();
-        xmlStream?.Dispose();
+
 
 #if DEBUG
         stopwatch.StopAndShowCategoreInfo("[  Emit  ]", "编译时长", 2);

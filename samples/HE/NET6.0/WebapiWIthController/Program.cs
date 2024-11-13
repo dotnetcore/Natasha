@@ -26,7 +26,6 @@ var controllerActivatorProvider = arg1.Services.GetService<IControllerPropertyAc
 ((DefaultModelMetadataProvider)modelMetadataProvider).ClearCache();
 ((DefaultControllerPropertyActivator)controllerActivatorProvider).ClearCache();
 Console.WriteLine(1111);"
-                .WithSlimMethodBuilder()
                 .WithMetadata(typeof(Console))
                 .WithUsings("Microsoft.AspNetCore.Mvc.Controllers")
                 //.WithMetadata(typeof(IgnoresAccessChecksToAttribute))

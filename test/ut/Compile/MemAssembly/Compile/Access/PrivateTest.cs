@@ -6,7 +6,6 @@ namespace MemAssembly.Compile.Access
     public class PrivateTest : CompilePrepareBase
     {
 
-        private readonly string _privateAssemblyName = typeof(AccessModelTest).Assembly.GetName().Name!;
         [Fact(DisplayName = "全部导入")]
         public void AccessTest1()
         {

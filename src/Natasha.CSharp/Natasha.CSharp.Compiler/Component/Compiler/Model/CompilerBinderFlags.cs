@@ -2,7 +2,9 @@
 
 namespace Natasha.CSharp.Compiler
 {
-
+    /// <summary>
+    /// https://github.com/doytsujin/roslyn/blob/master/src/Compilers/CSharp/Portable/Binder/BinderFlags.cs
+    /// </summary>
     [Flags]
     public enum CompilerBinderFlags : uint
     {

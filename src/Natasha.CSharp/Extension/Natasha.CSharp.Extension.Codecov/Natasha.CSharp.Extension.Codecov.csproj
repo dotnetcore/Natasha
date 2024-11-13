@@ -3,7 +3,6 @@
 	<PropertyGroup>
 		<TargetFrameworks>netstandard2.0;</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<Description>Natasha 的方法使用率统计扩展.</Description>
 		<PackageId>DotNetCore.Natasha.CSharp.Extension.Codecov</PackageId>

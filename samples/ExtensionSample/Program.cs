@@ -12,19 +12,19 @@ namespace ExtensionSample
 {
     internal class Program
     {
-         [DllImport("ntdll.dll")]
-        static extern int NtQueryInformationProcess(IntPtr processHandle, int processInformationClass, ref PROCESS_BASIC_INFORMATION processInformation, int processInformationLength, out int returnLength);
+        // [DllImport("ntdll.dll")]
+        //static extern int NtQueryInformationProcess(IntPtr processHandle, int processInformationClass, ref PROCESS_BASIC_INFORMATION processInformation, int processInformationLength, out int returnLength);
 
-        [StructLayout(LayoutKind.Sequential)]
-        struct PROCESS_BASIC_INFORMATION
-        {
-            public IntPtr Reserved1;
-            public IntPtr PebBaseAddress;
-            public IntPtr Reserved2;
-            public IntPtr Reserved3;
-            public UIntPtr UniqueProcessId;
-            public UIntPtr InheritedFromUniqueProcessId;
-        }
+        //[StructLayout(LayoutKind.Sequential)]
+        //struct PROCESS_BASIC_INFORMATION
+        //{
+        //    public IntPtr Reserved1;
+        //    public IntPtr PebBaseAddress;
+        //    public IntPtr Reserved2;
+        //    public IntPtr Reserved3;
+        //    public UIntPtr UniqueProcessId;
+        //    public UIntPtr InheritedFromUniqueProcessId;
+        //}
 
         static void Main(string[] args)
         {
