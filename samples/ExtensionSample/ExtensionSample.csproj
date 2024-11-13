@@ -15,7 +15,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\src\Natasha.CSharp\Extension\HotExecutor\Natasha.CSharp.HotExecutor.SG\Natasha.CSharp.HotExecutor.SG.csproj" />
+	  <PackageReference Include="DotNetCore.Compile.Environment" Version="3.2.0" />
+	  <PackageReference Include="DotNetCore.Natasha.CSharp.Extension.HotExecutor.SG" Version="8.9.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <ProjectReference Include="..\..\src\Natasha.CSharp\Extension\HotExecutor\Natasha.CSharp.HotExecutor\Natasha.CSharp.HotExecutor.csproj" />
 	  <ProjectReference Include="..\..\src\Natasha.CSharp\Extension\Natasha.CSharp.Extension.CompileDirector\Natasha.CSharp.Extension.CompileDirector.csproj" />
 	  <ProjectReference Include="..\..\src\Natasha.CSharp\Extension\Natasha.CSharp.Extension.MethodCreator\Natasha.CSharp.Extension.MethodCreator.csproj" />

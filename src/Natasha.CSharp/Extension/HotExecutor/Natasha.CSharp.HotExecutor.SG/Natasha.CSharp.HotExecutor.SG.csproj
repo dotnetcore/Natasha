@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.0;</TargetFrameworks>
+		<TargetFrameworks>netstandard2.1;</TargetFrameworks>
 		<PackageId>DotNetCore.Natasha.CSharp.Extension.HotExecutor.SG</PackageId>
 		<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
 		<IncludeBuildOutput>false</IncludeBuildOutput>
@@ -20,9 +20,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Include="$(OutputPath)\netstandard2.0\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
-		<None Include="targets\DotNetCore.Natasha.CSharp.HotExecutor.SG.targets" Pack="true" PackagePath="build\netstandard2.0\DotNetCore.Natasha.CSharp.HotExecutor.SG.targets" />
-		<None Include="targets\DotNetCore.Natasha.CSharp.HotExecutor.SG.targets" Pack="true" PackagePath="buildTransitive\netstandard2.0\DotNetCore.Natasha.CSharp.HotExecutor.SG.targets" />
+		<None Include="$(OutputPath)\netstandard2.1\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
 	</ItemGroup>
 
 </Project>
