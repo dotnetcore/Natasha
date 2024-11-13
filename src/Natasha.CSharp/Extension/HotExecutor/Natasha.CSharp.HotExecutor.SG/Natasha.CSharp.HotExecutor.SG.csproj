@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.1;</TargetFrameworks>
+		<TargetFrameworks>netstandard2.0;</TargetFrameworks>
 		<PackageId>DotNetCore.Natasha.CSharp.Extension.HotReload.SG</PackageId>
 		<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
 		<IncludeBuildOutput>false</IncludeBuildOutput>
@@ -15,14 +15,14 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" PrivateAssets="all" />
 		<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" PrivateAssets="all" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Include="targets\DotNetCore.Natasha.CSharp.HotExecutor.SG.targets" Pack="true" PackagePath="build\netstandard2.1\DotNetCore.Natasha.CSharp.HotExecutor.SG.targets" />
-		<None Include="targets\DotNetCore.Natasha.CSharp.HotExecutor.SG.targets" Pack="true" PackagePath="buildTransitive\netstandard2.1\DotNetCore.Natasha.CSharp.HotExecutor.SG.targets" />
+		<None Include="$(OutputPath)\netstandard2.0\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+		<None Include="targets\DotNetCore.Natasha.CSharp.HotExecutor.SG.targets" Pack="true" PackagePath="build\netstandard2.0\DotNetCore.Natasha.CSharp.HotExecutor.SG.targets" />
+		<None Include="targets\DotNetCore.Natasha.CSharp.HotExecutor.SG.targets" Pack="true" PackagePath="buildTransitive\netstandard2.0\DotNetCore.Natasha.CSharp.HotExecutor.SG.targets" />
 	</ItemGroup>
 
 </Project>
