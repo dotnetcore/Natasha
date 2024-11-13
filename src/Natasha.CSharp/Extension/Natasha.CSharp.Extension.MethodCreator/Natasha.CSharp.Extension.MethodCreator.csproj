@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
 	  <ImplicitUsings>enable</ImplicitUsings>
-	  <Nullable>enable</Nullable>
 	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	  <Description>Natasha 的快捷方法构建扩展.</Description>
 	  <PackageId>DotNetCore.Natasha.CSharp.Extension.MethodCreator</PackageId>

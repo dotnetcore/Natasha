@@ -2,7 +2,7 @@
 {
     public class AccessModelTest
     {
-        private string PrivateName = "Private";
+        private readonly string PrivateName = "Private";
         private string GetPrivate()
         {
             return PrivateName;

@@ -1,0 +1,54 @@
+﻿重新扫描文件！
+Renamed: G:\Project\OpenSource\Natasha\samples\HE\NETCORE3.0\ConsoleSample\Program.cs -> G:\Project\OpenSource\Natasha\samples\HE\NETCORE3.0\ConsoleSample\Program.cs~RF6cd38db7.TMP
+Renamed: G:\Project\OpenSource\Natasha\samples\HE\NETCORE3.0\ConsoleSample\mttbbake.1zj~ -> G:\Project\OpenSource\Natasha\samples\HE\NETCORE3.0\ConsoleSample\Program.cs
+准备执行热编译...
+执行主入口前导方法....
+执行主入口回调方法....
+执行入口回调方法....
+执行系列方法执行完毕.
+In TestLocalMethod
+In lambda action
+In InnerLocalMethod
+In lambda2
+7
+False
+Out lambda2
+Out InnerLocalMethod
+Out lambda action
+Out TestLocalMethod
+参数1
+参数2
+参数3
+参数4
+In while loop!
+In while loop!
+In while loop!
+In while loop!
+In while loop!
+In while loop!
+Renamed: G:\Project\OpenSource\Natasha\samples\HE\NETCORE3.0\ConsoleSample\Program.cs -> G:\Project\OpenSource\Natasha\samples\HE\NETCORE3.0\ConsoleSample\Program.cs~RF6cd3b7f3.TMP
+Renamed: G:\Project\OpenSource\Natasha\samples\HE\NETCORE3.0\ConsoleSample\pf1djevd.g5t~ -> G:\Project\OpenSource\Natasha\samples\HE\NETCORE3.0\ConsoleSample\Program.cs
+准备执行热编译...
+执行主入口前导方法....
+执行主入口回调方法....
+执行入口回调方法....
+In TestLocalMethod
+In lambda action
+In InnerLocalMethod
+In lambda2
+执行系列方法执行完毕.
+7
+False
+Out lambda2
+Out InnerLocalMethod
+Out lambda action
+Out TestLocalMethod
+参数1
+参数2
+参数3
+参数5
+In while loop!
+In while loop!
+In while loop!
+In while loop!
+In while loop!

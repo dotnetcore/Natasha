@@ -1,10 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
-		<LangVersion>preview</LangVersion>
+		<TargetFramework>netstandard2.1</TargetFramework>
+		<PackageId>DotNetCore.Natasha.CSharp.Extension.HotReload.SG</PackageId>
 		<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
-		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<Description>动态重载控制台代码结果.</Description>
+		<PackageReleaseNotes>升级到最新版.</PackageReleaseNotes>
+		<PackageTags>Natasha;Compiler;Natasha Extension;HotReload;Source Generator;</PackageTags>
+		<Version>8.0.0.0</Version>
+		<FileVersion>8.0.0.0</FileVersion>
+		<AssemblyVersion>8.0.0.0</AssemblyVersion>
 	</PropertyGroup>
 
 	<ItemGroup>

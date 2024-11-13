@@ -2,21 +2,15 @@
 
 namespace Natasha.CSharp.Extension.MethodCreator
 {
-    public class NatashaSlimMethodBuilder
+    public class NatashaSlimMethodBuilder(string script)
     {
-        public readonly AssemblyCSharpBuilder Builder;
-        public readonly string Script;
-        public readonly HashSet<string> Usings;
-        private HashSet<string>? _exceptUsings;
+        public readonly AssemblyCSharpBuilder Builder = new();
+        public readonly string Script = script;
+        public readonly HashSet<string> Usings = [];
         private object[]? _privateObjects;
         private Action<NatashaLoadContext>? _ctxConfig;
         private Action<AssemblyCSharpBuilder>? _builderConfig;
-        public NatashaSlimMethodBuilder(string script)
-        {
-            Usings = [];
-            Builder = new AssemblyCSharpBuilder();
-            Script = script;
-        }
+
         public NatashaSlimMethodBuilder WithPrivateAccess(params object[] objs)
         {
             _privateObjects = objs;

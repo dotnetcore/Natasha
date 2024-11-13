@@ -10,6 +10,12 @@ namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
 {
     internal static class ToplevelHandler
     {
+
+        /// <summary>
+        /// 包裹顶级语句
+        /// </summary>
+        /// <param name="root"></param>
+        /// <returns></returns>
         public static CompilationUnitSyntax Handle(CompilationUnitSyntax root)
         {
             var file = root.SyntaxTree.FilePath;

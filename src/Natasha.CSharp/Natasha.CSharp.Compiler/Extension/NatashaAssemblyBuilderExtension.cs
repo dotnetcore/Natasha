@@ -1,4 +1,5 @@
 ﻿using Natasha.CSharp.Compiler.Component;
+using Natasha.DynamicLoad.Base;
 using System;
 using System.IO;
 
@@ -115,11 +116,20 @@ public static class NatashaAssemblyBuilderExtension
     /// 使用现有的加载上下文
     /// </summary>
     /// <param name="builder">编译单元</param>
-    /// <param name="domain">加载上下文</param>
+    /// <param name="loadContext">加载上下文</param>
     /// <returns></returns>
-    public static AssemblyCSharpBuilder UseExistLoadContext(this AssemblyCSharpBuilder builder, NatashaLoadContext domain)
+    public static AssemblyCSharpBuilder UseExistLoadContext(this AssemblyCSharpBuilder builder, NatashaLoadContext loadContext)
     {
-        builder.LoadContext = domain;
+        builder.LoadContext = loadContext;
+        return builder;
+    }
+    public static AssemblyCSharpBuilder UseExistLoadContext(this AssemblyCSharpBuilder builder, INatashaDynamicLoadContextBase domain)
+    {
+        if (domain.Name == null)
+        {
+            throw new NullReferenceException("domain.Name 为空, 无法从缓存中找到该值！");
+        }
+        builder.LoadContext = DomainManagement.Create(domain.Name);
         return builder;
     }
 

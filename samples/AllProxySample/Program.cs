@@ -8,7 +8,7 @@
         }
         public static void Run(string name)
         {
-            NatashaDomain domain = new NatashaDomain(name);
+            NatashaDomain domain = new(name);
             string file = "G:\\Project\\OpenSource\\Jester\\src\\backend\\Jester.Api\\bin\\Debug\\net8.0\\Jester.Api.dll";
             string dependencyDirectory = Path.GetDirectoryName(file)!;
             string[] dependencyFiles = Directory.GetFiles(dependencyDirectory, "*.dll", SearchOption.AllDirectories);

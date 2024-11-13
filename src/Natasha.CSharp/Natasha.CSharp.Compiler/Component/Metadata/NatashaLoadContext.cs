@@ -46,6 +46,20 @@ public static class NatashaLoadContext<TCreator> where TCreator : INatashaDynami
         Domain.SetCallerReference(this);
     }
 
+    internal NatashaLoadContext(INatashaDynamicLoadContextBase domain, NatashaUsingCache? usingCache = null)
+    {
+        if (usingCache != null)
+        {
+            UsingRecorder = usingCache;
+        }
+        else
+        {
+            UsingRecorder = new();
+        }
+        Domain = domain;
+        Domain.SetCallerReference(this);
+    }
+
     public static INatashaDynamicLoadContextCreator Creator = default!;
     public const string DefaultName = "Default";
 

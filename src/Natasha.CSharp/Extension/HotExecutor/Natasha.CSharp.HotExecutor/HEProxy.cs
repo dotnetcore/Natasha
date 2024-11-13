@@ -19,7 +19,7 @@ public static class HEProxy
     private static readonly ConcurrentDictionary<string, SyntaxTree> _fileSyntaxTreeCache = new();
     private static readonly ConcurrentDictionary<string, HashSet<string>> _cs0104UsingCache = new();
     //private static readonly ConcurrentDictionary<string, CSharpParseOptions?> _mixOPLCommentCache = new();
-    private static readonly object _runLock = new object();
+    private static readonly object _runLock = new();
     private static readonly List<string> _args = [];
     private static readonly VSCSProcessor _processor;
     private static readonly VSCSDependencyProjectWatcher _csprojWatcher;

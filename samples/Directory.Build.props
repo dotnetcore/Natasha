@@ -1,17 +1,27 @@
 <Project>
 
+	<PropertyGroup>
+		<NoWarn>CS0169;CS8602;CS8002;CS8032;1701;1702;0168;NETSDK1138;IDE0060;xUnit2000;CS0067;CS8321;CS0649;CA1822;CS1998;RS1014;CS1591;CA1050;</NoWarn>
+		<IsHEProject Condition="$(MSBuildProjectFullPath.Contains('$([MSBuild]::NormalizeDirectory('$(SolutionDir)', 'samples','HE'))'))">true</IsHEProject>
+		<IsHENETCore30 Condition="$(MSBuildProjectFullPath.Contains('$([MSBuild]::NormalizeDirectory('$(SolutionDir)', 'samples','HE','NETCORE3.0'))'))">true</IsHENETCore30>
+	</PropertyGroup>
 	<Choose>
-		<When Condition="$(MSBuildProjectFullPath.Contains('$([MSBuild]::NormalizeDirectory('$(SolutionDir)', 'samples','HE'))'))">
-			<PropertyGroup>
-				<NoWarn>CS0169;CS8602;CS8002;CS8032;1701;1702;0168;NETSDK1138;IDE0060;xUnit2000;CS0067;CS8321;CS0649;CA1822;CS1998;RS1014;CS1591;CA1050;</NoWarn>
-			</PropertyGroup>
+		
+		<When Condition="('$(IsHEProject)' == 'true')">
+
 			<ItemGroup>
 				<ProjectReference Include="$(SolutionDir)src\Natasha.CSharp\Extension\HotExecutor\Natasha.CSharp.HotExecutor\Natasha.CSharp.HotExecutor.csproj" />
 				<ProjectReference Include="$(SolutionDir)src\Natasha.CSharp\Component\Core\Natasha.CSharp.Compiler.Domain\Natasha.CSharp.Compiler.Domain.csproj" />
-				<ProjectReference Include="$(SolutionDir)src\Natasha.CSharp\Extension\HotExecutor\Natasha.CSharp.HotExecutor.SG\Natasha.CSharp.HotExecutor.SG.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 				<ProjectReference Include="$(SolutionDir)src\Natasha.CSharp\Extension\Natasha.CSharp.Extension.MethodCreator\Natasha.CSharp.Extension.MethodCreator.csproj" />
+			</ItemGroup>
+			
+		</When>
+	</Choose>
+	<Choose>
+		<When Condition="('$(IsHEProject)' == 'true') And ('$(IsHENETCore30)' != 'true')">
+			<ItemGroup>
+				<ProjectReference Include="$(SolutionDir)src\Natasha.CSharp\Extension\HotExecutor\Natasha.CSharp.HotExecutor.SG\Natasha.CSharp.HotExecutor.SG.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 			</ItemGroup>
 		</When>
 	</Choose>
-
 </Project>

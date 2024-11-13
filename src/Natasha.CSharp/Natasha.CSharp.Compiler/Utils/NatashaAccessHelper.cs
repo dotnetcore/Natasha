@@ -12,42 +12,42 @@ namespace Natasha.CSharp.Compiler.Utils
 
         static NatashaAccessHelper()
         {
-            var accessType = Assembly.GetEntryAssembly().GetType("System.Runtime.CompilerServices.IgnoresAccessChecksToAttribute", throwOnError: false);
-            if (accessType == null)
-            {
-                AssemblyCSharpBuilder builder = new();
-                builder.UseDefaultLoadContext();
-                builder.UseSimpleMode();
-                builder.ConfigLoadContext(opt => opt
-                    .AddReferenceAndUsingCode(typeof(object))
-                    .AddReferenceAndUsingCode(typeof(AssemblyName))
-                );
+            //            var accessType = Assembly.GetEntryAssembly().GetType("System.Runtime.CompilerServices.IgnoresAccessChecksToAttribute", throwOnError: false);
+            //            if (accessType == null)
+            //            {
+            //                AssemblyCSharpBuilder builder = new();
+            //                builder.UseDefaultLoadContext();
+            //                builder.UseSimpleMode();
+            //                builder.ConfigLoadContext(opt => opt
+            //                    .AddReferenceAndUsingCode(typeof(object))
+            //                    .AddReferenceAndUsingCode(typeof(AssemblyName))
+            //                );
 
-                builder.Add(@"
-namespace System.Runtime.CompilerServices
-{
-    [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
-    public class IgnoresAccessChecksToAttribute : Attribute
-    {
-        public IgnoresAccessChecksToAttribute(string assemblyName)
-        {
-            AssemblyName = assemblyName;
-        }
+            //                builder.Add(@"
+            //namespace System.Runtime.CompilerServices
+            //{
+            //    [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
+            //    public class IgnoresAccessChecksToAttribute : Attribute
+            //    {
+            //        public IgnoresAccessChecksToAttribute(string assemblyName)
+            //        {
+            //            AssemblyName = assemblyName;
+            //        }
 
-        public string AssemblyName { get; }
-    }
-}");
-                var assembly = builder.GetAssembly();
-                accessType = assembly.GetTypeFromShortName("IgnoresAccessChecksToAttribute");
-            }
-           
+            //        public string AssemblyName { get; }
+            //    }
+            //}");
+            //                var assembly = builder.GetAssembly();
+            //                accessType = assembly.GetTypeFromShortName("IgnoresAccessChecksToAttribute");
+            //           }
+
             AccessHandle = builder =>
               builder
               .ConfigCompilerOption(opt => opt
                 .WithAllMetadata()
                 .AppendCompilerFlag(CompilerBinderFlags.IgnoreAccessibility)
-               )
-              .ConfigLoadContext(ctx => ctx.AddReferenceAndUsingCode(accessType));
+               );
+              //.ConfigLoadContext(ctx => ctx.AddReferenceAndUsingCode(accessType));
 
         }
     }
