@@ -57,15 +57,15 @@ Example:
 
 ## [9.0.0.1] - 2024-11-13 
 
-### DotNetCore.Natasha.CSharp.HotExecutor _ v9.0.0.2:
+### DotNetCore.Natasha.CSharp.HotExecutor _ v9.0.0.3:
 - 基于 Natasha 的热执行，允许程序在运行时更改代码，并输出新的结果.
 - 跟随其他扩展库版本号发布.
 
-### DotNetCore.Natasha.CSharp.HotExecutor.SG _ v9.0.0.2:
+### DotNetCore.Natasha.CSharp.HotExecutor.SG _ v9.0.0.3:
 - 热执行的 SG 扩展库.
 - 跟随其他扩展库版本号发布.
 - 
-### DotNetCore.Natasha.CSharp.HotExecutor.Wrapper _ v9.0.0.3:
+### DotNetCore.Natasha.CSharp.HotExecutor.Wrapper _ v9.0.0.4:
 - 热执行 + SG 封装库.
 - 跟随其他扩展库版本号发布.
 

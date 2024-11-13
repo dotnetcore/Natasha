@@ -8,9 +8,9 @@
 		<PackageReleaseNotes>升级到最新版.</PackageReleaseNotes>
 		<PackageTags>Natasha;Compiler;LoadContext;Interface;</PackageTags>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-		<Version>8.0.0.0</Version>
-		<FileVersion>8.0.0.0</FileVersion>
-		<AssemblyVersion>8.0.0.0</AssemblyVersion>
+		<Version>9.0.0.1</Version>
+		<FileVersion>9.0.0.1</FileVersion>
+		<AssemblyVersion>9.0.0.1</AssemblyVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
