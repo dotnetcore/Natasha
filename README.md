@@ -16,7 +16,7 @@
 [![wiki](https://img.shields.io/badge/wiki-ch-blue.svg)](https://natasha.dotnetcore.xyz/)
 <br/>
 ![Compile](https://img.shields.io/badge/script-csharp-green.svg)
-[![NuGet Badge](https://buildstats.info/nuget/DotNetCore.Natasha.CSharp.Compiler?includePreReleases=true)](https://www.nuget.org/packages/DotNetCore.Natasha.CSharp.Compiler)
+[![NuGet Badge](https://img.shields.io/nuget/dt/DotNetCore.Natasha.CSharp.Compiler?includePreReleases=true)](https://www.nuget.org/packages/DotNetCore.Natasha.CSharp.Compiler)
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/m/dotnetcore/natasha.svg)](https://github.com/dotnetcore/Natasha/commits/main) 
 [![Codecov](https://img.shields.io/codecov/c/github/dotnetcore/natasha.svg)](https://codecov.io/gh/dotnetcore/Natasha) 
 [![UT Test From PR](https://github.com/dotnetcore/Natasha/actions/workflows/pr_test.yml/badge.svg)](https://github.com/dotnetcore/Natasha/actions/workflows/pr_test.yml)
