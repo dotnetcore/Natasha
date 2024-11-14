@@ -27,9 +27,6 @@
 
 ![展示](https://images.gitee.com/uploads/images/2020/1201/161046_e8f52622_1478282.gif)
 
-<br/>
-<br/>
-
 ## 使用
 
 引入包 `DotNetCore.Natasha.CSharp.Compiler` 编译单元主体
