@@ -27,9 +27,14 @@
 
 ![展示](https://images.gitee.com/uploads/images/2020/1201/161046_e8f52622_1478282.gif)
 
+<br/>
+
 ## 使用
 
 引入包 `DotNetCore.Natasha.CSharp.Compiler` 编译单元主体
+
+<br/>
+
 引入包 `DotNetCore.Natasha.CSharp.Compiler.Domain` 编译域 (netcore3.1+)
 
 #### 初始化（v9）
@@ -53,6 +58,7 @@ assemblyCSharp.Add("public class A{public void Show(){}}");
 assemblyCSharp.LogCompilationEvent += (log) => { Console.WriteLine(log.ToString()); };
 var newAssembly = assemblyCSharp.GetAssembly();
 ```
+<br/>
 
 ## 赞助
 
