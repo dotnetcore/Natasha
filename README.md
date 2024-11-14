@@ -30,9 +30,36 @@
 <br/>
 <br/>
 
-### 赞助：
+## 使用
 
-已关闭打赏
+引入包 `DotNetCore.Natasha.CSharp.Compiler` 编译单元主体
+引入包 `DotNetCore.Natasha.CSharp.Compiler.Domain` 编译域 (netcore3.1+)
+
+#### 初始化（v9）
+```cs
+NatashaManagement
+    //获取链式构造器
+    .GetInitializer() 
+    //使用引用程序集中的命名空间
+    .WithMemoryUsing()
+    //使用内存中的元数据
+    .WithMemoryReference()
+    //注册域构造器
+    .Preheating<NatashaDomainCreator>();
+```
+
+#### 动态编译
+```cs
+AssemblyCSharpBuilder assemblyCSharp = new();
+assemblyCSharp.ConfigLoadContext(ctx => ctx.AddReferenceAndUsingCode<object>());
+assemblyCSharp.Add("public class A{public void Show(){}}");
+assemblyCSharp.LogCompilationEvent += (log) => { Console.WriteLine(log.ToString()); };
+var newAssembly = assemblyCSharp.GetAssembly();
+```
+
+## 赞助
+
+关闭打赏
 
 #### 捐助明细  
 
