@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-namespace Natasha.CSharp.HotExecutor.Component
+namespace Natasha.CSharp.HotExecutor.Utils
 {
     public static class HEDelegateHelper
     {

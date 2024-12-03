@@ -1,9 +1,9 @@
-using Microsoft.AspNetCore.Mvc.Controllers;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using Natasha.CSharp.HotExecutor.Component;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
+using Microsoft.Extensions.Hosting;
+using System;
+using System.Linq;
 
 namespace Webapi2Sample
 {
@@ -11,7 +11,9 @@ namespace Webapi2Sample
     {
         public static void Main(string[] args)
         {
-            NatashaManagement.RegistDomainCreator<NatashaDomainCreator>();
+
+
+            //NatashaManagement.RegistDomainCreator<NatashaDomainCreator>();
 
             //HE:Async
             var builder = WebApplication.CreateBuilder(args);
@@ -25,25 +27,26 @@ namespace Webapi2Sample
 
             var app = builder.Build();
 
-            var modelMetadataProvider = app.Services.GetService<IModelMetadataProvider>();
-            var controllerActivatorProvider = app.Services.GetService<IControllerActivatorProvider>();
+            //var modelMetadataProvider = app.Services.GetService<IModelMetadataProvider>();
+            //var controllerActivatorProvider = app.Services.GetService<IControllerActivatorProvider>();
 
-            HEProxy.SetPreHotExecut(() => {
+            //HEProxy.SetPreHotExecut(() => {
 
-                var action = HEDelegateHelper.GetDelegate(modelMetadataProvider.GetType(), "ClearCache", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
-                action(modelMetadataProvider);
+            //    var action = HEDelegateHelper.GetDelegate(modelMetadataProvider.GetType(), "ClearCache", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            //    action(modelMetadataProvider);
 
-                var action2 = HEDelegateHelper.GetDelegate(controllerActivatorProvider.GetType(), "ClearCache", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
-                action2(modelMetadataProvider);
+            //    var action2 = HEDelegateHelper.GetDelegate(controllerActivatorProvider.GetType(), "ClearCache", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            //    action2(modelMetadataProvider);
 
-            });
+            //});
 
-            var action = "arg1.ClearCache();arg2.ClearCache();Debug.WriteLine(1111);"
-                .WithSlimMethodBuilder()
-                .WithMetadata(typeof(Debug))
-                .WithPrivateAccess(typeof(IModelMetadataProvider), typeof(IControllerActivatorProvider))
-                .ToAction<IModelMetadataProvider, IControllerActivatorProvider>()!;
-            action(modelMetadataProvider!, controllerActivatorProvider!);
+
+            //var action = "arg1.ClearCache();arg2.ClearCache();Debug.WriteLine(1111);"
+            //    .WithSlimMethodBuilder()
+            //    .WithMetadata(typeof(Debug))
+            //    .WithPrivateAccess(typeof(IModelMetadataProvider), typeof(IControllerActivatorProvider))
+            //    .ToAction<IModelMetadataProvider, IControllerActivatorProvider>()!;
+            //action(modelMetadataProvider!, controllerActivatorProvider!);
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -53,10 +56,13 @@ namespace Webapi2Sample
             app.AsyncToHotExecutor();
             app.UseAuthorization();
 
+
             var summaries = new[]
             {
-                "Freezing1", "Bracing1", "Chilly1", "Cool1", "Mild1", "Warm1", "Balmy1", "Hot1", "Sweltering1", "Scorching1"
+                "Freezing441", "Bracing"
             };
+
+
 
             app.MapGet("/weatherforecast", (HttpContext httpContext) =>
             {
@@ -103,6 +109,8 @@ namespace Webapi2Sample
             .WithName("GetWeatherForecast2");
 
             app.Run();
+            //Once
+            //Console.ReadKey();
         }
     }
 }

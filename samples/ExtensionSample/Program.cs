@@ -88,7 +88,20 @@ namespace ExtensionSample
             }
 
 
+            //NatashaManagement
+            //    .GetInitializer()
+            //    .WithRefUsing()
+            //    .WithRefReference()
+            //    .WithMemoryUsing()
+            //    .WithMemoryReference()
+            //    .WithFileUsingCache()
+            //    .WithExcludeReferences((asm, asmStr) => { return false; })
+            //    .Preheating<NatashaDomainCreator>();
 
+            //var func = "return arg1 + arg2 + 0.1;"
+            //   .WithMetadata<double>()
+            //   .ToFunc<double, double, double>();
+            //Console.WriteLine(func(1, 2));
             //Once
             for (int i = 0; i < 5; i++)
             {
@@ -116,14 +129,14 @@ namespace ExtensionSample
         public static void Test()
         {
 
-            //AssemblyCSharpBuilder assemblyCSharp = new();
-            //assemblyCSharp.ConfigLoadContext(ctx => ctx.AddReferenceAndUsingCode<object>());
-            //assemblyCSharp.Add("public class A{\r\npublic void Show(){\r\n}\r\n}");
-            //assemblyCSharp.LogCompilationEvent += (log) => { Console.WriteLine(log.ToString()); };
-            //assemblyCSharp.GetAssembly();
+            AssemblyCSharpBuilder assemblyCSharp = new();
+            assemblyCSharp.ConfigLoadContext(ctx => ctx.AddReferenceAndUsingCode<object>());
+            assemblyCSharp.Add("public class A{public void Show(){}}");
+            assemblyCSharp.LogCompilationEvent += (log) => { Console.WriteLine(log.ToString()); };
+            assemblyCSharp.GetAssembly();
             //ProxyMainArguments();
             //ProxyMain(args);
-           
+
 
             // TestCollection();
             //TestPage();

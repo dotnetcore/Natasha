@@ -1,10 +1,7 @@
-﻿using Natasha.CSharp.Extension.HotExecutor;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Text;
 
-namespace Natasha.CSharp.HotExecutor.Component
+namespace Natasha.CSharp.HotExecutor.Utils
 {
     public static class HEFileHelper
     {
@@ -40,6 +37,7 @@ namespace Natasha.CSharp.HotExecutor.Component
                     using StreamWriter stream = new(file, true, Encoding.UTF8);
                     await stream.WriteLineAsync(msg);
                     await stream.FlushAsync();
+                    return;
                 }
                 catch (Exception)
                 {

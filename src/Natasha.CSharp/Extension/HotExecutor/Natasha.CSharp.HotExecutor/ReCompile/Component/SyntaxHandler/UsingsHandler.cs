@@ -5,7 +5,7 @@ using Natasha.CSharp.Compiler.Component;
 using System.Collections.Concurrent;
 using System.Text;
 
-namespace Natasha.CSharp.HotExecutor.Component
+namespace Natasha.CSharp.HotExecutor.Component.SyntaxHandler
 {
     internal static class UsingsHandler
     {

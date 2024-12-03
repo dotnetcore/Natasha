@@ -2,7 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
+namespace Natasha.CSharp.HotExecutor.Component.SyntaxPlugin
 {
     internal static class WinformRewriter
     {

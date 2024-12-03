@@ -1,5 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
-namespace Natasha.CSharp.Extension.HotExecutor
+namespace Natasha.CSharp.HotExecutor.Utils
 {
     internal class HESpinLockHelper
     {

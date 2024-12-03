@@ -1,8 +1,9 @@
-﻿using System.Collections.Concurrent;
+﻿using Natasha.CSharp.HotExecutor.Utils;
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Xml;
 
-namespace Natasha.CSharp.Extension.HotExecutor
+namespace Natasha.CSharp.HotExecutor.Core
 {
     internal class VSCSDependencyProjectWatcher
     {

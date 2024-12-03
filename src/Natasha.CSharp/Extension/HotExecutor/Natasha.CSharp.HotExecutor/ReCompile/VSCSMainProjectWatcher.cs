@@ -1,9 +1,5 @@
-﻿using Natasha.CSharp.Compiler.Component;
-using System;
-using System.Collections.Generic;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Transactions;
+﻿using Natasha.CSharp.HotExecutor;
+using Natasha.CSharp.HotExecutor.Utils;
 
 namespace Natasha.CSharp.Extension.HotExecutor
 {

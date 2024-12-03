@@ -15,7 +15,7 @@
             builder.UseRandomLoadContext();
             builder.UseSmartMode();
             //builder.WithFileOutput();
-            builder.WithDebugCompile(debugger => debugger.ForCore());
+            builder.WithDebugCompile(debugger => debugger.ForAssembly());
             //builder.WithDebugCompile(debugger=>debugger.ForStandard());
             builder.Add(@"public static class A{ 
 public static long Show(int i,short j,double z){  return (long)(i + j + z + 10); } 

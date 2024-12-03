@@ -1,4 +1,4 @@
-﻿namespace Natasha.CSharp.HotExecutor.Component
+﻿namespace Natasha.CSharp.HotExecutor.Utils
 {
     public static class HECommentHelper
     {

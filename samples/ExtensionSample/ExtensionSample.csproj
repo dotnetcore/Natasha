@@ -14,6 +14,12 @@
 	  <Compile Remove="InteroAttribute.cs" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <PackageReference Include="DotNetCore.Natasha.CSharp.Extension.CompileDirector" Version="9.0.0.1" />
+	  <PackageReference Include="DotNetCore.Natasha.CSharp.Extension.MethodCreator" Version="9.0.0.1" />
+	  <PackageReference Include="DotNetCore.Natasha.CSharp.HotExecutor.Wrapper" Version="9.0.0.4" />
+	</ItemGroup>
+
 	<!--<ItemGroup>
 	  <PackageReference Include="DotNetCore.Natasha.CSharp.HotExecutor.Wrapper" Version="9.0.0.3" />
 	</ItemGroup>-->
@@ -30,10 +36,10 @@
 	  <PackageReference Include="DotNetCore.Natasha.CSharp.HotExecutor.Wrapper" Version="8.9.0" />
 	</ItemGroup>-->
 
-	<ItemGroup>
+	<!--<ItemGroup>
 	  <ProjectReference Include="..\..\src\Natasha.CSharp\Component\Core\Natasha.CSharp.Compiler.Domain\Natasha.CSharp.Compiler.Domain.csproj" />
 	  <ProjectReference Include="..\..\src\Natasha.CSharp\Extension\HotExecutor\Natasha.CSharp.HotExecutor.SG\Natasha.CSharp.HotExecutor.SG.csproj" />
 	  <ProjectReference Include="..\..\src\Natasha.CSharp\Extension\HotExecutor\Natasha.CSharp.HotExecutor\Natasha.CSharp.HotExecutor.csproj" />
-	</ItemGroup>
+	</ItemGroup>-->
 
 </Project>

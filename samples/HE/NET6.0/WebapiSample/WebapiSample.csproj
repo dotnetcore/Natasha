@@ -1,13 +1,21 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
+	  <LangVersion>preview</LangVersion>
+	  <Nullable>enable</Nullable>
+	  <ImplicitUsings>enable</ImplicitUsings>
+	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
-
+	<ItemGroup>
+		<PackageReference Include="DotNetCore.Natasha.CSharp.HotExecutor.Wrapper" Version="9.0.0.6" />
+	</ItemGroup>
+	<ItemGroup>
+	  <PackageReference Update="DotNetCore.Natasha.CSharp.HotExecutor" Version="9.0.0.5" />
+	</ItemGroup>
 </Project>

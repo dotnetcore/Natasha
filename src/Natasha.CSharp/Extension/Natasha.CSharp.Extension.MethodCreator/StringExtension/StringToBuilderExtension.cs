@@ -6,6 +6,7 @@ public static class StringToBuilderExtension
     public static NatashaSlimMethodBuilder WithSlimMethodBuilder(this string script, Action<AssemblyCSharpBuilder> config)
     {
         var builder = new NatashaSlimMethodBuilder(script);
+        builder.WithSimpleBuilder();
         builder.ConfigBuilder(config);
         return builder;
     }
@@ -13,6 +14,7 @@ public static class StringToBuilderExtension
     public static NatashaSlimMethodBuilder WithSlimMethodBuilder(this string script, Action<NatashaLoadContext> config)
     {
         var builder = new NatashaSlimMethodBuilder(script);
+        builder.WithSimpleBuilder();
         builder.ConfigBuilder(config);
         return builder;
     }

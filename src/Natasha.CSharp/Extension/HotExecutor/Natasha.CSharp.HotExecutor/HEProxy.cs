@@ -3,14 +3,19 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Natasha.CSharp.Compiler.Component;
 using Natasha.CSharp.Extension.HotExecutor;
-using Natasha.CSharp.HotExecutor.Component;
-using Natasha.CSharp.HotExecutor.Component.SyntaxUtils;
+using Natasha.CSharp.HotExecutor.Component.SyntaxHandler;
+using Natasha.CSharp.HotExecutor.Component.SyntaxPlugin;
+using Natasha.CSharp.HotExecutor.Core;
+using Natasha.CSharp.HotExecutor.Utils;
 using System.Collections.Concurrent;
-using System.Diagnostics;
 using System.Reflection;
 using System.Text;
 
-public static class HEProxy
+namespace Natasha.CSharp.HotExecutor
+{
+
+
+    public static class HEProxy
 {
     public static bool IsRuntimeFirstRun = true;
     public static object? ObjectInstance;
@@ -72,8 +77,14 @@ public static class HEProxy
         if (VSCSProjectInfoHelper.EnableImplicitUsings)
         {
             _treeTrivialRewriter.RegistePlugin(_cs0104TriviaPlugin);
-        }  
+        }
     }
+
+    public static void SGCompleted()
+    {
+        IsSGCompleted = true;
+    }
+    public static bool IsSGCompleted { get; private set; }
     private static void DeployCSProjWatcher()
     {
         _csprojWatcher.SetExecute(async () =>
@@ -591,3 +602,4 @@ public static class HEProxy
     #endregion
 }
 
+}

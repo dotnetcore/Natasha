@@ -1,6 +1,6 @@
 ﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace Natasha.CSharp.HotExecutor.Component
+namespace Natasha.CSharp.HotExecutor.Component.SyntaxPlugin
 {
     public abstract class MethodSyntaxPluginBase
     {

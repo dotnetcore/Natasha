@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
+using System.Runtime.CompilerServices;
 
 namespace WebapiWIthController
 {
@@ -7,6 +8,7 @@ namespace WebapiWIthController
     {
         public static void Main(string[] args)
         {
+
             NatashaManagement.RegistDomainCreator<NatashaDomainCreator>();
 
             var builder = WebApplication.CreateBuilder(args);
@@ -28,7 +30,7 @@ var controllerActivatorProvider = arg1.Services.GetService<IControllerPropertyAc
 Console.WriteLine(1111);"
                 .WithMetadata(typeof(Console))
                 .WithUsings("Microsoft.AspNetCore.Mvc.Controllers")
-                //.WithMetadata(typeof(IgnoresAccessChecksToAttribute))
+                .WithMetadata(typeof(IgnoresAccessChecksToAttribute))
                 .WithMetadata(typeof(IModelMetadataProvider))
                 .WithPrivateAccess(typeof(DefaultModelMetadataProvider))
                 .ToAction<WebApplication>()!;

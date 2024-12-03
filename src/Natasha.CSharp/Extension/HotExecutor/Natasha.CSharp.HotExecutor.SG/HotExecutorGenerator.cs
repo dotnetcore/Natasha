@@ -70,15 +70,15 @@ HEProxy.ExcludeGlobalUsing(""System.Windows.Forms"");
                     }
                 }
             }
-
-            var nameSapce = context.Compilation.GetEntryPoint(cancellationToken: new System.Threading.CancellationToken())!.ContainingNamespace.Name;
+            var nameSpace = context.Compilation.GetEntryPoint(cancellationToken: new System.Threading.CancellationToken())!.ContainingNamespace.Name;
             string proxyMethodContent = $@"
+using System;
 using System.IO;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using Natasha.CSharp.HotExecutor.Component;
-using Natasha.CSharp.Extension.HotExecutor;
-{(string.IsNullOrEmpty(nameSapce) ? string.Empty : "using " + nameSapce + ";")}
+using Natasha.CSharp.HotExecutor;
+using Natasha.CSharp.HotExecutor.Utils;
+{(string.IsNullOrEmpty(nameSpace) ? string.Empty : "using " + nameSpace + ";")}
 namespace System{{
 
 
@@ -88,16 +88,25 @@ namespace System{{
         [ModuleInitializer]
         internal static void PreMain()
         {{
+            
+            try{{
+                HEProxy.SGCompleted();
+                Debug.WriteLine(""Run HE SG!"");
+                {coreScript}
+                HEProxy.SetCompileInitAction(()=>{{
 
-            {coreScript}
-            HEProxy.SetCompileInitAction(()=>{{
+                    NatashaManagement.RegistDomainCreator<NatashaDomainCreator>();
+                    NatashaManagement.Preheating((asmName, @namespace) => !string.IsNullOrWhiteSpace(@namespace) && (@namespace.StartsWith(""Microsoft.VisualBasic"")|| HEProxy.IsExcluded(@namespace)),true, true);
 
-                NatashaManagement.RegistDomainCreator<NatashaDomainCreator>();
-                NatashaManagement.Preheating((asmName, @namespace) => !string.IsNullOrWhiteSpace(@namespace) && (@namespace.StartsWith(""Microsoft.VisualBasic"")|| HEProxy.IsExcluded(@namespace)),true, true);
+                }});
+                HEProxy.Run();
 
-            }});
-            HEProxy.Run();
-
+            }}catch(Exception ex)
+            {{
+                Debug.WriteLine(""--------------------------"");
+                Debug.WriteLine(ex.Message);
+                Debug.WriteLine(""--------------------------"");
+            }}
         }}
 
     }}

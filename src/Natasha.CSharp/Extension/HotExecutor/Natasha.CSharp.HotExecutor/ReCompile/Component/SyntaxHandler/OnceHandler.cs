@@ -2,7 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace Natasha.CSharp.HotExecutor.Component
+namespace Natasha.CSharp.HotExecutor.Component.SyntaxHandler
 {
     internal static class OnceHandler
     {

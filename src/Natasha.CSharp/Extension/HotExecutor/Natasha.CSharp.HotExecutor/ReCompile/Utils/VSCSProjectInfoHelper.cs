@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Xml;
 
-namespace Natasha.CSharp.Extension.HotExecutor
+namespace Natasha.CSharp.HotExecutor.Utils
 {
     public static class VSCSProjectInfoHelper
     {

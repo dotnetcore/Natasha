@@ -1,7 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
-namespace Natasha.CSharp.HotExecutor.Component
+namespace Natasha.CSharp.HotExecutor.Component.SyntaxPlugin
 {
     internal class HEMethodTriviaRewriter : CSharpSyntaxRewriter
     {

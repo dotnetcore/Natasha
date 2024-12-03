@@ -1,8 +1,8 @@
-﻿using Natasha.CSharp.Extension.HotExecutor;
+﻿using Natasha.CSharp.HotExecutor.Utils;
 using System.Diagnostics;
 using System.Text;
 
-namespace Natasha.CSharp.HotExecutor.Component
+namespace Natasha.CSharp.HotExecutor
 {
     public class HEFileLogger
     {

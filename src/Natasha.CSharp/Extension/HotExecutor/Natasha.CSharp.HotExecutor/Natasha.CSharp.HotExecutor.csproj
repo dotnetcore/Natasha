@@ -1,26 +1,25 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.1;</TargetFrameworks>
 	  <ImplicitUsings>enable</ImplicitUsings>
 	  <Nullable>enable</Nullable>
+	  <IsPackable>true</IsPackable>
 	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	  <Description>动态重载控制台代码结果.</Description>
 	  <PackageId>DotNetCore.Natasha.CSharp.HotExecutor</PackageId>
 	  <PackageReleaseNotes>升级到最新版.</PackageReleaseNotes>
 	  <PackageTags>Natasha;Compiler;Natasha Extension;HotReload;HotExecutor;</PackageTags>
-	  <Version>9.0.0.1</Version>
-	  <FileVersion>9.0.0.1</FileVersion>
-	  <AssemblyVersion>9.0.0.1</AssemblyVersion>
+	  <Version>9.0.0.5</Version>
+	  <FileVersion>9.0.0.5</FileVersion>
+	  <AssemblyVersion>9.0.0.5</AssemblyVersion>
   </PropertyGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\..\Natasha.CSharp.Compiler\Natasha.CSharp.Compiler.csproj" />
   </ItemGroup>
-
-	<ItemGroup>
-		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="build\netstandard2.1\DotNetCore.Natasha.CSharp.HotExecutor.targets" />
-		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildTransitive\netstandard2.1\DotNetCore.Natasha.CSharp.HotExecutor.targets" />
-		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildMultiTargeting\netstandard2.1\DotNetCore.Natasha.CSharp.HotExecutor.targets" />
-	</ItemGroup>
+<ItemGroup>
+		<None Include="targets\Project.targets" Pack="true" PackagePath="build\netstandard2.1\DotNetCore.Natasha.CSharp.HotExecutor.targets" />
+		<None Include="targets\Project.targets" Pack="true" PackagePath="buildTransitive\netstandard2.1\DotNetCore.Natasha.CSharp.HotExecutor.targets" />
+		<None Include="targets\Project.targets" Pack="true" PackagePath="buildMultiTargeting\netstandard2.1\DotNetCore.Natasha.CSharp.HotExecutor.targets" />
+</ItemGroup>
 </Project>
+

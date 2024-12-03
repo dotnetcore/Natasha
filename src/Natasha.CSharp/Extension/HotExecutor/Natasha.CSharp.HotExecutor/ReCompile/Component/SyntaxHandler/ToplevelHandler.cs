@@ -1,12 +1,9 @@
-﻿using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Natasha.CSharp.Compiler.Component;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
+namespace Natasha.CSharp.HotExecutor.Component.SyntaxHandler
 {
     internal static class ToplevelHandler
     {

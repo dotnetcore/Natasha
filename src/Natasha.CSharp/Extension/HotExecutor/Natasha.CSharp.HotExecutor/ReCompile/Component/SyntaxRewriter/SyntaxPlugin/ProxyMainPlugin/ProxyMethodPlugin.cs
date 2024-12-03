@@ -1,7 +1,6 @@
 ﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Natasha.CSharp.HotExecutor.Component.SyntaxUtils;
 
-namespace Natasha.CSharp.HotExecutor.Component
+namespace Natasha.CSharp.HotExecutor.Component.SyntaxPlugin
 {
     internal class ProxyMethodPlugin : MethodSyntaxPluginBase
     {

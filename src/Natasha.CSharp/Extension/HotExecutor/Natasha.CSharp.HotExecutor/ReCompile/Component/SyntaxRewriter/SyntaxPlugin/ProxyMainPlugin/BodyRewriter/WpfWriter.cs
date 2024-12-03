@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 
-namespace Natasha.CSharp.HotExecutor.Component.SyntaxUtils
+namespace Natasha.CSharp.HotExecutor.Component.SyntaxPlugin
 {
     internal static class WpfWriter
     {

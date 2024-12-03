@@ -3,7 +3,7 @@
 using System.IO;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using Natasha.CSharp.HotExecutor.Component;
+using Natasha.CSharp.HotExecutor.Utils;
 using Natasha.CSharp.Extension.HotExecutor;
 using ExtensionSample;
 namespace System

@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Natasha.CSharp.HotExecutor.Utils;
+using System;
 using System.Diagnostics;
 using System.Text;
 
-namespace Natasha.CSharp.Extension.HotExecutor
+namespace Natasha.CSharp.HotExecutor.Core
 {
     public class VSCSProcessor
     {

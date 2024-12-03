@@ -1,4 +1,6 @@
-﻿namespace Natasha.CSharp.HotExecutor.Component
+﻿using Natasha.CSharp.HotExecutor.Utils;
+
+namespace Natasha.CSharp.HotExecutor.Component.SyntaxPlugin
 {
     internal class OutputTriviaPlugin : TriviaSyntaxPluginBase
     {

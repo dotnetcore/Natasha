@@ -1,3 +1,5 @@
+using System;
+
 namespace Webapi2Sample
 {
     public class WeatherForecast

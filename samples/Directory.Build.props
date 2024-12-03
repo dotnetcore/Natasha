@@ -9,19 +9,19 @@
 		
 		<When Condition="('$(IsHEProject)' == 'true')">
 
-			<ItemGroup>
+			<!--<ItemGroup>
 				<ProjectReference Include="$(SolutionDir)src\Natasha.CSharp\Extension\HotExecutor\Natasha.CSharp.HotExecutor\Natasha.CSharp.HotExecutor.csproj" />
 				<ProjectReference Include="$(SolutionDir)src\Natasha.CSharp\Component\Core\Natasha.CSharp.Compiler.Domain\Natasha.CSharp.Compiler.Domain.csproj" />
 				<ProjectReference Include="$(SolutionDir)src\Natasha.CSharp\Extension\Natasha.CSharp.Extension.MethodCreator\Natasha.CSharp.Extension.MethodCreator.csproj" />
-			</ItemGroup>
+			</ItemGroup>-->
 			
 		</When>
 	</Choose>
 	<Choose>
 		<When Condition="('$(IsHEProject)' == 'true') And ('$(IsHENETCore30)' != 'true')">
-			<ItemGroup>
+			<!--<ItemGroup>
 				<ProjectReference Include="$(SolutionDir)src\Natasha.CSharp\Extension\HotExecutor\Natasha.CSharp.HotExecutor.SG\Natasha.CSharp.HotExecutor.SG.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
-			</ItemGroup>
+			</ItemGroup>-->
 		</When>
 	</Choose>
 </Project>

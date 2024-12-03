@@ -1,4 +1,6 @@
-﻿public static class DisposableExtension
+﻿using Natasha.CSharp.HotExecutor;
+
+public static class DisposableExtension
 {
     public static void AsyncToHotExecutor(this IAsyncDisposable obj)
     {
