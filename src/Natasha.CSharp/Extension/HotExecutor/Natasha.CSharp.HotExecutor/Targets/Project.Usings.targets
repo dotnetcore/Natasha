@@ -1,3 +1,0 @@
-﻿	<ItemGroup Condition="'$(ImplicitUsings)' == 'enable' or '$(ImplicitUsings)' == 'true'">
-	</ItemGroup>
-

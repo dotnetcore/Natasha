@@ -14,11 +14,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Natasha.CSharp.Compiler\Natasha.CSharp.Compiler.csproj" />
   </ItemGroup>
-<ItemGroup>
-		<None Include="targets\Project.targets" Pack="true" PackagePath="build\netstandard2.1\DotNetCore.Natasha.CSharp.Extension.MethodCreator.targets" />
-		<None Include="targets\Project.targets" Pack="true" PackagePath="buildTransitive\netstandard2.1\DotNetCore.Natasha.CSharp.Extension.MethodCreator.targets" />
-		<None Include="targets\Project.targets" Pack="true" PackagePath="buildMultiTargeting\netstandard2.1\DotNetCore.Natasha.CSharp.Extension.MethodCreator.targets" />
-</ItemGroup>
+  <ItemGroup>
+    <Folder Include="targets\" />
+  </ItemGroup>
 </Project>
 
 

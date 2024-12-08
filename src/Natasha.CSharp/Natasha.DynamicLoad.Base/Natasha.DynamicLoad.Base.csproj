@@ -13,9 +13,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="build\netstandard2.0\DotNetCore.Natasha.DynamicLoad.Base.targets" />
-		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildTransitive\netstandard2.0\DotNetCore.Natasha.DynamicLoad.Base.targets" />
-		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildMultiTargeting\netstandard2.0\DotNetCore.Natasha.DynamicLoad.Base.targets" />
+	  <Folder Include="targets\" />
 	</ItemGroup>
 
 </Project>

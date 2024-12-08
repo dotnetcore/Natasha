@@ -16,19 +16,12 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="build\netstandard2.0\DotNetCore.Natasha.CSharp.Compiler.targets" />
-		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildTransitive\netstandard2.0\DotNetCore.Natasha.CSharp.Compiler.targets" />
-		<None Include="Targets\Project.Usings.targets" Pack="true" PackagePath="buildMultiTargeting\netstandard2.0\DotNetCore.Natasha.CSharp.Compiler.targets" />
+	  <ProjectReference Include="..\Natasha.DynamicLoad.Base\Natasha.DynamicLoad.Base.csproj" />
 	</ItemGroup>
 	
 	<ItemGroup>
-	  <ProjectReference Include="..\Natasha.DynamicLoad.Base\Natasha.DynamicLoad.Base.csproj" />
+	  <Folder Include="targets\" />
 	</ItemGroup>
-<ItemGroup>
-		<None Include="targets\Project.targets" Pack="true" PackagePath="build\netstandard2.0\DotNetCore.Natasha.CSharp.Compiler.targets" />
-		<None Include="targets\Project.targets" Pack="true" PackagePath="buildTransitive\netstandard2.0\DotNetCore.Natasha.CSharp.Compiler.targets" />
-		<None Include="targets\Project.targets" Pack="true" PackagePath="buildMultiTargeting\netstandard2.0\DotNetCore.Natasha.CSharp.Compiler.targets" />
-</ItemGroup>
 </Project>
 
 
