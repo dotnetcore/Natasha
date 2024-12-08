@@ -2,7 +2,6 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>netstandard2.0;</TargetFrameworks>
-		<IsPackable>true</IsPackable>
 		<Description>Natasha 域加载上下文的接口规范.</Description>
 		<PackageId>DotNetCore.Natasha.DynamicLoad.Base</PackageId>
 		<PackageReleaseNotes>升级到最新版.</PackageReleaseNotes>

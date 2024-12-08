@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
 	  <TargetFrameworks>netstandard2.1;</TargetFrameworks>
 	  <ImplicitUsings>enable</ImplicitUsings>
@@ -8,13 +7,18 @@
 	  <PackageId>DotNetCore.Natasha.CSharp.Extension.MethodCreator</PackageId>
 	  <PackageReleaseNotes>升级到最新版.</PackageReleaseNotes>
 	  <PackageTags>Natasha;Compiler;Extension;MethodCreator;</PackageTags>
-	  <Version>9.0.0.1</Version>
-	  <FileVersion>9.0.0.1</FileVersion>
-	  <AssemblyVersion>9.0.0.1</AssemblyVersion>
+	  <Version>9.0.0.2</Version>
+	  <FileVersion>9.0.0.2</FileVersion>
+	  <AssemblyVersion>9.0.0.2</AssemblyVersion>
   </PropertyGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\Natasha.CSharp.Compiler\Natasha.CSharp.Compiler.csproj" />
   </ItemGroup>
-
+<ItemGroup>
+		<None Include="targets\Project.targets" Pack="true" PackagePath="build\netstandard2.1\DotNetCore.Natasha.CSharp.Extension.MethodCreator.targets" />
+		<None Include="targets\Project.targets" Pack="true" PackagePath="buildTransitive\netstandard2.1\DotNetCore.Natasha.CSharp.Extension.MethodCreator.targets" />
+		<None Include="targets\Project.targets" Pack="true" PackagePath="buildMultiTargeting\netstandard2.1\DotNetCore.Natasha.CSharp.Extension.MethodCreator.targets" />
+</ItemGroup>
 </Project>
+
+

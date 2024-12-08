@@ -1,19 +1,22 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFrameworks>netstandard2.0;</TargetFrameworks>
 		<Description>CS0104 问题处理扩展</Description>
 		<PackageId>DotNetCore.Natasha.CSharp.Extension.Ambiguity</PackageId>
 		<PackageReleaseNotes>升级到最新版.</PackageReleaseNotes>
 		<PackageTags>Roslyn;IL;Script;Dynamic;Natasha;NMS;CS0104;</PackageTags>
-		<Version>9.0.0.1</Version>
-		<FileVersion>9.0.0.1</FileVersion>
-		<AssemblyVersion>9.0.0.1</AssemblyVersion>
+		<Version>9.0.0.2</Version>
+		<FileVersion>9.0.0.2</FileVersion>
+		<AssemblyVersion>9.0.0.2</AssemblyVersion>
 	</PropertyGroup>
-
 	<ItemGroup>
 	  <ProjectReference Include="..\..\Natasha.CSharp.Compiler\Natasha.CSharp.Compiler.csproj" />
 	</ItemGroup>
-
+<ItemGroup>
+		<None Include="targets\Project.targets" Pack="true" PackagePath="build\netstandard2.0\DotNetCore.Natasha.CSharp.Extension.Ambiguity.targets" />
+		<None Include="targets\Project.targets" Pack="true" PackagePath="buildTransitive\netstandard2.0\DotNetCore.Natasha.CSharp.Extension.Ambiguity.targets" />
+		<None Include="targets\Project.targets" Pack="true" PackagePath="buildMultiTargeting\netstandard2.0\DotNetCore.Natasha.CSharp.Extension.Ambiguity.targets" />
+</ItemGroup>
 </Project>
+
 

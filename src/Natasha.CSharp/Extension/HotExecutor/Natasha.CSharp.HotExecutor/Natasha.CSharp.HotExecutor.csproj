@@ -3,15 +3,14 @@
     <TargetFrameworks>netstandard2.1;</TargetFrameworks>
 	  <ImplicitUsings>enable</ImplicitUsings>
 	  <Nullable>enable</Nullable>
-	  <IsPackable>true</IsPackable>
 	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	  <Description>动态重载控制台代码结果.</Description>
 	  <PackageId>DotNetCore.Natasha.CSharp.HotExecutor</PackageId>
 	  <PackageReleaseNotes>升级到最新版.</PackageReleaseNotes>
 	  <PackageTags>Natasha;Compiler;Natasha Extension;HotReload;HotExecutor;</PackageTags>
-	  <Version>9.0.0.5</Version>
-	  <FileVersion>9.0.0.5</FileVersion>
-	  <AssemblyVersion>9.0.0.5</AssemblyVersion>
+	  <Version>9.0.0.6</Version>
+	  <FileVersion>9.0.0.6</FileVersion>
+	  <AssemblyVersion>9.0.0.6</AssemblyVersion>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Natasha.CSharp.Compiler\Natasha.CSharp.Compiler.csproj" />
