@@ -31,7 +31,7 @@ jobs:
       run: dotnet test "./test/ut/Compile/RefAssembly/RefAssembly.csproj" --nologo -f net6.0 -c Release  -l "trx;LogFileName=RefAssembly.trx" --results-directory "TestResults" --collect:"XPlat Code Coverage"
     - name: 📶 Push to Codecov
       if: matrix.os == 'ubuntu-latest'
-      uses: codecov/codecov-action@v4.3.0
+      uses: codecov/codecov-action@v5.0.7
       with:
         token: ${{ secrets.COVERAGE_KEY }}
         directory: TestResults
