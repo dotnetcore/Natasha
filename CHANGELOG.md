@@ -4,7 +4,6 @@ Note: In this file, do not use the hard wrap in the middle of a sentence for com
 
 发布日志节点案例格式如下(支持多版本发布):
 
-
 Example:
 
 ## [9.0.0.0] - 2024-11-13 
@@ -53,21 +52,54 @@ Example:
 ### DotNetCore.Natasha.CSharp.HotExecutor.SG _ v9.0.0.1:
 - 热执行的 SG 扩展库.
 - 跟随其他扩展库版本号发布.
+
+### DotNetCore.Natasha.CSharp.Template.Core _ v9.0.0.3:
+- 跟随 Compiler 升级依赖.
+
+### DotNetCore.Natasha.CSharp.Extension.Codecov _ v9.0.0.3:
+- 跟随 Compiler 升级依赖.
+
+### DotNetCore.Natasha.CSharp.Extension.Ambiguity _ v9.0.0.3:
+- 跟随 Compiler 升级依赖.
+
+### DotNetCore.Natasha.CSharp.Extension.MethodCreator _ v9.0.0.3:
+- 跟随 Compiler 升级依赖.
+
+### DotNetCore.Natasha.CSharp.Extension.CompileDirector _ v9.0.0.3:
+- 跟随 Compiler 升级依赖.
+
+### DotNetCore.Natasha.CSharp.HotExecutor _ v9.0.0.7:
+- 跟随 Compiler 升级依赖.
+
+### DotNetCore.Natasha.CSharp.HotExecutor.Wrapper _ v9.0.0.8:
+- 跟随 Compiler 升级依赖.
 -->
 
-## [9.0.0.1] - 2024-11-13 
+## [9.0.0.3] - 2024-12-09 
 
-### DotNetCore.Natasha.CSharp.HotExecutor _ v9.0.0.3:
-- 基于 Natasha 的热执行，允许程序在运行时更改代码，并输出新的结果.
-- 跟随其他扩展库版本号发布.
+### DotNetCore.Natasha.CSharp.Compiler _ v9.0.0.4:
+- 修复 targets 文件.
 
-### DotNetCore.Natasha.CSharp.HotExecutor.SG _ v9.0.0.3:
-- 热执行的 SG 扩展库.
-- 跟随其他扩展库版本号发布.
-- 
-### DotNetCore.Natasha.CSharp.HotExecutor.Wrapper _ v9.0.0.4:
-- 热执行 + SG 封装库.
-- 跟随其他扩展库版本号发布.
+### DotNetCore.Natasha.CSharp.Template.Core _ v9.0.0.4:
+- 跟随 Compiler 升级依赖.
+
+### DotNetCore.Natasha.CSharp.Extension.Codecov _ v9.0.0.4:
+- 跟随 Compiler 升级依赖.
+
+### DotNetCore.Natasha.CSharp.Extension.Ambiguity _ v9.0.0.4:
+- 跟随 Compiler 升级依赖.
+
+### DotNetCore.Natasha.CSharp.Extension.MethodCreator _ v9.0.0.4:
+- 跟随 Compiler 升级依赖.
+
+### DotNetCore.Natasha.CSharp.Extension.CompileDirector _ v9.0.0.4:
+- 跟随 Compiler 升级依赖.
+
+### DotNetCore.Natasha.CSharp.HotExecutor _ v9.0.0.9:
+- 跟随 Compiler 升级依赖.
+
+### DotNetCore.Natasha.CSharp.HotExecutor.Wrapper _ v9.0.0.9:
+- 跟随 Compiler 升级依赖.
 
 
 

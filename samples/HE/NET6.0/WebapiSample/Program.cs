@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Natasha.CSharp.HotExecutor;
 using System;
 using System.Linq;
 
@@ -107,7 +108,7 @@ namespace Webapi2Sample
                 return forecast;
             })
             .WithName("GetWeatherForecast2");
-
+            HEProxy.AppendArgs();
             app.Run();
             //Once
             //Console.ReadKey();

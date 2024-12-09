@@ -8,12 +8,15 @@
 	  <PackageId>DotNetCore.Natasha.CSharp.HotExecutor</PackageId>
 	  <PackageReleaseNotes>升级到最新版.</PackageReleaseNotes>
 	  <PackageTags>Natasha;Compiler;Natasha Extension;HotReload;HotExecutor;</PackageTags>
-	  <Version>9.0.0.6</Version>
-	  <FileVersion>9.0.0.6</FileVersion>
-	  <AssemblyVersion>9.0.0.6</AssemblyVersion>
+	  <Version>9.0.0.9</Version>
+	  <FileVersion>9.0.0.9</FileVersion>
+	  <AssemblyVersion>9.0.0.9</AssemblyVersion>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Natasha.CSharp.Compiler\Natasha.CSharp.Compiler.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="targets\" />
   </ItemGroup>
 <ItemGroup>
 		<None Include="targets\Project.targets" Pack="true" PackagePath="build\netstandard2.1\DotNetCore.Natasha.CSharp.HotExecutor.targets" />
@@ -21,4 +24,6 @@
 		<None Include="targets\Project.targets" Pack="true" PackagePath="buildMultiTargeting\netstandard2.1\DotNetCore.Natasha.CSharp.HotExecutor.targets" />
 </ItemGroup>
 </Project>
+
+
 

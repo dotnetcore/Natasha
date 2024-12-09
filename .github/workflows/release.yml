@@ -80,35 +80,6 @@ jobs:
     - name: 📄 Achive Project
       run: dotnet test './test/workflow/Workflow.Runner' --nologo -c Release
 
-
-
-  publish:
-
-    runs-on: ubuntu-latest
-    needs: prepare_check
-
-    steps:
-    - uses: actions/checkout@v4
-    - name: 🔨 Setup .NET SDK
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: |
-          3.1.x
-          5.0.x
-          6.0.x
-          7.0.x
-          8.0.x
-          9.0.x
-
-    - name: ✊ Release Dll
-      run: dotnet build -c Release
-
-    - name: 🚦 Check & Pack Nuget
-      run: dotnet test './test/workflow/Workflow.Nuget.Publish' --nologo --no-restore --no-build -c Release
-
-    - name: 📶 Push to Nuget
-      if:  ${{ needs.prepare_check.outputs.hasNugetKey == 'true' }}
-      run: dotnet nuget push *.nupkg -k ${{ secrets.NUGET_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate
   
   release:
 

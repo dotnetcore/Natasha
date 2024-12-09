@@ -5,9 +5,9 @@
 		<Description>动态重载控制台代码结果.</Description>
 		<PackageReleaseNotes>升级到最新版.</PackageReleaseNotes>
 		<PackageTags>Natasha;Compiler;Natasha Extension;HotReload;HotExecutor;Source Generator;</PackageTags>
-		<Version>9.0.0.7</Version>
-		<FileVersion>9.0.0.7</FileVersion>
-		<AssemblyVersion>9.0.0.7</AssemblyVersion>
+		<Version>9.0.0.9</Version>
+		<FileVersion>9.0.0.9</FileVersion>
+		<AssemblyVersion>9.0.0.9</AssemblyVersion>
 	</PropertyGroup>
 <ItemGroup>
 		<None Include="targets\Project.targets" Pack="true" PackagePath="build\netstandard2.1\DotNetCore.Natasha.CSharp.HotExecutor.Wrapper.targets" />
@@ -15,5 +15,6 @@
 		<None Include="targets\Project.targets" Pack="true" PackagePath="buildMultiTargeting\netstandard2.1\DotNetCore.Natasha.CSharp.HotExecutor.Wrapper.targets" />
 </ItemGroup>
 </Project>
+
 
 

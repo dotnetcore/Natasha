@@ -11,11 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+	<!--<PackageReference Include="DotNetCore.Natasha.CSharp.HotExecutor.Wrapper" Version="9.0.0.6" />-->
   </ItemGroup>
-	<ItemGroup>
-		<PackageReference Include="DotNetCore.Natasha.CSharp.HotExecutor.Wrapper" Version="9.0.0.6" />
-	</ItemGroup>
-	<ItemGroup>
-	  <PackageReference Update="DotNetCore.Natasha.CSharp.HotExecutor" Version="9.0.0.5" />
-	</ItemGroup>
+	
 </Project>

@@ -7,9 +7,9 @@
 		<PackageId>DotNetCore.Natasha.CSharp.Extension.Codecov</PackageId>
 		<PackageReleaseNotes>升级到最新版.</PackageReleaseNotes>
 		<PackageTags>Natasha;Compiler;Extension;Codecov;</PackageTags>
-		<Version>9.0.0.2</Version>
-		<FileVersion>9.0.0.2</FileVersion>
-		<AssemblyVersion>9.0.0.2</AssemblyVersion>
+		<Version>9.0.0.4</Version>
+		<FileVersion>9.0.0.4</FileVersion>
+		<AssemblyVersion>9.0.0.4</AssemblyVersion>
 	</PropertyGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\Natasha.CSharp.Compiler\Natasha.CSharp.Compiler.csproj" />
@@ -17,6 +17,11 @@
 	<ItemGroup>
 	  <Folder Include="targets\" />
 	</ItemGroup>
+<ItemGroup>
+		<None Include="targets\Project.targets" Pack="true" PackagePath="build\netstandard2.0\DotNetCore.Natasha.CSharp.Extension.Codecov.targets" />
+		<None Include="targets\Project.targets" Pack="true" PackagePath="buildTransitive\netstandard2.0\DotNetCore.Natasha.CSharp.Extension.Codecov.targets" />
+		<None Include="targets\Project.targets" Pack="true" PackagePath="buildMultiTargeting\netstandard2.0\DotNetCore.Natasha.CSharp.Extension.Codecov.targets" />
+</ItemGroup>
 </Project>
 
 
